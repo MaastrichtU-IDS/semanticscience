@@ -1,0 +1,879 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY ss "http://semanticscience.org/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.org/"
+     xml:base="http://semanticscience.org/bro.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:dl="http://ontology.dumontierlab.com/"
+     xmlns:ss="http://semanticscience.org/">
+    <owl:Ontology rdf:about="">
+        <dc:date rdf:datatype="&xsd;date">2008-01-01</dc:date>
+        <dc:title rdf:datatype="&xsd;string"
+            >Basic Relation Ontology</dc:title>
+        <dc:creator rdf:datatype="&xsd;string"
+            >Michel Dumontier</dc:creator>
+        <dc:description rdf:datatype="&xsd;string"
+            >The BRO provides a set of domain-independent relations.</dc:description>
+        <dc:format rdf:datatype="&xsd;string"
+            >application/rdf+xml</dc:format>
+        <dc:language rdf:datatype="&xsd;string">en</dc:language>
+        <dc:publisher rdf:datatype="&xsd;string"
+            >semanticscience.org</dc:publisher>
+        <owl:imports rdf:resource="&ss;annotation.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&dc;format"/>
+    <owl:AnnotationProperty rdf:about="&dc;publisher"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;language"/>
+    <owl:AnnotationProperty rdf:about="&ss;definition"/>
+    <owl:AnnotationProperty rdf:about="example"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.dumontierlab.com/&ss;hasNonTangentialProperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasNonTangentialProperPart">
+        <rdfs:label
+            >has non-tangential proper part</rdfs:label>
+        <ss:definition
+            >A proper part relation in which there is no overlap of the edge of spatial regions.</ss:definition>
+        <rdfs:comment
+            >RCC8:non-tangential proper part</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="hasProperPart"/>
+        <owl:inverseOf rdf:resource="isNonTangentialProperPartOf"/>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/&ss;hasTangentialProperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasTangentialProperPart">
+        <rdfs:label
+            >has tangential proper part</rdfs:label>
+        <ss:definition
+            >A proper part relation in which there is overlap on the edge of a spatial region.</ss:definition>
+        <rdfs:comment
+            >RCC8:tangential proper part</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="hasProperPart"/>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+        <owl:inverseOf rdf:resource="isTangentialProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/contains -->
+
+    <owl:ObjectProperty rdf:about="contains">
+        <rdfs:label rdf:datatype="&xsd;string">contains</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A spatial relation between two continuants such that one spatially contains the other with no overlap, and one is not a part of the other.</ss:definition>
+        <owl:inverseOf rdf:resource="isContainedIn"/>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/derivativeOf -->
+
+    <owl:ObjectProperty rdf:about="derivativeOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">derivative of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A transitive, symmetric, temporal relation in which one continuant is the derivative of another non-identical continuant.</ss:definition>
+        <owl:inverseOf rdf:resource="derivativeOf"/>
+        <rdfs:subPropertyOf rdf:resource="isTemporallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/derivesFrom -->
+
+    <owl:ObjectProperty rdf:about="derivesFrom">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">derives from</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A transitive, temporal relation in which one continuant derives from another non-identical continuant.</rdfs:comment>
+        <ss:example rdf:datatype="&xsd;string"
+            >glucose-6-phosphate derivesFrom glucose in glucose metabolism</ss:example>
+        <rdfs:subPropertyOf rdf:resource="derivativeOf"/>
+        <owl:inverseOf rdf:resource="derivesInto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/derivesInto -->
+
+    <owl:ObjectProperty rdf:about="derivesInto">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">derives into</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A transitive, temporal relation in which one continuant derives into another non-identical continuant.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="derivativeOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasDisposition -->
+
+    <owl:ObjectProperty rdf:about="hasDisposition">
+        <rdfs:label rdf:datatype="&xsd;string">has disposition</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an entity and the disposition it realizes.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isBearerOf"/>
+        <owl:inverseOf rdf:resource="isDispositionOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasFunction -->
+
+    <owl:ObjectProperty rdf:about="hasFunction">
+        <rdfs:label rdf:datatype="&xsd;string">has function</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an entity and a function.</ss:definition>
+        <ss:example
+            >vase hasFunction containerFunction</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBearerOf"/>
+        <owl:inverseOf rdf:resource="isFunctionOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasImproperPart -->
+
+    <owl:ObjectProperty rdf:about="hasImproperPart">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >has improper part</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A reflexive mereological relational such that the entities are not distinct.</ss:definition>
+        <ss:example rdf:datatype="&xsd;string"
+            >cake hasImproperPart slice of cake</ss:example>
+        <rdfs:subPropertyOf rdf:resource="hasPart"/>
+        <owl:inverseOf rdf:resource="isImproperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasIntegralPart -->
+
+    <owl:ObjectProperty rdf:about="hasIntegralPart">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+        <rdfs:label
+            >has integral part</rdfs:label>
+        <ss:definition
+            >A reflexive, anti-symmetric relation such that when x has integral part y then removing the y destroys the identity of x, and x != y.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="hasPart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasPart -->
+
+    <owl:ObjectProperty rdf:about="hasPart">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has part</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A transitive relation such that one has as a part itself or another, with disconnected, overlapping or non-overlapping spatial regions.</ss:definition>
+        <ss:example
+            >person has part arm, workshop has part coffee break</ss:example>
+        <owl:inverseOf rdf:resource="isPartOf"/>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasParticipant -->
+
+    <owl:ObjectProperty rdf:about="hasParticipant">
+        <rdfs:label rdf:datatype="&xsd;string">has participant</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a process and its a continuant participant.</ss:definition>
+        <owl:inverseOf rdf:resource="isParticipantIn"/>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasProperPart -->
+
+    <owl:ObjectProperty rdf:about="hasProperPart">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has proper part</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A mereological relation such that when x has proper part y, then x and y are distinct, and the spatial region occupied by y is wholly contained by with that of x.</ss:definition>
+        <ss:example
+            >car hasProperPart engine</ss:example>
+        <rdfs:subPropertyOf rdf:resource="hasPart"/>
+        <owl:inverseOf rdf:resource="isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasQuality -->
+
+    <owl:ObjectProperty rdf:about="hasQuality">
+        <rdfs:label rdf:datatype="&xsd;string">has quality</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an entity and the quality that inheres in it.</ss:definition>
+        <ss:example
+            >bob hasQuality HappinessQuality</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBearerOf"/>
+        <owl:inverseOf rdf:resource="isQualityOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasReference -->
+
+    <owl:ObjectProperty rdf:about="hasReference">
+        <rdfs:label>has reference</rdfs:label>
+        <ss:definition
+            >A relation between an entity and a source of information.</ss:definition>
+        <owl:inverseOf rdf:resource="isReferenceFor"/>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasRole -->
+
+    <owl:ObjectProperty rdf:about="hasRole">
+        <rdfs:label rdf:datatype="&xsd;string">has role</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >The relation between an entity and a role.</ss:definition>
+        <ss:example
+            >bob hasRole teacherRole</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBearerOf"/>
+        <owl:inverseOf rdf:resource="isRoleOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/immediatelyDerivesFrom -->
+
+    <owl:ObjectProperty rdf:about="immediatelyDerivesFrom">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >immediately derives from</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A non-transitive temporal relation in which one continuant immediately derives from a non-identical continuant such that there are no (known) intermediate continuants between them.</rdfs:comment>
+        <ss:example rdf:datatype="&xsd;string"
+            >a molecule of alpha-D-glucose-6-phosphate immediately_derives_from D-glucose in glucose metabolism.</ss:example>
+        <rdfs:subPropertyOf rdf:resource="derivesFrom"/>
+        <owl:inverseOf rdf:resource="immediatelyDerivesInto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/immediatelyDerivesInto -->
+
+    <owl:ObjectProperty rdf:about="immediatelyDerivesInto">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >immediately derives into</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A non-transitive temporal relation in which one continuant immediately derives into a non-identical continuant such that there are no intermediate steps between them.</rdfs:comment>
+        <ss:example rdf:datatype="&xsd;string"
+            >glucose immediatelyDerivesInto glucose-6-phosphate in glucose metabolism</ss:example>
+        <rdfs:subPropertyOf rdf:resource="derivesInto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/immediatelyPrecededBy -->
+
+    <owl:ObjectProperty rdf:about="immediatelyPrecededBy">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >immediately preceded by</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A non-transitive temporal relation in which one process is immediately preceded by another process, such that there is no interval of time between the two processes.</rdfs:comment>
+        <owl:inverseOf rdf:resource="immediatelyPrecedes"/>
+        <rdfs:subPropertyOf rdf:resource="precededBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/immediatelyPrecedes -->
+
+    <owl:ObjectProperty rdf:about="immediatelyPrecedes">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >immediately precedes</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A non-transitive temporal relation in which one process is immediately precedes another process, such that there is no interval of time between the two processes.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="precedes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isAdjacentTo -->
+
+    <owl:ObjectProperty rdf:about="isAdjacentTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">is adjacent to</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >Two continuants are adjacent to each other if the edges of their spatial regions are in direct contact.</ss:definition>
+        <rdfs:comment
+            >RCC8:external connection</rdfs:comment>
+        <owl:inverseOf rdf:resource="isAdjacentTo"/>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isAfter -->
+
+    <owl:ObjectProperty rdf:about="isAfter">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is after</rdfs:label>
+        <ss:definition
+            >A spatial relation such that when x is after y, then x is positioned numerically greater than y on some spatial coordinate scale.</ss:definition>
+        <owl:inverseOf rdf:resource="isBefore"/>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isBearerOf -->
+
+    <owl:ObjectProperty rdf:about="isBearerOf">
+        <rdfs:label rdf:datatype="&xsd;string">bearer of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an independent continuant and dependent continuant.</ss:definition>
+        <ss:example
+            >hair bearerOf brown color</ss:example>
+        <owl:inverseOf rdf:resource="isBorneBy"/>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isBefore -->
+
+    <owl:ObjectProperty rdf:about="isBefore">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is before</rdfs:label>
+        <ss:definition
+            >A spatial relation such that when x is before y, then x is positioned numerically less than y on some spatial coordinate scale.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isBorneBy -->
+
+    <owl:ObjectProperty rdf:about="isBorneBy">
+        <rdfs:label rdf:datatype="&xsd;string">inheres in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a dependent continuant and an entity.</ss:definition>
+        <ss:example
+            >brown colour inheresIn hair</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isContainedIn -->
+
+    <owl:ObjectProperty rdf:about="isContainedIn">
+        <rdfs:label rdf:datatype="&xsd;string">is contained in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A spatial relation between two continuants such that one is contained in the other, but for which there is no overlap and one is not a part of the other.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isDisconnectedFrom -->
+
+    <owl:ObjectProperty rdf:about="isDisconnectedFrom">
+        <rdfs:label
+            >is disconnected from</rdfs:label>
+        <rdfs:comment
+            >RCC8:disconnection</rdfs:comment>
+        <ss:definition
+            >Two continuants are disconnected when their spatial regions are not adjacent, do not intersect or overlap.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isDispositionOf -->
+
+    <owl:ObjectProperty rdf:about="isDispositionOf">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is disposition of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a disposition and the entity that realizes it.</ss:definition>
+        <ss:example
+            >disease isDispositionOf human</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isFunctionOf -->
+
+    <owl:ObjectProperty rdf:about="isFunctionOf">
+        <rdfs:label rdf:datatype="&xsd;string">is function of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a function and the entity that realizes it.</ss:definition>
+        <ss:example
+            >Catalysis isFunctionOf Enzyme</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isImmediatelyAfter -->
+
+    <owl:ObjectProperty rdf:about="isImmediatelyAfter">
+        <rdfs:label
+            >is immediately after</rdfs:label>
+        <ss:definition
+            >A spatial relation such that when x is immediately after y, then x is positioned adjacent to and numerically greater than y on some spatial coordinate scale.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isAfter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isImmediatelyBefore -->
+
+    <owl:ObjectProperty rdf:about="isImmediatelyBefore">
+        <rdfs:label
+            >is immediately before</rdfs:label>
+        <ss:definition
+            >A spatial relation such that when x is immediately before y, then x is positioned adjacent to and numerically less than y on some spatial coordinate scale.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isBefore"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isImproperPartOf -->
+
+    <owl:ObjectProperty rdf:about="isImproperPartOf">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is improper part of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A reflexive mereological relation such that the entities are not distinct.</ss:definition>
+        <ss:example
+            >slice of cake isImproperPartOf cake</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isIntegralPartOf -->
+
+    <owl:ObjectProperty rdf:about="isIntegralPartOf">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+        <rdfs:label
+            >is integral part of</rdfs:label>
+        <ss:definition
+            >A reflexive, anti-symmetric relation such that when x is integral part of y then removing  x destroys the identity of y, and x != y.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="isLocatedIn">
+        <rdfs:label rdf:datatype="&xsd;string">is located in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between two entities such that one is located in terms of spatial and/or temporal regions.</ss:definition>
+        <ss:example
+            >person isLocatedIn room</ss:example>
+        <owl:inverseOf rdf:resource="isLocationOf"/>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isLocationOf -->
+
+    <owl:ObjectProperty rdf:about="isLocationOf">
+        <rdfs:label rdf:datatype="&xsd;string">is location of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between two entities such that one is the location of another.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isNonTangentialProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="isNonTangentialProperPartOf">
+        <rdfs:label
+            >is non-tangential proper part of</rdfs:label>
+        <rdfs:comment
+            >RCC8:non-tangential proper part of (inv)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isPartOf -->
+
+    <owl:ObjectProperty rdf:about="isPartOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">part of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A transitive relation such that one is a part of itself or another, with disconnected, overlapping or non-overlapping spatial regions.</ss:definition>
+        <ss:example
+            >arm is part of person; coffee break is part of workshop</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isParticipantIn -->
+
+    <owl:ObjectProperty rdf:about="isParticipantIn">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is participant in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation in which a continuant participates in some way in the process.</ss:definition>
+        <ss:example
+            >person isParticipantIn his life</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="isProperPartOf">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is proper part of</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An irreflexive and anti-symmetric parthood relation such that the entities are distinct.</rdfs:comment>
+        <ss:example
+            >engine isProperPartOf car</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isQualityOf -->
+
+    <owl:ObjectProperty rdf:about="isQualityOf">
+        <rdfs:label rdf:datatype="&xsd;string">is quality of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a quality and some entity.</ss:definition>
+        <ss:example
+            >brown colour isQualityOf hair</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isReferenceFor -->
+
+    <owl:ObjectProperty rdf:about="isReferenceFor">
+        <rdfs:label
+            >is reference for</rdfs:label>
+        <ss:definition
+            >A relation between a source of information and an entity.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isRelatedTo -->
+
+    <owl:ObjectProperty rdf:about="isRelatedTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">is related to</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A top level relation that holds symmetrically between entities.</ss:definition>
+        <owl:inverseOf rdf:resource="isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isRoleOf -->
+
+    <owl:ObjectProperty rdf:about="isRoleOf">
+        <rdfs:label rdf:datatype="&xsd;string">is role of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a role and the entity that realizes it.</ss:definition>
+        <ss:example
+            >TeacherRole isRoleOf Teacher</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isSpatialLocationOf -->
+
+    <owl:ObjectProperty rdf:about="isSpatialLocationOf">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is spatial location of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between a region of space and an oject that occupies that space.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isLocationOf"/>
+        <owl:inverseOf rdf:resource="isSpatiallyLocatedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isSpatiallyEqualTo -->
+
+    <owl:ObjectProperty rdf:about="isSpatiallyEqualTo">
+        <rdfs:label
+            >is spatially equal to</rdfs:label>
+        <ss:definition
+            >A spatial relation in which two objects are spatially equivalent when their spatial regions exactly overlap.</ss:definition>
+        <rdfs:comment>RCC8:equality</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isSpatiallyLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="isSpatiallyLocatedIn">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is spatially located in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an entity and a spatial region.</ss:definition>
+        <ss:example
+            >person isSpatiallyLocatedIn in that three dimensional spatial region</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isLocatedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isSpatiallyRelatedTo -->
+
+    <owl:ObjectProperty rdf:about="isSpatiallyRelatedTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is spatially related to</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between spatial regions or continuants with respect to the spatial regions they occupy.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+        <owl:inverseOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isTangentialProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="isTangentialProperPartOf">
+        <rdfs:label
+            >is tangential proper part of</rdfs:label>
+        <rdfs:comment
+            >RCC8:tangential proper part of (inv)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isTemporalLocationOf -->
+
+    <owl:ObjectProperty rdf:about="isTemporalLocationOf">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is temporal location of</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between two temporal entities such that a temporal region is the location of a temporal entity.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isLocationOf"/>
+        <owl:inverseOf rdf:resource="isTemporallyLocatedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isTemporallyLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="isTemporallyLocatedIn">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is temporally located in</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between an occurant and a temporal region.</ss:definition>
+        <ss:example
+            >you are reading this phrase over some time interval</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isLocatedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/isTemporallyRelatedTo -->
+
+    <owl:ObjectProperty rdf:about="isTemporallyRelatedTo">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is temporally related to</rdfs:label>
+        <ss:definition rdf:datatype="&xsd;string"
+            >A relation between entities at different times.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isRelatedTo"/>
+        <owl:inverseOf rdf:resource="isTemporallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/partiallyOverlapsWith -->
+
+    <owl:ObjectProperty rdf:about="partiallyOverlapsWith">
+        <rdfs:label
+            >partially overlaps with</rdfs:label>
+        <rdfs:comment
+            >RCC8:partial overlap</rdfs:comment>
+        <ss:definition
+            >A spatial relationship in which two objects partially overlaps when their spatial regions intersect.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="isSpatiallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/precededBy -->
+
+    <owl:ObjectProperty rdf:about="precededBy">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">preceded by</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A transitive, temporal relation in which one process is preceded by (has occured later than) another process.</rdfs:comment>
+        <ss:example rdf:datatype="&xsd;string"
+            >translation preceded_by transcription</ss:example>
+        <rdfs:subPropertyOf rdf:resource="isTemporallyRelatedTo"/>
+        <owl:inverseOf rdf:resource="precedes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/precedes -->
+
+    <owl:ObjectProperty rdf:about="precedes">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">precedes</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A transitive, temporal relation in which one process precedes (has occured earlier than) another process.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="isTemporallyRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.dumontierlab.com/begins -->
+
+    <owl:DatatypeProperty rdf:about="begins">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">begins</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A data property that marks the beginning of a temporal entity.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/ends -->
+
+    <owl:DatatypeProperty rdf:about="ends">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">end</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A data property that marks the end of a temporal entity.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/hasValue -->
+
+    <owl:DatatypeProperty rdf:about="hasValue">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has value</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A data type property to store a value.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="isAfter"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="isImmediatelyAfter"/>
+            <rdf:Description rdf:about="isImmediatelyAfter"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="precedes"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="immediatelyPrecedes"/>
+            <rdf:Description rdf:about="immediatelyPrecedes"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="derivesFrom"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="immediatelyDerivesFrom"/>
+            <rdf:Description rdf:about="immediatelyDerivesFrom"/>
+        </owl:propertyChain>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.962) http://owlapi.sourceforge.net -->
+
