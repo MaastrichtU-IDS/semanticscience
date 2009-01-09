@@ -4,7 +4,6 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY ss "http://semanticscience.org/" >
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-    <!ENTITY rdf2 "http://semanticscience.org/rdf/" >
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
@@ -14,22 +13,22 @@
 
 
 <rdf:RDF xmlns="http://semanticscience.org/"
-     xml:base="&ss;rdf/rna.owl"
+     xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:rdf2="&ss;rdf/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:ss="http://semanticscience.org/">
     <owl:Ontology rdf:about="">
+        <rdfs:comment>RNA ontology</rdfs:comment>
+        <dc:creator
+            >Jose Cruz-Toledo</dc:creator>
         <dc:creator
             >Michel Dumontier</dc:creator>
         <dc:contributor>Francois Major</dc:contributor>
-        <dc:creator
-            >Jose Cruz-Toledo</dc:creator>
-        <rdfs:comment>RNA ontology</rdfs:comment>
+        <owl:imports rdf:resource="http://semanticscience.googlecode.com/svn/trunk/ontology/release/nulo.owl"/>
     </owl:Ontology>
     
 
@@ -59,27 +58,12 @@
     
 
 
-    <!-- http://semanticscience.org/bearerOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;bearerOf"/>
-    
-
-
-    <!-- http://semanticscience.org/derivesFrom -->
-
-    <owl:ObjectProperty rdf:about="&ss;derivesFrom">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://semanticscience.org/hasDisposition -->
 
     <owl:ObjectProperty rdf:about="&ss;hasDisposition">
         <rdfs:label>has disposition</rdfs:label>
         <rdfs:comment
             >A relation between an entitty and the disposition it realizes</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&ss;bearerOf"/>
         <owl:inverseOf rdf:resource="&ss;isDispositionOf"/>
     </owl:ObjectProperty>
     
@@ -91,7 +75,6 @@
         <rdfs:label>has function</rdfs:label>
         <rdfs:comment
             >A relation between an entity and a function</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&ss;bearerOf"/>
         <owl:inverseOf rdf:resource="&ss;isFunctionOf"/>
     </owl:ObjectProperty>
     
@@ -101,24 +84,19 @@
 
     <owl:ObjectProperty rdf:about="&ss;hasPart">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <owl:inverseOf rdf:resource="&ss;isPartOf"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://semanticscience.org/hasParticipant -->
 
-    <owl:ObjectProperty rdf:about="&ss;hasParticipant">
-        <owl:inverseOf rdf:resource="&ss;isParticipantIn"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;hasParticipant"/>
     
 
 
     <!-- http://semanticscience.org/hasProperPart -->
 
-    <owl:ObjectProperty rdf:about="&ss;hasProperPart">
-        <rdfs:subPropertyOf rdf:resource="&ss;hasPart"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;hasProperPart"/>
     
 
 
@@ -128,7 +106,6 @@
         <rdfs:label>has quality</rdfs:label>
         <rdfs:comment
             >A relation between an entity and the quality that inheres in it</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&ss;bearerOf"/>
         <owl:inverseOf rdf:resource="&ss;isQualityOf"/>
     </owl:ObjectProperty>
     
@@ -140,15 +117,8 @@
         <rdfs:label>has role</rdfs:label>
         <rdfs:comment
             >The relation between an entity and a role</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&ss;bearerOf"/>
         <owl:inverseOf rdf:resource="&ss;isRoleOf"/>
     </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/inheresIn -->
-
-    <owl:ObjectProperty rdf:about="&ss;inheresIn"/>
     
 
 
@@ -165,7 +135,6 @@
 
     <owl:ObjectProperty rdf:about="&ss;isAfter">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <owl:inverseOf rdf:resource="&ss;isBefore"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isConnectedTo"/>
     </owl:ObjectProperty>
     
@@ -185,23 +154,20 @@
     <owl:ObjectProperty rdf:about="&ss;isConnectedTo">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&ss;isSpatiallyRelatedTo"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://semanticscience.org/isDispositionOf -->
 
-    <owl:ObjectProperty rdf:about="&ss;isDispositionOf">
-        <rdfs:subPropertyOf rdf:resource="&ss;inheresIn"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;isDispositionOf"/>
     
 
 
     <!-- http://semanticscience.org/isFunctionOf -->
 
-    <owl:ObjectProperty rdf:about="&ss;isFunctionOf">
-        <rdfs:subPropertyOf rdf:resource="&ss;inheresIn"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;isFunctionOf"/>
     
 
 
@@ -224,20 +190,6 @@
     
 
 
-    <!-- http://semanticscience.org/isLocatedIn -->
-
-    <owl:ObjectProperty rdf:about="&ss;isLocatedIn"/>
-    
-
-
-    <!-- http://semanticscience.org/isLocationOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isLocationOf">
-        <owl:inverseOf rdf:resource="&ss;isLocatedIn"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://semanticscience.org/isPartOf -->
 
     <owl:ObjectProperty rdf:about="&ss;isPartOf">
@@ -254,9 +206,7 @@
 
     <!-- http://semanticscience.org/isQualityOf -->
 
-    <owl:ObjectProperty rdf:about="&ss;isQualityOf">
-        <rdfs:subPropertyOf rdf:resource="&ss;inheresIn"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;isQualityOf"/>
     
 
 
@@ -270,26 +220,13 @@
 
     <!-- http://semanticscience.org/isRoleOf -->
 
-    <owl:ObjectProperty rdf:about="&ss;isRoleOf">
-        <rdfs:subPropertyOf rdf:resource="&ss;inheresIn"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;isRoleOf"/>
     
 
 
-    <!-- http://semanticscience.org/isSpatialLocationOf -->
+    <!-- http://semanticscience.org/isSpatiallyRelatedTo -->
 
-    <owl:ObjectProperty rdf:about="&ss;isSpatialLocationOf">
-        <rdfs:subPropertyOf rdf:resource="&ss;isLocationOf"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isSpatiallyLocatedIn -->
-
-    <owl:ObjectProperty rdf:about="&ss;isSpatiallyLocatedIn">
-        <rdfs:subPropertyOf rdf:resource="&ss;isLocatedIn"/>
-        <owl:inverseOf rdf:resource="&ss;isSpatialLocationOf"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;isSpatiallyRelatedTo"/>
     
 
 
@@ -313,38 +250,9 @@
     
 
 
-    <!-- http://semanticscience.org/hasAptamerSequence -->
+    <!-- http://semanticscience.org/example -->
 
-    <owl:DatatypeProperty rdf:about="&ss;hasAptamerSequence">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="&ss;Aptamer"/>
-        <rdfs:range rdf:resource="&ss;http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://semanticscience.org/hasLigandName -->
-
-    <owl:DatatypeProperty rdf:about="&ss;hasLigandName">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="&ss;Ligand"/>
-        <rdfs:range rdf:resource="&ss;http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://semanticscience.org/hasTemplateSequence -->
-
-    <owl:DatatypeProperty rdf:about="&ss;hasTemplateSequence">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:range rdf:resource="&ss;http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://semanticscience.org/rdf/rna_v1-1.owlexample -->
-
-    <owl:DatatypeProperty rdf:about="&ss;rdf/rna_v1-1.owlexample"/>
+    <owl:DatatypeProperty rdf:about="&ss;example"/>
     
 
 
@@ -432,17 +340,6 @@
     
 
 
-    <!-- http://semanticscience.org/Alanine -->
-
-    <owl:Class rdf:about="&ss;Alanine">
-        <rdfs:label>Alanine</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;AminoAcid"/>
-        <dc:identifier
-            >pubchem:11528607</dc:identifier>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/Aldohexose -->
 
     <owl:Class rdf:about="&ss;Aldohexose">
@@ -480,7 +377,10 @@ substituent)</rdfs:comment>
     <!-- http://semanticscience.org/AntiOrientation -->
 
     <owl:Class rdf:about="&ss;AntiOrientation">
+        <rdfs:label
+            >anti orientation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseOrientation"/>
+        <owl:disjointWith rdf:resource="&ss;TwistQuality"/>
     </owl:Class>
     
 
@@ -504,16 +404,16 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
-                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
+                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
+                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
-                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
+                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
+                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -567,6 +467,8 @@ substituent)</rdfs:comment>
     <!-- http://semanticscience.org/BaseOrientation -->
 
     <owl:Class rdf:about="&ss;BaseOrientation">
+        <rdfs:label
+            >base orientation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;ConformerQuality"/>
         <rdfs:comment
             >Relative orientation of the nitrogenous base with respect to the ribose. This rotation is about the X bond (glycosidic 
@@ -590,6 +492,7 @@ bond)</rdfs:comment>
         <rdfs:label
             >bifurcated hoogsteen face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BifurcatedFace"/>
+        <owl:disjointWith rdf:resource="&ss;BifurcatedSugarFace"/>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4)</rdfs:comment>
@@ -615,16 +518,6 @@ Where Y = Pyrimidines</rdfs:comment>
 
     <owl:Class rdf:about="&ss;Biomolecule">
         <rdfs:label>biomolecule</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;Carbohydrate"/>
-                    <rdf:Description rdf:about="&ss;Lipid"/>
-                    <rdf:Description rdf:about="&ss;NucleicAcidOrComponent"/>
-                    <rdf:Description rdf:about="&ss;ProteinOrComponent"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;RolePlayer"/>
         <rdfs:comment
             >Organic molecule that is produced by a living organism</rdfs:comment>
@@ -806,6 +699,8 @@ Where R = Purines</rdfs:comment>
     <!-- http://semanticscience.org/ConformerQuality -->
 
     <owl:Class rdf:about="&ss;ConformerQuality">
+        <rdfs:label
+            >conformer quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Quality"/>
     </owl:Class>
     
@@ -919,13 +814,13 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -998,7 +893,10 @@ structures</rdfs:comment>
     <!-- http://semanticscience.org/EnvelopeQuality -->
 
     <owl:Class rdf:about="&ss;EnvelopeQuality">
+        <rdfs:label
+            >envelope quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;FuranoseConformerQuality"/>
+        <owl:disjointWith rdf:resource="&ss;TwistQuality"/>
     </owl:Class>
     
 
@@ -1057,6 +955,8 @@ structures</rdfs:comment>
     <!-- http://semanticscience.org/FuranoseConformerQuality -->
 
     <owl:Class rdf:about="&ss;FuranoseConformerQuality">
+        <rdfs:label
+            >furanose conformer quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;ConformerQuality"/>
     </owl:Class>
     
@@ -1106,16 +1006,6 @@ structures</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/Glycine -->
-
-    <owl:Class rdf:about="&ss;Glycine">
-        <rdfs:label>Glycine</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;AminoAcid"/>
-        <dc:identifier>pubchem:148775</dc:identifier>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/Glycogen -->
 
     <owl:Class rdf:about="&ss;Glycogen">
@@ -1158,22 +1048,6 @@ structures</rdfs:comment>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:6802</dc:identifier>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/HHBasePair -->
-
-    <owl:Class rdf:about="&ss;HHBasePair">
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/HSBasePair -->
-
-    <owl:Class rdf:about="&ss;HSBasePair">
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
     </owl:Class>
     
 
@@ -1251,7 +1125,6 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
                 <owl:someValuesFrom rdf:resource="&owl;Thing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment></rdfs:comment>
     </owl:Class>
     
 
@@ -1394,8 +1267,7 @@ occuring.</rdfs:comment>
                     <rdf:Description rdf:about="&ss;Oligonucleotide"/>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                        <owl:onClass rdf:resource="&ss;Oligonucleotide"/>
-                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+                        <owl:someValuesFrom rdf:resource="&ss;Oligonucleotide"/>
                     </owl:Restriction>
                 </owl:unionOf>
             </owl:Class>
@@ -1434,7 +1306,6 @@ linkages.</rdfs:comment>
         <rdfs:label
             >nucleic acid or component</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Molecule"/>
-        <owl:disjointWith rdf:resource="&ss;ProteinOrComponent"/>
         <rdfs:comment
             >Components that comprise Nucleic Acids</rdfs:comment>
     </owl:Class>
@@ -1665,9 +1536,7 @@ Furanose O2&#39;</rdfs:comment>
 
     <!-- http://semanticscience.org/Object -->
 
-    <owl:Class rdf:about="&ss;Object">
-        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-    </owl:Class>
+    <owl:Class rdf:about="&ss;Object"/>
     
 
 
@@ -1785,9 +1654,7 @@ Furanose O2&#39;</rdfs:comment>
 
     <!-- http://semanticscience.org/Process -->
 
-    <owl:Class rdf:about="&ss;Process">
-        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-    </owl:Class>
+    <owl:Class rdf:about="&ss;Process"/>
     
 
 
@@ -1813,14 +1680,6 @@ Furanose O2&#39;</rdfs:comment>
     <owl:Class rdf:about="&ss;ProteinOrComponent">
         <rdfs:label
             >protein or component</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;Peptide"/>
-                    <rdf:Description rdf:about="&ss;Protein"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;Molecule"/>
         <rdfs:comment
             >Components that comprise Proteins</rdfs:comment>
@@ -1902,9 +1761,7 @@ Furanose O2&#39;</rdfs:comment>
 
     <!-- http://semanticscience.org/Quality -->
 
-    <owl:Class rdf:about="&ss;Quality">
-        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-    </owl:Class>
+    <owl:Class rdf:about="&ss;Quality"/>
     
 
 
@@ -2002,15 +1859,7 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
 
     <!-- http://semanticscience.org/Role -->
 
-    <owl:Class rdf:about="&ss;Role">
-        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isRoleOf"/>
-                <owl:someValuesFrom rdf:resource="&ss;Object"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
+    <owl:Class rdf:about="&ss;Role"/>
     
 
 
@@ -2034,14 +1883,6 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:comment
             >A roleplayer is a defined class of entities that must have a relation
 to a role as part of the necessary and sufficient conditions.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/SSBasePair -->
-
-    <owl:Class rdf:about="&ss;SSBasePair">
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
     </owl:Class>
     
 
@@ -2121,6 +1962,7 @@ Where Y = Pyrimidines</rdfs:comment>
     <!-- http://semanticscience.org/SynOrientation -->
 
     <owl:Class rdf:about="&ss;SynOrientation">
+        <rdfs:label>syn orientation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseOrientation"/>
     </owl:Class>
     
@@ -2210,6 +2052,7 @@ Where Y = Pyrimidines</rdfs:comment>
     <!-- http://semanticscience.org/TwistQuality -->
 
     <owl:Class rdf:about="&ss;TwistQuality">
+        <rdfs:label>twist quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;FuranoseConformerQuality"/>
     </owl:Class>
     
@@ -2280,34 +2123,6 @@ Where Y = Pyrimidines</rdfs:comment>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:6029</dc:identifier>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/WHBasePair -->
-
-    <owl:Class rdf:about="&ss;WHBasePair">
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/WSBasePair -->
-
-    <owl:Class rdf:about="&ss;WSBasePair">
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/WWBasePair -->
-
-    <owl:Class rdf:about="&ss;WWBasePair">
-        <rdfs:label
-            >watson-watson base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;FaceBasePair"/>
-        <rdfs:comment
-            >An interaction between the watson faces of both nucleotides</rdfs:comment>
     </owl:Class>
     
 
@@ -2536,11 +2351,20 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
      -->
 
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;hasParticipant"/>
-            <rdf:Description rdf:about="&ss;isRoleOf"/>
-        </owl:propertyChain>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Thymine"/>
+            <rdf:Description rdf:about="&ss;Uracil"/>
+        </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
@@ -2555,54 +2379,16 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;isAfter"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;isImmediatelyAfter"/>
-            <rdf:Description rdf:about="&ss;isImmediatelyAfter"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Carbohydrate"/>
-            <rdf:Description rdf:about="&ss;Lipid"/>
-            <rdf:Description rdf:about="&ss;Protein"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Cytosine"/>
-            <rdf:Description rdf:about="&ss;Thymine"/>
-            <rdf:Description rdf:about="&ss;Uracil"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HHBasePair"/>
-            <rdf:Description rdf:about="&ss;HSBasePair"/>
-            <rdf:Description rdf:about="&ss;SSBasePair"/>
-            <rdf:Description rdf:about="&ss;WHBasePair"/>
-            <rdf:Description rdf:about="&ss;WSBasePair"/>
-            <rdf:Description rdf:about="&ss;WWBasePair"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;BifurcatedFace"/>
+            <rdf:Description rdf:about="&ss;C8Face"/>
+            <rdf:Description rdf:about="&ss;HoogsteenHoogsteenFace"/>
+            <rdf:Description rdf:about="&ss;HoogsteenWatsonFace"/>
+            <rdf:Description rdf:about="&ss;O2pFace"/>
+            <rdf:Description rdf:about="&ss;SugarSugarFace"/>
+            <rdf:Description rdf:about="&ss;SugarWatsonFace"/>
+            <rdf:Description rdf:about="&ss;WatsonHoogsteenFace"/>
+            <rdf:Description rdf:about="&ss;WatsonSugarFace"/>
+            <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2617,10 +2403,20 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;AminoAcid"/>
-            <rdf:Description rdf:about="&ss;Carbohydrate"/>
-            <rdf:Description rdf:about="&ss;Lipid"/>
-            <rdf:Description rdf:about="&ss;Peptide"/>
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
