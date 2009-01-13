@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- my change -->
+
 <!DOCTYPE rdf:RDF [
     <!ENTITY ss "http://semanticscience.org/" >
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
@@ -14,20 +14,20 @@
 
 <rdf:RDF xmlns="http://semanticscience.org/"
      xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:ss="http://semanticscience.org/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:ss="http://semanticscience.org/">
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
     <owl:Ontology rdf:about="">
-        <rdfs:comment>RNA ontology</rdfs:comment>
-        <dc:creator
-            >Jose Cruz-Toledo</dc:creator>
+        <dc:contributor>Francois Major</dc:contributor>
         <dc:creator
             >Michel Dumontier</dc:creator>
-        <dc:contributor>Francois Major</dc:contributor>
+        <dc:creator
+            >Jose Cruz-Toledo</dc:creator>
+        <rdfs:comment>RNA ontology</rdfs:comment>
         <owl:imports rdf:resource="http://semanticscience.googlecode.com/svn/trunk/ontology/release/nulo.owl"/>
     </owl:Ontology>
     
@@ -41,9 +41,9 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <owl:AnnotationProperty rdf:about="&dc;identifier"/>
-    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
+    <owl:AnnotationProperty rdf:about="&dc;identifier"/>
     
 
 
@@ -238,8 +238,6 @@
     </owl:ObjectProperty>
     
 
-    
-
 
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -329,9 +327,9 @@
 
     <owl:Class rdf:about="&ss;Aldohexose">
         <rdfs:subClassOf rdf:resource="&ss;Hexose"/>
-        <rdfs:seeAlso>aldohexose</rdfs:seeAlso>
         <rdfs:comment
             >A hexose with an aldehyde functional group in position 1.</rdfs:comment>
+        <rdfs:seeAlso>aldohexose</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -389,8 +387,8 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
-                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
+                    <rdf:Description rdf:about="&ss;NucleicAcid"/>
+                    <rdf:Description rdf:about="&ss;Protein"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -405,8 +403,8 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcid"/>
-                    <rdf:Description rdf:about="&ss;Protein"/>
+                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
+                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -613,9 +611,9 @@ Where R = Purines</rdfs:comment>
                 <owl:someValuesFrom rdf:resource="&ss;Cytosine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:identifier>pubchem:6131</dc:identifier>
         <dc:identifier
             >Cytosine monophosphate</dc:identifier>
+        <dc:identifier>pubchem:6131</dc:identifier>
     </owl:Class>
     
 
@@ -720,9 +718,9 @@ Where R = Purines</rdfs:comment>
     <!-- http://semanticscience.org/DNA -->
 
     <owl:Class rdf:about="&ss;DNA">
-        <rdfs:label>DNA</rdfs:label>
         <rdfs:label
             >deoxyribonucleic acid</rdfs:label>
+        <rdfs:label>DNA</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -882,6 +880,7 @@ structures</rdfs:comment>
             >envelope quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;FuranoseConformerQuality"/>
         <owl:disjointWith rdf:resource="&ss;TwistQuality"/>
+        <rdfs:comment>blah</rdfs:comment>
     </owl:Class>
     
 
@@ -974,9 +973,9 @@ structures</rdfs:comment>
                 <owl:someValuesFrom rdf:resource="&ss;Guanine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:identifier>pubchem:6830</dc:identifier>
         <rdfs:comment
             >Guanosine triphosphate</rdfs:comment>
-        <dc:identifier>pubchem:6830</dc:identifier>
     </owl:Class>
     
 
@@ -1678,9 +1677,9 @@ Furanose O2&#39;</rdfs:comment>
         <rdfs:label>purine</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NitrogenousBase"/>
         <owl:disjointWith rdf:resource="&ss;Pyrimidine"/>
-        <dc:identifier>pubchem:1044</dc:identifier>
         <rdfs:comment
             >heterocyclic aromatic compound consisting of a pyrimidine ring fused to an imidazole ring</rdfs:comment>
+        <dc:identifier>pubchem:1044</dc:identifier>
     </owl:Class>
     
 
@@ -1855,14 +1854,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&ss;Role"/>
+                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&ss;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&ss;Process"/>
+                <owl:onProperty rdf:resource="&ss;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&ss;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -2338,6 +2337,14 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Thymine"/>
+            <rdf:Description rdf:about="&ss;Uracil"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
             <rdf:Description rdf:about="&ss;SugarEdge"/>
             <rdf:Description rdf:about="&ss;WatsonEdge"/>
@@ -2346,9 +2353,10 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Cytosine"/>
-            <rdf:Description rdf:about="&ss;Thymine"/>
-            <rdf:Description rdf:about="&ss;Uracil"/>
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2359,6 +2367,25 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;C3pExoRole"/>
             <rdf:Description rdf:about="&ss;C4pExoRole"/>
             <rdf:Description rdf:about="&ss;O4pExoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;DownwardStacking"/>
+            <rdf:Description rdf:about="&ss;InwardStacking"/>
+            <rdf:Description rdf:about="&ss;OutwardStacking"/>
+            <rdf:Description rdf:about="&ss;UpwardStacking"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2376,37 +2403,9 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
         </owl:members>
     </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;DownwardStacking"/>
-            <rdf:Description rdf:about="&ss;InwardStacking"/>
-            <rdf:Description rdf:about="&ss;OutwardStacking"/>
-            <rdf:Description rdf:about="&ss;UpwardStacking"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
-        </owl:members>
-    </rdf:Description>
 </rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 2.2.1.962) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 2.2.1.941) http://owlapi.sourceforge.net -->
 
