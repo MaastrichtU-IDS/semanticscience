@@ -252,27 +252,6 @@
     
 
 
-    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#EdgeBasePair -->
-
-    <owl:Class rdf:about="&ss;EdgeBasePair">
-        <rdfs:label>edge base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
-        <rdfs:comment
-            >An interaction between nucleotides based on which edges the hydrogen bonds are formed.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#StructureDetermination -->
-
-    <owl:Class rdf:about="&ss;StructureDetermination">
-        <rdfs:label
-            >structure determination</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;Process"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/AMP -->
 
     <owl:Class rdf:about="&ss;AMP">
@@ -903,6 +882,18 @@ structures</rdfs:comment>
     
 
 
+    <!-- http://semanticscience.org/EdgeInteraction -->
+
+    <owl:Class rdf:about="&ss;EdgeInteraction">
+        <rdfs:label
+            >edge interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
+        <rdfs:comment
+            >An interaction between nucleotides based on which edges the hydrogen bonds are formed.</rdfs:comment>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/EndoRole -->
 
     <owl:Class rdf:about="&ss;EndoRole">
@@ -935,10 +926,11 @@ structures</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/FaceBasePair -->
+    <!-- http://semanticscience.org/FaceInteraction -->
 
-    <owl:Class rdf:about="&ss;FaceBasePair">
-        <rdfs:label>face base pair</rdfs:label>
+    <owl:Class rdf:about="&ss;FaceInteraction">
+        <rdfs:label
+            >face interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
         <rdfs:comment
             >An interaction between nucleotides based on which faces the hydrogen bonds are formed.</rdfs:comment>
@@ -1935,14 +1927,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&ss;Process"/>
+                <owl:onProperty rdf:resource="&ss;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&ss;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&ss;Role"/>
+                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&ss;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -1979,6 +1971,16 @@ to a role as part of the necessary and sufficient conditions.</rdfs:comment>
         </rdfs:subClassOf>
         <rdfs:comment
             >A Nucleic Acid strand</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/StructureDetermination -->
+
+    <owl:Class rdf:about="&ss;StructureDetermination">
+        <rdfs:label
+            >structure determination</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Process"/>
     </owl:Class>
     
 
@@ -2428,10 +2430,27 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Thymine"/>
+            <rdf:Description rdf:about="&ss;Uracil"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2446,37 +2465,20 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Cytosine"/>
-            <rdf:Description rdf:about="&ss;Thymine"/>
-            <rdf:Description rdf:about="&ss;Uracil"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;C1pExoRole"/>
             <rdf:Description rdf:about="&ss;C2pExoRole"/>
             <rdf:Description rdf:about="&ss;C3pExoRole"/>
             <rdf:Description rdf:about="&ss;C4pExoRole"/>
             <rdf:Description rdf:about="&ss;O4pExoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
