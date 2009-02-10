@@ -252,26 +252,6 @@
     
 
 
-    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#Inosine -->
-
-    <owl:Class rdf:about="&ss;Inosine">
-        <rdfs:subClassOf rdf:resource="&ss;Purine"/>
-        <dc:identifier>pubchem:6021</dc:identifier>
-        <rdfs:comment>inosine</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#Pseudouridine -->
-
-    <owl:Class rdf:about="&ss;Pseudouridine">
-        <rdfs:subClassOf rdf:resource="&ss;Pyrimidine"/>
-        <rdfs:comment>pseudouridine</rdfs:comment>
-        <dc:identifier>pubchem:15047</dc:identifier>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/AMP -->
 
     <owl:Class rdf:about="&ss;AMP">
@@ -415,14 +395,6 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcid"/>
-                    <rdf:Description rdf:about="&ss;Protein"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
                     <rdf:Description rdf:about="&ss;PeptideAptamer"/>
                 </owl:unionOf>
@@ -433,6 +405,14 @@ substituent)</rdfs:comment>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NaturalAptamer"/>
                     <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;NucleicAcid"/>
+                    <rdf:Description rdf:about="&ss;Protein"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -773,8 +753,7 @@ Where R = Purines</rdfs:comment>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;NucleicAcid"/>
         <rdfs:comment
-            >A single or double standed linear polymer of nucleotide monophosphates, limited to at least 2 of the following deoxy 
-ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
+            >A single or double standed linear polymer of nucleotide monophosphates, limited to at least 2 of the following deoxy ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
     </owl:Class>
     
 
@@ -834,13 +813,13 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -1159,6 +1138,16 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/Inosine -->
+
+    <owl:Class rdf:about="&ss;Inosine">
+        <rdfs:subClassOf rdf:resource="&ss;Purine"/>
+        <dc:identifier>pubchem:6021</dc:identifier>
+        <rdfs:comment>inosine</rdfs:comment>
     </owl:Class>
     
 
@@ -1762,6 +1751,16 @@ Furanose O2&#39;</rdfs:comment>
     
 
 
+    <!-- http://semanticscience.org/Pseudouridine -->
+
+    <owl:Class rdf:about="&ss;Pseudouridine">
+        <rdfs:subClassOf rdf:resource="&ss;Pyrimidine"/>
+        <rdfs:comment>pseudouridine</rdfs:comment>
+        <dc:identifier>pubchem:15047</dc:identifier>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/Purine -->
 
     <owl:Class rdf:about="&ss;Purine">
@@ -1947,14 +1946,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&ss;Role"/>
+                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&ss;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&ss;Process"/>
+                <owl:onProperty rdf:resource="&ss;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&ss;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -2450,6 +2449,24 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;BifurcatedFace"/>
             <rdf:Description rdf:about="&ss;C8Face"/>
             <rdf:Description rdf:about="&ss;HoogsteenHoogsteenFace"/>
@@ -2460,16 +2477,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;WatsonHoogsteenFace"/>
             <rdf:Description rdf:about="&ss;WatsonSugarFace"/>
             <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2489,14 +2496,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;CTP"/>
             <rdf:Description rdf:about="&ss;GTP"/>
             <rdf:Description rdf:about="&ss;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
