@@ -206,6 +206,12 @@
     
 
 
+    <!-- http://semanticscience.org/isProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isProperPartOf"/>
+    
+
+
     <!-- http://semanticscience.org/isQualityOf -->
 
     <owl:ObjectProperty rdf:about="&ss;isQualityOf"/>
@@ -395,14 +401,6 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
-                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NaturalAptamer"/>
                     <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
                 </owl:unionOf>
@@ -413,6 +411,14 @@ substituent)</rdfs:comment>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcid"/>
                     <rdf:Description rdf:about="&ss;Protein"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
+                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -500,6 +506,18 @@ substituent)</rdfs:comment>
         <rdfs:label
             >bifurcated hoogsteen face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BifurcatedFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;HoogsteenEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;WatsonEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&ss;BifurcatedSugarFace"/>
         <rdfs:comment
             >Face composed by the following atoms:
@@ -514,6 +532,18 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
         <rdfs:label
             >bifurcated sugar face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BifurcatedFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;SugarEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;WatsonEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Carbon 2) or Guanine (Nitrogen 2),  Y (Oxygen 2) 
@@ -618,6 +648,12 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&ss;C8Face">
         <rdfs:label>c8 face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;HoogsteenEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atom:
 R (Carbon 2)  
@@ -813,13 +849,13 @@ Where R = Purines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -1107,6 +1143,34 @@ structures</rdfs:comment>
     <owl:Class rdf:about="&ss;HoogsteenEdge">
         <rdfs:label>hoogsteen edge</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;HoogsteenHoogsteenFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;HoogsteenWatsonFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;C8Face"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;BifurcatedSugarFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6), R (Nitrogen 7),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4), Y (Carbon 5), R (Carbon 8)
@@ -1121,6 +1185,12 @@ Where R = Purines and Y = Pyrimidines</rdfs:comment>
         <rdfs:label
             >hoogsteen hoogsteen face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;HoogsteenEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 R(Nitrogen 7) ,  Y (Carbon 5) 
@@ -1135,6 +1205,12 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
         <rdfs:label
             >hoogsteen watson face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;HoogsteenEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4)</rdfs:comment>
@@ -1946,14 +2022,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&ss;Process"/>
+                <owl:onProperty rdf:resource="&ss;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&ss;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&ss;Role"/>
+                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&ss;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -2009,6 +2085,27 @@ to a role as part of the necessary and sufficient conditions.</rdfs:comment>
     <owl:Class rdf:about="&ss;SugarEdge">
         <rdfs:label>sugar edge</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;SugarWatsonFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;BifurcatedSugarFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;SugarSugarFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Carbon 2) or Guanine (Nitrogen 2), R (Nitrogen 3), Y (Oxygen 2), Furanose (Oxygen 2)
@@ -2023,6 +2120,12 @@ Where R = Purines and Y = Pyrimidines</rdfs:comment>
         <rdfs:label
             >sugar sugar face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;SugarEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 R (Nitrogen 3) 
@@ -2037,6 +2140,12 @@ Where R = Purines</rdfs:comment>
         <rdfs:label
             >sugar watson face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;SugarEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 Guanine (Nitrogen 2),  Y (Oxygen 2) 
@@ -2228,6 +2337,41 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&ss;WatsonEdge">
         <rdfs:label>watson edge</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;WatsonSugarFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;BifurcatedSugarFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;BifurcatedHoogsteenFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;WatsonHoogsteenFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;WatsonWatsonFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6), R (Nitrogen 1),  Adenine (Carbon 2) or Guanine (Nitrogen 2), Uracil (Oxygen 4) or Cytosine 
@@ -2243,6 +2387,12 @@ Where R = Purines and Y = Pyrimidines</rdfs:comment>
         <rdfs:label
             >watson hoogsteen face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;WatsonEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4)</rdfs:comment>
@@ -2256,6 +2406,12 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
         <rdfs:label
             >watson sugar face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;WatsonEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 Guanine (Nitrogen 2),  Y (Oxygen 2) 
@@ -2270,6 +2426,12 @@ Where Y = Pyrimidines</rdfs:comment>
         <rdfs:label
             >watson watson face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;isProperPartOf"/>
+                <owl:someValuesFrom rdf:resource="&ss;WatsonEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Face composed by the following atoms:
 R (Nitrogen 1),  Y (Nitrogen 3) 
@@ -2449,6 +2611,32 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;DownwardStacking"/>
+            <rdf:Description rdf:about="&ss;InwardStacking"/>
+            <rdf:Description rdf:about="&ss;OutwardStacking"/>
+            <rdf:Description rdf:about="&ss;UpwardStacking"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Thymine"/>
+            <rdf:Description rdf:about="&ss;Uracil"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;C1pEndoRole"/>
             <rdf:Description rdf:about="&ss;C2pEndoRole"/>
             <rdf:Description rdf:about="&ss;C3pEndoRole"/>
@@ -2459,9 +2647,11 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+            <rdf:Description rdf:about="&ss;C1pExoRole"/>
+            <rdf:Description rdf:about="&ss;C2pExoRole"/>
+            <rdf:Description rdf:about="&ss;C3pExoRole"/>
+            <rdf:Description rdf:about="&ss;C4pExoRole"/>
+            <rdf:Description rdf:about="&ss;O4pExoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2482,37 +2672,9 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pExoRole"/>
-            <rdf:Description rdf:about="&ss;C2pExoRole"/>
-            <rdf:Description rdf:about="&ss;C3pExoRole"/>
-            <rdf:Description rdf:about="&ss;C4pExoRole"/>
-            <rdf:Description rdf:about="&ss;O4pExoRole"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;DownwardStacking"/>
-            <rdf:Description rdf:about="&ss;InwardStacking"/>
-            <rdf:Description rdf:about="&ss;OutwardStacking"/>
-            <rdf:Description rdf:about="&ss;UpwardStacking"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Cytosine"/>
-            <rdf:Description rdf:about="&ss;Thymine"/>
-            <rdf:Description rdf:about="&ss;Uracil"/>
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
