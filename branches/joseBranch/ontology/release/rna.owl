@@ -7,7 +7,6 @@
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
-    <!ENTITY rna2 "http://semanticscience.org/rna.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY rna "http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#" >
@@ -15,25 +14,23 @@
 
 
 <rdf:RDF xmlns="http://semanticscience.org/"
-     xml:base="&ss;rna.owl"
-     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:rna2="&ss;rna.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:ss="http://semanticscience.org/"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
      xmlns:rna="http://semanticscience.googlecode.com/svn/trunk/ontology/release/rna.owl#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#">
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ss="http://semanticscience.org/">
     <owl:Ontology rdf:about="">
-        <dc:creator
-            >Jose Cruz-Toledo</dc:creator>
-        <dc:contributor>Francois Major</dc:contributor>
         <rdfs:comment>RNA ontology</rdfs:comment>
         <dc:creator
+            >Jose Cruz-Toledo</dc:creator>
+        <dc:creator
             >Michel Dumontier</dc:creator>
+        <dc:contributor>Francois Major</dc:contributor>
         <owl:imports rdf:resource="http://semanticscience.googlecode.com/svn/trunk/ontology/release/nulo.owl"/>
-        <owl:imports rdf:resource="&ss;atom-primitive"/>
     </owl:Ontology>
     
 
@@ -46,9 +43,9 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <owl:AnnotationProperty rdf:about="&dc;creator"/>
-    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
     <owl:AnnotationProperty rdf:about="&dc;identifier"/>
+    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
 
@@ -322,8 +319,10 @@
     <owl:Class rdf:about="&ss;AdjacentStacking">
         <rdfs:label
             >adjacent stacking</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideStacking"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideBaseStacking"/>
         <owl:disjointWith rdf:resource="&ss;NonAdjacentStacking"/>
+        <rdfs:comment
+            >Nucleotide base stacking between adjacent bases.</rdfs:comment>
     </owl:Class>
     
 
@@ -332,9 +331,9 @@
 
     <owl:Class rdf:about="&ss;Aldohexose">
         <rdfs:subClassOf rdf:resource="&ss;Hexose"/>
+        <rdfs:seeAlso>aldohexose</rdfs:seeAlso>
         <rdfs:comment
             >A hexose with an aldehyde functional group in position 1.</rdfs:comment>
-        <rdfs:seeAlso>aldohexose</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -362,13 +361,15 @@ substituent)</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/AntiOrientation -->
+    <!-- http://semanticscience.org/AntiConformation -->
 
-    <owl:Class rdf:about="&ss;AntiOrientation">
+    <owl:Class rdf:about="&ss;AntiConformation">
         <rdfs:label
-            >anti orientation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;BaseOrientation"/>
-        <owl:disjointWith rdf:resource="&ss;TwistQuality"/>
+            >anti conformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;BaseOrientatedConformation"/>
+        <owl:disjointWith rdf:resource="&ss;TwistConformation"/>
+        <rdfs:comment
+            >The anti conformation aligns the base away from the ribose.</rdfs:comment>
     </owl:Class>
     
 
@@ -380,6 +381,8 @@ substituent)</rdfs:comment>
             >antiparallel base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedBasePair"/>
         <owl:disjointWith rdf:resource="&ss;ParallelBasePair"/>
+        <rdfs:comment
+            >A base pair where the normals are antiparallel.</rdfs:comment>
     </owl:Class>
     
 
@@ -389,6 +392,14 @@ substituent)</rdfs:comment>
     <owl:Class rdf:about="&ss;Aptamer">
         <rdfs:label>aptamer</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Interactor"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
+                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -405,24 +416,8 @@ substituent)</rdfs:comment>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
-                    <rdf:Description rdf:about="&ss;PeptideAptamer"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
         <rdfs:comment
             >nucleic acid or peptide that binds some chemical</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/Atom -->
-
-    <owl:Class rdf:about="&ss;Atom">
-        <rdfs:subClassOf rdf:resource="&ss;Object"/>
     </owl:Class>
     
 
@@ -438,19 +433,19 @@ substituent)</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/AtomProperty -->
-
-    <owl:Class rdf:about="&ss;AtomProperty">
-        <rdfs:subClassOf rdf:resource="&ss;Quality"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/BaseNormalOrientedBasePair -->
 
     <owl:Class rdf:about="&ss;BaseNormalOrientedBasePair">
         <rdfs:label
             >base normal oriented base pair</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;AntiparallelBasePair"/>
+                    <rdf:Description rdf:about="&ss;ParallelBasePair"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;RelativelyOrientedBasePair"/>
         <rdfs:comment
             >A spatial interaction between nucleotides that depends on the direction of their normals.</rdfs:comment>
@@ -463,20 +458,29 @@ substituent)</rdfs:comment>
     <owl:Class rdf:about="&ss;BaseNormalOrientedStacking">
         <rdfs:label
             >base-normal oriented stacking</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideStacking"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideBaseStacking"/>
+        <rdfs:comment
+            >Base stacking in which the base normal vector, q, in terms of the pyrimidine ring normal vector, n. In pyrimidines, q is defined as n, the rotational vector obtained from a right-handed roation around the pyrimidine ring from atoms 1 to 6. In purines, q is defined as -n.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/BaseOrientation -->
+    <!-- http://semanticscience.org/BaseOrientatedConformation -->
 
-    <owl:Class rdf:about="&ss;BaseOrientation">
+    <owl:Class rdf:about="&ss;BaseOrientatedConformation">
         <rdfs:label
-            >base orientation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;ConformerQuality"/>
+            >base oriented conformation</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;AntiConformation"/>
+                    <rdf:Description rdf:about="&ss;SynConformation"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Conformation"/>
         <rdfs:comment
-            >Relative orientation of the nitrogenous base with respect to the ribose. This rotation is about the X bond (glycosidic 
-bond)</rdfs:comment>
+            >Relative orientation of the nitrogenous base with respect to the ribose. This rotation is about the X bond (glycosidic bond).</rdfs:comment>
     </owl:Class>
     
 
@@ -616,7 +620,7 @@ Where Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideFace"/>
         <rdfs:comment
             >Face composed by the following atom:
-R (Carbon 8)  
+R (Carbon 2)  
 Where R = Purines</rdfs:comment>
     </owl:Class>
     
@@ -632,9 +636,9 @@ Where R = Purines</rdfs:comment>
                 <owl:someValuesFrom rdf:resource="&ss;Cytosine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:identifier>pubchem:6131</dc:identifier>
         <dc:identifier
             >Cytosine monophosphate</dc:identifier>
-        <dc:identifier>pubchem:6131</dc:identifier>
     </owl:Class>
     
 
@@ -684,6 +688,8 @@ Where R = Purines</rdfs:comment>
         <rdfs:label>cis base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;GlycosylBondOrientedBasePair"/>
         <owl:disjointWith rdf:resource="&ss;TransBasePair"/>
+        <rdfs:comment
+            >A base pair in which both glycosidic bonds are oriented on the same side of the line that splits the plane evenly in two.</rdfs:comment>
     </owl:Class>
     
 
@@ -692,20 +698,10 @@ Where R = Purines</rdfs:comment>
 
     <owl:Class rdf:about="&ss;Conformation">
         <rdfs:label>conformation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;Process"/>
+        <rdfs:subClassOf rdf:resource="&ss;Quality"/>
         <owl:disjointWith rdf:resource="&ss;Interaction"/>
         <rdfs:comment
             >The three-dimensional structure of a molecule.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ConformerQuality -->
-
-    <owl:Class rdf:about="&ss;ConformerQuality">
-        <rdfs:label
-            >conformer quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;Quality"/>
     </owl:Class>
     
 
@@ -739,9 +735,9 @@ Where R = Purines</rdfs:comment>
     <!-- http://semanticscience.org/DNA -->
 
     <owl:Class rdf:about="&ss;DNA">
+        <rdfs:label>DNA</rdfs:label>
         <rdfs:label
             >deoxyribonucleic acid</rdfs:label>
-        <rdfs:label>DNA</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -757,8 +753,7 @@ Where R = Purines</rdfs:comment>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;NucleicAcid"/>
         <rdfs:comment
-            >A single or double standed linear polymer of nucleotide monophosphates, limited to at least 2 of the following deoxy 
-ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
+            >A single or double standed linear polymer of nucleotide monophosphates, limited to at least 2 of the following deoxy ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
     </owl:Class>
     
 
@@ -880,6 +875,20 @@ structures</rdfs:comment>
         <rdfs:label
             >downward stacking</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedStacking"/>
+        <rdfs:comment
+            >Downward stacking occurs between bases A and B when the normal of  B faces the underside of A, whose normal faces away from B.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/EdgeInteraction -->
+
+    <owl:Class rdf:about="&ss;EdgeInteraction">
+        <rdfs:label
+            >edge interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
+        <rdfs:comment
+            >An interaction between nucleotides based on which edges the hydrogen bonds are formed.</rdfs:comment>
     </owl:Class>
     
 
@@ -894,15 +903,15 @@ structures</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/EnvelopeQuality -->
+    <!-- http://semanticscience.org/EnvelopeConformation -->
 
-    <owl:Class rdf:about="&ss;EnvelopeQuality">
+    <owl:Class rdf:about="&ss;EnvelopeConformation">
         <rdfs:label
-            >envelope quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;FuranoseConformerQuality"/>
-        <owl:disjointWith rdf:resource="&ss;TwistQuality"/>
+            >envelope conformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;FuranoseConformation"/>
+        <owl:disjointWith rdf:resource="&ss;TwistConformation"/>
         <rdfs:comment
-            >Quality of a conformer formed when only one of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) is out of the plane formed by the remaining four atoms</rdfs:comment>
+            >The structural conformation of a furanose when only one of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) is out of the plane formed by the remaining four atoms.</rdfs:comment>
     </owl:Class>
     
 
@@ -916,10 +925,11 @@ structures</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/FaceBasePair -->
+    <!-- http://semanticscience.org/FaceInteraction -->
 
-    <owl:Class rdf:about="&ss;FaceBasePair">
-        <rdfs:label>face base pair</rdfs:label>
+    <owl:Class rdf:about="&ss;FaceInteraction">
+        <rdfs:label
+            >face interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
         <rdfs:comment
             >An interaction between nucleotides based on which faces the hydrogen bonds are formed.</rdfs:comment>
@@ -958,12 +968,14 @@ structures</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/FuranoseConformerQuality -->
+    <!-- http://semanticscience.org/FuranoseConformation -->
 
-    <owl:Class rdf:about="&ss;FuranoseConformerQuality">
+    <owl:Class rdf:about="&ss;FuranoseConformation">
         <rdfs:label
-            >furanose conformer quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;ConformerQuality"/>
+            >furanose conformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Conformation"/>
+        <rdfs:comment
+            >The structural conformation of a furanose.</rdfs:comment>
     </owl:Class>
     
 
@@ -995,9 +1007,9 @@ structures</rdfs:comment>
                 <owl:someValuesFrom rdf:resource="&ss;Guanine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:identifier>pubchem:6830</dc:identifier>
         <rdfs:comment
             >Guanosine triphosphate</rdfs:comment>
+        <dc:identifier>pubchem:6830</dc:identifier>
     </owl:Class>
     
 
@@ -1027,7 +1039,17 @@ structures</rdfs:comment>
     <owl:Class rdf:about="&ss;GlycosylBondOrientedBasePair">
         <rdfs:label
             >glycosyl bond oriented base pair</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;CisBasePair"/>
+                    <rdf:Description rdf:about="&ss;TransBasePair"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;RelativelyOrientedBasePair"/>
+        <rdfs:comment
+            >A base pair that depends on the glycosyl bond orientation.</rdfs:comment>
     </owl:Class>
     
 
@@ -1084,7 +1106,7 @@ structures</rdfs:comment>
 
     <owl:Class rdf:about="&ss;HoogsteenEdge">
         <rdfs:label>hoogsteen edge</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideContactEdge"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6), R (Nitrogen 7),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4), Y (Carbon 5), R (Carbon 8)
@@ -1116,6 +1138,16 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
         <rdfs:comment
             >Face composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitrogen 4)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/Inosine -->
+
+    <owl:Class rdf:about="&ss;Inosine">
+        <rdfs:subClassOf rdf:resource="&ss;Purine"/>
+        <dc:identifier>pubchem:6021</dc:identifier>
+        <rdfs:comment>inosine</rdfs:comment>
     </owl:Class>
     
 
@@ -1157,6 +1189,8 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
     <owl:Class rdf:about="&ss;InwardStacking">
         <rdfs:label>inward stacking</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedStacking"/>
+        <rdfs:comment
+            >Inward stacking occurs between bases A and B when their normals face each other.</rdfs:comment>
     </owl:Class>
     
 
@@ -1257,7 +1291,9 @@ occuring.</rdfs:comment>
     <owl:Class rdf:about="&ss;NonAdjacentStacking">
         <rdfs:label
             >non-adjacent stacking</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideStacking"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideBaseStacking"/>
+        <rdfs:comment
+            >Nucleotide base stacking between non-adjacent bases.</rdfs:comment>
     </owl:Class>
     
 
@@ -1375,19 +1411,29 @@ phosphate group</rdfs:comment>
         <rdfs:label
             >nucleotide base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideInteraction"/>
-        <owl:disjointWith rdf:resource="&ss;NucleotideStacking"/>
+        <owl:disjointWith rdf:resource="&ss;NucleotideBaseStacking"/>
         <rdfs:comment
             >An interaction involving hydrogen bonds between two nucleotides.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/NucleotideContactEdge -->
+    <!-- http://semanticscience.org/NucleotideBaseStacking -->
 
-    <owl:Class rdf:about="&ss;NucleotideContactEdge">
+    <owl:Class rdf:about="&ss;NucleotideBaseStacking">
         <rdfs:label
-            >nucleotide contact edge</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;Quality"/>
+            >nucleotide base stacking</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;AdjacentStacking"/>
+                    <rdf:Description rdf:about="&ss;NonAdjacentStacking"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideInteraction"/>
+        <rdfs:comment
+            >A spatial interaction between nucleotides.</rdfs:comment>
     </owl:Class>
     
 
@@ -1411,11 +1457,31 @@ phosphate group</rdfs:comment>
     
 
 
+    <!-- http://semanticscience.org/NucleotideEdge -->
+
+    <owl:Class rdf:about="&ss;NucleotideEdge">
+        <rdfs:label>nucleotide edge</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+                    <rdf:Description rdf:about="&ss;SugarEdge"/>
+                    <rdf:Description rdf:about="&ss;WatsonEdge"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/NucleotideFace -->
 
     <owl:Class rdf:about="&ss;NucleotideFace">
         <rdfs:label>nucleotide face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Quality"/>
+        <rdfs:comment
+            >A part of the nucleotide ribose or base, capable of forming hydrogen bonds.</rdfs:comment>
     </owl:Class>
     
 
@@ -1463,18 +1529,6 @@ phosphate group</rdfs:comment>
                 <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/NucleotideStacking -->
-
-    <owl:Class rdf:about="&ss;NucleotideStacking">
-        <rdfs:label
-            >nucleotide stacking</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideInteraction"/>
-        <rdfs:comment
-            >A spatial interaction between nucleotides.</rdfs:comment>
     </owl:Class>
     
 
@@ -1570,6 +1624,8 @@ Furanose O2&#39;</rdfs:comment>
         <rdfs:label
             >outward stacking</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedStacking"/>
+        <rdfs:comment
+            >Outward stacking occurs between bases A and B when their normals face away from each other.</rdfs:comment>
     </owl:Class>
     
 
@@ -1580,6 +1636,8 @@ Furanose O2&#39;</rdfs:comment>
         <rdfs:label
             >parallel base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedBasePair"/>
+        <rdfs:comment
+            >A base pair where the normals are parallel.</rdfs:comment>
     </owl:Class>
     
 
@@ -1693,15 +1751,25 @@ Furanose O2&#39;</rdfs:comment>
     
 
 
+    <!-- http://semanticscience.org/Pseudouridine -->
+
+    <owl:Class rdf:about="&ss;Pseudouridine">
+        <rdfs:subClassOf rdf:resource="&ss;Pyrimidine"/>
+        <rdfs:comment>pseudouridine</rdfs:comment>
+        <dc:identifier>pubchem:15047</dc:identifier>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/Purine -->
 
     <owl:Class rdf:about="&ss;Purine">
         <rdfs:label>purine</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NitrogenousBase"/>
         <owl:disjointWith rdf:resource="&ss;Pyrimidine"/>
+        <dc:identifier>pubchem:1044</dc:identifier>
         <rdfs:comment
             >heterocyclic aromatic compound consisting of a pyrimidine ring fused to an imidazole ring</rdfs:comment>
-        <dc:identifier>pubchem:1044</dc:identifier>
     </owl:Class>
     
 
@@ -1815,6 +1883,8 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:label
             >relatively oriented base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
+        <rdfs:comment
+            >A base pair that depends on a relative orientation.</rdfs:comment>
     </owl:Class>
     
 
@@ -1876,14 +1946,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&ss;Role"/>
+                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&ss;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&ss;Process"/>
+                <owl:onProperty rdf:resource="&ss;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&ss;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -1924,11 +1994,21 @@ to a role as part of the necessary and sufficient conditions.</rdfs:comment>
     
 
 
+    <!-- http://semanticscience.org/StructureDetermination -->
+
+    <owl:Class rdf:about="&ss;StructureDetermination">
+        <rdfs:label
+            >structure determination</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Process"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/SugarEdge -->
 
     <owl:Class rdf:about="&ss;SugarEdge">
         <rdfs:label>sugar edge</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideContactEdge"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Carbon 2) or Guanine (Nitrogen 2), R (Nitrogen 3), Y (Oxygen 2), Furanose (Oxygen 2)
@@ -1965,11 +2045,14 @@ Where Y = Pyrimidines</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/SynOrientation -->
+    <!-- http://semanticscience.org/SynConformation -->
 
-    <owl:Class rdf:about="&ss;SynOrientation">
-        <rdfs:label>syn orientation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;BaseOrientation"/>
+    <owl:Class rdf:about="&ss;SynConformation">
+        <rdfs:label
+            >syn conformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;BaseOrientatedConformation"/>
+        <rdfs:comment
+            >The syn conformation aligns the base towards the ribose.</rdfs:comment>
     </owl:Class>
     
 
@@ -2029,6 +2112,8 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&ss;TransBasePair">
         <rdfs:label>trans base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;GlycosylBondOrientedBasePair"/>
+        <rdfs:comment
+            >A base pair in which both glycosidic bonds are oriented on opposide sides of the line that splits the plane evenly in two.</rdfs:comment>
     </owl:Class>
     
 
@@ -2055,13 +2140,14 @@ Where Y = Pyrimidines</rdfs:comment>
     
 
 
-    <!-- http://semanticscience.org/TwistQuality -->
+    <!-- http://semanticscience.org/TwistConformation -->
 
-    <owl:Class rdf:about="&ss;TwistQuality">
-        <rdfs:label>twist quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;FuranoseConformerQuality"/>
+    <owl:Class rdf:about="&ss;TwistConformation">
+        <rdfs:label
+            >twist conformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;FuranoseConformation"/>
         <rdfs:comment
-            >Quality of the conformer formed when two of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) are on oppisite sides of the plane formed by the remaining three atoms</rdfs:comment>
+            >The structural conformation of a furanose when two of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) are on oppisite sides of the plane formed by the remaining three atoms.</rdfs:comment>
     </owl:Class>
     
 
@@ -2105,6 +2191,8 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&ss;UpwardStacking">
         <rdfs:label>upward stacking</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;BaseNormalOrientedStacking"/>
+        <rdfs:comment
+            >Upward stacking occurs between bases A and B when the normal of base A faces the underside of base B, whose normal faces away from A.</rdfs:comment>
     </owl:Class>
     
 
@@ -2139,7 +2227,7 @@ Where Y = Pyrimidines</rdfs:comment>
 
     <owl:Class rdf:about="&ss;WatsonEdge">
         <rdfs:label>watson edge</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;NucleotideContactEdge"/>
+        <rdfs:subClassOf rdf:resource="&ss;NucleotideEdge"/>
         <rdfs:comment
             >Edge composed by the following atoms:
 Adenine (Nitrogen 6) or Guanine (Oxygen 6), R (Nitrogen 1),  Adenine (Carbon 2) or Guanine (Nitrogen 2), Uracil (Oxygen 4) or Cytosine 
@@ -2361,6 +2449,24 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;BifurcatedFace"/>
             <rdf:Description rdf:about="&ss;C8Face"/>
             <rdf:Description rdf:about="&ss;HoogsteenHoogsteenFace"/>
@@ -2371,25 +2477,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;WatsonHoogsteenFace"/>
             <rdf:Description rdf:about="&ss;WatsonSugarFace"/>
             <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;DownwardStacking"/>
-            <rdf:Description rdf:about="&ss;InwardStacking"/>
-            <rdf:Description rdf:about="&ss;OutwardStacking"/>
-            <rdf:Description rdf:about="&ss;UpwardStacking"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2414,9 +2501,10 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+            <rdf:Description rdf:about="&ss;DownwardStacking"/>
+            <rdf:Description rdf:about="&ss;InwardStacking"/>
+            <rdf:Description rdf:about="&ss;OutwardStacking"/>
+            <rdf:Description rdf:about="&ss;UpwardStacking"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2431,5 +2519,5 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
 
 
 
-<!-- Generated by the OWL API (version 2.2.1.941) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 2.2.1.972) http://owlapi.sourceforge.net -->
 
