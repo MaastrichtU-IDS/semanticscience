@@ -52,6 +52,23 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/hasParticipant -->
+
+    <owl:ObjectProperty rdf:about="&semanticscience;hasParticipant"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +102,12 @@
     
 
 
+    <!-- http://semanticscience.org/AMP -->
+
+    <owl:Class rdf:about="&semanticscience;AMP"/>
+    
+
+
     <!-- http://semanticscience.org/CisBasePair -->
 
     <owl:Class rdf:about="&semanticscience;CisBasePair"/>
@@ -93,7 +116,29 @@
 
     <!-- http://semanticscience.org/GABasePair -->
 
-    <owl:Class rdf:about="&semanticscience;GABasePair"/>
+    <owl:Class rdf:about="&semanticscience;GABasePair">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&semanticscience;NucleotideBasePair"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
+                        <owl:someValuesFrom rdf:resource="&semanticscience;AMP"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
+                        <owl:someValuesFrom rdf:resource="&semanticscience;GMP"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/GMP -->
+
+    <owl:Class rdf:about="&semanticscience;GMP"/>
     
 
 
