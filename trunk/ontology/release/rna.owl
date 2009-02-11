@@ -66,7 +66,6 @@
         <rdfs:label>has disposition</rdfs:label>
         <rdfs:comment
             >A relation between an entitty and the disposition it realizes</rdfs:comment>
-        <owl:inverseOf rdf:resource="&ss;isDispositionOf"/>
     </owl:ObjectProperty>
     
 
@@ -77,16 +76,13 @@
         <rdfs:label>has function</rdfs:label>
         <rdfs:comment
             >A relation between an entity and a function</rdfs:comment>
-        <owl:inverseOf rdf:resource="&ss;isFunctionOf"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://semanticscience.org/hasPart -->
 
-    <owl:ObjectProperty rdf:about="&ss;hasPart">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ss;hasPart"/>
     
 
 
@@ -108,7 +104,6 @@
         <rdfs:label>has quality</rdfs:label>
         <rdfs:comment
             >A relation between an entity and the quality that inheres in it</rdfs:comment>
-        <owl:inverseOf rdf:resource="&ss;isQualityOf"/>
     </owl:ObjectProperty>
     
 
@@ -119,83 +114,6 @@
         <rdfs:label>has role</rdfs:label>
         <rdfs:comment
             >The relation between an entity and a role</rdfs:comment>
-        <owl:inverseOf rdf:resource="&ss;isRoleOf"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isAdjacentTo -->
-
-    <owl:ObjectProperty rdf:about="&ss;isAdjacentTo">
-        <owl:inverseOf rdf:resource="&ss;isAdjacentTo"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isConnectedTo"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isAfter -->
-
-    <owl:ObjectProperty rdf:about="&ss;isAfter">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isConnectedTo"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isBefore -->
-
-    <owl:ObjectProperty rdf:about="&ss;isBefore">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isConnectedTo"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isConnectedTo -->
-
-    <owl:ObjectProperty rdf:about="&ss;isConnectedTo">
-        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isSpatiallyRelatedTo"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isDispositionOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isDispositionOf"/>
-    
-
-
-    <!-- http://semanticscience.org/isFunctionOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isFunctionOf"/>
-    
-
-
-    <!-- http://semanticscience.org/isImmediatelyAfter -->
-
-    <owl:ObjectProperty rdf:about="&ss;isImmediatelyAfter">
-        <rdfs:subPropertyOf rdf:resource="&ss;isAdjacentTo"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isAfter"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isImmediatelyBefore -->
-
-    <owl:ObjectProperty rdf:about="&ss;isImmediatelyBefore">
-        <rdfs:subPropertyOf rdf:resource="&ss;isAdjacentTo"/>
-        <rdfs:subPropertyOf rdf:resource="&ss;isBefore"/>
-        <owl:inverseOf rdf:resource="&ss;isImmediatelyAfter"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isPartOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isPartOf">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
     </owl:ObjectProperty>
     
 
@@ -203,41 +121,6 @@
     <!-- http://semanticscience.org/isParticipantIn -->
 
     <owl:ObjectProperty rdf:about="&ss;isParticipantIn"/>
-    
-
-
-    <!-- http://semanticscience.org/isQualityOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isQualityOf"/>
-    
-
-
-    <!-- http://semanticscience.org/isRealizedIn -->
-
-    <owl:ObjectProperty rdf:about="&ss;isRealizedIn">
-        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/isRoleOf -->
-
-    <owl:ObjectProperty rdf:about="&ss;isRoleOf"/>
-    
-
-
-    <!-- http://semanticscience.org/isSpatiallyRelatedTo -->
-
-    <owl:ObjectProperty rdf:about="&ss;isSpatiallyRelatedTo"/>
-    
-
-
-    <!-- http://semanticscience.org/realizes -->
-
-    <owl:ObjectProperty rdf:about="&ss;realizes">
-        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
-        <owl:inverseOf rdf:resource="&ss;isRealizedIn"/>
-    </owl:ObjectProperty>
     
 
 
@@ -813,13 +696,13 @@ Where R = Purines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -2449,19 +2332,19 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
+            <rdf:Description rdf:about="&ss;C1pExoRole"/>
+            <rdf:Description rdf:about="&ss;C2pExoRole"/>
+            <rdf:Description rdf:about="&ss;C3pExoRole"/>
+            <rdf:Description rdf:about="&ss;C4pExoRole"/>
+            <rdf:Description rdf:about="&ss;O4pExoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2482,11 +2365,10 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pExoRole"/>
-            <rdf:Description rdf:about="&ss;C2pExoRole"/>
-            <rdf:Description rdf:about="&ss;C3pExoRole"/>
-            <rdf:Description rdf:about="&ss;C4pExoRole"/>
-            <rdf:Description rdf:about="&ss;O4pExoRole"/>
+            <rdf:Description rdf:about="&ss;DownwardStacking"/>
+            <rdf:Description rdf:about="&ss;InwardStacking"/>
+            <rdf:Description rdf:about="&ss;OutwardStacking"/>
+            <rdf:Description rdf:about="&ss;UpwardStacking"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2501,10 +2383,11 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;DownwardStacking"/>
-            <rdf:Description rdf:about="&ss;InwardStacking"/>
-            <rdf:Description rdf:about="&ss;OutwardStacking"/>
-            <rdf:Description rdf:about="&ss;UpwardStacking"/>
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2519,5 +2402,5 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
 
 
 
-<!-- Generated by the OWL API (version 2.2.1.972) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 2.2.1.974) http://owlapi.sourceforge.net -->
 
