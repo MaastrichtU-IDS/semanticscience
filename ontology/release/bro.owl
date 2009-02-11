@@ -449,6 +449,9 @@
     <owl:ObjectProperty rdf:about="&ss;isConnectedTo">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is connected to</rdfs:label>
+        <definition
+            >Two objects are connected to each other if their spatial regions are indirectly connected via a sequence of direct connections.</definition>
         <owl:inverseOf rdf:resource="&ss;isConnectedTo"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isSpatiallyRelatedTo"/>
     </owl:ObjectProperty>
@@ -920,13 +923,6 @@
      -->
 
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;derivesFrom"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
-            <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
         <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
         <owl:propertyChain rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;hasPart"/>
@@ -941,17 +937,24 @@
         </owl:propertyChain>
     </rdf:Description>
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;isBearerOf"/>
-            <rdf:Description rdf:about="&ss;isParticipantIn"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
         <rdfs:subPropertyOf rdf:resource="&ss;isBefore"/>
         <owl:propertyChain rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
             <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;derivesFrom"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
+            <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;isBearerOf"/>
+            <rdf:Description rdf:about="&ss;isParticipantIn"/>
         </owl:propertyChain>
     </rdf:Description>
 </rdf:RDF>
