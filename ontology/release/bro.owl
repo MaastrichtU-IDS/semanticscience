@@ -129,6 +129,17 @@
     
 
 
+    <!-- http://semanticscience.org/hasAgent -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasAgent">
+        <rdfs:label>has agent</rdfs:label>
+        <definition
+            >A relation between a process and an active continuant.</definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/hasDisposition -->
 
     <owl:ObjectProperty rdf:about="&ss;hasDisposition">
@@ -206,6 +217,8 @@
         <rdfs:label rdf:datatype="&xsd;string">has part</rdfs:label>
         <definition rdf:datatype="&xsd;string"
             >A transitive relation such that one has as a part itself or another, with disconnected, overlapping or non-overlapping spatial regions.</definition>
+        <rdfs:comment
+            >no cardinality restriction may be added to this property.</rdfs:comment>
         <example
             >person has part arm, workshop has part coffee break</example>
         <owl:inverseOf rdf:resource="&ss;isPartOf"/>
@@ -220,6 +233,8 @@
         <rdfs:label rdf:datatype="&xsd;string">has participant</rdfs:label>
         <definition rdf:datatype="&xsd;string"
             >A relation between a process and its a continuant participant.</definition>
+        <rdfs:comment
+            >no cardinality restriction may be added to this property.</rdfs:comment>
         <owl:inverseOf rdf:resource="&ss;isParticipantIn"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
     </owl:ObjectProperty>
@@ -379,6 +394,17 @@
     
 
 
+    <!-- http://semanticscience.org/isAgentIn -->
+
+    <owl:ObjectProperty rdf:about="&ss;isAgentIn">
+        <rdfs:label>is agent in</rdfs:label>
+        <rdfs:label
+            >A relation in which a continuant actively participates in the process.</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/isBearerOf -->
 
     <owl:ObjectProperty rdf:about="&ss;isBearerOf">
@@ -488,6 +514,7 @@
             >is immediately after</rdfs:label>
         <definition
             >A spatial relation such that when x is immediately after y, then x is positioned adjacent to and numerically greater than y on some spatial coordinate scale.</definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;isAdjacentTo"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isAfter"/>
     </owl:ObjectProperty>
     
@@ -500,7 +527,9 @@
             >is immediately before</rdfs:label>
         <definition
             >A spatial relation such that when x is immediately before y, then x is positioned adjacent to and numerically less than y on some spatial coordinate scale.</definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;isAdjacentTo"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isBefore"/>
+        <owl:inverseOf rdf:resource="&ss;isImmediatelyAfter"/>
     </owl:ObjectProperty>
     
 
@@ -579,6 +608,8 @@
             >A transitive relation such that one is a part of itself or another, with disconnected, overlapping or non-overlapping spatial regions.</definition>
         <example
             >arm is part of person; coffee break is part of workshop</example>
+        <rdfs:comment
+            >no cardinality restriction may be added to this property.</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
     </owl:ObjectProperty>
     
@@ -591,6 +622,8 @@
             >is participant in</rdfs:label>
         <definition rdf:datatype="&xsd;string"
             >A relation in which a continuant participates in some way in the process.</definition>
+        <rdfs:comment
+            >no cardinality restriction may be added to this property.</rdfs:comment>
         <example
             >person isParticipantIn his life</example>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
@@ -623,6 +656,17 @@
         <example
             >brown colour isQualityOf hair</example>
         <rdfs:subPropertyOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isRealizedIn -->
+
+    <owl:ObjectProperty rdf:about="&ss;isRealizedIn">
+        <rdfs:label>is realized in</rdfs:label>
+        <definition
+            >A relation between a realizable entity (role, etc) and a process.</definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
     </owl:ObjectProperty>
     
 
@@ -811,6 +855,18 @@
     
 
 
+    <!-- http://semanticscience.org/realizes -->
+
+    <owl:ObjectProperty rdf:about="&ss;realizes">
+        <rdfs:label>realizes</rdfs:label>
+        <definition
+            >A relation between a process and a realizable entity.</definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+        <owl:inverseOf rdf:resource="&ss;isRealizedIn"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -871,13 +927,6 @@
         </owl:propertyChain>
     </rdf:Description>
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;isBefore"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
-            <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
         <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
         <owl:propertyChain rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;hasPart"/>
@@ -889,6 +938,20 @@
         <owl:propertyChain rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
             <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;isBearerOf"/>
+            <rdf:Description rdf:about="&ss;isParticipantIn"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBefore"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
+            <rdf:Description rdf:about="&ss;isImmediatelyBefore"/>
         </owl:propertyChain>
     </rdf:Description>
 </rdf:RDF>
