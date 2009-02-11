@@ -60,6 +60,12 @@
     
 
 
+    <!-- http://semanticscience.org/hasAgent -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasAgent"/>
+    
+
+
     <!-- http://semanticscience.org/hasDisposition -->
 
     <owl:ObjectProperty rdf:about="&ss;hasDisposition">
@@ -302,6 +308,14 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
+                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
                     <rdf:Description rdf:about="&ss;PeptideAptamer"/>
                 </owl:unionOf>
@@ -312,14 +326,6 @@ substituent)</rdfs:comment>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcid"/>
                     <rdf:Description rdf:about="&ss;Protein"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
-                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -1093,9 +1099,8 @@ Where R = Purines and Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;EdgeInteraction"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                <owl:onClass rdf:resource="&ss;HoogsteenEdge"/>
-                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
+                <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                <owl:someValuesFrom rdf:resource="&ss;HoogsteenEdge"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2500,18 +2505,17 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
+            <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Thymine"/>
+            <rdf:Description rdf:about="&ss;Uracil"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATBasePair"/>
-            <rdf:Description rdf:about="&ss;AUBasePair"/>
-            <rdf:Description rdf:about="&ss;GCBasePair"/>
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2527,20 +2531,22 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;HoogsteenHoogsteenBasePair"/>
             <rdf:Description rdf:about="&ss;HoogsteenSugarBasePair"/>
             <rdf:Description rdf:about="&ss;SugarSugarBasePair"/>
             <rdf:Description rdf:about="&ss;WatsonHoogsteenBasePair"/>
             <rdf:Description rdf:about="&ss;WatsonSugarBasePair"/>
             <rdf:Description rdf:about="&ss;WatsonWatsonBasePair"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pExoRole"/>
+            <rdf:Description rdf:about="&ss;C2pExoRole"/>
+            <rdf:Description rdf:about="&ss;C3pExoRole"/>
+            <rdf:Description rdf:about="&ss;C4pExoRole"/>
+            <rdf:Description rdf:about="&ss;O4pExoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2561,6 +2567,14 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;ATBasePair"/>
+            <rdf:Description rdf:about="&ss;AUBasePair"/>
+            <rdf:Description rdf:about="&ss;GCBasePair"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;AABasePair"/>
             <rdf:Description rdf:about="&ss;CABasePair"/>
             <rdf:Description rdf:about="&ss;CCBasePair"/>
@@ -2575,16 +2589,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pExoRole"/>
-            <rdf:Description rdf:about="&ss;C2pExoRole"/>
-            <rdf:Description rdf:about="&ss;C3pExoRole"/>
-            <rdf:Description rdf:about="&ss;C4pExoRole"/>
-            <rdf:Description rdf:about="&ss;O4pExoRole"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;DownwardStacking"/>
             <rdf:Description rdf:about="&ss;InwardStacking"/>
             <rdf:Description rdf:about="&ss;OutwardStacking"/>
@@ -2594,9 +2598,10 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;Cytosine"/>
-            <rdf:Description rdf:about="&ss;Thymine"/>
-            <rdf:Description rdf:about="&ss;Uracil"/>
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
