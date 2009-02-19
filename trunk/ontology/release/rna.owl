@@ -291,8 +291,9 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;AMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;AMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -326,12 +327,14 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;AMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;AMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;TMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;TMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -365,12 +368,14 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;AMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;AMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;UMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;UMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -384,7 +389,6 @@
     <owl:Class rdf:about="&ss;Adenine">
         <rdfs:label>adenine</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Purine"/>
-        <owl:disjointWith rdf:resource="&ss;Guanine"/>
         <dc:identifier>pubchem:190</dc:identifier>
     </owl:Class>
     
@@ -460,8 +464,8 @@ substituent)</rdfs:comment>
     <owl:Class rdf:about="&ss;AntiConformation">
         <rdfs:label
             >anti conformation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;BaseOrientatedConformation"/>
-        <owl:disjointWith rdf:resource="&ss;TwistConformation"/>
+        <rdfs:subClassOf rdf:resource="&ss;BaseConformation"/>
+        <owl:disjointWith rdf:resource="&ss;SynConformation"/>
         <rdfs:comment
             >The anti conformation aligns the base away from the ribose.</rdfs:comment>
     </owl:Class>
@@ -489,6 +493,14 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
+                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcid"/>
                     <rdf:Description rdf:about="&ss;Protein"/>
                 </owl:unionOf>
@@ -499,14 +511,6 @@ substituent)</rdfs:comment>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&ss;NucleicAcidAptamer"/>
                     <rdf:Description rdf:about="&ss;PeptideAptamer"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;NaturalAptamer"/>
-                    <rdf:Description rdf:about="&ss;SyntheticAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -523,6 +527,27 @@ substituent)</rdfs:comment>
             >atom orientation in plane role</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Role"/>
         <owl:disjointWith rdf:resource="&ss;NucleotideInteractionRole"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/BaseConformation -->
+
+    <owl:Class rdf:about="&ss;BaseConformation">
+        <rdfs:label
+            >base conformation</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;AntiConformation"/>
+                    <rdf:Description rdf:about="&ss;SynConformation"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Conformation"/>
+        <owl:disjointWith rdf:resource="&ss;FuranoseConformation"/>
+        <rdfs:comment
+            >Relative orientation of the nitrogenous base with respect to the ribose. This rotation is about the X bond (glycosidic bond).</rdfs:comment>
     </owl:Class>
     
 
@@ -555,26 +580,6 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBaseStacking"/>
         <rdfs:comment
             >Base stacking in which the base normal vector, q, in terms of the pyrimidine ring normal vector, n. In pyrimidines, q is defined as n, the rotational vector obtained from a right-handed roation around the pyrimidine ring from atoms 1 to 6. In purines, q is defined as -n.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/BaseOrientatedConformation -->
-
-    <owl:Class rdf:about="&ss;BaseOrientatedConformation">
-        <rdfs:label
-            >base oriented conformation</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&ss;AntiConformation"/>
-                    <rdf:Description rdf:about="&ss;SynConformation"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&ss;Conformation"/>
-        <rdfs:comment
-            >Relative orientation of the nitrogenous base with respect to the ribose. This rotation is about the X bond (glycosidic bond).</rdfs:comment>
     </owl:Class>
     
 
@@ -822,6 +827,15 @@ Where R = Purines</rdfs:comment>
     <!-- http://semanticscience.org/CanonicalBasePair -->
 
     <owl:Class rdf:about="&ss;CanonicalBasePair">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;ATBasePair"/>
+                    <rdf:Description rdf:about="&ss;AUBasePair"/>
+                    <rdf:Description rdf:about="&ss;GCBasePair"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
         <owl:disjointWith rdf:resource="&ss;NonCanonicalBasePair"/>
     </owl:Class>
@@ -867,7 +881,8 @@ Where R = Purines</rdfs:comment>
     <owl:Class rdf:about="&ss;Conformation">
         <rdfs:label>conformation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Quality"/>
-        <owl:disjointWith rdf:resource="&ss;Interaction"/>
+        <owl:disjointWith rdf:resource="&ss;NucleotideEdge"/>
+        <owl:disjointWith rdf:resource="&ss;NucleotideFace"/>
         <rdfs:comment
             >The three-dimensional structure of a molecule.</rdfs:comment>
     </owl:Class>
@@ -920,6 +935,7 @@ Where R = Purines</rdfs:comment>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;NucleicAcid"/>
+        <owl:disjointWith rdf:resource="&ss;RNA"/>
         <rdfs:comment
             >A single or double standed linear polymer of nucleotide monophosphates, limited to at least 2 of the following deoxy ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
     </owl:Class>
@@ -982,13 +998,13 @@ Where R = Purines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&ss;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -1002,6 +1018,13 @@ Where R = Purines</rdfs:comment>
         <rdfs:label
             >double stranded nucleic acid</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleicAcid"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;Polynucleotide"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Two complementary Nucleic Acid strands (of the same type) that exhibit base pairng interactions between them to form helical 
 structures</rdfs:comment>
@@ -1027,6 +1050,13 @@ structures</rdfs:comment>
         <rdfs:label
             >edge interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                <owl:onClass rdf:resource="&ss;NucleotideEdge"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >An interaction between nucleotides based on which edges the hydrogen bonds are formed.</rdfs:comment>
     </owl:Class>
@@ -1071,6 +1101,13 @@ structures</rdfs:comment>
         <rdfs:label
             >face interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideBasePair"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                <owl:onClass rdf:resource="&ss;NucleotideFace"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >An interaction between nucleotides based on which faces the hydrogen bonds are formed.</rdfs:comment>
     </owl:Class>
@@ -1151,12 +1188,14 @@ structures</rdfs:comment>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;CMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;CMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&ss;GMP"/>
+                        <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                        <owl:onClass rdf:resource="&ss;GMP"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -1683,6 +1722,13 @@ phosphate group</rdfs:comment>
         <rdfs:label
             >nucleotide base pair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleotideInteraction"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasAgent"/>
+                <owl:onClass rdf:resource="&ss;Nucleotide"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&ss;NucleotideBaseStacking"/>
         <rdfs:comment
             >An interaction involving hydrogen bonds between two nucleotides.</rdfs:comment>
@@ -1736,6 +1782,7 @@ phosphate group</rdfs:comment>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ss;Quality"/>
+        <owl:disjointWith rdf:resource="&ss;NucleotideFace"/>
     </owl:Class>
     
 
@@ -1936,8 +1983,25 @@ Furanose O2&#39;</rdfs:comment>
     <owl:Class rdf:about="&ss;Polynucleotide">
         <rdfs:label>oligonucleotide</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;NucleicAcid"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:complementOf>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                        <owl:someValuesFrom rdf:resource="&ss;Polynucleotide"/>
+                    </owl:Restriction>
+                </owl:complementOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;Nucleotide"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
-            >A polymer composed of nucleotides</rdfs:comment>
+            >A single chain polymer composed of nucleotides</rdfs:comment>
     </owl:Class>
     
 
@@ -1947,6 +2011,13 @@ Furanose O2&#39;</rdfs:comment>
     <owl:Class rdf:about="&ss;Polysaccharide">
         <rdfs:label>polysaccharide</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;Carbohydrate"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                <owl:onClass rdf:resource="&ss;Monosaccharide"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment
             >A monosaccharide polymer joined together by the glycosidic bond</rdfs:comment>
     </owl:Class>
@@ -1964,6 +2035,17 @@ Furanose O2&#39;</rdfs:comment>
     <owl:Class rdf:about="&ss;Protein">
         <rdfs:label>protein</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;ProteinOrComponent"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;Peptide"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                        <owl:someValuesFrom rdf:resource="&ss;Peptide"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:comment
             >Amino acid polymer that generally has a biologically active three dimensional fold</rdfs:comment>
     </owl:Class>
@@ -2276,7 +2358,7 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&ss;SynConformation">
         <rdfs:label
             >syn conformation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&ss;BaseOrientatedConformation"/>
+        <rdfs:subClassOf rdf:resource="&ss;BaseConformation"/>
         <rdfs:comment
             >The syn conformation aligns the base towards the ribose.</rdfs:comment>
     </owl:Class>
@@ -2381,7 +2463,7 @@ Where Y = Pyrimidines</rdfs:comment>
             >twist conformation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ss;FuranoseConformation"/>
         <rdfs:comment
-            >The structural conformation of a furanose when two of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) are on oppisite sides of the plane formed by the remaining three atoms.</rdfs:comment>
+            >The structural conformation of a furanose when two of its five atoms (C1&#39;, C2&#39;, C3&#39;, C4&#39; or O4&#39;) are on opposite sides of the plane formed by the remaining three atoms.</rdfs:comment>
     </owl:Class>
     
 
@@ -2624,6 +2706,7 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&ss;dsRNA"/>
         <rdfs:comment
             >Two complementary DNA strands that exhibit base pairng interactions between them to form helical structures</rdfs:comment>
     </owl:Class>
@@ -2683,24 +2766,29 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
                     <rdf:Description rdf:about="&ss;Polynucleotide"/>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="&ss;hasProperPart"/>
-                        <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&ss;hasProperPart"/>
                         <owl:someValuesFrom>
                             <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&ss;AMP"/>
-                                    <rdf:Description rdf:about="&ss;CMP"/>
-                                    <rdf:Description rdf:about="&ss;GMP"/>
-                                    <rdf:Description rdf:about="&ss;TMP"/>
-                                </owl:unionOf>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&ss;AMP"/>
+                                            <rdf:Description rdf:about="&ss;CMP"/>
+                                            <rdf:Description rdf:about="&ss;GMP"/>
+                                            <rdf:Description rdf:about="&ss;TMP"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&ss;hasProperPart"/>
+                                        <owl:someValuesFrom rdf:resource="&ss;Deoxyribose"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
                             </owl:Class>
                         </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&ss;ssRNA"/>
         <rdfs:comment
             >A single stranded DNA</rdfs:comment>
     </owl:Class>
@@ -2760,46 +2848,16 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&ss;SugarEdge"/>
-            <rdf:Description rdf:about="&ss;WatsonEdge"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATBasePair"/>
-            <rdf:Description rdf:about="&ss;AUBasePair"/>
-            <rdf:Description rdf:about="&ss;GCBasePair"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
-            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
-            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;NitrogenousBase"/>
-            <rdf:Description rdf:about="&ss;NucleicAcid"/>
-            <rdf:Description rdf:about="&ss;Nucleoside"/>
-            <rdf:Description rdf:about="&ss;Nucleotide"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;C1pExoRole"/>
-            <rdf:Description rdf:about="&ss;C2pExoRole"/>
-            <rdf:Description rdf:about="&ss;C3pExoRole"/>
-            <rdf:Description rdf:about="&ss;C4pExoRole"/>
-            <rdf:Description rdf:about="&ss;O4pExoRole"/>
+            <rdf:Description rdf:about="&ss;BifurcatedFace"/>
+            <rdf:Description rdf:about="&ss;C8Face"/>
+            <rdf:Description rdf:about="&ss;HoogsteenHoogsteenFace"/>
+            <rdf:Description rdf:about="&ss;HoogsteenWatsonFace"/>
+            <rdf:Description rdf:about="&ss;O2pFace"/>
+            <rdf:Description rdf:about="&ss;SugarSugarFace"/>
+            <rdf:Description rdf:about="&ss;SugarWatsonFace"/>
+            <rdf:Description rdf:about="&ss;WatsonHoogsteenFace"/>
+            <rdf:Description rdf:about="&ss;WatsonSugarFace"/>
+            <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2819,16 +2877,27 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;BifurcatedFace"/>
-            <rdf:Description rdf:about="&ss;C8Face"/>
-            <rdf:Description rdf:about="&ss;HoogsteenHoogsteenFace"/>
-            <rdf:Description rdf:about="&ss;HoogsteenWatsonFace"/>
-            <rdf:Description rdf:about="&ss;O2pFace"/>
-            <rdf:Description rdf:about="&ss;SugarSugarFace"/>
-            <rdf:Description rdf:about="&ss;SugarWatsonFace"/>
-            <rdf:Description rdf:about="&ss;WatsonHoogsteenFace"/>
-            <rdf:Description rdf:about="&ss;WatsonSugarFace"/>
-            <rdf:Description rdf:about="&ss;WatsonWatsonFace"/>
+            <rdf:Description rdf:about="&ss;DownwardStacking"/>
+            <rdf:Description rdf:about="&ss;InwardStacking"/>
+            <rdf:Description rdf:about="&ss;OutwardStacking"/>
+            <rdf:Description rdf:about="&ss;UpwardStacking"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;Adenine"/>
+            <rdf:Description rdf:about="&ss;Guanine"/>
+            <rdf:Description rdf:about="&ss;Inosine"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;ATP"/>
+            <rdf:Description rdf:about="&ss;CTP"/>
+            <rdf:Description rdf:about="&ss;GTP"/>
+            <rdf:Description rdf:about="&ss;UTP"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2839,6 +2908,45 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&ss;GMP"/>
             <rdf:Description rdf:about="&ss;TMP"/>
             <rdf:Description rdf:about="&ss;UMP"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C2pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C3pEndoRole"/>
+            <rdf:Description rdf:about="&ss;C4pEndoRole"/>
+            <rdf:Description rdf:about="&ss;O4pEndoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;C1pExoRole"/>
+            <rdf:Description rdf:about="&ss;C2pExoRole"/>
+            <rdf:Description rdf:about="&ss;C3pExoRole"/>
+            <rdf:Description rdf:about="&ss;C4pExoRole"/>
+            <rdf:Description rdf:about="&ss;O4pExoRole"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;HoogsteenHoogsteenBasePair"/>
+            <rdf:Description rdf:about="&ss;HoogsteenSugarBasePair"/>
+            <rdf:Description rdf:about="&ss;SugarSugarBasePair"/>
+            <rdf:Description rdf:about="&ss;WatsonHoogsteenBasePair"/>
+            <rdf:Description rdf:about="&ss;WatsonSugarBasePair"/>
+            <rdf:Description rdf:about="&ss;WatsonWatsonBasePair"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;ATBasePair"/>
+            <rdf:Description rdf:about="&ss;AUBasePair"/>
+            <rdf:Description rdf:about="&ss;GCBasePair"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2855,6 +2963,7 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;Cytosine"/>
+            <rdf:Description rdf:about="&ss;Pseudouridine"/>
             <rdf:Description rdf:about="&ss;Thymine"/>
             <rdf:Description rdf:about="&ss;Uracil"/>
         </owl:members>
@@ -2862,30 +2971,18 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;DownwardStacking"/>
-            <rdf:Description rdf:about="&ss;InwardStacking"/>
-            <rdf:Description rdf:about="&ss;OutwardStacking"/>
-            <rdf:Description rdf:about="&ss;UpwardStacking"/>
+            <rdf:Description rdf:about="&ss;NitrogenousBase"/>
+            <rdf:Description rdf:about="&ss;NucleicAcid"/>
+            <rdf:Description rdf:about="&ss;Nucleoside"/>
+            <rdf:Description rdf:about="&ss;Nucleotide"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;ATP"/>
-            <rdf:Description rdf:about="&ss;CTP"/>
-            <rdf:Description rdf:about="&ss;GTP"/>
-            <rdf:Description rdf:about="&ss;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;HoogsteenHoogsteenBasePair"/>
-            <rdf:Description rdf:about="&ss;HoogsteenSugarBasePair"/>
-            <rdf:Description rdf:about="&ss;SugarSugarBasePair"/>
-            <rdf:Description rdf:about="&ss;WatsonHoogsteenBasePair"/>
-            <rdf:Description rdf:about="&ss;WatsonSugarBasePair"/>
-            <rdf:Description rdf:about="&ss;WatsonWatsonBasePair"/>
+            <rdf:Description rdf:about="&ss;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&ss;SugarEdge"/>
+            <rdf:Description rdf:about="&ss;WatsonEdge"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
