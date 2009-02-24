@@ -54,23 +54,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://semanticscience.org/hasParticipant -->
-
-    <owl:ObjectProperty rdf:about="&semanticscience;hasParticipant"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -111,15 +94,21 @@
 
     <!-- http://semanticscience.org/CisBasePair -->
 
-    <owl:Class rdf:about="&semanticscience;CisBasePair">
-        <owl:equivalentClass rdf:resource="&semanticscience;CisHoogsteenHoogsteenBasePair"/>
-    </owl:Class>
+    <owl:Class rdf:about="&semanticscience;CisBasePair"/>
     
 
 
     <!-- http://semanticscience.org/CisHoogsteenHoogsteenBasePair -->
 
     <owl:Class rdf:about="&semanticscience;CisHoogsteenHoogsteenBasePair">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&semanticscience;CisBasePair"/>
+                    <rdf:Description rdf:about="&semanticscience;HoogsteenHoogsteenBasePair"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&semanticscience;LeontisWesthofBasePair"/>
     </owl:Class>
     
@@ -266,17 +255,7 @@
     <!-- http://semanticscience.org/LeontisWesthofBasePair -->
 
     <owl:Class rdf:about="&semanticscience;LeontisWesthofBasePair">
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&semanticscience;NucleotideBasePair"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;SynConformation"/>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NucleotideBasePair"/>
     </owl:Class>
     
 
@@ -290,12 +269,6 @@
     <!-- http://semanticscience.org/SugarSugarBasePair -->
 
     <owl:Class rdf:about="&semanticscience;SugarSugarBasePair"/>
-    
-
-
-    <!-- http://semanticscience.org/SynConformation -->
-
-    <owl:Class rdf:about="&semanticscience;SynConformation"/>
     
 
 
