@@ -1,0 +1,1043 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY ontology "http://ontology.semanticscience.org/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://ontology.semanticscience.org/"
+     xml:base="&ontology;publication.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ontology="http://ontology.semanticscience.org/">
+    <owl:Ontology rdf:about="">
+        <rdfs:label
+            >publication ontology</rdfs:label>
+        <dc:identifier rdf:datatype="&xsd;anyURI"
+            >http://ontology.semanticscience.org/publication.owl</dc:identifier>
+        <dc:title
+            >An ontology for publications.</dc:title>
+        <owl:versionInfo>1.0</owl:versionInfo>
+        <dc:creator
+            >Michel Dumontier &lt;michel_dumontier@carleton.ca&gt;</dc:creator>
+        <dc:date>2009-03-19</dc:date>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
+    <owl:AnnotationProperty rdf:about="&dc;identifier"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasAuthor -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasAuthor">
+        <rdfs:label>has author</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasCreator"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasCreator -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasCreator"/>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasDOI -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasDOI">
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasIdentifer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasEditor -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasEditor">
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasCreator"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasISBN -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasISBN">
+        <rdfs:label xml:lang="en">has ISBN</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The International Standard Book Number.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasIdentifer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasISSN -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasISSN">
+        <rdfs:label xml:lang="en">has ISSN</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The International Standard Serial Number. Used to identify a journal.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasIdentifer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasIdentifer -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasIdentifer">
+        <rdfs:label>has identifer</rdfs:label>
+        <rdfs:comment
+            >The number of a journal, magazine, technical report, or of a work in a series.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&rdfs;seeAlso"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasLCCN -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasLCCN">
+        <rdfs:label xml:lang="en">has LCCN</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The Library of Congress Call Number.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasIdentifer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPMID -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasPMID">
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasIdentifer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPart -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasPart"/>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPublisher -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasPublisher">
+        <rdfs:subPropertyOf rdf:resource="&ontology;hasCreator"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasTag -->
+
+    <owl:ObjectProperty rdf:about="&ontology;hasTag">
+        <rdfs:label>has tag</rdfs:label>
+        <rdfs:comment
+            >Key words used for searching or possibly for annotation.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/isLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="&ontology;isLocatedIn">
+        <rdfs:label xml:lang="en">has location</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A location associated with the entry, such as the city in which a conference took place.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#seeAlso -->
+
+    <owl:ObjectProperty rdf:about="&rdfs;seeAlso"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasAddress -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasAddress">
+        <rdfs:label xml:lang="en">has address</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The physical address of the entity.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasDay -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasDay">
+        <rdfs:label>has day</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasEdition -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasEdition">
+        <rdfs:label xml:lang="en">has edition</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The edition of a book--for example, &quot;Second&quot;. This should be an ordinal, and should have the first letter capitalized, as shown here; the standard styles convert to lower case when necessary.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasEmail -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasEmail">
+        <rdfs:label>has email</rdfs:label>
+        <rdfs:comment
+            >The email address to communicate with the entity.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasGivenName -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasGivenName"/>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasLanguage -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasLanguage">
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The language the document is in.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasLastName -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasLastName"/>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasMonth -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasMonth">
+        <rdfs:label xml:lang="en">has month</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The month in which the work was published or, for an unpublished work, in which it was written. You should use the standard three-letter abbreviation.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasName -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasName"/>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPages -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasPages">
+        <rdfs:label xml:lang="en">has pages</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >One or more page numbers or range of numbers, such as 42-111 or 7,41,73-97 or 43+ (the `+&#39; in this last example indicates pages following that don&#39;t form a simple range). To make it easier to maintain Scribe-compatible databases, the standard styles convert a single dash (as in 7-33) to the double dash used in TeX to denote number ranges (as in 7-33).</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPosition -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasPosition">
+        <rdfs:label>has position</rdfs:label>
+        <rdfs:comment
+            >Specify the (number, roman numeral, greek numeral, alphabetical) position in a sequence of things.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasPrice -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasPrice">
+        <rdfs:label xml:lang="en">has price</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The price of the document.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasType -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasType">
+        <rdfs:label xml:lang="en">has type</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The type of a technical report--for example, &quot;Research Note&quot;.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasVolume -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasVolume">
+        <rdfs:label xml:lang="en">has volume</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The volume of a journal or multivolume book.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.semanticscience.org/hasYear -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;hasYear">
+        <rdfs:label xml:lang="en">has year</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >The year of publication or, for an unpublished work, the year it was written. Generally it should consist of four numerals, such as 1984, although the standard styles can handle any year whose last four nonpunctuation characters are numerals, such as &#39;(about 1984)&#39;.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.semanticscience.org/Abstract -->
+
+    <owl:Class rdf:about="&ontology;Abstract">
+        <rdfs:label xml:lang="en">abstract</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A brief summary of a document that explains the main argument(s), topic(s) or findings.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Acknowledgements -->
+
+    <owl:Class rdf:about="&ontology;Acknowledgements">
+        <rdfs:label xml:lang="en"
+            >acknowledgements</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >The section of a document containing statements acknowledging something or someone for their participation in the creation of the work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Affiliation -->
+
+    <owl:Class rdf:about="&ontology;Affiliation">
+        <rdfs:label xml:lang="en">affiliation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document describing the author&#39;s affiliations.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Agent -->
+
+    <owl:Class rdf:about="&ontology;Agent">
+        <rdfs:label>agent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Article -->
+
+    <owl:Class rdf:about="&ontology;Article">
+        <rdfs:label xml:lang="en">article</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A stand-alone section of a larger written work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Author -->
+
+    <owl:Class rdf:about="&ontology;Author">
+        <rdfs:label xml:lang="en">author</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ontology;Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <owl:ObjectProperty>
+                                <owl:inverseOf rdf:resource="&ontology;hasAuthor"/>
+                            </owl:ObjectProperty>
+                        </owl:onProperty>
+                        <owl:someValuesFrom rdf:resource="&ontology;Document"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ontology;Person"/>
+        <rdfs:comment xml:lang="en"
+            >The originator or creator of a document.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/AuthorSection -->
+
+    <owl:Class rdf:about="&ontology;AuthorSection">
+        <rdfs:label>author section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment
+            >A section containing the list of contributing authors.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Bibliography -->
+
+    <owl:Class rdf:about="&ontology;Bibliography">
+        <rdfs:label xml:lang="en">bibliography</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a written work containing the list of sources referred to or used in the preparation of the work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Blog -->
+
+    <owl:Class rdf:about="&ontology;Blog">
+        <rdfs:label xml:lang="en">blog</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A website that acts as an online journal.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Book -->
+
+    <owl:Class rdf:about="&ontology;Book">
+        <rdfs:label xml:lang="en">book</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A set or collection of written, printed, illustrated, or blank sheets, made of paper, parchment, or other material, usually fastened together to hinge at one side.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Booklet -->
+
+    <owl:Class rdf:about="&ontology;Booklet">
+        <rdfs:label xml:lang="en">booklet</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Document"/>
+        <rdfs:comment xml:lang="en"
+            >A work that is printed and bound, but without a named publisher or sponsoring institution.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Chapter -->
+
+    <owl:Class rdf:about="&ontology;Chapter">
+        <rdfs:label xml:lang="en">chapter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A subdivision of a written work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Collection -->
+
+    <owl:Class rdf:about="&ontology;Collection">
+        <rdfs:label>collection</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment
+            >A group of objects.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/College -->
+
+    <owl:Class rdf:about="&ontology;College">
+        <rdfs:label xml:lang="en">college</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/ConferenceProceeding -->
+
+    <owl:Class rdf:about="&ontology;ConferenceProceeding">
+        <rdfs:label xml:lang="en">proceedings</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Book"/>
+        <rdfs:comment xml:lang="en"
+            >A collection of papers papers presented at a conference.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/ContributionSection -->
+
+    <owl:Class rdf:about="&ontology;ContributionSection">
+        <rdfs:label
+            >contribution section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment
+            >A section that describes the contribution of the authors.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/CopyrightSection -->
+
+    <owl:Class rdf:about="&ontology;CopyrightSection">
+        <rdfs:label xml:lang="en"
+            >copyright section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document containing the copyright notice.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/CorrespondanceSection -->
+
+    <owl:Class rdf:about="&ontology;CorrespondanceSection">
+        <rdfs:label
+            >correspondance section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment
+            >Section that contains the details for the corresponding author.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/DiscussionSection -->
+
+    <owl:Class rdf:about="&ontology;DiscussionSection">
+        <rdfs:label xml:lang="en"
+            >discussion section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document containing a summary of the findings, a reflection on the significance of findings, comparison with related work, among others.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Document -->
+
+    <owl:Class rdf:about="&ontology;Document">
+        <rdfs:label xml:lang="en">document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasYear"/>
+                <owl:someValuesFrom rdf:resource="&xsd;nonNegativeInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasAuthor"/>
+                <owl:someValuesFrom rdf:resource="&ontology;Person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en"
+            >A body of information designed with the capacity (and usually intent) to communicate.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/DocumentSection -->
+
+    <owl:Class rdf:about="&ontology;DocumentSection">
+        <rdfs:label xml:lang="en"
+            >document section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en"
+            >A self-contained part of a larger written work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/DocumentTitle -->
+
+    <owl:Class rdf:about="&ontology;DocumentTitle">
+        <rdfs:label xml:lang="en">document title</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A short sentence capturing the essence of the work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/EditedPublication -->
+
+    <owl:Class rdf:about="&ontology;EditedPublication">
+        <rdfs:label xml:lang="en"
+            >edited publication</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ontology;Publication"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&ontology;hasEditor"/>
+                        <owl:someValuesFrom rdf:resource="&ontology;Person"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A publication that was edited.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Editor -->
+
+    <owl:Class rdf:about="&ontology;Editor">
+        <rdfs:label xml:lang="en"
+            >A person who edits.</rdfs:label>
+        <rdfs:label xml:lang="en">editor</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ontology;Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <owl:ObjectProperty>
+                                <owl:inverseOf rdf:resource="&ontology;hasEditor"/>
+                            </owl:ObjectProperty>
+                        </owl:onProperty>
+                        <owl:someValuesFrom rdf:resource="&ontology;Document"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ontology;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Group -->
+
+    <owl:Class rdf:about="&ontology;Group">
+        <rdfs:label>group</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Agent"/>
+        <rdfs:comment
+            >A loose collection of entities.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/HonorsThesis -->
+
+    <owl:Class rdf:about="&ontology;HonorsThesis">
+        <rdfs:label xml:lang="en">honor&#39;s thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Thesis"/>
+        <rdfs:comment xml:lang="en"
+            >A thesis prepared as a requirement for an undergraduate degree.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Institute -->
+
+    <owl:Class rdf:about="&ontology;Institute">
+        <rdfs:label xml:lang="en">institute</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Introduction -->
+
+    <owl:Class rdf:about="&ontology;Introduction">
+        <rdfs:label xml:lang="en">introduction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >The first section of a communication.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Journal -->
+
+    <owl:Class rdf:about="&ontology;Journal">
+        <rdfs:label xml:lang="en">journal</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A peer-reviewed periodical in which scholarship relating to a particular academic discipline is published.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/List -->
+
+    <owl:Class rdf:about="&ontology;List">
+        <rdfs:label>list</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Collection"/>
+        <rdfs:comment
+            >An ordered collection of object.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/ListItem -->
+
+    <owl:Class rdf:about="&ontology;ListItem">
+        <rdfs:label>list item</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment
+            >An item in an ordered list. Specify the object with hasPart and the position with hasPosition.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Magazine -->
+
+    <owl:Class rdf:about="&ontology;Magazine">
+        <rdfs:label xml:lang="en">magazine</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasEditor"/>
+                <owl:someValuesFrom rdf:resource="&ontology;Editor"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Manual -->
+
+    <owl:Class rdf:about="&ontology;Manual">
+        <rdfs:label xml:lang="en">manual</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >Technical documentation.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Manucript -->
+
+    <owl:Class rdf:about="&ontology;Manucript">
+        <rdfs:label>manuscript</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Document"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/MastersThesis -->
+
+    <owl:Class rdf:about="&ontology;MastersThesis">
+        <rdfs:label xml:lang="en">master&#39;s thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Thesis"/>
+        <rdfs:comment xml:lang="en"
+            >A thesis prepared as a requirement for a Master&#39;s degree.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/MaterialsAndMethodsSection -->
+
+    <owl:Class rdf:about="&ontology;MaterialsAndMethodsSection">
+        <rdfs:label xml:lang="en"
+            >materials and methods section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document containing the materials and methods.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/MaterialsSection -->
+
+    <owl:Class rdf:about="&ontology;MaterialsSection">
+        <rdfs:label xml:lang="en"
+            >materials section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document containing a description of the materials used in the work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/MethodsSection -->
+
+    <owl:Class rdf:about="&ontology;MethodsSection">
+        <rdfs:label xml:lang="en">methods section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section of a document containing a description of the methodology used in the work.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Newspaper -->
+
+    <owl:Class rdf:about="&ontology;Newspaper">
+        <rdfs:label xml:lang="en">newspaper</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Periodical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Note -->
+
+    <owl:Class rdf:about="&ontology;Note">
+        <rdfs:label xml:lang="en">note</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Document"/>
+        <rdfs:comment xml:lang="en"
+            >A short body of information.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Organization -->
+
+    <owl:Class rdf:about="&ontology;Organization">
+        <rdfs:label xml:lang="en">organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Page -->
+
+    <owl:Class rdf:about="&ontology;Page">
+        <rdfs:label xml:lang="en">page</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Document"/>
+        <rdfs:comment xml:lang="en"
+            >A single continuous document.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Periodical -->
+
+    <owl:Class rdf:about="&ontology;Periodical">
+        <rdfs:label xml:lang="en">periodical</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A published work that appears in a new edition on a regular schedule.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Person -->
+
+    <owl:Class rdf:about="&ontology;Person">
+        <rdfs:label xml:lang="en">person</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/PhDThesis -->
+
+    <owl:Class rdf:about="&ontology;PhDThesis">
+        <rdfs:label xml:lang="en">phd thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Thesis"/>
+        <rdfs:comment xml:lang="en"
+            >A thesis prepared as a requirement for a doctoral degree.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Publication -->
+
+    <owl:Class rdf:about="&ontology;Publication">
+        <rdfs:label xml:lang="en">publication</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Document"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasPublisher"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&ontology;Organization"/>
+                            <rdf:Description rdf:about="&ontology;Person"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasPart"/>
+                <owl:someValuesFrom rdf:resource="&ontology;DocumentTitle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en"
+            >A document that is published so as to be placed in the public domain.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Publisher -->
+
+    <owl:Class rdf:about="&ontology;Publisher">
+        <rdfs:label>publisher</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&ontology;Organization"/>
+                            <rdf:Description rdf:about="&ontology;Person"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <owl:ObjectProperty>
+                                <owl:inverseOf rdf:resource="&ontology;hasPublisher"/>
+                            </owl:ObjectProperty>
+                        </owl:onProperty>
+                        <owl:someValuesFrom rdf:resource="&ontology;Document"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ontology;Agent"/>
+        <rdfs:comment
+            >An agent that publishes a document.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/ResultSection -->
+
+    <owl:Class rdf:about="&ontology;ResultSection">
+        <rdfs:label xml:lang="en">results section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A section describing the main findings.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Series -->
+
+    <owl:Class rdf:about="&ontology;Series">
+        <rdfs:label xml:lang="en">series</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en">A set of books.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/TableOfContents -->
+
+    <owl:Class rdf:about="&ontology;TableOfContents">
+        <rdfs:label xml:lang="en"
+            >table of contents</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;DocumentSection"/>
+        <rdfs:comment xml:lang="en"
+            >A list of the parts of a book or document organized in the order in which the parts appear.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/TechnicalReport -->
+
+    <owl:Class rdf:about="&ontology;TechnicalReport">
+        <rdfs:label xml:lang="en"
+            >technical report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:comment xml:lang="en"
+            >A report published by a school or other institution, usually numbered within a series.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/Thesis -->
+
+    <owl:Class rdf:about="&ontology;Thesis">
+        <rdfs:label xml:lang="en">thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Publication"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasPublisher"/>
+                <owl:someValuesFrom rdf:resource="&ontology;University"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en"
+            >A written research component of a post-secondary institution  that contains a statement supported by arguments.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.semanticscience.org/University -->
+
+    <owl:Class rdf:about="&ontology;University">
+        <rdfs:label xml:lang="en">university</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.974) http://owlapi.sourceforge.net -->
+
