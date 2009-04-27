@@ -151,8 +151,7 @@
 
     <owl:Class rdf:about="&semanticscience;AABasePair">
         <rdfs:label>AA base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
@@ -163,7 +162,8 @@
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving two Adenines</rdfs:comment>
     </owl:Class>
@@ -179,14 +179,14 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Adenine"/>
+                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
+                <owl:onClass rdf:resource="&semanticscience;Adenine"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -199,8 +199,7 @@
 
     <owl:Class rdf:about="&semanticscience;ATBasePair">
         <rdfs:label>AT base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -215,7 +214,8 @@
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
         <rdfs:comment
             >Base pair involving Adenine and Thymine</rdfs:comment>
     </owl:Class>
@@ -251,8 +251,7 @@
 
     <owl:Class rdf:about="&semanticscience;AUBasePair">
         <rdfs:label>AU base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -267,7 +266,8 @@
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving Adenine and Uracil</rdfs:comment>
     </owl:Class>
@@ -383,16 +383,16 @@ substituent)</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&semanticscience;NaturalAptamer"/>
-                    <rdf:Description rdf:about="&semanticscience;SyntheticAptamer"/>
+                    <rdf:Description rdf:about="&semanticscience;NucleicAcidAptamer"/>
+                    <rdf:Description rdf:about="&semanticscience;PeptideAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&semanticscience;NucleicAcidAptamer"/>
-                    <rdf:Description rdf:about="&semanticscience;PeptideAptamer"/>
+                    <rdf:Description rdf:about="&semanticscience;NaturalAptamer"/>
+                    <rdf:Description rdf:about="&semanticscience;SyntheticAptamer"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
@@ -518,13 +518,13 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;isProperPartOf"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;WatsonEdge"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;SugarEdge"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;isProperPartOf"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;SugarEdge"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;WatsonEdge"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -649,22 +649,24 @@ Where R = Purines</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;CABasePair">
         <rdfs:label>CA base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;AMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;AMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;CMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;CMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving a Cytosine and an Adenine</rdfs:comment>
     </owl:Class>
@@ -675,18 +677,19 @@ Where R = Purines</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;CCBasePair">
         <rdfs:label>CC base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;CMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;CMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving two Cytosines</rdfs:comment>
     </owl:Class>
@@ -747,22 +750,24 @@ Where R = Purines</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;CUBasePair">
         <rdfs:label>CU base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;CMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;CMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;UMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;UMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving a Cytosine and a Uracil</rdfs:comment>
     </owl:Class>
@@ -947,13 +952,13 @@ Where R = Purines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;Deoxyribose"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;Thymine"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;Thymine"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;Deoxyribose"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:5789</dc:identifier>
@@ -1114,22 +1119,24 @@ structures</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;GABasePair">
         <rdfs:label>GA base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;AMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;AMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;GMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;GMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving Guanine and Adenine</rdfs:comment>
     </owl:Class>
@@ -1140,8 +1147,7 @@ structures</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;GCBasePair">
         <rdfs:label>GC base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -1156,7 +1162,8 @@ structures</rdfs:comment>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;CanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving Guanine and Cytosine</rdfs:comment>
     </owl:Class>
@@ -1167,18 +1174,19 @@ structures</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;GGBasePair">
         <rdfs:label>GG base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;GMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;GMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving two Guanines</rdfs:comment>
     </owl:Class>
@@ -1217,15 +1225,15 @@ structures</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Guanine"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="&semanticscience;Guanine"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -1239,22 +1247,24 @@ structures</rdfs:comment>
 
     <owl:Class rdf:about="&semanticscience;GUBasePair">
         <rdfs:label>GU base pair</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
-        <rdfs:subClassOf>
+        <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&semanticscience;NonCanonicalBasePair"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;GMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;GMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;hasParticipant"/>
-                        <owl:someValuesFrom rdf:resource="&semanticscience;UMP"/>
+                        <owl:onProperty rdf:resource="&semanticscience;hasAgent"/>
+                        <owl:onClass rdf:resource="&semanticscience;UMP"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semanticscience;NonCanonicalBasePair"/>
         <rdfs:comment
             >A base pair involving Guanine and Uracil</rdfs:comment>
     </owl:Class>
@@ -1357,7 +1367,7 @@ structures</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;HoogsteenHoogsteenFace"/>
+                <owl:onClass rdf:resource="&semanticscience;HoogsteenWatsonFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1371,7 +1381,7 @@ structures</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;HoogsteenWatsonFace"/>
+                <owl:onClass rdf:resource="&semanticscience;HoogsteenHoogsteenFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2387,14 +2397,14 @@ ribonucleotides: AMP, CMP, GMP or UMP.</rdfs:comment>
         <rdfs:subClassOf rdf:resource="&semanticscience;Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&semanticscience;isParticipantIn"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;Process"/>
+                <owl:onProperty rdf:resource="&semanticscience;hasRole"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&semanticscience;hasRole"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;Role"/>
+                <owl:onProperty rdf:resource="&semanticscience;isParticipantIn"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;Process"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -2443,14 +2453,14 @@ to a role as part of the necessary and sufficient conditions.</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;BifurcatedSugarFace"/>
+                <owl:onClass rdf:resource="&semanticscience;SugarWatsonFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;SugarWatsonFace"/>
+                <owl:onClass rdf:resource="&semanticscience;BifurcatedSugarFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2697,15 +2707,15 @@ Where Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="&semanticscience;Uracil"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;Uracil"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="&semanticscience;Phosphate"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:identifier>pubchem:6133</dc:identifier>
@@ -2787,7 +2797,7 @@ Where Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;WatsonHoogsteenFace"/>
+                <owl:onClass rdf:resource="&semanticscience;WatsonWatsonFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2801,14 +2811,14 @@ Where Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;WatsonWatsonFace"/>
+                <owl:onClass rdf:resource="&semanticscience;BifurcatedHoogsteenFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;BifurcatedHoogsteenFace"/>
+                <owl:onClass rdf:resource="&semanticscience;WatsonHoogsteenFace"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3338,10 +3348,25 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;AMP"/>
-            <rdf:Description rdf:about="&semanticscience;CMP"/>
-            <rdf:Description rdf:about="&semanticscience;GMP"/>
-            <rdf:Description rdf:about="&semanticscience;UMP"/>
+            <rdf:Description rdf:about="&semanticscience;AABasePair"/>
+            <rdf:Description rdf:about="&semanticscience;CABasePair"/>
+            <rdf:Description rdf:about="&semanticscience;CCBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;CUBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;GABasePair"/>
+            <rdf:Description rdf:about="&semanticscience;GGBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;GUBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;TTBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;UUBasePair"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;C1pExoRole"/>
+            <rdf:Description rdf:about="&semanticscience;C2pExoRole"/>
+            <rdf:Description rdf:about="&semanticscience;C3pExoRole"/>
+            <rdf:Description rdf:about="&semanticscience;C4pExoRole"/>
+            <rdf:Description rdf:about="&semanticscience;O4pExoRole"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -3365,15 +3390,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;TMP"/>
-            <rdf:Description rdf:about="&semanticscience;dAMP"/>
-            <rdf:Description rdf:about="&semanticscience;dCMP"/>
-            <rdf:Description rdf:about="&semanticscience;dGMP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&semanticscience;NitrogenousBase"/>
             <rdf:Description rdf:about="&semanticscience;NucleicAcid"/>
             <rdf:Description rdf:about="&semanticscience;Nucleoside"/>
@@ -3383,24 +3399,9 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;Cytosine"/>
-            <rdf:Description rdf:about="&semanticscience;Pseudouridine"/>
-            <rdf:Description rdf:about="&semanticscience;Thymine"/>
-            <rdf:Description rdf:about="&semanticscience;Uracil"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;AABasePair"/>
-            <rdf:Description rdf:about="&semanticscience;CABasePair"/>
-            <rdf:Description rdf:about="&semanticscience;CCBasePair"/>
-            <rdf:Description rdf:about="&semanticscience;CUBasePair"/>
-            <rdf:Description rdf:about="&semanticscience;GABasePair"/>
-            <rdf:Description rdf:about="&semanticscience;GGBasePair"/>
-            <rdf:Description rdf:about="&semanticscience;GUBasePair"/>
-            <rdf:Description rdf:about="&semanticscience;TTBasePair"/>
-            <rdf:Description rdf:about="&semanticscience;UUBasePair"/>
+            <rdf:Description rdf:about="&semanticscience;Adenine"/>
+            <rdf:Description rdf:about="&semanticscience;Guanine"/>
+            <rdf:Description rdf:about="&semanticscience;Inosine"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -3416,33 +3417,6 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;C1pExoRole"/>
-            <rdf:Description rdf:about="&semanticscience;C2pExoRole"/>
-            <rdf:Description rdf:about="&semanticscience;C3pExoRole"/>
-            <rdf:Description rdf:about="&semanticscience;C4pExoRole"/>
-            <rdf:Description rdf:about="&semanticscience;O4pExoRole"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;HoogsteenEdge"/>
-            <rdf:Description rdf:about="&semanticscience;SugarEdge"/>
-            <rdf:Description rdf:about="&semanticscience;WatsonEdge"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;ATP"/>
-            <rdf:Description rdf:about="&semanticscience;CTP"/>
-            <rdf:Description rdf:about="&semanticscience;GTP"/>
-            <rdf:Description rdf:about="&semanticscience;UTP"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&semanticscience;DownwardStacking"/>
             <rdf:Description rdf:about="&semanticscience;InwardStacking"/>
             <rdf:Description rdf:about="&semanticscience;OutwardStacking"/>
@@ -3452,9 +3426,10 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;Adenine"/>
-            <rdf:Description rdf:about="&semanticscience;Guanine"/>
-            <rdf:Description rdf:about="&semanticscience;Inosine"/>
+            <rdf:Description rdf:about="&semanticscience;ATP"/>
+            <rdf:Description rdf:about="&semanticscience;CTP"/>
+            <rdf:Description rdf:about="&semanticscience;GTP"/>
+            <rdf:Description rdf:about="&semanticscience;UTP"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -3471,6 +3446,23 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;HoogsteenEdge"/>
+            <rdf:Description rdf:about="&semanticscience;SugarEdge"/>
+            <rdf:Description rdf:about="&semanticscience;WatsonEdge"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;Cytosine"/>
+            <rdf:Description rdf:about="&semanticscience;Pseudouridine"/>
+            <rdf:Description rdf:about="&semanticscience;Thymine"/>
+            <rdf:Description rdf:about="&semanticscience;Uracil"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&semanticscience;BifurcatedFace"/>
             <rdf:Description rdf:about="&semanticscience;C8Face"/>
             <rdf:Description rdf:about="&semanticscience;HoogsteenHoogsteenFace"/>
@@ -3481,6 +3473,24 @@ Where Y = Pyrimidines and R = Purines</rdfs:comment>
             <rdf:Description rdf:about="&semanticscience;WatsonHoogsteenFace"/>
             <rdf:Description rdf:about="&semanticscience;WatsonSugarFace"/>
             <rdf:Description rdf:about="&semanticscience;WatsonWatsonFace"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;TMP"/>
+            <rdf:Description rdf:about="&semanticscience;dAMP"/>
+            <rdf:Description rdf:about="&semanticscience;dCMP"/>
+            <rdf:Description rdf:about="&semanticscience;dGMP"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;AMP"/>
+            <rdf:Description rdf:about="&semanticscience;CMP"/>
+            <rdf:Description rdf:about="&semanticscience;GMP"/>
+            <rdf:Description rdf:about="&semanticscience;UMP"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
