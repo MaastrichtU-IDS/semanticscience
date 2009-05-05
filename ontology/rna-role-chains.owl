@@ -1,0 +1,847 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY ss "http://semanticscience.org/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY rna-role-chains "http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl#"
+     xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:rna-role-chains="http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ss="http://semanticscience.org/">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/hasAgent -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasAgent">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label>has agent</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasDisposition -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasDisposition">
+        <rdfs:label rdf:datatype="&xsd;string">has disposition</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBearerOf"/>
+        <owl:inverseOf rdf:resource="&ss;isDispositionOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasFunction -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasFunction">
+        <rdfs:label rdf:datatype="&xsd;string">has function</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBearerOf"/>
+        <owl:inverseOf rdf:resource="&ss;isFunctionOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasImproperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasImproperPart">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >has improper part</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasPart"/>
+        <owl:inverseOf rdf:resource="&ss;isImproperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasNonTangentialProperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasNonTangentialProperPart">
+        <rdfs:label
+            >has non-tangential proper part</rdfs:label>
+        <rdfs:comment
+            >RCC8:non-tangential proper part</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasProperPart"/>
+        <owl:inverseOf rdf:resource="&ss;isNonTangentialProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasPart">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has part</rdfs:label>
+        <rdfs:comment
+            >1. no cardinality restriction may be added to this property due to involvement in property chains. One should use hasProperPart to quantify over.
+2. hasPart is effectively reflexive due to the reflexivity of hasImproperPart</rdfs:comment>
+        <owl:inverseOf rdf:resource="&ss;isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasParticipant -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasParticipant">
+        <rdfs:label rdf:datatype="&xsd;string">has participant</rdfs:label>
+        <rdfs:comment
+            >1. no cardinality restriction may be added to this property due to involvement in role chains. One should use hasAgent/realizes to specify knowledge and to quantify over.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&ss;isParticipantIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasProperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasProperPart">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has proper part</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasPart"/>
+        <owl:inverseOf rdf:resource="&ss;isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasQuality -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasQuality">
+        <rdfs:label rdf:datatype="&xsd;string">has quality</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBearerOf"/>
+        <owl:inverseOf rdf:resource="&ss;isQualityOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasRole -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasRole">
+        <rdfs:label rdf:datatype="&xsd;string">has role</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBearerOf"/>
+        <owl:inverseOf rdf:resource="&ss;isRoleOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/hasTangentialProperPart -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasTangentialProperPart">
+        <rdfs:label
+            >has tangential proper part</rdfs:label>
+        <rdfs:comment
+            >RCC8:tangential proper part</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasProperPart"/>
+        <owl:inverseOf rdf:resource="&ss;isTangentialProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isAgentIn -->
+
+    <owl:ObjectProperty rdf:about="&ss;isAgentIn">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label>is agent in</rdfs:label>
+        <rdfs:label
+            >A relation in which a continuant actively participates in the process.</rdfs:label>
+        <owl:inverseOf rdf:resource="&ss;hasAgent"/>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isBearerOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isBearerOf">
+        <rdfs:label rdf:datatype="&xsd;string">bearer of</rdfs:label>
+        <owl:inverseOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isBorneBy -->
+
+    <owl:ObjectProperty rdf:about="&ss;isBorneBy">
+        <rdfs:label rdf:datatype="&xsd;string">inheres in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isDispositionOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isDispositionOf">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is disposition of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isFunctionOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isFunctionOf">
+        <rdfs:label rdf:datatype="&xsd;string">is function of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isImproperPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isImproperPartOf">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is improper part of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isNonTangentialProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isNonTangentialProperPartOf">
+        <rdfs:label
+            >is non-tangential proper part of</rdfs:label>
+        <rdfs:comment
+            >RCC8:non-tangential proper part of (inv)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ss;isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isPartOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">part of</rdfs:label>
+        <rdfs:comment
+            >1. no cardinality restriction may be added to this property due to involvement in property chains. One should use isProperPartOf to quantify over.
+2. isPartOf is effectively reflexive due to the reflexivity of isImproperPartOf</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isParticipantIn -->
+
+    <owl:ObjectProperty rdf:about="&ss;isParticipantIn">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is participant in</rdfs:label>
+        <rdfs:comment
+            >1. no cardinality restriction may be added to this property due to involvement in role chains. One should use isAgentOf/isRealizedIn to specify knowledge and to quantify over.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isProperPartOf">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is proper part of</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An irreflexive and anti-symmetric parthood relation such that the entities are distinct.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ss;isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isQualityOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isQualityOf">
+        <rdfs:label rdf:datatype="&xsd;string">is quality of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isRealizedIn -->
+
+    <owl:ObjectProperty rdf:about="&ss;isRealizedIn">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label>is realized in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isRoleOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isRoleOf">
+        <rdfs:label rdf:datatype="&xsd;string">is role of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;isBorneBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/isTangentialProperPartOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isTangentialProperPartOf">
+        <rdfs:label
+            >is tangential proper part of</rdfs:label>
+        <rdfs:comment
+            >RCC8:tangential proper part of (inv)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ss;isProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/realizes -->
+
+    <owl:ObjectProperty rdf:about="&ss;realizes">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label>realizes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+        <owl:inverseOf rdf:resource="&ss;isRealizedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl#definition -->
+
+    <owl:DatatypeProperty rdf:about="#definition"/>
+    
+
+
+    <!-- http://semanticscience.googlecode.com/svn/trunk/ontology/rna-role-chains.owl#example -->
+
+    <owl:DatatypeProperty rdf:about="#example"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/contains -->
+
+    <rdf:Description rdf:about="&ss;contains">
+        <definition rdf:datatype="&xsd;string"
+            >A spatial relation between two continuants such that one spatially contains the other with no overlap, and one is not a part of the other.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/derivativeOf -->
+
+    <rdf:Description rdf:about="&ss;derivativeOf">
+        <definition rdf:datatype="&xsd;string"
+            >A transitive, symmetric, temporal relation in which one continuant is the derivative of another non-identical continuant.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/derivesFrom -->
+
+    <rdf:Description rdf:about="&ss;derivesFrom">
+        <example rdf:datatype="&xsd;string"
+            >glucose-6-phosphate derivesFrom glucose in glucose metabolism</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasAgent -->
+
+    <rdf:Description rdf:about="&ss;hasAgent">
+        <definition
+            >A relation between a process and an active continuant.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasDisposition -->
+
+    <rdf:Description rdf:about="&ss;hasDisposition">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an entity and the disposition it realizes.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasFunction -->
+
+    <rdf:Description rdf:about="&ss;hasFunction">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an entity and a function.</definition>
+        <example
+            >vase hasFunction containerFunction</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasImproperPart -->
+
+    <rdf:Description rdf:about="&ss;hasImproperPart">
+        <definition rdf:datatype="&xsd;string"
+            >A reflexive mereological relational such that the entities are not distinct.</definition>
+        <example rdf:datatype="&xsd;string"
+            >cake hasImproperPart slice of cake</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasNonTangentialProperPart -->
+
+    <rdf:Description rdf:about="&ss;hasNonTangentialProperPart">
+        <definition
+            >A proper part relation in which there is no overlap of the edge of spatial regions.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasPart -->
+
+    <rdf:Description rdf:about="&ss;hasPart">
+        <definition rdf:datatype="&xsd;string"
+            >A transitive relation such that one has as a part itself or another, with disconnected, overlapping or non-overlapping spatial regions.</definition>
+        <example
+            >person has part arm, workshop has part coffee break</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasParticipant -->
+
+    <rdf:Description rdf:about="&ss;hasParticipant">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a process and its a continuant participant.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasProperPart -->
+
+    <rdf:Description rdf:about="&ss;hasProperPart">
+        <definition rdf:datatype="&xsd;string"
+            >A mereological relation such that when x has proper part y, then x and y are distinct, and the spatial region occupied by y is wholly contained by with that of x.</definition>
+        <example
+            >car hasProperPart engine</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasQuality -->
+
+    <rdf:Description rdf:about="&ss;hasQuality">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an entity and the quality that inheres in it.</definition>
+        <example
+            >bob hasQuality HappinessQuality</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasReference -->
+
+    <rdf:Description rdf:about="&ss;hasReference">
+        <definition
+            >A relation between an entity and a source of information.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasRole -->
+
+    <rdf:Description rdf:about="&ss;hasRole">
+        <definition rdf:datatype="&xsd;string"
+            >The relation between an entity and a role.</definition>
+        <example
+            >bob hasRole teacherRole</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/hasTangentialProperPart -->
+
+    <rdf:Description rdf:about="&ss;hasTangentialProperPart">
+        <definition
+            >A proper part relation in which there is overlap on the edge of a spatial region.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/immediatelyDerivesFrom -->
+
+    <rdf:Description rdf:about="&ss;immediatelyDerivesFrom">
+        <example rdf:datatype="&xsd;string"
+            >a molecule of alpha-D-glucose-6-phosphate immediately_derives_from D-glucose in glucose metabolism.</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/immediatelyDerivesInto -->
+
+    <rdf:Description rdf:about="&ss;immediatelyDerivesInto">
+        <example rdf:datatype="&xsd;string"
+            >glucose immediatelyDerivesInto glucose-6-phosphate in glucose metabolism</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isAdjacentTo -->
+
+    <rdf:Description rdf:about="&ss;isAdjacentTo">
+        <definition rdf:datatype="&xsd;string"
+            >Two continuants are adjacent to each other if the edges of their spatial regions are in direct contact.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isAfter -->
+
+    <rdf:Description rdf:about="&ss;isAfter">
+        <definition
+            >A spatial relation such that when x is after y, then x is positioned numerically greater than y on some spatial coordinate scale.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isBearerOf -->
+
+    <rdf:Description rdf:about="&ss;isBearerOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an independent continuant and dependent continuant.</definition>
+        <example
+            >hair bearerOf brown color</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isBefore -->
+
+    <rdf:Description rdf:about="&ss;isBefore">
+        <definition
+            >A spatial relation such that when x is before y, then x is positioned numerically less than y on some spatial coordinate scale.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isBorneBy -->
+
+    <rdf:Description rdf:about="&ss;isBorneBy">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a dependent continuant and an entity.</definition>
+        <example
+            >brown colour inheresIn hair</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isConnectedTo -->
+
+    <rdf:Description rdf:about="&ss;isConnectedTo">
+        <definition
+            >Two objects are connected to each other if their spatial regions are indirectly connected via a sequence of direct connections.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isContainedIn -->
+
+    <rdf:Description rdf:about="&ss;isContainedIn">
+        <definition rdf:datatype="&xsd;string"
+            >A spatial relation between two continuants such that one is contained in the other, but for which there is no overlap and one is not a part of the other.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isDisconnectedFrom -->
+
+    <rdf:Description rdf:about="&ss;isDisconnectedFrom">
+        <definition
+            >Two continuants are disconnected when their spatial regions are not adjacent, do not intersect or overlap.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isDispositionOf -->
+
+    <rdf:Description rdf:about="&ss;isDispositionOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a disposition and the entity that realizes it.</definition>
+        <example
+            >disease isDispositionOf human</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isFunctionOf -->
+
+    <rdf:Description rdf:about="&ss;isFunctionOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a function and the entity that realizes it.</definition>
+        <example
+            >Catalysis isFunctionOf Enzyme</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isImmediatelyAfter -->
+
+    <rdf:Description rdf:about="&ss;isImmediatelyAfter">
+        <definition
+            >A spatial relation such that when x is immediately after y, then x is positioned adjacent to and numerically greater than y on some spatial coordinate scale.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isImmediatelyBefore -->
+
+    <rdf:Description rdf:about="&ss;isImmediatelyBefore">
+        <definition
+            >A spatial relation such that when x is immediately before y, then x is positioned adjacent to and numerically less than y on some spatial coordinate scale.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isImproperPartOf -->
+
+    <rdf:Description rdf:about="&ss;isImproperPartOf">
+        <definition rdf:datatype="&xsd;string"
+            >A reflexive mereological relation such that the entities are not distinct.</definition>
+        <example
+            >slice of cake isImproperPartOf cake</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isLocatedIn -->
+
+    <rdf:Description rdf:about="&ss;isLocatedIn">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between two entities such that one is located in terms of spatial and/or temporal regions.</definition>
+        <example
+            >person isLocatedIn room</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isLocationOf -->
+
+    <rdf:Description rdf:about="&ss;isLocationOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between two entities such that one is the location of another.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isPartOf -->
+
+    <rdf:Description rdf:about="&ss;isPartOf">
+        <definition rdf:datatype="&xsd;string"
+            >A transitive relation such that one is a part of itself or another, with disconnected, overlapping or non-overlapping spatial regions.</definition>
+        <example
+            >arm is part of person; coffee break is part of workshop</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isParticipantIn -->
+
+    <rdf:Description rdf:about="&ss;isParticipantIn">
+        <definition rdf:datatype="&xsd;string"
+            >A relation in which a continuant participates in some way in the process.</definition>
+        <example
+            >person isParticipantIn his life</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isProperPartOf -->
+
+    <rdf:Description rdf:about="&ss;isProperPartOf">
+        <example
+            >engine isProperPartOf car</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isQualityOf -->
+
+    <rdf:Description rdf:about="&ss;isQualityOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a quality and some entity.</definition>
+        <example
+            >brown colour isQualityOf hair</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isRealizedIn -->
+
+    <rdf:Description rdf:about="&ss;isRealizedIn">
+        <definition
+            >A relation between a realizable entity (role, etc) and a process.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isReferenceFor -->
+
+    <rdf:Description rdf:about="&ss;isReferenceFor">
+        <definition
+            >A relation between a source of information and an entity.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isRelatedTo -->
+
+    <rdf:Description rdf:about="&ss;isRelatedTo">
+        <definition rdf:datatype="&xsd;string"
+            >A top level relation that holds symmetrically between entities.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isRoleOf -->
+
+    <rdf:Description rdf:about="&ss;isRoleOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a role and the entity that realizes it.</definition>
+        <example
+            >TeacherRole isRoleOf Teacher</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isSpatialLocationOf -->
+
+    <rdf:Description rdf:about="&ss;isSpatialLocationOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between a region of space and an oject that occupies that space.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isSpatiallyEqualTo -->
+
+    <rdf:Description rdf:about="&ss;isSpatiallyEqualTo">
+        <definition
+            >A spatial relation in which two objects are spatially equivalent when their spatial regions exactly overlap.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isSpatiallyLocatedIn -->
+
+    <rdf:Description rdf:about="&ss;isSpatiallyLocatedIn">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an entity and a spatial region.</definition>
+        <example
+            >person isSpatiallyLocatedIn in that three dimensional spatial region</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isSpatiallyRelatedTo -->
+
+    <rdf:Description rdf:about="&ss;isSpatiallyRelatedTo">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between spatial regions or continuants with respect to the spatial regions they occupy.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isTemporalLocationOf -->
+
+    <rdf:Description rdf:about="&ss;isTemporalLocationOf">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between two temporal entities such that a temporal region is the location of a temporal entity.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isTemporallyLocatedIn -->
+
+    <rdf:Description rdf:about="&ss;isTemporallyLocatedIn">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between an occurant and a temporal region.</definition>
+        <example
+            >you are reading this phrase over some time interval</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/isTemporallyRelatedTo -->
+
+    <rdf:Description rdf:about="&ss;isTemporallyRelatedTo">
+        <definition rdf:datatype="&xsd;string"
+            >A relation between entities at different times.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/partiallyOverlapsWith -->
+
+    <rdf:Description rdf:about="&ss;partiallyOverlapsWith">
+        <definition
+            >A spatial relationship in which two objects partially overlaps when their spatial regions intersect.</definition>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/precededBy -->
+
+    <rdf:Description rdf:about="&ss;precededBy">
+        <example rdf:datatype="&xsd;string"
+            >translation preceded_by transcription</example>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/realizes -->
+
+    <rdf:Description rdf:about="&ss;realizes">
+        <definition
+            >A relation between a process and a realizable entity.</definition>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1101) http://owlapi.sourceforge.net -->
+
