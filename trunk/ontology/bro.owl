@@ -137,7 +137,7 @@
         <rdfs:label>has agent</rdfs:label>
         <definition
             >A relation between a process and an active continuant.</definition>
-        <owl:equivalentProperty rdf:resource="&ss;hasParticipant"/>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
     </owl:ObjectProperty>
     
 
@@ -906,24 +906,17 @@
      -->
 
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;precedes"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
-            <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
-        <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;isParticipantIn"/>
-            <rdf:Description rdf:about="&ss;isPartOf"/>
-        </owl:propertyChain>
-    </rdf:Description>
-    <rdf:Description>
         <rdfs:subPropertyOf rdf:resource="&ss;derivesFrom"/>
         <owl:propertyChain rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
             <rdf:Description rdf:about="&ss;immediatelyDerivesFrom"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;hasPart"/>
+            <rdf:Description rdf:about="&ss;hasParticipant"/>
         </owl:propertyChain>
     </rdf:Description>
     <rdf:Description>
@@ -934,10 +927,17 @@
         </owl:propertyChain>
     </rdf:Description>
     <rdf:Description>
-        <rdfs:subPropertyOf rdf:resource="&ss;hasParticipant"/>
+        <rdfs:subPropertyOf rdf:resource="&ss;isParticipantIn"/>
         <owl:propertyChain rdf:parseType="Collection">
-            <rdf:Description rdf:about="&ss;hasPart"/>
-            <rdf:Description rdf:about="&ss;hasParticipant"/>
+            <rdf:Description rdf:about="&ss;isParticipantIn"/>
+            <rdf:Description rdf:about="&ss;isPartOf"/>
+        </owl:propertyChain>
+    </rdf:Description>
+    <rdf:Description>
+        <rdfs:subPropertyOf rdf:resource="&ss;precedes"/>
+        <owl:propertyChain rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
+            <rdf:Description rdf:about="&ss;immediatelyPrecedes"/>
         </owl:propertyChain>
     </rdf:Description>
 </rdf:RDF>
