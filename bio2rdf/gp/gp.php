@@ -1,16 +1,24 @@
 <?php
+require(dirname(__FILE__).'/../include.php');
 
 $site= "ftp://ftp.ncbi.nlm.nih.gov";
 $rdir= "/genomes/genomeprj/";
-$ldir= "/data/gp/";
+$ldir= DATA."gp/";
 $infile = "gp.xml";
-$outdir = "/data/gp/n3/";
+$outdir = DATA."gp/n3/";
 $outfile = "gp.n3";
 
-require('../include.php');
+shell_exec("chdir $ldir;wget -N $site$rdir$infile");
+if(!file_exists($ldir.$infile)) {
+	trigger_error("No file at $ldir$infile");
+	exit();
+}
+
 echo "RDFizing: NCBI Genome Projects\n";
 echo "$ldir$infile to $outdir$outfile\n";
 $buf = N3NSHeader($nslist);
+
+
 
 $documentset = simplexml_load_file($ldir.$infile);
 if($documentset === FALSE) {
@@ -28,8 +36,8 @@ foreach ($documentset->children('gp') as $d) {
 	$id = $o->ProjectID; 
 
 	$duri = "$gp:record_$id";
-	$buf .= "$duri a $ss:Record".PHP_EOL;
-	$buf .= "$duri $rdfs:label \"NCBI Genome Project Record [$duri]\"".PHP_EOL;
+	$buf .= "$duri a $ss:Record.".PHP_EOL;
+	$buf .= "$duri $rdfs:label \"NCBI Genome Project Record [$duri]\".".PHP_EOL;
  	if(isset($o->CreateDate) && $o->CreateDate != '') 
 		$buf .= "$duri $gp:created \"".$o->CreateDate."\" .".PHP_EOL;
 	if(isset($o->ModificationDate) && $o->ModificationDate != '' ) 
@@ -55,14 +63,16 @@ foreach ($documentset->children('gp') as $d) {
 	
 	// gp:eType,  gp:eMethod, gp:eTechnologies+
 	if(isset($o->TaxID) && $o->TaxID != '') 
-	$buf .= "$uri $bio2rdf:organism $taxon:".$o->TaxID."> .".PHP_EOL;
+	$buf .= "$uri $bio2rdf:organism $taxon:".$o->TaxID." .".PHP_EOL;
 	if(isset($o->ProjectURL) && $o->ProjectURL != '') {
-		$buf .= "$uri $bio2rdf:url <".$o->ProjectURL.'> .'.PHP_EOL;
-		$buf .= "<$o->ProjectURL> a $ss:HtmlDocument.".PHP_EOL;
+		$url = urlencode($o->ProjectURL);
+		$buf .= "$uri $bio2rdf:url <$url> .".PHP_EOL;
+		$buf .= "<$url> a $ss:HtmlDocument.".PHP_EOL;
 	}
 	if(isset($o->DataURL) && $o->DataURL != '') {
-		$buf .= "$uri $gp:dataUrl <".$o->DataURL.'> .'.PHP_EOL;
-		$buf .= "<$o->DataURL> a $ss:Document.".PHP_EOL;
+		$url = urlencode($o->ProjectURL);
+		$buf .= "$uri $gp:dataUrl <$url> .".PHP_EOL;
+		$buf .= "<$url> a $ss:Document.".PHP_EOL;
 	}
 	// submitters
 	foreach($o->Submitters AS $s) {
@@ -74,12 +84,24 @@ foreach ($documentset->children('gp') as $d) {
 	
 	foreach($o->SubmittedSequences AS $s) {
 		foreach($s->children('gp')->Sequence AS $t) {
-			$acc = "$genbank:".$t->accINSDC;
-			$buf .= "$uri $bio2rdf:sequence $acc .".PHP_EOL;
+			// clean up accINSDC - can contain xxx:xxx
+			$a = explode(":",$t->accINSDC);
+			$acc = "$genbank:".$a[0];
+			$buf .= "$uri $bio2rdf:molecule $acc .".PHP_EOL;
 			  
 			if(isset($t->accRefSeq) && $t->accRefSeq != '') {
 				$acc = "$refseq:".$t->accRefSeq;
-				$buf .= "$uri $bio2rdf:sequence $acc .".PHP_EOL;
+				$buf .= "$uri $bio2rdf:molecule $acc .".PHP_EOL;
+			}
+
+			if(isset($t->SeqSize)) {
+				$buf .= "$acc $bio2rdf:size \"$t->SeqSize $t->SzUnit\".".PHP_EOL;
+			}
+			if(isset($t->ChrType)) {
+				$buf .= "$acc a gp:".substr($t->ChrType,1).".".PHP_EOL;
+			}
+			if(isset($t->ChrName)) {
+				$buf .= "$acc dc:title \"$t->ChrName\".".PHP_EOL;
 			}
 		}
 	}
@@ -93,3 +115,7 @@ file_put_contents($outdir.$outfile,$buf);
 
 
 ?>
+
+
+
+

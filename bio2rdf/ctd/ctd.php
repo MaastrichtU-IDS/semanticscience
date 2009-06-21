@@ -1,25 +1,37 @@
 <?php
+$download = false;
 
 // CTD: The Comparative Toxicogenomics Database
 // http://ctd.mdibl.org/
 // download URI: http://ctd.mdibl.org/reports/XXXX.tsv.gz
+require('../include.php');
 
-$indir = '/data/ctd/';
-$outdir = '/data/ctd/n3/';
+$indir = DATA.'ctd/';
+$outdir = DATA.'ctd/n3/';
 $infile_suffix = ".tsv.gz";
 $outfile_suffix = ".n3.gz";
 $files = array(
-/* 
  "chemicals",  // uses MESH terms
  "chem_gene_ixns", // curated interactions
  "chem_disease_relations",
  "chem_pathways",  // 
  "diseases",   // uses MESH/OMIM
  "disease_pathways",
- "gene_disease_relations", */
+ "gene_disease_relations", 
  "gene_pathways" ,
 
 );
+
+if($download) {
+ $host = 'http://ctd.mdibl.org/reports/';
+ foreach($files AS $file) {
+	$f = $host.'CTD_'.$file.$infile_suffix;
+	$l = $indir.$file.$infile_suffix;
+	echo "Downloading $f to $l\n";
+	copy($f, $l);
+ }
+}
+
 
 foreach($files AS $base) {
 	
@@ -43,7 +55,6 @@ foreach($files AS $base) {
 	
 	gzclose($infp);
 	gzclose($outfp);
-	exit;
 }
 
 /*
@@ -53,7 +64,7 @@ X ChemicalID (MeSH accession identifier)
 */
 function CTD_chemicals($infp, $outfp)
 {
-	include ('include.php');
+	require ('../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
