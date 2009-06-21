@@ -3,7 +3,8 @@
 /*
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
-$isql = "isql";
+$isql = "/opt/virtuoso/default/bin/isql";
+if(defined(PHP_WINDOWS_VERSION_MAJOR)) $isql = "isql";
 
 $options = array(
  "file" => "filename",
@@ -92,6 +93,9 @@ if($options['format'] == 'n3') {
  $program = 'DB.DBA.RDF_LOAD_RDFXML';
 }
 $cmd = $program."(file_to_string_output ('".$options['file']."'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+
+//echo $cmd_pre.$cmd.$cmd_post;
+
 echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
 if(strstr($out,"Error")) {
   exit;
