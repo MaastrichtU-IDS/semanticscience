@@ -28,10 +28,10 @@ $iubmb = 'iubmb';
 $irefindex = 'irefindex';
 $mesh = 'mesh'; 
 $metacyc = 'metacyc';
+$genbank   = 'genbank';
 $ncbi_gene = 'gene';
-$ncbi_ref  = 'refseq';
-$ncbi_acc  = 'ncbi_accession';
-$ncbi_gi   = 'ncbi_gi';
+$ncbi   = 'genbank';
+$refseq = 'refseq';
 $ncbi   = 'ncbi';
 $omim   = 'omim';
 $pubmed = 'pubmed';
@@ -44,14 +44,14 @@ $uniparc = 'uniparc';
 
 $nslist = array(
 	$xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri, 
-	$cas, $candida, $ctd, $dip, $ec, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb,  $mesh, $metacyc, $ncbi_gene, $ncbi_ref, $ncbi_acc, $ncbi_gi, $ncbi, $omim, $pubchem, $pubmed, $sgd, $sp, $taxon, $trembl, $uniparc, "profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
+	$cas, $candida, $ctd, $dip, $ec, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb,  $mesh, $metacyc, $ncbi_gene, $refseq, $genbank, $ncbi, $omim, $pubchem, $pubmed, $sgd, $sp, $taxon, $trembl, $uniparc, "profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
 	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri );
 	
 
 /*
 bio2rdf predicates
 
-sequence
+molecule
 gene
 protein
 chemical
