@@ -1,5 +1,5 @@
 <?php
-include('ns.php');
+include(dirname(__FILE__).'/ns.php');
 function N3NSHeader($nslist)
 {
 	$buf = '';
