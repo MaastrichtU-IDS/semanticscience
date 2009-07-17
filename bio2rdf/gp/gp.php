@@ -18,8 +18,6 @@ echo "RDFizing: NCBI Genome Projects\n";
 echo "$ldir$infile to $outdir$outfile\n";
 $buf = N3NSHeader($nslist);
 
-
-
 $documentset = simplexml_load_file($ldir.$infile);
 if($documentset === FALSE) {
 	trigger_error("Error in opening $ldir$infile");
@@ -112,10 +110,4 @@ foreach ($documentset->children('gp') as $d) {
 } 
 file_put_contents($outdir.$outfile,$buf);
 
-
-
 ?>
-
-
-
-
