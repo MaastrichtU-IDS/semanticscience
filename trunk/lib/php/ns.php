@@ -11,13 +11,15 @@ $bio2rdfns = 'bio2rdf_ns';  $bio2rdfns_uri   = 'http://bio2rdf.org/bio2rdf:';
 /** BIO2RDF **/
 $bio2rdf = 'bio2rdf';
 $bm = $bio2rdf_uri = 'http://bio2rdf.org/';
-
+$bind = 'bind';
 $candida = 'candida';
 $cas = 'cas'; 
 $chebi = 'chebi';
 $ctd = 'ctd';
 $dip = 'dip';
+$ddbj = 'ddbj';
 $ec  = 'ec'; 
+$embl = 'embl';
 $evd = 'evd';
 $euroscarf = 'euroscarf'; 
 $kegg = 'kegg';
@@ -25,26 +27,35 @@ $germonline = 'germonline';
 $go = 'go';
 $gp = 'gp'; // ncbi genome projects
 $iubmb = 'iubmb';
+$intact = 'intact';
 $irefindex = 'irefindex';
 $mesh = 'mesh'; 
 $metacyc = 'metacyc';
-$genbank   = 'genbank';
-$ncbi_gene = 'gene';
-$ncbi   = 'genbank';
+$mi = 'mi';
+$mint = 'mint';
+$ncbi_gene = 'geneid';
+$ncbi   = 'ncbi';
 $refseq = 'refseq';
 $ncbi   = 'ncbi';
 $omim   = 'omim';
+$pir = 'pir';
+$prf = 'prf';
+$pdb    = 'pdb';
 $pubmed = 'pubmed';
 $pubchem = 'pubchem';
 $sgd    = 'sgd';
 $sp     = 'swissprot';
 $taxon  = 'taxon';
+$tigr = 'tigr';
 $trembl = 'trembl';
 $uniparc = 'uniparc';
+$uniprot = 'uniprot';
+
+$basenslist = array($xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri);
 
 $nslist = array(
 	$xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri, 
-	$cas, $candida, $ctd, $dip, $ec, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb,  $mesh, $metacyc, $ncbi_gene, $refseq, $genbank, $ncbi, $omim, $pubchem, $pubmed, $sgd, $sp, $taxon, $trembl, $uniparc, "profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
+	$bind, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$ncbi_gene, $refseq, $genbank, $ncbi, $omim, $pdb,$pir,$prf, $pubchem, $pubmed, $sgd, $sp, $taxon, $tigr, $trembl, $uniparc, $uniprot,"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
 	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri );
 	
 
@@ -61,6 +72,9 @@ pathway
 article
 
 url
+
+interactsWith
+
 */
 
 ?>
