@@ -19,12 +19,12 @@ $files = array(
  "SGD_DBXREF" => array ("infile" => "chromosomal_features/dbxref.tab","outfile" => "$n3dir/sgd_dbxref.n3","script" => "dbxref.php"),
  */
  "SGD_interaction_data" => array ("infile" => "literature_curation/interaction_data.tab","outfile" => "$n3dir/sgd_interactions.n3","script" => "interaction.php"),
- "SGD_Phenotype" => array ("infile" => "literature_curation/phenotype_data.tab","outfile" => "$n3dir/sgd_phenotype_data.n3","script" => "phenotype.php"),
+ //"SGD_Phenotype" => array ("infile" => "literature_curation/phenotype_data.tab","outfile" => "$n3dir/sgd_phenotype_data.n3","script" => "phenotype.php"),
 //"SGD_PSIBLAST_Hits" => array ("infile" => "sequence_similarity/psi_blast/psi_blast.tab.gz","outfile" => "$n3dir/sgd_psi_blast.n3","script" => "psiblast_hits.php"),
 //"SGD_Expression" => array("infile" => "/systematic_results/expression_data/expression_connection_data/*","outfile"=>"$n3dir/expression/*.n3", "script" => "expression.php")
  );
 
-require_once('../lib/utils.php');
+require_once(dirname(__FILE__).'/../../lib/php/utils.php');
 //download
 if($download) {
 HTTPDownload($host, $files, $ldir);
