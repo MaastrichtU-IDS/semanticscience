@@ -72,9 +72,10 @@ Contains interaction data incorporated into SGD from BioGRID (http://www.thebiog
 				$d = explode(":",$c);
 				if($d[0]=="PMID") $buf .= "$sgd:$id $sgd:article $pubmed:$d[1] .".PHP_EOL;
 			}
-			
+			/*
 			$buf .= "$sgd:$id1 $sgd:interactsWith $sgd:$id2 .".PHP_EOL;
 			$buf .= "$sgd:$id2 $sgd:interactsWith $sgd:$id1 .".PHP_EOL;
+			*/
 			
 			if(defined('DEBUG')) {echo $buf;break;}
 		}
@@ -100,8 +101,8 @@ Contains interaction data incorporated into SGD from BioGRID (http://www.thebiog
 
 		'Far Western' => 'FarWestern',
 		'FRET' => 'FRET',
-		'Protein-peptide' => 'ProteinPeptideInteractionExperiment',
-		'Protein-RNA' => 'ProteinRNAInteractionExperiment',
+		'Protein-peptide' => 'ProteinPeptideInteraction',
+		'Protein-RNA' => 'ProteinRNAInteraction',
 		'Co-crystal Structure' => 'Co-crystallography',
 		'Co-localization' => 'Co-localization',
 		'Co-purification' => 'Co-purification',
