@@ -55,7 +55,7 @@ $basenslist = array($xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl
 
 $nslist = array(
 	$xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri, 
-	$bind, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$ncbi_gene, $refseq, $genbank, $ncbi, $omim, $pdb,$pir,$prf, $pubchem, $pubmed, $sgd, $sp, $taxon, $tigr, $trembl, $uniparc, $uniprot,"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
+	$bind, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $evd, $euroscarf, $kegg, $germonline, $go, $gp, $iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$ncbi_gene, $refseq, $ncbi, $omim, $pdb,$pir,$prf, $pubchem, $pubmed, $sgd, $sp, $taxon, $tigr, $trembl, $uniparc, $uniprot,"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
 	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri );
 	
 
