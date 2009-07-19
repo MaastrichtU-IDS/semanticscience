@@ -1,6 +1,7 @@
 <?php
 require(dirname(__FILE__).'/../include.php');
 
+// ftp://ftp.ncbi.nlm.nih.gov/genomes/genomeprj/gp.xml
 $site= "ftp://ftp.ncbi.nlm.nih.gov";
 $rdir= "/genomes/genomeprj/";
 $ldir= DATA."gp/";
@@ -60,15 +61,19 @@ foreach ($documentset->children('gp') as $d) {
 		$buf .= "$uri $gp:title \"".$o->ProjectName."\" .".PHP_EOL;			
 	
 	// gp:eType,  gp:eMethod, gp:eTechnologies+
-	if(isset($o->TaxID) && $o->TaxID != '') 
-	$buf .= "$uri $bio2rdf:organism $taxon:".$o->TaxID." .".PHP_EOL;
+	if(isset($o->TaxID) && $o->TaxID != '') {
+	  $buf .= "$uri $bio2rdfns:organism $taxon:".$o->TaxID." .".PHP_EOL;
+	  if(isset($o->OrganismName) && $o->OrganismName != '') {
+		$buf .= "$taxon:".$o->TaxID." rdfs:label \"".$o->OrganismName."\".".PHP_EOL;
+	  }
+	}
 	if(isset($o->ProjectURL) && $o->ProjectURL != '') {
-		$url = urlencode($o->ProjectURL);
-		$buf .= "$uri $bio2rdf:url <$url> .".PHP_EOL;
+		$url = str_replace(" ","+", $o->ProjectURL); 
+		$buf .= "$uri $bio2rdfns:url <$url> .".PHP_EOL;
 		$buf .= "<$url> a $ss:HtmlDocument.".PHP_EOL;
 	}
 	if(isset($o->DataURL) && $o->DataURL != '') {
-		$url = urlencode($o->ProjectURL);
+		$url = str_replace(" ","+", $o->DataURL); 
 		$buf .= "$uri $gp:dataUrl <$url> .".PHP_EOL;
 		$buf .= "<$url> a $ss:Document.".PHP_EOL;
 	}
@@ -84,16 +89,16 @@ foreach ($documentset->children('gp') as $d) {
 		foreach($s->children('gp')->Sequence AS $t) {
 			// clean up accINSDC - can contain xxx:xxx
 			$a = explode(":",$t->accINSDC);
-			$acc = "$genbank:".$a[0];
-			$buf .= "$uri $bio2rdf:molecule $acc .".PHP_EOL;
+			$acc = "$ncbi:".$a[0];
+			$buf .= "$uri $bio2rdfns:molecule $acc .".PHP_EOL;
 			  
 			if(isset($t->accRefSeq) && $t->accRefSeq != '') {
 				$acc = "$refseq:".$t->accRefSeq;
-				$buf .= "$uri $bio2rdf:molecule $acc .".PHP_EOL;
+				$buf .= "$uri $bio2rdfns:molecule $acc .".PHP_EOL;
 			}
 
 			if(isset($t->SeqSize)) {
-				$buf .= "$acc $bio2rdf:size \"$t->SeqSize $t->SzUnit\".".PHP_EOL;
+				$buf .= "$acc $bio2rdfns:size \"$t->SeqSize $t->SzUnit\".".PHP_EOL;
 			}
 			if(isset($t->ChrType)) {
 				$buf .= "$acc a gp:".substr($t->ChrType,1).".".PHP_EOL;
