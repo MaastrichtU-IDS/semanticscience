@@ -75,7 +75,7 @@ if($options['deletegraph'] == "true") {
 }
 
 // check for valid file
-if(!$options['dir'] == 'dirname') {
+if($options['dir'] == 'dirname') {
  // must be a file
  if(!file_exists($options['file'])) {
   echo "File ".$options['file']." does not exists. Please specify a *real* file with the file=filename option";
@@ -120,8 +120,6 @@ foreach($files AS $file) {
    exit;
  }
 
-
-exit;
 }
 
 
