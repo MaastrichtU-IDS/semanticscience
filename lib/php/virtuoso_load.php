@@ -8,6 +8,7 @@ if(defined(PHP_WINDOWS_VERSION_MAJOR)) $isql = "isql";
 
 $options = array(
  "file" => "filename",
+ "dir" => "dirname",
  "graph" => "graphname",
  "port" => "1111",
  "user" => "dba",
@@ -26,11 +27,8 @@ $options = array(
 // show options
 if($argc == 1) {
  echo "Usage: php $argv[0] ".PHP_EOL;
- echo " Default values as follows, * mandatory".PHP_EOL;
  foreach($options AS $key => $value) {
-  echo " $key=$value ";
-  if($key == "file" || $key == "graph") echo "*";
-  echo PHP_EOL;
+  echo " $key=$value ". PHP_EOL;
  }
 }
 
@@ -45,9 +43,9 @@ foreach($argv AS $i=> $arg) {
 
 // check for valid graph
 if($options['graph'] == 'graphname') {
- echo "Please specify a *real* graph with the graph=graphname option".PHP_EOL;
- exit;
+ $options['graph'] = 'temp';
 }
+echo "Using '".$options['graph']."' as graph name.".PHP_EOL;
 
 $cmd_pre = "$isql -S ".$options['port']." -U ".$options['user']." -P ".$options['pass']." verbose=on banner=off prompt=off echo=ON errors=stdout exec=".'"'; $cmd_post = '"';
 
@@ -77,29 +75,55 @@ if($options['deletegraph'] == "true") {
 }
 
 // check for valid file
-if($options['file'] == 'filename' || !file_exists($options['file'])) {
- echo "File ".$options['file']." does not exists. Please specify a *real* file with the file=filename option";
- exit;
+if(!$options['dir'] == 'dirname') {
+ // must be a file
+ if(!file_exists($options['file'])) {
+  echo "File ".$options['file']." does not exists. Please specify a *real* file with the file=filename option";
+  exit;
+ }
+ $files[] = $options['file'];
+} else {
+ if(!is_dir($options['dir'])) {
+  echo "Directory ".$options['dir']." does not exists. Please specify a *real* directory with the dir=dirname option";
+  exit;
+ } 
+ // get the files
+ $files = GetFiles($options['dir']);
 }
 
 
 // add file to graph
-echo "Adding ".$options['file']." into ".$options['graph'].PHP_EOL;
 if($options['format'] == 'n3') {
  // http://docs.openlinksw.com/virtuoso/fn_ttlp_mt.html
  $program = "DB.DBA.TTLP_MT"; 
+// $program = "DB.DBA.TTLP_MT_LOCAL_FILE";
 } else {
  // http://docs.openlinksw.com/virtuoso/fn_rdf_load_rdfxml_mt.html
  $program = 'DB.DBA.RDF_LOAD_RDFXML';
 }
-$cmd = $program."(file_to_string_output ('".$options['file']."'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
 
-//echo $cmd_pre.$cmd.$cmd_post;
+foreach($files AS $file) {
+ echo "Adding $file...".PHP_EOL;
 
-echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
-if(strstr($out,"Error")) {
-  exit;
+ if(strstr($file,".gz")) {
+   $gzipfile = $file;
+   $un = substr($file,0,-3);
+   file_put_contents($un,implode(gzfile($file)));
+   $file = $un;
+ }
+ $cmd = $program."(file_to_string_output ('$file'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+
+// echo $cmd_pre.$cmd.$cmd_post;
+
+ echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
+ if(strstr($out,"Error")) {
+   exit;
+ }
+
+
+exit;
 }
+
 
 // Facet update : http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 if($options['updatefacet'] == "true") {
@@ -119,5 +143,16 @@ if($options['initialize'] == 'true') {
   create bitmap index RDF_QUAD_GPOS on RDF_QUAD (G, P, O, S) partition (O varchar (-1, 0hexffff));
   checkpoint;";
   
+}
+
+function GetFiles($dirname)
+{
+ $d = dir($dirname);
+ while (false !== ($e = $d->read())) {
+   if($e == '.' || $e == '..') continue;
+   $files[] = $dirname.$e;
+ }
+ $d->close();
+ return $files;
 }
 ?>
