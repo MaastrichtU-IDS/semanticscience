@@ -1,5 +1,6 @@
 <?php
 $download = false;
+//$download = true;
 
 // CTD: The Comparative Toxicogenomics Database
 // http://ctd.mdibl.org/
@@ -110,6 +111,9 @@ function CTD_chem_gene_ixns($infp, $outfp)
 		$taxon_id = $a[6];
 		$interaction_text = $a[7];
 		$pubmed_ids = explode("|",$a[8]);
+		foreach($pubmed_ids AS $i=> $pmid) {
+			if(!is_int($pmid)) unset($pubmed_ids[$i]);
+		}
 		
 		$uri = "$ctd:$mid$gene_id";
 		
@@ -319,7 +323,10 @@ function CTD_gene_disease_relations($infp, $outfp)
 		$buf .= "$uri $rdfs:label \"Interaction between gene $gene_id and disease $disease_id[0]:$disease_id[1] [$uri]\".".PHP_EOL;
 		if($mesh_id) $buf .= "$uri $bio2rdf:disease $mesh:$mesh_id .".PHP_EOL;
 		if($omim_ids)   foreach($omim_ids AS $omim_id)    $buf .= "$uri $bio2rdf:disease $omim:$omim_id .".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdf:article $pubmed:$pubmed_id .".PHP_EOL;
+		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) {
+			if(!is_numeric($pubmed_id)) continue;
+			$buf .= "$uri $bio2rdf:article $pubmed:$pubmed_id .".PHP_EOL;
+		}
 		
 			//echo $buf; exit;
 		/*
