@@ -79,7 +79,7 @@ function CTD_chemicals($infp, $outfp)
 		$buf .= "$mesh:$mid $rdfs:subClassOf $bio2rdfns:Chemical .".PHP_EOL;
 		if($casrn) $buf .= "$mesh:$mid $rdfs:seeAlso $cas:$casrn .".PHP_EOL;
 		
-		$buf .= "$mesh:$mid $bio2rdf:in $ss:dataset/$ctd .".PHP_EOL;
+		$buf .= "$mesh:$mid $bio2rdfns:in $ss:dataset/$ctd .".PHP_EOL;
 		
 	}
 	gzwrite($outfp,$buf);
@@ -122,10 +122,10 @@ function CTD_chem_gene_ixns($infp, $outfp)
 		$buf .= "$uri $rdf:type $ctd:ChemicalGeneInteraction.".PHP_EOL;
 		
 		$buf .= "$uri $rdfs:comment \"$a[7]\".".PHP_EOL;
-		$buf .= "$uri $bio2rdf:gene $ncbi_gene:$gene_id .".PHP_EOL;
-		$buf .= "$uri $bio2rdf:chemical $mesh:$mid .".PHP_EOL;
-		if($taxon_id) $buf .= "$uri $bio2rdf:organism $taxon:$taxon_id .".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdf:article $pubmed:$pubmed_id .".PHP_EOL;
+		$buf .= "$uri $bio2rdfns:gene $ncbi_gene:$gene_id .".PHP_EOL;
+		$buf .= "$uri $bio2rdfns:chemical $mesh:$mid .".PHP_EOL;
+		if($taxon_id) $buf .= "$uri $bio2rdfns:organism $taxon:$taxon_id .".PHP_EOL;
+		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
 		//break;
 		
 		/*
@@ -172,9 +172,9 @@ function CTD_chem_disease_relations($infp, $outfp)
 		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"interaction between chemical $cid and disease $mesh_id [$uri]\".".PHP_EOL;
 		$buf .= "$uri a $ctd:ChemicalDiseaseInteraction .".PHP_EOL;
-		$buf .= "$uri $bio2rdf:disease $mesh:$mesh_id .".PHP_EOL;
-		if($omim_id)    foreach($omim_ids AS $omim_id)     $buf .= "$uri $bio2rdf:disease $omim:$omim_id .".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdf:article $pubmed:$pubmed_id .".PHP_EOL;
+		$buf .= "$uri $bio2rdfns:disease $mesh:$mesh_id .".PHP_EOL;
+		if($omim_id)    foreach($omim_ids AS $omim_id)     $buf .= "$uri $bio2rdfns:disease $omim:$omim_id .".PHP_EOL;
+		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
 		
 		//break;
 		/*
@@ -211,7 +211,7 @@ function CTD_chem_pathways($infp, $outfp)
 		$mid = $a[1];
 		$pathway_id = substr($a[4],strpos($a[4], ":")+1); // MESH:D000544
 		
-		$buf .= "$mesh:$mid $bio2rdf:pathway $kegg:$pathway_id .".PHP_EOL;
+		$buf .= "$mesh:$mid $bio2rdfns:pathway $kegg:$pathway_id .".PHP_EOL;
 		
 		// @TODO NEED axiom annotation
 		$uri = "$ctd:$mid$pathway_id";
@@ -219,7 +219,7 @@ function CTD_chem_pathways($infp, $outfp)
 		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"$a[5] [$uri]\".".PHP_EOL;
 		$buf .= "$uri $ss:hasSubject $mesh:$mid.".PHP_EOL;
-		$buf .= "$uri $ss:hasPredicate $bio2rdf:pathway.".PHP_EOL;
+		$buf .= "$uri $ss:hasPredicate $bio2rdfns:pathway.".PHP_EOL;
 		$buf .= "$uri $ss:hasObject $kegg:$pathway_id.".PHP_EOL;
 	
 		//break;
@@ -273,7 +273,7 @@ function CTD_disease_pathways($infp, $outfp)
 		$disease_id = strtolower($id[0]).':'.$id[1];
 		$pathway_id = strtolower($a[3]); // includes kegg: prefix
 
-		$buf .= "$disease_id $bio2rdf:pathway $pathway_id .".PHP_EOL;
+		$buf .= "$disease_id $bio2rdfns:pathway $pathway_id .".PHP_EOL;
 		
 		// extra
 		$buf .= "$disease_id $dc:identifer \"$disease_id\" .".PHP_EOL;
@@ -321,11 +321,11 @@ function CTD_gene_disease_relations($infp, $outfp)
 		$buf .= "$uri $rdf:type $ctd:GeneDiseaseInteraction .".PHP_EOL;
 		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"Interaction between gene $gene_id and disease $disease_id[0]:$disease_id[1] [$uri]\".".PHP_EOL;
-		if($mesh_id) $buf .= "$uri $bio2rdf:disease $mesh:$mesh_id .".PHP_EOL;
-		if($omim_ids)   foreach($omim_ids AS $omim_id)    $buf .= "$uri $bio2rdf:disease $omim:$omim_id .".PHP_EOL;
+		if($mesh_id) $buf .= "$uri $bio2rdfns:disease $mesh:$mesh_id .".PHP_EOL;
+		if($omim_ids)   foreach($omim_ids AS $omim_id)    $buf .= "$uri $bio2rdfns:disease $omim:$omim_id .".PHP_EOL;
 		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) {
 			if(!is_numeric($pubmed_id)) continue;
-			$buf .= "$uri $bio2rdf:article $pubmed:$pubmed_id .".PHP_EOL;
+			$buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
 		}
 		
 			//echo $buf; exit;
@@ -368,7 +368,7 @@ function CTD_gene_pathways($infp, $outfp)
 		$gene_id = $a[1];
 		$kegg_id = strtolower($a[3]);
 
-		$buf .= "$ncbi_gene:$gene_id $bio2rdf:pathway $kegg_id .".PHP_EOL;
+		$buf .= "$ncbi_gene:$gene_id $bio2rdfns:pathway $kegg_id .".PHP_EOL;
 		
 		// extra
 		$buf .= "$kegg_id $dc:identifer \"$kegg_id\" .".PHP_EOL;
