@@ -4,7 +4,7 @@
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
 $isql = "/opt/virtuoso/default/bin/isql";
-if(defined(PHP_WINDOWS_VERSION_MAJOR)) $isql = "isql";
+$isql = "isql";
 
 $options = array(
  "file" => "filename",
