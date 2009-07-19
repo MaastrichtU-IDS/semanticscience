@@ -104,21 +104,37 @@ if($options['format'] == 'n3') {
 
 foreach($files AS $file) {
  echo "Adding $file...".PHP_EOL;
-
+ 
+ $f = $file;
  if(strstr($file,".gz")) {
    $gzipfile = $file;
    $un = substr($file,0,-3);
-   file_put_contents($un,implode(gzfile($file)));
-   $file = $un;
+   
+   // file_put_contents($un,implode(gzfile($file)));
+   // ran into memory error, so go line by line
+   $out = fopen($un,"w");
+   $in = gzopen($file,"r");
+   while($l = gzgets($in)) {
+	fwrite($out,$l);
+   }
+   fclose($out);
+   gzclose($in);
+   
+   $f = $un;
  }
- $cmd = $program."(file_to_string_output ('$file'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+ 
+ $cmd = $program."(file_to_string_output ('$f'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
 
 // echo $cmd_pre.$cmd.$cmd_post;
-
  echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
  if(strstr($out,"Error")) {
    exit;
  }
+ 
+ if(strstr($file,".gz")) {
+  unlink($f);
+ }
+ 
 
 }
 
