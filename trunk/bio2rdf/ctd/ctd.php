@@ -1,17 +1,28 @@
 <?php
-$download = false;
-//$download = true;
-
+// Parser for:
 // CTD: The Comparative Toxicogenomics Database
 // http://ctd.mdibl.org/
 // download URI: http://ctd.mdibl.org/reports/XXXX.tsv.gz
-require('../include.php');
 
+/** Show/Set command line parameters **/
+$options = array(
+ "download" => "false",
+ "dataset" => "*|chemicals|chem_gene_ixns|chem_disease_relations|chem_pathways|diseases|disease_pathways|gene_disease_relations|gene_pathways"
+);
+// show options
+if($argc == 1) {echo "Usage: php $argv[0] ".PHP_EOL;foreach($options AS $key => $value) { echo " $key=$value ". PHP_EOL;}}
+// set options from user input
+foreach($argv AS $i=> $arg) {if($i==0) continue;$b = explode("=",$arg);if(isset($options[$b[0]])) $options[$b[0]] = $b[1];else {echo "unknown key $b[0]";exit;}}
+
+
+
+require (dirname(__FILE__).'/../include.php');
+$downloadsite = 'http://ctd.mdibl.org/reports/';
 $indir = DATA.'ctd/';
 $outdir = DATA.'ctd/n3/';
 $infile_suffix = ".tsv.gz";
 $outfile_suffix = ".n3.gz";
-$files = array(
+$allfiles = array(
  "chemicals",  // uses MESH terms
  "chem_gene_ixns", // curated interactions
  "chem_disease_relations",
@@ -19,14 +30,18 @@ $files = array(
  "diseases",   // uses MESH/OMIM
  "disease_pathways",
  "gene_disease_relations", 
- "gene_pathways" ,
-
+ "gene_pathways"
 );
 
-if($download) {
- $host = 'http://ctd.mdibl.org/reports/';
+if($options['dataset'][0] == '*') {
+	$files = $allfiles;
+} else {
+	$files = explode("|",$options['dataset']);
+}
+
+if($options['download'] == 'true') {
  foreach($files AS $file) {
-	$f = $host.'CTD_'.$file.$infile_suffix;
+	$f = $downloadsite.'CTD_'.$file.$infile_suffix;
 	$l = $indir.$file.$infile_suffix;
 	echo "Downloading $f to $l\n";
 	copy($f, $l);
@@ -35,7 +50,6 @@ if($download) {
 
 
 foreach($files AS $base) {
-	
 	$infile = $indir.$base.$infile_suffix;
 	$outfile = $outdir.$base.$outfile_suffix;
 	
@@ -58,6 +72,10 @@ foreach($files AS $base) {
 	gzclose($outfp);
 }
 
+
+
+
+
 /*
 x ChemicalName
 X CasRN
@@ -65,7 +83,7 @@ X ChemicalID (MeSH accession identifier)
 */
 function CTD_chemicals($infp, $outfp)
 {
-	require ('../include.php');
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -80,7 +98,6 @@ function CTD_chemicals($infp, $outfp)
 		if($casrn) $buf .= "$mesh:$mid $rdfs:seeAlso $cas:$casrn .".PHP_EOL;
 		
 		$buf .= "$mesh:$mid $bio2rdfns:in $ss:dataset/$ctd .".PHP_EOL;
-		
 	}
 	gzwrite($outfp,$buf);
 	return 0;
@@ -100,7 +117,7 @@ X PubmedIDs ('|'-delimited list)
 */
 function CTD_chem_gene_ixns($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -115,9 +132,9 @@ function CTD_chem_gene_ixns($infp, $outfp)
 			if(!is_int($pmid)) unset($pubmed_ids[$i]);
 		}
 		
-		$uri = "$ctd:$mid$gene_id";
+		$uri = "$ctd:$mid$gene_id";  // should taxon be part of the ID?
 		
-		$buf .= "$uri $dc:identifier \"$ctd:$mid$gene_id\".".PHP_EOL;
+//		$buf .= "$uri $dc:identifier \"$ctd:$mid$gene_id\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"interaction between gene $gene_id and chemical $mid [$ctd:$mid$gene_id]\".".PHP_EOL;
 		$buf .= "$uri $rdf:type $ctd:ChemicalGeneInteraction.".PHP_EOL;
 		
@@ -127,14 +144,7 @@ function CTD_chem_gene_ixns($infp, $outfp)
 		if($taxon_id) $buf .= "$uri $bio2rdfns:organism $taxon:$taxon_id .".PHP_EOL;
 		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
 		//break;
-		
-		/*
-		$buf .= "<$uri> <$rdf:type> <$ss:ChemicalGeneInteraction>.".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasAgent> <$gene:$gene_id>.".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasAgent> <$mesh:$cid>.".PHP_EOL;
-		if($taxon_id) $buf .= "<$uri> <$ss:hasAgent> <$taxon:$taxon_id>.".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "<$uri> <$ss:hasReference> <$pubmed:$pubmed_id> .".PHP_EOL;
-		*/
+	
 		//echo $buf;exit;
 	}
 	gzwrite($outfp,$buf);
@@ -155,7 +165,7 @@ X PubmedIDs ('|'-delimited list)
 */
 function CTD_chem_disease_relations($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -169,22 +179,16 @@ function CTD_chem_disease_relations($infp, $outfp)
 		
 		$uri = "$ctd:$cid$mesh_id";
 		
-		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
+		//$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"interaction between chemical $cid and disease $mesh_id [$uri]\".".PHP_EOL;
 		$buf .= "$uri a $ctd:ChemicalDiseaseInteraction .".PHP_EOL;
+		$buf .= "$uri $bio2rdfns:chemical $mesh:$cid .".PHP_EOL;
 		$buf .= "$uri $bio2rdfns:disease $mesh:$mesh_id .".PHP_EOL;
 		if($omim_id)    foreach($omim_ids AS $omim_id)     $buf .= "$uri $bio2rdfns:disease $omim:$omim_id .".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
+		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) {
+			if($pubmed_id) $buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
+		}
 		
-		//break;
-		/*
-		$buf .= "<$uri> <$rdf:type> <$ss:ChemicalDiseaseInteraction>.".PHP_EOL;
-		$buf .= "<$uri> <$rdfs:comment> \"evidence: $a[5]\".".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasParticipant> <$mesh:$cid>.".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasParticipant> <$mesh:$mesh_id>.".PHP_EOL;
-		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) $buf .= "<$uri> <$ss:hasReference> <$pubmed:$pubmed_id> .".PHP_EOL;
-		if($omim_ids)   foreach($omim_ids AS $omim_id)     $buf .= "<$uri> <$ss:hasTag> <$omim:$omim_id>.".PHP_EOL;
-		*/
 		//echo $buf;exit;
 	}
 	
@@ -202,7 +206,7 @@ x ChemicalPathwayRelation
 */
 function CTD_chem_pathways($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -215,12 +219,12 @@ function CTD_chem_pathways($infp, $outfp)
 		
 		// @TODO NEED axiom annotation
 		$uri = "$ctd:$mid$pathway_id";
-		$buf .= "$uri a $owl:Annotation .".PHP_EOL;
-		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
+		$buf .= "$uri a $owl:Axiom .".PHP_EOL;
+		// $buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
 		$buf .= "$uri $rdfs:label \"$a[5] [$uri]\".".PHP_EOL;
-		$buf .= "$uri $ss:hasSubject $mesh:$mid.".PHP_EOL;
-		$buf .= "$uri $ss:hasPredicate $bio2rdfns:pathway.".PHP_EOL;
-		$buf .= "$uri $ss:hasObject $kegg:$pathway_id.".PHP_EOL;
+		$buf .= "$uri $owl:subject $mesh:$mid.".PHP_EOL;
+		$buf .= "$uri $owl:predicate $bio2rdfns:pathway.".PHP_EOL;
+		$buf .= "$uri $owl:object $kegg:$pathway_id.".PHP_EOL;
 	
 		//break;
 	}
@@ -236,7 +240,7 @@ X DiseaseID (MeSH or OMIM accession identifier)
 */
 function CTD_diseases($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -263,7 +267,7 @@ X PathwayID (KEGG accession identifier)
 */
 function CTD_disease_pathways($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -298,7 +302,7 @@ X PubmedIDs ('|'-delimited list)
 */
 function CTD_gene_disease_relations($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
@@ -320,7 +324,8 @@ function CTD_gene_disease_relations($infp, $outfp)
 		$uri = "$ctd:$gene_id$disease_id[1]";
 		$buf .= "$uri $rdf:type $ctd:GeneDiseaseInteraction .".PHP_EOL;
 		$buf .= "$uri $dc:identifier \"$uri\".".PHP_EOL;
-		$buf .= "$uri $rdfs:label \"Interaction between gene $gene_id and disease $disease_id[0]:$disease_id[1] [$uri]\".".PHP_EOL;
+		$buf .= "$uri $rdfs:label \"Gene Disease interaction between gene $gene_id and disease $disease_id[0]:$disease_id[1] [$uri]\".".PHP_EOL;
+		$buf .= "$uri $bio2rdfns:gene $gene_id .".PHP_EOL;
 		if($mesh_id) $buf .= "$uri $bio2rdfns:disease $mesh:$mesh_id .".PHP_EOL;
 		if($omim_ids)   foreach($omim_ids AS $omim_id)    $buf .= "$uri $bio2rdfns:disease $omim:$omim_id .".PHP_EOL;
 		if($pubmed_ids) foreach($pubmed_ids AS $pubmed_id) {
@@ -328,23 +333,7 @@ function CTD_gene_disease_relations($infp, $outfp)
 			$buf .= "$uri $bio2rdfns:article $pubmed:$pubmed_id .".PHP_EOL;
 		}
 		
-			//echo $buf; exit;
-		/*
-		$buf .= "<$uri> <$rdf:type> <$ss:GeneDiseaseInteraction>.".PHP_EOL;
-		$buf .= "<$uri> <$rdfs:comment> \"evidence: $a[4]\".".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasParticipant> <$gene:$gene_id>.".PHP_EOL;
-		$buf .= "<$uri> <$ss:hasParticipant> <$mesh:$mesh_id>.".PHP_EOL;
-		if(isset($omim_ids)) {
-			foreach($omim_ids AS $omim_id) {
-				$buf .= "<$uri> <$ss:hasParticipant> <$omim:$omim_id>.".PHP_EOL;
-			}
-		}
-		foreach($pubmed_ids AS $pubmed_id) {
-			$buf .= "<$uri> <$ss:hasReference> <$pubmed:$pubmed_id> .".PHP_EOL;
-		}
-		
-	
-		*/
+		//echo $buf; exit;
 	}
 	
 	gzwrite($outfp,$buf);
@@ -359,7 +348,7 @@ X PathwayID (KEGG accession identifier)
 */
 function CTD_gene_pathways($infp, $outfp)
 {
-	require("../include.php");
+	require (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	
 	gzgets($infp);
