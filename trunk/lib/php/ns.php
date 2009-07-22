@@ -6,7 +6,7 @@ $rdfs = 'rdfs';       $rdfs_uri = 'http://www.w3.org/2000/01/rdf-schema#';
 $owl = 'owl';         $owl_uri  = 'http://www.w3.org/2002/07/owl#';
 $dc = 'dc';           $dc_uri   = 'http://purl.org/dc/elements/1.1/';
 $ss = 'ss';           $ss_uri   = 'http://semanticscience.org/ontology/';
-$bio2rdfns = 'bio2rdf_ns';  $bio2rdfns_uri   = 'http://bio2rdf.org/bio2rdf:';
+$bio2rdfns = 'bio2rdf_ns';  $bio2rdfns_uri   = 'http://bio2rdf.org/ns/bio2rdf:';
 
 /** BIO2RDF **/
 $bio2rdf = 'bio2rdf';
