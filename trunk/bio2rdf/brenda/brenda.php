@@ -131,26 +131,14 @@ function REACTION($l,$id)
 //***********************************************************  REACTION_TYPE **************************************************************************//
 function REACTION_TYPE($l,$id)
 {
-  $rxid = "brenda:$id/reaction_type".md5($l);
-  $b .= "$rxid rdfs:label \"reaction type [$rxid]\".".PHP_EOL;
-  $b .= "$rxid rdf:type brenda:ReactionType .".PHP_EOL;
+  $a = explode("\t",$l);
+  $rxid = "brenda:$id/reaction";
+  $rtype = "brenda:".md5($a[1]);
+  //$rtype = "brenda:".strreplace(" ","",$a[1]);
+  $n3 .= "$rxid rdf:type $rtype";
+  $n3 .= "$rtype rdfs:label \"$a[1] [$rtype]\".".PHP_EOL;
 
-  preg_match("/^RT\t(.*)$/",$l,$m);
-
- if(count($m) == 0) {
-	echo "$l"."\n";
-        
-}
-// Relation to BRENDA ID: //
-   $rxid = "brenda:$id/reaction_type$m[1]";
-   $b .= "$rxid brenda:species $sid .".PHP_EOL; 
-// Relation to Reaction: //  
-   $rxid = "brenda:$id/reaction_type$m[1]";
-   $b .= "$rxid brenda:species $sid .".PHP_EOL; 
-  
-//echo $b;
-//print_r($m);
-//exit;
+  return $n3;
 }
 
 //******************************************************** TURN OVER NUMBER ***************************************************************************//
@@ -162,14 +150,10 @@ function TURNOVER_NUMBER($l,$id)
 
 //$l = "TN	#4,16# 25 {NADPH}  (#16# pH 7.0, 25°C <14>; #4# pH 7.0, 25°C, wild-type enzyme <13>) <13,14>";
   preg_match("/TN\t#([0-9,]+)#\s([0-9\.?\-?]+)\s{(.*)}\s+(\(#[0-9]+#\s?(p?H? [0-9\.]+)?,?\s?([0-9\.]+)?°?C?)?/",$l,$m);
-
- if(count($m) == 0) {
-	echo "$l"."\n";
-        
-}
-
+  if(count($m) == 0) {
+	echo "error in parsing turnover number: $l"."\n";
+  }
   $c = explode(",",$m[1]);
-
   foreach($c as $speciesid) {
    $sid = "brenda:$id/species$speciesid";
    $b .= "$tid brenda:species $sid .".PHP_EOL; 
@@ -181,11 +165,9 @@ function TURNOVER_NUMBER($l,$id)
   $b .= "$tid brenda:pH \"$t[1]\".".PHP_EOL;
   $b .= "$tid brenda:temperature \"$m[5]\".".PHP_EOL;
 
-//echo $b;
-//print_r($m);
-//exit;
- 
+  return $b; 
 }
+
 //**************************************************************** Km Value ***************************************************************************//
 function KM_VALUE($l,$id)
 {
