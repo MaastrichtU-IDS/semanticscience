@@ -1,20 +1,32 @@
 <?php
-require('../include.php');
+require(dirname(__FILE__).'/../include.php');
 
-$infile  = "562.mitab.10172008.txt";
-$indir = "/data/irefindex/";
-$outdir = "/data/irefindex/n3/";
-$outfile = "irefindex.n3";
+$rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/All.mitab.06042009.txt.zip';
 
-$infp = fopen($indir.$infile,"r");
+//$infile  = "562.mitab.10172008.txt";
+$infile  = "All.mitab.06042009.txt.zip";
+
+$indir = DATA."/irefindex/";
+$outdir = DATA."/irefindex/n3/";
+$outfile = "irefindex.n3.gz";
+
+$infp = gzopen($indir.$infile,"r");
 if(!$infp) {trigger_error("Unable to open ".$outdir.$infile);exit;}
 
-$outfp = fopen($outdir.$outfile,"w");
+$outfp = gzopen($outdir.$outfile,"w");
 if(!$outfp) {trigger_error("Unable to open ".$outdir.$outfile);exit;}
 
 irefindex($infp,$outfp);
 
-	
+gzclose($infp);
+gzclose($outfp);
+
+
+
+
+
+
+
 /** 
 (0)uidA 	uidB	altA	altB	aliasA	
 (5)aliasB  method	author	pmids	taxai
@@ -41,8 +53,9 @@ function irefindex($infp, $outfp)
 
 	$z = 0;
 	$liid = ''; // last interaction id
-	fgets($infp);
-	while($l = fgets($infp)) {
+	gzgets($infp);
+	while($l = gzgets($infp)) {
+		echo '.';
 		$a = explode("\t",trim($l));
 		
 		$ids = explode("|",$a[13]);
@@ -173,8 +186,8 @@ function irefindex($infp, $outfp)
 	//echo $buf;echo TriplesFromLabel($oids);exit;
 			
 	
-	fwrite($outfp,$buf);
-	fwrite($outfp,TriplesFromLabel($oids));
+	gzwrite($outfp,$buf);
+	gzwrite($outfp,TriplesFromLabel($oids));
 	return 0;
 }
 
