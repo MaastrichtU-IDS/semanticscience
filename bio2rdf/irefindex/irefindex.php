@@ -5,12 +5,13 @@ $rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/All.mitab.060
 
 //$infile  = "562.mitab.10172008.txt";
 $infile  = "All.mitab.06042009.txt.zip";
+$infile  = "All.mitab.06042009.txt";
 
 $indir = DATA."/irefindex/";
 $outdir = DATA."/irefindex/n3/";
 $outfile = "irefindex.n3.gz";
 
-$infp = gzopen($indir.$infile,"r");
+$infp = fopen($indir.$infile,"r");
 if(!$infp) {trigger_error("Unable to open ".$outdir.$infile);exit;}
 
 $outfp = gzopen($outdir.$outfile,"w");
@@ -18,7 +19,7 @@ if(!$outfp) {trigger_error("Unable to open ".$outdir.$outfile);exit;}
 
 irefindex($infp,$outfp);
 
-gzclose($infp);
+fclose($infp);
 gzclose($outfp);
 
 
@@ -53,9 +54,8 @@ function irefindex($infp, $outfp)
 
 	$z = 0;
 	$liid = ''; // last interaction id
-	gzgets($infp);
-	while($l = gzgets($infp)) {
-		echo '.';
+	fgets($infp);
+	while($l = fgets($infp)) {
 		$a = explode("\t",trim($l));
 		
 		$ids = explode("|",$a[13]);
@@ -66,26 +66,47 @@ function irefindex($infp, $outfp)
 		array_shift($ids);
 		foreach($ids AS $id) {
 			BreakName($id, &$id_ns, &$id, &$id_label);
-			$buf .= "$iid owl:sameAs $id_ns:$id .".PHP_EOL;
+			if($id != '-') $buf .= "$iid owl:sameAs $id_ns:$id .".PHP_EOL;
 		}
 			
 		// MI-specified interaction type
-		BreakName($a[11], &$it_ns, &$it_id, &$it_label);
-		if($it_ns != '' && $it_id != 'NA') {
+		$interaction_type_labels = '';
+		$interaction_types = explode("|",$a[11]);
+		foreach($interaction_types AS $interaction_type) {
+			BreakName($interaction_type, &$it_ns, &$it_id, &$it_label);
+			if($it_id == '0000') { // a hack for bad ids
+				if($it_label == '-1') {$interaction_labels[] = 'unspecified interaction type';break;} //hopefully it's the only one
+				else {
+					// otherwise, we should generate a new id and label
+					AddNewIndividual('irefindex',$it_label,&$it_id,&$oids);
+					$interaction_type_labels[] = $it_label;			
+				}
+			} else { // a real id
+				$oids["$it_ns:$it_id"] = $it_label; // keep a list of MI entities to generate labels
+			}
 			$buf .= "$iid a $it_ns:$it_id .".PHP_EOL;
-			$oids["$it_ns:$it_id"] = $it_label; // keep a list of MI entities to generate labels
 		}
 		
-		// MI-specified method
-		BreakName($a[6],  &$m_ns, &$m_id, &$m_label);
-		if($mid != '0000') {
-			$buf .= "$iid bio2rdf:method $m_ns:$m_id .".PHP_EOL;
-			if($m_label == '-1') $m_label = 'by unspecified method';
-			else {
+		// MI-specified method(s)
+		$method_labels = '';
+		$methods = explode("|",$a[6]);
+		foreach($methods AS $method) {
+			BreakName($method,  &$m_ns, &$m_id, &$m_label);
+			if($m_id == '0000') { // a hack for bad ids
+				if($m_label == '-') {$method_labels[] = 'unspecified method';break;} //hopefully it's the only one
+				else {
+					// otherwise, we should generate a new id and label
+					AddNewIndividual('irefindex',$m_label,&$m_id,&$oids);
+					$method_labels[] = $m_label;
+				}
+			} else { // a real id
+				// add the id
 				$oids["$m_ns:$m_id"] = $m_label;
-				$m_label = "identified by $m_label"; // for label generation
+				$method_labels[] = "identified by $m_label"; 
 			}
+			$buf .= "$iid bio2rdf:method $m_ns:$m_id .".PHP_EOL;
 		}
+		$m_label = 'identified by '.implode(", ",$method_labels);
 		
 		// Participants
 		for($i=0;$i<2;$i++) { // the irefindex participant ids are at elements 0 and 1 of the array
@@ -129,23 +150,13 @@ function irefindex($infp, $outfp)
 				} else {
 					$type = 'HomoInteraction';
 					$label = "$it_label between two molecules of $a[2] $m_label";
-					$buf .= "$iid ss:hasParticipant $a[0].".PHP_EOL;
-					// has exactly 2 of this type
-					/* @todo
-					<rdf:type>
-						<owl:Restriction>
-							<owl:onProperty rdf:resource="&ontology;hasPart"/>
-							<owl:onClass rdf:resource="&ontology;Protein"/>
-							<owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-						</owl:Restriction>
-					</rdf:type>
-					*/					
+					$buf .= "$iid ss:hasParticipant $a[0].".PHP_EOL;		
 				}
 			} else if($rel == 'X') {
 				$type = 'HeteroInteraction';
 				$buf .= "$iid ss:hasParticipant $a[0].".PHP_EOL;
 				$buf .= "$iid ss:hasParticipant $a[1].".PHP_EOL;
-				$label = "$i1_type_label-$i2_type_label $it_label between $a[0] and $a[1] $m_label";
+				$label = "$it_label between $a[0]($i1_type_label) and $a[1]($i2_type_label)  $m_label";
 			} else {
 				trigger_error("Unhandled type of interaction $rel");
 				exit;
@@ -168,6 +179,15 @@ function irefindex($infp, $outfp)
 		$dbs = explode("|",$a[12]);
 		foreach($dbs AS $db) {
 			BreakName($db,$ns,$id,$label);
+			$c = explode(":",$ns);
+			if(count($c) > 1) { // a hack due to file error
+				$ns = $c[0];
+				$id = $c[1];
+			}
+			if($id == '0000') {
+				$ns = 'irefindex';
+				AddNewIndividual($ns, $label,&$id,&$oids);
+			}
 			$buf .= "$iid bio2rdf:provenance $ns:$id.".PHP_EOL;
 			$oids["$ns:$id"] = $label;
 		}
@@ -177,14 +197,12 @@ function irefindex($infp, $outfp)
 		foreach($confidences AS $c) {
 			// label:score
 			BreakName($c,&$label,&$score, &$nothing);
-			$buf .= "$iid irefindex:$label \"$score\".".PHP_EOL;
+			if($score != '-') $buf .= "$iid irefindex:$label \"$score\".".PHP_EOL;
 		}
 		
 		$liid = $iid;
-	}
-
-	//echo $buf;echo TriplesFromLabel($oids);exit;
-			
+		if($z++ == 6) {echo $buf;echo TriplesFromLabel($oids);exit;}
+	}	
 	
 	gzwrite($outfp,$buf);
 	gzwrite($outfp,TriplesFromLabel($oids));
@@ -211,6 +229,12 @@ function TriplesFromLabel($list)
 		$buf .= "$id rdfs:label \"$label [$id]\".".PHP_EOL;;
 	}
 	return $buf;
-
 }
+
+function AddNewIndividual($ns,$label,&$id,&$idlist)
+{
+	$id = md5($label);
+	$idlist["$ns:$id"] = $label;	
+}
+					
 ?>
