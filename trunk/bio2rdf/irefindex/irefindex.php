@@ -1,6 +1,5 @@
 <?php
 require(dirname(__FILE__).'/../include.php');
-
 $rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/All.mitab.06042009.txt.zip';
 
 //$infile  = "562.mitab.10172008.txt";
@@ -25,9 +24,6 @@ gzclose($outfp);
 
 
 
-
-
-
 /** 
 (0)uidA 	uidB	altA	altB	aliasA	
 (5)aliasB  method	author	pmids	taxai
@@ -37,18 +33,23 @@ gzclose($outfp);
 */
 function irefindex($infp, $outfp)
 {
-	include ('../include.php');
+	include (dirname(__FILE__).'/../include.php');
 	$buf = N3NSHeader($nslist);
 	$oids = '';
 		
 	$nsmap = array(
 		'emb' => 'embl',
 		'gb' => 'ncbi',
+		'genbank_protein_gi' => 'ncbi',
 		'taxid' => 'taxon',
 		'uniprotkb' => 'uniprot',
 		'entrezgene/locuslink' => 'geneid',
 		'dbj' => 'ddbj',
-		'kegg:ecj' => 'kegg'
+		'kegg:ecj' => 'kegg',
+		'mppi' => 'mips',
+		'swiss-prot' => 'swissprot',
+		'flybase' => 'fb',
+		'mint:mintnamint' => 'mint'
 	);
 	
 
@@ -66,6 +67,7 @@ function irefindex($infp, $outfp)
 		array_shift($ids);
 		foreach($ids AS $id) {
 			BreakName($id, &$id_ns, &$id, &$id_label);
+			if(isset($nsmap[$id_ns])) $id_ns = $nsmap[$id_ns];
 			if($id != '-') $buf .= "$iid owl:sameAs $id_ns:$id .".PHP_EOL;
 		}
 			
@@ -115,10 +117,19 @@ function irefindex($infp, $outfp)
 			foreach($other_ids as $oid) {
 				BreakName($oid,$oid_ns,$oid_id,$oid_label);
 				if(isset($nsmap[$oid_ns])) $oid_ns = $nsmap[$oid_ns]; // check to see whether we're mapping the namespace
-				$buf .= "$a[$i] owl:sameAs $oid_ns:$oid_id.".PHP_EOL;
+
+				if(strstr($oid_ns,"kegg")) {
+					$buf .= "$a[$i] owl:sameAs <http://bio2rdf.org/$oid>.".PHP_EOL; 
+				} else if(strstr($oid_ns,"other")) {
+					// nothing to do
+				} else {
+					$b = explode(":",$oid_ns);
+					if(count($b) == 1) 
+						$buf .= "$a[$i] owl:sameAs $oid_ns:$oid_id.".PHP_EOL;
+				}
 			}
 			// organism
-			if($a[9] != 'NA') $buf .= "$a[$i] bio2rdf:organism ".str_replace("taxid","taxon",$a[9]).".".PHP_EOL;
+			if($a[9] != '-') $buf .= "$a[$i] bio2rdf:organism ".str_replace("taxid","taxon",$a[9]).".".PHP_EOL;
 		}
 		// Participant types
 		BreakName($a[17], &$i1_type_ns, &$i1_type_id, &$i1_type_label);
@@ -188,6 +199,8 @@ function irefindex($infp, $outfp)
 				$ns = 'irefindex';
 				AddNewIndividual($ns, $label,&$id,&$oids);
 			}
+			if(isset($nsmap[$ns])) $ns = $nsmap[$ns];
+
 			$buf .= "$iid bio2rdf:provenance $ns:$id.".PHP_EOL;
 			$oids["$ns:$id"] = $label;
 		}
@@ -201,7 +214,10 @@ function irefindex($infp, $outfp)
 		}
 		
 		$liid = $iid;
-		if($z++ == 6) {echo $buf;echo TriplesFromLabel($oids);exit;}
+
+		gzwrite($outfp,$buf);
+		$buf = '';
+		//if($z++ == $100) {echo $buf;echo TriplesFromLabel($oids);exit;}
 	}	
 	
 	gzwrite($outfp,$buf);
