@@ -19,8 +19,14 @@ function HTTPDownload($host, $files, $ldir)
 function BreakPath($path, &$dir, &$file)
 {
   $rpos = strrpos($path,'/');
-  $dir = substr($path,0,$rpos+1);
-  $file = substr($path,$rpos+1);
+  if($rpos !== FALSE) {
+	$dir = substr($path,0,$rpos+1);
+	$file = substr($path,$rpos+1);
+   } else {
+	$dir = "";
+	$file = $path;
+   }
+   return 0;
 }
 
 
