@@ -6,11 +6,11 @@ function HTTPDownload($host, $files, $ldir)
   $path = $args['infile'];
   BreakPath($path,$dir,$file);
 
-  if(!@copy($site.$dir.$file,$ldir.$file)) {
+  if(!@copy($host.$dir.$file,$ldir.$file)) {
     $errors= error_get_last();
     trigger_error($errors['type'].": ".$errors['message']);
   } else {
-    echo "$file copied from $site$dir into $ldir!".PHP_EOL;
+    echo "$file copied from $site$dir into $ldir".PHP_EOL;
   }
  }
  return 0;
