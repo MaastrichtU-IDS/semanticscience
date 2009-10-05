@@ -51,10 +51,11 @@ if(FALSE !== ($pos = strrpos($options['i'],'\\'))) {
 	$file = substr($options['i'],$pos+1);
 } else $file = $opitons['i'];
 $file .= ".owl";
+$ouri = "http://semantiscience.org/ontology/$file";
 
 $buf = N3NSHeader($basenslist);
-$ouri = "http://semantiscience.org/ontology/$file";
-$buf .= "$ouri a $owl:Ontology .".PHP_EOL;
+$buf .= "@prefix obo: <http://bio2rdf.org/obo:>.".PHP_EOL;
+$buf .= "<$ouri> a $owl:Ontology .".PHP_EOL;
 
 while($l = fgets($in)) {
 	if(strlen(trim($l)) == 0) continue;
@@ -93,30 +94,11 @@ while($l = fgets($in)) {
 			// in the header
 			//format-version: 1.0
 			$a = explode(": ",trim($l));
-			$buf .= "$ouri obo:$a[0] \"$a[1]\".".PHP_EOL;
+			$buf .= "<$ouri> obo:$a[0] \"".str_replace('"','\"',$a[1])."\".".PHP_EOL;
 		} 
 	}
 }
 fclose($in);
 file_put_contents($options['o'],$buf);
-
-
-
-/*
-HEADER
-
-format-version: 1.0
-date: 31:08:2009 14:07
-saved-by: Maria
-auto-generated-by: OBO-Edit 1.101
-subsetdef: AspGD "APO terms in use at AspGD"
-subsetdef: SGD "APO terms in use at SGD"
-default-namespace: ascomycete_phenotype_ontology
-*/
-
-
-
-
-
 
 ?>
