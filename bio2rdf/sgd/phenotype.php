@@ -39,13 +39,13 @@ class SGD_Phenotype {
 13) Reporter (Optional) 			-The protein(s) or RNA(s) used in an experiment to track a process 
 
 AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	classical genetics	reduction of function		Other	autophagy: absent		nitrogen starvation + 1 mM PMSF	autophagosomes not observed	
-	*/
+*/
 	function Convert2RDF()
 	{
 		require ('../../lib/php/oboparser_lib.php');
 		
 		/** get the ontology terms **/
-		$file = "/data/obo/yeast_phenotype_v1.15.obo";
+		$file = "/opt/data/obo/yeast_phenotype_v1.15.obo";
 		$in = fopen($file, "r");
 		if($in === FALSE) {
 			trigger_error("Unable to open $file");
@@ -53,17 +53,15 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 		}
 		$terms = OBOParser($in);
 		fclose($in);
-		
+
 		BuildNamespaceSearchList($terms,$searchlist);
-				
 		
 		require ('../include.php');
 		$buf = N3NSHeader($nslist);
 		$buf .= "@prefix apo: <http://bio2rdf.org/apo:>.".PHP_EOL;
 		
 		while($l = fgets($this->_in,96000)) {
-			if(trim($l) == '') continue;
-			
+			if(trim($l) == '') continue;		
 			$a = explode("\t",trim($l));
 			
 					
@@ -80,16 +78,16 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			$b = explode("|",$a[4]);
 			foreach($b AS $c) {
 				$d = explode(" ",$c);
-				if($d[0] == "PMID:") $ns = "pmid";
+				if($d[0] == "PMID:") $ns = "pubmed";
 				else $ns = "sgd";
 				$buf .= "$sgd:$eid $bio2rdf:article $ns:$d[1].".PHP_EOL;
 			}
 			
 			// experiment type [5]
-			preg_match("/(.*) \((.*)\)/",$a[5],$m);
-			if(count($m)) {
-				$label = $m[1];
-				$details = $m[2];
+			$p = strpos($a[5],'(');
+			if($p !== FALSE) {
+				$label = substr($a[5],0,$p-1);
+				$details = substr($a[5],$p+1);
 				$buf .= "$sgd:$eid $sgd:experiment_comment \"$details\".".PHP_EOL;
 			} else {
 				$label = $a[5];
@@ -97,7 +95,9 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			$id = array_search($label, $searchlist['experiment_type']);	
 			if($id !== FALSE) 
 				$buf .= "$sgd:$eid $sgd:experiment_type ".strtolower($id).".".PHP_EOL;
-		
+			else 
+				trigger_error("No match for experiment type $label");
+
 			// mutant type [6]
 			$id = array_search($a[6], $searchlist['mutant_type']);
 			if($id !== FALSE) 
@@ -127,13 +127,8 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			if($a[8] != '') $buf .= "$sgd:$eid $sgd:background \"$a[8]\".".PHP_EOL;
 			if($a[10] != '') $buf .= "$sgd:$eid $sgd:chemical \"$a[10]\".".PHP_EOL;
 			if($a[11] != '') $buf .= "$sgd:$eid $sgd:condition \"$a[11]\".".PHP_EOL;
-			if($a[12] != '') $buf .= "$sgd:$eid $sgd:details \"$a[12]\".".PHP_EOL;
+			if($a[12] != '') $buf .= "$sgd:$eid $sgd:details \"".str_replace('"','\"',$a[12])."\".".PHP_EOL;
 			//if($a[13] != '') $buf .= "$sgd:$eid $sgd:reporter \"$a[13]\".".PHP_EOL;
-			
-			/*
-			if(count($m)) echo $buf;
-			$buf = '';
-			*/
 			
 		}		
 		fwrite($this->_out, $buf);
