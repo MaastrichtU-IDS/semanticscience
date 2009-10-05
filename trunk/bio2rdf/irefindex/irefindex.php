@@ -1,10 +1,9 @@
 <?php
 require(dirname(__FILE__).'/../include.php');
-$rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/All.mitab.06042009.txt.zip';
 
-//$infile  = "562.mitab.10172008.txt";
-$infile  = "All.mitab.06042009.txt.zip";
-$infile  = "All.mitab.06042009.txt";
+$date = "08212009";
+$infile = "All.mitab.$date.txt";
+$rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/'.$file;
 
 $indir = DATA."/irefindex/";
 $outdir = DATA."/irefindex/n3/";
@@ -48,8 +47,7 @@ function irefindex($infp, $outfp)
 		'kegg:ecj' => 'kegg',
 		'mppi' => 'mips',
 		'swiss-prot' => 'swissprot',
-		'flybase' => 'fb',
-		'mint:mintnamint' => 'mint'
+		'flybase' => 'fb'
 	);
 	
 
@@ -66,49 +64,59 @@ function irefindex($infp, $outfp)
 		// process the other ids
 		array_shift($ids);
 		foreach($ids AS $id) {
-			BreakName($id, &$id_ns, &$id, &$id_label);
+			BreakName($id, &$id_ns, &$newid, &$id_label);
 			if(isset($nsmap[$id_ns])) $id_ns = $nsmap[$id_ns];
-			if($id != '-') $buf .= "$iid owl:sameAs $id_ns:$id .".PHP_EOL;
+			if($newid != '-') $buf .= "$iid owl:sameAs $id_ns:$newid .".PHP_EOL;
 		}
 			
 		// MI-specified interaction type
-		$interaction_type_labels = '';
-		$interaction_types = explode("|",$a[11]);
+		unset($interaction_type_labels);
+		$interaction_types = explode("|",trim($a[11]));
 		foreach($interaction_types AS $interaction_type) {
+			if($interaction_type == '-' || $interaction_type == '') {$interaction_type_labels[] = 'Interaction';break;}
+
 			BreakName($interaction_type, &$it_ns, &$it_id, &$it_label);
 			if($it_id == '0000') { // a hack for bad ids
-				if($it_label == '-1') {$interaction_labels[] = 'unspecified interaction type';break;} //hopefully it's the only one
+				if($it_label == '-') {$interaction_type_labels[] = 'unspecified interaction type';break;} //hopefully it's the only one
 				else {
 					// otherwise, we should generate a new id and label
-					AddNewIndividual('irefindex',$it_label,&$it_id,&$oids);
-					$interaction_type_labels[] = $it_label;			
+					$it_ns = 'irefindex';
+					AddNewIndividual($it_ns,$it_label,&$it_id,&$oids);
+					$interaction_type_labels[] = $it_label;
 				}
 			} else { // a real id
+				$interaction_type_labels[] = $it_label;
 				$oids["$it_ns:$it_id"] = $it_label; // keep a list of MI entities to generate labels
 			}
 			$buf .= "$iid a $it_ns:$it_id .".PHP_EOL;
 		}
+		$it_label = implode(", ",$interaction_type_labels);
 		
 		// MI-specified method(s)
 		$method_labels = '';
-		$methods = explode("|",$a[6]);
+		$methods = explode("|",trim($a[6]));
 		foreach($methods AS $method) {
+			if($method == '-' || $method == '') {$method_labels[] = "unspecified method";break;}
+
 			BreakName($method,  &$m_ns, &$m_id, &$m_label);
 			if($m_id == '0000') { // a hack for bad ids
 				if($m_label == '-') {$method_labels[] = 'unspecified method';break;} //hopefully it's the only one
 				else {
+					// hack
+					if($m_label[0] == '"') $m_label = substr($m_label,1,-1);
 					// otherwise, we should generate a new id and label
-					AddNewIndividual('irefindex',$m_label,&$m_id,&$oids);
+					$m_ns = 'irefindex';
+					AddNewIndividual($m_ns,$m_label,&$m_id,&$oids);
 					$method_labels[] = $m_label;
 				}
 			} else { // a real id
 				// add the id
 				$oids["$m_ns:$m_id"] = $m_label;
-				$method_labels[] = "identified by $m_label"; 
+				$method_labels[] = $m_label; 
 			}
-			$buf .= "$iid bio2rdf:method $m_ns:$m_id .".PHP_EOL;
+			$buf .= "$iid $bio2rdfns:method $m_ns:$m_id .".PHP_EOL;
 		}
-		$m_label = 'identified by '.implode(", ",$method_labels);
+		$m_label = strtolower('identified by '.implode(", ",$method_labels));
 		
 		// Participants
 		for($i=0;$i<2;$i++) { // the irefindex participant ids are at elements 0 and 1 of the array
@@ -118,8 +126,10 @@ function irefindex($infp, $outfp)
 				BreakName($oid,$oid_ns,$oid_id,$oid_label);
 				if(isset($nsmap[$oid_ns])) $oid_ns = $nsmap[$oid_ns]; // check to see whether we're mapping the namespace
 
-				if(strstr($oid_ns,"kegg")) {
+				if(strstr($oid_ns,"kegg")) { // special case for all the derivatives
 					$buf .= "$a[$i] owl:sameAs <http://bio2rdf.org/$oid>.".PHP_EOL; 
+				} else if(strstr($oid_ns,"geneid")) {
+					$buf .= "$a[$i] $bio2rdfns:encodedBy $oid_ns:$oid_id.".PHP_EOL;
 				} else if(strstr($oid_ns,"other")) {
 					// nothing to do
 				} else {
@@ -128,8 +138,29 @@ function irefindex($infp, $outfp)
 						$buf .= "$a[$i] owl:sameAs $oid_ns:$oid_id.".PHP_EOL;
 				}
 			}
+
+			$pid = $i+4; // the aliases
+			$other_ids = explode("|",trim($a[$pid]));
+			foreach($other_ids as $oid) {
+				BreakName($oid,$oid_ns,$oid_id,$oid_label);
+				if(isset($nsmap[$oid_ns])) $oid_ns = $nsmap[$oid_ns]; // check to see whether we're mapping the namespace
+				if($oid_id == '') continue;
+
+				if(strstr($oid_ns,"kegg")) { // special case for all the derivatives
+					$buf .= "$a[$i] rdfs:seeAlso <http://bio2rdf.org/$oid>.".PHP_EOL; 
+				} else if(strstr($oid_ns,"geneid")) {
+					if(is_numeric($oid_id))
+						$buf .= "$a[$i] rdfs:seeAlso $oid_ns:$oid_id.".PHP_EOL;
+				} else if(strstr($oid_ns,"other")) {
+					// nothing to do
+				} else {
+					$buf .= "$a[$i] rdfs:seeAlso $oid_ns:$oid_id.".PHP_EOL;
+				}
+			}
+
+
 			// organism
-			if($a[9] != '-') $buf .= "$a[$i] bio2rdf:organism ".str_replace("taxid","taxon",$a[9]).".".PHP_EOL;
+			if($a[9+$i] != '-') $buf .= "$a[$i] $bio2rdfns:organism ".str_replace("taxid","taxon",$a[9+$i]).".".PHP_EOL;
 		}
 		// Participant types
 		BreakName($a[17], &$i1_type_ns, &$i1_type_id, &$i1_type_label);
@@ -152,21 +183,20 @@ function irefindex($infp, $outfp)
 			$label = "$num component complex $m_label";
 		} else {
 			if($rel == 'Y') {
-				if(!$it_label) $it_label = 'Interaction';
 				if($num == 1) {
 					$type = 'SelfInteraction';
-					$label = "$m_label Interaction of $a[2] with itself";
-					$buf .= "$iid ss:hasAgent $a[0].".PHP_EOL;
+					$label = "$m_label interaction of $a[2] with itself";
+					$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;
 					// interacts with itself
 				} else {
 					$type = 'HomoInteraction';
 					$label = "$it_label between two molecules of $a[2] $m_label";
-					$buf .= "$iid ss:hasParticipant $a[0].".PHP_EOL;		
+					$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;		
 				}
 			} else if($rel == 'X') {
 				$type = 'HeteroInteraction';
-				$buf .= "$iid ss:hasParticipant $a[0].".PHP_EOL;
-				$buf .= "$iid ss:hasParticipant $a[1].".PHP_EOL;
+				$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;
+				$buf .= "$iid $ss:hasParticipant $a[1].".PHP_EOL;
 				$label = "$it_label between $a[0]($i1_type_label) and $a[1]($i2_type_label)  $m_label";
 			} else {
 				trigger_error("Unhandled type of interaction $rel");
@@ -183,7 +213,7 @@ function irefindex($infp, $outfp)
 		foreach($pubs AS $pub) {
 			$b = explode(":",$pub);
 			if(!is_numeric($b[1]) || $b[1] == "-1") continue;
-			$buf .= "$iid bio2rdf:article $b[0]:$b[1].".PHP_EOL;
+			$buf .= "$iid $bio2rdfns:article $b[0]:$b[1].".PHP_EOL;
 		}
 		
 		// provenance
@@ -201,7 +231,7 @@ function irefindex($infp, $outfp)
 			}
 			if(isset($nsmap[$ns])) $ns = $nsmap[$ns];
 
-			$buf .= "$iid bio2rdf:provenance $ns:$id.".PHP_EOL;
+			$buf .= "$iid irefindex:source $ns:$id.".PHP_EOL;
 			$oids["$ns:$id"] = $label;
 		}
 		
@@ -210,14 +240,16 @@ function irefindex($infp, $outfp)
 		foreach($confidences AS $c) {
 			// label:score
 			BreakName($c,&$label,&$score, &$nothing);
-			if($score != '-') $buf .= "$iid irefindex:$label \"$score\".".PHP_EOL;
+			if($score != '-') $buf .= "$iid $irefindex:$label \"$score\".".PHP_EOL;
 		}
 		
 		$liid = $iid;
 
+/*		if($z++ == 100) 
+			{echo $buf;echo TriplesFromLabel($oids);exit;}
+*/
 		gzwrite($outfp,$buf);
 		$buf = '';
-		//if($z++ == $100) {echo $buf;echo TriplesFromLabel($oids);exit;}
 	}	
 	
 	gzwrite($outfp,$buf);
