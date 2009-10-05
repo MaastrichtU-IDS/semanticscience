@@ -14,13 +14,14 @@ $options = array(
  "user" => "dba",
  "pass" => "dba",
  "flags" => "16",
- "threads" => "2",
+ "threads" => "4",
  "updatefacet" => "false",
  "deletegraph" => "false",
  "deleteonly" => "false",
  "initialize" => "false",
  "setns" => "false",
- "format" => "n3"
+ "format" => "n3",
+ "ignoreerror" => "true",
 );
 
 
@@ -78,13 +79,13 @@ if($options['deletegraph'] == "true") {
 if($options['dir'] == 'dirname') {
  // must be a file
  if(!file_exists($options['file'])) {
-  echo "File ".$options['file']." does not exists. Please specify a *real* file with the file=filename option";
+  echo "File ".$options['file']." does not exists. Please specify a *real* file with the file=filename option\n";
   exit;
  }
  $files[] = $options['file'];
 } else {
  if(!is_dir($options['dir'])) {
-  echo "Directory ".$options['dir']." does not exists. Please specify a *real* directory with the dir=dirname option";
+  echo "Directory ".$options['dir']." does not exists. Please specify a *real* directory with the dir=dirname option\n";
   exit;
  } 
  // get the files
@@ -103,7 +104,14 @@ if($options['format'] == 'n3') {
 }
 
 foreach($files AS $file) {
- echo 'Processing '.$file;
+ echo 'Processing '.$file."\n";
+
+ $path = '';
+ $pos = strrpos($file,"/");
+ if($pos !== FALSE) {
+   $path = substr($file,0, $pos+1);
+ }
+
  $f = $file;
  $fcmd = 'file_to_string_output';
  if(strstr($file,".gz")) {
@@ -119,19 +127,70 @@ foreach($files AS $file) {
    gzclose($in);
    
    $f = $un;
-  
-  // $fcmd = 'gz_file_open';
  }
- echo "...adding".PHP_EOL; 
- $cmd = $program."($fcmd ('$f'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+ $t1 = $path."t1.txt"; // the source
+ $t2 = $path."t2.txt"; // the destination
+ if(file_exists($t1)) unlink($t1);
+ if(file_exists($t2)) unlink($t2);
 
- // echo $cmd_pre.$cmd.$cmd_post;
- echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
- if(strstr($out,"Error")) {
-   exit;
- }
+ do { 
+  echo "Loading...".PHP_EOL; 
+  $cmd = $program."($fcmd ('$f'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+  // echo $cmd_pre.$cmd.$cmd_post;
+  $out = shell_exec($cmd_pre.$cmd.$cmd_post);
+ 
+  if(strstr($out,"Error")) {
+    // *** Error 37000: [Virtuoso Driver][Virtuoso Server]SP029: TURTLE RDF loader, line 43: syntax error
+    preg_match("/Error ([0-9]+)\:/",$out,$m);
+    if(!isset($m[1]) || (isset($m[1]) && $m[1] != '37000')) {
+	// some other error
+	echo $out;
+	exit;
+    } 
+
+    preg_match("/line\s([0-9]+)\:/",$out,$m);
+    if(!isset($m[1])) {
+	// some problem here
+	exit;
+    }
+
+    $line = $m[1]; 
+   // write to log?
+    echo "Skipping line:$line ... ";
+
+   // we need find find the line number, and slice the file  
+    if(!file_exists($t1)) {
+      // first use
+      echo "making copy of $f\n";
+      copy($f,$t1);
+    }
+    if(file_exists($t2)) {
+	unlink($t1);
+ 	rename($t2,$t1);
+    } 
+    $fp_in = fopen($t1,"r");
+    $fp_out = fopen($t2,"w");
+    $i = 0;
+    while($l = fgets($fp_in,4096)) {
+      $i++;
+      if($i == $line) echo "Problem in: $l\n";
+      if($l[0] == '@' || $i > $line) {
+	fwrite($fp_out,$l);
+      }
+    }
+    fclose($fp_in);
+    fclose($fp_out);
+    $f=$t2;
+  } else {
+	if(file_exists($t1)) unlink($t1);
+	if(file_exists($t2)) unlink($t2);
+	echo "Done!\n";
+	break;
+  }
+ } while (true);
+
  if(strstr($file,".gz")) {
-  unlink($f);
+  if(file_exists($f)) unlink($f);
  }
  echo PHP_EOL;
 
