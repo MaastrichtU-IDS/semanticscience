@@ -82,13 +82,13 @@ TCDB	TC number
 				case "MetaCyc":
 					$ns = 'metacyc';$rel=$seealso;break;
 				case "NCBI":
-					if($type == "DNA accession ID") {$ns='ncbi_accession'; $rel=$sameas;break;}
-					if($type == "Gene ID") {$ns='ncbi_gene';$rel=$sameas;break;}
-					if($type == "NCBI protein GI") {$ns='ncbi_gi';$rel=$seealso;break;}
-					if($type == "RefSeq Accession") {$ns='ncbi_refseq';$rel=$seealso;break;}
-					if($type == "RefSeq protein version ID") {$ns='ncbi_refseq';$rel=$seealso;break;}
+					if($type == "DNA accession ID") {$ns='ncbi'; $rel=$sameas;break;}
+					if($type == "Gene ID") {$ns='geneid';$rel=$sameas;break;}
+					if($type == "NCBI protein GI") {$ns='ncbi';$rel=$seealso;break;}
+					if($type == "RefSeq Accession") {$ns='refseq';$rel=$seealso;break;}
+					if($type == "RefSeq protein version ID") {$ns='refseq';$rel=$seealso;break;}
 				case "TCDB":
-					$ns = 'tc';$rel=$seealso;break;
+					$ns = 'tcdb';$rel=$seealso;break;
 				default:
 					echo "unable to map $ns : $id to $sgdid";
 			}
