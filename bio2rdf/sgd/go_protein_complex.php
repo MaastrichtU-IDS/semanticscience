@@ -37,7 +37,7 @@ class SGD_GOProteinComplex {
 			$b = explode("/|",$a[1]);
 			foreach($b AS $c) {
 				$d = explode("/",$c);
-				$buf .= "$sgd:$id $ss:hasProperPart $sgd:$d[3] .".PHP_EOL;
+				$buf .= "$sgd:$id $ss:hasProperPart $sgd:$d[3]"."gp .".PHP_EOL;
 			}
 			
 			//echo $buf;exit;
