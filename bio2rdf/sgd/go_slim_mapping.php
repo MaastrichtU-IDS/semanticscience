@@ -35,7 +35,7 @@ class SGD_GOSLIMMapping {
 		while($l = fgets($this->_in,2048)) {
 			$a = explode("\t",trim($l));
 			
-			$id = $a[2];
+			$id = $a[2]."gp";
 			$term = substr($a[5],3);
 			$goi  = "goslim_".$id."_".$term;
 
@@ -49,7 +49,7 @@ class SGD_GOSLIMMapping {
 			$buf .= "$sgd:$goi rdfs:label \"$sgd:$id ".$got['plabel']." $a[4] (".strtolower($got['type']).") [$sgd:$goi]\".".PHP_EOL;
 			$buf .= "$sgd:$goi a $go:$term .".PHP_EOL;
 			$buf .= "$go:$term $rdfs:label \"$a[4] [$go:$term]\".".PHP_EOL;
-			$buf .= "$go:$term $rdfs:subClassOf $ss:".$go_entity[$a[3]]." .".PHP_EOL;
+//			$buf .= "$go:$term $rdfs:subClassOf $ss:".$go_entity[$a[3]]." .".PHP_EOL;
 	
 //			echo $buf;exit;
 		}
