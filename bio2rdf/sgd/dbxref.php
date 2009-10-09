@@ -59,41 +59,44 @@ TCDB	TC number
 					
 			$sameas = "$owl:sameAs";
 			$seealso = "$rdfs:seeAlso";
+			$suf = $rel = "";
 			switch($ns) {
 				case "BioGRID":
 					$ns  = 'biogrid';$rel = $sameas;break;
 				case "CGD":
 					$ns = 'candida'; $rel = $sameas;break;
 				case "DIP":
-					$ns = 'dip'; $rel = $sameas;break;
+					$ns = 'dip'; $rel = $sameas;$suf='gp';break;
 				case "EBI":
-					if($type == "UniParc ID") {$ns='uniparc'; $rel = $sameas;break;}
-					if($type == "UniProt/Swiss-Prot ID") {$ns='swissprot';$rel=$sameas;break;}
-					if($type == "UniProt/TrEMBL ID") {$ns='trembl';$rel=$sameas;break;}
+					if($type == "UniParc ID") {$ns='uniparc'; $rel = $sameas;$suf='gp';break;}
+					if($type == "UniProt/Swiss-Prot ID") {$ns='swissprot';$rel=$sameas;$suf='gp';break;}
+					if($type == "UniProt/TrEMBL ID") {$ns='trembl';$rel=$sameas;$suf='gp';break;}
 					break;
 				case "EUROSCARF":
-					$ns = 'euroscarf';$rel=$sameas;$break;
+					$ns = 'euroscarf';$rel=$sameas;break;
 				case "GenBank/EMBL/DDBJ":
-					$ns = 'genbank';$rel=$sameas;$break;
+					$ns = 'ncbi';$rel=$sameas;break;
 				case "GermOnline":
 					$ns = 'germonline';$rel=$sameas;break;
 				case "IUBMB":
-					$ns = 'ec';$rel=$seealso;break;
+					$ns = 'ec';$rel=$seealso;
+					break;
 				case "MetaCyc":
-					$ns = 'metacyc';$rel=$seealso;break;
+					$ns = 'metacyc';$rel=$seealso;
+					break;
 				case "NCBI":
-					if($type == "DNA accession ID") {$ns='ncbi'; $rel=$sameas;break;}
+					if($type == "DNA accession ID") {$ns='ncbi'; $rel=$sameas;  break;}
 					if($type == "Gene ID") {$ns='geneid';$rel=$sameas;break;}
-					if($type == "NCBI protein GI") {$ns='ncbi';$rel=$seealso;break;}
-					if($type == "RefSeq Accession") {$ns='refseq';$rel=$seealso;break;}
-					if($type == "RefSeq protein version ID") {$ns='refseq';$rel=$seealso;break;}
+					if($type == "NCBI protein GI") {$ns='ncbi';$rel=$sameas;$suf='gp';break;}
+					if($type == "RefSeq Accession") {$ns='refseq';$rel=$sameas;$suf='gp';break;}
+					if($type == "RefSeq protein version ID") {$ns='refseq';$rel=$sameas;$suf='gp';break;}
 				case "TCDB":
 					$ns = 'tcdb';$rel=$seealso;break;
 				default:
 					echo "unable to map $ns : $id to $sgdid";
 			}
 			
-			$buf .= "$sgd:$id $rel $ns:$id .".PHP_EOL;
+			if($rel) $buf .= "$sgd:$sgdid$suf $rel $ns:$id .".PHP_EOL;
 
 			//echo $buf;exit;
 		}
