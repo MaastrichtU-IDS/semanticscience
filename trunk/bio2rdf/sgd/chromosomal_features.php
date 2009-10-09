@@ -48,14 +48,37 @@ class SGD_ChromosomalFeatures {
 			$a = explode("\t",trim($l));
 			
 			$id = $oid = $a[0];
-			$id = str_replace(array("(",")"), array("&#40;","&#41;"), $id);
-				
+/*			$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $id);
+			if($id !== $nid) {
+				$id = md5($id);
+			}			
+*/
+$id =urlencode($id);	
 			$buf .= "$sgd:$id $dc:identifier \"$sgd:$oid\" .".PHP_EOL;
 			$buf .= "$sgd:$id $rdfs:label \"$a[1] [$sgd:$id]\" .".PHP_EOL;
 			if($a[15]) $buf .= "$sgd:$id $rdfs:comment ".'"""'.$a[15].'""" .'.PHP_EOL;
 			$feature_type = $this->GetFeatureType($a[1]);
 			$buf .= "$sgd:$id a $ss:$feature_type. ".PHP_EOL;
-			
+
+			if($a[1] == "ORF" || stristr($a[1],"RNA")) {
+				unset($p1);unset($p2);
+				$buf .= "$sgd:$id $bio2rdfns:encodes $sgd:$id"."gp.".PHP_EOL;
+
+				if($a[1] == "ORF" && $a[3] != '') {
+					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[3])))."p";
+					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$sgd:$id"."gp>.".PHP_EOL;
+
+				}
+				if($a[1] == "ORF" && $a[4] != '') {
+					$p2 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[4])))."p";
+					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p2> owl:sameAs <http://bio2rdf.org/$sgd:$id"."gp>.".PHP_EOL;
+				}
+				if(isset($p1) && isset($p2)) 
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
+			}
+
 			// feature qualifiers (uncharacterized, verified, silenced_gene, dubious)
 			if($a[2]) {
 				$qualifiers = explode("|",$a[2]);
@@ -64,7 +87,7 @@ class SGD_ChromosomalFeatures {
 				}		
 			}
 			
-			// unique feature name\
+			// unique feature name
 			$id2 = str_replace(array("(",")"), array("&#40;","&#41;"), $a[3]);
 			if($a[3]) {
 				$buf .= "$sgd:$id $owl:sameAs <http://bio2rdf.org/$sgd:$id2> .".PHP_EOL;
@@ -83,7 +106,8 @@ class SGD_ChromosomalFeatures {
 			$parent_type = '';
 			if($a[6]) {
 				$parent = str_replace(array("(",")"," "), array("&#40;","&#41;","_"), $a[6]);
-				
+				$parent = urlencode($a[6]);
+
 				$buf .= "$sgd:$id $ss:isProperPartOf <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
 				$other .= "$sgd:$parent $ss:hasPart $sgd:$id .".PHP_EOL;
 				if(strstr($parent,"chromosome")) {
@@ -105,27 +129,13 @@ class SGD_ChromosomalFeatures {
 				}
 			}
 			// chromosome
+			unset($chr);
 			if($a[8] && $parent_type != 'c') {
 				$chr = "chromosome_".$a[8];
 				$buf .= "$sgd:$chr $ss:hasProperPart $sgd:$id .".PHP_EOL;
 			}
-			
-			// position
-			if($a[9]) {
-				$loc = $id."loc";
-				$buf .= "$sgd:$id $sgd:location $sgd:$loc .".PHP_EOL;
-				$buf .= "$sgd:$loc $dc:identifier \"[$sgd:$loc]\" .".PHP_EOL;
-				$buf .= "$sgd:$loc a $sgd:Location .".PHP_EOL;
-				$buf .= "$sgd:$loc $sgd:hasStartPosition \"$a[9]\" .".PHP_EOL;
-				$buf .= "$sgd:$loc $sgd:hasStopPosition \"$a[10]\" .".PHP_EOL;
-				if($a[13]) {
-					$b = explode("|",$a[13]);
-					foreach($b AS $c) {
-						$buf .= "$sgd:$loc $sgd:modified \"$c\" .".PHP_EOL;
-					}
-				}
-			}
 			// watson or crick strand of the chromosome
+			unset($strand);
 			if($a[11]) {
 				$chr = "chromosome_".$a[8];
 				$strand_type = ($a[11]=="w"?"WatsonStrand":"CrickStrand");
@@ -137,6 +147,24 @@ class SGD_ChromosomalFeatures {
 					$other .= "$sgd:$strand $rdfs:label \"$strand_type for $chr\" .".PHP_EOL;
 					$other .= "$sgd:$strand $sgd:isPartOf $sgd:$chr .".PHP_EOL;
 				}				
+			}
+			
+			// position
+			if($a[9]) {
+				$loc = $id."loc";
+				$buf .= "$sgd:$id $sgd:location $sgd:$loc .".PHP_EOL;
+				$buf .= "$sgd:$loc $dc:identifier \"[$sgd:$loc]\" .".PHP_EOL;
+				$buf .= "$sgd:$loc a $sgd:Location .".PHP_EOL;
+				$buf .= "$sgd:$loc $sgd:hasStartPosition \"$a[9]\" .".PHP_EOL;
+				$buf .= "$sgd:$loc $sgd:hasStopPosition \"$a[10]\" .".PHP_EOL;
+				if($chr) $buf .= "$sgd:$loc $sgd:chromosome $sgd:$chr.".PHP_EOL;
+				if($strand) $buf .= "$sgd:$loc $sgd:strand $sgd:$strand.".PHP_EOL;
+				if($a[13]) {
+					$b = explode("|",$a[13]);
+					foreach($b AS $c) {
+						$buf .= "$sgd:$loc $sgd:modified \"$c\" .".PHP_EOL;
+					}
+				}
 			}
 			if($a[14]) {
 				$b = explode("|",$a[14]);
