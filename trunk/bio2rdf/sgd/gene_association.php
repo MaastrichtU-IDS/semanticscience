@@ -37,7 +37,8 @@ class SGD_GeneAssociation {
 			if($l[0] == '!') continue;
 			$a = explode("\t",trim($l));
 
-			$id = $a[1];
+			$id = $a[1]."gp";
+
 			$term = substr($a[4],3);
 			$goi = $id."_".$term;
 			$got = $goterms[$a[8]];
@@ -48,7 +49,6 @@ class SGD_GeneAssociation {
 			$buf .= "$go:$term rdfs:subClassOf $ss:".$got['type']." .".PHP_EOL;
 			
 			$goa = "goa_".($z++);
-			$buf .= "$sgd:$goa a $ss:Evidence .".PHP_EOL;
 			$buf .= "$sgd:$goa rdfs:label \"Evidence of ".strtolower($got['type'])." for $sgd:$id \".".PHP_EOL;
 			$buf .= "$sgd:$goa $ss:evidenceFor $sgd:$goi .".PHP_EOL;
 			$buf .= "$sgd:$goi $ss:hasEvidence $sgd:$goa .".PHP_EOL;
@@ -63,16 +63,42 @@ class SGD_GeneAssociation {
 				}
 			}
 			if(isset($a[6])) {
-				$buf .= "$sgd:$goa a $evd:$a[6] .".PHP_EOL;
+				$code = MapECO($a[6]);
+				if($code) $buf .= "$sgd:$goa a $eco:$code .".PHP_EOL;
+				else echo "No mapping for $a[6]".PHP_EOL;
 			}
 			
 //			echo $buf;exit;
 		}
 		fwrite($this->_out, $buf);
-		
+	print_r($evd);	
 		return 0;
 	}
 
 };
+
+
+function MapECO($eco)
+{
+ $c = array(
+"ISS" => "0000027", 
+"IGI" => "0000011",
+"IMP" => "0000015",
+"IDA" => "0000002",
+"IEA" => "00000067",
+"TAS" => "0000033",
+"RCA" => "0000053",
+"ISA" => "00000057",
+"IEP" => "0000008",
+"ND" => "0000035",
+"IC" => "0000001",
+"IPI" => "0000021",
+"NAS" =>"0000034",
+"ISM" => "00000063",
+"ISO" =>"00000060",
+);
+  if(isset($c[$eco])) return $c[$eco];
+  else return NULL;
+}
 
 ?>
