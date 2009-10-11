@@ -73,4 +73,22 @@ function copyr($source, $dest)
     $dir->close();
     return true;
 }
+
+function GetDirFiles($dir,$pattern)
+{
+ if(!is_dir($dir)) {
+  echo "$dir not a directory".PHP_EOL;
+  return 1;
+ }
+
+ $dh = opendir($dir);
+ while (($file = readdir($dh)) !== false) {
+  if($file == '.' || $file == '..') continue;
+  $files[] = $file;
+ }
+ closedir($dh);
+ return $files; 
+}
+
+
 ?>
