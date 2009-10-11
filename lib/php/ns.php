@@ -23,7 +23,7 @@ $ddbj = 'ddbj';
 $ec  = 'ec'; 
 $embl = 'embl';
 $ensembl = 'ensembl';
-$evd = 'evd';
+$eco = 'eco';
 $euroscarf = 'euroscarf'; 
 $flybase = 'fb';
 $kegg = 'kegg';
@@ -64,7 +64,7 @@ $basenslist = array($xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl
 
 $nslist = array(
 	$xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri, 
-	$afcs, $bind,$biogrid, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $ensembl, $evd, $euroscarf, $flybase, $kegg, $germonline, $go, $gp, $grid, 
+	$afcs, $bind,$biogrid, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $ensembl, $eco, $euroscarf, $flybase, $kegg, $germonline, $go, $gp, $grid, 
 	$iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$mips,$ncbi_gene, $refseq, $ncbi, $omim, $ophid, $pdb,$pir,$prf, $pubchem, $pubmed, 
 	$sgd, $sp, $taxon, $tcdb, $tigr, $tpg, $trembl, $uniparc, $uniprot,
 	"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
