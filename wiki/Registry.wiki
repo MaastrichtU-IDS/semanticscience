@@ -6,25 +6,32 @@ prefix dcterms: <http://purl.org/dc/terms/>
 prefix registry: <http://bio2rdf.org/registry:>
 
 
-==Namespace==
+===Namespace===
 {{{
  dc:identifier [string]             # given by source + short name [e.g. registry:ns/bind]
  registry:namespace [unique string] # the official namespace identifier [e.g. bind]
- dcterms:title [string]             # a brief summary of the resource [e.g. The Biomolecular Interaction Network Database]
- dcterms:description [string]       # a more elaborate description 
- dcterms:subject [url|ns:id|string] # a curated subject heading [e.g. protein interaction]
- foaf:homepage [url]                # the homepage of the resource [e.g. http://bind.ca]
  :id_specification [regex]          # a regular expression to validate the identifier against
  :id_example [string]               # an example identifier [e.g. 123]
 
  dcterms:replaces [Namespace Record]     # if this supercedes another registry entry [e.g. nar:BIND]
  dcterms:isReplacedBy [Namespace Record] # if this is supercedes by another registry entry
- :equivalentTo [Namespace Record]        # is interchangeable with
-
- dc:publisher [Publisher Record]    # link to the original publisher
+ :equivalentTo [Namespace Record]        # is interchangeable with (useful for aggregating namespaces under one namespace e.g. kegg as a namespace for kegg_ligand)
+ dc:publisher [Publisher Record]    # the publisher of the namespace (e.g. NAR, GO)
+ :resource [Resource Record]
+ 
 }}}
 
-===Publisher==
+===Resource===
+{{{
+ dc:identifier [string]             # given by source + short name [e.g. bind]
+ dc:publisher [Publisher Record]    # link to the original publisher
+ dcterms:title [string]             # a brief summary of the resource [e.g. The Biomolecular Interaction Network Database]
+ dcterms:description [string]       # a more elaborate description 
+ dcterms:subject [url|ns:id|string] # a curated subject heading [e.g. protein interaction]
+ foaf:homepage [url]                # the homepage of the resource [e.g. http://bind.ca]
+}}}
+
+===Publisher===
 {{{ 
  dcterms:identifier [string]        # source + short name [e.g. registry:publisher/bio2rdf]
  foaf:name [string]                 # the publisher's name [e.g. Bio2RDF]
@@ -32,7 +39,7 @@ prefix registry: <http://bio2rdf.org/registry:>
  foaf:mbox [string]                 # the publisher's email address for contact purposes
 }}}
 
-==Data==
+===Data===
 {{{
  dcterms:identifier [uri]             # source + short name [e.g. registry:data/bio2rdf/uniprot/n3] 
  dcterms:subject [Namespace Record]   # link to the *primary* namespace record(s)
