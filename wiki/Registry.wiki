@@ -1,0 +1,100 @@
+#summary One-sentence summary of this page.
+
+= Resource Discovery Registry =
+prefix dcterms: <http://purl.org/dc/terms/>
+
+prefix registry: <http://bio2rdf.org/registry:>
+
+
+==Namespace Entry==
+{{{
+ dc:identifier [string]             # given by source + short name [e.g. registry:bind]
+ registry:namespace [unique string] # the official namespace identifier [e.g. bind]
+ dcterms:title [string]             # a brief summary of the resource [e.g. The Biomolecular Interaction Network Database]
+ dcterms:description [string]       # a more elaborate description 
+ dcterms:subject [url|ns:id|string] # a curated subject heading [e.g. protein interaction]
+ foaf:homepage [url]                # the homepage of the resource [e.g. http://bind.ca]
+ :specification [regex]             # a regular expression to validate the identifier against
+ :example [string]                  # an example identifier [e.g. 123]
+
+ dcterms:replaces [string]          # if this supercedes another registry entry [e.g. nar:BIND]
+ dcterms:isReplacedBy [string]      # if this is supercedes by another registry entry
+
+ dc:publisher [Publisher Record]    # link to a publisher
+ :available_as [Data Record]        # link to a data record
+}}}
+
+===Publisher Entry==
+{{{ 
+ :id [uri]
+ foaf:name [string]
+ foaf:homepage [url]
+}}}
+
+==Data Entry==
+{{{
+ :id [uri]
+ dcterms:subject [Namespace Record]
+ dcterms:format [tab|flatfile|n3|rdfxml|virtuosodb|...]
+ :size [integer] # of bytes
+ :location [url]
+ dcterms:accessRights [url]
+ dcterms:license [url]
+
+ :sparql [url[:port]]
+ :wsdl [url[:port]]
+
+ dcterms:source [uri]
+ dcterms:publisher [Publisher Record]
+ :statistics [Statistics Record]
+}}}
+
+==Statistics Entry==
+{{{
+ :id [uri]
+ :records [integer] entries in the core namespace
+ :topics [integer]  total # of unique entities
+ :triples [integer] total # of unique statements
+}}} 
+ 
+
+
+
+ 
+ 
+Example
+{{{
+<http://bio2rdf.org/ns:uniprot>
+ rdf:type :namespace ;
+ :namespace "uniprot" ;
+ :title "UniProt protein database" ;
+ :description "The UniProt/Swiss-Prot Protein Knowledgebase is a curated protein sequence database established in 1986. It provides a high level of annotation (such as the description of protein function, domains structure, post-translational modifications, variants, etc.), a minimal level of redundancy and high level of integration with other databases. It is part of the Universal Protein Knowledgebase (UniProt), a &quot;one-stop shop&quot; that allows easy access to all publicly available information of protein sequence annotation." ;
+ :subject "protein" ;
+ :id_example "Q16665" ;
+ :organization_URL <http://uniprot.org> ;
+ :availability "free" ;
+ :replaces "uniprot/swissprot" ;
+ :replaces "uniprotkb" ;
+}}}
+
+
+== Data Provision Registry ==
+rdf:resource [uri]
+ :ns [unique string]
+ :isDescribedBy :Document
+ 
+
+:Document
+ :format [:HTML|:XML|:GFF|:FAA|:RDFXML|:RDFN3|:OWLXML| ..etc]
+ :mimetype [string]
+ :isProvidedBy [:DataProvider]
+
+
+:DataProvider
+ :title
+ :description
+ :email
+ :url [:HTML]
+ 
+
+
