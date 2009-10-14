@@ -1,18 +1,18 @@
 <?php
 
-$indir = "/data/pharmgkb/";
-$outdir = $indir;
+$indir = "/opt/data/pharmgkb/tsv/";
+$outdir = "/opt/data/pharmgkb/n3/";
 
 $files = array(
-	//"diseases", "drugs", "genes","pathways",,"relationships","variantAnnotations"
-	"genes"
+	"diseases", "drugs", "genes","relationships","variantAnnotations"
+	//"genes"
 );
 
 
 
 
 foreach($files AS $file) {
-	
+	echo "processing $indir$file.tsv...";	
 	$fp = fopen($indir.$file.".tsv","r");
 	if($fp === FALSE) {
 		trigger_error("Unable to open ".$indir.$file."tsv"." for writing.");
@@ -35,7 +35,7 @@ foreach($files AS $file) {
 	fwrite($out,$head.$buf);
 	
 	fclose($out);
-	
+	echo "done!".PHP_EOL;
 }
 
 /*
@@ -71,7 +71,7 @@ function genes(&$fp)
 		if($a[6]) {
 			$b = explode('",',$a[6]);
 			foreach($b as $c) {
-				if($c) $buf .= "$id pharmgkb:synonym $c\".".PHP_EOL;
+				if($c) $buf .= "$id pharmgkb:synonym \"".addslashes(stripslashes(substr($c,1)))."\".".PHP_EOL;
 			}
 		}
 		if($a[7]) {
@@ -99,8 +99,9 @@ DrugBank Id
 */
 function drugs(&$fp)
 {
+	fgets($fp);
 	$buf = '';
-	while($l = fgets($fp,12048)) {
+	while($l = fgets($fp,200000)) {
 		$a = explode("\t",trim($l));
 		$id = "pharmgkb:$a[0]";
 		
@@ -109,10 +110,15 @@ function drugs(&$fp)
 		if($a[2] != '') {
 			$b = explode('",',$a[2]);
 			foreach($b AS $c) {
-				if($c != '') $buf .= "$id pharmgkb:synonym $c\".".PHP_EOL;
+				if($c != '') $buf .= "$id pharmgkb:synonym \"".str_replace('"','',$c)."\".".PHP_EOL;
 			}
 		}
-		if($a[3]) $buf .= "$id rdfs:subClassOf pharmgkb:$a[3].".PHP_EOL;
+		if($a[3]) {
+			$b = explode('",',$a[3]);
+			foreach($b as $c) {
+				if($c) $buf .= "$id pharmgkb:drugclass \"".addslashes(str_replace('"','',$c))."\".".PHP_EOL;
+			}
+		}
 		if($a[4]) $buf .= "$id owl:sameAs drugbank:$a[4].".PHP_EOL;
 		$buf .= "$id owl:sameAs pharmgkb:".md5($a[1]).".".PHP_EOL;
 	}
@@ -128,7 +134,7 @@ function diseases(&$fp)
 {
   $buf = '';
   fgets ($fp);
-  while($l = fgets($fp,2048)) {
+  while($l = fgets($fp,10000)) {
 	$a = explode("\t",trim($l));
 	$id = "pharmgkb:".$a[0];
 	$buf .= "$id rdfs:subClassOf pharmgkb:Disease.".PHP_EOL;
@@ -160,13 +166,13 @@ function diseases(&$fp)
 10 Curation Level	
 11 PharmGKB Accession ID
 */
-function variantAnnotations($fp)
+function variantAnnotations(&$fp)
 {
   $buf = '';
   fgets($fp); // first line is header
   
   $hash = ''; // md5 hash list
-  while($l = fgets($fp,2048)) {
+  while($l = fgets($fp,10000)) {
 	$a = explode("\t",trim($l));
 	$id = "pharmgkb:$a[11]";
 	
@@ -177,6 +183,7 @@ function variantAnnotations($fp)
 	if($a[3] != '' && $a[3] != '-') {
 		$genes = explode(", ",$a[3]);
 		foreach($genes AS $gene) {
+			$gene = str_replace("@","",$gene);
 			$buf .= "$id pharmgkb:gene pharmgkb:$gene.".PHP_EOL;
 		}
 	}
@@ -243,12 +250,13 @@ function variantAnnotations($fp)
 6 Categories of Evidence
 7 PharmGKB Curated
 */
-function relationships($fp,&$buf)
+function relationships(&$fp)
 {
+  $buf = '';
   fgets($fp); // first line is header
   
   $hash = ''; // md5 hash list
-  while($l = trim(fgets($fp,2048))) {
+  while($l = trim(fgets($fp,10000))) {
 	
 	$a = explode("\t",$l);
 	
@@ -258,6 +266,7 @@ function relationships($fp,&$buf)
 	$buf .= "$id pharmgkb:relationships \"".$a[2]."\".".PHP_EOL;
 	$genes = explode(";",$a[3]);
 	foreach($genes AS $gene) {
+		$gene = str_replace("@","",$gene);
 		$buf .= "$id pharmgkb:gene pharmgkb:$gene.".PHP_EOL;
 	}
 	
@@ -295,7 +304,7 @@ function relationships($fp,&$buf)
   foreach($hash AS $h => $label) {
 	$buf .= "pharmgkb:$h rdfs:label \"$label\".".PHP_EOL;
   }
-  
+  return $buf;  
 }
 
 ?>
