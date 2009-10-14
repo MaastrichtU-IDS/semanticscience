@@ -5,29 +5,30 @@ prefix dcterms: <http://purl.org/dc/terms/>
 
 prefix registry: <http://bio2rdf.org/registry:>
 
+prefix foaf: <http://xmlns.com/foaf/0.1/> 
 
 ===Namespace===
 {{{
- dc:identifier [string]             # given by source + short name [e.g. registry:ns/bind]
- :id_specification [regex]          # a regular expression to validate the identifier against
- :id_example [string]               # an example identifier [e.g. 123]
+ dcterms:identifier [string]             # given by source + short name [e.g. registry:ns/bind]
+ registry:id_specification [regex]          # a regular expression to validate the identifier against
+ registry:id_example [string]               # an example identifier [e.g. 123]
 
  dcterms:replaces [Namespace Record]     # if this supercedes another registry entry [e.g. nar:BIND]
  dcterms:isReplacedBy [Namespace Record] # if this is supercedes by another registry entry
- :equivalentTo [Namespace Record]        # is interchangeable with (useful for aggregating namespaces under one namespace e.g. kegg as a namespace for kegg_ligand)
+ registry:equivalentTo [Namespace Record]        # is interchangeable with (useful for aggregating namespaces under one namespace e.g. kegg as a namespace for kegg_ligand)
 
- dc:publisher [Publisher Record]    # the publisher of the namespace (e.g. NAR, GO)
- :resource [Resource Record]        # the resource to which this namespace applies 
+ dcterms:publisher [Publisher Record]    # the publisher of the namespace (e.g. NAR, GO)
+ registry:resource [Resource Record]        # the resource to which this namespace applies 
 }}}
 
 ===Resource===
 {{{
- dc:identifier [string]             # given by source + short name [e.g. bind]
+ dcterms:identifier [string]             # given by source + short name [e.g. bind]
  dcterms:title [string]             # a brief summary of the resource [e.g. The Biomolecular Interaction Network Database]
  dcterms:description [string]       # a more elaborate description 
  dcterms:subject [url|ns:id|string] # a curated subject heading [e.g. protein interaction]
  foaf:homepage [url]                # the homepage of the resource [e.g. http://bind.ca]
- dc:publisher [Publisher Record]    # link to the original/primary publisher
+ dcterms:publisher [Publisher Record]    # link to the original/primary publisher
 }}}
 
 ===Publisher===
@@ -42,25 +43,25 @@ prefix registry: <http://bio2rdf.org/registry:>
 {{{
  dcterms:identifier [uri]             # source + short name [e.g. registry:data/bio2rdf/uniprot/n3] 
  dcterms:subject [Namespace Record]   # link to the *primary* namespace record(s)
- :references [Namespace Record]       # link to all/any referenced namespaces
+ registry:references [Namespace Record]       # link to all/any referenced namespaces
  dcterms:format ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"|"wsdl"|"sparql"] # the type of data source 
- :location [url[?ns][?id]]            # the URL containing the resource, with optional regex for spiking in the namespace (?ns) or identifier (?id)
+ registry:location [url[?ns][?id]]            # the URL containing the resource, with optional regex for spiking in the namespace (?ns) or identifier (?id)
  
- :availability ["free"|"free for academic"|"commercial"|"not available"|"see license"] # 
+ registry:availability ["free"|"free for academic"|"commercial"|"not available"|"see license"] # 
  dcterms:license [url]                # a document that provides usage rights
  dcterms:source [uri]                 # the original source of this data
 
- :status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
+ registry:status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
  dcterms:publisher [Publisher Record] # the publisher of this resource
- :statistics [Statistics Record]      # statistics associated with the resource
+ registry:statistics [Statistics Record]      # statistics associated with the resource
 }}}
 
 ==Statistics==
 {{{
  dcterms:identifier [uri]           # source + short name [e.g. registry:statistics/bio2rdf/uniprot/n3]
- :records [integer]                 # number of entries in the core namespace
- :topics [integer]                  # number of unique entities
- :triples [integer]                 # number of unique statements
- :size [integer]                    # of bytes the file contains
+ registry:records [integer]                 # number of entries in the core namespace
+ registry:topics [integer]                  # number of unique entities
+ registry:triples [integer]                 # number of unique statements
+ registry:size [integer]                    # of bytes the file contains
 }}} 
  
