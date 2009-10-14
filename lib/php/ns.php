@@ -39,12 +39,14 @@ $metacyc = 'metacyc';
 $mi = 'mi';
 $mint = 'mint';
 $mips = 'mips';
+$entrez_gene = 'geneid';
 $ncbi_gene = 'geneid';
 $ncbi   = 'ncbi';
 $refseq = 'refseq';
 $ncbi   = 'ncbi';
 $omim   = 'omim';
 $ophid = 'ophid';
+$pharmgkb = 'pharmgkb';
 $pir = 'pir';
 $prf = 'prf';
 $pdb    = 'pdb';
@@ -64,12 +66,15 @@ $basenslist = array($xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl
 
 $nslist = array(
 	$xsd => $xsd_uri, $rdf => $rdf_uri, $rdfs => $rdfs_uri, $owl => $owl_uri, $dc => $dc_uri, $ss =>$ss_uri, 
-	$afcs, $bind,$biogrid, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $ensembl, $eco, $euroscarf, $flybase, $kegg, $germonline, $go, $gp, $grid, 
-	$iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$mips,$ncbi_gene, $refseq, $ncbi, $omim, $ophid, $pdb,$pir,$prf, $pubchem, $pubmed, 
+	$afcs, $bind,$biogrid, $cas, $candida, $ctd, $ddbj,$dip, $ec, $embl, $ensembl, $eco, 
+	$euroscarf, $flybase, $kegg, $germonline, $go, $gp, $grid, 
+	$iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$mips,
+	$ncbi_gene, $refseq, $ncbi, $omim, $ophid, $pdb,$pharmgkb, $pir,$prf, $pubchem, $pubmed, 
 	$sgd, $sp, $taxon, $tcdb, $tigr, $tpg, $trembl, $uniparc, $uniprot,
 	"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
-	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri );
-	
+	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri 
+);
+
 
 /*
 bio2rdf predicates
