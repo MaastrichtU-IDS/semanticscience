@@ -7,16 +7,18 @@ prefix registry: <http://bio2rdf.org/registry:>
 
 prefix foaf: <http://xmlns.com/foaf/0.1/> 
 
+prefix skos: <http://www.w3.org/2004/02/skos/core>
+
 ===Namespace===
 {{{
+ a registry:{Namespace|OfficialNamespace] # only the registry creates Official namespaces
  dcterms:identifier [string]             # given by source + short name [e.g. registry:ns/bind]
  registry:namespace                      # the namespace [e.g. bind]
  registry:id_specification [regex]       # a regular expression to validate the identifier against
  registry:id_example [string]            # an example identifier [e.g. 123]
 
  dcterms:replaces [Namespace Record]     # if this supercedes another registry entry [e.g. nar:BIND]
- dcterms:isReplacedBy [Namespace Record] # if this is supercedes by another registry entry
- registry:equivalentTo [Namespace Record] # is interchangeable with (useful for aggregating namespaces under one namespace e.g. kegg as a namespace for kegg_ligand)
+ skos:narrower [Namespace Record]        # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
 
  dcterms:publisher [Publisher Record]    # the publisher of the namespace (e.g. NAR, GO)
  registry:resource [Resource Record]     # the resource to which this namespace applies 
