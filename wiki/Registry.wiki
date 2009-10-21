@@ -14,26 +14,26 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
 ===Namespace===
 {{{
  a registry:[Namespace|OfficialNamespace] # only the registry creates Official namespaces
- dcterms:identifier [string]             # given by source + short name [e.g. registry:ns/bind]
- registry:namespace                      # the namespace [e.g. bind]
+ dcterms:identifier [string]             # given by source + short name [e.g. registry:ns/kegg]
+ registry:namespace                      # the namespace [e.g. kegg]
  registry:id_specification [regex]       # a regular expression to validate the identifier against
  registry:id_example [string]            # an example identifier [e.g. 123]
 
- dcterms:replaces [Namespace Record]     # if this supercedes another registry entry [e.g. nar:BIND]
+ dcterms:replaces [Namespace Record]     # for superceding namespaces [e.g. registry:ns/kegg replaces nar:kegg]
  skos:narrower [Namespace Record]        # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
 
- dcterms:publisher [Publisher Record]    # the publisher of the namespace (e.g. NAR, GO)
+ dcterms:publisher [Publisher Record]    # the publisher of the namespace (e.g. Registry, NAR, GO)
  registry:resource [Resource Record]     # the resource to which this namespace applies 
 }}}
 
 ===Resource===
 {{{
  dcterms:identifier [string]             # the resource identifier [e.g. registry:resource/1]
- dcterms:title [string]                  # a brief summary of the resource [e.g. The Biomolecular Interaction Network Database]
+ dcterms:title [string]                  # a brief summary of the resource [e.g. UniProt]
  dcterms:description [string]            # a more elaborate description 
- dcterms:subject [url|ns:id|string]      # a curated subject heading [e.g. protein interaction]
- foaf:homepage [url]                     # the homepage of the resource [e.g. http://bind.ca]
- dcterms:publisher [Publisher Record]    # link to the original/primary publisher
+ dcterms:subject [url|ns:id|string]      # a curated subject heading [e.g. protein]
+ dcterms:publisher [Publisher Record]    # link to the original/primary publisher [E.g. UniProt Consortium]
+ foaf:homepage [url]                     # the homepage of the resource [e.g. http://uniprot.org]
 }}}
 
 ===Publisher===
@@ -44,22 +44,22 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
  foaf:homepage [url]                     # the publisher's homepage [e.g. http://bio2rdf.org]
 }}}
 
-===Data===
+===Data Source===
 {{{
  dcterms:identifier [uri]                # source + short name [e.g. registry:data/bio2rdf/uniprot/n3] 
  dcterms:subject [Namespace Record]      # link to the *primary* namespace record(s)
- registry:references [Namespace Record]  # link to all/any referenced namespaces
+ registry:references [Namespace Record]  # optional link to all/any referenced namespaces
  dcterms:format ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"|"wsdl"|"sparql"] # the type of data source 
  registry:location [url[?ns][?id]]       # the URL containing the resource, with optional regex for spiking in the namespace (?ns) or identifier (?id)
  
  registry:availability ["free"|"free for academic"|"commercial"|"not available"|"see license"] # 
  dcterms:license [url]                   # a document that provides usage rights
- dcterms:source [uri]                    # the original source of this data
-
- registry:status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
  dcterms:publisher [Publisher Record]    # the publisher of this resource
- registry:statistics [Statistics Record] # statistics associated with the resource
+ dcterms:source [uri]                    # the original source of this data
+ registry:data_status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
+
 }}}
+
 
 ==Statistics==
 {{{
@@ -68,5 +68,6 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
  registry:topics [integer]               # number of unique entities
  registry:triples [integer]              # number of unique statements
  registry:size [integer]                 # of bytes the file contains
+ registry:data [Data Record]             # the data for which the statistics were compiled
 }}} 
  
