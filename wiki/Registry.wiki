@@ -11,63 +11,78 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
 
 [http://semanticscience.googlecode.com/svn/trunk/wiki/registry-example.n3 Example file]
 
+
 ===Namespace===
 {{{
+ rdfs:label [string]                      # title [identifier]
  a registry:[Namespace|OfficialNamespace] # only the registry creates Official namespaces
- dcterms:identifier [string]             # given by source + short name [e.g. registry:ns/kegg]
- registry:namespace                      # the namespace [e.g. kegg]
- registry:id_specification [regex]       # a regular expression to validate the identifier against
- registry:id_example [string]            # an example identifier [e.g. 123]
-
- dcterms:replaces [Namespace Record]     # for superceding namespaces [e.g. registry:ns/kegg replaces nar:kegg]
- skos:narrower [Namespace Record]        # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
-
- dcterms:publisher [Publisher Record]    # the publisher of the namespace (e.g. Registry, NAR, GO)
- registry:resource [Resource Record]     # the resource to which this namespace applies 
+ dcterms:identifier [string]              # aka prefix[e.g. "kegg"]
+ 
+ dcterms:replaces [Namespace]             # for superceding namespaces [e.g. registry:ns/kegg replaces nar:kegg]
+ skos:narrower [Namespace]                # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
+ registry:source [Publisher]              # the source/publisher of the namespace (e.g. Registry, NAR, GO)
+ 
+ registry:dataset [Dataset]               # the resource to which this namespace applies 
 }}}
 
-===Resource===
+
+===Dataset===
 {{{
- dcterms:identifier [string]             # the resource identifier [e.g. registry:resource/1]
+ rdfs:label [string]                     # title [identifier]
  dcterms:title [string]                  # a brief summary of the resource [e.g. UniProt]
  dcterms:description [string]            # a more elaborate description 
  dcterms:subject [url|ns:id|string]      # a curated subject heading [e.g. protein]
  dcterms:publisher [Publisher Record]    # link to the original/primary publisher [E.g. UniProt Consortium]
  foaf:homepage [url]                     # the homepage of the resource [e.g. http://uniprot.org]
+ registry:id_example [string]            # an identifier in the dataset [e.g. 12345] 
+ registry:id_specification [regex]       # a regular expression to validate the identifier against
+ registry:references [Dataset]           # for linked data cloud
 }}}
 
 ===Publisher===
 {{{ 
+ rdfs:label [string]                     # title [identifier]
  dcterms:identifier [string]             # source + short name [e.g. registry:publisher/bio2rdf]
  foaf:name [string]                      # the publisher's name [e.g. Bio2RDF]
  foaf:mbox [string]                      # the publisher's email address for contact purposes
  foaf:homepage [url]                     # the publisher's homepage [e.g. http://bio2rdf.org]
 }}}
 
-===Data Source===
-{{{
- dcterms:identifier [uri]                # source + short name [e.g. registry:data/bio2rdf/uniprot/n3] 
- dcterms:subject [Namespace Record]      # link to the *primary* namespace record(s)
- registry:references [Namespace Record]  # optional link to all/any referenced namespaces
- dcterms:format ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"|"wsdl"|"sparql"] # the type of data source 
- registry:location [url[?ns][?id]]       # the URL containing the resource, with optional regex for spiking in the namespace (?ns) or identifier (?id)
- 
- registry:availability ["free"|"free for academic"|"commercial"|"not available"|"see license"] # 
- dcterms:license [url]                   # a document that provides usage rights
- dcterms:publisher [Publisher Record]    # the publisher of this resource
- dcterms:source [uri]                    # the original source of this data
- registry:data_status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
 
+===Resolver===
+Provides data specified with a URL regex for a given resource with a particular namespace in different formats
+{{{
+ rdfs:label [string]                     # title [identifier]
+ registry:resolves [Namespace]           # a resolver resolves one or more preferred namespaces
+ registry:output_format [string]         # ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] todo: make as classes 
+ dcterms:publisher [Publisher]           # the publisher of this resolver [e.g. Bio2RDF is the publisher of an RDF resolver]
+ registry:resolver_status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
+  
+ registry:availability [string]          # ["free"|"free for academic"|"commercial"|"not available"|"see license"] 
+ dcterms:license [url]                   # a document that provides usage rights
+ dcterms:source [uri|Resolver]           # for derivative works: the original source of this data
+ 
+ URLResolver subClassOf Resolver
+   registry:url [regex]                  # A regular expression for the constructing the URL, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
+
+ WSDLResolver subClassOf Resolver
+   registry:url [url]                    # WSDL file
+
+ SPARQLResolver subClassOf Resolver
+   registry:url [regex]                    # SPARQL endpoint [e.g. http://$ns.bio2rdf.org/sparql]
+   
 }}}
+
 
 
 ==Statistics==
 {{{
+ rdfs:label [string]                     # title [identifier]
  dcterms:identifier [uri]                # source + short name [e.g. registry:statistics/bio2rdf/uniprot/n3]
  registry:records [integer]              # number of entries in the core namespace
  registry:topics [integer]               # number of unique entities
  registry:triples [integer]              # number of unique statements
  registry:size [integer]                 # of bytes the file contains
- registry:data [Data Record]             # the data for which the statistics were compiled
+ registry:data [Resolver]                # the data for which the statistics were compiled
 }}} 
  
