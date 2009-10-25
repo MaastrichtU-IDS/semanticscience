@@ -1,9 +1,9 @@
-#summary namespace and resource discovery registries
+#summary semantic entity resolution vocabulary (SERV)
 
-= Resource Discovery Registry =
+= Semantic Entity Resolution Vocabulary =
 prefix dc: <http://purl.org/dc/terms/>
 
-prefix registry: <http://bio2rdf.org/registry:>
+prefix serv: <http://semanticscience.org/serv:>
 
 prefix foaf: <http://xmlns.com/foaf/0.1/> 
 
@@ -14,113 +14,108 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 [http://semanticscience.googlecode.com/svn/trunk/wiki/registry-example.n3 Example file]
 
 
-rdfs:label [string]     # title [ns:id]
-dc:identifier [string]  # id
-
-
-
 ===foaf:Agent===
 {{{ 
- rdfs:label [string]
- dc:identifier [string]
+ rdfs:label [string]    # title [ns:id]
+ dc:identifier [string] # id
 
- foaf:name [string]                      # the agent's name [e.g. Bio2RDF]
- foaf:mbox [string]                      # the agent's email address for contact purposes
- foaf:homepage [url]                     # the agent's homepage [e.g. http://bio2rdf.org]
+ foaf:name [string]     # the agent's name [e.g. Bio2RDF]
+ foaf:mbox [string]     # the agent's email address for contact/notification
+ foaf:homepage [url]    # the agent's homepage [e.g. http://bio2rdf.org]                                         
 }}}
 
 
-===Namespace===
+===serv:Namespace===
 {{{
  rdfs:subClassOf [sioc:Space] 
- rdfs:label [string]
- dc:identifier [string]
- 
- dc:replaces [Namespace]                 # for superceding namespaces [e.g. registry:ns/kegg replaces nar:kegg]
- skos:narrower [Namespace]               # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
- registry:source [foaf:Agent]            # the source/publisher of the namespace (e.g. Registry, NAR, GO)
- registry:dataset [Dataset]              # the dataset to which this namespace applies 
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # id
 
- a registry:OfficialRegistryNamespace    # all namespaces that are not replaced, are official
+ dc:replaces [serv:Namespace]            # for superceding namespaces [e.g. registry:ns/kegg replaces nar:kegg]
+ skos:narrower [serv:Namespace]          # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
+ registry:source [foaf:Agent]            # the source/publisher of the namespace (e.g. Registry, NAR, GO)
+ registry:dataset [serv:Dataset]         # the dataset to which this namespace applies 
+
+ a serv:OfficialRegistryNamespace        # all namespaces that are not replaced, are official
 }}}
 
 
 
-===Dataset===
+===serv:Dataset===
 {{{
  rdfs:subClassOf [sioc:Container]
- rdfs:label [string]
- dc:identifier [string]
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # id
 
  dc:title [string]                       # a brief summary of the resource [e.g. UniProt]
  dc:description [string]                 # a more elaborate description 
  dc:subject [url|ns:id|string]           # a curated subject heading [e.g. protein]
  dc:publisher [foaf:Agent]               # link to the original/primary publisher [E.g. UniProt Consortium]
+ dc:references [serv:Dataset]            # for linked data cloud
  foaf:homepage [url]                     # the homepage of the resource [e.g. http://uniprot.org]
- registry:id_example [string]            # an identifier in the dataset [e.g. 12345] 
- registry:id_specification [regex]       # a regular expression to validate the identifier against
- dc:references [Dataset]                 # for linked data cloud
+ serv:id_example [string]                # an identifier in the dataset [e.g. 12345] 
+ serv:id_specification [regex]           # a regular expression to validate the identifier against
 }}}
 
-===Data item===
+===serv:Item===
 A data item is an entity in the dataset (not a document)
 {{{
  rdfs:subClassOf [sioc:Item]
- rdfs:label [string]
- dc:identifier [string]
- dc:title [string]                       # a brief summary of the resource [e.g. UniProt]
- :part_of                                # the dataset that this item is part of
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # id
+ dc:isPartOf                             # the dataset that this item is part of
 }}}
 
-===Resolver===
+===serv:Resolver===
 Provides some resource specified with a URL regex for a given resource with a particular namespace in different formats
 {{{
- rdfs:label [string]                     # title [identifier]
- registry:resolves [Namespace]           # a resolver resolves one or more preferred namespaces
- registry:output_format [string]         ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] 
- registry:resolver_status [string]       ["primary"|"secondary"|"ternary"] 
-                                         # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
- dc:publisher [foaf:Agent]               # the publisher of this resolver [e.g. Bio2RDF is the publisher of an RDF resolver]
- 
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # id
+ serv:resolves [serv:Namespace]          # a resolver resolves one or more preferred namespaces
+ serv:resolves_to [serv:Document]        # the URI of the document that the resolver points to after applying regex   
+ dc:publisher [foaf:Agent]               # the resolver's publisher [e.g. Bio2RDF is the publisher of its RDF resolver]
 }}}
 {{{
- URLResolver rdfs:subClassOf Resolver
-   registry:url [url regex]                  # A regular expression for the constructing the URL, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
-}}}
-{{{
- WSDLResolver rdfs:subClassOf Resolver
-   registry:url [url regex]                  # WSDL file
-}}}
-{{{
- SPARQLResolver rdfs:subClassOf Resolver
-   registry:url [url regex]                  # SPARQL endpoint [e.g. http://geneid.bio2rdf.org/sparql]
-   registry:graph_uri                        # Default graph URI
-   registry:sparql_result_format [string]    ["auto","rdfxml","n3","xml","json","html"]
-}}}
-
-==Document==
-{{{
- rdfs:label [string]
- dc:identifier [string]
- rdfs:subClassOf [foaf:Document]             #
-
- rdf:type [URI]                              [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
- registry:mimetype [string]                  ["rdf+xml",etc]
- registry:availability [string]              # ["free"|"free for academic"|"commercial"|"not available"|"see license"] 
- dc:license [url]                            # a document that provides usage rights
- dc:source [uri|Resolver]                    # for derivative works: the original source of this data
- dc:creator [foaf:Agent]                     # the creator of the document
+ serv:URIResolver rdfs:subClassOf serv:Resolver
+   serv:uri_pattern [uri regex]          # A regular expression for the constructing the URI, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
 }}}
 
 
-==Statistics==
 {{{
- rdfs:label [string]                     # title [identifier]
- dcterms:identifier [uri]                # source + short name [e.g. registry:statistics/bio2rdf/uniprot/n3]
- registry:records [integer]              # number of entries in the core namespace
- registry:topics [integer]               # number of unique entities
- registry:triples [integer]              # number of unique statements
- registry:size [integer]                 # of bytes the file contains
- registry:data [Resolver]                # the data for which the statistics were compiled
+ serv:SPARQLEndpoint
+   serv:sparql_endpoint [url]              # SPARQL endpoint URL [e.g. http://geneid.bio2rdf.org/sparql]
+   serv:query_parameter_name [string]      # the name of the SPARQL query parameter
+   serv:graph_parameter_name [string]      # the name of the default graph parameter
+   serv:graph [uri]                        # Default graph URI
+   serv:fileformat_parameter_name [string] # the name of the fileformat parameter
+   serv:file_format [string]               # specifies the output file format
+                                           ["auto","rdfxml","n3","xml","json","html"]
+}}}
+
+==registry:Document==
+{{{
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # id
+ dc:creator [foaf:Agent]                 # the creator of the document
+ rdfs:subClassOf [foaf:Document]         #
+
+ serv:availability [string]              ["free"|"free for academic"|"commercial"|"not available"|"see license"] 
+ dc:license [url]                        # a document that provides usage rights
+ dc:source [uri|serv:Resolver]           # for derivative works: the original source of this data
+
+ dc:fileFormat[string]                   # the document MIME-type ["text/html",etc]
+ rdf:type [URI]                          [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
+}}}
+
+
+==serv:Statistics==
+{{{
+ rdfs:label [string]                    # title [identifier]
+ dc:identifier [string]                 # id
+ serv:records [integer]                 # number of entries in the core namespace
+ serv:topics [integer]                  # number of unique entities
+ serv:triples [integer]                 # number of unique statements
+ serv:size [integer]                    # of bytes the file contains
+ dc:source [Document|Dataset]           # the document/dataset for which the statistics were compiled
 }}} 
  
