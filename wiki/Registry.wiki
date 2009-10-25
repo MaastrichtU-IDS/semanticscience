@@ -55,8 +55,9 @@ Provides some resource specified with a URL regex for a given resource with a pa
 {{{
  rdfs:label [string]                     # title [identifier]
  registry:resolves [Namespace]           # a resolver resolves one or more preferred namespaces
- registry:output_format [string] ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] 
- registry:resolver_status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
+ registry:output_format [string]         ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] 
+ registry:resolver_status [string]       ["primary"|"secondary"|"ternary"] 
+                                         # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
  dcterms:publisher [Publisher]           # the publisher of this resolver [e.g. Bio2RDF is the publisher of an RDF resolver]
  
   
@@ -76,15 +77,15 @@ Provides some resource specified with a URL regex for a given resource with a pa
  SPARQLResolver rdfs:subClassOf Resolver
    registry:url [url regex]                  # SPARQL endpoint [e.g. http://geneid.bio2rdf.org/sparql]
    registry:graph_uri                        # Default graph URI
-   registry:sparql_result_format ["auto","rdfxml","n3","xml","json","html"]
+   registry:sparql_result_format [string]    ["auto","rdfxml","n3","xml","json","html"]
 }}}
 
 ==Document==
 {{{
  rdfs:label [string]                         #
  rdfs:subClassOf [foaf:Document]             #
- rdf:type [URI]                              # [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
- registry:mimetype [string]                  # ["xhtml",etc]
+ rdf:type [URI]                              [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
+ registry:mimetype [string]                  ["xhtml",etc]
 }}}
 
 
