@@ -41,6 +41,7 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
 
 ===Publisher===
 {{{ 
+ rdfs:subClassOf [foaf:Agent] 
  rdfs:label [string]                     # title [identifier]
  dcterms:identifier [string]             # source + short name [e.g. registry:publisher/bio2rdf]
  foaf:name [string]                      # the publisher's name [e.g. Bio2RDF]
@@ -50,29 +51,41 @@ prefix skos: <http://www.w3.org/2004/02/skos/core>
 
 
 ===Resolver===
-Provides data specified with a URL regex for a given resource with a particular namespace in different formats
+Provides some resource specified with a URL regex for a given resource with a particular namespace in different formats
 {{{
  rdfs:label [string]                     # title [identifier]
  registry:resolves [Namespace]           # a resolver resolves one or more preferred namespaces
- registry:output_format [string]         # ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] todo: make as classes 
- dcterms:publisher [Publisher]           # the publisher of this resolver [e.g. Bio2RDF is the publisher of an RDF resolver]
+ registry:output_format [string] ["html"|"txt"|"tab"|"n3"|"xml"|"rdfxml"|"virtuosodb"] 
  registry:resolver_status ["primary"|"secondary"|"ternary"] # primary is the original data provider's data, in whatever format. secondary is an exact mirror copy. ternary is a derivative work.
+ dcterms:publisher [Publisher]           # the publisher of this resolver [e.g. Bio2RDF is the publisher of an RDF resolver]
+ 
   
  registry:availability [string]          # ["free"|"free for academic"|"commercial"|"not available"|"see license"] 
  dcterms:license [url]                   # a document that provides usage rights
  dcterms:source [uri|Resolver]           # for derivative works: the original source of this data
- 
- URLResolver subClassOf Resolver
-   registry:url [regex]                  # A regular expression for the constructing the URL, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
-
- WSDLResolver subClassOf Resolver
-   registry:url [url]                    # WSDL file
-
- SPARQLResolver subClassOf Resolver
-   registry:url [regex]                    # SPARQL endpoint [e.g. http://$ns.bio2rdf.org/sparql]
-   
+}}}
+{{{
+ URLResolver rdfs:subClassOf Resolver
+   registry:url [url regex]                  # A regular expression for the constructing the URL, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
+}}}
+{{{
+ WSDLResolver rdfs:subClassOf Resolver
+   registry:url [url regex]                  # WSDL file
+}}}
+{{{
+ SPARQLResolver rdfs:subClassOf Resolver
+   registry:url [url regex]                  # SPARQL endpoint [e.g. http://geneid.bio2rdf.org/sparql]
+   registry:graph_uri                        # Default graph URI
+   registry:sparql_result_format ["auto","rdfxml","n3","xml","json","html"]
 }}}
 
+==Document==
+{{{
+ rdfs:label [string]                         #
+ rdfs:subClassOf [foaf:Document]             #
+ rdf:type [URI]                              # [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
+ registry:mimetype [string]                  # ["xhtml",etc]
+}}}
 
 
 ==Statistics==
