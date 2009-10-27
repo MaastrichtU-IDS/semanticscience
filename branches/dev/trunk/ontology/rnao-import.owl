@@ -8,15 +8,17 @@
     <!ENTITY snap "http://www.ifomis.org/bfo/1.1/snap#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY rnao "http://purl.obofoundry.org/obo/rnao/" >
+    <!ENTITY ro "http://purl.obofoundry.org/ro/ro.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
 
 
-<rdf:RDF xmlns="http://semanticscience.org/rnao-import.owl#"
-     xml:base="http://semanticscience.org/rnao-import.owl"
+<rdf:RDF xmlns="http://semanticscience.org/rna-import.owl#"
+     xml:base="http://semanticscience.org/rna-import.owl"
      xmlns:obo="http://purl.obolibrary.org/obo/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ro="http://purl.obofoundry.org/ro/ro.owl#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
      xmlns:snap="http://www.ifomis.org/bfo/1.1/snap#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -38,6 +40,94 @@
     <owl:AnnotationProperty rdf:about="&obo;IAO_0000115"/>
     <owl:AnnotationProperty rdf:about="&obo;IAO_0000111"/>
     <owl:AnnotationProperty rdf:about="&obo;IAO_0000117"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/disconnected_from -->
+
+    <owl:ObjectProperty rdf:about="&rnao;disconnected_from">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <obo:IAO_0000111
+            >disconnected_from</obo:IAO_0000111>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/externally_connected_to -->
+
+    <owl:ObjectProperty rdf:about="&rnao;externally_connected_to">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <obo:IAO_0000111
+            >externally_connected_to</obo:IAO_0000111>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/has_non_tangential_proper_part -->
+
+    <owl:ObjectProperty rdf:about="&rnao;has_non_tangential_proper_part">
+        <obo:IAO_0000111
+            >has_non_tangential_proper_part</obo:IAO_0000111>
+        <rdfs:subPropertyOf rdf:resource="&ro;has_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/has_tangential_proper_part -->
+
+    <owl:ObjectProperty rdf:about="&rnao;has_tangential_proper_part">
+        <obo:IAO_0000111
+            >has_tangential_proper_part</obo:IAO_0000111>
+        <owl:inverseOf rdf:resource="&rnao;tangential_proper_part_of"/>
+        <rdfs:subPropertyOf rdf:resource="&ro;has_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/non_tangential_proper_part-of -->
+
+    <owl:ObjectProperty rdf:about="&rnao;non_tangential_proper_part-of">
+        <obo:IAO_0000111
+            >non_tangential_proper_part_of</obo:IAO_0000111>
+        <owl:inverseOf rdf:resource="&rnao;has_non_tangential_proper_part"/>
+        <rdfs:subPropertyOf rdf:resource="&rnao;part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/part_of -->
+
+    <owl:ObjectProperty rdf:about="&rnao;part_of">
+        <obo:IAO_0000111>part_of</obo:IAO_0000111>
+        <owl:inverseOf rdf:resource="&ro;has_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/obo/rnao/tangential_proper_part_of -->
+
+    <owl:ObjectProperty rdf:about="&rnao;tangential_proper_part_of">
+        <obo:IAO_0000111
+            >tangential_proper_part_of</obo:IAO_0000111>
+        <rdfs:subPropertyOf rdf:resource="&rnao;part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obofoundry.org/ro/ro.owl#has_part -->
+
+    <owl:ObjectProperty rdf:about="&ro;has_part"/>
     
 
 
@@ -81,6 +171,7 @@
     <!-- http://purl.obofoundry.org/obo/rnao/RNAO_0000114 -->
 
     <owl:Class rdf:about="&rnao;RNAO_0000114">
+        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000113"/>
         <owl:disjointWith rdf:resource="&rnao;RNAO_0000115"/>
         <obo:IAO_0000111
             >base pair cis-orientation</obo:IAO_0000111>
@@ -95,6 +186,7 @@
     <!-- http://purl.obofoundry.org/obo/rnao/RNAO_0000115 -->
 
     <owl:Class rdf:about="&rnao;RNAO_0000115">
+        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000113"/>
         <obo:IAO_0000115
             >A base pair conformation where the ribose rings are on opposite sides of a plane drawn through the middle of the edge-edge hydrogen bonds.</obo:IAO_0000115>
         <obo:IAO_0000117
