@@ -74,6 +74,12 @@
     
 
 
+    <!-- http://purl.obolibrary.org/obo/IAO_0000136 -->
+
+    <owl:ObjectProperty rdf:about="&obo;IAO_0000136"/>
+    
+
+
     <!-- http://semanticscience.org/resource/hasPart -->
 
     <owl:ObjectProperty rdf:about="&semanticscience;resource/hasPart"/>
@@ -89,6 +95,12 @@
     <!-- http://semanticscience.org/resource/isProperPartOf -->
 
     <owl:ObjectProperty rdf:about="&semanticscience;resource/isProperPartOf"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/isRelatedTo -->
+
+    <owl:ObjectProperty rdf:about="&semanticscience;resource/isRelatedTo"/>
     
 
 
@@ -108,6 +120,17 @@
         <rdfs:label>has function</rdfs:label>
         <rdfs:comment
             >A relation between an entity and a function</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/rkb:hasGrain -->
+
+    <owl:ObjectProperty rdf:about="&semanticscience;rkb:hasGrain">
+        <obo:IAO_0000111 xml:lang="en">hasGrain</obo:IAO_0000111>
+        <rdfs:domain rdf:resource="&semanticscience;resource/IndependentContinuant"/>
+        <rdfs:range rdf:resource="&semanticscience;resource/IndependentContinuant"/>
+        <rdfs:subPropertyOf rdf:resource="&semanticscience;resource/isRelatedTo"/>
     </owl:ObjectProperty>
     
 
@@ -134,6 +157,32 @@
         <rdfs:label>has role</rdfs:label>
         <rdfs:comment
             >The relation between an entity and a role</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/rkb:isContainedIn -->
+
+    <owl:ObjectProperty rdf:about="&semanticscience;rkb:isContainedIn">
+        <obo:IAO_0000111 xml:lang="en">containedIn</obo:IAO_0000111>
+        <obo:IAO_0000111 xml:lang="en">isSpecifiedBy</obo:IAO_0000111>
+        <rdfs:domain rdf:resource="&semanticscience;resource/Continuant"/>
+        <rdfs:range rdf:resource="&semanticscience;resource/Continuant"/>
+        <rdfs:domain rdf:resource="&semanticscience;resource/DependentContinuant"/>
+        <rdfs:range rdf:resource="&semanticscience;resource/DependentContinuant"/>
+        <rdfs:subPropertyOf rdf:resource="&semanticscience;resource/isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/rkb:isInformationAbout -->
+
+    <owl:ObjectProperty rdf:about="&semanticscience;rkb:isInformationAbout">
+        <obo:IAO_0000111 xml:lang="en"
+            >isInformationAbout</obo:IAO_0000111>
+        <rdfs:subPropertyOf rdf:resource="&obo;IAO_0000136"/>
+        <rdfs:range rdf:resource="&semanticscience;resource/IndependentContinuant"/>
+        <rdfs:domain rdf:resource="&semanticscience;resource/InformationContentEntity"/>
     </owl:ObjectProperty>
     
 
@@ -347,9 +396,27 @@
     
 
 
+    <!-- http://semanticscience.org/resource/Continuant -->
+
+    <owl:Class rdf:about="&semanticscience;resource/Continuant"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/DependentContinuant -->
+
+    <owl:Class rdf:about="&semanticscience;resource/DependentContinuant"/>
+    
+
+
     <!-- http://semanticscience.org/resource/FiatObjectPart -->
 
     <owl:Class rdf:about="&semanticscience;resource/FiatObjectPart"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/IndependentContinuant -->
+
+    <owl:Class rdf:about="&semanticscience;resource/IndependentContinuant"/>
     
 
 
@@ -1624,6 +1691,13 @@ chebi:17568</rdfs:comment>
     <owl:Class rdf:about="&semanticscience;rkb:RKB_000078">
         <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000028"/>
         <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&semanticscience;rkb:hasProperPart"/>
+                <owl:onClass rdf:resource="&semanticscience;rkb:RKB_000030"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Class>
                 <owl:complementOf>
                     <owl:Restriction>
@@ -1633,14 +1707,17 @@ chebi:17568</rdfs:comment>
                 </owl:complementOf>
             </owl:Class>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&semanticscience;rkb:hasProperPart"/>
-                <owl:onClass rdf:resource="&semanticscience;rkb:RKB_000030"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <obo:IAO_0000111 xml:lang="en">polynucleotide</obo:IAO_0000111>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/rkb:RKB_000079 -->
+
+    <owl:Class rdf:about="&semanticscience;rkb:RKB_000079">
+        <rdfs:subClassOf rdf:resource="&semanticscience;resource/InformationContentEntity"/>
+        <obo:IAO_0000111 xml:lang="en"
+            >molecular structure specification</obo:IAO_0000111>
     </owl:Class>
     
 
@@ -2071,13 +2148,13 @@ Adenine (Nitrogen 6) or Guanine (Oxygen 6),  Uracil (Oxygen 4) or Cytosine (Nitr
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -2183,6 +2260,16 @@ Where Y = Pyrimidines</rdfs:comment>
     <owl:Class rdf:about="&semanticscience;rkb:RKB_000110">
         <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000105"/>
         <obo:IAO_0000111 xml:lang="en">c4 prime endo</obo:IAO_0000111>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/rkb:RKB_000111 -->
+
+    <owl:Class rdf:about="&semanticscience;rkb:RKB_000111">
+        <rdfs:subClassOf rdf:resource="&semanticscience;resource/InformationContentEntity"/>
+        <obo:IAO_0000111 xml:lang="en"
+            >molecular structure file</obo:IAO_0000111>
     </owl:Class>
     
 
@@ -2594,6 +2681,19 @@ Where Y = Pyrimidines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000043"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000044"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000045"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000046"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000047"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000048"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000049"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000050"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000002"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000003"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000004"/>
@@ -2606,6 +2706,23 @@ Where Y = Pyrimidines</rdfs:comment>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000012"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000013"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000014"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000027"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000028"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000029"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000030"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000017"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000018"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000019"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -2630,36 +2747,6 @@ Where Y = Pyrimidines</rdfs:comment>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000056"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000057"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000058"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000027"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000028"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000029"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000030"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000017"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000018"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000019"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000043"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000044"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000045"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000046"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000047"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000048"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000049"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000050"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
