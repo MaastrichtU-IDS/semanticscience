@@ -1,4 +1,4 @@
-#summary semantic entity resolution vocabulary (SERV)
+#summary Semantic Entity Resolution Vocabulary (SERV)
 
 = Semantic Entity Resolution Vocabulary =
 prefix dc: <http://purl.org/dc/terms/>
@@ -13,7 +13,7 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 
 
 
-
+Class diagram is NOT up to date
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv_class_diagram.png]
 
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv.owl SERV OWL Ontology]
@@ -64,13 +64,13 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
  serv:id_specification [regex]           # a regular expression to validate the identifier against
 }}}
 
-===serv:Item===
-A data item is an entity in the dataset (not a document)
+===serv:Entity===
+A serv:entity is a named resource in the dataset, but is not a document.
 {{{
  rdfs:subClassOf [sioc:Item]
  rdfs:label [string]                     # title [ns:id]
  dc:identifier [string]                  # id
- dc:isPartOf                             # the dataset that this item is part of
+ serv:part_of [serv:Dataset]             # the dataset that this item is part of
 }}}
 
 ===serv:Resolver===
@@ -104,7 +104,8 @@ Provides some resource specified with a URL regex for a given resource with a pa
  rdfs:label [string]                     # title [ns:id]
  dc:identifier [string]                  # id
  dc:creator [foaf:Agent]                 # the creator of the document
- rdfs:subClassOf [foaf:Document]         #
+ rdfs:subClassOf [foaf:Document]         
+ rdfs:subClassOf [sioc:Item]
 
  serv:availability [string]              ["public"|"see license"] 
  dc:license [url]                        # a document that provides usage rights
@@ -112,7 +113,8 @@ Provides some resource specified with a URL regex for a given resource with a pa
 
  dc:fileFormat[string]                   # the document MIME-type ["text/html",etc]
  rdf:type [URI]                          [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
- serv:is_about [serv:Item]               # links the document to the entity/item in a dataset
+ serv:is_about [serv:Entity]             # identifies the entity that is the subject of the document
+ serv:is_about [serv:Dataset]            # identifies the dataset that the document is about
 }}}
 
 
