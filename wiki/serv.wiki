@@ -1,6 +1,36 @@
 #summary Semantic Entity Resolution Vocabulary (SERV)
 
 = Semantic Entity Resolution Vocabulary =
+
+===November 1, 2009===
+
+*Editor:* 
+ Michel Dumontier - Carleton University
+
+*Authors:*
+ Alexander De Leon - Carleton University 
+
+ Peter Ansell - Queensland University
+
+ Marc-Alexandre Nolin - Universite de Laval
+
+
+Copyright © 2009 Michel Dumontier.
+
+This work is licensed under a [http://creativecommons.org/licenses/by/1.0/ Creative Commons License]. This copyright applies to the SERV Specification and accompanying documentation and does not apply to SERV data formats, ontology terms, or technology.
+
+==Introduction==
+Building a stable network of linked data is hard when URIs and/or URI patterns change over time. However, most entities are typically denoted by a unique identifier within some dataset. If datasets could be cataloged, we could generate unique identifiers for these as well. So, by combining the dataset identifier and the entity identifier, one can generate a location-independent entity identifier.
+
+Having a location-independent identifier is important because much of the world's data is not currently available as linked data, and we don't know what is the original data provider's URI will actually be, when they get around to providing an RDF-based resolution service. Regardless, people to make statements about these entities and also have them discovered. Moreover, information about entities comes in all shapes in sizes - from HTML documents to XML, to RDF/N3 and RDF/XML. By additionally specifying the format in which information is made available, semantic web agents can mine the network of their preferred linked data and discover new knowledge.
+
+==Objective==
+The purpose of the Semantic Entity Resolution Vocabulary (SERV) is to facilitate the representation of entities contained in namespace-identified datasets, which are specifically the subject of documents which can be automatically constructed from URL patterns involving the entity identifier, and optionally the namespace.
+
+
+==SERV at a glance==
+
+
 prefix dc: <http://purl.org/dc/terms/>
 
 prefix serv: <http://semanticscience.org/serv:>
@@ -16,9 +46,15 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv_overview_diagram.png]
 
+
+
+
+==Ontology==
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv.owl SERV OWL Ontology]
 
+==Example==
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv_example.owl SERV example]
+
 
 
 ===foaf:Agent===
@@ -84,7 +120,9 @@ Provides some resource specified with a URL regex for a given resource with a pa
 }}}
 {{{
  serv:URIResolver rdfs:subClassOf serv:Resolver
-   serv:uri_pattern [uri regex]          # A regular expression for the constructing the URI, using variables $ns for the namespace and $id for the identifier [e.g. http://bio2rdf.org/$ns:$id]
+   serv:uri_pattern [uri regex]          # A regular expression for the constructing the URI, 
+                                           using variables $ns for the namespace and $id for the identifier 
+                                           [e.g. http://bio2rdf.org/$ns:$id]
 }}}
 
 
