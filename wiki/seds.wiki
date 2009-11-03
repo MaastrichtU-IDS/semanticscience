@@ -1,0 +1,24 @@
+#summary Semantic Entity Discovery Service (SEDS)
+
+== Purpose ==
+The Semantic Entity Discovery Service provides a Semantic Web Document that indicates which documents contain information about entities of interest.
+
+== USE CASES ==
+  # Discover all serv:Documents that contain statements about a serv:Entity that is part of a serv:Dataset.
+  # Discover which serv:Documents in 1. are provided by a) the original data provider, b) mirrors and c) third-parties.
+  # Discover which serv:Documents in 1./2. are in a specific format (e.g. HTML, RDF/N3, RDF/XML, etc).
+  # Discover which serv:Entities are equivalent across serv:Namespaces resolved by data providers. 
+
+== Methods ==
+The service first queries the Semantic Namespace Registry (SNR) for all resolvers that respond to a specified (or equivalent) namespace. For each resolver, it constructs the URI from their specified uri_pattern by substituting the entity identifier and the (directly linked) namespace. The service then constructs a document containing i. entity, ii. dataset, iii. document(s) + format, iv) providers. The type of document returned is based on the content-header or format=[html|rdf/n3|rdf/xml] argument.
+
+== Example ==
+
+
+== RESTful Service ==
+default:
+ http://semanticscience.org/discover/namespace:identifier
+
+custom:
+ http://semanticscience.org/discover/?namespace=[namespace]&identifier=[identifier]&provider=[provider]&format=[format]
+
