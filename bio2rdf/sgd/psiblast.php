@@ -1,7 +1,7 @@
 <?php
 
 
-class SGD_PSIBLAST_Hits {
+class SGD_PSIBLAST {
 
 	function __construct($infile, $outfile)
 	{

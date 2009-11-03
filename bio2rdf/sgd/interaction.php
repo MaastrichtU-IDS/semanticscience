@@ -1,6 +1,6 @@
 <?php
 
-class SGD_interaction_data {
+class SGD_INTERACTION {
 
 	function __construct($infile, $outfile)
 	{
@@ -43,30 +43,60 @@ Contains interaction data incorporated into SGD from BioGRID (http://www.thebiog
 	{
 		require ('../include.php');
 		$buf = N3NSHeader($nslist);
-		
+
+		require ('../../lib/php/oboparser_lib.php');
+
+		/** get the ontology terms **/
+		$file = "/opt/data/obo/obo/apo.obo";
+		$in = fopen($file, "r");
+		if($in === FALSE) {
+        		trigger_error("Unable to open $file");
+        		exit;
+		}
+		$terms = OBOParser($in);
+		fclose($in);
+		BuildNamespaceSearchList($terms,$searchlist);
+
 		$z = 0;
 		while($l = fgets($this->_in,2048)) {
-			list($id1,$id1name, $id2, $id2name, $experiment_type, $method, $src, $htpORman, $notes, $phenotype, $ref, $cit) = explode("\t",trim($l));;
+			list($id1,$id1name, $id2, $id2name, $method, $interaction_type, $src, $htpORman, $notes, $phenotype, $ref, $cit) = explode("\t",trim($l));;
 			
 			$id = md5($id1.$id2.$method.$cit);
-			$buf .= "$sgd:$id a $sgd:Interaction.".PHP_EOL;
-			$buf .= "$sgd:$id $dc:identifier \"$id\".".PHP_EOL;
-			$buf .= "$sgd:$id $rdfs:label \"$htpORman ".substr($method,0,-1)." between $id1 and $id2 [$sgd:$id]\".".PHP_EOL;
+
+			$exp_type = array_search($interaction_type, $searchlist['experiment_type']);
+			$buf .= "$sgd:$id a ".strtolower($exp_type)." .".PHP_EOL;
 			
+			$this->GetMethodID($method,$oid,$type);
 			$id1 = str_replace(array("(",")"), array("",""), $id1);
 			$id2 = str_replace(array("(",")"), array("",""), $id2);
+			if($type == "protein") {$id1 = ucfirst(strtolower($id1))."p";$id2=ucfirst(strtolower($id2))."p";}
+			
+			$buf .= "$sgd:$id $rdfs:label \"$htpORman ".substr($interaction_type,0,-1)." between $id1 and $id2 [$sgd:$id]\".".PHP_EOL;
+			
 			
 			$buf .= "$sgd:$id $sgd:bait $sgd:$id1 .".PHP_EOL;
 			$buf .= "$sgd:$id $sgd:hit $sgd:$id2 .".PHP_EOL;
 			
-			$exp = $this->GetExperimentType($experiment_type);
 			$eid = $id."exp";
-			$buf .= "$sgd:$id $sgd:experiment $sgd:$eid .".PHP_EOL;
-			$buf .= "$sgd:$eid a $exp .".PHP_EOL;
+			$buf .= "$sgd:$id $sgd:method $sgd:$eid .".PHP_EOL;
+			$buf .= "$sgd:$eid a ".strtolower($oid)." .".PHP_EOL;
 			
-			$buf .= "$sgd:$id a $sgd:".($method=="genetic interactions"?"GeneticInteraction":"PhysicalInteraction")." .".PHP_EOL;
-			if($phenotype) $buf .= "$sgd:$id $sgd:phenotype \"$phenotype\" .".PHP_EOL;
-			if($htpORman)  $buf .= "$sgd:$id a $sgd:".($htpORman=="manually curated"?"ManuallyCuratedInteraction":"HighThroughputInteraction")." .".PHP_EOL;
+			if($phenotype) {
+				$buf .= "$sgd:$id a ".strtolower($exp_type)." .".PHP_EOL;
+				$p = explode(":",$phenotype);
+				if(count($p) == 1) {
+					// straight match to observable
+					$observable = array_search($p[0], $searchlist['observable']);
+				} else if(count($p) == 2) {
+					// p[0] is the observable and p[1] is the qualifier
+					$observable = array_search($p[0], $searchlist['observable']);
+					$qualifier = array_search($p[1], $searchlist['qualifier']);
+					$buf .= "$sgd:$id $sgd:qualifier ".strtolower($qualifier).".".PHP_EOL;
+				}
+				$buf .= "$sgd:$id $sgd:phenotype ".strtolower($observable).".".PHP_EOL;
+			}
+
+			if($htpORman)  $buf .= "$sgd:$id $sgd:throughput \"".($htpORman=="manually curated"?"manually curated":"high throughput")."\".".PHP_EOL;
 			$b = explode("|",$ref);
 			foreach($b AS $c) {
 				$d = explode(":",$c);
@@ -77,41 +107,52 @@ Contains interaction data incorporated into SGD from BioGRID (http://www.thebiog
 			$buf .= "$sgd:$id2 $sgd:interactsWith $sgd:$id1 .".PHP_EOL;
 			*/
 			
-			if(defined('DEBUG')) {echo $buf;break;}
+			//if($z++ == 1000) {echo $buf;exit;}
 		}
 		fwrite($this->_out, $buf);
 		
 		return 0;
 	}
-	function GetExperimentType($index) {
-	$interaction_type = array(
-		'Synthetic Lethality' => 'SyntheticLethality',
-		'Affinity Capture-MS' => 'AffinityCapture-MS',
-		'Affinity Capture-Western' => 'AffinityCapture-Western',
-		'Affinity Capture-RNA' => 'AffinityCapture-RNA',
-		'Dosage Rescue' => 'DosageRescue',
-		'Dosage Lethality' => 'DosageLethality',
-		'Dosage Growth Defect' => 'DosageGrowthDefect',
-		'Reconstituted Complex' => 'ReconstitutedComplex',
-		'Synthetic Growth Defect' => 'SyntheticGrowthDefect',
-		'Synthetic Rescue' => 'SyntheticRescue',
-		'Two-hybrid' => 'TwoHybrid',
-		'Epistatic MiniArray Profile' => 'EpistaticMiniArrayProfile',
-		'Biochemical Activity' => 'BiochemicalActivity',
 
-		'Far Western' => 'FarWestern',
-		'FRET' => 'FRET',
-		'Protein-peptide' => 'ProteinPeptideInteraction',
-		'Protein-RNA' => 'ProteinRNAInteraction',
-		'Co-crystal Structure' => 'Co-crystallography',
-		'Co-localization' => 'Co-localization',
-		'Co-purification' => 'Co-purification',
-		'Co-fractionation' => 'Co-fractionation',
-		'Phenotypic Enhancement' => 'PhenotypicEnhancement',
-		'Phenotypic Suppression' => 'PhenotypicSuppression'
+
+	function GetMethodID($label, &$id, &$type) {
+	$gi = array(
+		'Dosage Rescue' => 'APO:0000173',
+		'Dosage Lethality' => 'APO:0000172',
+		'Dosage Growth Defect' => 'APO:0000171',
+		'Epistatic MiniArray Profile' => 'APO:0000174',
+		'Synthetic Lethality' => 'APO:0000183',
+		'Synthetic Growth Defect' => 'APO:000018',
+		'Synthetic Rescue' => 'APO:0000184',
+		'Synthetic Haploinsufficiency'=> 'APO:0000272',
+		'Phenotypic Enhancement' => 'APO:0000177',
+		'Phenotypic Suppression' => 'APO:0000178'
 	);
-	return $interaction_type[$index];
-}
+	$pi = array(
+		'Affinity Capture-MS' => 'APO:0000162',
+		'Affinity Capture-Western' => 'APO:0000165',
+		'Affinity Capture-RNA' => 'APO:0000163',
+		'Affinity Chromatography' => 'APO:0000188',
+		'Affinity Precipitation' => 'APO:0000189',
+		'Biochemical Activity' => 'APO:0000166',
+		'Biochemical Assay' => 'APO:0000190',
+		'Co-crystal Structure' => 'APO:0000167',
+		'Co-fractionation' => 'APO:0000168',
+		'Co-localization' => 'APO:0000169',
+		'Co-purification' => 'APO:0000170',
+		'Far Western' => 'APO:0000176',
+		'FRET' => 'APO:0000175',
+		'PCA' => 'APO:0000244',
+		'Protein-peptide' => 'APO:0000180',
+		'Protein-RNA' => 'APO:0000179',
+		'Purified Complex' => 'APO:0000191',
+		'Reconstituted Complex' => 'APO:0000181',
+		'Two-hybrid' => 'APO:0000185',
+	);
+	if(isset($gi[$label])) {$id=$gi[$label];$type='gene';return;}
+	if(isset($pi[$label])) {$id=$pi[$label];$type='protein';return;}
+	echo "No match for $label\n";
+	}
 };
 
 ?>

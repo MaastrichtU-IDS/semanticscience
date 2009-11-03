@@ -17,7 +17,7 @@
 15.  Sequence version (optional)
 16.  Description (optional)
 */
-class SGD_ChromosomalFeatures {
+class SGD_FEATURES {
 
 	function __construct($infile, $outfile)
 	{
@@ -42,38 +42,48 @@ class SGD_ChromosomalFeatures {
 	{
 		require ('../include.php');
 		$buf = N3NSHeader($nslist);
-		
+//		$buf .= "@prefix gro: <http://www.bootstrep.eu/ontology/GRO#> .".PHP_EOL;
+		$buf .= "@prefix gro: <http://bio2rdf.org/gro:> .".PHP_EOL;
+		$z = 0;		
 		while($l = fgets($this->_in,2048)) {
 			if($l[0] == '!') continue;
 			$a = explode("\t",trim($l));
+
+//if($z++ == 100) {echo $buf;$buf = '';}
 			
 			$id = $oid = $a[0];
-/*			$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $id);
-			if($id !== $nid) {
-				$id = md5($id);
-			}			
-*/
-$id =urlencode($id);	
+			$id =urlencode($id);	
 			$buf .= "$sgd:$id $dc:identifier \"$sgd:$oid\" .".PHP_EOL;
 			$buf .= "$sgd:$id $rdfs:label \"$a[1] [$sgd:$id]\" .".PHP_EOL;
 			if($a[15]) $buf .= "$sgd:$id $rdfs:comment ".'"""'.$a[15].'""" .'.PHP_EOL;
 			$feature_type = $this->GetFeatureType($a[1]);
-			$buf .= "$sgd:$id a $ss:$feature_type. ".PHP_EOL;
+			$buf .= "$sgd:$id a ".strtolower($feature_type).". ".PHP_EOL;
 
-			if($a[1] == "ORF" || stristr($a[1],"RNA")) {
+			unset($type);
+			if($a[1] == "ORF") $type = "p";
+			elseif(stristr($a[1],"rna")) $type = "r";
+
+			if(isset($type)) {
 				unset($p1);unset($p2);
-				$buf .= "$sgd:$id $bio2rdfns:encodes $sgd:$id"."gp.".PHP_EOL;
+				$gp = $sgd.":".$id."gp";
+				$buf .= "$sgd:$id $bio2rdfns:encodes $gp.".PHP_EOL;
+				$buf .= "<http://bio2rdf.org/$gp> rdfs:label \"$id"."gp [$gp]\".".PHP_EOL;
+				if($type == "p") $buf .= "<http://bio2rdf.org/$gp> a gro:Protein .".PHP_EOL;
+				elseif($type == "r") $buf .= "<http://bio2rdf.org/$gp> a gro:RNAMolecule .".PHP_EOL;
 
 				if($a[1] == "ORF" && $a[3] != '') {
 					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[3])))."p";
 					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
-					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$sgd:$id"."gp>.".PHP_EOL;
-
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> rdfs:label \"$p1 [$sgd:$p1]\".".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> a gro:Protein .".PHP_EOL;
 				}
 				if($a[1] == "ORF" && $a[4] != '') {
 					$p2 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[4])))."p";
 					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
-					$buf .= "<http://bio2rdf.org/$sgd:$p2> owl:sameAs <http://bio2rdf.org/$sgd:$id"."gp>.".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p2> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p2> rdfs:label \"$p2 [$sgd:$p2]\".".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p2> a gro:Protein .".PHP_EOL;
 				}
 				if(isset($p1) && isset($p2)) 
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
@@ -88,14 +98,18 @@ $id =urlencode($id);
 			}
 			
 			// unique feature name
-			$id2 = str_replace(array("(",")"), array("&#40;","&#41;"), $a[3]);
 			if($a[3]) {
-				$buf .= "$sgd:$id $owl:sameAs <http://bio2rdf.org/$sgd:$id2> .".PHP_EOL;
+				$buf .= "$sgd:$id $sgd:preferredName \"$a[3]\".".PHP_EOL;
+				$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $a[3]);
+				$buf .= "$sgd:$id $owl:sameAs <http://bio2rdf.org/$sgd:$nid> .".PHP_EOL;
 			}
 			
 			// common names
-			if($a[3]) $buf .= "$sgd:$id $sgd:preferredName \"$a[3]\".".PHP_EOL;
-			if($a[4]) $buf .= "$sgd:$id $sgd:standardName \"$a[4]\".".PHP_EOL;
+			if($a[4]) {
+				$buf .= "$sgd:$id $sgd:standardName \"$a[4]\".".PHP_EOL;
+				$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $a[4]);
+				$buf .= "$sgd:$id owl:sameAs <http://bio2rdf.org/$sgd:$nid>.".PHP_EOL;
+			}
 			if($a[5]) {
 				$b = explode("|",$a[5]);
 				foreach($b AS $name) {
@@ -108,13 +122,12 @@ $id =urlencode($id);
 				$parent = str_replace(array("(",")"," "), array("&#40;","&#41;","_"), $a[6]);
 				$parent = urlencode($a[6]);
 
-				$buf .= "$sgd:$id $ss:isProperPartOf <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
-				$other .= "$sgd:$parent $ss:hasPart $sgd:$id .".PHP_EOL;
+				$buf .= "$sgd:$id $sgd:part_of <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
 				if(strstr($parent,"chromosome")) {
 					$parent_type = 'c';
 					if(!isset($chromosomes[$parent])) $chromosomes[$parent] = '';
 					else {
-						$other .= "$sgd:$parent a $sgd:Chromosome .".PHP_EOL;
+						$other .= "$sgd:$parent a $so:0000340 .".PHP_EOL;
 						$other .= "$sgd:$parent $rdfs:label \"$a[6]\" .".PHP_EOL;
 					}
 				}
@@ -132,7 +145,7 @@ $id =urlencode($id);
 			unset($chr);
 			if($a[8] && $parent_type != 'c') {
 				$chr = "chromosome_".$a[8];
-				$buf .= "$sgd:$chr $ss:hasProperPart $sgd:$id .".PHP_EOL;
+				$buf .= "$sgd:$id $sgd:part_of $sgd:$chr .".PHP_EOL;
 			}
 			// watson or crick strand of the chromosome
 			unset($strand);
@@ -140,12 +153,12 @@ $id =urlencode($id);
 				$chr = "chromosome_".$a[8];
 				$strand_type = ($a[11]=="w"?"WatsonStrand":"CrickStrand");
 				$strand = $chr."_".$strand_type;
-				$buf .= "$sgd:$strand $sgd:part $sgd:$id .".PHP_EOL;
+				$buf .= "$sgd:$id $sgd:part_of $sgd:$strand .".PHP_EOL;
 				if(!isset($strands[$strand])) {
 					$strands[$strand] = '';
 					$other .= "$sgd:$strand a sgd:$strand_type .".PHP_EOL;
 					$other .= "$sgd:$strand $rdfs:label \"$strand_type for $chr\" .".PHP_EOL;
-					$other .= "$sgd:$strand $sgd:isPartOf $sgd:$chr .".PHP_EOL;
+					$other .= "$sgd:$strand $sgd:part_of $sgd:$chr .".PHP_EOL;
 				}				
 			}
 			
@@ -173,7 +186,6 @@ $id =urlencode($id);
 				}
 			}
 			
-//			echo $buf;exit;
 		}
 		fwrite($this->_out, $buf.$other);
 		
@@ -183,38 +195,38 @@ $id =urlencode($id);
 	function GetFeatureType($feature_id)
 	{
 		$feature_map = array (
-		'ACS' => 'ARSConsensusSequence',
-		'ARS consensus sequence' => 'AutonomouslyReplicatingSequence',
-		'binding_site' => 'BindingSite',
-		'CDEI' => 'CentromereDNAElementI',
-		'CDEII' => 'CentromereDNAElementII',
-		'CDEIII' => 'CentromereDNAElementIII',
-		'CDS' => 'CodingSequence',
-		'centromere' => 'Centromere',
-		'external_transcribed_spacer_region' => 'ExternalTranscribedSpacer',
-		'internal_transcribed_spacer_region' => 'InternalTranscribedSpacer',
-		'intron' => 'Intron',
-		'long_terminal_repeat' => 'LongTerminalRepeat',
-		'ncRNA' => 'ncRNAGene',
-		'noncoding_exon' => 'NonCodingExon',
-		'non_transcribed_region' => 'NonTranscribedRegion',
-	//	not in systematic sequence of S288C
-		'not physically mapped' => 'NotPhysicallyMappedFeature',
-		'ORF' => 'OpenReadingFrame',
-		'plus_1_translational_frameshift' => 'TranslationalFrameshift',
-		'pseudogene' => 'PseudoGene',
-		'repeat_region' => 'RepeatRegion',
-		'retrotransposon' => 'Retrotransposon',
-		'rRNA' => 'rRNAGene',
-		'snoRNA' => 'snoRNAGene',
-		'snRNA' => 'snRNAGene',
-		'telomere' => 'Telomere',
-		'telomeric_repeat' => 'TelomericRepeat',
-		'transposable_element_gene' => 'Retrotransposon',
-		'tRNA' => 'rRNAGene',
-		'X_element_combinatorial_repeats' => 'XElementCombinatorialRepeat',
-		'X_element_core_sequence' => 'XElementCoreSequence',
-		'Y\'_element' => 'YPrimeElement'
+		'ACS' => 'SO:0000436',
+		'ARS consensus sequence' => 'SO:0000436',
+		'binding_site' => 'SO:0000409',
+		'CDEI' => 'ss:CentromereDNAElementI',
+		'CDEII' => 'ss:CentromereDNAElementII',
+		'CDEIII' => 'ss:CentromereDNAElementIII',
+		'CDS' => 'SO:0000316',
+		'centromere' => 'SO:0000577',
+		'external_transcribed_spacer_region' => 'SO:0000640',
+		'internal_transcribed_spacer_region' => 'SO:0000639',
+		'intron' => 'SO:0000188',
+		'long_terminal_repeat' => 'SO:0000286',
+		'ncRNA' => 'SO:0000655',
+		'noncoding_exon' => 'SO:0000445',
+		'non_transcribed_region' => 'SO:0000183',
+//	not in systematic sequence of S288C
+//		'not physically mapped' => 'NotPhysicallyMappedFeature',
+		'ORF' => 'SO:0000236',
+		'plus_1_translational_frameshift' => 'SO:0001211',
+		'pseudogene' => 'SO:0000336',
+		'repeat_region' => 'SO:0000657',
+		'retrotransposon' => 'SO:0000180',
+		'rRNA' => 'SO:0000573',
+		'snoRNA' => 'SO:0000578',
+		'snRNA' => 'SO:0000623',
+		'telomere' => 'SO:0000624',
+		'telomeric_repeat' => 'ss:TelomericRepeat',
+		'transposable_element_gene' => 'SO:0000180',
+		'tRNA' => 'SO:0000663',
+		'X_element_combinatorial_repeats' => 'ss:XElementCombinatorialRepeat',
+		'X_element_core_sequence' => 'ss:XElementCoreSequence',
+		"Y_element" => 'ss:YPrimeElement'
 		);
 
 	if(isset($feature_map[$feature_id])) return $feature_map[$feature_id];
@@ -222,4 +234,21 @@ $id =urlencode($id);
 }
 };
 
+/*
+The SGD database uses the following terms :
+
+label: Centromere DNA Element I
+synonym: CDEI
+definition: A Centromere DNA Element I (CDEI) is a DNA consensus region composed of 8-11bp which enables binding by the centromere binding factor 1 (Cbf1p)
+ 
+label: Centromere DNA Element II
+synonym: CDEII
+definition: A Centromere DNA Element II (CDEII) is a DNA consensus region that is AT-rich and ~ 75-100 bp in length.
+
+CDEIII - Centromere DNA Element III
+synonym: CDEIII
+definition: A Centromere DNA Element III (CDEIII) is a DNA consensus region that consists of a 25-bp which enables binding by the centromere DNA binding factor 3 (CBF3) complex.
+
+
+*/
 ?>

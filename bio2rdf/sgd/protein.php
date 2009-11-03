@@ -1,7 +1,7 @@
 <?php
 
 /** SGD's protein information */
-class SGD_ProteinInfo {
+class SGD_PROTEIN {
 
 	function __construct($infile, $outfile)
 	{
