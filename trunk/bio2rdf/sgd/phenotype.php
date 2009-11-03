@@ -1,6 +1,6 @@
 <?php
 
-class SGD_Phenotype {
+class SGD_PHENOTYPE {
 
 	function __construct($infile, $outfile)
 	{
@@ -42,10 +42,10 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 */
 	function Convert2RDF()
 	{
-		require ('../../lib/php/oboparser_lib.php');
+		require_once ('../../lib/php/oboparser_lib.php');
 		
 		/** get the ontology terms **/
-		$file = "/opt/data/obo/yeast_phenotype_v1.15.obo";
+		$file = "/opt/data/obo/obo/apo.obo";
 		$in = fopen($file, "r");
 		if($in === FALSE) {
 			trigger_error("Unable to open $file");

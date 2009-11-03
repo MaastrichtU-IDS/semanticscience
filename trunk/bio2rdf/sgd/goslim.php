@@ -1,6 +1,6 @@
 <?php
 
-class SGD_GOSLIMMapping {
+class SGD_GOSLIM {
 
 	function __construct($infile, $outfile)
 	{

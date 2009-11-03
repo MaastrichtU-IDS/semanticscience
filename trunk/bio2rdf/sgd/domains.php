@@ -1,6 +1,6 @@
 <?php
 
-class SGD_Domains {
+class SGD_DOMAINS {
 
 	function __construct($infile, $outfile)
 	{
@@ -44,7 +44,7 @@ class SGD_Domains {
 
 		while($l = fgets($this->_in,2048)) {
 			$a = explode("\t",trim($l));
-			
+
 			$id = $a[0];
 			$uid = '<http://bio2rdf.org/sgd:'.$id.'>';
 			
@@ -71,7 +71,7 @@ class SGD_Domains {
 			$buf .= "$uda $ss:evalue \"$a[8]\" .".PHP_EOL;
 			$buf .= "$udid $ss:evidence $uda .".PHP_EOL;
 			$buf .= "$uda $ss:is_evidence_for $udid .".PHP_EOL;
-			//echo $buf;exit;
+//echo $buf;exit;
 		}
 		fwrite($this->_out, $buf);
 		

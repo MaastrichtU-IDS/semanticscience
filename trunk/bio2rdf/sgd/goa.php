@@ -1,6 +1,6 @@
 <?php
 
-class SGD_GeneAssociation {
+class SGD_GOA {
 
 	function __construct($infile, $outfile)
 	{

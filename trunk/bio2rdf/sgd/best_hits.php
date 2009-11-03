@@ -1,6 +1,6 @@
 <?php
 
-class SGD_BestHits {
+class SGD_BESTHITS {
 
 	function __construct($infile, $outfile)
 	{

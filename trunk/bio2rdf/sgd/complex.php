@@ -1,6 +1,6 @@
 <?php
 
-class SGD_GOProteinComplex {
+class SGD_COMPLEX {
 
 	function __construct($infile, $outfile)
 	{
