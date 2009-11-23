@@ -1,0 +1,56 @@
+# http://code.google.com/p/semanticscience/wiki/Registry
+
+prefix dcterms: <http://purl.org/dc/terms/>
+prefix registry: <http://purl.org/semanticscience/registry:>
+prefix foaf: <http://xmlns.com/foaf/0.1/> 
+prefix skos: <http://www.w3.org/2004/02/skos/core>
+
+<http://semanticscience.org/registry/publisher/nar> a registry:Publisher ;
+	foaf:homepage <http://www.oxfordjournals.org/nar/database/a/> .
+
+<http://semanticscience.org/registry/publisher/bio2rdf> a registry:Publisher ;
+	foaf:homepage <http://bio2rdf.org/> .
+
+<http://semanticscience.org/registry/publisher/kegg> a registry:Publisher ;
+	foaf:homepage <http://www.genome.jp/kegg/> .
+
+<http://semanticscience.org/registry/namespace/nar:kegg_compound> a registry:Namespace ;
+	registry:namespace "kegg_compound" ;
+	registry:id_regex "^C[0-9]{5}" ;
+	registry:id_example "C01537" ;
+	dcterms:creator <http://semanticscience.org/registry/publisher/nar> .
+	
+<http://semanticscience.org/registry/namespace/registry:kegg_compound> a registry:OfficialNamespace ;
+	registry:namespace "kegg_compound" ;
+	registry:id_regex "^C[0-9]{5}" ;
+	registry:id_example "C01537" ;
+	dcterms:replaces <http://semanticscience.org/registry/namespace/nar:kegg_compound> ;
+	dcterms:creator <http://semanticscience.org/registry/publisher/registry> .
+
+<http://semanticscience.org/registry/namespace/registry:kegg_drug> a registry:OfficialNamespace ;
+	registry:namespace "drug" ;
+	registry:id_regex "^D[0-9]{5}" ;
+	registry:id_example "D01537" ;
+	registry:replaces <http://semanticscience.org/registry/namespace/nar:kegg_drug> ;
+	dcterms:creator <http://semanticscience.org/registry/publisher/registry> .
+
+<http://semanticscience.org/registry/namespace/registry:kegg> a registry:OfficialNamespace ;
+	registry:namespace "kegg" ;
+	registry:id_regex "^.+" ;
+	registry:id_example "C01537" ;
+	skos:narrower <http://semanticscience.org/registry/namespace/registry:kegg_compound> ;
+	skos:narrower <http://semanticscience.org/registry/namespace/registry:kegg_drug> ;
+	dcterms:creator <http://semanticscience.org/registry/publisher/registry> .
+
+<http://semanticscience.org/registry/resource/kegg_compound> a registry:Resource ;
+	foaf:homepage <http://www.genome.jp/kegg/compound/> ;
+    registry:publisher <http://semanticscience.org/registry/publisher/kegg> .
+
+<http://semanticscience.org/registry/datasource/bio2rdf_kegg_cpd_n3_gzipped> a registry:Datasource ;
+    dcterms:subject <http://semanticscience.org/registry/namespace/registry:kegg_compound> , 
+    registry:references <http://semanticscience.org/registry/namespace/registry:kegg> ;
+    registry:location <http://quebec.bio2rdf.org/download/n3/kegg.cpd.n3.gz> ;
+    dcterms:format registry:gzipped_n3 ;
+    dcterms:publisher <http://semanticscience.org/registry/publisher/bio2rdf> .
+
+
