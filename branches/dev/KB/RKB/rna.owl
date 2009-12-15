@@ -42,6 +42,7 @@
         <rdfs:comment>RNA ontology</rdfs:comment>
         <owl:imports rdf:resource="&semanticscience2;svn/trunk/KB/RKB/chebi_import.owl"/>
         <owl:imports rdf:resource="&semanticscience2;svn/trunk/KB/RKB/iao-import.owl"/>
+        <owl:imports rdf:resource="&semanticscience2;svn/trunk/KB/RKB/rnao-import-2.owl"/>
         <owl:imports rdf:resource="&semanticscience2;svn/trunk/KB/RKB/rnao-import.owl"/>
         <owl:imports rdf:resource="&semanticscience2;svn/trunk/ontology/nulo.owl"/>
     </owl:Ontology>
@@ -408,6 +409,15 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
                         <owl:someValuesFrom>
@@ -470,15 +480,6 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Class>
-                        <owl:complementOf>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                            </owl:Restriction>
-                        </owl:complementOf>
-                    </owl:Class>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
                         <owl:someValuesFrom>
@@ -556,68 +557,6 @@
     <!-- http://purl.obofoundry.org/obo/rnao/RNAO_0000004 -->
 
     <owl:Class rdf:about="&rnao;RNAO_0000004">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://bio2rdf.org/chebi:50319"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <owl:Class>
-                                                        <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
-                                                            <owl:Restriction>
-                                                                <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
-                                                            </owl:Restriction>
-                                                        </owl:unionOf>
-                                                    </owl:Class>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <owl:Class>
-                                                                        <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
-                                                                            <owl:Restriction>
-                                                                                <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
-                                                                            </owl:Restriction>
-                                                                        </owl:unionOf>
-                                                                    </owl:Class>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50319"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                        <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -700,6 +639,68 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://bio2rdf.org/chebi:50319"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <owl:Class>
+                                                        <owl:unionOf rdf:parseType="Collection">
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                            <owl:Restriction>
+                                                                <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                            </owl:Restriction>
+                                                        </owl:unionOf>
+                                                    </owl:Class>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <owl:Class>
+                                                                        <owl:unionOf rdf:parseType="Collection">
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                                            <owl:Restriction>
+                                                                                <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                            </owl:Restriction>
+                                                                        </owl:unionOf>
+                                                                    </owl:Class>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50319"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                        <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000133"/>
         <rdfs:subClassOf>
             <owl:Class>
@@ -743,10 +744,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -757,10 +758,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -805,10 +806,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -819,10 +820,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -875,10 +876,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -889,10 +890,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -937,10 +938,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -951,10 +952,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1007,10 +1008,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1021,10 +1022,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1069,10 +1070,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1083,10 +1084,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1139,10 +1140,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1153,10 +1154,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1201,10 +1202,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1215,10 +1216,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000088"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000088"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1411,10 +1412,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1425,10 +1426,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1473,10 +1474,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1487,10 +1488,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1543,10 +1544,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1557,10 +1558,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1605,10 +1606,10 @@
                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                     <owl:Class>
                                                         <owl:unionOf rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
+                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
                                                             <owl:Restriction>
                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
+                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
                                                             </owl:Restriction>
                                                         </owl:unionOf>
                                                     </owl:Class>
@@ -1619,10 +1620,10 @@
                                                                 <owl:intersectionOf rdf:parseType="Collection">
                                                                     <owl:Class>
                                                                         <owl:unionOf rdf:parseType="Collection">
-                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000086"/>
+                                                                            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000087"/>
                                                                             <owl:Restriction>
                                                                                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000086"/>
+                                                                                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000087"/>
                                                                             </owl:Restriction>
                                                                         </owl:unionOf>
                                                                     </owl:Class>
@@ -1864,6 +1865,14 @@
     
 
 
+    <!-- http://purl.obofoundry.org/obo/rnao/RNAO_0000132 -->
+
+    <owl:Class rdf:about="&rnao;RNAO_0000132">
+        <rdfs:subClassOf rdf:resource="&semanticscience;resource/Object"/>
+    </owl:Class>
+    
+
+
     <!-- http://purl.obofoundry.org/obo/rnao/RNAO_0000140 -->
 
     <owl:Class rdf:about="&rnao;RNAO_0000140"/>
@@ -1941,6 +1950,12 @@
         <rdfs:subClassOf rdf:resource="&semanticscience;resource/Object"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&semanticscience;rkb:hasQuality"/>
+                <owl:someValuesFrom rdf:resource="&rnao;RNAO_0000113"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
                 <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000126"/>
             </owl:Restriction>
@@ -1949,12 +1964,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
                 <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000189"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&semanticscience;rkb:hasQuality"/>
-                <owl:someValuesFrom rdf:resource="&rnao;RNAO_0000113"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <obo:IAO_0000111 xml:lang="en"
@@ -3049,13 +3058,13 @@ Where R = Purines and Y = Pyrimidines</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50319"/>
+                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000085"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&semanticscience;resource/isPartOf"/>
-                <owl:someValuesFrom rdf:resource="&semanticscience;rkb:RKB_000085"/>
+                <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50319"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment
@@ -3469,6 +3478,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -3502,51 +3556,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -3769,6 +3778,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -3802,51 +3856,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -3995,6 +4004,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -4028,51 +4082,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -4269,51 +4278,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -4347,6 +4311,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -4517,6 +4526,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -4554,51 +4608,6 @@ Where Y = Pyrimidines</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000116"/>
         <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000140"/>
         <obo:IAO_0000111 xml:lang="en">AU Ww/Ww cis</obo:IAO_0000111>
@@ -4609,51 +4618,6 @@ Where Y = Pyrimidines</rdfs:comment>
     <!-- http://semanticscience.org/rkb:RKB_000158 -->
 
     <owl:Class rdf:about="&semanticscience;rkb:RKB_000158">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -4700,16 +4664,6 @@ Where Y = Pyrimidines</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000116"/>
-        <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000140"/>
-        <obo:IAO_0000111 xml:lang="en">GU Ww/Ww cis</obo:IAO_0000111>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/rkb:RKB_000159 -->
-
-    <owl:Class rdf:about="&semanticscience;rkb:RKB_000159">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -4725,7 +4679,7 @@ Where Y = Pyrimidines</rdfs:comment>
                                         <owl:someValuesFrom>
                                             <owl:Class>
                                                 <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
                                                     <owl:Restriction>
                                                         <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
                                                         <owl:someValuesFrom>
@@ -4742,7 +4696,7 @@ Where Y = Pyrimidines</rdfs:comment>
                                                     </owl:Restriction>
                                                     <owl:Restriction>
                                                         <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
                                                     </owl:Restriction>
                                                 </owl:intersectionOf>
                                             </owl:Class>
@@ -4755,6 +4709,16 @@ Where Y = Pyrimidines</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000116"/>
+        <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000140"/>
+        <obo:IAO_0000111 xml:lang="en">GU Ww/Ww cis</obo:IAO_0000111>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/rkb:RKB_000159 -->
+
+    <owl:Class rdf:about="&semanticscience;rkb:RKB_000159">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -4797,6 +4761,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -5426,6 +5435,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -5459,51 +5513,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000104"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -5527,6 +5536,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -5560,51 +5614,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -5628,6 +5637,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -5661,51 +5715,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -5729,51 +5738,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -5811,16 +5775,6 @@ Where Y = Pyrimidines</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000116"/>
-        <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000140"/>
-        <obo:IAO_0000111 xml:lang="en">GG Bh/Ww cis</obo:IAO_0000111>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/rkb:RKB_000170 -->
-
-    <owl:Class rdf:about="&semanticscience;rkb:RKB_000170">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -5853,7 +5807,7 @@ Where Y = Pyrimidines</rdfs:comment>
                                                     </owl:Restriction>
                                                     <owl:Restriction>
                                                         <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
                                                     </owl:Restriction>
                                                 </owl:intersectionOf>
                                             </owl:Class>
@@ -5866,6 +5820,16 @@ Where Y = Pyrimidines</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&rnao;RNAO_0000116"/>
+        <rdfs:subClassOf rdf:resource="&semanticscience;rkb:RKB_000140"/>
+        <obo:IAO_0000111 xml:lang="en">GG Bh/Ww cis</obo:IAO_0000111>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/rkb:RKB_000170 -->
+
+    <owl:Class rdf:about="&semanticscience;rkb:RKB_000170">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -5908,6 +5872,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -6032,6 +6041,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:46470"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -6065,51 +6119,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000116"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -6234,51 +6243,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -6312,6 +6276,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -6537,51 +6546,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -6615,6 +6579,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50308"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -7143,51 +7152,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -7221,6 +7185,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50306"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -7345,6 +7354,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -7378,51 +7432,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000092"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:50324"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -7648,6 +7657,51 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
+                                                                    </owl:Restriction>
+                                                                </owl:intersectionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
+                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://bio2rdf.org/chebi:46470"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
@@ -7681,51 +7735,6 @@ Where Y = Pyrimidines</rdfs:comment>
                         <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
                         <owl:onClass rdf:resource="http://bio2rdf.org/chebi:50319"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&rnao;RNAO_0000117"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&semanticscience;resource/hasPart"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000126"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&semanticscience;resource/hasProperPart"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&rnao;externally_connected_to"/>
-                                                        <owl:someValuesFrom>
-                                                            <owl:Class>
-                                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                                    <rdf:Description rdf:about="&semanticscience;rkb:RKB_000103"/>
-                                                                    <owl:Restriction>
-                                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
-                                                                    </owl:Restriction>
-                                                                </owl:intersectionOf>
-                                                            </owl:Class>
-                                                        </owl:someValuesFrom>
-                                                    </owl:Restriction>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="&semanticscience;resource/isProperPartOf"/>
-                                                        <owl:someValuesFrom rdf:resource="http://bio2rdf.org/chebi:46470"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -7771,18 +7780,23 @@ Where Y = Pyrimidines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000017"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000018"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000019"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000043"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000044"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000045"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000046"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000047"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000048"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000049"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000050"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000027"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000028"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000029"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000030"/>
+            <rdf:Description rdf:about="http://bio2rdf.org/chebi:46470"/>
+            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
+            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50308"/>
+            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -7791,6 +7805,14 @@ Where Y = Pyrimidines</rdfs:comment>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000066"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000067"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000068"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000017"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000018"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000019"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -7809,10 +7831,10 @@ Where Y = Pyrimidines</rdfs:comment>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://bio2rdf.org/chebi:46470"/>
-            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50306"/>
-            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50308"/>
-            <rdf:Description rdf:about="http://bio2rdf.org/chebi:50324"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000027"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000028"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000029"/>
+            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000030"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -7824,19 +7846,6 @@ Where Y = Pyrimidines</rdfs:comment>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000123"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000124"/>
             <rdf:Description rdf:about="&semanticscience;rkb:RKB_000125"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000043"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000044"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000045"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000046"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000047"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000048"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000049"/>
-            <rdf:Description rdf:about="&semanticscience;rkb:RKB_000050"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
