@@ -1,0 +1,1218 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY sulo "http://semanticscience.org/ontology/sulo.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.org/ontology/sulo.owl#"
+     xml:base="http://semanticscience.org/ontology/sulo.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:sulo="http://semanticscience.org/ontology/sulo.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="">
+        <dc:creator
+            >Michel Dumontier</dc:creator>
+        <dc:title
+            >Simple Upper Level Ontology (SULO)</dc:title>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="#subset"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="#definition"/>
+    <owl:AnnotationProperty rdf:about="#example"/>
+    <owl:AnnotationProperty rdf:about="#synonym"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#agent_in -->
+
+    <owl:ObjectProperty rdf:about="#agent_in">
+        <rdfs:label>agent in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#participant_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#bearer_of -->
+
+    <owl:ObjectProperty rdf:about="#bearer_of"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#boundary_of -->
+
+    <owl:ObjectProperty rdf:about="#boundary_of"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#conforms_to -->
+
+    <owl:ObjectProperty rdf:about="#conforms_to">
+        <rdfs:range rdf:resource="#specification"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#granular_part_of -->
+
+    <owl:ObjectProperty rdf:about="#granular_part_of">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:label
+            >granular part of</rdfs:label>
+        <definition
+            >The asymmetric, non-transitive variant of part-of.</definition>
+        <subset>rdf</subset>
+        <rdfs:subPropertyOf rdf:resource="#proper_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_boundary -->
+
+    <owl:ObjectProperty rdf:about="#has_boundary"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_concretization -->
+
+    <owl:ObjectProperty rdf:about="#has_concretization">
+        <owl:inverseOf rdf:resource="#is_concretized_as"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_granular_part -->
+
+    <owl:ObjectProperty rdf:about="#has_granular_part">
+        <owl:inverseOf rdf:resource="#granular_part_of"/>
+        <rdfs:subPropertyOf rdf:resource="#has_proper_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_part -->
+
+    <owl:ObjectProperty rdf:about="#has_part"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_participant -->
+
+    <owl:ObjectProperty rdf:about="#has_participant">
+        <rdfs:label>has participant</rdfs:label>
+        <rdfs:domain rdf:resource="#processual_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_proper_part -->
+
+    <owl:ObjectProperty rdf:about="#has_proper_part">
+        <rdfs:subPropertyOf rdf:resource="#has_part"/>
+        <owl:inverseOf rdf:resource="#proper_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_quality -->
+
+    <owl:ObjectProperty rdf:about="#has_quality">
+        <rdfs:subPropertyOf rdf:resource="#bearer_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_role -->
+
+    <owl:ObjectProperty rdf:about="#has_role">
+        <rdfs:subPropertyOf rdf:resource="#bearer_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_spatial_boundary -->
+
+    <owl:ObjectProperty rdf:about="#has_spatial_boundary">
+        <rdfs:subPropertyOf rdf:resource="#has_boundary"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_start_boundary -->
+
+    <owl:ObjectProperty rdf:about="#has_start_boundary">
+        <rdfs:subPropertyOf rdf:resource="#has_temporal_boundary"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_stop_boundary -->
+
+    <owl:ObjectProperty rdf:about="#has_stop_boundary">
+        <rdfs:subPropertyOf rdf:resource="#has_temporal_boundary"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_temporal_boundary -->
+
+    <owl:ObjectProperty rdf:about="#has_temporal_boundary">
+        <rdfs:subPropertyOf rdf:resource="#has_boundary"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_about -->
+
+    <owl:ObjectProperty rdf:about="#is_about">
+        <rdfs:label>is about</rdfs:label>
+        <rdfs:domain rdf:resource="#information_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_borne_by -->
+
+    <owl:ObjectProperty rdf:about="#is_borne_by">
+        <owl:inverseOf rdf:resource="#bearer_of"/>
+        <rdfs:domain rdf:resource="#quality"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_concretized_as -->
+
+    <owl:ObjectProperty rdf:about="#is_concretized_as"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_located_in -->
+
+    <owl:ObjectProperty rdf:about="#is_located_in"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_location_of -->
+
+    <owl:ObjectProperty rdf:about="#is_location_of"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_quality_of -->
+
+    <owl:ObjectProperty rdf:about="#is_quality_of">
+        <rdfs:subPropertyOf rdf:resource="#is_borne_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_realized_in -->
+
+    <owl:ObjectProperty rdf:about="#is_realized_in"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_role_of -->
+
+    <owl:ObjectProperty rdf:about="#is_role_of">
+        <rdfs:subPropertyOf rdf:resource="#is_borne_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_start_boundary_of -->
+
+    <owl:ObjectProperty rdf:about="#is_start_boundary_of">
+        <rdfs:subPropertyOf rdf:resource="#temporal_boundary_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#is_stop_boundary_of -->
+
+    <owl:ObjectProperty rdf:about="#is_stop_boundary_of">
+        <rdfs:subPropertyOf rdf:resource="#temporal_boundary_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#part_of -->
+
+    <owl:ObjectProperty rdf:about="#part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>part of</rdfs:label>
+        <definition
+            >The relation between parts and wholes.</definition>
+        <subset>rdf</subset>
+        <owl:inverseOf rdf:resource="#has_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#participant_in -->
+
+    <owl:ObjectProperty rdf:about="#participant_in">
+        <rdfs:label>participant in</rdfs:label>
+        <definition
+            >The relation between any non-processual entity and a processual entity.</definition>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#proper_part_of -->
+
+    <owl:ObjectProperty rdf:about="#proper_part_of">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:label>proper part of</rdfs:label>
+        <definition
+            >The irreflexive variant of part-of.</definition>
+        <subset>rdf</subset>
+        <rdfs:subPropertyOf rdf:resource="#part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#realizes -->
+
+    <owl:ObjectProperty rdf:about="#realizes"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#represents -->
+
+    <owl:ObjectProperty rdf:about="#represents">
+        <rdfs:label>represents</rdfs:label>
+        <definition
+            >A relation between two entities where the first symbolizes or is a representation of the second.</definition>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#spatial_boundary_of -->
+
+    <owl:ObjectProperty rdf:about="#spatial_boundary_of">
+        <rdfs:subPropertyOf rdf:resource="#boundary_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#temporal_boundary_of -->
+
+    <owl:ObjectProperty rdf:about="#temporal_boundary_of">
+        <rdfs:subPropertyOf rdf:resource="#boundary_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_error_value -->
+
+    <owl:DatatypeProperty rdf:about="#has_error_value"/>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_value -->
+
+    <owl:DatatypeProperty rdf:about="#has_value"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#agent -->
+
+    <owl:Class rdf:about="#agent">
+        <rdfs:label>agent</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_role"/>
+                <owl:someValuesFrom rdf:resource="#agent_role"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#role_player"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#agent_role -->
+
+    <owl:Class rdf:about="#agent_role">
+        <rdfs:label>agent role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#participant_role"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#category -->
+
+    <owl:Class rdf:about="#category">
+        <rdfs:label>category</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#class -->
+
+    <owl:Class rdf:about="#class">
+        <rdfs:label>class</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptive_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#connected_spatial_region -->
+
+    <owl:Class rdf:about="#connected_spatial_region">
+        <rdfs:label
+            >connected spatial region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#spatial_region"/>
+        <owl:disjointWith rdf:resource="#scattered_spatial_region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#connected_time_interval -->
+
+    <owl:Class rdf:about="#connected_time_interval">
+        <rdfs:label
+            >connected time interval</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#temporal_region"/>
+        <owl:disjointWith rdf:resource="#scattered_time_inteval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#definition -->
+
+    <owl:Class rdf:about="#definition">
+        <rdfs:label>definition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptive_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#description -->
+
+    <owl:Class rdf:about="#description">
+        <rdfs:label>description</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptive_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#descriptive_entity -->
+
+    <owl:Class rdf:about="#descriptive_entity">
+        <rdfs:label
+            >descriptive entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#disposition -->
+
+    <owl:Class rdf:about="#disposition">
+        <rdfs:label>disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
+        <definition
+            >A disposition is a realizable entity which reflects the tendency to act in a specified way.</definition>
+        <example
+            >a human&#39;s disposition to eat; an enzyme&#39;s disposition to catalyze a certain reaction; a bird&#39;s disposition to extend its wings.</example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#function -->
+
+    <owl:Class rdf:about="#function">
+        <rdfs:label>function</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#disposition"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#is_realized_in"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="#processual_entity"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#realizes"/>
+                                        <owl:someValuesFrom rdf:resource="#intent"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#disposition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_realized_in"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#processual_entity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#realizes"/>
+                                <owl:someValuesFrom rdf:resource="#intent"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <example
+            >the enzyme realizes its disposition to catalyze a certain reaction as per its evolutionary optimization; the hammer realizes its disposition to drive a nail into the wood as per its designer&#39;s intent.</example>
+        <definition
+            >A function is a realized disposition that satisfies the conceived intent.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#geometric_entity -->
+
+    <owl:Class rdf:about="#geometric_entity">
+        <rdfs:label
+            >geometric entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#mathematical_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#identifier -->
+
+    <owl:Class rdf:about="#identifier">
+        <rdfs:label>identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#name"/>
+        <definition
+            >An identifier is a name that specifically refers to one entity.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#immaterial_entity -->
+
+    <owl:Class rdf:about="#immaterial_entity">
+        <rdfs:label
+            >immaterial entity</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:complementOf>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_quality"/>
+                        <owl:someValuesFrom rdf:resource="#mass"/>
+                    </owl:Restriction>
+                </owl:complementOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#material_entity"/>
+        <definition
+            >An immaterial entity is an independent entity that has no mass but is located in spacetime.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#information_bearer -->
+
+    <owl:Class rdf:about="#information_bearer">
+        <rdfs:label
+            >information bearer</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#material_entity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_quality"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#has_concretization"/>
+                                <owl:someValuesFrom rdf:resource="#information_entity"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#role_player"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#information_entity -->
+
+    <owl:Class rdf:about="#information_entity">
+        <rdfs:label
+            >information entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_concretized_as"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#quality"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#is_quality_of"/>
+                                <owl:someValuesFrom rdf:resource="#material_entity"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_about"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#intent -->
+
+    <owl:Class rdf:about="#intent">
+        <rdfs:label>intent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#disposition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_borne_by"/>
+                <owl:someValuesFrom rdf:resource="#agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >Intent is the disposition, as a result of planning by an agent, to perform an act.</definition>
+        <example
+            >Michel Dumontier&#39;s intent to create a more accessible upper level ontology.</example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#mass -->
+
+    <owl:Class rdf:about="#mass">
+        <rdfs:subClassOf rdf:resource="#material_quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#material_entity -->
+
+    <owl:Class rdf:about="#material_entity">
+        <rdfs:label>material entity</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#mass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#material_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <synonym>substance</synonym>
+        <definition
+            >A material entity is an independent entity that has mass and occupies spacetime.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#material_quality -->
+
+    <owl:Class rdf:about="#material_quality">
+        <rdfs:label
+            >material quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#mathematical_entity -->
+
+    <owl:Class rdf:about="#mathematical_entity">
+        <rdfs:label
+            >mathematical entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#measure -->
+
+    <owl:Class rdf:about="#measure">
+        <rdfs:label>measure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#measurement_value -->
+
+    <owl:Class rdf:about="#measurement_value">
+        <rdfs:label
+            >measurement value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#mathematical_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#name -->
+
+    <owl:Class rdf:about="#name">
+        <rdfs:label>name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#symbol"/>
+        <synonym>token</synonym>
+        <definition
+            >A name is used to identify a class or category of things, or a single thing, either uniquely, or within a given context.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#ontology -->
+
+    <owl:Class rdf:about="#ontology">
+        <rdfs:label>ontology</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptive_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#organization -->
+
+    <owl:Class rdf:about="#organization">
+        <rdfs:label>organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#participant -->
+
+    <owl:Class rdf:about="#participant">
+        <rdfs:label>participant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#participant_in"/>
+                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#participant_in"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#processual_entity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#realizes"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="#participant_role"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#is_role_of"/>
+                                                <owl:hasSelf rdf:datatype="&xsd;boolean">true</owl:hasSelf>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_role"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#participant_role"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#is_realized_in"/>
+                                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#participant_role -->
+
+    <owl:Class rdf:about="#participant_role">
+        <rdfs:subClassOf rdf:resource="#role"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#plan -->
+
+    <owl:Class rdf:about="#plan">
+        <rdfs:label>plan</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#conforms_to"/>
+                        <owl:someValuesFrom rdf:resource="#plan_specification"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#is_borne_by"/>
+                        <owl:someValuesFrom rdf:resource="#agent"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <definition
+            >A plan is a realizable entity which conforms to a plan specification and is borne by some agent.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#plan_specification -->
+
+    <owl:Class rdf:about="#plan_specification">
+        <rdfs:label
+            >plan specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#preferred_name -->
+
+    <owl:Class rdf:about="#preferred_name">
+        <rdfs:label>preferred name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#name"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#process -->
+
+    <owl:Class rdf:about="#process">
+        <rdfs:label>process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:onClass rdf:resource="#temporal_region"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A processual entity that is a maximally connected spatiotemporal whole and has a temporal start and end.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#process_collection -->
+
+    <owl:Class rdf:about="#process_collection">
+        <rdfs:label
+            >process collection</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:someValuesFrom rdf:resource="#process"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#processual_entity -->
+
+    <owl:Class rdf:about="#processual_entity">
+        <rdfs:label
+            >processual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#processual_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:someValuesFrom rdf:resource="#temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A dependent entity that unfolds in time, has temporal parts and always involves and depends on some independent entity.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#processual_quality -->
+
+    <owl:Class rdf:about="#processual_quality">
+        <rdfs:label
+            >processual quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#quality -->
+
+    <owl:Class rdf:about="#quality">
+        <rdfs:label>quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_borne_by"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#immaterial_entity"/>
+                            <rdf:Description rdf:about="#material_entity"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <example
+            >the redness of a tomato; the aromaticity of the benzene ring; the spatial extent of my arm.</example>
+        <definition
+            >A dependent entity that is borne by some entity at all times.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#realizable_entity -->
+
+    <owl:Class rdf:about="#realizable_entity">
+        <rdfs:label
+            >realizable entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_borne_by"/>
+                <owl:someValuesFrom rdf:resource="#agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A dependent entity that is borne by some material entity which is only realized under certain circumstances.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#role -->
+
+    <owl:Class rdf:about="#role">
+        <rdfs:label>role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
+        <example
+            >a certain protein plays the enzyme role while realizing its disposition to catalyze a particular reaction. billy plays the judge role while realizing his disposition to reason about the facts of the case and render judgement during a court procedure.</example>
+        <definition
+            >A role is a realizable entity that describes behaviors, rights and obligations that may be realized under certain circumstances.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#role_player -->
+
+    <owl:Class rdf:about="#role_player">
+        <rdfs:label>role player</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#participant"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_role"/>
+                        <owl:someValuesFrom rdf:resource="#role"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#participant"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#scattered_spatial_region -->
+
+    <owl:Class rdf:about="#scattered_spatial_region">
+        <rdfs:label
+            >scattered spatial region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#spatial_region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#scattered_time_inteval -->
+
+    <owl:Class rdf:about="#scattered_time_inteval">
+        <rdfs:label
+            >scattered time interval</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#temporal_region"/>
+    </owl:Class>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#scattered_time_inteval"/>
+        </owl:members>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#site -->
+
+    <owl:Class rdf:about="#site">
+        <rdfs:label>site</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#material_entity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#part_of"/>
+                                <owl:someValuesFrom rdf:resource="#material_entity"/>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A site is a mixture of independent entities which act as surrounding environments for other independent entities.</definition>
+        <rdfs:comment
+            >A site is typically made of material entities or their fiat parts and a surrounding medium.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#spatial_boundary -->
+
+    <owl:Class rdf:about="#spatial_boundary">
+        <rdfs:label
+            >spatial boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#connected_spatial_region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#spatial_region -->
+
+    <owl:Class rdf:about="#spatial_region">
+        <rdfs:label>spatial region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#spatial_temporal_region"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#part_of"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#part_of"/>
+                <owl:someValuesFrom rdf:resource="#spatial_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#temporal_region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#spatial_temporal_region -->
+
+    <owl:Class rdf:about="#spatial_temporal_region">
+        <rdfs:label
+            >spatial temporal region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_part"/>
+                        <owl:someValuesFrom rdf:resource="#spatial_region"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_part"/>
+                        <owl:someValuesFrom rdf:resource="#temporal_region"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <synonym>spacetime</synonym>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#specification -->
+
+    <owl:Class rdf:about="#specification">
+        <rdfs:label>specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#symbol -->
+
+    <owl:Class rdf:about="#symbol">
+        <rdfs:label>symbol</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#represents"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A symbol is an information entity that represents something else by association, resemblance, or convention.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#synonym -->
+
+    <owl:Class rdf:about="#synonym">
+        <rdfs:label>synonym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#name"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#temporal_boundary -->
+
+    <owl:Class rdf:about="#temporal_boundary">
+        <rdfs:label
+            >temporal instant</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#connected_time_interval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#temporal_region -->
+
+    <owl:Class rdf:about="#temporal_region">
+        <rdfs:label>temporal region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#spatial_temporal_region"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#part_of"/>
+                <owl:someValuesFrom rdf:resource="#temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#part_of"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#textual_entity -->
+
+    <owl:Class rdf:about="#textual_entity">
+        <rdfs:label>textual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:someValuesFrom rdf:resource="#symbol"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition
+            >A textual entity is an information entity with some meaning that is composed of lexical symbols and is physically manifested in some material entity.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
