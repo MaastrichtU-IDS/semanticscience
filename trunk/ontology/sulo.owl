@@ -81,7 +81,9 @@
 
     <!-- http://semanticscience.org/ontology/sulo.owl#boundary_of -->
 
-    <owl:ObjectProperty rdf:about="#boundary_of"/>
+    <owl:ObjectProperty rdf:about="#boundary_of">
+        <rdfs:subPropertyOf rdf:resource="#proper_part_of"/>
+    </owl:ObjectProperty>
     
 
 
@@ -139,6 +141,7 @@
 
     <owl:ObjectProperty rdf:about="#has_boundary">
         <owl:inverseOf rdf:resource="#boundary_of"/>
+        <rdfs:subPropertyOf rdf:resource="#has_proper_part"/>
     </owl:ObjectProperty>
     
 
@@ -152,6 +155,15 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_input -->
+
+    <owl:ObjectProperty rdf:about="#has_input">
+        <rdfs:label>has input</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#has_participant"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#has_measurement_value -->
 
     <owl:ObjectProperty rdf:about="#has_measurement_value">
@@ -159,6 +171,15 @@
             >has measurement value</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="#is_described_by"/>
         <rdfs:range rdf:resource="#measurement_value"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_output -->
+
+    <owl:ObjectProperty rdf:about="#has_output">
+        <rdfs:label>has output</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#has_participant"/>
     </owl:ObjectProperty>
     
 
@@ -535,10 +556,28 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_temporal_value -->
+
+    <owl:DatatypeProperty rdf:about="#has_temporal_value">
+        <rdfs:label
+            >has temporal value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#has_value"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#has_value -->
 
     <owl:DatatypeProperty rdf:about="#has_value">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#has_variable_value -->
+
+    <owl:DatatypeProperty rdf:about="#has_variable_value">
+        <rdfs:subPropertyOf rdf:resource="#has_value"/>
     </owl:DatatypeProperty>
     
 
@@ -548,7 +587,7 @@
     <owl:DatatypeProperty rdf:about="#has_x_value">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has_x_value</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="#has_value"/>
+        <rdfs:subPropertyOf rdf:resource="#has_variable_value"/>
     </owl:DatatypeProperty>
     
 
@@ -558,7 +597,7 @@
     <owl:DatatypeProperty rdf:about="#has_y_value">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has_y_value</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="#has_value"/>
+        <rdfs:subPropertyOf rdf:resource="#has_variable_value"/>
     </owl:DatatypeProperty>
     
 
@@ -568,7 +607,7 @@
     <owl:DatatypeProperty rdf:about="#has_z_value">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has_z_value</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="#has_value"/>
+        <rdfs:subPropertyOf rdf:resource="#has_variable_value"/>
     </owl:DatatypeProperty>
     
 
@@ -584,32 +623,20 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#1D_extent_quality -->
+    <!-- http://semanticscience.org/ontology/sulo.owl#action -->
 
-    <owl:Class rdf:about="#1D_extent_quality">
-        <rdfs:label
-            >1D extent quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
+    <owl:Class rdf:about="#action">
+        <rdfs:label>action</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#2D_extent_quality -->
+    <!-- http://semanticscience.org/ontology/sulo.owl#actionable -->
 
-    <owl:Class rdf:about="#2D_extent_quality">
-        <rdfs:label
-            >2D extent quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/sulo.owl#3D_extent_quality -->
-
-    <owl:Class rdf:about="#3D_extent_quality">
-        <rdfs:label
-            >3D extent quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
+    <owl:Class rdf:about="#actionable">
+        <rdfs:label>actionable</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
     </owl:Class>
     
 
@@ -625,6 +652,18 @@
             </owl:Restriction>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="#participant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_role"/>
+                <owl:someValuesFrom rdf:resource="#agent_role"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#participant_in"/>
+                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -634,6 +673,22 @@
     <owl:Class rdf:about="#agent_role">
         <rdfs:label>agent role</rdfs:label>
         <rdfs:subClassOf rdf:resource="#participant_role"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#agentive_realizable -->
+
+    <owl:Class rdf:about="#agentive_realizable">
+        <rdfs:label
+            >agentive realizable</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#actionable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_realized_in"/>
+                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -660,7 +715,7 @@
 
     <owl:Class rdf:about="#area">
         <rdfs:label>area</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#2D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#two_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -731,11 +786,39 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#cognitive_disposition -->
+
+    <owl:Class rdf:about="#cognitive_disposition">
+        <rdfs:label
+            >cognitive disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#actionable"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#completed -->
+
+    <owl:Class rdf:about="#completed">
+        <rdfs:label>completed</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_stative_quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#composition -->
 
     <owl:Class rdf:about="#composition">
         <rdfs:label>composition</rdfs:label>
         <rdfs:subClassOf rdf:resource="#material_physical_quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#condition -->
+
+    <owl:Class rdf:about="#condition">
+        <rdfs:label>condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#criterion"/>
     </owl:Class>
     
 
@@ -773,12 +856,23 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#criterion -->
+
+    <owl:Class rdf:about="#criterion">
+        <rdfs:label>criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptor"/>
+        <definition
+            >A criterion specifies the attribute used in evaluation.</definition>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#data_processing_specification -->
 
     <owl:Class rdf:about="#data_processing_specification">
         <rdfs:label
             >data processing specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#plan_specification"/>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
     </owl:Class>
     
 
@@ -788,7 +882,7 @@
     <owl:Class rdf:about="#data_specification">
         <rdfs:label
             >data specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#specification"/>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
     </owl:Class>
     
 
@@ -815,7 +909,7 @@
 
     <owl:Class rdf:about="#depth">
         <rdfs:label>depth</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#1D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#one_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -834,7 +928,25 @@
     <owl:Class rdf:about="#descriptive_entity">
         <rdfs:label
             >descriptive entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#descriptor -->
+
+    <owl:Class rdf:about="#descriptor">
+        <rdfs:label>descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#desire -->
+
+    <owl:Class rdf:about="#desire">
+        <rdfs:label>desire</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
     </owl:Class>
     
 
@@ -870,6 +982,27 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#effective_specification -->
+
+    <owl:Class rdf:about="#effective_specification">
+        <rdfs:label
+            >effective specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#specification"/>
+        <definition
+            >An effective specification is an actionable specification - is a sequence of instructions which if followed will result in the completion of a given task.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#end -->
+
+    <owl:Class rdf:about="#end">
+        <rdfs:label>end</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_dimensional_quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#equation -->
 
     <owl:Class rdf:about="#equation">
@@ -879,13 +1012,34 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#exclusion_criterion -->
+
+    <owl:Class rdf:about="#exclusion_criterion">
+        <rdfs:label
+            >exclusion criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#criterion"/>
+        <definition
+            >An inclusion criterion specifies an attribute that must be absent to satistify the objective.</definition>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#figure -->
 
     <owl:Class rdf:about="#figure">
         <rdfs:label>figure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
         <definition
             >An information entity consisting of as a visual (n-dimentional) arrangement of information entities.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#force -->
+
+    <owl:Class rdf:about="#force">
+        <rdfs:label>force</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#actionable"/>
     </owl:Class>
     
 
@@ -950,11 +1104,20 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#goal -->
+
+    <owl:Class rdf:about="#goal">
+        <rdfs:label>goal</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#objective"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#height -->
 
     <owl:Class rdf:about="#height">
         <rdfs:label>height</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#1D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#one_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -986,6 +1149,7 @@
     <owl:Class rdf:about="#immaterial_entity">
         <rdfs:label
             >immaterial entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_located_in"/>
@@ -1004,7 +1168,30 @@
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="#material_entity"/>
         <definition
-            >An immaterial entity is an independent entity that has no mass but is located in spacetime.</definition>
+            >An immaterial entity is an entity that is located in spacetime, but has no mass.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#in_progress -->
+
+    <owl:Class rdf:about="#in_progress">
+        <rdfs:label>in progress</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_stative_quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#inclusion_criterion -->
+
+    <owl:Class rdf:about="#inclusion_criterion">
+        <rdfs:label
+            >inclusion criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#criterion"/>
+        <definition
+            >An inclusion criterion is a parameter that must be present during some decision making process.</definition>
+        <definition
+            >An inclusion criterion specifies an attribute that must be present to satistify the objective.</definition>
     </owl:Class>
     
 
@@ -1054,12 +1241,31 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#information_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_about"/>
                 <owl:someValuesFrom rdf:resource="&owl;Thing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <definition
             >An information entity is an immaterial entity that is an abstraction of, representation for, or information about some entity.</definition>
+        <rdfs:comment
+            >All information entities are concretized in the real world as the qualities of material entities, whether it be the ink pattern on some paper or the neural pattern in some brain.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#institution -->
+
+    <owl:Class rdf:about="#institution">
+        <rdfs:label>institution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#organization"/>
+        <definition
+            >An institution is an organization bearing a legal status and having powers conferred by Law.</definition>
     </owl:Class>
     
 
@@ -1068,7 +1274,7 @@
 
     <owl:Class rdf:about="#intent">
         <rdfs:label>intent</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#disposition"/>
+        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_borne_by"/>
@@ -1087,7 +1293,7 @@
 
     <owl:Class rdf:about="#length">
         <rdfs:label>length</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#1D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#one_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -1106,6 +1312,26 @@
     <owl:Class rdf:about="#line">
         <rdfs:label>line</rdfs:label>
         <rdfs:subClassOf rdf:resource="#geometric_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#linguistic_specification -->
+
+    <owl:Class rdf:about="#linguistic_specification">
+        <rdfs:label
+            >linguistic specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#logical_information_specification -->
+
+    <owl:Class rdf:about="#logical_information_specification">
+        <rdfs:label
+            >logical information specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#data_specification"/>
     </owl:Class>
     
 
@@ -1131,6 +1357,8 @@
                 <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <definition
+            >A material aggregate is a material entity that is a meriological sum of material entities and possesses non-connected spatial boundaries, whose mass is the mereological sum of the mass of all material entities it is composed of.</definition>
     </owl:Class>
     
 
@@ -1149,6 +1377,13 @@
 
     <owl:Class rdf:about="#material_entity">
         <rdfs:label>material entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#material_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_located_in"/>
@@ -1161,15 +1396,9 @@
                 <owl:someValuesFrom rdf:resource="#mass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_part"/>
-                <owl:allValuesFrom rdf:resource="#material_entity"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <synonym>substance</synonym>
         <definition
-            >A material entity has mass, is spatially extended (occupies spacetime) and whose identity is independent of that of other entities and can be maintained through time.</definition>
+            >A material entity is spatially extended (occupies spacetime) and has mass, whose identity is independent of that of other entities and can be maintained through time.</definition>
     </owl:Class>
     
 
@@ -1216,16 +1445,7 @@
     <owl:Class rdf:about="#mathematical_entity">
         <rdfs:label
             >mathematical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#information_entity"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/sulo.owl#measure -->
-
-    <owl:Class rdf:about="#measure">
-        <rdfs:label>measure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#specification"/>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
     </owl:Class>
     
 
@@ -1235,7 +1455,7 @@
     <owl:Class rdf:about="#measurement_entity">
         <rdfs:label
             >measurement entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
     </owl:Class>
     
 
@@ -1248,14 +1468,14 @@
         <rdfs:subClassOf rdf:resource="#measurement_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_unit"/>
-                <owl:someValuesFrom rdf:resource="#unit"/>
+                <owl:onProperty rdf:resource="#has_value"/>
+                <owl:someValuesFrom rdf:resource="&xsd;float"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_value"/>
-                <owl:someValuesFrom rdf:resource="&xsd;float"/>
+                <owl:onProperty rdf:resource="#has_unit"/>
+                <owl:someValuesFrom rdf:resource="#unit"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1275,6 +1495,27 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#non-effective_specification -->
+
+    <owl:Class rdf:about="#non-effective_specification">
+        <rdfs:label
+            >non-effective specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#specification"/>
+        <definition
+            >A non-effective specification provides a description of some entity, but in itself does not contain a sequence of instructions that will result in the completion of a task.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#not_started -->
+
+    <owl:Class rdf:about="#not_started">
+        <rdfs:label>not started</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_stative_quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#novel -->
 
     <owl:Class rdf:about="#novel">
@@ -1284,11 +1525,30 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#objective -->
+
+    <owl:Class rdf:about="#objective">
+        <rdfs:label>objective</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#one_dimensional_extent_quality -->
+
+    <owl:Class rdf:about="#one_dimensional_extent_quality">
+        <rdfs:label
+            >1D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#ontology -->
 
     <owl:Class rdf:about="#ontology">
         <rdfs:label>ontology</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#descriptive_entity"/>
+        <rdfs:subClassOf rdf:resource="#logical_information_specification"/>
     </owl:Class>
     
 
@@ -1298,6 +1558,17 @@
     <owl:Class rdf:about="#organization">
         <rdfs:label>organization</rdfs:label>
         <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <definition
+            >A socially-constructed entity with a complex articulation of tasks, roles and responsibilities.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#outcome -->
+
+    <owl:Class rdf:about="#outcome">
+        <rdfs:label>outcome</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptor"/>
     </owl:Class>
     
 
@@ -1307,6 +1578,17 @@
     <owl:Class rdf:about="#paragraph">
         <rdfs:label>paragraph</rdfs:label>
         <rdfs:subClassOf rdf:resource="#textual_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#parameter -->
+
+    <owl:Class rdf:about="#parameter">
+        <rdfs:label>parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#descriptor"/>
+        <definition
+            >A parameter is a descriptor whose value is used in some information system.</definition>
     </owl:Class>
     
 
@@ -1321,6 +1603,22 @@
                 <owl:someValuesFrom rdf:resource="#processual_entity"/>
             </owl:Restriction>
         </owl:equivalentClass>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_role"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#participant_role"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#is_realized_in"/>
+                                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#participant_in"/>
@@ -1347,22 +1645,6 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_role"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="#participant_role"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="#is_realized_in"/>
-                                <owl:someValuesFrom rdf:resource="#processual_entity"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1381,7 +1663,7 @@
 
     <owl:Class rdf:about="#pattern">
         <rdfs:label>pattern</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#specification"/>
+        <rdfs:subClassOf rdf:resource="#data_specification"/>
     </owl:Class>
     
 
@@ -1390,7 +1672,7 @@
 
     <owl:Class rdf:about="#perimeter">
         <rdfs:label>perimeter</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#2D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#two_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -1408,33 +1690,77 @@
 
     <owl:Class rdf:about="#plan">
         <rdfs:label>plan</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
         <rdfs:subClassOf>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="#conforms_to"/>
-                        <owl:someValuesFrom rdf:resource="#plan_specification"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="#is_borne_by"/>
-                        <owl:someValuesFrom rdf:resource="#agent"/>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_proper_part"/>
+                <owl:someValuesFrom rdf:resource="#action"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_borne_by"/>
+                <owl:someValuesFrom rdf:resource="#agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_proper_part"/>
+                <owl:someValuesFrom rdf:resource="#objective"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
         <definition
-            >A plan is a realizable entity which conforms to a plan specification and is borne by some agent.</definition>
+            >A plan is a realizable entity borne by some agent.and conforms to a plan specification.</definition>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#plan_specification -->
+    <!-- http://semanticscience.org/ontology/sulo.owl#planned_process -->
 
-    <owl:Class rdf:about="#plan_specification">
-        <rdfs:label
-            >plan specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#specification"/>
+    <owl:Class rdf:about="#planned_process">
+        <rdfs:label>planned process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#planning -->
+
+    <owl:Class rdf:about="#planning">
+        <rdfs:label>planning</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#process"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_input"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#plan"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#is_borne_by"/>
+                                <owl:someValuesFrom rdf:resource="#agent"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_participant"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#agent"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#bearer_of"/>
+                                <owl:someValuesFrom rdf:resource="#plan"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1465,9 +1791,21 @@
         <rdfs:subClassOf rdf:resource="#processual_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#start"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_located_in"/>
                 <owl:onClass rdf:resource="#temporal_region"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#end"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <definition
@@ -1481,6 +1819,18 @@
     <owl:Class rdf:about="#process_aggregate">
         <rdfs:label
             >process aggregate</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#processual_entity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#has_granular_part"/>
+                        <owl:onClass rdf:resource="#process"/>
+                        <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="#processual_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -1519,14 +1869,14 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_part"/>
-                <owl:allValuesFrom rdf:resource="#processual_entity"/>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#duration"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_quality"/>
-                <owl:someValuesFrom rdf:resource="#duration"/>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#processual_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <definition
@@ -1547,6 +1897,25 @@
                 <owl:someValuesFrom rdf:resource="#processual_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#processual_stative_quality -->
+
+    <owl:Class rdf:about="#processual_stative_quality">
+        <rdfs:label
+            >processual stative quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#promise -->
+
+    <owl:Class rdf:about="#promise">
+        <rdfs:label>promise</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
     </owl:Class>
     
 
@@ -1582,7 +1951,7 @@
     <owl:Class rdf:about="#realizable_entity">
         <rdfs:label
             >realizable entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#quality"/>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_borne_by"/>
@@ -1590,7 +1959,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <definition
-            >A dependent entity that is borne by some material entity which is only realized under certain circumstances.</definition>
+            >A realizable entity is a quality borne by some agent that may be realized under certain circumstances.</definition>
     </owl:Class>
     
 
@@ -1727,13 +2096,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#part_of"/>
-                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+                <owl:someValuesFrom rdf:resource="#spatial_region"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#part_of"/>
-                <owl:someValuesFrom rdf:resource="#spatial_region"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="#temporal_region"/>
@@ -1770,9 +2139,18 @@
 
     <owl:Class rdf:about="#specification">
         <rdfs:label>specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#document"/>
+        <rdfs:subClassOf rdf:resource="#information_entity"/>
         <definition
-            >A specification is a document that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</definition>
+            >A specification is an information entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#start -->
+
+    <owl:Class rdf:about="#start">
+        <rdfs:label>start</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#processual_dimensional_quality"/>
     </owl:Class>
     
 
@@ -1833,6 +2211,15 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#task -->
+
+    <owl:Class rdf:about="#task">
+        <rdfs:label>task</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#planned_process"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#temporal_boundary -->
 
     <owl:Class rdf:about="#temporal_boundary">
@@ -1884,7 +2271,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#has_part"/>
-                <owl:someValuesFrom rdf:resource="#symbol"/>
+                <owl:allValuesFrom rdf:resource="#textual_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1893,8 +2280,14 @@
                 <owl:someValuesFrom rdf:resource="#material_physical_quality"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#conforms_to"/>
+                <owl:someValuesFrom rdf:resource="#linguistic_specification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <definition
-            >A textual entity is an information entity with some meaning that is composed of lexical symbols and is physically manifested in some material entity.</definition>
+            >A textual entity is an information entity with some meaning that is composed of lexical symbols which is physically manifested in some material entity.</definition>
     </owl:Class>
     
 
@@ -1908,11 +2301,31 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/sulo.owl#three_dimensional_extent_quality -->
+
+    <owl:Class rdf:about="#three_dimensional_extent_quality">
+        <rdfs:label
+            >3D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#two_dimensional_extent_quality -->
+
+    <owl:Class rdf:about="#two_dimensional_extent_quality">
+        <rdfs:label
+            >2D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#material_dimensional_quality"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/ontology/sulo.owl#unit -->
 
     <owl:Class rdf:about="#unit">
         <rdfs:label>unit</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#data_specification"/>
+        <rdfs:subClassOf rdf:resource="#measurement_entity"/>
     </owl:Class>
     
 
@@ -1930,7 +2343,7 @@
 
     <owl:Class rdf:about="#volume">
         <rdfs:label>volume</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#3D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#three_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -1939,7 +2352,7 @@
 
     <owl:Class rdf:about="#width">
         <rdfs:label>width</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#1D_extent_quality"/>
+        <rdfs:subClassOf rdf:resource="#one_dimensional_extent_quality"/>
     </owl:Class>
     
 
@@ -1949,6 +2362,15 @@
     <owl:Class rdf:about="#word">
         <rdfs:label>word</rdfs:label>
         <rdfs:subClassOf rdf:resource="#textual_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/sulo.owl#workflow -->
+
+    <owl:Class rdf:about="#workflow">
+        <rdfs:label>workflow</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
     </owl:Class>
     
 
