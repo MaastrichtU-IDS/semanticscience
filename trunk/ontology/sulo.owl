@@ -6,27 +6,29 @@
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY resource "http://semanticscience.org/resource/" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY sulo "http://semanticscience.org/ontology/sulo.owl#" >
+    <!ENTITY sulo2 "http://semanticscience.org/ontology/sulo.owl#2" >
     <!ENTITY sulo3 "http://semanticscience.org/ontology/sulo.owl#3" >
     <!ENTITY sulo4 "http://semanticscience.org/ontology/sulo.owl#1" >
-    <!ENTITY sulo2 "http://semanticscience.org/ontology/sulo.owl#2" >
 ]>
 
 
 <rdf:RDF xmlns="http://semanticscience.org/ontology/sulo.owl#"
      xml:base="http://semanticscience.org/ontology/sulo.owl"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:sulo="http://semanticscience.org/ontology/sulo.owl#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:sulo3="&sulo;3"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:sulo4="&sulo;1"
-     xmlns:sulo2="&sulo;2">
+     xmlns:sulo3="&sulo;3"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:resource="http://semanticscience.org/resource/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:sulo2="&sulo;2"
+     xmlns:sulo="http://semanticscience.org/ontology/sulo.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
     <owl:Ontology rdf:about="">
         <dc:creator
             >Michel Dumontier</dc:creator>
@@ -44,12 +46,12 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <owl:AnnotationProperty rdf:about="#definition"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="#example"/>
     <owl:AnnotationProperty rdf:about="#subset"/>
     <owl:AnnotationProperty rdf:about="&dc;title"/>
-    <owl:AnnotationProperty rdf:about="#definition"/>
-    <owl:AnnotationProperty rdf:about="#example"/>
     <owl:AnnotationProperty rdf:about="#synonym"/>
-    <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
 
@@ -129,9 +131,9 @@
         <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
         <rdfs:label
             >granular part of</rdfs:label>
+        <subset>rdf</subset>
         <definition
             >The asymmetric, non-transitive variant of part-of.</definition>
-        <subset>rdf</subset>
         <rdfs:subPropertyOf rdf:resource="#proper_part_of"/>
     </owl:ObjectProperty>
     
@@ -404,7 +406,7 @@
     <owl:ObjectProperty rdf:about="#is_unit_of">
         <rdfs:label>is unit of</rdfs:label>
         <owl:inverseOf rdf:resource="#has_unit"/>
-        <rdfs:subPropertyOf rdf:resource="#specification_for"/>
+        <rdfs:subPropertyOf rdf:resource="#specifies"/>
     </owl:ObjectProperty>
     
 
@@ -432,9 +434,9 @@
     <owl:ObjectProperty rdf:about="#part_of">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>part of</rdfs:label>
+        <subset>rdf</subset>
         <definition
             >The relation between parts and wholes.</definition>
-        <subset>rdf</subset>
         <owl:inverseOf rdf:resource="#has_part"/>
     </owl:ObjectProperty>
     
@@ -500,11 +502,10 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#specification_for -->
+    <!-- http://semanticscience.org/ontology/sulo.owl#specifies -->
 
-    <owl:ObjectProperty rdf:about="#specification_for">
-        <rdfs:label
-            >specification for</rdfs:label>
+    <owl:ObjectProperty rdf:about="#specifies">
+        <rdfs:label>specifies</rdfs:label>
         <owl:inverseOf rdf:resource="#conforms_to"/>
         <rdfs:subPropertyOf rdf:resource="#is_about"/>
     </owl:ObjectProperty>
@@ -632,15 +633,6 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#actionable -->
-
-    <owl:Class rdf:about="#actionable">
-        <rdfs:label>actionable</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/ontology/sulo.owl#agent -->
 
     <owl:Class rdf:about="#agent">
@@ -654,14 +646,14 @@
         <rdfs:subClassOf rdf:resource="#participant"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_role"/>
-                <owl:someValuesFrom rdf:resource="#agent_role"/>
+                <owl:onProperty rdf:resource="#participant_in"/>
+                <owl:someValuesFrom rdf:resource="#processual_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#participant_in"/>
-                <owl:someValuesFrom rdf:resource="#processual_entity"/>
+                <owl:onProperty rdf:resource="#has_role"/>
+                <owl:someValuesFrom rdf:resource="#agent_role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -682,7 +674,7 @@
     <owl:Class rdf:about="#agentive_realizable">
         <rdfs:label
             >agentive realizable</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#actionable"/>
+        <rdfs:subClassOf rdf:resource="#realizable_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_realized_in"/>
@@ -786,16 +778,6 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/sulo.owl#cognitive_disposition -->
-
-    <owl:Class rdf:about="#cognitive_disposition">
-        <rdfs:label
-            >cognitive disposition</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#actionable"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/ontology/sulo.owl#completed -->
 
     <owl:Class rdf:about="#completed">
@@ -882,7 +864,7 @@
     <owl:Class rdf:about="#data_specification">
         <rdfs:label
             >data specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#effective_specification"/>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
     </owl:Class>
     
 
@@ -946,7 +928,7 @@
 
     <owl:Class rdf:about="#desire">
         <rdfs:label>desire</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
     </owl:Class>
     
 
@@ -956,10 +938,10 @@
     <owl:Class rdf:about="#disposition">
         <rdfs:label>disposition</rdfs:label>
         <rdfs:subClassOf rdf:resource="#realizable_entity"/>
-        <definition
-            >A disposition is a realizable entity which reflects the tendency to act in a specified way.</definition>
         <example
             >a human&#39;s disposition to eat; an enzyme&#39;s disposition to catalyze a certain reaction; a bird&#39;s disposition to extend its wings.</example>
+        <definition
+            >A disposition is a realizable entity which reflects the tendency to act in a specified way.</definition>
     </owl:Class>
     
 
@@ -988,6 +970,19 @@
         <rdfs:label
             >effective specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="#specification"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#specifies"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#objective"/>
+                            <rdf:Description rdf:about="#plan"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <definition
             >An effective specification is an actionable specification - is a sequence of instructions which if followed will result in the completion of a given task.</definition>
     </owl:Class>
@@ -1031,15 +1026,6 @@
         <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
         <definition
             >An information entity consisting of as a visual (n-dimentional) arrangement of information entities.</definition>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/sulo.owl#force -->
-
-    <owl:Class rdf:about="#force">
-        <rdfs:label>force</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#actionable"/>
     </owl:Class>
     
 
@@ -1151,12 +1137,6 @@
             >immaterial entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#is_located_in"/>
-                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:complementOf>
                     <owl:Restriction>
@@ -1165,6 +1145,12 @@
                     </owl:Restriction>
                 </owl:complementOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:someValuesFrom rdf:resource="#spatial_temporal_region"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="#material_entity"/>
         <definition
@@ -1189,9 +1175,9 @@
             >inclusion criterion</rdfs:label>
         <rdfs:subClassOf rdf:resource="#criterion"/>
         <definition
-            >An inclusion criterion is a parameter that must be present during some decision making process.</definition>
-        <definition
             >An inclusion criterion specifies an attribute that must be present to satistify the objective.</definition>
+        <definition
+            >An inclusion criterion is a parameter that must be present during some decision making process.</definition>
     </owl:Class>
     
 
@@ -1225,6 +1211,18 @@
         <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="#is_about"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#information_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_concretized_as"/>
                 <owl:someValuesFrom>
                     <owl:Class>
@@ -1239,22 +1237,10 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_part"/>
-                <owl:allValuesFrom rdf:resource="#information_entity"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#is_about"/>
-                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <definition
-            >An information entity is an immaterial entity that is an abstraction of, representation for, or information about some entity.</definition>
         <rdfs:comment
             >All information entities are concretized in the real world as the qualities of material entities, whether it be the ink pattern on some paper or the neural pattern in some brain.</rdfs:comment>
+        <definition
+            >An information entity is an immaterial entity that is an abstraction of, representation for, or information about some entity.</definition>
     </owl:Class>
     
 
@@ -1274,17 +1260,17 @@
 
     <owl:Class rdf:about="#intent">
         <rdfs:label>intent</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#is_borne_by"/>
                 <owl:someValuesFrom rdf:resource="#agent"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <definition
-            >Intent is the disposition, as a result of planning by an agent, to perform an act.</definition>
         <example
             >Michel Dumontier&#39;s intent to create a more accessible upper level ontology.</example>
+        <definition
+            >Intent is the disposition, as a result of planning by an agent, to perform an act.</definition>
     </owl:Class>
     
 
@@ -1380,8 +1366,8 @@
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_part"/>
-                <owl:allValuesFrom rdf:resource="#material_entity"/>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#mass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1392,13 +1378,13 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_quality"/>
-                <owl:someValuesFrom rdf:resource="#mass"/>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#material_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <synonym>substance</synonym>
         <definition
             >A material entity is spatially extended (occupies spacetime) and has mass, whose identity is independent of that of other entities and can be maintained through time.</definition>
+        <synonym>substance</synonym>
     </owl:Class>
     
 
@@ -1445,7 +1431,7 @@
     <owl:Class rdf:about="#mathematical_entity">
         <rdfs:label
             >mathematical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#effective_specification"/>
+        <rdfs:subClassOf rdf:resource="#non-effective_specification"/>
     </owl:Class>
     
 
@@ -1468,14 +1454,14 @@
         <rdfs:subClassOf rdf:resource="#measurement_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_value"/>
-                <owl:someValuesFrom rdf:resource="&xsd;float"/>
+                <owl:onProperty rdf:resource="#has_unit"/>
+                <owl:someValuesFrom rdf:resource="#unit"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_unit"/>
-                <owl:someValuesFrom rdf:resource="#unit"/>
+                <owl:onProperty rdf:resource="#has_value"/>
+                <owl:someValuesFrom rdf:resource="&xsd;float"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1487,10 +1473,10 @@
     <owl:Class rdf:about="#name">
         <rdfs:label>name</rdfs:label>
         <rdfs:subClassOf rdf:resource="#textual_entity"/>
-        <synonym>token</synonym>
+        <synonym>label</synonym>
         <definition
             >A name is used to identify a class or category of things, or a single thing, either uniquely, or within a given context.</definition>
-        <synonym>label</synonym>
+        <synonym>token</synonym>
     </owl:Class>
     
 
@@ -1529,7 +1515,7 @@
 
     <owl:Class rdf:about="#objective">
         <rdfs:label>objective</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
+        <rdfs:subClassOf rdf:resource="#intent"/>
     </owl:Class>
     
 
@@ -1693,14 +1679,14 @@
         <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_proper_part"/>
-                <owl:someValuesFrom rdf:resource="#action"/>
+                <owl:onProperty rdf:resource="#is_borne_by"/>
+                <owl:someValuesFrom rdf:resource="#agent"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#is_borne_by"/>
-                <owl:someValuesFrom rdf:resource="#agent"/>
+                <owl:onProperty rdf:resource="#has_proper_part"/>
+                <owl:someValuesFrom rdf:resource="#action"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1792,6 +1778,12 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#end"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#has_quality"/>
                 <owl:someValuesFrom rdf:resource="#start"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1800,12 +1792,6 @@
                 <owl:onProperty rdf:resource="#is_located_in"/>
                 <owl:onClass rdf:resource="#temporal_region"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_quality"/>
-                <owl:someValuesFrom rdf:resource="#end"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <definition
@@ -1863,14 +1849,14 @@
         <rdfs:subClassOf rdf:resource="#immaterial_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#is_located_in"/>
-                <owl:someValuesFrom rdf:resource="#temporal_region"/>
+                <owl:onProperty rdf:resource="#has_quality"/>
+                <owl:someValuesFrom rdf:resource="#duration"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_quality"/>
-                <owl:someValuesFrom rdf:resource="#duration"/>
+                <owl:onProperty rdf:resource="#is_located_in"/>
+                <owl:someValuesFrom rdf:resource="#temporal_region"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1915,7 +1901,7 @@
 
     <owl:Class rdf:about="#promise">
         <rdfs:label>promise</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#cognitive_disposition"/>
+        <rdfs:subClassOf rdf:resource="#agentive_realizable"/>
     </owl:Class>
     
 
@@ -1938,10 +1924,10 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <example
-            >the redness of a tomato; the aromaticity of the benzene ring; the spatial extent of my arm.</example>
         <definition
             >A quality is an immaterial entity that is intrinsically associated with an entity at all times, but whose observed/measured value may change with time.</definition>
+        <example
+            >the redness of a tomato; the aromaticity of the benzene ring; the spatial extent of my arm.</example>
     </owl:Class>
     
 
@@ -2059,10 +2045,10 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <definition
-            >A site is a mixture of material entities which act as surrounding environments for other material entities.</definition>
         <rdfs:comment
             >A site is typically made of material entities or their fiat parts and a surrounding medium.</rdfs:comment>
+        <definition
+            >A site is a mixture of material entities which act as surrounding environments for other material entities.</definition>
     </owl:Class>
     
 
@@ -2140,6 +2126,12 @@
     <owl:Class rdf:about="#specification">
         <rdfs:label>specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="#information_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#specifies"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <definition
             >A specification is an information entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</definition>
     </owl:Class>
@@ -2270,14 +2262,14 @@
         <rdfs:subClassOf rdf:resource="#information_entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#has_part"/>
-                <owl:allValuesFrom rdf:resource="#textual_entity"/>
+                <owl:onProperty rdf:resource="#is_concretized_as"/>
+                <owl:someValuesFrom rdf:resource="#material_physical_quality"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#is_concretized_as"/>
-                <owl:someValuesFrom rdf:resource="#material_physical_quality"/>
+                <owl:onProperty rdf:resource="#has_part"/>
+                <owl:allValuesFrom rdf:resource="#textual_entity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2370,6 +2362,26 @@
 
     <owl:Class rdf:about="#workflow">
         <rdfs:label>workflow</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/CHEMINF_000000 -->
+
+    <owl:Class rdf:about="&resource;CHEMINF_000000">
+        <rdfs:label
+            >data storage specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#effective_specification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/CHEMINF_000001 -->
+
+    <owl:Class rdf:about="&resource;CHEMINF_000001">
+        <rdfs:label
+            >knowledge representation specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="#effective_specification"/>
     </owl:Class>
     
