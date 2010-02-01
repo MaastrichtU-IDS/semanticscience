@@ -5,13 +5,15 @@
  <title>Bio2RDF - Linked Data for the Life Sciences</title>
  <meta content="text/html; charset=UTF-8" http-equiv="content-type" /> 
  <link rel="stylesheet" href="css/main.css" type="text/css" /> 
- <link type="image/png" href="/favicon.ico" rel="shortcut icon" />
+ <link type="image/png" href="images/favicon.ico" rel="shortcut icon" />
+
  		<!-- Semantic knowledge discovery across the Life Sciences -->
 </head>
 <body>
 	<div id="content">
+	
 		<div class="logo">
-		 <img title="Bio2RDF logo" src="images/bio2rdf-logo.gif"/>
+		 <img title="Bio2RDF logo" src="images/bio2rdf-logo-combined.gif" width="100%"/>
 		 <span id="tagline">Linked Data for the Life Sciences</span>
 		</div>
  
