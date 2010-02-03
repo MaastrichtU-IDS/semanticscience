@@ -9,16 +9,16 @@
                 <!-- Semantic knowledge discovery across the Life Sciences -->
 </head>
 <body>
-        <div id="header">
-         <div id="header-logo">
-          <img width="90%" title="Bio2RDF logo" src="images/bio2rdf-logo-sm.gif"/>
-         </div>
-         <ul>
-                <li><a title="search" href="index.php">search</a></li>
-                <li><a title="about" href="about.php">about</a></li>
-                <li><a title="sources" href="sources.php">sources</a></li>
-                <li><a title="download" href="download.php">download</a></li>
-          </ul>
-        </div>
-        <div id="content">
+<div id="header">
+ <div id="header-logo">
+  <img width="90%" title="Bio2RDF - Linked Data for the Life Sciences" src="images/bio2rdf-logo-sm.gif"/>
+ </div>
+ <ul>
+  <li><a title="search Bio2RDF" href="index.php">search</a></li>
+  <li><a title="about Bio2RDF" href="about.php">about</a></li>
+  <li><a title="Bio2RDF datasets" href="datasets.php">datasets</a></li>
+  <li><a title="download Bio2RDF" href="download.php">download</a></li>
+ </ul>
+</div>
+<div id="content">
 
