@@ -13,7 +13,7 @@
 	<div id="content">
 	
 		<div class="logo">
-		 <img title="Bio2RDF logo" src="images/bio2rdf-logo-combined.gif" width="100%"/>
+		 <img title="Bio2RDF logo" src="images/bio2rdf-logo.gif" width="100%"/>
 		 <span id="tagline">Linked Data for the Life Sciences</span>
 		</div>
  
