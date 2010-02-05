@@ -16,7 +16,12 @@ $str .= '<a href="http://cnn.com">
         <span>Lorem ipsum dolor sit amellentesque id velit ac sem pulvinar tempor sed egestas augue. Donec imperdiet accu
 msan elementum.</span>
 </a>';
-
+$str .= '<span class="category">category two</span>';
+$str .= '<a href="http://google.ca">
+	<span class="searchheading">Result Label</span>
+	<span>Lorem ipsum dolor sit am velit ac sem pulvinar tempor sed egestas augue. Donec imperdiet accumsan elementum
+.</span>
+</a>';
 
 //$str .='<span class="seperator">
 //	<a title="Sitemap" href="http://www.marcofolio.net/sitemap.html">Nothing interesting here? Try the sitemap.</a></
