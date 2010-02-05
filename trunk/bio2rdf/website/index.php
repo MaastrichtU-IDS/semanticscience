@@ -46,7 +46,11 @@ function lookup(inputString){
 
   <div class="search">
    <form id="search-form">
+   <div id="inputWrapper">
     <input id="input" type="text" size="35" id="inputString" onkeyup="lookup(this.value);"/>
+     <div id="suggestions"></div>
+
+   </div>
     <button id="search-button" type="submit" value="GO">GO</button>
    </form>
   </div>
