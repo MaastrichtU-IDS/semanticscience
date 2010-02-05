@@ -5,7 +5,7 @@
  <title>Bio2RDF - Linked Data for the Life Sciences</title>
  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
  <link rel="stylesheet" href="css/main.css" type="text/css" />
- <link type="image/png" href="/favicon.ico" rel="shortcut icon" />
+ <link type="image/png" href="images/favicon.ico" rel="shortcut icon" />
                 <!-- Semantic knowledge discovery across the Life Sciences -->
 </head>
 <body>
