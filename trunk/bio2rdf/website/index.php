@@ -6,8 +6,36 @@
  <meta content="text/html; charset=UTF-8" http-equiv="content-type" /> 
  <link rel="stylesheet" href="css/main.css" type="text/css" /> 
  <link type="image/png" href="images/favicon.ico" rel="shortcut icon" />
+ <!--adding js-->
+ <script src="http://code.jquery.com/jquery-latest.js"></script>
+ <script type="text/javascript">
+// Safely inject CSS3 and give the search results a shadow
+$(document).ready(function(){
+ var cssObj = { 
+        'box-shadow' : '#888 5px 10px 10px',
+        '-webkit-box-shadow' : '#888 5px 10px 10px', // Safari
+        '-moz-box-shadow' : '#888 5px 10px 10px'
+        };
+ $("#suggestions").css(cssObj);
+ //Fade out the suggestions when not active
+ $("input").blur(function(){
+        $("#suggestions").fadeOut();
+ });
+}); 
 
- 		<!-- Semantic knowledge discovery across the Life Sciences -->
+function lookup(inputString){
+        if(inputString.length == 0){
+                $("#suggestions").fadeOut();
+        }else{
+                $.post("bin/searcher.php", {queryString: ""+inputString+""}, function(data){
+                        $("#suggestions").fadeIn();
+                        $("#suggestions").html(data);
+                });
+        }
+}//lookup
+ </script>
+
+
 </head>
 <body>
  <div id="content">
@@ -18,7 +46,7 @@
 
   <div class="search">
    <form id="search-form">
-    <input id="input" type="text" size="35" />
+    <input id="input" type="text" size="35" id="inputString" onkeyup="lookup(this.value);"/>
     <button id="search-button" type="submit" value="GO">GO</button>
    </form>
   </div>
