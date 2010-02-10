@@ -63,7 +63,7 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 ===foaf:Agent===
 {{{ 
  rdfs:label [string]    # title [ns:id]
- dc:identifier [string] # id
+ dc:identifier [string] # ns:id
 
  foaf:name [string]     # the agent's name [e.g. Bio2RDF]
  foaf:mbox [string]     # the agent's email address for contact/notification
@@ -75,23 +75,32 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 {{{
  rdfs:subClassOf [sioc:Space] 
  rdfs:label [string]                     # title [ns:id]
- dc:identifier [string]                  # id
+ dc:identifier [string]                  # ns:id
+ serv:value [string]                     # ns [e.g. 'kegg']
 
  dc:replaces [serv:Namespace]            # for superceding namespaces [e.g. registry:kegg replaces nar:kegg]
  skos:narrower [serv:Namespace]          # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
- serv:source [foaf:Agent]                # the source/publisher of the namespace (e.g. Registry, NAR, GO)
- serv:dataset [serv:Dataset]             # the dataset to which this namespace applies 
-
- a serv:OfficialRegistryNamespace        # all namespaces that are not replaced, are official
+ serv:source [foaf:Agent]                # the source/publisher of the namespace [e.g. Registry, NAR, GO]
+ serv:dataset [serv:Dataset]             # the dataset to which this namespace applies [e.g. dataset/kegg]
+}}}
+{{{
+ serv:RegistryNamespace                  # to denote an *official* registry namespace
 }}}
 
+===serv:Identifier===
+{{{
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # ns:id
+ serv:value [string]                     # id
+ serv:part_of [serv:Namespace]           # the namespace that this identifier is part of
+}}}
 
 
 ===serv:Dataset===
 {{{
  rdfs:subClassOf [sioc:Container]
  rdfs:label [string]                     # title [ns:id]
- dc:identifier [string]                  # id
+ dc:identifier [string]                  # ns:id
 
  dc:title [string]                       # a brief summary of the resource [e.g. UniProt]
  dc:description [string]                 # a more elaborate description 
@@ -103,20 +112,40 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
  serv:id_specification [regex]           # a regular expression to validate the identifier against
 }}}
 
+==serv:Document==
+{{{
+ rdfs:label [string]                     # title [ns:id]
+ dc:identifier [string]                  # ns:id
+ dc:publisher[foaf:Agent]                # the publisher of the document
+ rdfs:subClassOf [foaf:Document]         
+ rdfs:subClassOf [sioc:Item]
+
+ serv:availability [string]              ["public"|"see license"] 
+ dc:license [url]                        # a document that provides usage rights
+ dc:source [uri|serv:Resolver]           # for derivative works: the original source of this data
+
+ dc:fileFormat[string]                   # the document MIME-type ["text/html",etc]
+ rdf:type [URI]                          [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
+
+ serv:entity [serv:Entity]               # identifies the entity that is the topic of the document
+ serv:dataset [serv:Dataset]             # identifies the dataset that is the topic of the document
+}}}
+
 ===serv:Entity===
 A serv:entity is a named resource in the dataset, but is not a document.
 {{{
  rdfs:subClassOf [sioc:Item]
  rdfs:label [string]                     # title [ns:id]
- dc:identifier [string]                  # id
- serv:part_of [serv:Dataset]             # the dataset that this item is part of
+ dc:identifier [string]                  # ns:id
+ serv:identifier [serv:Identifier]       # an explicit relation between the entity and an identifier for it
+ serv:dataset [serv:Dataset]             # the dataset that this entity is defined in
 }}}
 
 ===serv:Resolver===
 Provides some resource specified with a URL regex for a given resource with a particular namespace in different formats
 {{{
  rdfs:label [string]                     # title [ns:id]
- dc:identifier [string]                  # id
+ dc:identifier [string]                  # ns:id
  serv:resolves [serv:Namespace]          # a resolver resolves one or more preferred namespaces
  serv:resolves_to [serv:Document]        # the URI of the document that the resolver points to after applying regex   
  dc:publisher [foaf:Agent]               # the resolver's publisher [e.g. Bio2RDF is the publisher of its RDF resolver]
@@ -124,9 +153,9 @@ Provides some resource specified with a URL regex for a given resource with a pa
                                            ["auto","rdfxml","n3","xml","json","html"]
 }}}
 {{{
- serv:URIResolver rdfs:subClassOf serv:Resolver
+ serv:URIResolver
    serv:uri_pattern [uri regex]          # A regular expression for the constructing the URI, 
-                                           using variables $ns for the namespace and $id for the identifier 
+                                         # using variables $ns for the namespace and $id for the identifier 
                                            [e.g. http://bio2rdf.org/$ns:$id]
 }}}
 
@@ -139,24 +168,6 @@ Provides some resource specified with a URL regex for a given resource with a pa
    serv:graph [uri]                        # Default graph URI
    serv:fileformat_parameter_name [string] # the name of the fileformat parameter
 
-}}}
-
-==serv:Document==
-{{{
- rdfs:label [string]                     # title [ns:id]
- dc:identifier [string]                  # id
- dc:publisher[foaf:Agent]                # the publisher of the document
- rdfs:subClassOf [foaf:Document]         
- rdfs:subClassOf [sioc:Item]
-
- serv:availability [string]              ["public"|"see license"] 
- dc:license [url]                        # a document that provides usage rights
- dc:source [uri|serv:Resolver]           # for derivative works: the original source of this data
-
- dc:fileFormat[string]                   # the document MIME-type ["text/html",etc]
- rdf:type [URI]                          [HTMLDocument, XMLDocument, RDFXMLDocument, OWLXMLDocument, etc]
- foaf:topic [serv:Entity]                # identifies the entity that is the topic of the document
- foaf:topic [serv:Dataset]               # identifies the dataset that is the topic of the document
 }}}
 
 
