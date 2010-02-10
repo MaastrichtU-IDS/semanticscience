@@ -72,6 +72,7 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 
 
 ===serv:Namespace===
+A namespace is a collection of identifiers. 
 {{{
  rdfs:subClassOf [sioc:Space] 
  rdfs:label [string]                     # title [ns:id]
@@ -80,19 +81,24 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 
  dc:replaces [serv:Namespace]            # for superceding namespaces [e.g. registry:kegg replaces nar:kegg]
  skos:narrower [serv:Namespace]          # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
- serv:source [foaf:Agent]                # the source/publisher of the namespace [e.g. Registry, NAR, GO]
+ serv:references [serv:Namespace]        # for linking namespaces
  serv:dataset [serv:Dataset]             # the dataset to which this namespace applies [e.g. dataset/kegg]
+ dc:source [foaf:Agent]                  # the source/publisher of the namespace [e.g. Registry, NAR, GO]
 }}}
 {{{
  serv:RegistryNamespace                  # to denote an *official* registry namespace
 }}}
 
 ===serv:Identifier===
+An identifier is a symbol used to specifically refer to some entity.
 {{{
  rdfs:label [string]                     # title [ns:id]
  dc:identifier [string]                  # ns:id
  serv:value [string]                     # id
- serv:part_of [serv:Namespace]           # the namespace that this identifier is part of
+
+ serv:namespace [serv:Namespace]         # the namespace that this identifier is part of
+ serv:entity [serv:Entity]               # the entity that this identifier denotes
+ dc:replaces [serv:Identifier]           # to indicate a former identifier
 }}}
 
 
