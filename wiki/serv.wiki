@@ -59,22 +59,43 @@ prefix sioc: <http://rdfs.org/sioc/ns#>
 [http://semanticscience.googlecode.com/svn/trunk/wiki/serv_example.owl SERV example] - out of date
 
 
+
+
+===serv:Entity===
+An entity is a named/identified thing. 
+{{{
+ serv:Entity
+  rdfs:subClassOf [sioc:Item]
+  rdfs:label [string]                     # title [ns:id]
+  dc:title [string]                       # title
+  dc:identifier [string]                  # ns:id
+
+  #optional
+  serv:identifier [serv:Identifier]       # an explicit relation between the entity and an identifier for it
+  serv:dataset [serv:Dataset]             # the dataset that the entity is described in
+}}}
+
 ===serv:Information===
-Information is an entity that is composed of data that can be meaningfully interpreted/communicated (semantics) and whose syntax conforms to that specified by an information system.
+Information is an entity that is composed of data that can be meaningfully
+interpreted/communicated (semantics) and whose syntax conforms to that 
+specified by an information system.
 
 ===serv:ICE===
-An Information content entity (ICE) is an entity that contains information (e.g. meaningful data) about another entity and has at least one physical manifestation (e.g. digital media, ink on paper, neurals patterns).
-
+An Information content entity (ICE) is an entity that contains information 
+(e.g. meaningful data) about another entity and has at least one physical 
+manifestation (e.g. digital media, pixels on screen, ink on paper, neural patterns).
 
 ===serv:Agent===
-An agent is an entity capable of executing some task. Agents include people, organizations.
+An agent is an entity capable of executing some task. Agents include people, organizations, systems, software.
 {{{
  serv:Agent
-  rdfs:subClassOf [foaf:Agent] 
+  rdfs:subClassOf [serv:Entity]
+  owl:equivalentClass [foaf:Agent] 
 
   rdfs:label [string]          # title [ns:id]
   dc:identifier [string]       # ns:id
 
+  #optional
   foaf:name [string]           # the agent's name [e.g. Bio2RDF]
   foaf:mbox [string]           # the agent's email address for contact/notification
   foaf:homepage [url]          # the agent's homepage [e.g. http://bio2rdf.org]                                         
@@ -85,12 +106,14 @@ An agent is an entity capable of executing some task. Agents include people, org
 A namespace is an information content entity composed of a set of symbols or identifiers. 
 {{{
  serv:Namespace
-  rdfs:subClassOf [sioc:Container] 
+  rdfs:subClassOf [serv:ICE]
+    owl:equivalentClass [sioc:Container] 
 
   rdfs:label [string]                     # title [ns:id]
   dc:identifier [string]                  # ns:id
   serv:value [string]                     # ns [e.g. 'kegg']
 
+  #optional
   dc:replaces [serv:Namespace]            # for superceding namespaces [e.g. registry_namespace:kegg replaces nar_namespace:kegg]
   skos:narrower [serv:Namespace]          # for aggregation namespaces [e.g. kegg 'has narrower' kegg_ligand]
   serv:references [serv:Namespace]        # to indicate that at least one direct relation exists between namespaces
@@ -99,16 +122,20 @@ A namespace is an information content entity composed of a set of symbols or ide
 }}}
 {{{
  serv:RegistryNamespace                  # to denote an *official* registry namespace
+  rdfs:subClassOf serv:Namespace 
 }}}
 
 ===serv:Identifier===
 An identifier is an information content entity that refers to another entity. An identifier defined in a namespace is associated with that namespace.
 {{{
  serv:Identifier
+  rdfs:subClassOf [serv:ICE]
+
   rdfs:label [string]                     # title [ns:id]
   dc:identifier [string]                  # ns:id
   serv:value [string]                     # id
 
+  #optional
   serv:namespace [serv:Namespace]         # the namespace that this identifier is part of
   serv:entity [serv:Entity]               # the entity that this identifier denotes
   dc:replaces [serv:Identifier]           # to indicate a former identifier
@@ -119,13 +146,15 @@ An identifier is an information content entity that refers to another entity. An
 A dataset is an information content entity that is composed of information about entities.
 {{{
  serv:Dataset
-  rdfs:subClassOf [sioc:Container]
+  rdfs:subClassOf [serv:ICE]
+   owl:equivalentClass [sioc:Container]
 
   rdfs:label [string]                     # title [ns:id]
   dc:identifier [string]                  # ns:id
 
-  dc:title [string]                       # a brief summary of the resource [e.g. UniProt]
-  dc:description [string]                 # a more elaborate description 
+  #optional
+  dc:title [string]                       # the official name of the resource
+  dc:description [string]                 # an elaboration of the attributes of the resource 
   dc:subject [url|ns:id|string]           # a curated subject heading [e.g. protein]
   dc:publisher [foaf:Agent]               # link to the original/primary publisher [E.g. UniProt Consortium]
   dc:references [serv:Dataset]            # to link datasets together by reference - for linked data clouds
@@ -138,12 +167,13 @@ A dataset is an information content entity that is composed of information about
 A document is an information content entity that is used to communicate information about some entity/entities.
 {{{
  serv:Document
-  rdfs:subClassOf [foaf:Document]         
-  rdfs:subClassOf [sioc:Item]
+  owl:equivalentClass [foaf:Document]         
+  owl:equilvanetClass [sioc:Item]
 
   rdfs:label [string]                     # title [ns:id]
   dc:identifier [string]                  # ns:id
 
+  #optional
   dc:publisher[foaf:Agent]                # the publisher of the document
   serv:availability [string]              ["public"|"see license"] 
   dc:license [url]                        # a document that provides usage rights
@@ -156,27 +186,15 @@ A document is an information content entity that is used to communicate informat
   serv:dataset [serv:Dataset]             # identifies the dataset that is the topic of the document
 }}}
 
-===serv:Entity===
-An entity is a named/identified resource. 
-{{{
- serv:Entity
-  rdfs:subClassOf [sioc:Item]
-  rdfs:label [string]                     # title [ns:id]
-  dc:identifier [string]                  # ns:id
-
-  serv:identifier [serv:Identifier]       # an explicit relation between the entity and an identifier for it
-  serv:dataset [serv:Dataset]             # the dataset that the entity is described in
-}}}
-
-
 
 ==serv:Statistics==
 Statistics is an information content entity that refers to quantities calculated from a dataset.
 {{{
  serv:Statistics
-  rdfs:label [string]                    # title [identifier]
-  dc:identifier [string]                 # id
+  rdfs:label [string]                    # title [ns:id]
+  dc:identifier [string]                 # ns:id
 
+  #optional
   serv:records [integer]                 # number of entries in the core namespace
   serv:topics [integer]                  # number of unique entities
   serv:triples [integer]                 # number of unique statements
