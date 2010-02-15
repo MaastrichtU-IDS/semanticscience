@@ -86,6 +86,7 @@ function GetDirFiles($dir,$pattern)
   if($file == '.' || $file == '..') continue;
   $files[] = $file;
  }
+ sort($files);
  closedir($dh);
  return $files; 
 }
