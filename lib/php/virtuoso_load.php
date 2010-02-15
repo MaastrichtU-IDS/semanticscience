@@ -3,7 +3,7 @@
 /*
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
-$isql = "/opt/virtuoso/default/bin/isql";
+$isql = "/bio2rdf/default/bin/isql";
 //$isql = "isql";
 
 $options = array(
@@ -22,6 +22,7 @@ $options = array(
  "setns" => "false",
  "format" => "n3",
  "ignoreerror" => "true",
+ "startat" => ""
 );
 
 
@@ -41,15 +42,7 @@ foreach($argv AS $i=> $arg) {
  else {echo "unknown key $b[0]";exit;}
 }
 
-
-// check for valid graph
-if($options['graph'] == 'graphname') {
- $options['graph'] = 'temp';
-}
-echo "Using '".$options['graph']."' as graph name.".PHP_EOL;
-
 $cmd_pre = "$isql -S ".$options['port']." -U ".$options['user']." -P ".$options['pass']." verbose=on banner=off prompt=off echo=ON errors=stdout exec=".'"'; $cmd_post = '"';
-
 
 // associate a prefix with namespace
 // http://docs.openlinksw.com/virtuoso/fn_xml_set_ns_decl.html
@@ -104,7 +97,26 @@ if($options['format'] == 'n3') {
 }
 
 foreach($files AS $file) {
+ if($options['startat'] != '') {
+  if($options['startat'] == $file) { $options['startat'] = ''; }
+  else continue;
+ }
+
  echo 'Processing '.$file."\n";
+
+ // if the graph has not been set, then create a graph name from the file, minus path and extension
+ $graph = $options['graph'];
+ if($graph == "graphname") {
+  $pos = strrpos($file,"/");
+  if($pos !== FALSE) {
+   $graph = substr($file,$pos+1);
+  }
+  $pos = strpos($graph,".");
+  if($pos !== FALSE) {
+   $graph = substr($graph,0,$pos);
+  }
+  $graph = "http://bio2rdf.org/graph/".$graph;
+ }
 
  $path = '';
  $pos = strrpos($file,"/");
@@ -115,7 +127,7 @@ foreach($files AS $file) {
  $f = $file;
  $fcmd = 'file_to_string_output';
  if(strstr($file,".gz")) {
-   $gzipfile = $file;
+   $gzfile = $file;
    $un = substr($file,0,-3);
    
    $out = fopen($un,"w");
@@ -127,15 +139,27 @@ foreach($files AS $file) {
    gzclose($in);
    
    $f = $un;
+ } elseif(strstr($file,".bz")) {
+   $bzfile = $file;
+   $un = substr($file,0,-3);
+   $out = fopen($un,"w");
+   $in = bzopen($file,"r");
+   while($l = bzread($in)) {
+	fwrite($out,$l);
+   }
+   fclose($out);
+   bzclose($in);
+   $f = $un;
  }
+
  $t1 = $path."t1.txt"; // the source
  $t2 = $path."t2.txt"; // the destination
  if(file_exists($t1)) unlink($t1);
  if(file_exists($t2)) unlink($t2);
 
  do { 
-  echo "Loading...".PHP_EOL; 
-  $cmd = $program."($fcmd ('$f'), '', '".$options['graph']."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
+  echo "Loading $file into $graph ...".PHP_EOL; 
+  $cmd = $program."($fcmd ('$f'), '', '".$graph."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
   // echo $cmd_pre.$cmd.$cmd_post;
   $out = shell_exec($cmd_pre.$cmd.$cmd_post);
  
@@ -189,7 +213,7 @@ foreach($files AS $file) {
   }
  } while (true);
 
- if(strstr($file,".gz")) {
+ if(strstr($file,".gz") || strstr($file,".bz")) {
   if(file_exists($f)) unlink($f);
  }
  echo PHP_EOL;
@@ -224,6 +248,7 @@ function GetFiles($dirname)
    if($e == '.' || $e == '..') continue;
    $files[] = $dirname.$e;
  }
+ sort($files);
  $d->close();
  return $files;
 }
