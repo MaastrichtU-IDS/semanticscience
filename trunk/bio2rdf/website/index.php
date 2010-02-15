@@ -40,7 +40,7 @@ function lookup(inputString){
 <body>
  <div id="content">
   <div class="logo">
-    <img title="Bio2RDF - Linked Data for the Life Sciences" src="images/bio2rdf-logo.gif" width="100%"/>
+    <img title="Bio2RDF - Linked Data for the Life Sciences" src="images/bio2rdf_logo2_from_ppt.gif" width="100%"/>
     <span id="tagline">Linked Data for the Life Sciences</span>
   </div>
 
