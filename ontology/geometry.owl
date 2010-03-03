@@ -9,6 +9,7 @@
     <!ENTITY resource "http://semanticscience.org/resource/" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY geometry "http://semanticscience.org/ontology/geometry.owl/" >
 ]>
 
 
@@ -20,7 +21,8 @@
      xmlns:resource="http://semanticscience.org/resource/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:geometry="http://semanticscience.org/ontology/geometry.owl/">
     <owl:Ontology rdf:about="">
         <rdfs:label
             >Geometry Ontology</rdfs:label>
@@ -58,11 +60,311 @@
     
 
 
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000007 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000007">
+        <rdfs:label>point</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000006"/>
+        <dc:description
+            > A point is a geometric object that is located in a zero-dimensional 
+spatial region and whose position is defined by its coordinates in some 
+coordinate system.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000008 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000008">
+        <rdfs:label>endpoint</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000007"/>
+        <dc:description
+            >An endpoint is a point that defines the finite extension of a line.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000009 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000009">
+        <rdfs:label>startpoint</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000008"/>
+        <dc:description
+            >A start point is an endpoint point that is the first of an ordered 
+pair of points.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000010 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000010">
+        <rdfs:label>curve</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000006"/>
+        <dc:description
+            >A curve is a geometric object that is located in one or two 
+dimensional spatial region and is composed of at least two fully connected points.
+</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000011 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000011">
+        <rdfs:label>line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000010"/>
+        <dc:description
+            >A line is curve that is located in a one-dimensional spatial region 
+and is composed of at least two fully connected points along that single dimension.
+</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000012 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000012">
+        <rdfs:label>line segment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000011"/>
+        <dc:description
+            >A line segment is a finite line that is contained by two terminal 
+points (endpoints).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000013 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000013">
+        <rdfs:label>tick mark</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >A tick mark is a line segment that is spatially positioned perpendicular to the axis of a statistical graph and indicates the position of a specific numeric value (which may be indicated by an adjacent value label) on a value axis, or is one of a pair of tick marks that delineates the boundary of a categorical value (which may be indicated by an adjacent category label) on the categorical axis.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000014 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000014">
+        <rdfs:label>major tick mark</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000013"/>
+        <dc:description
+            >A major tick mark is a tick mark that indicates the position of a 
+specific numeric value and is adjacent to its value label on the value 
+axis, or is one of a pair of tick marks that delineates the boundary of a 
+categorical value indicated by an adjacent category label on the 
+categorical axis.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000015 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000015">
+        <rdfs:label>minor tick mark</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000013"/>
+        <dc:description
+            >A minor tick mark is a tick mark that indicates the position of a specific numeric value but has no adjacent value label, or is one of a pair of tick marks that delineates the boundary of a categorical value but has no adjacent category label on the categorical axis.
+</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000016 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000016">
+        <rdfs:label>ray</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000011"/>
+        <dc:description
+            >A ray is a line which that extends infinitely from an endpoint out 
+along one dimension.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000017 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000017">
+        <rdfs:label>quadrilateral</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000005"/>
+        <dc:description
+            >A quadrilateral is a polygon with composed of four points and four 
+line segments, in which each point is fully connected to two other points.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000018 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000018">
+        <rdfs:label>rectangle</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000017"/>
+        <dc:description
+            >A rectangle is a quadrilateral in which one pair of line segments are 
+parallel and the other pair are perpendicular to the first pair.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000019 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000019">
+        <rdfs:label>bar</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000018"/>
+        <dc:description
+            >A bar is a rectangle that is located in the plot of a statistical graph in which its length is proportional to the values that it represents.
+</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000020 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000020">
+        <rdfs:label>triangle</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000005"/>
+        <dc:description
+            >A triangle is a polygon composed of three points and three line segments, in which each point is fully connected to another point along 
+through the line segment.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000021 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000021">
+        <rdfs:label>directed line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >A directed line is a line segment that is contained by an ordered pair 
+of endpoints (a start point and an endpoint).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000022 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000022">
+        <rdfs:label>arrowed line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >An arrowed line is a line segment in which one or both endpoints is 
+tangentially part of a triangle that bisects the line.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000023 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000023">
+        <rdfs:label
+            >single arrowed line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000022"/>
+        <dc:description
+            >A single arrowed line is directed line in which the endpoint is 
+tangentially part of a triangle that bisects the line.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000024 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000024">
+        <rdfs:label
+            >double arrowed line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000022"/>
+        <dc:description
+            >A double arrowed line is an arrowed line in which both endpoints are 
+tangentially part of different triangles that bisect the line.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000025 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000025">
+        <rdfs:label>horizontal line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >A horizontal line is a line segment that is spatially oriented with 
+the horizon.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000026 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000026">
+        <rdfs:label>vertical line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >A vertical line is a line segment that is spatially oriented perpendicular to the horizon.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000027 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000027">
+        <rdfs:label>trend line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000011"/>
+        <dc:description
+            >A trend line is a line, line segment or ray that is part of a statistical graph which indicates a statistical or visual direction across categorical or value data.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000028 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000028">
+        <rdfs:label>increasing line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >An increasing line is a line segment in which the startpoint and endpoint are ordered along one dimension and the difference of values in a second dimension is positive.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000029 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000029">
+        <rdfs:label>decreasing line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >An decreasing line is a line segment in which the startpoint and endpoint are ordered along one dimension and the difference of values in a second dimension is negative.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000030 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000030">
+        <rdfs:label>plateau line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >An plateau line is a line segment in which the startpoint and endpoint are ordered along one dimension and the difference of values in a second dimension is zero.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/geometry.owl/GEOMETRY_000031 -->
+
+    <owl:Class rdf:about="/GEOMETRY_000031">
+        <rdfs:label>drop line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
+        <dc:description
+            >A drop line is a line segment that vertically or horizontally connects a data series line with a value axis in a statistical graph.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/GEOMETRY_000000 -->
 
     <owl:Class rdf:about="&resource;GEOMETRY_000000">
         <rdfs:label>polygon vertex</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000006"/>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000007"/>
         <dc:description
             >A polygon vertex is a point at which two edges meet and are part of a polygon.</dc:description>
     </owl:Class>
@@ -73,7 +375,7 @@
 
     <owl:Class rdf:about="&resource;GEOMETRY_000001">
         <rdfs:label>polygon edge</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000006"/>
+        <rdfs:subClassOf rdf:resource="/GEOMETRY_000012"/>
         <dc:description
             >A polygon edge is a one-dimensional line segment joining two zero-dimensional vertices in a polygon.</dc:description>
     </owl:Class>
@@ -98,7 +400,7 @@
         <rdfs:label>polygonal face</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;GEOMETRY_000006"/>
         <dc:description
-            >A polygonal face is a polygon bounded by a circuit of edges, and includes the flat (plane) region inside the boundary. </dc:description>
+            >A polygonal face is a polygon bounded by a circuit of edges, and includes the flat (plane) region inside the boundary.</dc:description>
     </owl:Class>
     
 
@@ -131,6 +433,9 @@
     <owl:Class rdf:about="&resource;GEOMETRY_000006">
         <rdfs:label
             >geometric entity</rdfs:label>
+        <dc:description
+            >An information artifact that is represented in a coordinate
+system with one or more axes.</dc:description>
     </owl:Class>
 </rdf:RDF>
 
