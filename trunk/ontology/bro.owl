@@ -4,8 +4,8 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
-    <!ENTITY dl "http://ontology.dumontierlab.com/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY dl "http://ontology.dumontierlab.com/" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY ss "http://semanticscience.org/resource/" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
@@ -16,15 +16,15 @@
 
 <rdf:RDF xmlns="http://semanticscience.org/ontology/bro.owl"
      xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/bro.owl"
-     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:bro="&ss;bro.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:ss="http://semanticscience.org/resource/"
-     xmlns:dl="http://ontology.dumontierlab.com/"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:bro="&ss;bro.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#">
+     xmlns:dl="http://ontology.dumontierlab.com/"
+     xmlns:ss="http://semanticscience.org/resource/">
     <owl:Ontology rdf:about="">
         <dc:date rdf:datatype="&xsd;date">2008-01-01</dc:date>
         <dc:title rdf:datatype="&xsd;string"
@@ -51,14 +51,14 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <owl:AnnotationProperty rdf:about="&dc;language"/>
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
+    <owl:AnnotationProperty rdf:about="&dc;publisher"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&ss;example"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;language"/>
     <owl:AnnotationProperty rdf:about="&ss;definition"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
-    <owl:AnnotationProperty rdf:about="&dc;publisher"/>
-    <owl:AnnotationProperty rdf:about="&ss;example"/>
-    <owl:AnnotationProperty rdf:about="&dc;date"/>
-    <owl:AnnotationProperty rdf:about="&dc;title"/>
     <owl:AnnotationProperty rdf:about="&dc;format"/>
     
 
@@ -90,10 +90,10 @@
 
     <owl:ObjectProperty rdf:about="&ss;denotes">
         <rdfs:label>denotes</rdfs:label>
-        <ss:example
-            >The word &#39;Boston&#39; denotes the city of Boston by virtue of it being concretized as words on various signs around the city.</ss:example>
         <ss:definition
             >g denotes c when a generically dependent continuant g is concretized by a specifically dependent continuant s which inheres in independent continuant c.</ss:definition>
+        <ss:example
+            >The word &#39;Boston&#39; denotes the city of Boston by virtue of it being concretized as words on various signs around the city.</ss:example>
         <rdfs:subPropertyOf rdf:resource="&ss;isAbout"/>
     </owl:ObjectProperty>
     
@@ -203,10 +203,10 @@
     <owl:ObjectProperty rdf:about="&ss;hasNonTangentialProperPart">
         <rdfs:label
             >has non-tangential proper part</rdfs:label>
-        <rdfs:comment
-            >RCC8:non-tangential proper part</rdfs:comment>
         <ss:definition
             >A proper part relation in which there is no overlap of the edge of spatial regions.</ss:definition>
+        <rdfs:comment
+            >RCC8:non-tangential proper part</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&ss;hasProperPart"/>
         <owl:inverseOf rdf:resource="&ss;isNonTangentialProperPartOf"/>
     </owl:ObjectProperty>
@@ -220,10 +220,10 @@
         <rdfs:label rdf:datatype="&xsd;string">has part</rdfs:label>
         <ss:definition rdf:datatype="&xsd;string"
             >has part is a reflexive (for all p, p has part p), transitive (for all p, p1, p2  if p part_of p1 and p1 part_of p2, then p part_of p2) and anti-symmetric (for all p, p1, if p part_of p1 and p1 part_of p then p and p1 are identical) relation.</ss:definition>
-        <rdfs:comment
-            >Due to nonstructural restrictions in OWL2, no cardinality restriction may be added to this property due to involvement in property chains. One should use hasProperPart to quantify over. hasPart is effectively reflexive due to the reflexivity of hasImproperPart</rdfs:comment>
         <ss:example
             >person has part arm, workshop has part coffee break</ss:example>
+        <rdfs:comment
+            >Due to nonstructural restrictions in OWL2, no cardinality restriction may be added to this property due to involvement in property chains. One should use hasProperPart to quantify over. hasPart is effectively reflexive due to the reflexivity of hasImproperPart</rdfs:comment>
         <owl:inverseOf rdf:resource="&ss;isPartOf"/>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
     </owl:ObjectProperty>
@@ -315,6 +315,19 @@
             >RCC8:tangential proper part</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&ss;hasProperPart"/>
         <owl:inverseOf rdf:resource="&ss;isTangentialProperPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/hasUnit -->
+
+    <owl:ObjectProperty rdf:about="&ss;hasUnit">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has unit</rdfs:label>
+        <ss:definition
+            >A relation between a measurement value and the unit that it was measured with.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
+        <owl:inverseOf rdf:resource="&ss;isUnitOf"/>
     </owl:ObjectProperty>
     
 
@@ -695,10 +708,10 @@
             >is participant in</rdfs:label>
         <ss:definition rdf:datatype="&xsd;string"
             >A relation in which a continuant participates in some way in the process.</ss:definition>
-        <rdfs:comment
-            >1. no cardinality restriction may be added to this property due to involvement in role chains. One should use isAgentOf/isRealizedIn to specify knowledge and to quantify over.</rdfs:comment>
         <ss:example
             >person isParticipantIn his life</ss:example>
+        <rdfs:comment
+            >1. no cardinality restriction may be added to this property due to involvement in role chains. One should use isAgentOf/isRealizedIn to specify knowledge and to quantify over.</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
             <rdf:Description rdf:about="&ss;isParticipantIn"/>
@@ -919,15 +932,26 @@
     
 
 
+    <!-- http://semanticscience.org/resource/isUnitOf -->
+
+    <owl:ObjectProperty rdf:about="&ss;isUnitOf">
+        <rdfs:label>is unit of</rdfs:label>
+        <ss:definition
+            >A relation between a unit and the value of a measurement.</ss:definition>
+        <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/partiallyOverlapsWith -->
 
     <owl:ObjectProperty rdf:about="&ss;partiallyOverlapsWith">
         <rdfs:label
             >partially overlaps with</rdfs:label>
-        <rdfs:comment
-            >RCC8:partial overlap</rdfs:comment>
         <ss:definition
             >A spatial relationship in which two objects partially overlaps when their spatial regions intersect.</ss:definition>
+        <rdfs:comment
+            >RCC8:partial overlap</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&ss;isSpatiallyRelatedTo"/>
     </owl:ObjectProperty>
     
@@ -982,10 +1006,10 @@
 
     <owl:ObjectProperty rdf:about="&ss;represents">
         <rdfs:label>represents</rdfs:label>
-        <ss:definition
-            >a represents b when a serves as a sign or symbol of b.</ss:definition>
         <ss:example
             >The symbol &#39;1994&#39; as it appears on a graph about car sales in the 1990&#39;s, represents the year 1994 (an instance of a temporal interval). The 3D geometric mesh generated by a software program represents the surface of a protein.</ss:example>
+        <ss:definition
+            >a represents b when a serves as a sign or symbol of b.</ss:definition>
         <rdfs:subPropertyOf rdf:resource="&ss;isRelatedTo"/>
     </owl:ObjectProperty>
     
