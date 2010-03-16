@@ -1,12 +1,15 @@
 <?php
 
 $force_dl = false;
-$dir = "pages/";
+$xml_dir = "/opt/data/linkedct/xml/";
+$rdf_dir = "/opt/data/linkedct/n3/";
+system("mkdir -p $xml_dir");
+system("mkdir -p $rdf_dir");
 $ids = array();
 
 // open the crawl page
 $crawl_url = "http://clinicaltrials.gov/ct2/crawl";
-$crawl_html = $dir."crawl.html";
+$crawl_html = $xml_dir."crawl.html";
 
 if($force_dl || !file_exists($crawl_html)) {
  $crawl = file_get_contents($crawl_url);
@@ -17,7 +20,7 @@ preg_match_all("/crawl\/([0-9]+)/",$crawl,$m);
 
 foreach($m[1] AS $i) {
  $crawl2_url = "http://clinicaltrials.gov/ct2/crawl/".$i;
- $crawl2_html = $dir."crawl_$i.html";
+ $crawl2_html = $xml_dir."crawl_$i.html";
  if($force_dl || !file_exists($crawl2_html)) {
    $crawl2 = file_get_contents($crawl2_url);
    file_put_contents($crawl2_html,$crawl2);
@@ -27,28 +30,29 @@ foreach($m[1] AS $i) {
  preg_match_all("/show\/(NCT[0-9]+)/",$crawl2,$n);
  
  foreach($n[1] AS $j) {
-   $j = "NCT00576927";
+//   $j = "NCT00576927";
    $page_url = "http://clinicaltrials.gov/ct2/show/$j?displayxml=true";
-   $page_xml = $dir."$j.xml";
-   
+   $page_xml = $xml_dir."$j.xml";
+   $page_rdf = $rdf_dir."$j.rdf";
+
+   echo "$j\n";   
    if($force_dl || !file_exists($page_xml)) {
     $xml = file_get_contents($page_url);
     file_put_contents($page_xml,$xml);
    } 
    $xml = file_get_contents($page_xml);
    
-   CTXML2RDF($xml);
+   $rdf = CTXML2RDF($xml);
    
-   exit;
-   
+   file_put_contents($page_rdf,$rdf);   
  }
-
 }
 
 
 
 function CTXML2RDF($xml)
 {
+ global $ids;
  $x = simplexml_load_string($xml);
  $id = $x->id_info->nct_id;
  
@@ -59,9 +63,10 @@ $header = "@prefix linkedct: <http://bio2rdf.org/linkedct:> .
 @prefix linkedct_drug: <http://bio2rdf.org/linkedct_drug:> .
 @prefix linkedct_agent: <http://bio2rdf.org/linkedct_agent:> .
 @prefix linkedct_criteria: <http://bio2rdf.org/linkedct_criteria:> .
+@prefix linkedct_outcome: <http://bio2rdf.org/linkedct_outcome:> .
 @prefix linkedct_facility: <http://bio2rdf.org/linkedct_facility:> .
 @prefix registry_record: <http://bio2rdf.org/registry_record:> .
-@prefix registry_dataset: <http://bio2rdf.org/registry_dataset> .
+@prefix registry_dataset: <http://bio2rdf.org/registry_dataset:> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix serv: <http://bio2rdf.org/serv:> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -124,7 +129,7 @@ $entity .= "linkedct_outcome:$outcome_id a linkedct_resource:$type ;
 	 case "intervention" :
 	  if(!isset($ids['intervention'])) $iid = $ids['intervention'] = 1;
 	  else $iid = ++$ids['intervention'];
-	  
+
 $entity .= "linkedct:$id linkedct_resource:intervention linkedct_intervention:$iid .
 linkedct_intervention:$iid rdfs:isDefinedBy linkedct_record:$id .
 linkedct_intervention:$iid a linkedct_resource:$c->intervention_type .
@@ -132,8 +137,13 @@ linkedct_intervention:$iid rdfs:label \"$c->intervention_type intervention : $c-
 linkedct_intervention:$iid dc:title \"$c->intervention_type intervention : $c->intervention_name\" .
 ";
 if($c->intervention_type == "Drug") {
-	if(!isset($ids['drug'])) $drug_id = $ids['drug'] = 1;
-	else $drug_id = ++$ids['drug'];
+	$md5 = md5($c->intervention_name);
+	if(!isset($ids['drug_name'][$md5])) {
+		if(!isset($ids['drug'])) $drug_id = $ids['drug'] = 1;
+		else $drug_id = ++$ids['drug'];
+		$ids['drug_name'][$md5] = $drug_id;
+	} else $drug_id = $ids['drug_name'][$md5];
+	
 	
 $entity .= "linkedct_intervention:$iid linkedct_resource:involves linkedct_drug:$drug_id .
 linkedct_drug:$drug_id rdfs:isDefinedBy linkedct_record:$id .
@@ -157,9 +167,8 @@ linkedct_drug:$drug_id dc:title \"$c->intervention_name\" .
    }
  
  }
- //echo $header."registry_dataset:linkedct {".$record.$entity."}";
- echo $header.$record.$entity;
- exit;
+ return $header."registry_dataset:linkedct {".$record.$entity."}";
+ return $header.$record.$entity;
 
 }
 
@@ -214,7 +223,10 @@ linkedct_facility:$id linkedct_resource:facility linkedct_facility:$facility_id 
    break;
   
   default:
-   if(!$e) continue;
+   if(!$e) {
+	// echo $d.PHP_EOL;
+	continue;
+   }
    $a .= "linkedct:$id linkedct_resource:$d \"$e\" .".PHP_EOL;
   }
   
