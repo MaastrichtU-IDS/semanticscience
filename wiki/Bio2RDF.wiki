@@ -53,9 +53,11 @@ v. rdfs:isDefinedBy - a relation between the entity and the record that defines 
 }}}
 
 _Entity Typing_
+
 Entity typing (e.g. making assertions about the class membership of the entity) is key to effectively answer questions. Many ontologies organize concepts into hierarchies that support queries at various levels on ontological granularity (e.g. if a Transcription Factor is a type of Protein, then querying for all proteins would give all the transcription factors). Individuals are declared as instances of a class using rdf:type, while more specific classes are specified using rdfs:subClassOf. 
 
 _Entity-Entity Relations_
+
 Relations between entities should be specified using the terminology from the dataset. For instance, in RDFizing a table from "mydataset" with two columns "id","function", we express each row in the table as :
 
 {{{
@@ -63,6 +65,7 @@ Relations between entities should be specified using the terminology from the da
 }}}
 
 _Entity-Literal Relations_
+
 Relations between literal attributes (e.g. strings, numbers) are traditionally expressed as XML literals in linked data, but this precludes further description (e.g. how they were obtained or what kind of unit of measurement was used) and categorization of these literals (whether they are textual descriptions or measurements). Thus, Bio2RDF aims to represent literals as instantiated types such that they may be further referred to by having bone-fide URIs and where the literal value is captured using bio2rdf:has_value datatype relation.
 
 {{{
@@ -78,20 +81,24 @@ The Bio2RDF schema defines the following relations:
 
 
 *ii) Semantic Normalization*
+
 Bio2RDF attempts to unify knowledge produced by different datasources by asserting a set of basic relations and basic classes. 
 
+The basic types include (but not limited to)
+
+ * Object
+  * Gene
+  * Protein
+  * DNA
+  * RNA
+
+ * Process
+  * Reaction
+  * Pathway
+ 
 Basic relations include (but not limited to)
  * hasPart/hasProperPart
  * hasParticipant/hasAgent
-
-The basic types include (but not limited to)
- * Gene
- * Protein
- * Reaction
-
-
-
-
 
 == Resources ==
  * [http://quebec.bio2rdf.org/download Data Downloads]
