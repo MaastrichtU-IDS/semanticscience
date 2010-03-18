@@ -57,22 +57,24 @@ Entity typing (e.g. making assertions about the class membership of the entity) 
 
 _Entity-Entity Relations_
 Relations between entities should be specified using the terminology from the dataset. For instance, in RDFizing a table from "mydataset" with two columns "id","function", we express each row in the table as :
+
 {{{
  id_namespace:id my_resource:function function_namespace:function_id .
 }}}
 
 _Entity-Literal Relations_
 Relations between literal attributes (e.g. strings, numbers) are traditionally expressed as XML literals in linked data, but this precludes further description (e.g. how they were obtained or what kind of unit of measurement was used) and categorization of these literals (whether they are textual descriptions or measurements). Thus, Bio2RDF aims to represent literals as instantiated types such that they may be further referred to by having bone-fide URIs and where the literal value is captured using bio2rdf:has_value datatype relation.
-{{
+
+{{{
  protein_namespace:id my_resource:descriptor my_resource:descriptor_id.
  my_resource:descriptor_id rdf:type my_resource:thistype .
  my_resource:descriptor_id bio2rdf:value "the literal value"^^xsd:string .
-}}
+}}}
 
 The Bio2RDF schema defines the following relations:
-i.	bio2rdf:url   – the HTML page showing the original data.
-ii.	bio2rdf:image – An image of the entity.
-iii.    bio2rdf:value - The literal value of some text / measurement value, etc
+  * bio2rdf:url   – the HTML page showing the original data.
+  * bio2rdf:image – An image of the entity.
+  * bio2rdf:value - The literal value of some text / measurement value, etc
 
 
 *ii) Semantic Normalization*
