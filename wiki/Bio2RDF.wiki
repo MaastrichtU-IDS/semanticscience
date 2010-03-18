@@ -33,27 +33,46 @@ _Entity Labels and Descriptions_
 
 Each resource should contain the following annotation: 
 
-i.	dc:title – a human readable title as it appears in the source data.
+i.	rdfs:label – A Bio2RDF generated label containing a title followed by the identifier. Used by convention in most RDF browsers to render the name of resource instead of using its URI.
+{{{
+title [namespace:identifer]
+}}}
 
 ii.	dc:identifier – a string that contains the identifier using the following pattern 
-
 {{{
 <namespace>:<identifier>
 }}}
  
-iii.	rdfs:label – A Bio2RDF generated label containing a title followed by the identifier. Used by convention in most RDF browsers to render the name of resource instead of using its URI.
+iii.	dc:title – a human readable title as it appears in the source data.
 
-iv.	rdfs:comment (optional) – when available, a short textual description of the resource.
+iv.  dc:description (optional) – when available, a textual description of the resource.
+
+v. rdfs:isDefinedBy - a relation between the entity and the record that defines it.
+{{{
+ <entity_uri> rdfs:isDefinedBy <record_uri>
+}}}
 
 _Entity Typing_
-Entity typing (e.g. making assertions about the class membership of the entity) is key to effectively answer questions. Many ontologies organize concepts into hierarchies that support queries at various levels on ontological granularity (e.g. whether you ask for all members of the Transcription Factor or Protein class, one obtains transcription factors). Entities are typed as instances of a class through rdf:type, or be asserted as more specific types of a class via rdfs:subClassOf. 
+Entity typing (e.g. making assertions about the class membership of the entity) is key to effectively answer questions. Many ontologies organize concepts into hierarchies that support queries at various levels on ontological granularity (e.g. if a Transcription Factor is a type of Protein, then querying for all proteins would give all the transcription factors). Individuals are declared as instances of a class using rdf:type, while more specific classes are specified using rdfs:subClassOf. 
 
-_Entity-Entity/Attribute Relations_
-The relationship between entities has been traditionally defined in Bio2RDF using a normalized predicate name (bio2rdf:xNAMESPACE). While this can be somewhat indicative of what is being linked (bio2rdf:xUniprot), it requires the user to know what the object of relation is, and ultimately doesn't inform what is the nature of the relation. 
+_Entity-Entity Relations_
+Relations between entities should be specified using the terminology from the dataset. For instance, in RDFizing a table from "mydataset" with two columns "id","function", we express each row in the table as :
+{{{
+ id_namespace:id my_resource:function function_namespace:function_id .
+}}}
 
-Other useful relationships defined by the Bio2RDF are:
-i.	bio2rdf:url – the HTML page showing the original da-ta.
-ii.	bio2rdf:image – An image that represents the entity.
+_Entity-Literal Relations_
+Relations between literal attributes (e.g. strings, numbers) are traditionally expressed as XML literals in linked data, but this precludes further description (e.g. how they were obtained or what kind of unit of measurement was used) and categorization of these literals (whether they are textual descriptions or measurements). Thus, Bio2RDF aims to represent literals as instantiated types such that they may be further referred to by having bone-fide URIs and where the literal value is captured using bio2rdf:has_value datatype relation.
+{{
+ protein_namespace:id my_resource:descriptor my_resource:descriptor_id.
+ my_resource:descriptor_id rdf:type my_resource:thistype .
+ my_resource:descriptor_id bio2rdf:value "the literal value"^^xsd:string .
+}}
+
+The Bio2RDF schema defines the following relations:
+i.	bio2rdf:url   – the HTML page showing the original data.
+ii.	bio2rdf:image – An image of the entity.
+iii.    bio2rdf:value - The literal value of some text / measurement value, etc
 
 
 *ii) Semantic Normalization*
