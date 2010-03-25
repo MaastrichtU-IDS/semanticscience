@@ -19,7 +19,7 @@ Bio2RDF presentations are published on <a title="Bio2RDF @ slidshare" href="http
 A Bio2RDF mailing list has been established using <a title="Bio2RDF mailing list on Google Group" href="http://groups.google.ca/group/bio2rdf">Google groups</a>.
 
 <h1>Blog</h1>
-The Bio2RDF blog is avilable through <a title="Bio2RDF Blog @ Blogspot" href="http://bio2rdf.blogspot.com/">Blogspot</a>.
+The Bio2RDF blog is available through <a title="Bio2RDF Blog @ Blogspot" href="http://bio2rdf.blogspot.com/">Blogspot</a>.
 
 
 </div>
