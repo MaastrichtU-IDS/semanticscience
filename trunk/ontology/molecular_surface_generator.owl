@@ -17,11 +17,12 @@
     <!ENTITY cheminf2 "http://semanticscience.org/resource/cheminf.owl#" >
     <!ENTITY molSurfGen "http://semanticscience.org/ontology/molSurfGen.owl" >
     <!ENTITY molSurfGen2 "http://semanticscience.org/ontology/molSurfGen.owl#" >
+    <!ENTITY molecular_surface_generator "http://semanticscience.org/ontology/molecular_surface_generator.owl#" >
 ]>
 
 
 <rdf:RDF xmlns="http://semanticscience.org/ontology/molSurfGen.owl"
-     xml:base="http://semanticscience.org/ontology/molSurfGen.owl"
+     xml:base="http://semanticscience.org/ontology/molecular_surface_generator.owl"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:cheminf="http://semanticscience.org/ontology/cheminf.owl"
      xmlns:molSurfGen2="&molSurfGen;#"
@@ -35,9 +36,14 @@
      xmlns:cheminf2="&ontologies;cheminf.owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:molecular_surface_generator="http://semanticscience.org/ontology/molecular_surface_generator.owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:molSurfGen="http://semanticscience.org/ontology/molSurfGen.owl">
     <owl:Ontology rdf:about="">
+        <dc:creator>Alex Gawronski</dc:creator>
+        <dc:date
+            >Molecular Surface Generator Service Ontology</dc:date>
+        <dc:date>March 27, 2010</dc:date>
         <owl:imports rdf:resource="&ontology;unit-primitive"/>
         <owl:imports rdf:resource="http://semanticscience.org/ontology/geometry.owl"/>
     </owl:Ontology>
@@ -52,7 +58,9 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
 
@@ -69,7 +77,7 @@
 
     <!-- http://semanticscience.org/ontology/molSurfGen.owl#hasAttribute -->
 
-    <owl:ObjectProperty rdf:about="#hasAttribute">
+    <owl:ObjectProperty rdf:about="&molSurfGen;#hasAttribute">
         <rdfs:label>has attribute</rdfs:label>
     </owl:ObjectProperty>
     
@@ -77,7 +85,7 @@
 
     <!-- http://semanticscience.org/ontology/molSurfGen.owl#has_parameter -->
 
-    <owl:ObjectProperty rdf:about="#has_parameter">
+    <owl:ObjectProperty rdf:about="&molSurfGen;#has_parameter">
         <rdfs:label>has parameter</rdfs:label>
     </owl:ObjectProperty>
     
@@ -158,6 +166,12 @@
     
 
 
+    <!-- http://ontology.dumontierlab.com/ElectricFieldStrengthUnit -->
+
+    <owl:Class rdf:about="&ontology;ElectricFieldStrengthUnit"/>
+    
+
+
     <!-- http://ontology.dumontierlab.com/LengthUnit -->
 
     <owl:Class rdf:about="&ontology;LengthUnit"/>
@@ -172,7 +186,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
-                <owl:onClass rdf:resource="&ontologies;cheminf.owl#SolventExcludedSurface"/>
+                <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -188,7 +202,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
-                <owl:onClass rdf:resource="&ontologies;cheminf.owl#SolventExcludedSurface"/>
+                <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -203,7 +217,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
-                <owl:onClass rdf:resource="&ontologies;cheminf.owl#SolventExcludedSurface"/>
+                <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -211,11 +225,40 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#LigandPocketDist -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#ElectrostaticPotential -->
+
+    <owl:Class rdf:about="#ElectrostaticPotential">
+        <rdfs:label
+            >Electrostatic Potential</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasUnit"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:oneOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#unit_boltzmann_electrostatic_potential"/>
+                        </owl:oneOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >A measure of electrical potential at a point in an electrostatic field.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#LigandPocketDist -->
 
     <owl:Class rdf:about="#LigandPocketDist">
         <rdfs:label
-            >outward distance from ligand surface</rdfs:label>
+            >Pocket Search Distance</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;hasUnit"/>
@@ -235,26 +278,30 @@
                 <owl:onDataRange rdf:resource="&xsd;double"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:description
+            >Input parameter for pocket finding algorithm which decides the distance in angstroms from the ligand surface to search for pocket residues.</dc:description>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#MolecularStructure -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#MolecularStructure -->
 
     <owl:Class rdf:about="#MolecularStructure">
         <rdfs:label
             >Molecular Structure</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#hasAttribute"/>
+                <owl:onProperty rdf:resource="&molSurfGen;#hasAttribute"/>
                 <owl:someValuesFrom rdf:resource="#PDBID"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:description
+            >Struture corresponding to a structure in the Protein Data Bank.</dc:description>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#MolecularStructureWithMSM -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#MolecularStructureWithMSM -->
 
     <owl:Class rdf:about="#MolecularStructureWithMSM">
         <rdfs:label
@@ -266,30 +313,36 @@
                 <owl:someValuesFrom rdf:resource="#MolecularSurfaceModel"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:description
+            >Struture corresponding to a structure in the Protein Data Bank with a molecular surface model.</dc:description>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#MolecularSurfaceModel -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#MolecularSurfaceModel -->
 
     <owl:Class rdf:about="#MolecularSurfaceModel">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
-                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:label
+            >Molecular Surface Model</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;isAbout"/>
                 <owl:someValuesFrom rdf:resource="&obo;CHEBI_36357"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
+                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >Geometric model of the surface of a molecule including amino acid residue, electrostatic potential and ligand pocket annotations.</dc:description>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#PDBID -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#PDBID -->
 
     <owl:Class rdf:about="#PDBID">
         <rdfs:label>PDB identifier</rdfs:label>
@@ -300,11 +353,13 @@
                 <owl:onDataRange rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:description
+            >Identifier of a structure entry in the Protein Data Bank.</dc:description>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/ontology/molSurfGen.owl#PeptideMaxLen -->
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#PeptideMaxLen -->
 
     <owl:Class rdf:about="#PeptideMaxLen">
         <rdfs:label
@@ -317,6 +372,24 @@
         </rdfs:subClassOf>
         <dc:description
             >maximum length of a polypeptide chain to consider as peptide</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#SolventExcludedSurface -->
+
+    <owl:Class rdf:about="#SolventExcludedSurface">
+        <rdfs:label
+            >solvent excluded surface</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;representedBy"/>
+                <owl:onClass rdf:resource="&ontologies;GEOMETRY_000004"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >A surface formed at the boundary of the region around a molecule that is unreachable by a solvent molecules&#39; van der waals surface.</dc:description>
     </owl:Class>
     
 
@@ -354,22 +427,6 @@
     
 
 
-    <!-- http://semanticscience.org/resource/cheminf.owl#SolventExcludedSurface -->
-
-    <owl:Class rdf:about="&ontologies;cheminf.owl#SolventExcludedSurface">
-        <rdfs:label
-            >solvent excluded surface</rdfs:label>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;representedBy"/>
-                <owl:onClass rdf:resource="&ontologies;GEOMETRY_000004"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
     <!-- http://www.w3.org/2002/07/owl#Thing -->
 
     <owl:Class rdf:about="&owl;Thing"/>
@@ -384,6 +441,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#unit_boltzmann_electrostatic_potential -->
+
+    <owl:Thing rdf:about="#unit_boltzmann_electrostatic_potential">
+        <rdf:type rdf:resource="&ontology;ElectricFieldStrengthUnit"/>
+        <rdfs:label>kT/e</rdfs:label>
+    </owl:Thing>
     
 
 
