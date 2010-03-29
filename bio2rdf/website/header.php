@@ -25,7 +25,7 @@ element.style {
 <body>
 <div id="header">
  <div id="header-logo">
-  <a href="index.php"><img title="Bio2RDF - Linked Data for the Life Sciences" src="images/bio2rdf_logo_sm.png"/></a>
+  <a href="index.php"><img border="0" title="Bio2RDF - Linked Data for the Life Sciences" src="images/bio2rdf_logo_sm.png"/></a>
  </div>
  <ul>
   <li><a title="search Bio2RDF" href="index.php">home</a></li>
