@@ -1,0 +1,2002 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY resource "http://semanticscience.org/resource/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.org/ontology/sio#"
+     xml:base="http://semanticscience.org/ontology/sio.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:resource="http://semanticscience.org/resource/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="">
+        <dc:creator xml:lang="en"
+            >Michel Dumontier</dc:creator>
+        <dc:title xml:lang="en"
+            >Semanticscience Integrated Ontology (SIO)</dc:title>
+        <dc:description xml:lang="en"
+            >The semanticscience integrated ontology (SIO) provides a simple, integrated upper level ontology (types, relations) for diverse knowledge representation across physical, processual and informational entities.</dc:description>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="#example"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000000 -->
+
+    <owl:Class rdf:about="&resource;SIO_000000">
+        <rdfs:label>entity</rdfs:label>
+        <dc:description
+            >An entity is either a class that describes the shared attributes of a collection of individuals or is an instance of a class and further exists in spacetime.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000001 -->
+
+    <owl:Class rdf:about="&resource;SIO_000001">
+        <rdfs:label>physical entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <dc:description
+            >A physical entity is an entity that is spatio-temporally extended (occupies some part of spacetime).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000002 -->
+
+    <owl:Class rdf:about="&resource;SIO_000002">
+        <rdfs:label>abstract entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <dc:description
+            >An abstract entity is an entity which does not exist at any particular space or time, but rather can have none, one or multiple instantiations.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000003 -->
+
+    <owl:Class rdf:about="&resource;SIO_000003">
+        <rdfs:label>material entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <dc:description
+            >A material entity is a physical entity that has mass.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000004 -->
+
+    <owl:Class rdf:about="&resource;SIO_000004">
+        <rdfs:label
+            >processual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <dc:description
+            >A processual entity is an entity that is temporally extended (occupies some part of time), may have temporal parts and always involves and depends on some physical entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000005 -->
+
+    <owl:Class rdf:about="&resource;SIO_000005">
+        <rdfs:label>quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <dc:description
+            >A quality is an abstract entity that is intrinsically associated with another entity at all times, but whose observed/measured value may change.</dc:description>
+        <example
+            >the redness of a tomato; the aromaticity of the benzene ring; the spatial extent of my arm.</example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000006 -->
+
+    <owl:Class rdf:about="&resource;SIO_000006">
+        <rdfs:label>process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <dc:description
+            >A process is a processual entity that is a maximally connected spatiotemporal whole, has a temporal start and end of some duration.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000007 -->
+
+    <owl:Class rdf:about="&resource;SIO_000007">
+        <rdfs:label
+            >process aggregate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <dc:description
+            >A process aggregate is a processual entity that is a meriological sum of processes and possesses unconnected temporal boundaries, whose duration is the mereological sum of the duration of all temporal intervals.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000008 -->
+
+    <owl:Class rdf:about="&resource;SIO_000008">
+        <rdfs:label
+            >informational entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000009 -->
+
+    <owl:Class rdf:about="&resource;SIO_000009">
+        <rdfs:label>social entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000010 -->
+
+    <owl:Class rdf:about="&resource;SIO_000010">
+        <rdfs:label
+            >social structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000012 -->
+
+    <owl:Class rdf:about="&resource;SIO_000012">
+        <rdfs:label>organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000010"/>
+        <dc:description
+            >An organization is a social structure with a complex articulation of tasks, roles and responsibilities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000013 -->
+
+    <owl:Class rdf:about="&resource;SIO_000013">
+        <rdfs:label>institution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+        <dc:description
+            >An institution is an organization bearing a legal status and having powers conferred by Law.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000014 -->
+
+    <owl:Class rdf:about="&resource;SIO_000014">
+        <rdfs:label>disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <dc:description
+            >A disposition is a realizable entity which reflects the tendency of an entity to act in a specified way.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000015 -->
+
+    <owl:Class rdf:about="&resource;SIO_000015">
+        <rdfs:label
+            >realizable entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A realizable entity is an informational entity borne by some entity that may be realized under certain circumstances.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000016 -->
+
+    <owl:Class rdf:about="&resource;SIO_000016">
+        <rdfs:label>role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <dc:description
+            >A role is a realizable entity that describes behaviours, rights and obligations that may be realized under certain circumstances.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000017 -->
+
+    <owl:Class rdf:about="&resource;SIO_000017">
+        <rdfs:label>function</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+        <dc:description
+            >A function is a realized disposition that simulataneously satisfies some intent or selection process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000018 -->
+
+    <owl:Class rdf:about="&resource;SIO_000018">
+        <rdfs:label
+            >material aggregate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <dc:description
+            >A material aggregate is a material entity that is a meriological sum of material entities and possesses non-connected spatial boundaries, whose mass is the mereological sum of the mass of all material entities it is composed of.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000019 -->
+
+    <owl:Class rdf:about="&resource;SIO_000019">
+        <rdfs:label>site</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <dc:description
+            >A site is a mixture of connected material entities which act as surrounding environments for other material entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000021 -->
+
+    <owl:Class rdf:about="&resource;SIO_000021">
+        <rdfs:label
+            >process boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000023"/>
+                    <rdf:Description rdf:about="&resource;SIO_000024"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <dc:description
+            >A process boundary is a process that is at the terminal part of a process (the start or end).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000022 -->
+
+    <owl:Class rdf:about="&resource;SIO_000022">
+        <rdfs:label
+            >material boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <dc:description
+            >A material boundary is a material entity that is part of a material entity and is located at its boundary.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000023 -->
+
+    <owl:Class rdf:about="&resource;SIO_000023">
+        <rdfs:label>process start</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000024"/>
+        <dc:description
+            >A process start is a process boundary that is located at the start of a process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000024 -->
+
+    <owl:Class rdf:about="&resource;SIO_000024">
+        <rdfs:label>process end</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
+        <dc:description
+            >A process end is a process boundary that is located at the end of a process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000025 -->
+
+    <owl:Class rdf:about="&resource;SIO_000025">
+        <rdfs:label
+            >instantaneous process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <dc:description
+            >An instantaneous process is a process that occurs with zero duration.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000026 -->
+
+    <owl:Class rdf:about="&resource;SIO_000026">
+        <rdfs:label
+            >physical quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+        <dc:description
+            >A physical quality is quality that is intrinsically associated with a physical entity at all times, but whose observed/measured value may change with space/time</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000027 -->
+
+    <owl:Class rdf:about="&resource;SIO_000027">
+        <rdfs:label
+            >processual quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+        <dc:description
+            >A processual quality is quality that is intrinsically associated with a procesual entity at all times, but whose observed/measured value may change with space/time</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000029 -->
+
+    <owl:Class rdf:about="&resource;SIO_000029">
+        <rdfs:label
+            >processual dimensional quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000027"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000030 -->
+
+    <owl:Class rdf:about="&resource;SIO_000030">
+        <rdfs:label>duration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000031 -->
+
+    <owl:Class rdf:about="&resource;SIO_000031">
+        <rdfs:label>start</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000032 -->
+
+    <owl:Class rdf:about="&resource;SIO_000032">
+        <rdfs:label>end</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000033 -->
+
+    <owl:Class rdf:about="&resource;SIO_000033">
+        <rdfs:label
+            >processual stative quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000027"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000034 -->
+
+    <owl:Class rdf:about="&resource;SIO_000034">
+        <rdfs:label>completed</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000035 -->
+
+    <owl:Class rdf:about="&resource;SIO_000035">
+        <rdfs:label>in progress</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000036 -->
+
+    <owl:Class rdf:about="&resource;SIO_000036">
+        <rdfs:label>not begun</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000037 -->
+
+    <owl:Class rdf:about="&resource;SIO_000037">
+        <rdfs:label
+            >physical dimensional quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000038 -->
+
+    <owl:Class rdf:about="&resource;SIO_000038">
+        <rdfs:label
+            >1D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000039 -->
+
+    <owl:Class rdf:about="&resource;SIO_000039">
+        <rdfs:label>depth</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000040 -->
+
+    <owl:Class rdf:about="&resource;SIO_000040">
+        <rdfs:label>height</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000041 -->
+
+    <owl:Class rdf:about="&resource;SIO_000041">
+        <rdfs:label>length</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000042 -->
+
+    <owl:Class rdf:about="&resource;SIO_000042">
+        <rdfs:label>width</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000043 -->
+
+    <owl:Class rdf:about="&resource;SIO_000043">
+        <rdfs:label>thickness</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000039"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000044 -->
+
+    <owl:Class rdf:about="&resource;SIO_000044">
+        <rdfs:label
+            >2D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000045 -->
+
+    <owl:Class rdf:about="&resource;SIO_000045">
+        <rdfs:label>area</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000044"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000046 -->
+
+    <owl:Class rdf:about="&resource;SIO_000046">
+        <rdfs:label>perimeter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000044"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000047 -->
+
+    <owl:Class rdf:about="&resource;SIO_000047">
+        <rdfs:label>circumference</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000046"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000048 -->
+
+    <owl:Class rdf:about="&resource;SIO_000048">
+        <rdfs:label
+            >3D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000049 -->
+
+    <owl:Class rdf:about="&resource;SIO_000049">
+        <rdfs:label>volume</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000048"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000050 -->
+
+    <owl:Class rdf:about="&resource;SIO_000050">
+        <rdfs:label
+            >material property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000051 -->
+
+    <owl:Class rdf:about="&resource;SIO_000051">
+        <rdfs:label>composition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000052 -->
+
+    <owl:Class rdf:about="&resource;SIO_000052">
+        <rdfs:label
+            >measurement entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000055 -->
+
+    <owl:Class rdf:about="&resource;SIO_000055">
+        <rdfs:label>shape</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000056 -->
+
+    <owl:Class rdf:about="&resource;SIO_000056">
+        <rdfs:label>position</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000057 -->
+
+    <owl:Class rdf:about="&resource;SIO_000057">
+        <rdfs:label>orientation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000058 -->
+
+    <owl:Class rdf:about="&resource;SIO_000058">
+        <rdfs:label
+            >physical spatial quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000064 -->
+
+    <owl:Class rdf:about="&resource;SIO_000064">
+        <rdfs:label
+            >physical stative quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000065 -->
+
+    <owl:Class rdf:about="&resource;SIO_000065">
+        <rdfs:label
+            >material stative quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000064"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000066 -->
+
+    <owl:Class rdf:about="&resource;SIO_000066">
+        <rdfs:label>alive</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000067 -->
+
+    <owl:Class rdf:about="&resource;SIO_000067">
+        <rdfs:label>dead</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000069 -->
+
+    <owl:Class rdf:about="&resource;SIO_000069">
+        <rdfs:label
+            >0D extent quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000070 -->
+
+    <owl:Class rdf:about="&resource;SIO_000070">
+        <rdfs:label
+            >measurement value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+        <dc:description
+            >A measurement value is a value obtained from determining the magnitude of some quality, attribute or property.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000071 -->
+
+    <owl:Class rdf:about="&resource;SIO_000071">
+        <rdfs:label>coordinate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+        <dc:description
+            >A coordinate is a measurement of position in n-dimensional space.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000072 -->
+
+    <owl:Class rdf:about="&resource;SIO_000072">
+        <rdfs:label
+            >cartesian coordinate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000073"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000073 -->
+
+    <owl:Class rdf:about="&resource;SIO_000073">
+        <rdfs:label
+            >polar coordinate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000074 -->
+
+    <owl:Class rdf:about="&resource;SIO_000074">
+        <rdfs:label
+            >unit of measurement</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+        <dc:description
+            >A unit of measurement is a definite magnitude of a physical quantity, defined and adopted by convention and/or by law, that is used as a standard for measurement of the same physical quantity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000075 -->
+
+    <owl:Class rdf:about="&resource;SIO_000075">
+        <rdfs:label
+            >mathematical entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000076 -->
+
+    <owl:Class rdf:about="&resource;SIO_000076">
+        <rdfs:label>equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000077 -->
+
+    <owl:Class rdf:about="&resource;SIO_000077">
+        <rdfs:label
+            >geometric entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000078 -->
+
+    <owl:Class rdf:about="&resource;SIO_000078">
+        <rdfs:label>textual symbol</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000079 -->
+
+    <owl:Class rdf:about="&resource;SIO_000079">
+        <rdfs:label>visual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <dc:description
+            >A visual entity is an informational entity with an n-dimensional  manifestation.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000080 -->
+
+    <owl:Class rdf:about="&resource;SIO_000080">
+        <rdfs:label>figure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+        <dc:description
+            >A figure is a graphical entity which consists of a visual (n-dimentional) arrangement of information entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000081 -->
+
+    <owl:Class rdf:about="&resource;SIO_000081">
+        <rdfs:label>image</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+        <dc:description
+            >An image is an affine projection of a visual entity to a two dimensional surface.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000082 -->
+
+    <owl:Class rdf:about="&resource;SIO_000082">
+        <rdfs:label>photograph</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000081"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000083 -->
+
+    <owl:Class rdf:about="&resource;SIO_000083">
+        <rdfs:label
+            >statistical graph</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000081"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000084 -->
+
+    <owl:Class rdf:about="&resource;SIO_000084">
+        <rdfs:label>audio entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000085 -->
+
+    <owl:Class rdf:about="&resource;SIO_000085">
+        <rdfs:label>moving picture</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000086 -->
+
+    <owl:Class rdf:about="&resource;SIO_000086">
+        <rdfs:label
+            >audiovisual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <example
+            >movie, film, opera</example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000087 -->
+
+    <owl:Class rdf:about="&resource;SIO_000087">
+        <rdfs:label>publication</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A publication is a document that has been placed in the public domain.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000088 -->
+
+    <owl:Class rdf:about="&resource;SIO_000088">
+        <rdfs:label>record</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A record is a document created with the intent to store information about some entity in which the information is subject to revision.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000089 -->
+
+    <owl:Class rdf:about="&resource;SIO_000089">
+        <rdfs:label>data set</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A dataset is a collection of informational entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000090 -->
+
+    <owl:Class rdf:about="&resource;SIO_000090">
+        <rdfs:label>specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A specification is an information entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000091 -->
+
+    <owl:Class rdf:about="&resource;SIO_000091">
+        <rdfs:label
+            >effective specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <dc:description
+            >An effective specification is a specification composed of a sequence of instructions to achieve some objective.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000092 -->
+
+    <owl:Class rdf:about="&resource;SIO_000092">
+        <rdfs:label
+            >non-effective specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <dc:description
+            >A non-effective specification provides a description of some entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000094 -->
+
+    <owl:Class rdf:about="&resource;SIO_000094">
+        <rdfs:label>algorithm</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <dc:description
+            >An algorithm is an effective specification for solving a problem with a finite set of instructions.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000097 -->
+
+    <owl:Class rdf:about="&resource;SIO_000097">
+        <rdfs:label>software</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <dc:description
+            >Software is an effective specification that can be interpreted by or directly executed by a processing unit.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000098 -->
+
+    <owl:Class rdf:about="&resource;SIO_000098">
+        <rdfs:label>software method</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+        <dc:description
+            >A software method (also called subroutine, subprogram, procedure, method, function, or routine) is software designed to execute a specific task</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000099 -->
+
+    <owl:Class rdf:about="&resource;SIO_000099">
+        <rdfs:label>software module</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+        <dc:description
+            >A software module is software composed of a collection of software methods.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000100 -->
+
+    <owl:Class rdf:about="&resource;SIO_000100">
+        <rdfs:label
+            >software library</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+        <dc:description
+            >A software library is software composed of a collection of software modules and/or software methods in a form that can be statically or dynamically linked to some software application.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000101 -->
+
+    <owl:Class rdf:about="&resource;SIO_000101">
+        <rdfs:label
+            >software application</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+        <dc:description
+            >A software application is software that can be directly executed by some processing unit.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000102 -->
+
+    <owl:Class rdf:about="&resource;SIO_000102">
+        <rdfs:label
+            >software interpreter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000101"/>
+        <dc:description
+            >A software interpreter is a software application that executes some specified input software.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000103 -->
+
+    <owl:Class rdf:about="&resource;SIO_000103">
+        <rdfs:label>software script</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+        <dc:description
+            >A software script is software whose instructions can be executed using a software interpreter.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000104 -->
+
+    <owl:Class rdf:about="&resource;SIO_000104">
+        <rdfs:label>language</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <dc:description
+            >Language is an effective specification for encoding and decoding information through systematic creation and usage of systems of symbols, each pairing a specific sign with an intended meaning, established through social conventions</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000105 -->
+
+    <owl:Class rdf:about="&resource;SIO_000105">
+        <rdfs:label>symbol</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A symbol is an information entity that represents something else by association, resemblance, or convention.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000106 -->
+
+    <owl:Class rdf:about="&resource;SIO_000106">
+        <rdfs:label>book</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A book is a publication composed of a large number of entries.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000107 -->
+
+    <owl:Class rdf:about="&resource;SIO_000107">
+        <rdfs:label>chapter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >A chapter is a document section of a book or thesis.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000108 -->
+
+    <owl:Class rdf:about="&resource;SIO_000108">
+        <rdfs:label>character</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000109 -->
+
+    <owl:Class rdf:about="&resource;SIO_000109">
+        <rdfs:label>novel</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000110 -->
+
+    <owl:Class rdf:about="&resource;SIO_000110">
+        <rdfs:label>paragraph</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000111 -->
+
+    <owl:Class rdf:about="&resource;SIO_000111">
+        <rdfs:label>section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000112 -->
+
+    <owl:Class rdf:about="&resource;SIO_000112">
+        <rdfs:label
+            >document section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A dcoument section is an informational entity that is a self-contained part of a document.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000113 -->
+
+    <owl:Class rdf:about="&resource;SIO_000113">
+        <rdfs:label>sentence</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000114 -->
+
+    <owl:Class rdf:about="&resource;SIO_000114">
+        <rdfs:label>word</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000115 -->
+
+    <owl:Class rdf:about="&resource;SIO_000115">
+        <rdfs:label>identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+        <dc:description
+            >An identifier is a symbol that specifically refers to an entity (instance/type).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000116 -->
+
+    <owl:Class rdf:about="&resource;SIO_000116">
+        <rdfs:label>name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000117 -->
+
+    <owl:Class rdf:about="&resource;SIO_000117">
+        <rdfs:label>preferred name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000118 -->
+
+    <owl:Class rdf:about="&resource;SIO_000118">
+        <rdfs:label>common name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000119 -->
+
+    <owl:Class rdf:about="&resource;SIO_000119">
+        <rdfs:label>brand name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000120 -->
+
+    <owl:Class rdf:about="&resource;SIO_000120">
+        <rdfs:label>scientific name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000121 -->
+
+    <owl:Class rdf:about="&resource;SIO_000121">
+        <rdfs:label>magazine</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000122 -->
+
+    <owl:Class rdf:about="&resource;SIO_000122">
+        <rdfs:label>synonym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <dc:description
+            >A synonym is a word with the same or very similar meanings. </dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000123 -->
+
+    <owl:Class rdf:about="&resource;SIO_000123">
+        <rdfs:label>antonym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <dc:description
+            >An antonym is a word with opposite or nearly opposite meaning.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000124 -->
+
+    <owl:Class rdf:about="&resource;SIO_000124">
+        <rdfs:label>hypernym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <dc:description
+            >A hypernym is a more specifc word.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000125 -->
+
+    <owl:Class rdf:about="&resource;SIO_000125">
+        <rdfs:label>hyponym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <dc:description
+            >A hyponym is a less specific word.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000126 -->
+
+    <owl:Class rdf:about="&resource;SIO_000126">
+        <rdfs:label>homonym</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <dc:description
+            >A homonym is a word that sounds the same but has different meaning.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000127 -->
+
+    <owl:Class rdf:about="&resource;SIO_000127">
+        <rdfs:label>workflow</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000094"/>
+        <dc:description
+            >A workflow is an algorithm that is is a depiction of a sequence of operations to achieve one or more objectives.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000129 -->
+
+    <owl:Class rdf:about="&resource;SIO_000129">
+        <rdfs:label
+            >ontology document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000130 -->
+
+    <owl:Class rdf:about="&resource;SIO_000130">
+        <rdfs:label>pattern</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+        <dc:description
+            >A pattern is a generalized representation of some repeatable concrete or informational item.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000131 -->
+
+    <owl:Class rdf:about="&resource;SIO_000131">
+        <rdfs:label>motif</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000130"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000133 -->
+
+    <owl:Class rdf:about="&resource;SIO_000133">
+        <rdfs:label>descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000092"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000134 -->
+
+    <owl:Class rdf:about="&resource;SIO_000134">
+        <rdfs:label
+            >textual descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000135 -->
+
+    <owl:Class rdf:about="&resource;SIO_000135">
+        <rdfs:label>definition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000136 -->
+
+    <owl:Class rdf:about="&resource;SIO_000136">
+        <rdfs:label>description</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000137 -->
+
+    <owl:Class rdf:about="&resource;SIO_000137">
+        <rdfs:label>category</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000138 -->
+
+    <owl:Class rdf:about="&resource;SIO_000138">
+        <rdfs:label>class</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000140 -->
+
+    <owl:Class rdf:about="&resource;SIO_000140">
+        <rdfs:label>web service</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000101"/>
+        <dc:description
+            >A web service is a software application that can be accessed over a network, such as the Internet, and executed on a remote system hosting the requested services.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000141 -->
+
+    <owl:Class rdf:about="&resource;SIO_000141">
+        <rdfs:label>criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000092"/>
+        <dc:description
+            >A criterion is a non-effective specfication that describes an attribute towards the objective of evaluation.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000142 -->
+
+    <owl:Class rdf:about="&resource;SIO_000142">
+        <rdfs:label
+            >inclusion criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000141"/>
+        <dc:description
+            >An inclusion criterion is a criterion that must be present to satisfy some objective.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000143 -->
+
+    <owl:Class rdf:about="&resource;SIO_000143">
+        <rdfs:label
+            >exclusion criterion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000141"/>
+        <dc:description
+            >An exclusion criterion is a criterion that must be absent to satistify the objective.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000144 -->
+
+    <owl:Class rdf:about="&resource;SIO_000144">
+        <rdfs:label>parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+        <dc:description
+            >A parameter is a descriptor whose value changes the characteristics of a system or a function.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000147 -->
+
+    <owl:Class rdf:about="&resource;SIO_000147">
+        <rdfs:label>keyword</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+        <dc:description
+            >A keyword is a descriptive entity in which the association of the word with the entity facilitates information retrieval.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000148 -->
+
+    <owl:Class rdf:about="&resource;SIO_000148">
+        <rdfs:label>document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <dc:description
+            >A document is a bounded physical or digital representation of a body of information designed with the capacity (and usually intent) to communicate. </dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000149 -->
+
+    <owl:Class rdf:about="&resource;SIO_000149">
+        <rdfs:label>media</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000150 -->
+
+    <owl:Class rdf:about="&resource;SIO_000150">
+        <rdfs:label>list</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000089"/>
+        <dc:description
+            >A list is an ordered data set.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000151 -->
+
+    <owl:Class rdf:about="&resource;SIO_000151">
+        <rdfs:label>manuscript</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A manuscript is a document prior to publication.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000152 -->
+
+    <owl:Class rdf:about="&resource;SIO_000152">
+        <rdfs:label>note</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A note is a brief document.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000153 -->
+
+    <owl:Class rdf:about="&resource;SIO_000153">
+        <rdfs:label>patent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A patent is a document that has been accepted by a patent issuing authority.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000154 -->
+
+    <owl:Class rdf:about="&resource;SIO_000154">
+        <rdfs:label>article</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >An article is a publication that is stand-alone section of a larger work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000155 -->
+
+    <owl:Class rdf:about="&resource;SIO_000155">
+        <rdfs:label>blog</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A blog is a publication accessible at some website and is typically about various experiences.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000156 -->
+
+    <owl:Class rdf:about="&resource;SIO_000156">
+        <rdfs:label>book volume</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000106"/>
+        <dc:description
+            >A book volume is a book that is part of a collection.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000157 -->
+
+    <owl:Class rdf:about="&resource;SIO_000157">
+        <rdfs:label
+            >conference proceedings</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000106"/>
+        <dc:description
+            >A conference proceedings is a book composed of papers presented at a conference.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000158 -->
+
+    <owl:Class rdf:about="&resource;SIO_000158">
+        <rdfs:label>book series</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A book series is a collection of books that have been sequentially published.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000159 -->
+
+    <owl:Class rdf:about="&resource;SIO_000159">
+        <rdfs:label
+            >edited publication</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >An edited publication is a publication that has been examined and potentially changed by an editor.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000160 -->
+
+    <owl:Class rdf:about="&resource;SIO_000160">
+        <rdfs:label>journal</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A journal is a a peer-reviewed periodical in which scholarship relating to a particular academic discipline is published.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000161 -->
+
+    <owl:Class rdf:about="&resource;SIO_000161">
+        <rdfs:label>manual</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A manual is a document that instructs on the usage of a device.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000162 -->
+
+    <owl:Class rdf:about="&resource;SIO_000162">
+        <rdfs:label>periodical</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A periodical is a publication that appears on a regular schedule.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000163 -->
+
+    <owl:Class rdf:about="&resource;SIO_000163">
+        <rdfs:label>newspaper</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000164 -->
+
+    <owl:Class rdf:about="&resource;SIO_000164">
+        <rdfs:label
+            >technical report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A technical report is a publication published by a school or other institution, usually numbered within a series.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000165 -->
+
+    <owl:Class rdf:about="&resource;SIO_000165">
+        <rdfs:label>thesis document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+        <dc:description
+            >A tehsis document is the written research component of a post-secondary institution  that contains a statement supported by arguments.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000166 -->
+
+    <owl:Class rdf:about="&resource;SIO_000166">
+        <rdfs:label>honor&#39;s thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+        <dc:description
+            >An honor&#39;s thesis is a thesis prepared as a requirement for an honor&#39;s undergraduate degree.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000167 -->
+
+    <owl:Class rdf:about="&resource;SIO_000167">
+        <rdfs:label>master&#39;s thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+        <dc:description
+            >A Master&#39;s thesis is a thesis prepared as a requirement for a Master&#39;s degree.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000168 -->
+
+    <owl:Class rdf:about="&resource;SIO_000168">
+        <rdfs:label>phd thesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+        <dc:description
+            >A PhD thesis is a thesis prepared as a requirement for a doctoral degree.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000169 -->
+
+    <owl:Class rdf:about="&resource;SIO_000169">
+        <rdfs:label>booklet</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A booklet is a document that lacks a named publisher or sponsoring institution.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000170 -->
+
+    <owl:Class rdf:about="&resource;SIO_000170">
+        <rdfs:label>diary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <dc:description
+            >A diary is a document which describes day-to-day experiences.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000171 -->
+
+    <owl:Class rdf:about="&resource;SIO_000171">
+        <rdfs:label>textual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000172 -->
+
+    <owl:Class rdf:about="&resource;SIO_000172">
+        <rdfs:label>address</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >An address is a textual entity that denotes the physical location of some independent continuant.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000173 -->
+
+    <owl:Class rdf:about="&resource;SIO_000173">
+        <rdfs:label>affiliation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >An affiliation is a textual entity that describes the relation of the author or contributor with their place of work or study.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000174 -->
+
+    <owl:Class rdf:about="&resource;SIO_000174">
+        <rdfs:label>citation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A citation is a textual entity denoting a source described in the bibliography or reference section of a document.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000175 -->
+
+    <owl:Class rdf:about="&resource;SIO_000175">
+        <rdfs:label>document title</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000185"/>
+        <dc:description
+            >A document title is a  textual entity that summarizes the topic of the document in one sentence.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000176 -->
+
+    <owl:Class rdf:about="&resource;SIO_000176">
+        <rdfs:label>reference</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A reference is a textual entity that describes a single source used in the preparation or development of the work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000177 -->
+
+    <owl:Class rdf:about="&resource;SIO_000177">
+        <rdfs:label>page range</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A page range is a textual entity that denotes the start and end page of some informational entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000178 -->
+
+    <owl:Class rdf:about="&resource;SIO_000178">
+        <rdfs:label>page total</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A page total is a textual entity that is about the number of pages in some informational entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000179 -->
+
+    <owl:Class rdf:about="&resource;SIO_000179">
+        <rdfs:label>label</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000180 -->
+
+    <owl:Class rdf:about="&resource;SIO_000180">
+        <rdfs:label>language label</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
+        <dc:description
+            >A language label is a label that denotes the language of a textual entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000181 -->
+
+    <owl:Class rdf:about="&resource;SIO_000181">
+        <rdfs:label>first name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+        <dc:description
+            >A first name is a name that denotes a specific individual between members of a group of individuals, whose members usually share the same surname.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000182 -->
+
+    <owl:Class rdf:about="&resource;SIO_000182">
+        <rdfs:label>last name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+        <dc:description
+            >A last name (surname) is a name added to a given name and is part of a personal name and is often the family name.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000183 -->
+
+    <owl:Class rdf:about="&resource;SIO_000183">
+        <rdfs:label>personal name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+        <dc:description
+            >A personal name is a name to identify an individual person and usually comprises of a first name and a last name.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000184 -->
+
+    <owl:Class rdf:about="&resource;SIO_000184">
+        <rdfs:label>legal name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000183"/>
+        <dc:description
+            >A legal name is a name given at birth, or which appears on their birth certificate, marriage certificate, or change of name certificate.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000185 -->
+
+    <owl:Class rdf:about="&resource;SIO_000185">
+        <rdfs:label>title</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A title is a textual entity that summarily describes some entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000186 -->
+
+    <owl:Class rdf:about="&resource;SIO_000186">
+        <rdfs:label>version</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <dc:description
+            >A version is a textual entity that denotes the frist production of a work or a variation on a previous production of a work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000187 -->
+
+    <owl:Class rdf:about="&resource;SIO_000187">
+        <rdfs:label>edition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000186"/>
+        <dc:description
+            >An edition is a version of a literary work edited and published, as by a certain editor or in a certain manner including being printed during some interval of time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000188 -->
+
+    <owl:Class rdf:about="&resource;SIO_000188">
+        <rdfs:label
+            >abstract section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >An abstract section is a document section that provides brief summary of a document that explains the main argument(s), topic(s) or findings.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000189 -->
+
+    <owl:Class rdf:about="&resource;SIO_000189">
+        <rdfs:label
+            >acknowledgements section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >An acknowledgements section is a document section that identifies individuals, groups or organizations for their support in the development of the work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000190 -->
+
+    <owl:Class rdf:about="&resource;SIO_000190">
+        <rdfs:label
+            >author contribution section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >An author contribution section is a document section that describes the contribution of the authors.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000191 -->
+
+    <owl:Class rdf:about="&resource;SIO_000191">
+        <rdfs:label>author section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >An author section is a document section that lists the contributing authors.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000192 -->
+
+    <owl:Class rdf:about="&resource;SIO_000192">
+        <rdfs:label
+            >bibliography section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >A bibliography section is a document section that is composed of a list of references used in the development of the work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000193 -->
+
+    <owl:Class rdf:about="&resource;SIO_000193">
+        <rdfs:label
+            >copyright section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >A copyright section is a document section that contains a notice of copyright.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000194 -->
+
+    <owl:Class rdf:about="&resource;SIO_000194">
+        <rdfs:label
+            >correspondence section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >A correspondence section is a document section that contains the details for contacting the corresponding author.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000195 -->
+
+    <owl:Class rdf:about="&resource;SIO_000195">
+        <rdfs:label
+            >discussion section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The discussion section is a document section containing a summary of the findings, a reflection on the significance of findings, comparison with related work, among others.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000196 -->
+
+    <owl:Class rdf:about="&resource;SIO_000196">
+        <rdfs:label
+            >introduction section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >An introduction section is a document section that generally provides background, motivation and goals of the work.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000197 -->
+
+    <owl:Class rdf:about="&resource;SIO_000197">
+        <rdfs:label
+            >materials and methods section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The materials and methods section is a document section containing a description of the materials and methods used in the study.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000198 -->
+
+    <owl:Class rdf:about="&resource;SIO_000198">
+        <rdfs:label
+            >materials section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The materials section is a document section containing a description of the materials used in the study.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000199 -->
+
+    <owl:Class rdf:about="&resource;SIO_000199">
+        <rdfs:label>methods section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The methods section is a document section containing a description of the methods used in the study.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000200 -->
+
+    <owl:Class rdf:about="&resource;SIO_000200">
+        <rdfs:label>results section</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The results section is a document section describing the main findings of the study.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000201 -->
+
+    <owl:Class rdf:about="&resource;SIO_000201">
+        <rdfs:label
+            >table of contents</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <dc:description
+            >The table of contents is a document section that lists all sections (and optionally subsections) in a sequential order along with their page number.</dc:description>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
