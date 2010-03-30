@@ -8,7 +8,9 @@
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY resource "http://semanticscience.org/resource/" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY sio "http://semanticscience.org/ontology/sio#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY sio2 "http://semanticscience.org/ontology/sio.owl#" >
 ]>
 
 
@@ -17,10 +19,12 @@
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:sio="http://semanticscience.org/ontology/sio#"
      xmlns:resource="http://semanticscience.org/resource/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:sio2="http://semanticscience.org/ontology/sio.owl#">
     <owl:Ontology rdf:about="">
         <dc:creator xml:lang="en"
             >Michel Dumontier</dc:creator>
@@ -41,9 +45,789 @@
      -->
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
-    <owl:AnnotationProperty rdf:about="#example"/>
+    <owl:AnnotationProperty rdf:about="&resource;example"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000020 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000020">
+        <rdfs:label>denotes</rdfs:label>
+        <dc:description
+            >A relation between a textual symbol and another entity.</dc:description>
+        <owl:inverseOf rdf:resource="&resource;SIO_000060"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000210"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000028 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000028">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>has part</rdfs:label>
+        <dc:description
+            >A transitive, reflexive mereological relation between a whole and a part.</dc:description>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000053 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000053">
+        <rdfs:label>has proper part</rdfs:label>
+        <dc:description
+            >An asymmetric, irreflexive mereological relation between a distinct whole and its part.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000028"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000054 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000054">
+        <rdfs:label>has boundary</rdfs:label>
+        <dc:description
+            >A mereological relation between a whole and an outer part which is located at its periphery.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000059 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000059">
+        <rdfs:label>has member</rdfs:label>
+        <dc:description
+            >A mereological relation between a collection and an item.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000060 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000060">
+        <rdfs:label>is denoted by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000061 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000061">
+        <rdfs:label>is located in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000062 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000062">
+        <rdfs:label
+            >is participant in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000063 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000063">
+        <rdfs:label>is agent in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000068 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000068">
+        <rdfs:label>is part of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000028"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000093 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000093">
+        <rdfs:label
+            >is proper part of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000053"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000068"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000095 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000095">
+        <rdfs:label>is member of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000059"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000096 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000096">
+        <rdfs:label>is boundary of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000128 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000128">
+        <rdfs:label>is contained in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000061"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000132 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000132">
+        <rdfs:label>has participant</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000139 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000139">
+        <rdfs:label>has agent</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000063"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000145 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000145">
+        <rdfs:label>is location of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000061"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000146 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000146">
+        <rdfs:label
+            >is information about</rdfs:label>
+        <dc:description
+            >A relation between an informational entity and another entity.</dc:description>
+        <owl:inverseOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000202 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000202">
+        <rdfs:label>contains</rdfs:label>
+        <dc:description
+            >A relation between two entities  such that one contains the other with no overlap, netiehr is a part of the other.</dc:description>
+        <owl:inverseOf rdf:resource="&resource;SIO_000128"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000145"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000203 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000203">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is connected to</rdfs:label>
+        <dc:description
+            >Two entities are connected to each other if they are adjacent to one another or there exist an unbroken sequence of adjacent entities that connects them together.</dc:description>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000204 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000204">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label>is adjacent to</rdfs:label>
+        <dc:description
+            >Two entities are adjacent if their outer parts abut.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000205 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000205">
+        <rdfs:label
+            >is represented by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000206 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000206">
+        <rdfs:label>supports</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000207 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000207">
+        <rdfs:label>disputes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000208 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000208">
+        <rdfs:label>is supported by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000209 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000209">
+        <rdfs:label>is disputed by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000210 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000210">
+        <rdfs:label>represents</rdfs:label>
+        <dc:description
+            >a represents b when a serves as a sign or symbol of b.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000205"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000211 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000211">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is after</rdfs:label>
+        <dc:description
+            >A relation between informational entities such that x is after y, when x is numerically greater than y on some axis.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000240"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000212 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000212">
+        <rdfs:label>is subject of</rdfs:label>
+        <dc:description
+            >a relation between an entity and an informational entity.</dc:description>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000213 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000213">
+        <rdfs:label
+            >is concretized as</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000214 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000214">
+        <rdfs:label
+            >is concretization of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000215 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000215">
+        <rdfs:label
+            >is measurement value of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000216 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000216">
+        <rdfs:label
+            >has measurement value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000217 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000217">
+        <rdfs:label>has quality</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000218"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000223"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000218 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000218">
+        <rdfs:label>is quality of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000224"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000219 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000219">
+        <rdfs:label>realizes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000220 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000220">
+        <rdfs:label
+            >is realization of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000221 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000221">
+        <rdfs:label>has unit</rdfs:label>
+        <dc:description
+            >a relation between a measurement value and the unit it is measured against.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000222 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000222">
+        <rdfs:label>is unit of</rdfs:label>
+        <dc:description
+            >a relation between a unit and the measurement value it was measured against.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000221"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000223 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000223">
+        <rdfs:label>bearer of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000224"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000224 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000224">
+        <rdfs:label>is borne by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000225 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000225">
+        <rdfs:label>has function</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000235"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000226 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000226">
+        <rdfs:label>is function of</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000225"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000236"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000227 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000227">
+        <rdfs:label>is role of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000224"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000228 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000228">
+        <rdfs:label>has role</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000223"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000227"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000229 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000229">
+        <rdfs:label
+            >has specified output</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000230 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000230">
+        <rdfs:label
+            >has specified input</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000231 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000231">
+        <rdfs:label
+            >is specified input of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000232 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000232">
+        <rdfs:label
+            >is specified output of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000233 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000233">
+        <rdfs:label
+            >is implementation of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000234 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000234">
+        <rdfs:label
+            >is implemented by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000235 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000235">
+        <rdfs:label>has disposition</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000223"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000236 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000236">
+        <rdfs:label
+            >is disposition of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000224"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000235"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000240 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000240">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is before</rdfs:label>
+        <dc:description
+            >A relation between informational entities such that x is after y, when x is numerically lesser than y on some axis.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000241 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000241">
+        <rdfs:label
+            >is immediately after</rdfs:label>
+        <dc:description
+            >A relation between informational entities such that x is immediately after y, when x is adjacent to and is numerically greater than y on some axis.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000211"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000242"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000242 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000242">
+        <rdfs:label
+            >is immediately before</rdfs:label>
+        <dc:description
+            >A relation between informational entities such that x is immediately before y, when x is adjacent to and is numerically lesser than y on some axis.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000240"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000243 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000243">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label
+            >is derivative of</rdfs:label>
+        <dc:description
+            >A transitive, symmetric, temporal relation in which one entity is the derivative of another non-identical entity.</dc:description>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000244 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000244">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>derives from</rdfs:label>
+        <dc:description
+            >A transitive temporal relation in which one entity derives from another non-identical entity.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000245 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000245">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>derives into</rdfs:label>
+        <dc:description
+            >A transitive temporal relation in which one entity derives into another non-identical entity.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000244"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000246 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000246">
+        <rdfs:label
+            >immediately derives into</rdfs:label>
+        <dc:description
+            >A non-transitive temporal relation in which one entity immediately derives into a non-identical entity such that there are no intermediate entities between them.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000245"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000247 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000247">
+        <rdfs:label
+            >immediately derives from</rdfs:label>
+        <dc:description
+            >A non-transitive temporal relation in which one entity immediately derives from a non-identical entity such that there are no intermediate entities between them.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000244"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000246"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000248 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000248">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>precedes</rdfs:label>
+        <dc:description
+            >A transitive, temporal relation in which one process precedes (has occured earlier than) another process.</dc:description>
+        <owl:inverseOf rdf:resource="&resource;SIO_000249"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000249 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000249">
+        <rdfs:label>is preceded by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000250 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000250">
+        <rdfs:label
+            >immediately precedes</rdfs:label>
+        <dc:description
+            >A non-transitive temporal relation in which one process immediately precedes another process, such that there is no interval of time between the two processes.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000248"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000251"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000251 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000251">
+        <rdfs:label
+            >is immediately preceded by</rdfs:label>
+        <dc:description
+            >A non-transitive temporal relation in which one process is immediately preceded by another process, such that there is no interval of time between the two processes.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000249"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000252 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000252">
+        <rdfs:label
+            >is reference for</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000253 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000253">
+        <rdfs:label>has reference</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000252"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000254 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000254">
+        <rdfs:label
+            >is descriptor of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000255 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000255">
+        <rdfs:label>has descriptor</rdfs:label>
+        <dc:description
+            >a relation between an informational entity and another entity.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000254"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000237 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000237">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has x value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000300"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000238 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000238">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has y value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000300"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000239 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000239">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has z value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000300"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000300 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000300">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has value</rdfs:label>
+    </owl:DatatypeProperty>
     
 
 
@@ -63,7 +847,7 @@
     <owl:Class rdf:about="&resource;SIO_000000">
         <rdfs:label>entity</rdfs:label>
         <dc:description
-            >An entity is either a class that describes the shared attributes of a collection of individuals or is an instance of a class and further exists in spacetime.</dc:description>
+            >An entity is either a class that describes the attributes shared by instances (if they exist) or is an individual located in spacetime.</dc:description>
     </owl:Class>
     
 
@@ -120,8 +904,6 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
         <dc:description
             >A quality is an abstract entity that is intrinsically associated with another entity at all times, but whose observed/measured value may change.</dc:description>
-        <example
-            >the redness of a tomato; the aromaticity of the benzene ring; the spatial extent of my arm.</example>
     </owl:Class>
     
 
@@ -174,6 +956,16 @@
         <rdfs:label
             >social structure</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000011 -->
+
+    <owl:Class rdf:about="&resource;SIO_000011">
+        <rdfs:label
+            >spatial measurement entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
     </owl:Class>
     
 
@@ -684,7 +1476,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000071">
         <rdfs:label>coordinate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000011"/>
         <dc:description
             >A coordinate is a measurement of position in n-dimensional space.</dc:description>
     </owl:Class>
@@ -838,8 +1630,6 @@
         <rdfs:label
             >audiovisual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
-        <example
-            >movie, film, opera</example>
     </owl:Class>
     
 
@@ -1184,7 +1974,7 @@
         <rdfs:label>synonym</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
         <dc:description
-            >A synonym is a word with the same or very similar meanings. </dc:description>
+            >A synonym is a word with the same or very similar meanings.</dc:description>
     </owl:Class>
     
 
@@ -1403,7 +2193,7 @@
         <rdfs:label>document</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
         <dc:description
-            >A document is a bounded physical or digital representation of a body of information designed with the capacity (and usually intent) to communicate. </dc:description>
+            >A document is a bounded physical or digital representation of a body of information designed with the capacity (and usually intent) to communicate.</dc:description>
     </owl:Class>
     
 
@@ -1994,6 +2784,34 @@
         <dc:description
             >The table of contents is a document section that lists all sections (and optionally subsections) in a sequential order along with their page number.</dc:description>
     </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000300 -->
+
+    <owl:Class rdf:about="&resource;SIO_000300">
+        <rdfs:label>structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000001"/>
+            <rdf:Description rdf:about="&resource;SIO_000002"/>
+            <rdf:Description rdf:about="&resource;SIO_000004"/>
+        </owl:members>
+    </rdf:Description>
 </rdf:RDF>
 
 
