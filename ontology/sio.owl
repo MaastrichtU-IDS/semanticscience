@@ -46,6 +46,8 @@
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
     <owl:AnnotationProperty rdf:about="&resource;example"/>
+    <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
+	<owl:AnnotationProperty rdf:about="&resource;similarTo"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
@@ -131,6 +133,10 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000061">
         <rdfs:label>is located in</rdfs:label>
+        <dc:description
+            >A transitive, reflexive relation in which the object is not a part of the subject, and the subject is either partially or fully spatiotemporally positioned in the object.</dc:description>
+        <resource:equivalentTo
+            >OBO_REL:located_in</resource:equivalentTo>
     </owl:ObjectProperty>
     
 
@@ -140,6 +146,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000062">
         <rdfs:label
             >is participant in</rdfs:label>
+        <dc:description
+            >A relation that describes the participation of the subject in the (processual) object.</dc:description>
     </owl:ObjectProperty>
     
 
@@ -157,6 +165,7 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000068">
         <rdfs:label>is part of</rdfs:label>
+        <resource:equivalentTo>OBO_REL:part_of</resource:equivalentTo>
         <owl:inverseOf rdf:resource="&resource;SIO_000028"/>
     </owl:ObjectProperty>
     
@@ -167,6 +176,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000093">
         <rdfs:label
             >is proper part of</rdfs:label>
+        <resource:equivalentTo
+            >OBO_REL:proper_part_of</resource:equivalentTo>
         <owl:inverseOf rdf:resource="&resource;SIO_000053"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000068"/>
     </owl:ObjectProperty>
@@ -196,6 +207,10 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000128">
         <rdfs:label>is contained in</rdfs:label>
+        <dc:description
+            >A transitive relation in which the subject is *fully* located in the object.</dc:description>
+        <resource:equivalentTo
+            >OBO_REL:contained_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000061"/>
     </owl:ObjectProperty>
     
@@ -205,6 +220,10 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000132">
         <rdfs:label>has participant</rdfs:label>
+        <dc:description
+            >A relation that describes the participation of the object in the (processual) subject.</dc:description>
+        <resource:equivalentTo
+            >OBO_REL:has_participant</resource:equivalentTo>
         <owl:inverseOf rdf:resource="&resource;SIO_000062"/>
     </owl:ObjectProperty>
     
@@ -214,6 +233,10 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000139">
         <rdfs:label>has agent</rdfs:label>
+        <dc:description
+            >A relation that describes the active and causal participation of the object in the (processual) subject.</dc:description>
+        <resource:equivalentTo
+            >OBO_REL:has_agent</resource:equivalentTo>
         <owl:inverseOf rdf:resource="&resource;SIO_000063"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
     </owl:ObjectProperty>
@@ -224,6 +247,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000145">
         <rdfs:label>is location of</rdfs:label>
+        <dc:description
+            >A transitive, reflexive relation in which the subject does not have the object as a part, and the object is either partially or fully spatiotemporally positioned in the subject.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000061"/>
     </owl:ObjectProperty>
     
@@ -246,7 +271,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000202">
         <rdfs:label>contains</rdfs:label>
         <dc:description
-            >A relation between two entities  such that one contains the other with no overlap, netiehr is a part of the other.</dc:description>
+            >A transitive relation in which the object is *fully* located in the subject.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000128"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000145"/>
     </owl:ObjectProperty>
@@ -270,6 +295,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000204">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>is adjacent to</rdfs:label>
+        <resource:equivalentTo
+            >OBO_REL:adjacent_to</resource:equivalentTo>
         <dc:description
             >Two entities are adjacent if their outer parts abut.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
@@ -637,9 +664,9 @@
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label
-            >is derivative of</rdfs:label>
+            >is temporally related to</rdfs:label>
         <dc:description
-            >A transitive, symmetric, temporal relation in which one entity is the derivative of another non-identical entity.</dc:description>
+            >A transitive, symmetric, temporal relation in which one entity is temporarlly related to another non-identical entity.</dc:description>
     </owl:ObjectProperty>
     
 
@@ -649,6 +676,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000244">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>derives from</rdfs:label>
+        <resource:equivalentTo
+            >OBO_REL:derives_from</resource:equivalentTo>
         <dc:description
             >A transitive temporal relation in which one entity derives from another non-identical entity.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
@@ -701,6 +730,7 @@
         <rdfs:label>precedes</rdfs:label>
         <dc:description
             >A transitive, temporal relation in which one process precedes (has occured earlier than) another process.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000249"/>
     </owl:ObjectProperty>
     
@@ -709,7 +739,11 @@
     <!-- http://semanticscience.org/resource/SIO_000249 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000249">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is preceded by</rdfs:label>
+        <resource:equivalentTo
+            >OBO_REL:preceded_by</resource:equivalentTo>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
     </owl:ObjectProperty>
     
 
@@ -827,6 +861,8 @@
     <owl:DatatypeProperty rdf:about="&resource;SIO_000300">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has value</rdfs:label>
+        <dc:description
+            >A relation between a information content entity and its value (numeric, date, text, etc).</dc:description>
     </owl:DatatypeProperty>
     
 
@@ -847,7 +883,7 @@
     <owl:Class rdf:about="&resource;SIO_000000">
         <rdfs:label>entity</rdfs:label>
         <dc:description
-            >An entity is either a class that describes the attributes shared by instances (if they exist) or is an individual located in spacetime.</dc:description>
+            >An entity is either a class that describes the attributes shared by instances (should they exist) or is an individual located in spacetime.</dc:description>
     </owl:Class>
     
 
@@ -858,18 +894,7 @@
         <rdfs:label>physical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <dc:description
-            >A physical entity is an entity that is spatio-temporally extended (occupies some part of spacetime).</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000002 -->
-
-    <owl:Class rdf:about="&resource;SIO_000002">
-        <rdfs:label>abstract entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
-        <dc:description
-            >An abstract entity is an entity which does not exist at any particular space or time, but rather can have none, one or multiple instantiations.</dc:description>
+            >A physical entity is an entity that is spatio-temporally extended (occupies some part of spacetime) and only has physical parts.</dc:description>
     </owl:Class>
     
 
@@ -892,7 +917,7 @@
             >processual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <dc:description
-            >A processual entity is an entity that is temporally extended (occupies some part of time), may have temporal parts and always involves and depends on some physical entity.</dc:description>
+            >A processual entity is an entity that is temporally extended (occupies some part of time), may have temporal parts and always involves some physical entity.</dc:description>
     </owl:Class>
     
 
@@ -901,9 +926,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000005">
         <rdfs:label>quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
         <dc:description
-            >A quality is an abstract entity that is intrinsically associated with another entity at all times, but whose observed/measured value may change.</dc:description>
+            >A quality is a property that is intrinsically associated with another entity at all times, but whose observed/measured value may change.</dc:description>
     </owl:Class>
     
 
@@ -936,7 +961,9 @@
     <owl:Class rdf:about="&resource;SIO_000008">
         <rdfs:label
             >informational entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <dc:description
+            >An informational entity is an entity that is an abstraction of, representation for, or information about some entity whether they have none, one or more instantiations.</dc:description>
     </owl:Class>
     
 
@@ -956,16 +983,6 @@
         <rdfs:label
             >social structure</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000011 -->
-
-    <owl:Class rdf:about="&resource;SIO_000011">
-        <rdfs:label
-            >spatial measurement entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
     </owl:Class>
     
 
@@ -996,21 +1013,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000014">
         <rdfs:label>disposition</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
         <dc:description
-            >A disposition is a realizable entity which reflects the tendency of an entity to act in a specified way.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000015 -->
-
-    <owl:Class rdf:about="&resource;SIO_000015">
-        <rdfs:label
-            >realizable entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
-        <dc:description
-            >A realizable entity is an informational entity borne by some entity that may be realized under certain circumstances.</dc:description>
+            >A disposition is a quality that reflects the tendency of an entity to act in a specified way under certain conditions.</dc:description>
     </owl:Class>
     
 
@@ -1019,9 +1024,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000016">
         <rdfs:label>role</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
         <dc:description
-            >A role is a realizable entity that describes behaviours, rights and obligations that may be realized under certain circumstances.</dc:description>
+            >A role is a property that describes behaviours, rights and obligations that may be realized under certain circumstances.</dc:description>
     </owl:Class>
     
 
@@ -1032,7 +1037,7 @@
         <rdfs:label>function</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
         <dc:description
-            >A function is a realized disposition that simulataneously satisfies some intent or selection process.</dc:description>
+            >A function is a disposition that simultaneously satisfies some intent or natural selection.</dc:description>
     </owl:Class>
     
 
@@ -1476,7 +1481,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000071">
         <rdfs:label>coordinate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000011"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000273"/>
         <dc:description
             >A coordinate is a measurement of position in n-dimensional space.</dc:description>
     </owl:Class>
@@ -1521,7 +1526,7 @@
     <owl:Class rdf:about="&resource;SIO_000075">
         <rdfs:label
             >mathematical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
     </owl:Class>
     
 
@@ -1548,8 +1553,10 @@
     <!-- http://semanticscience.org/resource/SIO_000078 -->
 
     <owl:Class rdf:about="&resource;SIO_000078">
-        <rdfs:label>textual symbol</rdfs:label>
+        <rdfs:label>language symbol</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+        <dc:description
+            >A language symbol is a symbol that has specific meaning defined by a language.</dc:description>
     </owl:Class>
     
 
@@ -1686,18 +1693,6 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
         <dc:description
             >An effective specification is a specification composed of a sequence of instructions to achieve some objective.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000092 -->
-
-    <owl:Class rdf:about="&resource;SIO_000092">
-        <rdfs:label
-            >non-effective specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
-        <dc:description
-            >A non-effective specification provides a description of some entity.</dc:description>
     </owl:Class>
     
 
@@ -1842,6 +1837,8 @@
     <owl:Class rdf:about="&resource;SIO_000108">
         <rdfs:label>character</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description
+            >A character is a language symbol used to construct words.</dc:description>
     </owl:Class>
     
 
@@ -1860,6 +1857,8 @@
     <owl:Class rdf:about="&resource;SIO_000110">
         <rdfs:label>paragraph</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description
+            >A paragraph is a self-contained unit of written discourse consisting of one or more sentences.</dc:description>
     </owl:Class>
     
 
@@ -1878,9 +1877,9 @@
     <owl:Class rdf:about="&resource;SIO_000112">
         <rdfs:label
             >document section</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
         <dc:description
-            >A dcoument section is an informational entity that is a self-contained part of a document.</dc:description>
+            >A dcoument section is a media entity that is a self-contained part of a document.</dc:description>
     </owl:Class>
     
 
@@ -1890,6 +1889,8 @@
     <owl:Class rdf:about="&resource;SIO_000113">
         <rdfs:label>sentence</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description
+            >A sentence is an expression in natural language.</dc:description>
     </owl:Class>
     
 
@@ -1899,6 +1900,8 @@
     <owl:Class rdf:about="&resource;SIO_000114">
         <rdfs:label>word</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description
+            >A word is the smallest free form (an item that may be uttered in isolation with semantic or pragmatic content) in a language.</dc:description>
     </owl:Class>
     
 
@@ -1907,9 +1910,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000115">
         <rdfs:label>identifier</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
         <dc:description
-            >An identifier is a symbol that specifically refers to an entity (instance/type).</dc:description>
+            >An identifier is a descriptor that specifically refers to an entity (instance/type).</dc:description>
     </owl:Class>
     
 
@@ -1918,7 +1921,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000116">
         <rdfs:label>name</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000115"/>
     </owl:Class>
     
 
@@ -2068,7 +2071,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000133">
         <rdfs:label>descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000092"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A descriptor is an informational entity that provides information about some entity.</dc:description>
     </owl:Class>
     
 
@@ -2076,9 +2081,10 @@
     <!-- http://semanticscience.org/resource/SIO_000134 -->
 
     <owl:Class rdf:about="&resource;SIO_000134">
-        <rdfs:label
-            >textual descriptor</rdfs:label>
+        <rdfs:label>term descriptor</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+        <dc:description
+            >A term descriptor is a descriptor that describes a term (a word or phrase or other set of symbols).</dc:description>
     </owl:Class>
     
 
@@ -2088,6 +2094,8 @@
     <owl:Class rdf:about="&resource;SIO_000135">
         <rdfs:label>definition</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+        <dc:description
+            >A definition is a term descriptor that specifies the meaning of a term.</dc:description>
     </owl:Class>
     
 
@@ -2105,7 +2113,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000137">
         <rdfs:label>category</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000274"/>
     </owl:Class>
     
 
@@ -2114,7 +2122,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000138">
         <rdfs:label>class</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000274"/>
     </owl:Class>
     
 
@@ -2134,7 +2142,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000141">
         <rdfs:label>criterion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000092"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
         <dc:description
             >A criterion is a non-effective specfication that describes an attribute towards the objective of evaluation.</dc:description>
     </owl:Class>
@@ -2169,7 +2177,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000144">
         <rdfs:label>parameter</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000274"/>
         <dc:description
             >A parameter is a descriptor whose value changes the characteristics of a system or a function.</dc:description>
     </owl:Class>
@@ -2201,7 +2209,7 @@
     <!-- http://semanticscience.org/resource/SIO_000149 -->
 
     <owl:Class rdf:about="&resource;SIO_000149">
-        <rdfs:label>media</rdfs:label>
+        <rdfs:label>media entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
     </owl:Class>
     
@@ -2442,8 +2450,9 @@
     <!-- http://semanticscience.org/resource/SIO_000171 -->
 
     <owl:Class rdf:about="&resource;SIO_000171">
-        <rdfs:label>textual entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <rdfs:label
+            >bibliometric descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000274"/>
     </owl:Class>
     
 
@@ -2452,7 +2461,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000172">
         <rdfs:label>address</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000273"/>
         <dc:description
             >An address is a textual entity that denotes the physical location of some independent continuant.</dc:description>
     </owl:Class>
@@ -2463,7 +2472,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000173">
         <rdfs:label>affiliation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000274"/>
         <dc:description
             >An affiliation is a textual entity that describes the relation of the author or contributor with their place of work or study.</dc:description>
     </owl:Class>
@@ -2529,7 +2538,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000179">
         <rdfs:label>label</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
     </owl:Class>
     
 
@@ -2593,7 +2602,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000185">
         <rdfs:label>title</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000115"/>
         <dc:description
             >A title is a textual entity that summarily describes some entity.</dc:description>
     </owl:Class>
@@ -2787,31 +2796,225 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000256 -->
+
+    <owl:Class rdf:about="&resource;SIO_000256">
+        <rdfs:label>proposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <dc:description
+            >A proposition is a sentence expressing something true or false.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000257 -->
+
+    <owl:Class rdf:about="&resource;SIO_000257">
+        <rdfs:label
+            >dimensionless quantity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+        <dc:description
+            >A dimensionless quantity is a measurement value that has no associated unit.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000258 -->
+
+    <owl:Class rdf:about="&resource;SIO_000258">
+        <rdfs:label
+            >dimensional quantity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+        <dc:description
+            >A dimensional quantity is a measurement value that has an associated unit.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000259 -->
+
+    <owl:Class rdf:about="&resource;SIO_000259">
+        <rdfs:label>argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <dc:description
+            >An argument is a set of one or more declarative sentences (or propositions) known as the premises along with another declarative sentence (or proposition) known as the conclusion.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000260 -->
+
+    <owl:Class rdf:about="&resource;SIO_000260">
+        <rdfs:label>logical entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000261 -->
+
+    <owl:Class rdf:about="&resource;SIO_000261">
+        <rdfs:label>premise</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <dc:description
+            >A premise is a proposition of an argument from which the conclusion is drawn.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000262 -->
+
+    <owl:Class rdf:about="&resource;SIO_000262">
+        <rdfs:label>conclusion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <dc:description
+            >A conclusion is a proposition which is reached after considering the evidence, arguments or premises.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000263 -->
+
+    <owl:Class rdf:about="&resource;SIO_000263">
+        <rdfs:label
+            >deductive argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <dc:description
+            >A deductive argument is an argument that asserts that the truth of the conclusion is a logical consequence of the premises.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000264 -->
+
+    <owl:Class rdf:about="&resource;SIO_000264">
+        <rdfs:label
+            >inductive argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <dc:description
+            >An inductive argument is an argument that asserts that the truth of the conclusion is supported by the premises.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000265 -->
+
+    <owl:Class rdf:about="&resource;SIO_000265">
+        <rdfs:label>sound argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000266"/>
+        <dc:description
+            >A sound argument is a valid argument with true premises.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000266 -->
+
+    <owl:Class rdf:about="&resource;SIO_000266">
+        <rdfs:label>valid argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <dc:description
+            >A valid argument is an argument where the truth of the conclusion is a logical consequence of the premises and (consequently) its corresponding conditional is a necessary truth.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000267 -->
+
+    <owl:Class rdf:about="&resource;SIO_000267">
+        <rdfs:label
+            >invalid argument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <dc:description
+            >An invalid argument is an argument where the truth of the conclusion is false because it is not a logical consequence of the premises.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000268 -->
+
+    <owl:Class rdf:about="&resource;SIO_000268">
+        <rdfs:label>truth value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000269 -->
+
+    <owl:Class rdf:about="&resource;SIO_000269">
+        <rdfs:label>true</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000270"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000270 -->
+
+    <owl:Class rdf:about="&resource;SIO_000270">
+        <rdfs:label>false</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000271 -->
+
+    <owl:Class rdf:about="&resource;SIO_000271">
+        <rdfs:label>property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+        <dc:description
+            >A property is an informational entity which is used to describe an entity and whose realization or value may be context dependent.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000273 -->
+
+    <owl:Class rdf:about="&resource;SIO_000273">
+        <rdfs:label
+            >spatial descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000274 -->
+
+    <owl:Class rdf:about="&resource;SIO_000274">
+        <rdfs:label
+            >associative descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000275 -->
+
+    <owl:Class rdf:about="&resource;SIO_000275">
+        <rdfs:label
+            >cognitive entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000008"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000276 -->
+
+    <owl:Class rdf:about="&resource;SIO_000276">
+        <rdfs:label>emotion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000300 -->
 
     <owl:Class rdf:about="&resource;SIO_000300">
         <rdfs:label>structure</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
     </owl:Class>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // General axioms
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000001"/>
-            <rdf:Description rdf:about="&resource;SIO_000002"/>
-            <rdf:Description rdf:about="&resource;SIO_000004"/>
-        </owl:members>
-    </rdf:Description>
 </rdf:RDF>
 
 
