@@ -117,6 +117,18 @@
     
 
 
+    <!-- http://semanticscience.org/resource/isDenotedBy -->
+
+    <owl:ObjectProperty rdf:about="&ontologies;isDenotedBy"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/isLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="&ontologies;isLocatedIn"/>
+    
+
+
     <!-- http://semanticscience.org/resource/isLocationOf -->
 
     <owl:ObjectProperty rdf:about="&ontologies;isLocationOf"/>
@@ -190,6 +202,13 @@
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;isDenotedBy"/>
+                <owl:onClass rdf:resource="#AminoAcidResidueID"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -221,6 +240,31 @@
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;isDenotedBy"/>
+                <owl:onClass rdf:resource="#LigandContactID"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#AminoAcidResidueID -->
+
+    <owl:Class rdf:about="#AminoAcidResidueID">
+        <rdfs:label
+            >Amino Acid Residue ID</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >An identifier for an amino acid residue.</dc:description>
     </owl:Class>
     
 
@@ -230,6 +274,12 @@
     <owl:Class rdf:about="#ElectrostaticPotential">
         <rdfs:label
             >Electrostatic Potential</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&ontologies;hasUnit"/>
@@ -244,12 +294,30 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
-                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+                <owl:onProperty rdf:resource="&ontologies;isLocatedIn"/>
+                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
             >A measure of electrical potential at a point in an electrostatic field.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#LigandContactID -->
+
+    <owl:Class rdf:about="#LigandContactID">
+        <rdfs:label
+            >Ligand Contact ID</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >Identifier for the ligand that corresponds to a ligand contact.</dc:description>
     </owl:Class>
     
 
@@ -326,14 +394,14 @@
             >Molecular Surface Model</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;isAbout"/>
-                <owl:someValuesFrom rdf:resource="&obo;CHEBI_36357"/>
+                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
+                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
-                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
+                <owl:onProperty rdf:resource="&ontologies;isAbout"/>
+                <owl:someValuesFrom rdf:resource="&obo;CHEBI_36357"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
