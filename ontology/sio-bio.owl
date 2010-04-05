@@ -42,8 +42,8 @@
      -->
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
-    <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
@@ -59,6 +59,72 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000078 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000078">
+        <rdfs:label>encodes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000079 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000079">
+        <rdfs:label>is encoded by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000080 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000080">
+        <rdfs:label
+            >transcribes into</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000081 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000081">
+        <rdfs:label
+            >is transcribed from</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000082 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000082">
+        <rdfs:label>translates into</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000083 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000083">
+        <rdfs:label
+            >is translated from</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIOBIO_000084"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000084 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000084">
+        <rdfs:label
+            >is biologically related to</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000146 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000146"/>
@@ -68,23 +134,6 @@
     <!-- http://semanticscience.org/resource/SIO_000213 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000213"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Data properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://semanticscience.org/ontology/sio-bio.owl#equivalentTo -->
-
-    <owl:DatatypeProperty rdf:about="#equivalentTo"/>
     
 
 
@@ -139,7 +188,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000004">
         <rdfs:label>chemical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <resource:equivalentTo>CHEBI:23367</resource:equivalentTo>
         <dc:description
             >A chemical entity is a constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer, substance, mixture, etc., identifiable as a separately distinguishable entity.</dc:description>
     </owl:Class>
@@ -204,24 +254,12 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIOBIO_000011 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000011">
-        <rdfs:label
-            >chemical substance</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
-        <dc:description
-            >A chemical substance is a chemical entity with a specific chemical composition.</dc:description>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIOBIO_000012 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000012">
         <rdfs:label
             >biochemical process</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
     </owl:Class>
     
 
@@ -232,6 +270,10 @@
         <rdfs:label
             >molecular interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <dc:description
+            >A molecular interaction is a biochemical process in which chemical entities interact through some set of attractive forces.</dc:description>
+        <resource:equivalentTo
+            >biopax:Interaction</resource:equivalentTo>
     </owl:Class>
     
 
@@ -244,14 +286,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000051"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000006"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000051"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -326,21 +368,10 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000019">
         <rdfs:label
-            >biological descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+            >biological property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <dc:description
-            >A biological descriptor is an biologically-relevant informational entity</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000020 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000020">
-        <rdfs:label>macromolecule</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000011"/>
-        <dc:description
-            >A macromolecule is a chemical substance which is composed of smaller monomeric units, whether fully connected through covalent or non-covalent bonds.</dc:description>
+            >A biological property is an biologically-relevant informational entity</dc:description>
     </owl:Class>
     
 
@@ -349,8 +380,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000021">
         <rdfs:label
-            >chemical descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+            >chemical property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000146"/>
@@ -435,8 +466,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000028">
         <rdfs:label
-            >genetic descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+            >genetic property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
     </owl:Class>
     
 
@@ -450,60 +481,14 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIOBIO_000030 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000030">
-        <rdfs:label>chemical part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000011"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000031 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000031">
-        <rdfs:label>biopolymer part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000030"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000032 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000032">
-        <rdfs:label
-            >linear biopolymer part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000031"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000033 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000033">
-        <rdfs:label>protein part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000032"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000034 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000034">
-        <rdfs:label
-            >nucleic acid part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000032"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIOBIO_000035 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000035">
         <rdfs:label>gene</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000034"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
         <dc:description
             >A gene is part of one or more nucleic acids which is associated with regulation, transcription, and or other biological processes.</dc:description>
+        <resource:equivalentTo>biopax:Gene</resource:equivalentTo>
     </owl:Class>
     
 
@@ -513,7 +498,13 @@
     <owl:Class rdf:about="&resource;SIOBIO_000036">
         <rdfs:label
             >biochemical reaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000013"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <dc:description
+            >A biochemical reaction is a biochemical process that involves the conversion of at least one chemical participant (target) into another (product) by an enzyme (agent).</dc:description>
+        <resource:equivalentTo
+            >biopax:Conversion</resource:equivalentTo>
+        <resource:equivalentTo
+            >biopax:BiochemicalReaction</resource:equivalentTo>
     </owl:Class>
     
 
@@ -522,7 +513,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000037">
         <rdfs:label
-            >biomolecular descriptor</rdfs:label>
+            >biomolecular property</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000021"/>
     </owl:Class>
     
@@ -532,7 +523,9 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000038">
         <rdfs:label>drug</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000011"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+        <dc:description
+            >A drug is a biochemical entity that regulates a biological process.</dc:description>
     </owl:Class>
     
 
@@ -542,7 +535,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000039">
         <rdfs:label
             >pharmaceutical preparation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000045"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000073"/>
     </owl:Class>
     
 
@@ -578,7 +571,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000043">
         <rdfs:label>protein</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000047"/>
+        <resource:equivalentTo>CHEBI:36080</resource:equivalentTo>
     </owl:Class>
     
 
@@ -592,24 +586,12 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIOBIO_000045 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000045">
-        <rdfs:label
-            >chemical mixture</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
-        <dc:description
-            >A chemical mixture is a chemical entity that is composed of more than one chemical substance, and does not have a fixed composition.</dc:description>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIOBIO_000046 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000046">
         <rdfs:label
             >biological material entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000045"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
     </owl:Class>
     
 
@@ -618,8 +600,10 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000047">
         <rdfs:label
-            >molecular complex</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
+            >biomolecular complex</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000073"/>
+        <dc:description
+            >A biomolecular complex is a biochemical substance composed of smaller monomeric units connected by non-covalent bonds.</dc:description>
     </owl:Class>
     
 
@@ -656,7 +640,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000051">
         <rdfs:label
             >biomacromolecule</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
     </owl:Class>
     
 
@@ -709,7 +693,8 @@
     <!-- http://semanticscience.org/resource/SIOBIO_000057 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000057">
-        <rdfs:label>stative quality</rdfs:label>
+        <rdfs:label
+            >stative property</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000019"/>
     </owl:Class>
     
@@ -752,6 +737,135 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000065 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000065">
+        <rdfs:label
+            >bioinformatic entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000066 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000066">
+        <rdfs:label
+            >sequence alignment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000067 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000067">
+        <rdfs:label
+            >multiple sequence alignment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000066"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000068 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000068">
+        <rdfs:label
+            >pairwise sequence alignment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000066"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000069 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000069">
+        <rdfs:label
+            >biological process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <resource:equivalentTo
+            >GO:0008150 biological process</resource:equivalentTo>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000071 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000071">
+        <rdfs:label
+            >biomacromolecular part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000072 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000072">
+        <rdfs:label
+            >biochemical entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <dc:description
+            >A biochemical entity is a chemical entity involved in some biological process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000073 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000073">
+        <rdfs:label
+            >biochemical substance</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+        <dc:description
+            >A biochemical substance is a biochemical entity composed of more than one biochemical entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000074 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000074">
+        <rdfs:label
+            >amino acid residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000075 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000075">
+        <rdfs:label
+            >nucleic acid residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000076 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000076">
+        <rdfs:label>poison</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000038"/>
+        <dc:description
+            >A poison is a drug that is harzardous or toxic to an organism when ingested at a certain quantity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000077 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000077">
+        <rdfs:label
+            >pharmaceutical drug</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000038"/>
+        <dc:description
+            >A pharmaceutical drug, also referred to as medicine, medication or medicament, is a drug intended for use in the medical diagnosis, cure, treatment, or prevention of disease</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000277 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000277">
@@ -770,17 +884,235 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000003 -->
+    <!-- http://semanticscience.org/resource/SIOBIO_000280 -->
 
-    <owl:Class rdf:about="&resource;SIO_000003"/>
+    <owl:Class rdf:about="&resource;SIOBIO_000280">
+        <rdfs:label
+            >biochemical pathway</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
+        <dc:description
+            >A biochemical pathway is a series of biochemical interactions/reactions having definite inputs and outputs.</dc:description>
+    </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000005 -->
+    <!-- http://semanticscience.org/resource/SIOBIO_000281 -->
 
-    <owl:Class rdf:about="&resource;SIO_000005">
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+    <owl:Class rdf:about="&resource;SIOBIO_000281">
+        <rdfs:label
+            >metabolic pathway</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000280"/>
     </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000282 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000282">
+        <rdfs:label
+            >signalling pathway</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000280"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000283 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000283">
+        <rdfs:label
+            >molecular translocation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <dc:description
+            >Translocation is the directed movement of a chemical entity by some agent (e.g. transporter).</dc:description>
+        <resource:equivalentTo
+            >biopax:Transport</resource:equivalentTo>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000284 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000284">
+        <rdfs:label
+            >active transportation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000283"/>
+        <dc:description
+            >Active transportation is a molecular translocation that involves a biochemical reaction.</dc:description>
+        <resource:equivalentTo
+            >biopax:TransportWithBiochemicalReaction</resource:equivalentTo>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000285 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000285">
+        <rdfs:label
+            >molecular complex formation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000297"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000286 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000286">
+        <rdfs:label
+            >molecular complex dissociation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000297"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000287 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000287">
+        <rdfs:label
+            >biochemical regulation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <dc:description
+            >Biochemical regulation is a biochemical process that changes the frequency, rate or extent of a downstream biochemical process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000288 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000288">
+        <rdfs:label
+            >biochemical activation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000013"/>
+        <dc:description
+            >Biochemical activation is a molecular interaction that increases the catalytic rate of the target enzyme. </dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000289 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000289">
+        <rdfs:label
+            >biochemical inhibition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000013"/>
+        <dc:description
+            >Biochemical inhibition is a molecular interaction that decreases the catalytic rate of the target enzyme. </dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000295 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000295">
+        <rdfs:label
+            >positive biochemical regulation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000287"/>
+        <dc:description
+            >Positive biochemical regulation is a biochemical regulation that increases the frequency, rate or extent of a downstream biochemical process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000296 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000296">
+        <rdfs:label
+            >negative biochemical regulation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000287"/>
+        <dc:description
+            >Negative biochemical regulation is a biochemical regulation that decreases the frequency, rate or extent of a downstream biochemical process.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000297 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000297">
+        <rdfs:label
+            >molecular complex dynamic</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000298 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000298">
+        <rdfs:label
+            >medical property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000299 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000299">
+        <rdfs:label>disease</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000298"/>
+        <dc:description
+            >A disease or medical condition is an abnormal condition of an organism that impairs bodily functions, associated with specific symptoms and signs.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000300 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000300">
+        <rdfs:label>transcription</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000301 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000301">
+        <rdfs:label>translation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000307 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000307">
+        <rdfs:label
+            >molecular modification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000036"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000308 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000308">
+        <rdfs:label>metabolism</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000309 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000309">
+        <rdfs:label>catabolism</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000308"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000310 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000310">
+        <rdfs:label>anabolism</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000308"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000004 -->
+
+    <owl:Class rdf:about="&resource;SIO_000004"/>
     
 
 
@@ -790,15 +1122,15 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000019 -->
+    <!-- http://semanticscience.org/resource/SIO_000007 -->
 
-    <owl:Class rdf:about="&resource;SIO_000019"/>
+    <owl:Class rdf:about="&resource;SIO_000007"/>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000050 -->
+    <!-- http://semanticscience.org/resource/SIO_000019 -->
 
-    <owl:Class rdf:about="&resource;SIO_000050"/>
+    <owl:Class rdf:about="&resource;SIO_000019"/>
     
 
 
@@ -808,64 +1140,15 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000271 -->
+    <!-- http://semanticscience.org/resource/SIO_000065 -->
 
-    <owl:Class rdf:about="&resource;SIO_000271"/>
+    <owl:Class rdf:about="&resource;SIO_000065"/>
     
 
 
     <!-- http://semanticscience.org/resource/SIO_000300 -->
 
     <owl:Class rdf:about="&resource;SIO_000300"/>
-    
-
-
-    <!-- http://www.w3.org/2002/07/owl#Thing -->
-
-    <owl:Class rdf:about="&owl;Thing"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Individuals
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000004 -->
-
-    <owl:Thing rdf:about="&resource;SIOBIO_000004">
-        <equivalentTo>CHEBI:23367</equivalentTo>
-    </owl:Thing>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000011 -->
-
-    <owl:Thing rdf:about="&resource;SIOBIO_000011">
-        <equivalentTo>CHEBI:36357</equivalentTo>
-    </owl:Thing>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000020 -->
-
-    <owl:Thing rdf:about="&resource;SIOBIO_000020">
-        <equivalentTo>CHEBI:33694</equivalentTo>
-    </owl:Thing>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000043 -->
-
-    <owl:Thing rdf:about="&resource;SIOBIO_000043">
-        <equivalentTo>CHEBI:36080</equivalentTo>
-    </owl:Thing>
 </rdf:RDF>
 
 
