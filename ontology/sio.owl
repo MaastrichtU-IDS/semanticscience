@@ -68,6 +68,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000008">
         <rdfs:label>has property</rdfs:label>
+        <dc:description
+            >has property: a relation between an entity and a property.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
     </owl:ObjectProperty>
     
@@ -150,6 +152,7 @@
     <!-- http://semanticscience.org/resource/SIO_000061 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000061">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is located in</rdfs:label>
         <dc:description
             >A transitive, reflexive relation in which the object is not a part of the subject, and the subject is either partially or fully spatiotemporally positioned in the object.</dc:description>
@@ -179,9 +182,29 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000064 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000064">
+        <rdfs:label>is source of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000066 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000066">
+        <rdfs:label>has source</rdfs:label>
+        <dc:description
+            >has source: a relation between an entity and the entity that provides it.</dc:description>
+        <resource:equivalentTo>dc:source</resource:equivalentTo>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000068 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000068">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is part of</rdfs:label>
         <resource:equivalentTo>OBO_REL:part_of</resource:equivalentTo>
         <owl:inverseOf rdf:resource="&resource;SIO_000028"/>
@@ -337,6 +360,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000205">
         <rdfs:label
             >is represented by</rdfs:label>
+        <dc:description
+            >is represented by: a relation between an entity and some symbol.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
     </owl:ObjectProperty>
     
@@ -408,7 +433,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000212">
         <rdfs:label>is subject of</rdfs:label>
         <dc:description
-            >a relation between an entity and an informational entity.</dc:description>
+            >is subject of: a relation between an entity and an informational entity.</dc:description>
     </owl:ObjectProperty>
     
 
@@ -615,6 +640,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000233">
         <rdfs:label
             >is implementation of</rdfs:label>
+        <dc:description
+            >is implementation of: the relation between an information entity and some specification.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
     </owl:ObjectProperty>
     
@@ -816,6 +843,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000253">
         <rdfs:label>has reference</rdfs:label>
+        <rdfs:comment
+            >has reference: the relation between an entity and a document that provides information about it.</rdfs:comment>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000252"/>
     </owl:ObjectProperty>
@@ -837,7 +866,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000255">
         <rdfs:label>has descriptor</rdfs:label>
         <dc:description
-            >a relation between an informational entity and another entity.</dc:description>
+            >a relation between an entity and its descriptor.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000008"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000254"/>
     </owl:ObjectProperty>
@@ -972,7 +1001,7 @@
             >informational entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <dc:description
-            >An informational entity is an entity that is an abstraction of, representation for, or information about some entity (whether it be a type or instance)</dc:description>
+            >An informational entity is an entity that is an abstraction of, representation for, or information about some entity (whether a type or instance), and only has informational entities as its parts.</dc:description>
     </owl:Class>
     
 
@@ -984,7 +1013,7 @@
             >processual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <dc:description
-            >A processual entity is an entity that is temporally extended (occupies some part of time), may have temporal parts and always involves some physical entity as a participant.</dc:description>
+            >A processual entity is an entity that is temporally extended (occupies some part of time), only has temporal parts, and always involves some physical entity as a participant.</dc:description>
     </owl:Class>
     
 
@@ -1459,9 +1488,9 @@
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <dc:description
-            >A quantity is a numeric informational entity that is measured or computed or assigned.</dc:description>
+            >A quantity is an informational entity that gives the magnitude of a property.</dc:description>
     </owl:Class>
     
 
@@ -1738,9 +1767,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000090">
         <rdfs:label>specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
         <dc:description
-            >A specification is an information entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</dc:description>
+            >A specification is medium that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</dc:description>
     </owl:Class>
     
 
@@ -2269,10 +2298,10 @@
     <!-- http://semanticscience.org/resource/SIO_000149 -->
 
     <owl:Class rdf:about="&resource;SIO_000149">
-        <rdfs:label>media entity</rdfs:label>
+        <rdfs:label>medium</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
         <dc:description
-            >A media entity is an informational entity that pertains to formats in which information is presented.</dc:description>
+            >A medium is a specification or instrument for storing or communicating information.</dc:description>
     </owl:Class>
     
 
@@ -2514,7 +2543,7 @@
     <owl:Class rdf:about="&resource;SIO_000171">
         <rdfs:label
             >bibliographical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
     </owl:Class>
     
 
