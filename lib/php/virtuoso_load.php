@@ -83,6 +83,7 @@ if($options['dir'] == 'dirname') {
  } 
  // get the files
  $files = GetFiles($options['dir']);
+ $files = getFileR($options['dir']);
 }
 
 
@@ -252,4 +253,32 @@ function GetFiles($dirname)
  $d->close();
  return $files;
 }
+
+function getFileR($directory, $recursive=true) {
+	//This function generates an array of paths to the files of extension $extension
+   $array_items = array();
+	if ($handle = opendir($directory)) {
+		while (false !== ($file = readdir($handle))) {
+			if ($file != "." && $file != "..") {
+				if (is_dir($directory. "/" . $file)) {
+					if($recursive) {
+							$array_items = array_merge($array_items, getFileR($directory. "/" . $file, $recursive));
+					}//if
+					$file = $directory . "/" . $file;
+					if(is_file($file)){
+							$array_items[] = preg_replace("/\/\//si", "/", $file);
+					}
+					
+				} else {
+					$file = $directory . "/" . $file;
+					if(is_file($file)){
+						$array_items[] = preg_replace("/\/\//si", "/", $file);
+					}
+				}//else
+			}//if
+		}//while
+		closedir($handle);
+	}//if
+	return $array_items;
+}//getFileR
 ?>
