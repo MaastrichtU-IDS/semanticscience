@@ -5,10 +5,10 @@ function HTTPDownload($host, $files, $ldir)
  foreach($files AS $args) {
   $path = $args['infile'];
   BreakPath($path,$dir,$file);
-
+  echo "Downloading $host$dir$file ... ";
   if(!@copy($host.$dir.$file,$ldir.$file)) {
     $errors= error_get_last();
-    trigger_error($errors['type'].": ".$errors['message']);
+    echo $errors['type']." : ".$errors['message'].PHP_EOL;
   } else {
     echo "$file copied from $site$dir into $ldir".PHP_EOL;
   }
