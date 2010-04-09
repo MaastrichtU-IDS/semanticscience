@@ -56,7 +56,6 @@ if($options['indir'] !== '') {
   if(isset($files)) {
    foreach($files AS $f) {
     OBO2N3($f,$options['indir'],$options['outdir']);
-
    }
    echo "Done!";
   } else {
@@ -77,6 +76,7 @@ function OBO2N3($file,$indir,$outdir)
 
  $infile = $indir.$file;
  $outfile = $outdir.$file.'.n3';
+ if(isset($replace[$o])) $outfile = $outdir.$replace[$o].'.obo.n3';
 
  $in = fopen($infile,"r");
  if(FALSE === $in) {
@@ -92,13 +92,21 @@ function OBO2N3($file,$indir,$outdir)
 	$file = substr($infile,$pos+1);
  } else $file = $infile;
  $file .= ".n3";
- $ouri = "http://bio2rdf.org/ontology:$file";
+ $pos = strpos($file,".");
+ $ontology = substr($file,0,$pos);
+ 
+ $furi = "http://bio2rdf.org/file:$file";
+ $ouri = "http://bio2rdf.org/registry:$ontology";
 
- $buf = N3NSHeader($basenslist);
- $buf .= "@prefix obo: <http://bio2rdf.org/obo:>.".PHP_EOL;
- $buf .= "<$ouri> a $owl:Ontology .".PHP_EOL;
- $buf .= "<$ouri> rdfs:label \"N3 converted OBO ontology $file (OBO file obtained from NCBO Bioportal) [bio2rdf:ontology:$file]\".".PHP_EOL;
- $buf .= "<$ouri> dc:creator \"Michel Dumontier\".".PHP_EOL;
+ $header = N3NSHeader($nslist);
+ $header .= "@prefix obo: <http://bio2rdf.org/obo:>.".PHP_EOL;
+ $buf = "<$furi> a serv:N3Document .".PHP_EOL;
+ $buf .= "<$furi> rdfs:label \"N3 converted OBO file for $ontology ontology (obtained through NCBO Bioportal) [bio2rdf:file:$file]\".".PHP_EOL;
+ $buf .= "<$furi> dc:creator \"Michel Dumontier\".".PHP_EOL;
+ $buf .= "<$furi> ss:encodes <$ouri> .".PHP_EOL;
+ $buf = "<$ouri> a owl:Ontology .".PHP_EOL;
+ $buf = "<$ouri> rdfs:label \"$ontology ontology\" .".PHP_EOL;
+ $buf = "<$ouri> ss:isEncodedBy <$furi> .".PHP_EOL;
 
  while($l = fgets($in)) {
 	if(strlen(trim($l)) == 0) continue;
@@ -115,7 +123,9 @@ function OBO2N3($file,$indir,$outdir)
 		continue;
 	} 
 	
-	$a = explode(": ",trim($l));
+	$a = explode(" ! ", trim($l));
+	$a = explode(": ",$a[0]);
+
 	if(isset($intersection_of)) {
 		if($a[0] != "intersection_of") {
 			$intersection_of .= ")].".PHP_EOL;
@@ -132,14 +142,17 @@ function OBO2N3($file,$indir,$outdir)
 			if(count($c) == 1) {$ns = "obo";$id=$c[0];}
 			else {$ns = strtolower($c[0]);$id=$c[1];}
 			if(!isset($nslist[$ns])) {
-				$buf .= "@prefix $ns: <http://bio2rdf.org/$ns:>.".PHP_EOL;
+				$header .= "@prefix $ns: <http://bio2rdf.org/$ns:>.".PHP_EOL;
 				$nslist[$ns] = $ns;
 			}
+			$id = str_replace( array("(",")"), array("_",""), $id);
+
 			$tid = $ns.":".$id;
-			$buf .= "$tid dc:identifier \"$id\".".PHP_EOL;
+
+			$buf .= "$tid dc:identifier \"$ns:$id\".".PHP_EOL;
 		}
 		if($a[0] == "name") {
-			$buf .= "$tid rdfs:label \"".stripslashes($a[1])." [$tid]\".".PHP_EOL;
+			$buf .= "$tid rdfs:label \"".addslashes(stripslashes($a[1]))." [$tid]\".".PHP_EOL;
 		}
 		if($a[0] == "is_a") {
 			if(FALSE !== ($pos = strpos($a[1],"!"))) $a[1] = substr($a[1],0,$pos-1);
@@ -151,18 +164,23 @@ function OBO2N3($file,$indir,$outdir)
 
 	} else if(isset($term)) {
 			if($a[0] == "id") {	
-				$buf .= SplitNSTerm($a[1], $ns, $id, $nslist, $b);
+				$header .= SplitNSTerm($a[1], $ns, $id, $nslist, $b);
 				$tid = $ns.":".$id;
 				$buf .= "$tid rdfs:isDefinedBy <$ouri>.".PHP_EOL;
-				$buf .= "$tid dc:identifier \"$id\".".PHP_EOL;
+				$buf .= "$tid dc:identifier \"$ns:$id\".".PHP_EOL;
 			}
 			if($a[0] == "name") {
-				$buf .= "$tid rdfs:label \"".stripslashes($a[1])." [$tid]\".".PHP_EOL;
+				$buf .= "$tid rdfs:label \"".addslashes(stripslashes($a[1]))." [$tid]\".".PHP_EOL;
 			}
 			//relationship "part_of GO:0042274". // followed by optional description
 			if($a[0] == "relationship") {
 				$b = explode(" ",$a[1]);
-				$buf .= "$tid obo:$b[0] ".strtolower($b[1]).".".PHP_EOL;
+				// sometimes have OBO_REL:XXX
+				$header .= SplitNSTerm($b[0],$ns,$id,$nslist,$d);
+				if(!$ns) $ns = 'obo';
+				if(stristr($ns,"obo_rel")) $ns = "obo";
+				$buf .= "$tid $ns:$id ".strtolower($b[1]).".".PHP_EOL;
+
 			}
 			if($a[0] == "property_value") {
 				$b = explode(" ",$a[1]);
@@ -175,24 +193,26 @@ function OBO2N3($file,$indir,$outdir)
 					$idpart = explode(" ",substr($a[1],$pos+1));
 					// identifier can only be the first after
 					$ns = $nspart[0];
-					$id = $idpart[0];
+					$id = $idpart[0];				
+					$header .= SplitNSTerm($a[1],$ns1,$id1,$nslist,$d);
 					$buf .= "$tid rdfs:seeAlso <http://bio2rdf.org/".strtolower($ns).":".stripslashes($id).">.".PHP_EOL;
 				}				
 			} else if($a[0] == "synonym") {
-/* 
-"N,N,N-tributylbutan-1-aminium fluoride EXACT IUPAC_NAME [IUPAC:]".
-"C16H36FN RELATED FORMULA [SUBMITTER:]".
-"[F-].CCCC[N+](CCCC)(CCCC)CCCC RELATED SMILES [ChEBI:]".
-*/
+				$a[1] = str_replace('"','',stripslashes($a[1]));
 				$rel = "SYNONYM";
-				$list = array("EXACT","RELATED");
+				$list = array("EXACT","BROAD","RELATED");
 				foreach($list AS $keyword) {
 				  // get everything after the keyword up until the bracket [
-				  if(FALSE != ($k_pos = strpos($a[1],$keyword))) {
+				  if(FALSE !== ($k_pos = strpos($a[1],$keyword))) {
 					$str_len = strlen($a[1]);
 					$term_len = strlen($keyword);
 					$term_end_pos = $k_pos+$term_len;
 					$b_pos = strrpos($a[1],"[");
+					$b2_pos = strrpos($a[1],"]");					
+					$b_text = substr($a[1],$b_pos,$b2_pos-$b1_pos);
+					if(strlen($b_text) <= 2) $b_text = '';
+					else if($b_text[strlen($b_text)-2] == ":") {$b_text = substr($b_text,0,-2)."]";} 
+
 					$diff = $b_pos-$term_end_pos-1;
 					if($diff != 0) {
   						// then there is more stuff here
@@ -212,17 +232,20 @@ function OBO2N3($file,$indir,$outdir)
 				} else {
 					$str = substr($a[1],0,$k_pos);
 				}
-				$l = "$tid chebi:".strtolower($rel)." $str.".PHP_EOL;
+				$rel = str_replace(" ","_",$rel);
+				$l = "$tid obo:".strtolower($rel)." \"".addslashes($str)." ".addslashes($b_text)."\".".PHP_EOL;
 				$buf .= $l;
 			}
 			if(FALSE !== ($pos = strpos($a[1],"!"))) $a[1] = substr($a[1],0,$pos-1);
 
 			if($a[0] == "alt_id") {
+				$header .= SplitNSTerm($a[1],$ns,$id,$nslist,$d);
+				$header .= SplitNSTerm($tid,$ns,$id,$nslist,$d);
 				$buf .= strtolower($a[1])." rdfs:seeAlso $tid .".PHP_EOL;
 			}			
 			if($a[0] == "is_a") {
 				// do subclassing
-				$buf .= "$tid rdfs:subClassOf ".strtolower($a[1]).".".PHP_EOL;
+				$buf .= "$tid rdfs:subClassOf <http://bio2rdf.org/".strtolower($a[1]).">.".PHP_EOL;
 			} 
 			if($a[0] == "intersection_of") {
 				// generate a blank node
@@ -234,7 +257,7 @@ function OBO2N3($file,$indir,$outdir)
 				if(count($c) == 1) {
 					preg_match("/(.*) \! (.*)/",$c[0],$m);
 					if(count($m)) $c[0] = $m[0];
-					SplitNSTerm($c[0], $ns, $id, $nslist, $b);
+					$header .= SplitNSTerm($c[0], $ns, $id, $nslist, $b);
 					$intersection_of .= "$ns:$id";
 					$obointersection_of .= "a $ns:$id;";
 				} else if(count($c) == 2) {
@@ -243,7 +266,7 @@ function OBO2N3($file,$indir,$outdir)
 
 					$rel = $c[0];
 					$obj = $c[1];
-					$buf .= SplitNSTerm($c[1], $ns, $id, $nslist, $b);
+					$header .= SplitNSTerm($c[1], $ns, $id, $nslist, $b);
 					$intersection_of .= " [owl:onProperty obo:$rel; owl:someValuesFrom $ns:$id] ";
 					$obointersection_of .= "obo:$rel $ns:$id;";
 				}
@@ -254,25 +277,28 @@ function OBO2N3($file,$indir,$outdir)
 			// in the header
 			//format-version: 1.0
 			$a = explode(": ",trim($l));
-			$buf .= "<$ouri> obo:$a[0] \"".str_replace('"','\"',$a[1])."\".".PHP_EOL;
+			$buf .= "<$ouri> obo:$a[0] \"".str_replace( array('"','\:'), array('\"',':'), $a[1])."\".".PHP_EOL;
 		} 
 	
  }
  if(isset($intersection_of))  $buf .= $intersection_of."].".PHP_EOL;
 
  fclose($in);
- file_put_contents($outfile,$buf);
+ file_put_contents($outfile,$header.$buf);
 }
 
 function SplitNSTerm($term, &$ns, &$id, &$nslist, &$buf) 
 {
  $buf = '';
+ $a = explode(" ! ",$term); // get the label out first
+ $term = $a[0];
  $a = explode(":",$term);
- if(count($a) == 1) {$ns = '';$id=$a;}
+ if(count($a) == 1) {$ns = '';$id=$a[0];}
  if(count($a) == 2) {
   $ns = strtolower($a[0]);
   $id = $a[1];
  }
+ $ns = str_replace(" ","_",$ns);
  if($ns && !isset($nslist[$ns])) {
    $buf = "@prefix $ns: <http://bio2rdf.org/$ns:>.".PHP_EOL;
    $nslist[$ns] = $ns;
@@ -286,7 +312,7 @@ function Download($file, $dir)
 {
  $email = 'michel.dumontier@gmail.com';
  $ontolist = 'http://rest.bioontology.org/bioportal/ontologies?email='.$email;
- $ontolist = 'ontologies.txt';
+ //$ontolist = 'ontologies.txt';
  $c = file_get_contents($ontolist);
  
  $root = simplexml_load_string($c);
@@ -298,6 +324,8 @@ function Download($file, $dir)
  $data = $root->data->list;
  foreach($data->ontologyBean AS $d) {
    $oid = (string) $d->ontologyId;
+   if($oid == "gaz") continue;
+
    $label = (string) $d->displayLabel;
    $abbv = (string) strtolower($d->abbreviation);
    if(!$abbv) {
@@ -323,7 +351,7 @@ function Download($file, $dir)
      file_put_contents($file,$onto);
      $files [] = $file;
     } else {
-     $file = $dir."$abbv.owl";
+     $file = $dir."../owl/$abbv.owl";
      file_put_contents($file,$onto);
     }
     echo "Done!".PHP_EOL;
