@@ -3,7 +3,7 @@
 /*
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
-$isql = "/bio2rdf/default/bin/isql";
+$isql = "/opt/test/v-install/bin/isql";
 //$isql = "isql";
 
 $options = array(
@@ -13,7 +13,7 @@ $options = array(
  "port" => "1111",
  "user" => "dba",
  "pass" => "dba",
- "flags" => "16",
+ "flags" => "272",
  "threads" => "4",
  "updatefacet" => "false",
  "deletegraph" => "false",
@@ -161,7 +161,7 @@ foreach($files AS $file) {
  do { 
   echo "Loading $file into $graph ...".PHP_EOL; 
   $cmd = $program."($fcmd ('$f'), '', '".$graph."', ".$options['flags'].", ".$options['threads']."); checkpoint;";
-  // echo $cmd_pre.$cmd.$cmd_post;
+//   echo $cmd_pre.$cmd.$cmd_post;
   $out = shell_exec($cmd_pre.$cmd.$cmd_post);
  
   if(strstr($out,"Error")) {
