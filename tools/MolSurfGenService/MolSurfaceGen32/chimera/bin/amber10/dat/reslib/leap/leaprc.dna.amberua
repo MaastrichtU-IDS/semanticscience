@@ -1,0 +1,28 @@
+logFile leap.log
+#
+# ----- leaprc for loading the united atom amber nucleic acid force field
+#
+#	Load the main parameter set.
+#
+parm91 = loadamberparams parm91X.ua.dat
+#
+#	Load DNA libraries
+#
+loadOff dna.amberua.lib
+#
+#
+#	Define the PDB name map for the amino acids and DNA.
+#
+addPdbResMap {
+  { 0 "GUA" "DG5"  } { 1 "GUA" "DG3"  }
+  { 0 "ADE" "DA5"  } { 1 "ADE" "DA3"  }
+  { 0 "CYT" "DC5"  } { 1 "CYT" "DC3"  }
+  { 0 "THY" "DT5"  } { 1 "THY" "DT3"  }
+}
+#
+# translate DNA residue names:
+#
+GUA = DG
+CYT = DC
+THY = DT
+ADE = DA

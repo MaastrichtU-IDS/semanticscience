@@ -1,0 +1,159 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>aniso</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>aniso</b> [ <b>spec</b>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> ]
+  [&nbsp;<b>scale</b>&nbsp;<i>factor</i>&nbsp;] 
+  [&nbsp;<b>smoothing</b>&nbsp;<i>level</i>&nbsp;]
+  <a href="#options"><i>other-options</i></a></h3>
+</h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>~aniso</b> [ <b>spec</b>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> ]
+</h3>
+<p>
+<b>Aniso</b> is the command-line implementation of
+<a href="../../ContributedSoftware/thermal/thermal.html"><b>Thermal 
+Ellipsoids</b></a>, which shows atomic anisotropic B-factors
+as ellipsoids, their principal axes, and/or their principal ellipses.
+These special depictions will be created only for atoms with anisotropic
+B-factor information.
+Anisotropic B-factors are read from the input coordinate file 
+(for example, from ANISOU records in a PDB file)
+and are included with only certain high-resolution structures.
+Ellipsoid axes and radii correspond to the eigenvectors and eigenvalues 
+of the atomic mean-square displacement matrix.
+The radii are proportional to the root-mean-square displacements (RMSDs),
+the square roots of the eigenvalues.
+<p></p>
+Unless restricted to certain atoms with the <b>spec</b> option,
+the command <b>aniso</b> removes any pre-existing anisotropic B-factor 
+depictions and generates new ones for just the currently displayed atoms.
+The command <b>~aniso</b> removes the depictions.
+</p><p>
+Some <a href="../../ContributedSoftware/thermal/thermal.html#presets">predefined
+combinations</a> of settings are available from the <b>Presets</b> menu in the
+<a href="../../ContributedSoftware/thermal/thermal.html"><b>Thermal 
+Ellipsoids</b></a> graphical interface.
+</p><p>
+Tip: it may be helpful to display molecules as wires
+(see <a href="represent.html"><b>represent</b></a>,
+<a href="linewidth.html"><b>linewidth</b></a>) or thin sticks.  
+Sticks can be made thinner by decreasing the molecule stick scale,
+for example with the command:
+<blockquote>
+<b><a href="setattr.html">setattr</a> m stickScale 0.5</b>
+</blockquote>
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+Option keywords for <b>aniso</b> are case-independent
+and can be truncated to unique strings.
+A vertical bar "|" designates mutually exclusive options, and
+default values are indicated with <b>bold</b>.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p>
+<blockquote>
+  <b>spec</b>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></tt>
+  <br>Create/remove anisotropic B-factor depictions for just the
+  <a href="frameatom_spec.html" target="_top">specified</a> atoms.
+  Depictions will be created only for atoms that are also displayed.
+</blockquote>
+<blockquote>
+  <b>scale</b> <i>factor</i>
+  <br>Adjust the size of the depictions by a constant <i>factor</i> 
+  (default <b>1.0</b>, no scaling).  The unscaled ellipsoid radii
+  equal the atomic RMSDs along the ellipsoid axes.
+  The scaling factor for 50% probability is 1.53818.
+The <a href="../../ContributedSoftware/thermal/thermal.html"><b>Thermal 
+Ellipsoids</b></a> interface can be used to calculate the scaling factor
+for any probability &ge; 0% and &lt; 100%.
+</blockquote>
+<blockquote>
+  <b>smoothing</b> <i>level</i>
+  <br>The <i>level</i> (default <b>3</b>) 
+  controls how many planar facets are used to draw ellipsoids and ellipses.
+  Higher values give smaller facets and a smoother appearance.
+</blockquote>
+<blockquote>
+  <b>showEllipsoid</b> <b>true</b>|false
+  <br>Whether to display ellipsoids.
+</blockquote>
+<blockquote>
+  <a name="color"><b>color</b> <i>colorname</i></a>
+  <br>Color to use for ellipsoids, where
+  the <i>colorname</i> can be <b>none</b> (default, meaning to match 
+  the corresponding atoms) or any 
+  <a href="color.html#colorname">color name</a> that specifies a single color.
+</blockquote>
+<blockquote>
+  <b>transparency</b> <i>percent</i>
+  <br>Ellipsoid transparency expressed as a percentage, where 0%
+  is completely opaque and 100% is completely transparent.
+  If not specified, the transparency (if any) of the
+  <a href="#color">ellipsoid color(s)</a> will be used.
+</blockquote>
+<blockquote>
+  <b>axisFactor</b> <i>factor</i>
+  <br>Length of principal axis depictions, specified as a multiplicative
+  <i>factor</i> relative to ellipsoid size.  If <b>axisFactor</b> 
+  is not specified, principal axes will not be depicted.
+</blockquote>
+<blockquote>
+  <b>axisThickness</b> <i>d</i>
+  <br>Principal axes are depicted as rods with square cross-sections, 
+  where <i>d</i> is the side length of the square 
+  (default <b>0.01</b> &Aring;). 
+</blockquote>
+<blockquote>
+ <b>axisColor</b> <i>colorname</i></a>
+  <br>Color to use for principal axis depictions, where
+  the <i>colorname</i> can be <b>none</b> (default, meaning to match 
+  the corresponding atoms) or any 
+  <a href="color.html#colorname">color name</a> that specifies a single color.
+</blockquote>
+<blockquote>
+  <b>ellipseFactor</b> <i>factor</i>
+  <br>Size of principal ellipse depictions, specified as a multiplicative
+  <i>factor</i> relative to ellipsoid size.  If <b>ellipseFactor</b> 
+  is not specified, principal ellipses will not be depicted.
+</blockquote>
+<blockquote>
+  <b>ellipseThickness</b> <i>d</i>
+  <br>Thickness of principal ellipse depictions (default <b>0.02</b> &Aring;).
+</blockquote>
+<blockquote>
+ <b>ellipseColor</b> <i>colorname</i></a>
+  <br>Color to use for principal ellipse depictions, where
+  the <i>colorname</i> can be <b>none</b> (default, meaning to match 
+  the corresponding atoms) or any 
+  <a href="color.html#colorname">color name</a> that specifies a single color.
+</blockquote>
+<p>
+See also:
+<a href="measure.html#inertia"><b>measure inertia</b></a>,
+<A href="../../ContributedSoftware/render/render.html#render"><b>Render by
+Attribute</b></a>,
+<A href="../../ContributedSoftware/structuremeas/structuremeas.html#axes">
+<b>Axes/Planes</b></a>
+</p>
+</body></html>

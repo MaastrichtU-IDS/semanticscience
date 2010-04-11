@@ -1,0 +1,132 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Color Zone</TITLE>
+</head>
+<body>
+<h3>Color Zone <img src="colzoneicon.png" alt="Color Zone icon"></h3>
+
+<table align="right" cellspacing="2" style="margin:8px 8px 8px 8px">
+<tr><td><img src="kchan-zonecol.png"></td></tr>
+</table>
+
+<p>
+<b>Color Zone</b> colors 
+<a href="../../UsersGuide/surfattrib.html#surfmodels">surface models</a>
+and their <a href="../surfcapper/surfcapper.html">caps</a>
+to match nearby
+<a href="../../UsersGuide/selection.html">selected</a> atoms or
+<a href="../volumepathtracer/framevolpath.html" target="_top">markers</a>.
+When a
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> isosurface
+is colored by zone, the data can be <a href="#split">split</a>
+into multiple sets accordingly.
+<b>Color Zone</b> information is included in saved
+<a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+See also: 
+<a href="../surfcolor/surfcolor.html"><b>Surface Color</b></a>,
+<a href="../surfzone/surfzone.html"><b>Surface Zone</b></a>,
+<a href="../surfcapper/surfcapper.html"><b>Surface Capping</b></a>,
+<a href="../../UsersGuide/midas/msc.html"><b>msc</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Color Zone</b>, a tool in the 
+<b>Depiction</b> and <b>Volume Data</b> categories
+(including from the <a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> <b>Tools</b> menu).
+The <b>Surface</b> of interest should be chosen from the list of
+available surface models.  Surfaces from
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume 
+Viewer</b></a> will be named according to the volume data set.
+Surfaces from 
+<a href="../multiscale/framemulti.html" target="_top"><b>Multiscale
+Models</b></a> will be named for the PDB file from which 
+the surfaces were generated.  
+</p><p>
+Clicking <b>Color</b> colors vertices in the chosen surface
+that are within the specified distance (<b>Coloring radius</b>) of any of
+the currently <a href="../../UsersGuide/selection.html">selected</a> atoms. 
+When multiple selected atoms are within the cutoff distance, 
+a vertex will be colored to match
+the closest one.  Vertices not within the cutoff of any selected atom
+are assigned the default surface color (single-color mode).
+Each surface triangle is colored by linearly interpolating
+its vertex colors.  Colors are defined by red, green, blue 
+and opacity/transparency components.
+</p><p>
+By default, a zone is based only on distances to any
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+(and <a href="../volumepathtracer/framevolpath.html" target="_top"><b>Volume
+Tracer</b></a> markers);
+the <a href="../../UsersGuide/midas/bondzone.html"><b>bondzone</b></a>
+command indicates that points along any
+<a href="../../UsersGuide/selection.html">selected</a> bonds
+(and <a href="../volumepathtracer/framevolpath.html" target="_top"><b>Volume
+Tracer</b></a> links) should also be used.
+Vertices closer to a generated bond point than to an atom in the 
+<a href="../../UsersGuide/selection.html">selection</a> will then be assigned 
+the <a href="../../UsersGuide/inspection.html#bondprop">bond color</a>.
+</p><p>
+The <b>Coloring radius</b> can be adjusted by moving the slider 
+or by typing in a new value.
+If the set of selected atoms is changed, or if a selected atom is
+recolored or repositioned relative to the surface,
+<b>Color</b> must be clicked again to update the surface coloring.
+Clicking <b>Color</b> will not update the surface colors when 
+no atoms are selected.
+</p><p>
+Clicking <b>Uncolor</b> returns the surface to its 
+default color (single-color mode).
+</p><p>
+<a name="split">
+When the zone-colored surface is a contour surface</a> from
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>,
+clicking <b>Split Map</b> splits the corresponding 
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a>
+into separate data sets for the zones.
+A data set is created for each distinct color and for the "uncolored" data
+(in the zone remaining when the color zones are subtracted from the original
+volume). Values outside the respective zones are set to zero.
+The new data sets are named by appending numbers (0, 1, 2, ...)
+to the name of the original volume data.  The number 0 is
+associated with the uncolored region, whereas the other numbers
+correspond to the distinct colors in an unpredictable order. 
+The original volume data is hidden but not modified.  Each data set can be 
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#filemenu">
+saved to a file</a> with
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+</p><p>
+<b>Close</b> dismisses the dialog, and
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="limitations">
+<h4>LIMITATIONS</h4></a>
+<p>
+<b>Only one radius used.</b>
+There is no way to use different radii for different atoms. 
+</p><p>
+<b>Surfaces cannot be made transparent independent of the atoms.</b>
+Surfaces colored with <b>Color Zone</b> to match nearby atoms
+can only be transparent if the corresponding atom colors are transparent.
+Transparent colors can be created with the 
+<a href="../../UsersGuide/colortool.html"><b>Color Editor</b></a>
+or the command
+<a href="../../UsersGuide/midas/colordef.html"><b>colordef</b></a>.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / March 2008</address>
+</body>
+</html>

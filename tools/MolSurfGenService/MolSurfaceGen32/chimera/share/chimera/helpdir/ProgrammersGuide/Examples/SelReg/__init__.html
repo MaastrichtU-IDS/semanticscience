@@ -1,0 +1,54 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="SelReg/__init__.py"><i>SelReg/__init__.py</i></a></h2>
+<code>
+<font color="red">from chimera.selection.manager import selMgr<br></font>
+<br>
+<font color="red">selName = "protein backbone"<br></font>
+<br>
+<font color="red">selStr = """<br></font>
+<font color="red">selAdd = []<br></font>
+<font color="red">for mol in molecules:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">for res in mol.residues:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">atomsMap = res.atomsMap<br></font>
+<font color="red">try:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">selAdd.extend(atomsMap['CA'] + atomsMap['N'] + atomsMap['C'])<br></font>
+</code>
+</dl>
+<code>
+<font color="red">except KeyError:<br></font>
+</code>
+<dl><dd>
+<p>
+non-peptide (CA, N, or C missing)<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">pass<br></font>
+</code>
+</dl>
+</dl>
+</dl>
+<code>
+<font color="red">sel.add(selAdd)<br></font>
+<font color="red">sel.addImplied(vertices=0)<br></font>
+<font color="red">"""<br></font>
+<br>
+<font color="red">selMgr.addSelector("selection example", [selName], selStr, makeCallbacks=1)<br></font>
+</code>

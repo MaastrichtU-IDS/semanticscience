@@ -1,0 +1,222 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 2029 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 2029 Release Notes (7 October 2004)</h2>
+
+    <h3>
+      Changes since the <a href="1.1951.html">previous production release (1.0 build 1951)</a>:
+    </h3>
+
+    <blockquote>
+
+      <h4>General:</h4>
+      <ul>
+	<li><b>File</b> menu includes <b>Save PDB</b></li>
+
+	<li><b>Fetch by ID</b> is a separate entry in the <b>File</b> menu and a separate dialog
+	(was previously combined with the File Open dialog); NDB IDs can be used
+	here and in the command line, <i>e.g.</i>, ndb:tr0001</li>
+
+	<li>default "all atom" VDW radii are now based on Amber parm99</li>
+
+	<li>labels are now automatically offset in viewing coordinate system instead of the model coordinate system and thus are always to the right of atoms and always in front of bonds.
+	Label offsets can only be adjusted programatically in this release</li>
+	<li>More accelerators (keyboard shortcuts)</li>
+
+	<li>moved C3' off ribbon backbone so sugar isn't distorted</li>
+
+	<li>support added for NurbsCurve and NurbsSurface VRML nodes</li>
+
+	<li>initial OpenGL Shading Language API support</li>
+      </ul>
+
+      <h4>New Tools:</h4>
+      <ul>
+
+	<li>
+	<b>Define Attribute</b> (Utilities, Programming)
+	&mdash; assign values for new or existing attributes to atoms, residues, or models</li>
+
+	<li>
+	<b>Nucleotides</b> (Graphics)
+	&mdash; create special nucleotide-specific displays, including VRML 
+	representations of the base and sugar moieties</li>
+      </ul>
+
+      <h4>Tool Changes:</h4>
+      <ul>
+
+	<li>
+	<b>AddH</b> improved to avoid clashes; added to functions in Model Panel</li>
+
+	<li>
+	<b>Color Secondary Structure</b> has Defaults button (restores color wells to
+	default colors)</li>
+
+	<li>
+	<b>Demos</b> can be saved from the menu; can be enclosed in chimerax files;
+	demo.src AUTORUN_ON tag added; Cancel no longer closes models that were
+	already open when a demo was started; many HTML-type tags can be used 
+	in the text sections</li>
+
+	<li>
+	<b>Lens Inspector</b> has more options for atom labeling</li>
+
+	<li>
+	<b>Match -&gt; Align</b> uses an improved algorithm for multiple alignments, which can
+	handle circular permutation</li>
+
+	<li>
+	<b>Movie</b> can read PSF/DCD files from CHARMM, NAMD, X-PLOR; can read PDB-format
+	trajectories (single concatenated file or one file per frame)</li>
+
+	<li>
+	<b>Multalign Viewer</b> can save an alignment subset (the active region) to a file;
+	an alignment saved in Stockholm format automatically includes annotations
+	describing the secondary structure of any associated structures</li>
+
+	<li>
+	<b>Multiscale Models</b> includes the zone selection options Near and Contacts</li>
+
+	<li><b>PipesAndPlanks</b> now connects the secondary structure elements with loops</li>
+	<li><b>Preferences</b> can be reset/restored/saved for an individual category 
+	(previously only for all categories at once);
+	Web Data category renamed "Web Access" and includes HTTP proxy options;
+	label font/size moved from General category to Background category</li>
+
+	<li>
+	<b>Rainbow</b> GUI is in the Graphics Tools (previously only accessible from the
+	Model Panel), has Defaults button to restore color wells to default colors</li>
+
+	<li>
+	<b>Render by Attribute</b> includes 
+	Radii section (atom radius scales with attribute value) and
+	Worms section (worm radius scales with attribute value)</li>
+
+	<li>
+	<b>Ribbon Style Editor</b> scalings are now analogous to cross sections 
+	(per-residue, no startup default except in New Molecules Preferences);
+	new &quot;residue class&quot; section allows specification of which atoms should
+	guide the ribbon path, thus generalizing ribbons to polymers other than 
+	standard peptides and nucleic acids</li>
+
+	<li>
+	<b>SimpleSession</b> saves custom coloring of molecular surfaces, aliases</li>
+
+	<li>
+	<b>ViewDock</b> includes new interface for choosing compounds by descriptor values</li>
+      </ul>
+
+      <h4>New Commands:</h4>
+      <ul>
+
+	<li>
+	<b>addaa</b> &mdash; add amino acid residues to the C-terminus of a peptide/protein</li>
+
+	<li>
+	<b>addh</b> &mdash; add hydrogens (command implementation of AddH)</li>
+
+	<li>
+	<b>bond</b>/<b>~bond</b> &mdash; create and delete bonds</li>
+
+	<li>
+	<b>chirality</b> &mdash; report the R/S configuration of a chiral center(see User's Guide for caveats)</li>
+
+	<li>
+	<b>defattr</b> &mdash; define a new attribute and/or assign attribute values</li>
+	(command implementation of Define Attribute)
+
+	<li>
+	<b>rangecolor</b> &mdash; color over a range according to attribute values</li>
+
+	<li>
+	<b>rmsd</b> &mdash; evaluate the RMSD between specified sets of atoms (without matching)</li>
+      </ul>
+
+      <h4>Command Changes:</h4>
+      <ul>
+
+	<li>
+	a command is not automatically erased after execution, but generally 
+	the text remains highlighted so that the next command replaces it 
+	rather than being appended to it</li>
+
+	<li>
+	atom specification operators added for union (|) and negation (~)
+	(previously just intersection (&amp;) and operators for combining attributes only)</li>
+
+	<li>
+	"fromeditor" synonym for "colorpanel" and "byelement" synonym for "byatom"
+	in coloring commands</li>
+
+	<li>
+	<b>hbonds</b> has "tilde version" <b>~hbonds</b>, which removes the pseudobonds showing
+	hydrogen bonds</li>
+
+	<li>
+	<b>labelopt</b> info has "res" or "residue" keyword indicating that only
+	residue name and number should be shown (not atom name)</li>
+
+	<li>
+	<b>rainbow</b> can color by model (previously only by residue or chain);
+	likewise for the rainbow GUI opened from the Model Panel</li>
+
+	<li>
+	<b>select</b> has "up" and "down" arguments which behave like up arrow and
+	down arrow to broaden and narrow a pre-existing selection</li>
+      </ul>
+
+      <h4>Tutorial Changes:</h4>
+
+      <ul>
+	<li>
+      Images for Publication tutorial updated because PDB entry 1uyp replaced 1utw
+      </li>
+    </ul>
+
+    </blockquote>
+
+    <h3>Major bugs fixed:</h3>
+    <ul>
+      <li><b>~color</b> command now respects b l v s specifiers</li>
+      <li>Fixed <b>SideView</b> bounds to match perspective frustum</li>
+      <li>Phantom 6-DOF input device support updated for IRIX and Windows</li>
+      <li><b>Collaboratory</b> now transmits surface transparency</li>
+      <li>Non-orthonormal rotation matrices no longer sneak in</li>
+      <li>VRML IndexedFaceSet now works when no colors are given</li>
+    </ul>
+
+    <h3>Known bugs:</h3>
+    <ul>
+      <li>volume rendering doesn't work correctly on Mac OS X before 10.3</li>
+      <li>ribbon transparency doesn't work correctly</li>
+      <li>Cross-eye stereo parallax is wrong</li>
+      <li>Bond rotations in large molecules are slow</li>
+    </ul>
+
+  </body>
+</html>

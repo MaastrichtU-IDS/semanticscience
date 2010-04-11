@@ -1,0 +1,204 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Scale Bar</TITLE>
+</head>
+<body>
+<h3>Scale Bar <img src="sbicon.png" alt="Scale Bar icon"></h3>
+<p>
+<table align="right">
+<tr><td align="center"> <img src="groel.png"> </td></tr>
+<tr><td align="center"> <img src="scale.png"> </td></tr>
+</table>
+The <b>Scale Bar</b> tool draws a scale bar and associated label.
+Scale bars are often included in images for presentation and publication.
+Chimera has no inherent spatial units, so the scale is determined by
+the coordinates of the input data.  While atomic coordinates are usually
+in angstroms, many other units (nanometers, microns, <i>etc.</i>) may be
+encountered, depending on the type of data.
+The state of <b>Scale Bar</b> is included in saved 
+<a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+See also:
+<a href="../2dlabels/2dlabels.html#colorkey"><b>Color Key</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Scale Bar</b>, a tool in the <b>Higher-Order Structure</b> category.
+Starting <b>Scale Bar</b> brings up a dialog for creating the scale bar.
+</p><p>
+Turning <b>Show scale bar</b> on creates and displays a bar according
+to the existing settings; turning it off deletes the bar.
+Deleting and re-creating the scale bar frequently
+resolves problems such as disappearance of the bar or label.
+The bar is a cylinder that <a href="#3d">exists in three dimensions</a>.
+</p><p>
+Typed-in settings will not be applied until the Enter (return) key
+has been pressed.
+<b>Length</b> and <b>Thickness</b> are expressed
+in the current display units.
+The bar and label <b>Color</b> settings can be changed by clicking the
+respective <a href="../../UsersGuide/coloring.html#colorwell">color wells</a>.
+The <b>Label</b> text is as shown in the adjacent field except that
+the <b>Length</b> value is substituted for every occurrence of the pound
+sign # (zero, one, or multiple times).
+The label <b>Offset</b> is the position of the bottom left corner of the label
+relative to the middle of the bar edge, in the current display units.
+Bar <b>Orientation</b> may be <b>horizontal</b> or <b>vertical</b>.
+When the bar is <b>horizontal</b>, the label <b>Offset</b> is
+relative to the top of the bar; increases in the two values
+move the label rightward and upward, respectively.
+When the bar is <b>vertical</b>, the label <b>Offset</b> is
+relative to the right side of the bar; increases in the two values
+move the label downward and rightward, respectively.
+</p><p>
+The <b>Preserve screen position</b> fields describe the horizontal and
+vertical positions, respectively, of the center of the bar within
+the graphics window.
+The horizontal value ranges from -1 to 1 going from left to right
+and the vertical value ranges from -1 to 1 going from bottom to top.
+<b>Preserve screen position</b> keeps the bar center at the indicated
+position when the view is scaled (of course, the bar is still scaled).
+When <b>Preserve screen position</b> is off, the bar can drop out of
+view when the view is scaled up.
+</p>
+
+<a name="3d">
+<h4>MOVING THE BAR IN 3 DIMENSIONS</h4>
+</a>
+<p>
+When the bar is created with <b>Show scale bar</b>,
+or when one of the <b>Orientation</b> settings is chosen,
+the bar is made parallel to the XY plane (the plane of the screen).
+The ends of the bar have the same Z coordinate,
+where Z is the dimension perpendicular to the screen.
+When created with <b>Show scale bar</b>,
+the bar is placed halfway between the near and far clipping planes
+(these can be viewed and moved in the
+<a href="../../UsersGuide/sideview.html#sideview"><b>Side View</b></a>).
+</p><p>
+When <b>Move scale bar...</b> is off, the data models
+are <a href="../../UsersGuide/mouse.html#activedef">activated
+for motion</a> and the scale bar is deactivated.
+Turning <b>Move scale bar...</b> on reverses these settings, so that the
+bar can be <a href="../../UsersGuide/mouse.html">
+translated and rotated with the mouse</a> while the other models remain fixed.
+After a scale bar has been moved around, its ends can have different
+Z coordinates (one end of the bar can be closer than the other),
+which is usually not desired.
+Clicking one of the <b>Orientation</b> settings is an
+easy way to bring the bar back parallel to the plane of the screen.
+</p><p>
+Two additional issues relate to the existence of the scale bar
+in three dimensions:
+<ul>
+<li><b>Depth cueing</b>.
+By default, the display is brightest at the front clipping plane
+and dimmest at the rear clipping plane.  If the scale bar is too dim,
+there are two general ways to make it brighter:
+  <ul>
+  <li>the position of the scale bar relative to the clipping planes
+   can be adjusted, by <a href="#movebar">moving the scale bar</a>
+   or one or both clipping planes; the clipping planes can be moved using the
+   <a href="../../UsersGuide/sideview.html#sideview"><b>Side View</b></a>
+  <li>depth cueing can be turned off or adjusted, using the
+  <a href="../../UsersGuide/sideview.html#effects"><b>Effects</b> panel</a>
+  </ul>
+<li><b>Perspective</b>.
+By default, the display has perspective, such that nearby items
+appear larger than items that are distant.  There are two general ways
+to ensure that scale is accurately depicted:
+  <ul>
+  <li>the scale bar can be <a href="#movebar">moved</a>
+   to the same depth as the data (or the approximate average depth,
+   since the data is generally three-dimensional)
+  <li>the perspective can be turned off so that items appear the same
+   size regardless of how far away they are, using the
+   <a href="../../UsersGuide/sideview.html#camera"><b>Camera</b> panel</a>
+   (set <b>projection</b> to <b>orthographic</b>)
+  </ul>
+</ul>
+Of course, changing the depth cueing, moving the clipping planes,
+or turning off perspective will also affect the appearance of the
+displayed data, whereas moving only the scale bar will not.
+<a name="movebar">
+When <b>Move scale bar...</b> is on, the scale bar can be Z-translated
+</a>
+(moved closer or farther away) <a href="../../UsersGuide/mouse.html">
+with the mouse</a> or with the command 
+<a href="../../UsersGuide/midas/move.html"><b>move</b></a>.
+</p>
+
+<h4>THE SCALE BAR IS A MOLECULE</h4>
+<p>
+The scale bar is implemented as a molecule model containing
+one residue, three atoms (two ends of the bar and one for label positioning),
+and one bond (connecting the end atoms).
+<b>Thus, <i>any</i> actions or commands that affect the display of
+atoms and bonds can also alter the appearance of the scale bar.</b>
+When the data models contain atomic coordinates
+(that is, when they are also molecule models),
+it may be best to adjust their appearance as desired for the final image
+before creating the scale bar.
+</p><p>
+Turning <b>Show scale bar</b> off and then back on will cure many ills.
+This actually deletes the scale bar (closes the scale bar model)
+and creates a new one in accordance with the settings in the
+<b>Scale Bar</b> dialog.
+When the scale bar is created, it is opened as the lowest
+available model number.  The end atoms are undisplayed and the bond
+between them is
+<a href="../../UsersGuide/representation.html">represented</a>
+as a stick (cylinder).  Only one scale bar can exist at a time.
+</p>
+
+<a name="limitations">
+<h4>CURRENT LIMITATIONS</h4>
+</a>
+<p>
+<b>Label font and size cannot be controlled separately from those of
+atom labels.</b><br>
+The font type and size of scale bar labels can only be changed 
+along with other atom/residue labels in the
+<a href="../../UsersGuide/preferences.html#Background"><b>Background</b>
+preferences</a>.  However, labels of independently controllable size
+can be created using <a href="../2dlabels/2dlabels.html"><b>2D Labels</b></a>
+instead.
+</p>
+
+<p>
+<b>Label text can turn out smaller in printed and saved images.</b><br>
+Label text is restricted to a certein height in pixels.
+When an image is saved or printed at a different resolution than the current
+screen display, the size of the label relative to the rest of the image
+will be different than it is in the display.
+Higher resolution of the saved or printed image corresponds to a smaller
+relative label size.
+</p>
+
+<p>
+<b>The label atom is sometimes visible.</b><br>
+As mentioned above, the scale bar is implemented as a molecule,
+with one of its atoms defining the location of the label.
+The label atom must remain displayed for the label to be displayed.
+When the scale bar is created, the label atom is colored to match
+the current background.  If the background color is subsequently
+changed (see the <a href="../../UsersGuide/preferences.html#Background">
+<b>Background</b> Preferences</a>),
+the label atom may be visible against the new background.
+Deleting and re-creating the scale bar with <b>Show scale bar</b>
+solves this problem by making the label atom match the new background color.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2008</address>
+</body>
+</html>

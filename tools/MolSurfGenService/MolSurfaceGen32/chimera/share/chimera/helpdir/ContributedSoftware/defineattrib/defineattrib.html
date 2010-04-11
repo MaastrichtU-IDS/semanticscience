@@ -1,0 +1,270 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Define Attribute</TITLE>
+</head>
+<body>
+<a name="top">
+<h3>Define Attribute <img src="defattricon.png" 
+alt="Define Attribute icon"></h3>
+</a>
+
+<table align="right" width="185" style="margin:8px 8px 8px 8px">
+<tr><th align="center">
+<a name="figure">H-ras (121p) rendered by residue percentExposed</a>
+</th></tr>
+<tr><td align="center">
+(see <a href="#examples">examples</a>)
+</td></tr>
+<tr><td>
+<img src="pexworm.png" alt="121p rendered by percentExposure">
+</td></tr>
+</table>
+
+<p>
+<a name="attribdef">
+Items in Chimera such as atoms, bonds, residues, and models
+have <b><i>attributes</i></b>:</a> properties with 
+<a href="../../UsersGuide/midas/atom_spec.html#attrnames">names</a> and values.
+</p><p>
+Values of many attributes can be viewed and changed in the
+<a href="../../UsersGuide/modelattrib.html">attribute inspectors</a>.
+</p><p>
+Attributes of atoms, residues, and molecule models can be created:
+<ul
+<li>automatically by Chimera
+[<a href="../../UsersGuide/midas/atom_spec.html#atprops">atoms</a>]
+[<a href="../../UsersGuide/midas/atom_spec.html#resprops">residues</a>]
+[<a href="../../UsersGuide/midas/atom_spec.html#modprops">molecule models</a>]
+<li> arbitrarily with <a href="#top"><b>Define Attribute</b></a>,
+<a href="../../UsersGuide/midas/defattr.html"><b>defattr</b></a>, or
+<a href="../../UsersGuide/midas/setattr.html"><b>setattr</b></a>
+<li> by combining other attributes using the
+<a href="../calculator/calculator.html"><b>Attribute Calculator</b></a>
+<li> by various other Chimera tools such as
+<a href="../addcharge/addcharge.html"><b>Add Charge</b></a>,
+<a href="../density/density.html"><b>Values at Atom Positions</b></a>, and
+<a href="../multalignviewer/framemav.html" 
+target="_top"><b>Multalign Viewer</b></a>
+</ul>
+They can also be:
+<ul>
+<li>rendered visually with
+<a href="../render/render.html#render"><b>Render by Attribute</b></a>
+or <a href="../../UsersGuide/midas/rangecolor.html"><b>rangecolor</b></a>
+<li>displayed as labels (for example, with options under
+<a href="../../UsersGuide/menu.html#actlabel"><b>Actions... Label</b></a>)
+<li>used in <A href="../render/render.html#select">selection</a> 
+and command-line <a href="../../UsersGuide/midas/frameatom_spec.html"
+target="_top">atom specification</a>
+<li><a href="../render/render.html#saving">saved</a> to an
+<a href="../defineattrib/defineattrib.html#attrfile">assignment file</a>
+</ul>
+See also the
+<a href="../../UsersGuide/tutorials/attributes.html">Attributes tutorial</a>.
+</p><p>
+<b>Define Attribute</b> reads attributes from
+<a href="#attrfile">assignment files</a>.
+Values of existing attributes can be
+reassigned, or entirely new attributes created.  The resulting
+attributes are included in saved
+<a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+<b>Define Attribute</b> is also implemented as the command
+<a href="../../UsersGuide/midas/defattr.html"><b>defattr</b></a>.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Define Attribute</b>, a tool in the <b>Structure Analysis</b> category.
+Starting <b>Define Attribute</b> brings up a dialog for
+<a href="../../UsersGuide/opensave.html#opening">opening</a>
+an input <a href="#attrfile">attribute assignment file</a>.
+</p><p>
+One or more molecule models should be chosen from
+the <b>Restrict to models</b> list; only these will be considered 
+during attribute assignment.  Individual models 
+or blocks of models can be chosen with the left mouse
+button.  Ctrl-click toggles the status of an individual model.
+To choose a block of models without dragging,
+click on the first (or last) and then Shift-click 
+on the last (or first) in the desired block.
+</p><p>
+Additional options: 
+<ul>
+<li><b>Open Render/Select by Attribute</b> - whether to open the 
+<a href="../render/render.html"><b>Render/Select by Attribute</b></a> tool
+after assigning attribute values.  Even when this option is off,
+the attribute(s) will be available within the
+<A href="../render/render.html"><b>Render/Select
+by Attribute</b></a> tool if it is opened later in the session.
+<li><b>Send match info to Reply Log</b> - whether to send details
+about the attribute assignments to the 
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>
+</ul>
+<b>OK</b> performs the assignment and dismisses the dialog,
+whereas <b>Apply</b> performs the assignment without dismissing the dialog.
+<b>Close</b> simply dismisses the dialog. <b>Help</b> opens
+this manual page in a browser window.
+</p><p>
+Assignments can only affect structures that are open when
+the attribute is defined/assigned.
+For example, atoms in models opened <i>after</i> radii have been
+changed using <b>Define Attribute</b> will have the Chimera
+<a href="../../UsersGuide/midas/vdwrad.html">default radii</a>.
+</p>
+
+<h4><a name="attrfile">ATTRIBUTE ASSIGNMENT FILES</a></h4>
+<p>
+Attribute assignment files are simple user- or program-generated text files
+that can be read by <a href="#top"><b>Define Attribute</b></a> or the command 
+<a href="../../UsersGuide/midas/defattr.html"><b>defattr</b></a>
+to create attributes and assign their values.
+Examples are provided <a href="#examples">below</a>.
+</p><p>
+<a name="comment">
+A hash symbol # at the beginning of a line indicates a <b><i>comment</i></b>.
+</a>
+<a name="controlline">
+Basic properties of an attribute are described
+in <b><i>control lines</i></b></a> of the form:
+</p>
+<blockquote><tt>
+<b><i>identifier</i>: <i>value</i></b>
+</tt></blockquote>
+Possible control line contents:
+<table border>
+<TR><td align=center><b>identifier</b></td> 
+<td align=center><b>value</b></td>
+<td align=center><b>description</b></td>
+</tr><TR>
+<a name="attrname">
+<td align=center><b>attribute</b><br>(required)</td>
+<td align=center>alphanumeric string without spaces;
+can include underscores; cannot begin with a digit, underscore, 
+or capital letter</td>
+<td align=center>attribute name, 
+<a href="../../UsersGuide/midas/atom_spec.html#attrnames">existing</a>
+or new</td>
+</a>
+</tr><TR>
+<td align=center><b>match&nbsp;mode</b><br>(optional)</td> 
+<td align=center><b>any</b> (default)<br>non-zero<br>1-to-1</td>
+<td align=center>expected matches per
+<a href="#assignline">assignment line</a> 
+(an error message will be sent to the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>
+when a line's match behavior differs from the match mode)</td>
+</tr><TR>
+<td align=center><b>recipient</b><br>(optional)</td> 
+<td align=center><b>atoms</b> (default)<br>residues<br>molecules</td>
+<td align=center>level of attribute assignment</td>
+</tr>
+</table>
+<p>
+<a name="assignline">
+The attribute assignments are described in
+<b><i>assignment lines</i></b></a>:
+<blockquote><tt>
+(Tab)<a href="../../UsersGuide/midas/frameatom_spec.html" target="_top"><i>atom-spec</i></a>(Tab)<i>attr-value</i>
+</tt></blockquote>
+Any kind of 
+<a href="../../UsersGuide/midas/frameatom_spec.html" target="_top">atom
+specification</a> can be used.
+</p><p>
+<a href="#controlline">Control lines</a> and <a href="#comment">comments</a>
+can be interspersed with assignment lines.  
+However, if multiple attributes are defined in the same file, the
+<b>attribute</b> control line should precede all other
+lines for the corresponding attribute.
+</p><p>
+Allowed <i>attr-value</i> types are:
+<ul>
+<li> real number (float)
+<li> integer
+<li> boolean (<b>true</b> or <b>false</b>, case-independent)
+<li> color - an attribute whose <a href="#attrname">name</a>
+  ends with <b>color</b> (case-independent) will be interpreted as 
+  a color-valued attribute.  A color value can be expressed as: 
+  <ul>
+  <li>a color name (a
+  <a href="../../UsersGuide/colortables.html">built-in name</a> 
+  or one defined previously with 
+  <a href="../../UsersGuide/midas/colordef.html"><b>colordef</b></a>)
+  <li>RGBA values, four space-separated numbers each ranging from 0 to 1
+  (inclusive) that represent the red, green, blue, and opacity 
+  components of the color; if the last number is omitted, the opacity is
+  set to 1 (completely opaque)
+  </ul>
+<li> string - a string of any characters except tabs;
+values that might be interpreted as one of the other types
+should be enclosed in double quotes
+</ul>
+New numerical attributes will appear in the attribute lists of
+<a href="../render/render.html"><b>Render/Select by Attribute</b></a>;
+boolean and string attributes will be listed only in the
+<a href="../render/render.html#select"><b>Select by Attribute</b></a>
+portion; color attributes will not be listed.
+</p>
+
+<h4><a name="examples">ATTRIBUTE ASSIGNMENT EXAMPLES</a></h4>
+<ul>
+<li><a href="percentExposed.txt">percentExposed.txt</a>
+creates a new residue attribute, <b>percentExposed</b>, and assigns
+values previously calculated by
+<a href="http://curie.utmb.edu/getarea.html"
+target="_blank">Getarea</a> for the protein structure 121p
+(see <a href="getarea-121p.txt">raw results</a>).
+The <a href="#figure">figure</a> at the top of the page was generated
+by opening the structure, defining the attribute, and then using
+<a href="../render/render.html"><b>Render by Attribute</b></a>
+to color the structure and render it as a worm.  Atoms are undisplayed
+except for the ligand (yellow spheres).
+<br><br>
+<li><a href="midasrad.txt">midasrad.txt</a> 
+assigns atomic radii, <i>i.e.</i>, sets values for the existing 
+<a href="../../UsersGuide/midas/atom_spec.html#atprops">atom attribute</a>
+<b>radius</b>.  The first specification in the file is <b>#</b>, which
+assigns a value to all atoms.  Subsequent lines
+reassign the radii of atoms of particular elements.
+Remember that atoms in models opened <i>after</i> the assignment
+will have the <a href="../../UsersGuide/midas/vdwrad.html">default radii</a>
+instead of those in <a href="midasrad.txt">midasrad.txt</a>.
+<br><br>
+<li><a href="rescol.txt">rescol.txt</a> sets values for the existing
+<a href="../../UsersGuide/midas/atom_spec.html#atprops">atom attribute</a>
+<b>color</b> and the existing
+<a href="../../UsersGuide/midas/atom_spec.html#resprops">residue attribute</a>
+<b>ribbonColor</b> according to amino acid type.
+Non-amino-acid residues are colored dark gray.  
+The colors are specified with
+<a href="../../UsersGuide/colortables.html#allcolors">built-in names</a>.
+Note that the same results can be achieved with a Chimera 
+<a href="../../UsersGuide/indexcommand.html#cmdfile">command file</a>
+(<a href="rescol.com">rescol.com</a>).
+<br><br>
+<li><a href="wwHydrophobicity.txt">wwHydrophobicity.txt</a> 
+creates a new residue attribute, <b>wwHydrophobicity</b>, with values
+according to the "interface" 
+<a href="../../UsersGuide/midas/hydrophob.html">amino acid 
+hydrophobicity</a> scale of
+Wimley and White (literature reference provided in the file).
+<br><br>
+<li><a href="hhHydrophobicity.txt">hhHydrophobicity.txt</a> 
+creates a new residue attribute, <b>hhHydrophobicity</b>, with values
+according to the "biological"
+<a href="../../UsersGuide/midas/hydrophob.html">amino acid 
+hydrophobicity</a> scale of
+Hessa <i>et al.</i> (literature reference provided in the file).
+</ul>
+<hr>
+<address>UCSF Computer Graphics Laboratory / January 2009</address>
+</body>
+</html>

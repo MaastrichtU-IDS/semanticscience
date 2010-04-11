@@ -1,0 +1,166 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Intersurf</TITLE>
+</head>
+<body>
+<h3>Intersurf <img src="intersurficon.png" alt="Intersurf icon"></h3>
+
+<table align="right">
+<tr><th align="center">
+<a name="figure">G protein heterotrimer (1gg2)
+<br>alpha-beta interface surface</a>
+</th></tr>
+<tr><td>
+<img src="1gg2-absurf.png" alt="1gg2 and alpha-beta interface surface">
+</td></tr>
+</table>
+
+<p>
+<b>Intersurf</b> generates and displays 
+<a href="#intersurf">interface surfaces</a>.
+See also:
+<a href="../findhbond/findhbond.html"><b>FindHBond</b></a>,
+<a href="../findclash/findclash.html"><b>Find Clashes/Contacts</b></a>,
+<a href="../../UsersGuide/midas/measure.html#buriedArea"><b>measure 
+buriedarea</b></a>
+</p><p>
+The <b>Intersurf</b> tool in Chimera
+is an implementation of the method described in:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/15670955" target="_blank">
+Intersurf: dynamic interface between proteins.</a>
+Ray N, Cavin X, Paul JC, Maigret B.
+<i>J Mol Graph Model.</i> 2005 Jan;23(4):347-54.
+</blockquote>
+<a name="intersurf">
+In this context, an <b><i>interface surface</i></b> is not the surface of
+either set of atoms, but a surface that divides the space between them.</a>
+The division of space is based on Delaunay tetrahedralization.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Intersurf</b>, a tool in the <b>Surface/Binding Analysis</b> category.
+<b>Intersurf</b> is also implemented as the command
+<a href="../../UsersGuide/midas/intersurf.html"><b>intersurf</b></a>.
+</p><p>
+The first step is to specify two sets of atoms, which can be different
+<b>Molecules</b> (molecule models) or different <b>Chains</b> within the
+same or different models.
+(To specify sets of atoms that are not whole models or whole chains, 
+it is necessary to use the command
+<a href="../../UsersGuide/midas/intersurf.html"><b>intersurf</b></a> instead,
+with <a href="../../UsersGuide/midas/intersurf.html#pairing">atom pairing</a>.)
+Two entries should be chosen from the list of <b>Molecules</b> or 
+<b>Chains</b> by clicking one and Ctrl-clicking the other, or by dragging
+if the two entries are adjacent.
+</p><p>
+Options:
+<ul>
+<li><b>Solid surface (rather than mesh)</b> - whether to display the 
+interface surface as solid or mesh 
+<li><a name="reuse"><b>Reuse last surface (if any)</b></a> 
+- whether to replace any pre-existing
+interface surface with the new one (otherwise, an additional surface model
+will be generated)
+<li><b>Select interface atoms</b> - 
+whether to <a href="../../UsersGuide/selection.html">select</a>
+the atoms that <a href="#defining">define</a> the interface surface
+<li><b>Residue centroid distance pruning</b> - whether to ignore
+residues whose centroids are not within the <b>Prune distance</b> 
+(default <b>30.0</b> &Aring;) of any residue centroid in the other set of atoms 
+</ul>
+The <b>Molecule bias</b> determines how the space between the two
+sets of atoms should be divided.
+<a name="defining">
+Each vertex in the interface surface lies between two atoms,
+one from each set.</a>
+The <b>Molecule bias</b> ranges from 0 to 1, where a bias of <b>0.5</b> 
+(default) places each interface surface point equidistant from the 
+<a href="../../UsersGuide/midas/vdwrad.html">VDW surfaces</a>
+of the two corresponding atoms. 
+A bias of 0.0 places interface surface vertices at the VDW surface
+of the set higher in the list of <b>Molecules</b> or <b>Chains</b> 
+(regardless of order chosen), and a bias of 1.0 places them at
+the VDW surface of the set lower in the list.
+Where the VDW surfaces of the two sets coincide, changes in bias will
+have little effect on interface surface vertex placement.
+</p><p>
+<b>OK</b> generates the interface surface and dismisses the dialog, 
+whereas <b>Apply</b> generates the surface without dismissing the dialog.
+<b>Close</b> dismisses the <b>Intersurf</b> dialog, and
+<b>Help</b> opens this manual page in a browser window. 
+</p><p>
+An interface surface is a separate model that can be:
+<ul>
+<li> hidden/shown with
+the <a href="../../UsersGuide/modelpanel.html"><b>Model Panel</b></a>
+or the command
+<a href="../../UsersGuide/midas/modeldisplay.html"><b>modeldisplay</b></a>
+<li> closed (deleted) with
+the <a href="../../UsersGuide/modelpanel.html"><b>Model Panel</b></a>
+or the command
+<a href="../../UsersGuide/midas/open.html"><b>close</b></a>
+</ul>
+When an interface surface is generated, the histogram is populated 
+with the corresponding atom-atom distances.
+The calculation can be repeated 
+to adjust the <a href="#coloring">coloring</a> (preferably with the
+<a href="#reuse"><b>Reuse last surface</b></a> option turned on).
+</p>
+
+<a name="coloring">
+<h3>Coloring</h3></a>
+<p>
+The histogram with sliders (<i><b>thresholds</i></b>) allows the surface 
+to be colored by the distance between atoms across the interface.
+Interface surfaces can also be colored according to volume data
+(with <a href="../surfcolor/surfcolor.html"><b>Surface Color</b></a>)
+and to match atoms
+(with <a href="../colorzone/colorzone.html"><b>Color Zone</b></a>).
+</p><p>
+Clicking on a threshold shows its distance <b>Value</b> in black.
+Clicking elsewhere within the histogram shows the <b>Value</b>
+(X-coordinate) of the mouseclick in gray.
+A threshold can be moved by changing its <b>Value</b>
+and then pressing Enter (return) or by dragging it horizontally
+with the left mouse button.  Holding the Shift
+key down reduces the speed (mouse sensitivity) of threshold
+dragging tenfold, allowing finer control.
+Thresholds can be added by Ctrl-clicking
+with the left mouse button on the histogram.  
+Ctrl-clicking on an existing threshold deletes it.
+Besides a <b>Value</b> (position on the histogram), 
+each threshold has a <b>Color</b>.
+The <b>Color</b> applies to the threshold most recently moved or clicked
+and can be adjusted by clicking the adjacent
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>.
+</p><p>
+The thresholds define a function that maps distances to colors.
+For each surface point, the corresponding atom-atom distance
+is compared to the thresholds on the histogram.
+Color is defined by red, green, blue and opacity/transparency components.
+The color of the closest threshold at a lower value (to the left) and 
+the color of the closest threshold at a higher value (to the right) 
+are linearly interpolated.
+Points with distance values less than the leftmost threshold are colored
+according to the leftmost threshold, while 
+points with distance values greater than the rightmost threshold are colored
+according to the rightmost threshold. 
+</p><p>
+See also:
+<a href="../colorzone/colorzone.html"><b>Color Zone</b></a>,
+<a href="../surfcolor/surfcolor.html"><b>Surface Color</b></a>
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / February 2009</address>
+</body></html>

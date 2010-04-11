@@ -1,0 +1,78 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>cofr</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>cofr [ view | models | front | independent | fixed ]</b></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>cofr </b>
+[ <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> | 
+<i>x,y,z</i> [ coordinateSystem <i>N</i> ]]</h3>
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>~cofr</b></h3>
+<p>
+If no arguments are supplied,
+<b>cofr</b> reports the coordinates of the current center of rotation 
+in the laboratory frame of reference.   These values are also shown in
+the <a href="../sideview.html#rotation"><b>Rotation</b> tool</a>.
+</p><p>
+The keyword options specify
+<a href="../sideview.html#rotation">center of rotation method</a>:
+<ul>
+<li><b>view</b> - continually adjusting to the current center of view
+<li><b>models</b> - the <b>center of models</b> method: 
+center of the bounding sphere of the displayed parts of 
+<a href="../mouse.html#activedef">active</a> models
+<li><b>front</b> - the <b>front center</b> method
+(also specified with <b>~cofr</b>): when the view is zoomed out,
+behaves like <b>center of models</b>;
+when the view is zoomed in on parts of objects,
+behaves like <b>center of view</b>, except the center of rotation
+depth (Z-coordinate) is set to that of the frontmost displayed
+unclipped atom whose VDW sphere intercepts a line perpendicular to the
+screen in the window center.  
+The center is not updated when only rotations are performed.
+<li><b>independent</b> - each model rotating about its own center rather
+than a single collective center; can also be specified with
+the command <a href="set.html"><b>set independent</b></a>
+<li><b>fixed</b> - at a fixed point relative to the model(s)
+(changes only the method, retains the current center)
+</ul>
+The remaining options specify a particular <b>fixed</b> center of rotation.
+An <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> 
+can include any combination of
+<a href="frameatom_spec.html" target="_top">atoms</a> and
+<a href="atom_spec.html#othermodels">surface pieces</a>;
+the center of rotation will be set to the center of the bounding sphere 
+of the specified items.  Alternatively, the center can be entered as
+coordinates <i>x,y,z</i> in a specified coordinate system.  
+The <b>coordinateSystem</b> can be specified
+by reference model number <i>N</i>, optionally preceded by #;
+otherwise, the laboratory frame of reference will be used.
+</p><p>
+The center of rotation can also be controlled with 
+the <a href="../sideview.html#rotation"><b>Rotation</b> tool</a>.
+</p><p>
+See also:
+<b><A href="center.html">center</A></b>,
+<b><A href="focus.html">focus</A></b>,
+<b><A href="set.html#independent">set independent</A></b>,
+<a href="../mouse.html">mouse manipulation</a>,
+<a href="../movies.html#moviecommands">movie-related commands</a>,
+the <a href="../menu.html#menuactions"><b>Actions</b> menu</a>
+</p>
+</body></html>

@@ -1,0 +1,2036 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.3.3 Other Shapes</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_67.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_67.html">2.3.2 Polygon Based Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.3.3 
+   Other Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_69.html">2.3.4 Advanced Texture Options</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_69.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_03_03">2.3.3 </a>Other Shapes</h3>
+<a name="s02_03_03_i1">
+<h4><a name="s02_03_03_01">2.3.3.1 </a>Blob Object</h4>
+
+<p>
+  Blobs are described as spheres and cylinders covered with &quot;goo&quot; which stretches to smoothly join them 
+ (see section &quot;<a href="s_105.html#s03_04_01_01">Blob</a>&quot;). 
+</p>
+
+<p>
+  Ideal for modeling atoms and molecules, blobs are also powerful tools for creating many smooth flowing 
+ &quot;organic&quot; shapes. 
+</p>
+
+<p>
+  A slightly more mathematical way of describing a blob would be to say that it is one object made up of two or more 
+ component pieces. Each piece is really an invisible field of force which starts out at a particular strength and falls 
+ off smoothly to zero at a given radius. Where ever these components overlap in space, their field strength gets added 
+ together (and yes, we can have negative strength which gets subtracted out of the total as well). We could have just 
+ one component in a blob, but except for seeing what it looks like there is little point, since the real beauty of 
+ blobs is the way the components interact with one another. 
+</p>
+
+<p>
+  Let us take a simple example blob to start. Now, in fact there are a couple different types of components but we 
+ will look at them a little later. For the sake of a simple first example, let us just talk about spherical components. 
+ Here is a sample POV-Ray code showing a basic camera, light, and a simple two component blob: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  background{White}
+  camera {
+    angle 15
+    location &lt;0,2,-10&gt;
+    look_at &lt;0,0,0&gt;
+  }
+  light_source { &lt;10, 20, -10&gt; color White }
+  blob {
+    threshold .65
+    sphere { &lt;.5,0,0&gt;, .8, 1 pigment {Blue} }
+    sphere { &lt;-.5,0,0&gt;,.8, 1 pigment {Pink} }
+    finish { phong 1 }
+  }
+</pre>
+
+<p>
+  <img alt="A simple, two-part blob." src="images/tutorial/simpblob.png"> 
+</p>
+
+<p>
+  The threshold is simply the overall strength value at which the blob becomes visible. Any points within the blob 
+ where the strength matches the threshold exactly form the surface of the blob shape. Those less than the threshold are <em>outside</em> 
+ and those greater than are <em>inside</em> the blob. 
+</p>
+
+<p>
+  We note that the spherical component looks a lot like a simple sphere object. We have the sphere keyword, the 
+ vector representing the location of the center of the sphere and the float representing the radius of the sphere. But 
+ what is that last float value? That is the individual strength of that component. In a spherical component, that is 
+ how strong the component's field is at the center of the sphere. It will fall off in a linear progression until it 
+ reaches exactly zero at the radius of the sphere. 
+</p>
+
+<p>
+  Before we render this test image, we note that we have given each component a different pigment. POV-Ray allows 
+ blob components to be given separate textures. We have done this here to make it clearer which parts of the blob are 
+ which. We can also texture the whole blob as one, like the finish statement at the end, which applies to all 
+ components since it appears at the end, outside of all the components. We render the scene and get a basic kissing 
+ spheres type blob. 
+</p>
+
+<p>
+  The image we see shows the spheres on either side, but they are smoothly joined by that bridge section in the 
+ center. This bridge represents where the two fields overlap, and therefore stay above the threshold for longer than 
+ elsewhere in the blob. If that is not totally clear, we add the following two objects to our scene and re-render. We 
+ note that these are meant to be entered as separate sphere objects, not more components in the blob. 
+</p>
+
+<pre>
+  sphere { &lt;.5,0,0&gt;, .8
+    pigment { Yellow transmit .75 }
+  }
+  sphere { &lt;-.5,0,0&gt;, .8
+    pigment { Green transmit .75 }
+  }
+</pre>
+
+<p>
+  <img alt="The spherical components made visible." src="images/tutorial/sphblob.png"> 
+</p>
+
+<p>
+  Now the secrets of the kissing spheres are laid bare. These semi-transparent spheres show where the components of 
+ the blob actually are. If we have not worked with blobs before, we might be surprised to see that the spheres we just 
+ added extend way farther out than the spheres that actually show up on the blobs. That of course is because our 
+ spheres have been assigned a starting strength of one, which gradually fades to zero as we move away from the sphere's 
+ center. When the strength drops below the threshold (in this case 0.65) the rest of the sphere becomes part of the 
+ outside of the blob and therefore is not visible. 
+</p>
+
+<p>
+  See the part where the two transparent spheres overlap? We note that it exactly corresponds to the bridge between 
+ the two spheres. That is the region where the two components are both contributing to the overall strength of the blob 
+ at that point. That is why the bridge appears: that region has a high enough strength to stay over the threshold, due 
+ to the fact that the combined strength of two spherical components is overlapping there. 
+</p>
+
+<h5><a name="s02_03_03_01_01">2.3.3.1.1 </a>Component Types and Other New Features</h5>
+<a name="s02_03_03_01_01_i1">
+<p>
+  The shape shown so far is interesting, but limited. POV-Ray has a few extra tricks that extend its range of 
+ usefulness however. For example, as we have seen, we can assign individual textures to blob components, we can also 
+ apply individual transformations (translate, rotate and scale) to stretch, twist, and squash pieces of the blob as we 
+ require. And perhaps most interestingly, the blob code has been extended to allow cylindrical components. 
+</p>
+
+<p>
+  Before we move on to cylinders, it should perhaps be mentioned that the old style of components used in previous 
+ versions of POV-Ray still work. Back then, all components were spheres, so it was not necessary to say sphere or 
+ cylinder. An old style component had the form: 
+</p>
+
+<p>
+  component Strength, Radius, &lt;Center&gt; 
+</p>
+
+<p>
+  This has the same effect as a spherical component, just as we already saw above. This is only useful for backwards 
+ compatibility. If we already have POV-Ray files with blobs from earlier versions, this is when we would need to 
+ recognize these components. We note that the old style components did not put braces around the strength, radius and 
+ center, and of course, we cannot independently transform or texture them. Therefore if we are modifying an older work 
+ into a new version, it may arguably be of benefit to convert old style components into spherical components anyway. 
+</p>
+
+<p>
+  Now for something new and different: cylindrical components. It could be argued that all we ever needed to do to 
+ make a roughly cylindrical portion of a blob was string a line of spherical components together along a straight line. 
+ Which is fine, if we like having extra to type, and also assuming that the cylinder was oriented along an axis. If 
+ not, we would have to work out the mathematical position of each component to keep it is a straight line. But no more! 
+ Cylindrical components have arrived. 
+</p>
+
+<p>
+  We replace the blob in our last example with the following and re-render. We can get rid of the transparent spheres 
+ too, by the way. 
+</p>
+
+<pre>
+  blob {
+    threshold .65
+    cylinder { &lt;-.75,-.75,0&gt;, &lt;.75,.75,0&gt;, .5, 1 }
+    pigment { Blue }
+    finish { phong 1 }
+  }
+</pre>
+
+<p>
+  We only have one component so that we can see the basic shape of the cylindrical component. It is not quite a true 
+ cylinder - more of a sausage shape, being a cylinder capped by two hemispheres. We think of it as if it were an array 
+ of spherical components all closely strung along a straight line. 
+</p>
+
+<p>
+  As for the component declaration itself: simple, logical, exactly as we would expect it to look (assuming we have 
+ been awake so far): it looks pretty much like the declaration of a cylinder object, with vectors specifying the two 
+ endpoints and a float giving the radius of the cylinder. The last float, of course, is the strength of the component. 
+ Just as with spherical components, the strength will determine the nature and degree of this component's interaction 
+ with its fellow components. In fact, next let us give this fellow something to interact with, shall we? 
+</p>
+
+<h5><a name="s02_03_03_01_02">2.3.3.1.2 </a>Complex Blob Constructs and Negative Strength</h5>
+<a name="s02_03_03_01_02_i1"><a name="s02_03_03_01_02_i2">
+<p>
+  Beginning a new POV-Ray file, we enter this somewhat more complex example: 
+</p>
+
+<pre>
+#include &quot;colors.inc&quot;
+background{White}
+camera {
+  angle 20
+  location&lt;0,2,-10&gt;
+  look_at&lt;0,0,0&gt;
+}
+light_source { &lt;10, 20, -10&gt; color White }
+blob {
+  threshold .65
+  sphere{&lt;-.23,-.32,0&gt;,.43, 1 scale &lt;1.95,1.05,.8&gt;}   //palm
+  sphere{&lt;+.12,-.41,0&gt;,.43, 1 scale &lt;1.95,1.075,.8&gt;}  //palm
+  sphere{&lt;-.23,-.63,0&gt;, .45, .75 scale &lt;1.78, 1.3,1&gt;} //midhand
+  sphere{&lt;+.19,-.63,0&gt;, .45, .75 scale &lt;1.78, 1.3,1&gt;} //midhand
+  sphere{&lt;-.22,-.73,0&gt;, .45, .85 scale &lt;1.4, 1.25,1&gt;} //heel
+  sphere{&lt;+.19,-.73,0&gt;, .45, .85 scale &lt;1.4, 1.25,1&gt;} //heel
+  cylinder{&lt;-.65,-.28,0&gt;, &lt;-.65,.28,-.05&gt;, .26, 1}    //lower pinky
+  cylinder{&lt;-.65,.28,-.05&gt;, &lt;-.65, .68,-.2&gt;, .26, 1}  //upper pinky
+  cylinder{&lt;-.3,-.28,0&gt;, &lt;-.3,.44,-.05&gt;, .26, 1}      //lower ring
+  cylinder{&lt;-.3,.44,-.05&gt;, &lt;-.3, .9,-.2&gt;, .26, 1}     //upper ring
+  cylinder{&lt;.05,-.28,0&gt;, &lt;.05, .49,-.05&gt;, .26, 1}     //lower middle
+  cylinder{&lt;.05,.49,-.05&gt;, &lt;.05, .95,-.2&gt;, .26, 1}    //upper middle
+  cylinder{&lt;.4,-.4,0&gt;, &lt;.4, .512, -.05&gt;, .26, 1}      //lower index
+  cylinder{&lt;.4,.512,-.05&gt;, &lt;.4, .85, -.2&gt;, .26, 1}    //upper index
+  cylinder{&lt;.41, -.95,0&gt;, &lt;.85, -.68, -.05&gt;, .25, 1}  //lower thumb
+  cylinder{&lt;.85,-.68,-.05&gt;, &lt;1.2, -.4, -.2&gt;, .25, 1}  //upper thumb
+  pigment{ Flesh }
+}
+</pre>
+
+<p>
+  <img alt="A hand made with blobs." src="images/tutorial/blobhand.png"> 
+</p>
+
+<p>
+  As we can guess from the comments, we are building a hand here. After we render this image, we can see there are a 
+ few problems with it. The palm and heel of the hand would look more realistic if we used a couple dozen smaller 
+ components rather than the half dozen larger ones we have used, and each finger should have three segments instead of 
+ two, but for the sake of a simplified demonstration, we can overlook these points. But there is one thing we really 
+ need to address here: This poor fellow appears to have horrible painful swelling of the joints! 
+</p>
+
+<p>
+  A review of what we know of blobs will quickly reveal what went wrong. The joints are places where the blob 
+ components overlap, therefore the combined strength of both components at that point causes the surface to extend 
+ further out, since it stays over the threshold longer. To fix this, what we need are components corresponding to the 
+ overlap region which have a negative strength to counteract part of the combined field strength. We add the following 
+ components to our blob. 
+</p>
+
+<pre>
+sphere{&lt;-.65,.28,-.05&gt;, .26, -1} //counteract pinky knucklebulge
+sphere{&lt;-.65,-.28,0&gt;, .26, -1}   //counteract pinky palm bulge
+sphere{&lt;-.3,.44,-.05&gt;, .26, -1}  //counteract ring knuckle bulge
+sphere{&lt;-.3,-.28,0&gt;, .26, -1}    //counteract ring palm bulge
+sphere{&lt;.05,.49,-.05&gt;, .26, -1}  //counteract middle knuckle bulge
+sphere{&lt;.05,-.28,0&gt;, .26, -1}    //counteract middle palm bulge
+sphere{&lt;.4,.512,-.05&gt;, .26, -1}  //counteract index knuckle bulge
+sphere{&lt;.4,-.4,0&gt;, .26, -1}      //counteract index palm bulge
+sphere{&lt;.85,-.68,-.05&gt;, .25, -1} //counteract thumb knuckle bulge
+sphere{&lt;.41,-.7,0&gt;, .25, -.89}   //counteract thumb heel bulge
+</pre>
+
+<p>
+  <img alt="The hand without the swollen joints." src="images/tutorial/imprhand.png"> 
+</p>
+
+<p>
+  Much better! The negative strength of the spherical components counteracts approximately half of the field strength 
+ at the points where to components overlap, so the ugly, unrealistic (and painful looking) bulging is cut out making 
+ our hand considerably improved. While we could probably make a yet more realistic hand with a couple dozen additional 
+ components, what we get this time is a considerable improvement. Any by now, we have enough basic knowledge of blob 
+ mechanics to make a wide array of smooth, flowing organic shapes! 
+</p>
+
+<h4><a name="s02_03_03_02">2.3.3.2 </a>Height Field Object</h4>
+<a name="s02_03_03_02_i1">
+<p>
+  A <code>height_field</code> is an object that has a surface that is determined by the color value or palette index 
+ number of an image designed for that purpose. With height fields, realistic mountains and other types of terrain can 
+ easily be made. First, we need an image from which to create the height field. It just so happens that POV-Ray is 
+ ideal for creating such an image. 
+</p>
+
+<p>
+  We make a new file called <code>image.pov</code> and edit it to contain the following: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  global_settings {
+    assumed_gamma 2.2
+    hf_gray_16
+  }
+</pre>
+
+<p>
+  The <code><a href="s_102.html#s03_03_03_04">hf_gray_16</a></code> keyword causes the output to be in a special 16 
+ bit grayscale that is perfect for generating height fields. The normal 8 bit output will lead to less smooth surfaces. 
+</p>
+
+<p>
+  Now we create a camera positioned so that it points directly down the z-axis at the origin. 
+</p>
+
+<pre>
+  camera {
+    location &lt;0, 0, -10&gt;
+    look_at 0
+  }
+</pre>
+
+<p>
+  We then create a plane positioned like a wall at z=0. This plane will completely fill the screen. It will be 
+ colored with white and gray wrinkles. 
+</p>
+
+<pre>
+  plane { z, 10
+    pigment {
+      wrinkles
+      color_map {
+       [0 0.3*White]
+       [1 White]
+      }
+    }
+  }
+</pre>
+
+<p>
+  Finally, create a light source. 
+</p>
+
+<pre>
+  light_source { &lt;0, 20, -100&gt; color White }
+</pre>
+
+<p>
+  We render this scene at 640x480 <code>+A0.1</code> <code>+FT</code>. We will get an image that will produce an 
+ excellent height field. We create a new file called <code>hfdemo.pov</code> and edit it as follows: 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> Windows users, unless you specify <code>+FT</code> as above, you will get a 
+ .BMP file (which is the default Windows version output). In this case you will need to use <code>sys</code> instead of <code>tga</code> 
+ in the <code>height_field</code> statement below. 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+</pre>
+
+<p>
+  We add a camera that is two units above the origin and ten units back ... 
+</p>
+
+<pre>
+  camera{
+    location &lt;0, 2, -10&gt;
+    look_at 0
+    angle 30
+  }
+</pre>
+
+<p>
+  ... and a light source. 
+</p>
+
+<pre>
+  light_source{ &lt;1000,1000,-1000&gt; White }
+</pre>
+
+<p>
+  Now we add the height field. In the following syntax, a Targa image file is specified, the height field is 
+ smoothed, it is given a simple white pigment, it is translated to center it around the origin and it is scaled so that 
+ it resembles mountains and fills the screen. 
+</p>
+
+<pre>
+  height_field {
+    tga &quot;image.tga&quot;
+    smooth
+    pigment { White }
+    translate &lt;-.5, -.5, -.5&gt;
+    scale &lt;17, 1.75, 17&gt;
+  }
+</pre>
+
+<p>
+  We save the file and render it at 320x240 <code>-A</code>. Later, when we are satisfied that the height field is 
+ the way we want it, we render it at a higher resolution with anti-aliasing. 
+</p>
+
+<p>
+  <img alt="A height field created completely with POV-Ray." src="images/tutorial/pvhfield.png"> 
+</p>
+
+<p>
+  Wow! The Himalayas have come to our computer screen! 
+</p>
+
+<h4><a name="s02_03_03_03">2.3.3.3 </a>Isosurface Object</h4>
+<a name="s02_03_03_03_i1"><a name="isosurface, tutorial"></a>
+<dl class="famousquote">
+ 
+ <dt>
+   <em>You know you have been raytracing too long when ...<br> ... You find yourself wishing you'd paid attention in 
+  math class to all those formulae you thought you'd never have any use for in real life.</em> 
+ <dd>
+   <em>-- Jeff Lee</em> 
+</dl>
+
+<p>
+  Isosurfaces are shapes described by mathematical functions. 
+</p>
+
+<p>
+  In contrast to the other mathematically based shapes in POV-Ray, isosurfaces are approximated during rendering and 
+ therefore they are sometimes more difficult to handle. However, they offer many interesting possibilities, like real 
+ deformations and surface displacements 
+</p>
+
+<p>
+  Some knowledge about mathematical functions and geometry is useful, but not necessarily required to work with 
+ isosurfaces. 
+</p>
+
+<h5><a name="s02_03_03_03_01">2.3.3.3.1 </a>Simple functions</h5>
+
+<p>
+  For the start we will choose a most simple function: <code>x</code> The value of this function is exactly the 
+ current x-coordinate. 
+</p>
+
+<p>
+  The isosurface object takes this function as a <a href="s_97.html#s03_02_01_06">user defined function</a>: 
+</p>
+
+<pre>
+  isosurface {
+    function { x }
+    contained_by { box { -2, 2 } }
+  }
+</pre>
+
+<p>
+  <img alt="Isosurface sample (function { x })" src="images/tutorial/iso_01.png"> 
+</p>
+
+<p>
+  the resulting shape is fairly simple: a box. 
+</p>
+
+<p>
+  The fact that it is a box is only caused by the container object which is required for an isosurface. You can 
+ either use a box or a sphere for this purpose. 
+</p>
+
+<p>
+  So only one side of the box is made by the function in fact. This surface is where the x-coordinate is 0 since 0 is 
+ the default threshold. There usually is no reason to change this, since it is the most common and most suggestive 
+ value, but you can specify something different by adding 
+</p>
+
+<p>
+  <code> threshold 1</code> 
+</p>
+
+<p>
+  to the isosurface definition. 
+</p>
+
+<p>
+  <img alt="Isosurface sample (function { x }, threshold 1)" src="images/tutorial/iso_02.png"> 
+</p>
+
+<p>
+  As you can see, the surface is now at x-coordinate 1. 
+</p>
+
+<p>
+  We can also remove the visible surfaces of the container object by adding the word 'open' to the isosurface 
+ definition. 
+</p>
+
+<p>
+  <img alt="Isosurface sample (function { x }, open)" src="images/tutorial/iso_03.png"> 
+</p>
+
+<p>
+  For making it clearer what surfaces are the actual isosurface and what are caused by the container object, the 
+ color will be different in all the following pictures. 
+</p>
+
+<p>
+  Now we replace the used function with something different: 
+</p>
+
+<p>
+  <code> function { x+y }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (plane function)" src="images/tutorial/iso_04.png"> 
+</p>
+
+<p>
+  <code> function { x+y+z }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (plane function)" src="images/tutorial/iso_05.png"> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> 'max_gradient 4' is added to the isosurface definition here, this will be 
+ explained later on. 
+</p>
+
+<p>
+  All these functions describe planes going through the origin. The function just describes the normal vector of this 
+ plane. 
+</p>
+
+<h5><a name="s02_03_03_03_02">2.3.3.3.2 </a>Several surfaces</h5>
+
+<p>
+  The following two functions lead to identical results: 
+</p>
+
+<p>
+  <code> function { abs(x)-1 }</code> 
+</p>
+
+<p>
+  <code> function { sqrt(x*x)-1 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (function { abs(x)-1 }, open)" src="images/tutorial/iso_06.png"> 
+</p>
+
+<p>
+  You can see that there are two planes now. The reason is that both formulas have the same two solutions (where the 
+ function value is 0), namely <code>x=-1</code> and <code>x=1</code>. 
+</p>
+
+<p>
+  We can now mix all these elements in different combinations, the results always consist of plane surfaces: 
+</p>
+
+<p>
+  <code> function { abs(x)-1+y }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (combined linear functions)" src="images/tutorial/iso_07.png"> 
+</p>
+
+<p>
+  <code> function { abs(x)+abs(y)+abs(z)-2 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (combined linear functions)" src="images/tutorial/iso_08.png"> 
+</p>
+
+<h5><a name="s02_03_03_03_03">2.3.3.3.3 </a>Non-linear functions</h5>
+
+<p>
+  Curved surfaces of many different kinds can be achieved with non-linear functions. 
+</p>
+
+<p>
+  <code> function { pow(x,2) + y }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (non-linear function)" src="images/tutorial/iso_09.png"> 
+</p>
+
+<p>
+  You can see the parabolic shape caused by the square function. 
+</p>
+
+<p>
+  To get a cylindrical surface we can use the following function. 
+</p>
+
+<p>
+  <code> function { sqrt(pow(x,2) + pow(z,2)) - 1 }</code> 
+</p>
+
+<p>
+  In 2 dimensions it describes a circle, since it is constant in the 3rd dimension, we get a cylinder: 
+</p>
+
+<p>
+  <img alt="Isosurface sample (cylinder function)" src="images/tutorial/iso_10.png"> 
+</p>
+
+<p>
+  It is of course not difficult to change this into a cone, we just need to add a linear component in y-direction: 
+</p>
+
+<p>
+  <code> function { sqrt(pow(x,2) + pow(z,2)) + y }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (cone function)" src="images/tutorial/iso_11.png"> 
+</p>
+
+<p>
+  And we of course can also make a sphere: 
+</p>
+
+<p>
+  <code> function { sqrt(pow(x,2) + pow(y,2) + pow(z,2)) - 2 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (sphere function)" src="images/tutorial/iso_12.png"> 
+</p>
+
+<p>
+  The <code>2</code> specifies the radius here. 
+</p>
+
+<h5><a name="s02_03_03_03_04">2.3.3.3.4 </a>Specifying functions</h5>
+
+<p>
+  As we have seen, the functions used to define the isosurface are written in the <code>function {...}</code> block. 
+</p>
+
+<p>
+  Allowed are: 
+</p>
+
+<p>
+  User defined functions (like equations). All float expressions and operators (see section &quot;<a href="#l25">User-Defined 
+ Functions</a>&quot;) which are legal in POV-Ray, can be used. <br>With the equation of a sphere &quot;<code>x^2+y^2+z^2 
+ = Threshold</code>&quot; we get: 
+</p>
+
+<pre>
+isosurface {
+function {pow(x,2) + pow(y,2) + pow(z,2)}
+  threshold Threshold
+  ...
+}
+</pre>
+
+<p>
+  Functions can be declared first (see section &quot;<a href="#l26">Declaring Functions</a>&quot;) and then used in 
+ the isosurface. 
+</p>
+
+<pre>
+#declare Sphere = function {pow(x,2) + pow(y,2) + pow(z,2)}
+isosurface {
+  function { Sphere(x,y,z) }
+  threshold Threshold
+  ...
+}
+</pre>
+
+<p>
+  By default a function takes three parameters (x,y,z) and you do not have to explicitly specify the parameter names 
+ when declaring it. <br>When <em>using</em> the identifier, the parameters <em>must</em> be specified. <br>On the other 
+ hand, if you need more or less than three parameters when declaring a function, you also have to explicitly specify 
+ the parameter names. 
+</p>
+
+<pre>
+#declare Sphere = function(x,y,z,Radius) {
+    pow(x,2) + pow(y,2) + pow(z,2) - pow(Radius,2) 
+}
+isosurface {
+  function { Sphere(x,y,z,1) }
+  ...
+}
+</pre>
+
+<h5><a name="s02_03_03_03_05">2.3.3.3.5 </a>Internal functions</h5>
+
+<p>
+  There are a lot of internal functions available in POV-Ray. For example a sphere could also be generated with <code>function 
+ { f_sphere(x, y, z, 2) }</code> These functions are declared in the <code>functions.inc</code> include file. Most of 
+ them are more complicated and it is usually faster to use them instead of a hand coded equivalent. See the <a href="s_138.html#s03_07_07_02">complete 
+ list</a> for details. 
+</p>
+
+<p>
+  The following makes a torus just like POV-Ray's torus object: 
+</p>
+
+<pre>
+  #include &quot;functions.inc&quot;
+
+  isosurface {
+    function { f_torus(x, y, z, 1.6, 0.4) }
+    contained_by { box { -2, 2 } }
+  }
+</pre>
+
+<p>
+  <img alt="Isosurface sample (torus function)" src="images/tutorial/iso_13.png"> 
+</p>
+
+<p>
+  The 4th and 5th parameter are the major and minor radius, just like the corresponding values in the <code>torus{}</code> 
+ object. 
+</p>
+
+<p>
+  The parameters x, y and z are required, because it is a declared function. You can also declare functions yourself 
+ like it is explained in the <a href="s_97.html#s03_02_01_06_03">reference section</a>. 
+</p>
+
+<h5><a name="s02_03_03_03_06">2.3.3.3.6 </a>Combining isosurface functions</h5>
+
+<p>
+  We can also simulate some Constructive Solid Geometry with isosurface functions. If you do not know about CSG we 
+ suggest you have a look at <a href="s_59.html#s02_02_03_01">&quot;What is CSG?&quot;</a> or the corresponding part of 
+ the <a href="s_110.html#s03_04_06">reference section</a> first. 
+</p>
+
+<p>
+  We will take two functions: a cylinder and a rotated box: 
+</p>
+
+<pre>
+  #declare fn_A = function { sqrt(pow(y,2) + pow(z,2)) - 0.8 }
+  #declare fn_B = function { abs(x)+abs(y)-1 }
+</pre>
+
+<p>
+  If we combine them the following way, we get a &quot;merge&quot;: 
+</p>
+
+<p>
+  <code>function { min(fn_A(x, y, z), fn_B(x, y, z)) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (merge)" src="images/tutorial/iso_14.png"> 
+</p>
+
+<p>
+  An &quot;intersection&quot; can be obtained by using <code>max()</code> instead of <code>min()</code>: 
+</p>
+
+<p>
+  <code>function { max(fn_A(x, y, z), fn_B(x, y, z)) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (intersection)" src="images/tutorial/iso_15.png"> 
+</p>
+
+<p>
+  Of course also &quot;difference&quot; is possible, we just have to add a minus (-) before the second function: 
+</p>
+
+<p>
+  <code>function { max(fn_A(x, y, z), -fn_B(x, y, z)) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (difference)" src="images/tutorial/iso_16.png"> 
+</p>
+
+<p>
+  Apart from basic CSG you can also obtain smooth transits between the different surfaces (like with the <a href="s_68.html#s02_03_03_01">blob 
+ object</a>) 
+</p>
+
+<pre>
+  #declare Blob_threshold=0.01;
+
+  isosurface {
+    function {
+      (1+Blob_threshold)
+      -pow(Blob_threshold, fn_A(x,y,z))
+      -pow(Blob_threshold, fn_B(x,y,z))
+    }
+    max_gradient 4
+    contained_by { box { -2, 2 } }
+  }
+</pre>
+
+<p>
+  <img alt="Isosurface sample (blob)" src="images/tutorial/iso_17.png"> 
+</p>
+
+<p>
+  The <code>Blob_threshold</code> value influences the smoothness of the transit between the shapes. a lower value 
+ leads to sharper edges. 
+</p>
+
+<p>
+  The function for a negative blob looks like: 
+</p>
+
+<pre>
+function{fn_A(x,y,z) + pow(Blob_threshold,(Fn_B(x,y,z) + Strength))}
+</pre>
+
+<h5><a name="s02_03_03_03_07">2.3.3.3.7 </a>Noise and pigment functions</h5>
+
+<p>
+  Some of the <a href="#l27">internal functions</a> have a random or noise-like structure 
+</p>
+
+<p>
+  Together with the pigment functions they are one of the most powerful tools for designing isosurfaces. We can add 
+ real surface displacement to the objects rather than only normal perturbation known from the <a href="#l28">normal{} 
+ statement</a>. 
+</p>
+
+<p>
+  The relevant internal functions are: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>f_noise3d(x,y,z)</code><br> uses the <a href="#l29">noise generator</a> specified in <code>global_settings{}</code> 
+  and generates structures like the bozo pattern. 
+ </li>
+
+ <li>
+   <code>f_noise_generator(x, y, z, noise_generator)</code><br> generates noise with a specified noise generator. 
+ </li>
+
+ <li>
+   <code>f_ridged_mf(x, y, z, H, Lacunarity, Octaves, Offset, Gain, noise_generator)</code><br> generates a ridged 
+  multifractal pattern. 
+ </li>
+
+ <li>
+   <code>f_ridge(x, y, z, Lambda, Octaves, Omega, Offset, Ridge, noise_generator)</code><br> generates another noise 
+  with ridges. 
+ </li>
+
+ <li>
+   <code>f_hetero_mf(x, y, z, H, Lacunarity, Octaves, Offset, T, noise_generator)</code><br> generates heterogenic 
+  multifractal noise. 
+ </li>
+
+</ul>
+
+<p>
+  Using pure noise3d as a function results in the following picture: 
+</p>
+
+<p>
+  <code> function { f_noise3d(x, y, z)-0.5 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (noise3d)" src="images/tutorial/iso_18.png"> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the <code>-0.5</code> is only there to make it match to the used threshold 
+ value of 0, the <code>f_noise3d</code> function returns values between 0 and 1. 
+</p>
+
+<p>
+  With this and the other functions you can generate objects similar to heightfields, having the advantage that a 
+ high resolution can be achieved without high memory requirements. 
+</p>
+
+<p>
+  <code> function { x + f_noise3d(0, y, z) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (noise3d 'heightfield')" src="images/tutorial/iso_19.png"> 
+</p>
+
+<p>
+  The noise function can of course also be subtracted which results in an 'inverted' version: 
+</p>
+
+<p>
+  <code> function { x - f_noise3d(0, y, z) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (noise3d 'heightfield' inverted)" src="images/tutorial/iso_20.png"> 
+</p>
+
+<p>
+  In the last two pictures we added the noise function to a plane function. The x-parameter was set to 0 so the noise 
+ function is constant in x-direction. This way we achieve the typical heightfield structure. 
+</p>
+
+<p>
+  Of course we can also add noise to any other function. If the noise function is very strong this can result in 
+ several separated surfaces. 
+</p>
+
+<p>
+  <code> function { f_sphere(x, y, z, 1.2) - f_noise3d(x, y, z) }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (noise3d on sphere)" src="images/tutorial/iso_21.png"> 
+</p>
+
+<p>
+  This is a noise function applied to a sphere surface, we can influence the intensity of the noise by multiplying it 
+ with a factor and change the scale by multiplying the coordinate parameters: 
+</p>
+
+<p>
+  <code> function { f_sphere(x, y, z, 1.6) - f_noise3d(x * 5, y * 5, z * 5) * 0.5 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (noise3d on sphere scaled)" src="images/tutorial/iso_22.png"> 
+</p>
+
+<p>
+  As alternative to noise functions we can also use any pigment in a function: 
+</p>
+
+<pre>
+  #declare fn_Pigm=function {
+    pigment {
+      agate
+      color_map {
+        [0 color rgb 0]
+        [1 color rgb 1]
+      }
+    }
+  }
+</pre>
+
+<p>
+  This function is a vector function returning a (color) vector.For use in isosurface functions they <em>must</em> be 
+ declared first. When using the identifier, you have to specify which component of the color vector should be used. To 
+ do this, the dot notation is used: <code>Function(x,y,z).red</code>. 
+</p>
+
+<p>
+  A color vector has five components. Supported dot types to access these components are: 
+</p>
+
+<ul>
+ 
+ <li>
+   F( ).<code>x</code> | F( ).<code>u</code> | F( ).<code>red</code> 
+  <ul>
+   
+   <li>
+     to get the red value of the color vector 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>y</code> | F( ).<code>v</code> | F( ).<code>green</code> 
+  <ul>
+   
+   <li>
+     to get the green value of the color vector 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>z</code> | F( ).<code>blue</code> 
+  <ul>
+   
+   <li>
+     to get the blue value of the color vector 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>filter</code> | F( ).<code>t</code> 
+  <ul>
+   
+   <li>
+     to get the filter value of the color vector 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>transmit</code> 
+  <ul>
+   
+   <li>
+     to get the transmit value of the color vector 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>gray</code> 
+  <ul>
+   
+   <li>
+     to get the gray value of the color vector 
+   </li>
+
+   <li>
+     gray value = Red*29.7% + Green*58.9% + Blue*11.4% 
+   </li>
+
+  </ul>
+   
+ </li>
+
+ <li>
+   F( ).<code>hf</code> 
+  <ul>
+   
+   <li>
+     to get the height_field value of the color vector 
+   </li>
+
+   <li>
+     hf value = (Red + Green/255)*0.996093 
+   </li>
+
+   <li>
+     the .hf operator is experimental and will generate a warning. 
+   </li>
+
+  </ul>
+   
+ </li>
+
+</ul>
+
+<p>
+  <code> function { f_sphere(x, y, z, 1.6)-fn_Pigm(x/2, y/2, z/2).gray*0.5 }</code> 
+</p>
+
+<p>
+  <img alt="Isosurface sample (pigment function)" src="images/tutorial/iso_23.png"> 
+</p>
+
+<p>
+  There are quite a lot of things possible with pigment functions, but you probably have recognized that this renders 
+ quite slow. 
+</p>
+
+<h5><a name="s02_03_03_03_08">2.3.3.3.8 </a>Conditional directives and loops</h5>
+
+<p>
+  Conditional directives are allowed in functions: 
+</p>
+
+<pre>
+#declare Rough = yes;
+#include &quot;functions.inc&quot;
+isosurface {
+  function { y #if(Rough=1)-f_noise3d(x/0.5,y/0.3,z/0.4)*0.8 #end }
+  ...
+}
+</pre>
+
+<p>
+  Loops can also be used in functions: 
+</p>
+
+<pre>
+#include &quot;functions.inc&quot;
+#declare Thr = 1/1000;
+#declare Ang = radians(45);
+#declare Offset = 1.5;
+#declare Scale = 1.2;
+#declare TrSph = function { f_sphere(x-Offset,y,z,0.7*Scale) }
+
+function {
+  (1-Thr)
+  #declare A = 0;
+  #while (A&lt;8)
+  -pow(Thr, TrSph(x*cos(A*Ang) + y*sin(A*Ang),
+                  y*cos(A*Ang) -x*sin(A*Ang), z) )
+    #declare A=A+1;
+  #end
+}
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> The loops and conditionals are evaluated at parse time, not at render time. 
+</p>
+
+<h5><a name="s02_03_03_03_09">2.3.3.3.9 </a>Transformations on functions</h5>
+
+<p>
+  Transforming an isosurface object is done like transforming any POV-Ray object. Simply use the object modifiers 
+ (scale, translate, rotate, ...). 
+</p>
+
+<p>
+  However, when you want to transform functions within the contained_by object, you have to substitute parameters in 
+ the functions. 
+</p>
+
+<p>
+  The results <em>seem</em> inverted to what you would normally expect. Here is an explanation: <br>Take a 
+ Sphere(x,y,z). We know it sits at the origin because x=0. When we want it at x=2 (translating 2 units to the right) we 
+ need to write the second equation in the same form: x-2=0 <br>Now that both equations equal 0, we can replace 
+ parameter x with x-2 <br>So our Sphere(x-2, y,z) moves two units to the <em>right</em>. 
+</p>
+
+<p>
+  Let's scale our Sphere 0.5 in the y direction. Default size is y=1 (one unit). We want y=0.5. <br>To get this 
+ equation in the same form as the first one, we have to multiply both sides by two. y*2 = 0.5*2, which gives y*2=1 <br>Now 
+ we can replace the y parameter in our sphere: Sphere(x, y*2, z). This squishes the y-size of the sphere by half. <br>Well, 
+ this is the general idea of substitutions. 
+</p>
+
+<p>
+  Here is an overview of some useful substitutions: <br>Using a declared object P(x,y,z) 
+</p>
+
+<p>
+  <strong>Scale</strong><br> scale x : replace &quot;<code>x</code>&quot; with &quot;<code>x/scale</code>&quot; (idem 
+ other parameters) 
+</p>
+
+<pre>scale x*2   gives    P(x/2,y,z)</pre>
+
+<p>
+  <strong>Scale Infinitely</strong><br> scale x infinitely : replace &quot;<code>x</code>&quot; with &quot;<code>0</code>&quot; 
+ (idem other parameters) 
+</p>
+
+<pre>scale y infinitely   gives    P(x,0,z)</pre>
+
+<p>
+  <strong>Translate</strong><br> translate x : replace &quot;<code>x</code>&quot; with &quot;<code>x - translation</code>&quot; 
+ (idem other parameters) 
+</p>
+
+<pre>translate z*3   gives    P(x,y,z-3)</pre>
+
+<p>
+  <strong>Shear</strong><br> shear in XY-plane : replace &quot;<code>x</code>&quot; with &quot;<code>x + 
+ y*tan(radians(Angle))</code>&quot; (idem other parameters) 
+</p>
+
+<pre>shear 45 degrees left   gives    P(x+y*tan(radians(45)), y, z)</pre>
+
+<p>
+  <strong>Rotate</strong> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> these rotation substitutions work like normal POV-rotations: they already 
+ compensate for the inverse working 
+</p>
+
+<p>
+  rotate around X <br>: replace &quot;<code>y</code>&quot; with &quot;<code>z*sin(radians(Angle)) + 
+ y*cos(radians(Angle))</code>&quot; <br>: replace &quot;<code>z</code>&quot; with &quot;<code>z*cos(radians(Angle)) - 
+ y*sin(radians(Angle))</code>&quot; 
+</p>
+
+<p>
+  rotate around Y <br>: replace &quot;<code>x</code>&quot; with &quot;<code>x*cos(radians(Angle)) - 
+ z*sin(radians(Angle))</code>&quot; <br>: replace &quot;<code>z</code>&quot; with &quot;<code>x*sin(radians(Angle)) + 
+ z*cos(radians(Angle))</code>&quot; 
+</p>
+
+<p>
+  rotate around Z <br>: replace &quot;<code>x</code>&quot; with &quot;<code>x*cos(radians(Angle)) + 
+ y*sin(radians(Angle))</code>&quot; <br>: replace &quot;<code>y</code>&quot; with &quot;<code>-x*sin(radians(Angle)) + 
+ y*cos(radians(Angle)) </code>&quot; 
+</p>
+
+<pre>
+  rotate z*75   gives:
+  P(x*cos(radians(75)) + y*sin(radians(75)),
+    -x*sin(radians(75)) + y*cos(radians(75)), z)
+ </pre>
+
+<p>
+  <strong>Flip</strong><br> flip X - Y : replace &quot;<code>x</code>&quot; with &quot;<code>y</code>&quot; and 
+ replace &quot;<code>y</code>&quot; with &quot;<code>-x</code>&quot; 
+</p>
+
+<p>
+  flip Y - Z : replace &quot;<code>y</code>&quot; with &quot;<code>z</code>&quot; and replace &quot;<code>z</code>&quot; 
+ with &quot;<code>-y</code>&quot; 
+</p>
+
+<p>
+  flip X - Z : replace &quot;<code>x</code>&quot; with &quot;<code>-z</code>&quot; and replace &quot;<code>z</code>&quot; 
+ with &quot;<code>x</code>&quot; 
+</p>
+
+<pre>flip x and y   gives    P(y, -x, z)</pre>
+
+<p>
+  <strong>Twist</strong><br> twist N turns/unit around <code>X</code> <br>: replace &quot;<code>y</code>&quot; with 
+ &quot;<code>z*sin(x*2*pi*N) + y*cos(x*2*pi*N)</code>&quot; <br>: replace &quot;<code>z</code>&quot; with &quot;<code>z*cos(x*2*pi*N) 
+ - y*sin(x*2*pi*N)</code>&quot; 
+</p>
+
+<h5><a name="s02_03_03_03_10">2.3.3.3.10 </a>Improving Isosurface Speed</h5>
+
+<p>
+  To optimize the approximation of the isosurface and to get maximum rendering speed it is important to adapt certain 
+ values; 
+</p>
+
+<p>
+  <code>accuracy</code> 
+</p>
+
+<p>
+  The accuracy value influences how accurate the surface geometry is calculated. Lower values lead to a more precise, 
+ but slower result. The default value of <code>0.001</code> is fairly low. We used this value in all the previous 
+ samples, but often you can raise this quite a lot and thereby make things faster. 
+</p>
+
+<p>
+  <code>max_gradient</code> 
+</p>
+
+<p>
+  For finding the actual surface it is important for POV-Ray to know the maximum gradient of the function, meaning 
+ how fast the function value changes. We can specify a value with the <code>max_gradient</code> keyword. Lower 
+ max_gradient values lead to faster rendering, but if the specified value is below the actual maximum gradient of the 
+ function, there can be holes or other artefacts in the surface. 
+</p>
+
+<p>
+  For the same reason functions with infinite gradient should not be used. This applies for pigment functions with 
+ brick or checker pattern for example. You should also be careful when using <code>select()</code> in isosurface 
+ functions because of this. 
+</p>
+
+<p>
+  If the real maximum gradient differs too much from the specified value POV-Ray prints a warning together with the 
+ found maximum gradient. It is usually sufficient to use this number for the <code>max_gradient</code> parameter to get 
+ fast and correct results. 
+</p>
+
+<p>
+  POV-Ray can also dynamically change the <code>max_gradient</code> when you specify <code>evaluate</code> with 3 
+ parameters the isosurface definition. Concerning the details on this and other things see the <a href="s_108.html#s03_04_04">evaluate</a> 
+ in the reference section. 
+</p>
+
+<p>
+  <code>contained_by</code> 
+</p>
+
+<p>
+  Make sure your <code>contained_by</code> 'object' fits as tightly as possible. An oversized container can 
+ sky-rocket the render time. <br>When the container has a lot of empty space around the actual isosurface, POV-Ray has 
+ to do a lot of superfluous sampling: especially with complex functions this can become very time consuming. On top of 
+ this, the <code>max_gradient</code> needed to get a proper surface will also increase rapidly (almost proportional to 
+ the oversize!). <br>You could use a transparent copy of the container (using exactly the same transformations) to 
+ check how it fits. Getting the <code>min_extent</code> and <code>max_extent</code> of the <code>isosurface</code> is 
+ not useful because it only gives the extent of the container and not of the actual isosurface. 
+</p>
+
+<h4><a name="s02_03_03_04">2.3.3.4 </a>Poly Object</h4>
+<a name="s02_03_03_04_i1">
+<p>
+  The polynomial object (and its &quot;shortcut&quot; versions: <code><a href="s_107.html#s03_04_03_02">cubic</a></code>, 
+ <code><a href="s_107.html#s03_04_03_02">quartic</a></code> and <code><a href="s_107.html#s03_04_03_03">quadric</a></code>) 
+ of POV-Ray is one of the most complex and mathematical primitives of the program. One could think that it is seldom 
+ used and more or less obsolete, but we have to remember that for example the torus primitive is just a shortcut for 
+ the equivalent <code>quartic</code>, which is just a shortcut for the equivalent <code>poly</code> object. Polys are, 
+ however, seldom used in scenes due to the fact that they are so difficult to define and it is far from trivial to get 
+ the desired shape with just a polynomial equation. It is mostly used by the most mathematically oriented POV-Ray 
+ users. 
+</p>
+
+<p>
+  This tutorial explains the process of making a polynomial object in POV-Ray. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong>Since version 3.5, POV-Ray includes the new <code>isosurface</code> object which 
+ makes the polynomial object more or less obsolete. The isosurface is more versatile (you can specify any mathematical 
+ function, not just polynomials), easier to use. You can write the function as is, without needing to put values in a 
+ gigantic vector. Isosurfaces often render considerably faster than equivalent polys. 
+</p>
+
+<p>
+  However, the most mathematically oriented still like polys because isosurfaces are calculated just by approximating 
+ the right value, while the poly is calculated in a mathematically exact way. Usually isosurfaces are more than good 
+ enough for most applications, though. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> at maximum a 15th degree polynomial can be represented with the poly object. If 
+ a higher degree polynomial or other non-polynomial function has to be represented, then it is necessary to use the 
+ isosurface object. 
+</p>
+
+<h5><a name="s02_03_03_04_01">2.3.3.4.1 </a>Creating the polynomial function</h5>
+
+<p>
+  The first step is to create the polynomial function to be represented. You will need some (high-school level) 
+ mathematical knowledge for this. 
+</p>
+
+<p>
+  <strong>1)</strong> Let's start with an easy example: A sphere. 
+</p>
+
+<p>
+  The sphere function is: 
+</p>
+
+<p>
+  <br><center><img alt="sphere function" src="images/tutorial/polyfunc1.png"></center> 
+</p>
+
+<p>
+  Now we have to convert this to polynomial form: 
+</p>
+
+<p>
+  <br><center><img alt="sphere polynomial" src="images/tutorial/polyfunc2.png"></center> 
+</p>
+
+<p>
+  We will need a polynomial of the 2nd degree to represent this. 
+</p>
+
+<p>
+  <strong>2)</strong> A more elaborated example: 
+</p>
+
+<p>
+  Let's take the function: 
+</p>
+
+<p>
+  <br><center><img alt="function" src="images/tutorial/polyfunc3.png"></center> 
+</p>
+
+<p>
+  Converting this to polynomial form we get: 
+</p>
+
+<p>
+  <br><center><img alt="polynomial" src="images/tutorial/polyfunc4.png"></center> 
+</p>
+
+<p>
+  Although the highest power is 4 we will need a 5th order polynomial to represent this function (because we cannot 
+ represent y<sup>4</sup>z with a 4th order polynomial). 
+</p>
+
+<p>
+  <strong>3)</strong> And since we talked about the torus, let's also take it as an example. 
+</p>
+
+<p>
+  A torus can be represented with the function: 
+</p>
+
+<p>
+  <br><center><img alt="torus function" src="images/tutorial/polyfunc5.png"></center> 
+</p>
+
+<p>
+  where r<sub>1</sub> is the major radius and r<sub>2</sub> is the minor radius. 
+</p>
+
+<p>
+  Now, this is tougher to convert to polynomial form, but finally we get: 
+</p>
+
+<p>
+  <br><center><img alt="torus polynomial" src="images/tutorial/polyfunc6.png"></center> 
+</p>
+
+<p>
+  A 4th order polynomial is enough to represent this. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> not every function can be represented in polynomial form. Only functions that 
+ use addition (and substraction), multiplication (and division) and scalar powers (including rational powers, eg. the 
+ square root) can be represented. Also, the poly primitive supports only polynomials of the 7th degree at max. 
+</p>
+
+<p>
+  Converting a function to polynomial form may be a very laborious task for certain functions. Some mathematical 
+ programs are very helpful in this matter. 
+</p>
+
+<h5><a name="s02_03_03_04_02">2.3.3.4.2 </a>Writing the polynomial vector</h5>
+
+<p>
+  Now that we have the function in polynomial form, we have to write it in POV-Ray syntax. The syntax is specified in 
+ the in the chapters &quot;<a href="s_107.html#s03_04_03_02">Poly, Cubic and Quartic</a>&quot; and &quot;<a href="s_107.html#s03_04_03_03">Quadric</a>&quot; 
+ of the SDL section. There is also a table in this chapter which we will be using to make the polynomial vector. It is 
+ easier to have this table printed on paper. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> It is also possible to make a little program with your favorite programming 
+ language which will print the poly vector from the polynomial function, but making a program like this is up to you. 
+</p>
+
+<p>
+  <strong>1)</strong> Let's start with the easy one, ie. the sphere. 
+</p>
+
+<p>
+  Since the sphere can be represented with a polynomial of 2nd degree, we look at the row titled &quot;2nd&quot; in 
+ the table. We see that it has 10 items, ie. we need a vector of size 10. Each item of the vector will be the factor of 
+ the term listed in the table. 
+</p>
+
+<p>
+  The polynomial was: 
+</p>
+
+<p>
+  <br><center><img alt="sphere polynomial" src="images/tutorial/polyfunc2.png"></center> 
+</p>
+
+<p>
+  Writing the poly in this way we get: 
+</p>
+
+<pre>
+#declare Radius=1;
+poly
+{ 2,
+  &lt;1,0,0,0,1,
+   0,0,1,0,-Radius*Radius&gt;
+}
+</pre>
+
+<p>
+  Put each group of factors (separated with lines in the table) in their own lines. 
+</p>
+
+<p>
+  In the table we see that the first item is the factor for x<sup>2</sup>, which is 1 in the function. The next item 
+ is xy. Since it is not in the function, its factor is 0. Likewise the next item, which is xz. And so on. The last item 
+ is the scalar term, which is in this case -r<sup>2</sup>. 
+</p>
+
+<p>
+  If we make a proper scene and render it, we get: 
+</p>
+
+<pre>
+camera { location y*4-z*5 look_at 0 angle 35 }
+light_source { &lt;100,200,-50&gt; 1 }
+background { rgb &lt;0,.25,.5&gt; }
+
+#declare Radius=1;
+poly
+{ 2,
+  &lt;1,0,0,0,1,
+   0,0,1,0,-Radius*Radius&gt;
+  pigment { rgb &lt;1,.7,.3&gt; } finish { specular .5 }
+}
+</pre>
+
+<p>
+  <img alt="Sphere polynomial" src="images/tutorial/polypic1.png"> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> there is a shortcut for 2nd degree polynomials: The <code><a href="s_107.html#s03_04_03_03">quadric</a></code> 
+ primitive. Using a shortcut version, whenever possible, can lead to faster renderings. We can write the sphere code 
+ described above in the following way: 
+</p>
+
+<pre>
+quadric
+{ &lt;1,1,1&gt;, &lt;0,0,0&gt;, &lt;0,0,0&gt;, -Radius*Radius
+  pigment { rgb &lt;1,.7,.3&gt; } finish { specular .5 }
+}
+</pre>
+
+<p>
+  <strong>2)</strong> Now lets try the second one. We do it similarly, but this time we need to look at the row 
+ titled &quot;5th&quot; in the table. 
+</p>
+
+<p>
+  The polynomial was: 
+</p>
+
+<p>
+  <br><center><img alt="5th order polynomial" src="images/tutorial/polyfunc4.png"></center> 
+</p>
+
+<p>
+  Writing the poly primitive we get: 
+</p>
+
+<pre>
+poly
+{ 5,
+  &lt;0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,1,0,
+   0,0,0,0,0,
+   -2,0,0,0,0,
+   0,0,0,0,0,
+   0,1,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,0&gt;
+}
+</pre>
+
+<p>
+  With the proper scene we get: 
+</p>
+
+<pre>
+camera { location &lt;8,20,-10&gt;*.7 look_at x*.01 angle 35 }
+light_source { &lt;100,200,20&gt; 1 }
+background { rgb &lt;0,.25,.5&gt; }
+
+poly
+{ 5,
+  &lt;0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,1,0,
+   0,0,0,0,0,
+   -2,0,0,0,0,
+   0,0,0,0,0,
+   0,1,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,
+   0,0,0,0,0,0&gt;
+  clipped_by { box { &lt;-4,-4,-1&gt;&lt;4,4,1&gt; } }
+  bounded_by { clipped_by }
+  pigment { rgb &lt;1,.7,.3&gt; } finish { specular .5 }
+  rotate &lt;0,90,-90&gt;
+}
+</pre>
+
+<p>
+  <img alt="5th order polynomial example" src="images/tutorial/polypic2.png"> 
+</p>
+
+<p>
+  <strong>3)</strong> And finally the torus: 
+</p>
+
+<p>
+  The polynomial was: 
+</p>
+
+<p>
+  <br><center><img alt="torus polynomial" src="images/tutorial/polyfunc6.png"></center> 
+</p>
+
+<p>
+  And we get the proper 4th degree poly primitive: 
+</p>
+
+<pre>
+camera { location y*4-z*5 look_at 0 angle 35 }
+light_source { &lt;100,200,-50&gt; 1 }
+background { rgb &lt;0,.25,.5&gt; }
+
+#declare r1=1;
+#declare r2=.5;
+poly
+{ 4,
+  &lt;1,0,0,0,2,
+   0,0,2,0,-2*(r1*r1+r2*r2),
+   0,0,0,0,0,
+   0,0,0,0,0,
+   1,0,0,2,0,
+   2*(r1*r1-r2*r2),0,0,0,0,
+   1,0,-2*(r1*r1+r2*r2),0,pow(r1,4)+pow(r2,4)-2*r1*r1*r2*r2&gt;
+  pigment { rgb &lt;1,.7,.3&gt; } finish { specular .5 }
+}
+</pre>
+
+<p>
+  When rendered we get: 
+</p>
+
+<p>
+  <img alt="Torus polynomial" border="0" src="images/tutorial/polypic3.png"> 
+</p>
+
+<p>
+  There is a shortcut for 4th order polynomials: The <code><a href="s_107.html#s03_04_03_02">quartic</a></code> 
+ primitive. We can write the torus like this: 
+</p>
+
+<pre>
+quartic
+{ &lt;1,0,0,0,2,
+   0,0,2,0,-2*(r1*r1+r2*r2),
+   0,0,0,0,0,
+   0,0,0,0,0,
+   1,0,0,2,0,
+   2*(r1*r1-r2*r2),0,0,0,0,
+   1,0,-2*(r1*r1+r2*r2),0,pow(r1,4)+pow(r2,4)-2*r1*r1*r2*r2&gt;
+  pigment { rgb &lt;1,.7,.3&gt; } finish { specular .5 }
+}
+</pre>
+
+<h4><a name="s02_03_03_05">2.3.3.5 </a>Superquadric Ellipsoid Object</h4>
+<a name="s02_03_03_05_i1">
+<p>
+  Sometimes we want to make an object that does not have perfectly sharp edges like a box does. Then, the 
+ superquadric ellipsoid shape made by the <code>superellipsoid</code> is a useful object. It is described by the simple 
+ syntax: 
+</p>
+
+<pre>
+  superellipsoid { &lt;Value_E, Value_N &gt;}
+</pre>
+
+<p>
+  Where <em>Value_E</em> and <em>Value_N</em> are float values greater than zero and less than or equal to one. Let's 
+ make a superellipsoid and experiment with the values of <em>Value_E</em> and <em>Value_N</em> to see what kind of 
+ shapes we can make. We create a file called <code> supellps.pov</code> and edit it as follows: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;10, 5, -20&gt;
+    look_at 0
+    angle 15
+  }
+  background { color rgb &lt;.5, .5, .5&gt; }
+  light_source { &lt;10, 50, -100&gt; White }
+</pre>
+
+<p>
+  The addition of a gray background makes it a little easier to see our object. We now type: 
+</p>
+
+<pre>
+  superellipsoid { &lt;.25, .25&gt;
+    pigment { Red }
+  }
+</pre>
+
+<p>
+  We save the file and trace it at 200x150 <code>-A</code> to see the shape. It will look like a box, but the edges 
+ will be rounded off. Now let's experiment with different values of <em>Value_E</em> and <em> Value_N</em>. For the 
+ next trace, try &lt;1, 0.2&gt;. The shape now looks like a cylinder, but the top edges are rounded. Now try &lt;0.1, 
+ 1&gt;. This shape is an odd one! We do not know exactly what to call it, but it is interesting. Finally, let's try 
+ &lt;1, 1&gt;. Well, this is more familiar... a sphere! 
+</p>
+
+<p>
+  There are a couple of facts about superellipsoids we should know. First, we should not use a value of 0 for either <em> 
+ Value_E</em> nor <em> Value_N</em>. This will cause POV-Ray to incorrectly make a black box instead of our desired 
+ shape. Second, very small values of <em>Value_E</em> and <em> Value_N</em> may yield strange results so they should be 
+ avoided. Finally, the Sturmian root solver will not work with superellipsoids. 
+</p>
+
+<p>
+  Superellipsoids are finite objects so they respond to auto-bounding and can be used in CSG. 
+</p>
+
+<p>
+  Now let's use the superellipsoid to make something that would be useful in a scene. We will make a tiled floor and 
+ place a couple of superellipsoid objects hovering over it. We can start with the file we have already made. 
+</p>
+
+<p>
+  We rename it to <code> tiles.pov</code> and edit it so that it reads as follows: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  #include &quot;textures.inc&quot;
+  camera {
+    location &lt;10, 5, -20&gt;
+    look_at 0
+    angle 15
+  }
+  background { color rgb &lt;.5, .5, .5&gt; }
+  light_source{ &lt;10, 50, -100&gt; White }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> we have added <code>#include &quot;textures.inc&quot;</code> so we can use 
+ pre-defined textures. Now we want to define the superellipsoid which will be our tile. 
+</p>
+
+<pre>
+  #declare Tile = superellipsoid { &lt;0.5, 0.1&gt;
+    scale &lt;1, .05, 1&gt;
+  }
+</pre>
+
+<p>
+  Superellipsoids are roughly 2*2*2 units unless we scale them otherwise. If we wish to lay a bunch of our tiles side 
+ by side, they will have to be offset from each other so they do not overlap. We should select an offset value that is 
+ slightly more than 2 so that we have some space between the tiles to fill with grout. So we now add this: 
+</p>
+
+<pre>
+  #declare Offset = 2.1;
+</pre>
+
+<p>
+  We now want to lay down a row of tiles. Each tile will be offset from the original by an ever-increasing amount in 
+ both the +z and -z directions. We refer to our offset and multiply by the tile's rank to determine the position of 
+ each tile in the row. We also union these tiles into a single object called <code>Row</code> like this: 
+</p>
+
+<pre>
+  #declare Row = union {
+    object { Tile }
+    object { Tile translate z*Offset }
+    object { Tile translate z*Offset*2 }
+    object { Tile translate z*Offset*3 }
+    object { Tile translate z*Offset*4 }
+    object { Tile translate z*Offset*5 }
+    object { Tile translate z*Offset*6 }
+    object { Tile translate z*Offset*7 }
+    object { Tile translate z*Offset*8 }
+    object { Tile translate z*Offset*9 }
+    object { Tile translate z*Offset*10 }
+    object { Tile translate -z*Offset }
+    object { Tile translate -z*Offset*2 }
+    object { Tile translate -z*Offset*3 }
+    object { Tile translate -z*Offset*4 }
+    object { Tile translate -z*Offset*5 }
+    object { Tile translate -z*Offset*6 }
+  }
+</pre>
+
+<p>
+  This gives us a single row of 17 tiles, more than enough to fill the screen. Now we must make copies of the <code>Row</code> 
+ and translate them, again by the offset value, in both the +x and -x directions in ever increasing amounts in the same 
+ manner. 
+</p>
+
+<pre>
+  object { Row }
+  object { Row translate x*Offset }
+  object { Row translate x*Offset*2 }
+  object { Row translate x*Offset*3 }
+  object { Row translate x*Offset*4 }
+  object { Row translate x*Offset*5 }
+  object { Row translate x*Offset*6 }
+  object { Row translate x*Offset*7 }
+  object { Row translate -x*Offset }
+  object { Row translate -x*Offset*2 }
+  object { Row translate -x*Offset*3 }
+  object { Row translate -x*Offset*4 }
+  object { Row translate -x*Offset*5 }
+  object { Row translate -x*Offset*6 }
+  object { Row translate -x*Offset*7 }
+</pre>
+
+<p>
+  Finally, our tiles are complete. But we need a texture for them. To do this we union all of the <code>Rows</code> 
+ together and apply a <code>White Marble</code> pigment and a somewhat shiny reflective surface to it: 
+</p>
+
+<pre>
+  union{
+    object { Row }
+    object { Row translate x*Offset }
+    object { Row translate x*Offset*2 }
+    object { Row translate x*Offset*3 }
+    object { Row translate x*Offset*4 }
+    object { Row translate x*Offset*5 }
+    object { Row translate x*Offset*6 }
+    object { Row translate x*Offset*7 }
+    object { Row translate -x*Offset }
+    object { Row translate -x*Offset*2 }
+    object { Row translate -x*Offset*3 }
+    object { Row translate -x*Offset*4 }
+    object { Row translate -x*Offset*5 }
+    object { Row translate -x*Offset*6 }
+    object { Row translate -x*Offset*7 }
+    pigment { White_Marble }
+    finish { phong 1 phong_size 50 reflection .35 }
+  }
+</pre>
+
+<p>
+  We now need to add the grout. This can simply be a white plane. We have stepped up the ambient here a little so it 
+ looks whiter. 
+</p>
+
+<pre>
+  plane {
+    y, 0  //this is the grout
+    pigment { color White }
+    finish { ambient .4 diffuse .7 }
+  }
+</pre>
+
+<p>
+  To complete our scene, let's add five different superellipsoids, each a different color, so that they hover over 
+ our tiles and are reflected in them. 
+</p>
+
+<pre>
+  superellipsoid {
+    &lt;0.1, 1&gt;
+    pigment { Red }
+    translate &lt;5, 3, 0&gt;
+    scale .45
+  }
+  superellipsoid {
+    &lt;1, 0.25&gt;
+    pigment { Blue }
+    translate &lt;-5, 3, 0&gt;
+    scale .45
+  }
+  superellipsoid {
+    &lt;0.2, 0.6&gt;
+    pigment { Green }
+    translate &lt;0, 3, 5&gt;
+    scale .45
+  }
+  superellipsoid {
+    &lt;0.25, 0.25&gt;
+    pigment { Yellow }
+    translate &lt;0, 3, -5&gt;
+    scale .45
+  }
+  superellipsoid {
+    &lt;1, 1&gt;
+    pigment { Pink }
+    translate y*3
+    scale .45
+  }
+</pre>
+
+<p>
+  <img alt="Some superellipsoids hovering above a tiled floor." src="images/tutorial/superell.png"> 
+</p>
+
+<p>
+  We trace the scene at 320x200 <code>-A</code> to see the result. If we are happy with that, we do a final trace at 
+ 640x480 <code>+A0.2</code>. 
+</p>
+
+<p>
+ <a name="l25">
+<small><strong>More about &quot;User-Defined Functions&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_155.html#s03_08_03_04">3.8.3.4 User defined Functions</a> in 3.8.3 Language Basics
+  </small>
+
+  <li><small>
+   <a href="s_97.html#s03_02_01_06">3.2.1.6 User-Defined Functions</a> in 3.2.1 Language Basics
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l26">
+<small><strong>More about &quot;Declaring Functions&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_155.html#s03_08_03_04">3.8.3.4 User defined Functions</a> in 3.8.3 Language Basics
+  </small>
+
+  <li><small>
+   <a href="s_97.html#s03_02_01_06">3.2.1.6 User-Defined Functions</a> in 3.2.1 Language Basics
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l27">
+<small><strong>More about &quot;internal functions&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_138.html#s03_07_07_02">3.7.7.2 Internal Functions</a> in 3.7.7 functions.inc
+  </small>
+
+  <li><small>
+   <a href="s_68.html#s02_03_03_03_05">2.3.3.3.5 Internal functions</a> in 2.3.3.3 Isosurface Object
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l28">
+<small><strong>More about &quot;normal{} statement&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_116.html#s03_05_02">3.5.2 Normal</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_05">3.8.10.5 Normal</a> in 3.8.10 Texture
+  </small>
+
+  <li><small>
+   <a href="s_69.html#s02_03_04_02">2.3.4.2 Normals</a> in 2.3.4 Advanced Texture Options
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l29">
+<small><strong>More about &quot;noise generator&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_102.html#s03_03_03_10">3.3.3.10 Noise_generator</a> in 3.3.3 Global Settings
+  </small>
+
+  <li><small>
+   <a href="s_126.html#s03_05_12">3.5.12 Pattern Modifiers</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_126.html#s03_05_12_04">3.5.12.4 Noise Generators</a> in 3.5.12 Pattern Modifiers
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_67.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_67.html">2.3.2 Polygon Based Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.3.3 Other Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_69.html">2.3.4 Advanced Texture Options</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_69.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

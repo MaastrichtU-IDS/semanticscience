@@ -1,0 +1,202 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>movie</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>movie</b> <i>action</i>
+<a href="#options"><i>options</i></a></h3>
+<p>
+<b>Movie</b> is the command-line implementation of
+<a href="../../ContributedSoftware/recorder/recorder.html">
+<b>Movie Recorder</b></a>, which captures image frames from
+Chimera and assembles them into <a href="../movies.html">movies</a>.
+See <a href="../movies.html"><b>Making Movies</b></a>
+for information on developing
+<a href="../movies.html#content">movie content</a> 
+(often in the form of
+<a href="../movies.html#examples">command files</a>)
+and troubleshooting
+<a href="../movies.html#powerpoint">problems in PowerPoint</a>.
+On certain platforms, other windows should not overlap
+the Chimera graphics window during recording
+(<a href="../print.html#exception">details...</a>).
+This is not an issue when <a href="#raytrace">raytracing</a> is used.
+</p><p>
+One of the following <b><i>action</i></b> keywords must be specified:
+<ul>
+<li><a name="record"><b>record</b></a>
+- start recording frames (<a href="#record-options">record options</a>)
+<li><b>stop</b> 
+- stop recording frames
+<li><a name="reset"><b>reset</b></a>
+- reset status to zero frames saved
+(<a href="#reset-options">reset options</a>) 
+<li><a name="encode"><b>encode</b></a> 
+- stop any ongoing recording and
+encode the saved image frames into a movie file
+(<a href="#encode-options">encode options</a>)
+<li><b>abort</b>
+- halt any encoding in progress and <a href="#reset">reset</a> the recorder
+<li><b>status</b>
+- report recorder status in the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+Status information includes the number of frames saved and 
+their format and location. 
+</ul>
+The action keyword cannot be truncated, and case is important.  
+Actions may have specific <a href="#options">options</a>.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+All specifications are optional, and the order of specification
+is not important. Option keywords can be truncated, and their case is 
+not important.  Default values are indicated with <b>bold</b>.
+A vertical bar "|" designates mutually exclusive values.
+</p><p>
+<a name="record-options">Options</a> for <a href="#record"><b>record</b></a>:
+<blockquote>
+  <tt><b>directory</b> <i>image-directory</i></tt> 
+  <br>Where image files should be saved; the default varies by platform.
+</blockquote><blockquote>
+  <tt><b>pattern</b> <i>filename-pattern</i></tt>
+  <br>The <i>filename-pattern</i> is a
+  string to use when naming the image files; the default
+  is <b>chimovie_xxxx-*</b>, where <b>xxxx</b> is replaced by 
+  random characters and <b>*</b> is replaced by the frame number
+  (for example, 00001, 00002, <i>etc.</i>).  Any specified 
+  <i>filename-pattern</i> should include one and only one <b>*</b>,
+  which will be replaced by the frame number.
+</blockquote><blockquote>
+  <tt><b>fformat</b> jpeg|png|<b>ppm</b></tt>
+  <br>The format of saved image files. Regardless of which format is
+  specified, however, frames are always saved in the <b>png</b> format when
+  <a href="#raytrace">raytracing</a> is used.
+</blockquote><blockquote>
+  <a name="supersample">
+  <tt><b>supersample</b> <i>N</i></tt></a>
+  <br>
+  Whether to increase the image quality over what is displayed on the screen.
+  <b><i>N</i></b> is the number of pixels sampled in the X and Y dimensions 
+  for each pixel in the final saved image; 
+  values range from 1 to 6, with 3 recommended when supersampling is used.
+  Supersampling with <b><i>N</i></b>&gt;1 entails generating initial images
+  larger than the window and sampling them down to the final size.
+  Using <b>supersample</b> (even with <b><i>N</i></b>=1) allows the
+  <a href="../sideview.html#subqual">subdivision quality</a>
+  to be <a href="../sideview.html#subup">adjusted automatically</a>.
+  Increasing <b><i>N</i></b> increases smoothness but also calculation time.
+</blockquote><blockquote>
+  <a name="raytrace">
+  <tt><b>raytrace</b> true|<b>false</b></tt></a>
+  <br>Whether to 
+  <a href="../raytracing.html">raytrace with POV-Ray</a>
+  rather than saving the contents of the Chimera graphics window. 
+  Raytraced images include fancier effects like shadows, 
+  but take longer to compute.  Raytracing parameters can be adjusted in the 
+  <a href="../preferences.html#POV-Ray Options"><b>POV-Ray Options</b> 
+  preferences</a>
+  (see <a href="../raytracing.html#speedup">balancing 
+  time requirements and results</a>).
+</blockquote>
+</p><p>
+<a name="reset-options">Options</a> for <a href="#reset"><b>reset</b></a>:
+<blockquote>
+  <tt><b>resetMode</b> <b>clear</b>|keep</tt>
+  <br>The default behavior (<b>clear</b>) is to delete the image files
+  when a <a href="#reset">reset</a> occurs;
+  however, one should <b>keep</b> the files if planning to use them for
+  some other purpose, such as movie encoding with a different program.
+</blockquote>
+</p><p>
+<a name="encode-options">Options</a> for <a href="#encode"><b>encode</b></a>:
+<blockquote>
+  <tt><b>mformat</b> avi|<b>mov</b>|mpeg|mp2|mp4</tt>
+  <br>The <b>mformat</b> option specifies the output movie file format: 
+  <ul>
+  <li> avi - AVI MSMPEG-4v2
+  <li> mov - Quicktime (default)
+  <li> mpeg - MPEG-1
+  <li> mp2 - MPEG-2
+  <li> mp4 - MPEG-4
+  </ul>
+</blockquote><blockquote>
+  <tt><b>output</b> <i>movie-pathname</i></tt>
+  <br>The <i>movie-pathname</i> is the name and location to
+  use for the movie file (default <b>chimera_movie.mov</b> 
+  in the current directory).
+</blockquote><blockquote>
+  <tt><a name="bitrate"><b>bitrate</b></a> <i>rate</i></tt>
+  <br>Bit <i>rate</i> controls movie quality and file size. 
+  By default, the movie will be encoded to play back 
+  at a constant <i>rate</i> of <b>2000</b> Kbits/s.
+  Generally, 200 Kbits/s is a low rate, 1000 medium, and 6000 high.  
+  Increasing <i>rate</i> increases movie quality and file size 
+  for a given resolution (window size) and <a href="#framerate">frame rate</a>.
+  At a given bit rate, a larger window and/or a higher frame
+  rate correspond to lower movie quality.
+</blockquote><blockquote>
+  <tt><b>qscale</b> <i>factor</i></tt>
+  <br>The <b>qscale</b> option overrides <a href="#bitrate"><b>bitrate</b></a>
+  and indicates that the movie should be encoded to play back with a 
+  variable bit rate. The quality <i>factor</i> is an integer that can range 
+  from 1 (highest quality and highest data rates) 
+  to 31 (lowest quality).
+</blockquote><blockquote>
+  <tt><a name="framerate"><b>framerate</b></a> <i>fps</i></tt>
+  <br>The frame rate is the rate of playback in terms of image frames.  
+  The frame rate <i>fps</i> is an integer and defaults to <b>25</b> frames/s.
+</blockquote><blockquote>
+  <tt><b>buffersize</b> <i>size</i></tt>
+  <br>Buffer <i>size</i> defaults to <b>200</b> Kbytes.
+</blockquote><blockquote>
+  <tt><b>roundtrip</b> true|<b>false</b></tt>
+  <br>Whether to include the frames in reverse order as the second half
+  of the movie.
+</blockquote><blockquote>
+  <tt><b>preset</b> vcd|svcd|dvd</tt>
+  <br>The <b>preset</b> option indicates that a 
+  built-in set of parameters should be used: 
+  <ul>
+  <li> vcd (Video Compact Disc) - MPEG-1, resolution 352x240, 
+  bit rate 1150 Kbits/s, buffer size 40 Kbytes
+  <li> svcd (Super Video Compact Disc) - MPEG-2, resolution 480x480, 
+  bit rate 2040 Kbits/s, buffer size 224 Kbytes
+  <li> dvd (Digital Versatile/Video Disc) - MPEG-2, resolution 720x480, 
+  bit rate 6000 Kbits/s, buffer size 224 Kbytes
+  </ul>
+  Using a preset will resize the graphics window and override other
+  specifications of the listed parameters.
+</blockquote><blockquote>
+  <tt><b>resetMode</b> <b>clear</b>|keep|none</tt>
+  <br> By default, a <a href="#reset">reset</a> 
+  will occur when movie encoding is complete.
+  The <b>resetMode</b> values <b>clear</b> and <b>keep</b> are as described
+  <a href="#reset-options">above</a>, while <b>none</b> specifies that no reset
+  should occur; <b>none</b> should be used when one may want to 
+  re-encode the movie using the same saved frames.
+</blockquote>
+</p>
+See also:
+<A href="../../ContributedSoftware/recorder/recorder.html">
+<b>Movie Recorder</b></a>,
+<A href="../../ContributedSoftware/movie/framemovie.html" target="_top">
+<b>MD Movie</b></a>,
+<a href="../movies.html#moviecommands">movie-related commands</a>
+</p>
+</body></html>

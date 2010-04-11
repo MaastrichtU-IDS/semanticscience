@@ -1,0 +1,375 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" href="../../chimera16.png" type="image/png">
+<title>Adding New Typed Commands</title>
+</head>
+
+<body>
+<h1>Adding New Typed Commands</h1>
+<p>Just as menu commands are added in an extension's <i>ChimeraExtension.py</i>
+file, so are typed commands.  This is for two reasons:
+<ol>
+	<li>The command becomes available early, before command scripts
+	might run.</li>
+
+	<li>The module itself doesn't have to be imported
+	(which would slow startup).</li>
+</ol>
+
+<h2>The addCommand Function</h2>
+<p>Typed commands are added using <em>Midas.midas_text</em>'s
+<code>addCommand</code> function.
+<code>addCommand</code> has two mandatory arguments:
+<ol>
+	<li>A string containing the typed command name.  The user will be
+	able to shorten the name to the shortest unique prefix.</li>
+
+	<li>The function to call when the command is invoked.  Explained
+	further in the <strong>Callback Function</strong> section below.</li>
+</ol>
+and it has three keyword arguments:
+<dl>
+	<dt>revFunc</dt>
+	<dd>Specifies a
+	function to call when <code>~</code><i>command</i> is typed.  If
+	omitted, <code>~</code><i>command</i> will raise an error.</dd>
+
+	<dt>help</dt>
+	<dd>Specifies where
+	help for the command is found.  Commands whose help is provided
+	with the Chimera documentation itself will set <var>help</var>
+	to <code>True</code>.  If <var>help</var> is a string, it is
+	interpreted as an URL that will be brought up in a browser to
+	display help.  If <var>help</var> is a tuple, it should be a
+	(<var>path</var>, <var>package</var>) 2-tuple, where <var>path</var>
+	specifies a file relative to <var>package</var>'s <i>helpdir</i>
+	subdirectory.
+	The file will be displayed in a browser as help.  Note that
+	though <var>package</var> can be an actual imported package, importing the package 
+	would defeat the purpose of avoiding importing the module early,
+	so <var>package</var> can just be a string specifying the module
+	name instead.
+	If the <var>help</var> keyword is omitted, no help will be
+	provided.</dd>
+
+	<dt>changesDisplay</dt>
+	<dd>A boolean that specifies if the command changes the display
+	in the main graphics window (default: True).  This is important
+	for script processing so that Chimera knows if the display needs
+	to update once a command has executing (and to avoid spurious
+	extra frames during script execution -- important if recording
+	animations).
+
+</dl>
+
+<h2>Callback Function</h2>
+<p>The callback function you register with <code>addCommand</code> will
+be invoked with two arguments:
+<ol>
+	<li>A string containing the name of the command as registered
+	with <code>addCommand</code>.</li>
+
+	<li>The arguments to the command as typed by the user (a string).</li>
+</ol>
+
+<p>The parsing of the typed arguments and calling of the function that
+actually performs the command work is typically handled through 
+<em>Midas.midas_text</em>'s <code>doExtensionFunc</code> function.
+This is discussed in detail below in <strong>The doExtensionFunc
+Function</strong>.
+Before getting into that, we know enough at this point that we can
+look at a brief example.
+
+<h2>An Example</h2>
+Here is the code from the <i>ChimeraExtension.py</i> file of the
+<em>Define Attribute</em> extension that implements adding the 
+<tt>defattr</tt> command to the command line module:
+<pre><font color="red">
+def cmdAddAttr(cmdName, args):
+        from AddAttr import addAttributes
+        from Midas.midas_text import doExtensionFunc
+        doExtensionFunc(addAttributes, args,
+                                specInfo=[("spec", "models", "molecules")])
+
+from Midas.midas_text import addCommand
+addCommand("defattr", cmdAddAttr, help=True)
+</font></pre>
+
+<p>First, a callback function named <code>cmdAddAttr</code> is defined
+that will later be registered with <code>addCommand</code>.  The callback
+imports a &quot;workhorse&quot; function (<code>addAttributes</code>)
+from the main module and <code>doExtensionFunc</code> from 
+<em>Midas.midas_text</em> and then calls <code>doExtensionFunc</code>
+to process the typed arguments and call <code>addAttributes</code>
+appropriately.
+Note that <code>addAttributes</code> is imported <em>inside</em>
+the <code>cmdAddAttr</code> definition.  If it were outside, then the
+whole module would be imported during Chimera startup, which we are
+trying to avoid.
+<p>After the <code>cmdAddAttr</code> function is defined, 
+<em>Midas.midas_text</em>'s <code>addCommand</code> is called to add the
+<tt>defattr</tt> command to the command interpreter.
+Since the help for the <tt>defattr</tt> command is shipped with Chimera,
+the <var>help</var> keyword argument is set to <code>True</code>.
+
+<h2>The doExtensionFunc Function</h2>
+<p>As seen in the <strong>An Example</strong> section above,
+<code>doExtensionFunc</code> has two mandatory arguments:
+the &quot;workhorse&quot; function that actually carries out
+the operation requested by the user, and a string containing the
+command arguments that the user typed.
+<code>doExtensionFunc</code> introspects the workhorse function
+to determine how many mandatory arguments it expects and what
+keyword arguments it accepts.  The initial arguments in the typed
+string are assumed to correspond to the mandatory arguments, and 
+the remainder of the typed string is assumed to specify valid
+keyword/value pairs (space separated rather than &quot;=&quot; separated).
+Keywords will be matched regardless of case, and the user need only
+type enough characters to distinguish keywords.
+
+<p><code>doExtensionFunc</code> has two keyword arguments:
+<dl>
+	<dt>invalid</dt>
+	<dd>A list of keyword arguments that cannot be used from the
+	command line.  <code>doExtensionFunc</code> will behave as if
+	the workhorse function did not have these keywords.</dd>
+
+	<dt>specInfo</dt>
+	<dd>If the workhorse function has argument(s) whose value
+	should be a list of <code>Atom</code>s, <code>Residue</code>s, 
+	<i>etc.</i>, for which the user needs to type an atom specifier,
+	that information is given here.  <var>specInfo</var> is a list
+	of 3-tuples.
+	The first component of the 3-tuple is the keyword the user
+	should type or, if this is a positional argument, the name that
+	the argument should be assumed to have for type-guessing purposes
+	(in either case it needs to end in &quot;spec&quot;).  The next
+	component is the real argument name that the function uses (it will
+	automatically be added to <var>invalid</var>).  The final
+	component is the method name to apply to the selection generated
+	by the atom spec in order to extract the desired list (typically
+	&quot;atoms&quot;, &quot;residues&quot;, &quot;molecules&quot;,
+	or &quot;models&quot;). If the method name is None, then the
+	selection itself will be returned.</dd>
+</dl>
+
+<p>Typed arguments are processed using some heuristic rules to convert
+them to their most &quot;natural&quot; type.  However, the argument name
+used by the workhorse function can influence how the typed argument is
+processed.  In particular, if the argument name (ignoring case) ends in...
+
+<dl>
+	<dt>color</dt>
+	<dd>The typed argument is treated as a color name and is converted to
+	a <code>MaterialColor</code>.</dd>
+
+	<dt>spec</dt>
+	<dd>The typed argument is assumed to be an atom specifier and is
+	converted to a <code>Selection</code>.</dd>
+
+	<dt>file</dt>
+	<dd>The typed argument is a file name.  If the user types
+	&quot;browse&quot; or &quot;browser&quot; then a file selection
+	dialog is displayed for choosing the file.  If the workhorse
+	argument name ends in <var>savefile</var>, then a save-style
+	browser will be used.</dd>
+</dl>
+
+<p>Furthermore, if the user provides a keyword argument multiple times,
+the value provided to the workhorse function will be a list of the
+individual values.
+
+<p>In some cases it may be desirable to provide a &quot;shim&quot;
+function between the <code>doExtensionFunc</code> &quot;workhorse&quot;
+function and the module's true workhorse function in order to provide
+more user-friendly argument names or default values
+than those of the normal module API.
+
+<h2>MidasError</h2>
+
+<p>If you want to have errors from your command-line function handled the
+same was as other command-line errors (<i>i.e.</i> shown as red text
+in the status line rather than raising an error dialog), then you need to
+have the function you register with <code>addCommand</code> raise
+<var>MidasError</var> in those cases instead of other error types.
+This may involve
+embedding your use of <code>doExtensionFunc</code> in a <code>try</code>/
+<code>except</code> block and re-raising caught errors as <var>MidasError</var>.
+<var>MidasError</var> is defined in the <em>Midas</em> module.
+
+<h2>A Second Example</h2>
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonCommand/ChimeraExtension.py"><i>ToolbarButtonCommand/ChimeraExtension.py</i></a></h2>
+<p>
+The initial code is the same as for the ToolbarButtonExtension example<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera.extension<br></font>
+<br>
+<font color="red">class MainChainEMO(chimera.extension.EMO):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">def name(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'Backbone'<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def description(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'display only protein backbone'<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def categories(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return ['Utilities']<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def icon(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return self.path('mainchain.tiff')<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def activate(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">self.module().mainchain()<br></font>
+</code>
+</dl>
+</dl>
+<code>
+<br>
+<font color="red">chimera.extension.manager.registerExtension(MainChainEMO(__file__))<br></font>
+</code>
+<p>
+Here we define two functions, one to handle the &quot;mainchain&quot; command,
+and one to handle the &quot;~mainchain&quot; command.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def mainchainCmd(cmdName, args):<br></font>
+</code>
+<dl><dd>
+<p>
+Import the module's workhorse function.
+It is imported inside the function definition so that
+it does not slow down Chimera startup with extra imports
+in the main scope.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from ToolbarButtonCommand import mainchain<br></font>
+</code>
+<p>
+Import and use the Midas.midas_text doExtensionFunc procedure
+to process typed arguments and call the mainchain() function
+appropriately.  For a simple function like mainchain(), which
+takes no arguments, using doExtensionFunc is probably overkill.
+One could instead use the approach applied in the revMainchainCmd
+function below and simply test for the presence of any
+arguments (raising MidasError if any are found) and directly calling
+the mainchain() function otherwise.  As implemented here, using
+doExtensionFunc, if the user does provide arguments then
+doExtensionFunc will raise an error complaining that there
+were unknown keyword arguments supplied.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from Midas.midas_text import doExtensionFunc<br></font>
+<font color="red">doExtensionFunc(mainchain, args)<br></font>
+</code>
+</dl>
+<p>
+The function for &quot;~mainchain&quot;<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def revMainchainCmd(cmdName, args):<br></font>
+</code>
+<dl><dd>
+<p>
+We are going to implement ~mainchain as a synonym for &quot;display&quot;,
+so we import runCommand which simplifies doing that.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from chimera import runCommand<br></font>
+<font color="red">from Midas import MidasError<br></font>
+<font color="red">if args:<br></font>
+</code>
+<dl><dd>
+<p>
+Raising MidasError will cause the error message
+to show up in the status line as red text<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">raise MidasError("~mainchain takes no arguments")<br></font>
+</code>
+</dl>
+<p>
+runCommand takes any legal command-line command and executes it.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">runCommand("display")<br></font>
+</code>
+</dl>
+<p>
+Now actually register the &quot;mainchain&quot; command with the command interpreter
+by using addCommand().  The first argument is the command name and the
+second is the callback function for doing the work.  The <code>revFunc</code> keyword
+specifies the function to implement &quot;~mainchain&quot;.  The <code>help</code> keyword has
+been omitted, therefore no help will be provided.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from Midas.midas_text import addCommand<br></font>
+<font color="red">addCommand("mainchain", mainchainCmd, revFunc=revMainchainCmd)<br></font>
+</code>
+<h2>Running the Example</h2>
+<p>The example files 
+(<a href="ToolbarButtonCommand/ChimeraExtension.py">ChimeraExtension.py</a>,
+<a href="ToolbarButtonCommand/__init__.py">__init__.py</a>,
+and <a href="ToolbarButtonCommand/ToolbarButton.tiff">ToolbarButton.tiff</a>)
+must be saved in a directory named <code><i>ToolbarButtonCommand</i></code>. 
+To run the example, start <i>chimera</i>,
+bring up the Tools preference category (via 
+the <em>Preferences</em> entry in the <strong>Favorites</strong> menu;
+then choosing the &quot;Tools&quot; preference category), use 
+the <em>Add</em> button to add the directory above the 
+<i><code>ToolbarButtonCommand</code></i> directory.
+You should then be able to type &quot;mainchain&quot; to the Chimera
+command line (start the command line from the Favorites menu if necessary).
+</body>
+</html>

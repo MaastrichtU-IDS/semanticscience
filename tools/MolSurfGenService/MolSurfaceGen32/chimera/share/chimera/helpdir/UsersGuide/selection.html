@@ -1,0 +1,238 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Selection</title>
+</head><body>
+<h2>Selection</h2>
+<p>
+In Chimera, <b><i>selection</i></b> specifies atoms, bonds,
+residues, molecule models, and surfaces for subsequent operations
+with the <a href="menu.html#menuactions"><b>Actions</b> menu</a>.
+When selected, these items 
+(as well as <a href="pbpanel.html#pbdef">pseudobonds</a>)
+can be inspected and modified 
+with the <a href="inspection.html"><b>Selection Inspector</b></a>.
+The current selection can also be specified in
+<a href="framecommand.html" target="_top">commands</a>
+by the word <b>selected</b>, <b>sel</b>, or <b>picked</b>.
+</p><p>
+Ways to make a selection:
+<ul>
+<li><a href="#pickselect">picking</a> from the graphics window
+<li>using the <a href="menu.html#menuselect"><b>Select</b> menu</a>
+<li>using the command <a href="midas/select.html#newer"><b>select</b></a>
+<li>with <a href="#panelselect">tools</a> such as the
+<a href="modelpanel.html"><b>Model Panel</b></a>
+</ul>
+Selecting a <a href="representation.html#ribbon">ribbon</a>
+segment selects the atoms/bonds in the corresponding residue(s); selecting a 
+<a href="representation.html#surfaces">molecular surface</a>
+selects the atoms/bonds in the corresponding 
+<a href="midas/surface.html#surfcats">surface category</a>.
+</p><p>
+Ways to clear a selection:
+<ul>
+<li><a href="#pickselect">picking</a> in empty space
+<li>choosing <b>Select... Clear Selection</b>  from the menu
+<li>using the command <a href="midas/select.html#newer"><b>~select</b></a>
+<li>pressing <a href="#arrowsummary"><b>Shift-left arrow</b></a>
+</ul>
+By default, a selection is outlined in green (see the
+<a href="preferences.html#Background"><b>Background</b> preferences</a>) 
+and its contents are reported on a button to the right of the
+<a href="chimerawindow.html#statusline">status line</a>.
+Clicking the button opens the
+<a href="inspection.html"><b>Selection Inspector</b></a>.
+</p><p>
+<a name="selectmode">
+Whether a new selection is added to, subtracted from, intersected with,
+or used to replace the existing selection</a> can be set with
+<b>Select... Selection Mode (<i>current_mode</i>)</b>.
+Replacement is the default mode.
+Selection mode does not apply to <a href="#pickselect">picking</a>
+from the graphics window.
+</p><p>
+Selections can be <a href="#expandselect">broadened, narrowed, and inverted</a>.
+The most recent selection operation can be undone with <b>Select... Undo</b>
+(or by pressing the <a href="#arrowsummary"><b>left arrow</b></a> key).
+</p>
+
+<a name="pickselect">
+<h3>Picking from the Graphics Window</h3></a>
+<p>
+During selection from the graphics window (<b><i>picking</i></b>), 
+the cursor looks like a pointing hand.
+  <ul>
+  <li>by default, <b>Ctrl</b>-button 1 (left mouse button) is assigned to 
+  picking; button assignments can be changed in the 
+  <a href="preferences.html#Mouse"><b>Mouse</b> preferences</a>
+  <li>clicking the assigned button over a selectable item selects it,
+  whereas clicking in empty space clears the selection
+  <li>holding down the assigned button and dragging a rectangular outline
+  selects all enclosed items
+  <li>additionally pressing the <b>Shift</b> key adds to a selection 
+  (or toggles its selection status) without deselecting anything else
+  </ul>
+The <a href="#selectmode">selection mode</a> does not apply to picking.
+</p><p>
+When a plus sign (<b>+</b>) has been typed into the
+<a href="chimerawindow.html#emulator"><b>Command Line</b></a>,
+it will be replaced by the <a href="midas/atom_spec.html#basic">
+atom specification string</a> of the next picked atom.
+Each plus sign must be preceded and followed by a space
+(or the end of the line).
+</p><p>
+Double-clicking with the assigned button on an atom, bond, or pseudobond
+may elicit a context-dependent menu for
+<a href="inspection.html">inspecting</a> it, otherwise 
+<a href="../ContributedSoftware/editing/editing.html">modifying</a> it, 
+or performing related 
+<a href="../ContributedSoftware/structuremeas/structuremeas.html">measurements</a>.
+</p><p>
+By default, placing the mouse cursor over an object such as an atom, bond, or
+surface (without clicking any buttons) will show its label information in an
+<a href="preferences.html#General"><b><i>atomspec balloon</i></b></a>.
+The atomspec balloon indicates what would be selected by picking
+at the current position, but more generally, it is
+useful for identifying objects without displaying their labels.  
+Sometimes one would rather see information for the atoms under a surface
+than for the surface itself.  This can be achieved by making the surface
+unselectable with the mouse, for example by:
+<ol>
+<li> selecting the surface, either picking it with the mouse or using the 
+<a href="modelpanel.html"><b>Model Panel</b></a>
+<li> opening the <a href="inspection.html"><b>Selection Inspector</b></a>,
+by choosing <b>Actions... Inspect</b> or clicking the button near the 
+lower right corner of the main Chimera window
+<li> in that dialog, inspecting <b>Surface</b> 
+and changing <b>selectable with mouse</b> to <b>false</b>
+</ol>
+Then, an atomspec balloon will report information for the atom 
+under the cursor position, not necessarily the same as the atom 
+giving rise to the surface patch under the cursor position.
+The atoms must be displayed for their atomspec balloons to appear, but
+they do not need to be visible; they could be behind opaque surface.
+However, the surface can be made transparent (with
+<a href="menu.html#actsurface"><b>Actions...  Surface... transparency</b></a> 
+or the command 
+<a href="midas/surftransparency.html"><b>surftransparency</b></a>)
+to allow viewing the underlying atoms at the same time.
+</p>
+
+<a name="panelselect">
+<h3>Selection with Tools</h3></a>
+<p>
+After one or more lines (models) have been chosen in the left side of
+the <a href="modelpanel.html"><b>Model Panel</b></a>, any of several 
+<a href="modelpanel.html#functions">functions</a>
+listed on the right side of the panel may be executed, including
+<b>select</b> and <b>select chain(s)</b>.
+</p><p>
+Analogously, once one or more <a href="pbpanel.html#pbdef">
+pseudobond</a> groups have been chosen within
+the left side of the <a href="pbpanel.html"> <b>PseudoBond Panel</b></a>,
+the <b>select</b> button in the right side of the panel
+can be used to select them.
+</p><p>
+The <a href="../ContributedSoftware/multalignviewer/framemav.html" 
+target="_top"><b>Sequence</b></a> tool shows the sequences
+of peptide and nucleotide chains.  Selections can be made
+by dragging with the mouse in the sequence.
+</p><p>
+Only the most general approaches are mentioned here;
+many additional tools generate selections.
+</p>
+
+<a name="expandselect">
+<h3>Broadening, Narrowing, and Inverting Selections</h3></a>
+<p>
+A selection can be <b>broadened</b> and <b>narrowed</b> using:
+<ul>
+<li> the <a href="#arrowsummary"><b>up arrow</b></a> and 
+<a href="#arrowsummary"><b>down arrow</b></a> keys, respectively
+<li><b>Broaden</b> and <b>Narrow</b> in the
+<a href="menu.html#menuselect"><b>Select</b> menu</a>
+<li>the command <a href="midas/select.html#newer"><b>select</b></a> 
+with the keywords <b>up</b> and <b>down</b>, respectively
+</ul>
+Selection-level cascades are:
+<ul>
+<li>atom/bond - residue - chain - <a href="midas/atom_spec.html#subcats">
+ submodel</a> - molecule model - all molecule models
+<li><a href="pbpanel.html#pbdef">pseudobond</a>
+ (except in a <a href="menu.html#tracedef">chain trace</a>)
+- pseudobond group - all pseudobond groups
+<li><a href="surfattrib.html#surfpiecedef">surface piece</a>
+- <a href="surfattrib.html#surfmodels">surface model</a>
+</ul>
+Although implemented as <a href="pbpanel.html#pbdef">pseudobonds</a>,
+<a href="menu.html#tracedef">chain trace</a> bonds are treated like
+regular bonds between residues for
+the purposes of broadening and narrowing selections.
+</p><p>
+The original selection can be broadened to successively higher levels
+until the top level is reached, or narrowed in one step to nothing. 
+The original selection is remembered and can be regenerated 
+by the reverse process.
+</p><p>
+In some cases, multiple levels collapse into one level;
+for example, if a model has only one chain and
+no submodels, pressing the up arrow key just twice will
+broaden a selection from one atom to the entire molecule model.
+If the original selection includes both atom(s) and pseudobond(s),
+the selection will broaden to pseudobond group in the same step as it
+broadens to chain, and to all pseudobond groups in the same step as 
+it broadens to all molecule models.
+</p><p>
+<a name="invertselect">
+A selection can be <b>inverted</b></a> to select the currently
+deselected atoms/bonds and <i>vice versa</i>:
+<ul>
+<li> within models containing selections, by:
+  <ul>
+  <li>pressing the <a href="#arrowsummary"><b>right arrow</b></a> key
+  <li>using <b>Select... Invert (selected models)</b> 
+  <li>using the command 
+<a href="midas/select.html#newer"><b>select</b></a> <b>invert sel</b>
+  </ul>
+<li> within all models, by:
+  <ul>
+  <li>pressing <a href="#arrowsummary"><b>Shift-right arrow</b></a>
+  <li>using <b>Select... Invert (all models)</b> 
+  <li>using the command 
+<a href="midas/select.html#newer"><b>select</b></a> <b>invert</b>
+  </ul>
+</ul> 
+</p>
+
+<a name="arrowsummary">
+<h3>Summary of Arrow Key Shortcuts</h3></a>
+<p>
+When the keyboard focus is in the main Chimera window,
+arrow key shortcuts adjust the selection:
+<ul>
+<li><b>up arrow</b> 
+- <a href="#expandselect">broaden</a> the selection
+<li><b>down arrow</b>
+- <a href="#expandselect">narrow</a> the selection
+<li><b>right arrow</b>
+- <a href="#invertselect">invert</a> the selection within selected models
+<li><b>Shift-right arrow</b>
+- <a href="#invertselect">invert</a> the selection within all models
+<li><b>left arrow</b>
+- undo the most recent selection operation
+<li><b>Shift-left arrow</b>
+- clear the selection
+</ul>
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2009</address>
+</body></html>

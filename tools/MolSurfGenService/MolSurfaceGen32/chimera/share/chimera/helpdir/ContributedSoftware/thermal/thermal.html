@@ -1,0 +1,173 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009-2010 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Thermal Ellipsoids</TITLE>
+</head>
+<body>
+<h3>Thermal Ellipsoids <img src="anisoicon.png" 
+alt="Thermal Ellipsoids icon"></h3>
+
+<table align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="ellipsoids-small.png" alt="1a6m ellipsoids"></td></tr>
+</table>
+<p>
+<b>Thermal Ellipsoids</b>
+shows atomic anisotropic B-factors
+as ellipsoids, their principal axes, and/or their principal ellipses.
+These special depictions are created only for atoms with anisotropic
+B-factor information.
+Anisotropic B-factors are read from the input coordinate file 
+(for example, from ANISOU records in a PDB file)
+and are included with only certain high-resolution structures.
+Ellipsoid axes and radii correspond to the eigenvectors and eigenvalues 
+of the atomic mean-square displacement matrix.  
+The radii are proportional to the root-mean-square displacements (RMSDs),
+the square roots of the eigenvalues.
+</p><p>
+Anisotropic B-factor depictions are included in saved
+<a href="../../UsersGuide/sessions.html">sessions</a>.
+See also: 
+<a href="../render/render.html#render"><b>Render by Attribute</b></a>,
+<a href="../structuremeas/structuremeas.html#axes"><b>Axes/Planes</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Thermal Ellipsoids</b>, a tool in the <b>Structure Analysis</b> category.
+It is also implemented as the command
+<a href="../../UsersGuide/midas/aniso.html"><b>aniso</b></a>.
+<ul>
+<a name="settings1"></a>
+<li><b>Scale factor</b> (default <b>1</b>, no scaling) 
+- controls ellipsoid size, where the unscaled ellipsoid radii
+equal the atomic RMSDs along the ellipsoid axes
+<li><b>Smoothing level</b> (default <b>3</b>) 
+- controls how many planar facets are used to draw ellipsoids and
+ellipses; higher values give smaller facets and a smoother appearance
+<li><b>Set scale factor for probability (%)</b> [<i>P</i>]
+- automatically fills in the <b>Scale factor</b> field
+for a specified % probability <i>P</i>
+(press return after typing in a value; 
+<i>P</i> must be &ge; 0% and &lt; 100%)
+</ul>
+The <b>Presets</b> menu in <b>Thermal Ellipsoids</b> provides quick
+access to several <a href="#presets">predefined combinations</a>
+of the following options:
+<ul>
+<a name="settings2"></a>
+<li><b>Depict ellipsoids</b> - whether to show ellipsoids
+  <ul>
+  <li><b>Color</b> 
+ (a <a href="../../UsersGuide/coloring.html#colorwell">color well</a>,
+ default <b>No Color</b>, meaning to match the corresponding atoms) 
+  <li><b>Transparency</b> (a menu including <b>same as color</b>
+  and several percentage transparency options)
+  </ul>
+<li><b>Depict principal axes</b> 
+- whether to show ellipsoid principal axes
+  <ul>
+  <li><b>Color</b> 
+ (a <a href="../../UsersGuide/coloring.html#colorwell">color well</a>,
+ default <b>No Color</b>, meaning to match the corresponding atoms) 
+  <li><b>Length factor</b> (default <b>1.5</b>)
+  - length of principal axis depictions relative to ellipsoid size
+  <li><b>Thickness</b> (default <b>0.01</b> &Aring;)
+  - thickness of principal axis depictions (dimensions perpendicular to length)
+  </ul>
+<li><b>Depict principal ellipses</b> 
+- whether to show ellipsoid principal ellipses
+  <ul>
+  <li><b>Color</b> 
+ (a <a href="../../UsersGuide/coloring.html#colorwell">color well</a>,
+ default <b>No Color</b>, meaning to match the corresponding atoms) 
+  <li><b>Size factor</b> (default <b>1.0</b>)
+  - size of principal ellipse depictions relative to ellipsoid size
+  <li><b>Thickness</b> (default <b>0.02</b> &Aring;)
+  - thickness of principal ellipse depictions
+  </ul>
+</ul>
+Clicking <b>Show Ellipsoids</b> or pressing return after 
+entering a value creates the depictions;
+clicking <b>Hide Ellipsoids</b> removes them.
+When the <b>Restrict Show/Hide...</b> option is on and atoms are
+<a href="../../UsersGuide/selection.html">selected</a>,
+showing and hiding will affect only the depictions of the
+<a href="../../UsersGuide/selection.html">selected</a> atoms.
+Otherwise, clicking <b>Show Ellipsoids</b>
+removes any pre-existing depictions and generates new ones 
+for just the currently displayed atoms.
+</p><p>
+<b>Close</b> dismisses the dialog, and
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="presets">
+<h3>Thermal Ellipsoid Presets</h3>
+</a>
+<p>
+The <b>Presets</b> menu in <b>Thermal Ellipsoids</b> includes several
+predefined combinations of <a href="#settings2">style settings</a>:
+<ul>
+<li><b>Simple ellipsoid</b>
+- ellipsoids only, color from atoms
+<!-- 
+showEllipsoid true, axisFactor none, ellipseFactor none 
+-->
+<li><b>Principal axes</b>
+- axes only (length factor 1.0)
+<!-- 
+showEllipsoid false, axisFactor 1.0, ellipseFactor none
+-->
+<li><b>Principal ellipses</b>
+- ellipses only (size factor 1.0)
+<!-- 
+showEllipsoid false, axisFactor none, ellipseFactor 1.0, color from atoms
+-->
+<li><b>Ellipsoid and principal axes</b>
+- ellipsoids with axes (length factor 1.5)
+<!-- 
+showEllipsoid true, axisFactor 1.5
+-->
+<li><b>Octant lines</b>
+- ellipsoids with black ellipses (size factor 1.01)
+<!-- 
+showEllipsoid true, ellipseFactor 1.01, ellipseColor black
+-->
+<li><b>Snow globe axes</b>
+- white half-transparent ellipsoids with axes (length factor 0.99) 
+<!-- 
+showEllipsoid true, color white, transparency 0.5, axisFactor 0.99
+-->
+<li><b>Snow globe ellipses</b>
+- white half-transparent ellipsoids with ellipses (size factor 0.99)
+<!-- 
+showEllipsoid true, color white, transparency 0.5, ellipseFactor 0.99
+-->
+</ul>
+Presets do not include <a href="#settings1">scaling and smoothing
+settings</a>, which are specified independently.
+Choosing a preset from the menu applies its settings immediately.
+Users can apply a built-in preset and then make further adjustments,
+or define and use their own custom presets:
+<ul>
+<li><b>Preset from current settings...</b> 
+save a custom preset with the current <a href="#settings2">style settings</a>
+to the <a href="../../UsersGuide/preferences.html#preffile"><b>preferences</b> 
+file</a>
+<li><b>Delete user preset...</b>
+remove a previously user-defined preset
+</ul>
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / January 2010</address>
+</body>
+</html>

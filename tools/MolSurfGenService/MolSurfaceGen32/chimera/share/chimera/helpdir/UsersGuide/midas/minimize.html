@@ -1,0 +1,121 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>minimize</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>minimize</b> <a href="#options"><i>options</i></a></h3>
+<p>
+<b>Minimize</b> is the command-line implementation of
+<a href="../../ContributedSoftware/minimize/minimize.html">
+<b>Minimize Structure</b></a>; it energy-minimizes
+molecule models, optionally holding some atoms fixed.
+<a href="http://ambermd.org/index.html" target="_blank"><b>Amber</b></a>
+parameters are used for standard residues, and Amber's
+<a href="http://ambermd.org/antechamber/antechamber.html"
+target="_blank"><b>Antechamber</b></a> module (included with Chimera)
+is used to assign parameters to nonstandard residues.
+</p><p>
+Before energy calculations can be performed, it is necessary to correct
+structural inconsistencies, add hydrogens, and associate atoms 
+with force field parameters.  <b>Minimize</b> calls
+<a href="../../ContributedSoftware/dockprep/dockprep.html"><b>Dock 
+Prep</b></a> to perform
+<a href="../../ContributedSoftware/dockprep/dockprep.html#tasks">several
+tasks</a> to to prepare the structure(s).
+<a href="../../ContributedSoftware/dockprep/dockprep.html"><b>Dock 
+Prep</b></a> may in turn call other tools
+(<a href="../../ContributedSoftware/addh/addh.html"><b>AddH</b></a> and
+<a href="../../ContributedSoftware/addcharge/addcharge.html"><b>Add 
+Charge</b></a>).  Currently, 
+<a href="../../ContributedSoftware/addcharge/addcharge.html"><b>Add 
+Charge</b></a> (or the command <a href="addcharge.html"><b>addcharge</b></a>)
+must be run prior to minimization because it plays a crucial role in assigning
+<a href="../../ContributedSoftware/minimize/minimize.html#parameters">parameters</a>.
+</p><p>
+Consult the <a href="../../ContributedSoftware/minimize/minimize.html">
+<b>Minimize Structure</b></a> manual page for further details.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+Option keywords for <b>minimize</b> can be truncated to unique strings
+and their case does not matter.
+A vertical bar "|" designates mutually exclusive options, and
+default values are indicated with <b>bold</b>.
+</p>
+<blockquote>
+  <tt><a name="spec"><b>spec</b></a>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></tt>
+    <br>Whether to restrict minimization to a subset of
+    the open molecule models. The entire model(s) containing 
+    the specified atoms will be considered.    If
+    <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+    includes any spaces, it must be enclosed in single or double quote marks.
+All specified models are treated as a single system for energy calculations.
+</blockquote>
+<blockquote>
+  <tt><b>nsteps</b> <i>N</i></tt>
+    <br><i>N</i> (default <b>100</b>) is the maximum number of 
+    minimization steps to perform.
+</blockquote>
+<blockquote>
+  <tt><b>stepsize</b> <i>D</i></tt>
+    <br><i>D</i> (default <b>0.02</b> &Aring;) is the initial step length.
+</blockquote>
+<blockquote>
+  <tt><b>interval</b> <i>M</i></tt>
+    <br><i>M</i> (default <b>10</b>) is how often to update the display,
+    in terms of minimization steps.
+</blockquote>
+<blockquote>
+  <tt><b>freeze</b> <b>none</b>|selected|unselected</tt>
+   <br>In the <a href="#spec">specified</a> models,
+   which atoms to hold in place during minimization: none (default), 
+   the currently <a href="../selection.html">selected</a> atoms,
+   or all atoms that are not <a href="../selection.html">selected</a>.
+</blockquote>
+<blockquote>
+  <tt><b>nogui</b> true|<b>false</b></tt>
+    <br>Setting <b>nogui</b> to <b>true</b>
+     suppresses the appearance of tool dialogs that might otherwise appear.
+<a href="../../ContributedSoftware/dockprep/dockprep.html"><b>Dock 
+Prep</b></a> and 
+<a href="../../ContributedSoftware/addh/addh.html"><b>AddH</b></a>
+are executed with their default settings (as shown when running <b>minimize</b>
+with <b>nogui false</b>), while
+<a href="../../ContributedSoftware/addcharge/addcharge.html"><b>Add 
+Charge</b></a> uses Amber ff99 charges for standard residues
+(<a href="../../ContributedSoftware/addcharge/addcharge.html#standard">details</a>)
+and for any nonstandard residues, the
+<a href="../../ContributedSoftware/addcharge/addcharge.html#antechamber-method">method</a> 
+last specified in its GUI (<b>AM1-BCC</b> if the GUI has not been used).
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</blockquote>
+</p>
+See also:
+<a href="addh.html"><b>addh</b></a>,
+<a href="addcharge.html"><b>addcharge</b></a>,
+<a href="findclash.html"><b>findclash</b></a>,
+<a href="../../ContributedSoftware/dockprep/dockprep.html"><b>Dock 
+Prep</b></a>, 
+<A href="../../ContributedSoftware/structuremeas/structuremeas.html#adjust">
+<b>Adjust Torsions</b></a>,
+<A href="../../ContributedSoftware/minimize/minimize.html">
+<b>Minimize Structure</b></a>
+</p>
+</body></html>

@@ -1,0 +1,323 @@
+<html>
+<head>
+<title>Session Saving Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>Saving Extension State in a Session File</h1>
+
+<p>
+This example shows how an extension can save its state in a Chimera session
+file.  A session file is Python code that is executed by Chimera to restore
+the state information.  The SimpleSession module saves the core Chimera
+state such as opened molecules and the camera settings.  It then invokes
+a SAVE_SESSION trigger that extensions can receive to save their state.
+</p>
+
+<h2>
+Example <i>SessionSaveExample.py</i>
+</h2>
+
+<p>
+The code below saves state variables "some_path" and "some_number" in
+a session file when the Save Session menu entry is used.
+</p>
+
+<font color="red">
+<pre>
+some_path = '/home/smith/tralala.data'
+some_number = 3
+
+def restoreState(path, number):
+  global some_path, some_number
+  some_path = path
+  some_number = number
+
+def saveSession(trigger, x, file):
+  restoring_code = \
+"""
+def restoreSessionSaveExample():
+  import SessionSaveExample
+  SessionSaveExample.restoreState(%s,%s)
+try:
+  restoreSessionSaveExample()
+except:
+  reportRestoreError('Error restoring SessionSaveExample')
+"""
+  state = (repr(some_path), repr(some_number))
+  file.write(restoring_code % state)
+
+import chimera
+import SimpleSession
+chimera.triggers.addHandler(SimpleSession.SAVE_SESSION, saveSession, None)
+</pre>
+</font>
+
+<p>
+The last line registers the saveSession routine to be called when
+the SAVE_SESSION trigger is invoked.  This happens when the user saves
+the session from the Chimera file menu.  The saveSession routine
+writes Python code to the session file that will restore the
+state of the some_path and some_number global variables.
+</p>
+
+<h3>Large Data Structures</h3>
+<p>
+If you need to save data structures whose <code>repr()</code> would be
+hundreds or thousands of characters long, you should use SimpleSession's
+<code>sesRepr()</code> function instead which will insert newlines periodically.
+The resulting session has
+a better chance of being user-editable and passing through various mailer
+programs without corruption.
+</p>
+
+<h2>
+Session File Format
+</h2>
+
+<p>
+Here is the code written to the session file by the above example.
+</p>
+
+<pre>
+def restoreSessionSaveExample():
+  import SessionSaveExample
+  SessionSaveExample.restoreState('/home/smith/tralala.data','3')
+try:
+  restoreSessionSaveExample()
+except:
+  reportRestoreError('Error restoring SessionSaveExample')
+</pre>
+
+<p>
+Code written by other extensions will appear before and after this code.
+The restoreSessionSaveExample function is defined to keep
+extra names out of the global namespace of the session file.  This is
+to avoid name conflicts.  The restoreSessionSaveExample
+routine is called within
+a try statement so that if an error occurs it won't prevent
+code later in the session file from being called.  The reportRestoreError
+routine is defined at the top of the session file by SimpleSession.
+</p>
+
+<h2>
+Saving Complex Data
+</h2>
+
+<p>
+The SessionUtil module helps writing and reading the state data for
+extensions that have alot of state.  It can convert class instances
+to dictionaries so they can be written to a file.  This is similar to
+the standard Python pickle module but provides better human readable
+formatted output.  It can handle a tree of data structures.
+Look at the ScaleBar extension code to see how to use SessionUtil.
+</p>
+
+<h2>Restoring References to Molecular Data</h2>
+You can save references to molecules, residues, atom, bonds, pseudobonds,
+VRML models, and MSMS surfaces by calling SimpleSession's <code>sessionID()</code> function
+with the item to save as the only argument.  The <code>repr()</code> of the
+return value can then be written into the session file.  During the
+restore, the written session ID value should be given to SimpleSession's
+<code>idLookup()</code> function,
+which will return the corresponding molecular data item.
+
+<h3>Custom Molecular Attributes</h3>
+If you add non-standard attributes to Molecules/Residues/Bonds/Atoms that
+you want preserved in restored sessions, use SimpleSession's
+<code>restoreAttribute()</code> function, <i>e.g,</i>:
+
+<pre>
+  import chimera
+  from SimpleSession import registerAttribute
+  registerAttribute(chimera.Molecule, "qsarVal")
+</pre>
+Note that the Define Attribute tool automatically does this registration,
+so it's only attributes that you add directly from your own Python code
+that need to be registered as above. Also, only attributes whose values 
+are recoverable from their <code>repr()</code> can be saved by this mechanism,
+so values that are C++ types (Atoms, MaterialColors, <i>etc.</i>) could not
+be preserved this way.
+
+<h2>
+Restoring and Referring to Special Models
+</h2>
+
+<p>
+Non-molecular models cannot be located with the <code>sessionID()</code>/
+<code>idLookup()</code> mechanism.
+Instead, SimpleSession has a <code>modelMap</code> dictionary that can be
+used to map between a id/subid tuple for a saved model and the 
+actual restored model.
+So, during a session save, you would get the tuple to save from a model
+with code like:
+
+<pre>
+  refToSave = (model.id, model.subid)
+</pre>
+
+<p>
+The values in <code>modelMap</code> are actually lists of models with
+those particular id/subid values, since multiple models may have the
+same id/subid (<i>e.g.</i> a molecule and its surface).  So if you are
+restoring a special model and want to update <code>modelMap</code>, you
+would use code like this:
+
+<pre>
+  import SimpleSession
+  SimpleSession.modelMap.setdefault(refToSave, []).append(restoredModel)
+</pre>
+
+<p>
+Keep in mind that the id/subid of the saved model may not be the same as
+the restored model, particularly if sessions are being merged.  The key
+used by <code>modelMap</code> is always the id/subid of the saved model.
+
+<p>
+If you are trying to refer to a non-molecular model using <code>modelMap</code>,
+and that non-molecular model is of class <i>X</i>,
+you would use code like this:
+
+<pre>
+  import SimpleSession
+  restoredModel = filter(lambda m: isinstance(m, X), SimpleSession.modelMap[refToSave])[0]
+</pre>
+
+<h3>Session Merging</h3>
+If you are restoring your own models, you should try to restore them into
+their original ids/subids if possible so that scripts and so forth will continue
+to work across session saves.  In the case of sessions being merged, this
+of course could be problematic.  SimpleSession has a variable
+<code>modelOffset</code> (<i>i.e.</i> <code>SimpleSession.modelOffset</code>)
+which should be added to your model's id to avoid conflicts
+during session merges.
+<code>modelOffset</code> is zero during a non-merging session restore.
+
+
+<h3>Special Molecular/VRML Models</h3>
+<p>
+Some extensions may create their own Molecule or VRML instances that need to be
+restored by the extension itself rather than by the automatic save/restore
+for Molecules/VRML provided by SimpleSession.  In order to prevent SimpleSession
+from attempting to save the instance, use the
+<code>noAutoRestore()</code> function once the instance has been created,
+like this:
+
+<pre>
+  import SimpleSession
+  SimpleSession.noAutoRestore(instance)
+</pre>
+
+<p>Your extension is responsible for restoring all aspects of the instance,
+including selection state.
+
+
+<h2>Post-Model Restore</h2>
+<p>
+If restoring code should be called only after all models have been
+restored then the SimpleSession.registerAfterModelsCB routine should be used.
+</p>
+
+<pre>
+  def afterModelsRestoredCB(arg):
+    # do some state restoration now that models have been created
+
+  import SimpleSession
+  SimpleSession.registerAfterModelsCB(afterModelsRestoredCB, arg)
+</pre>
+<p>
+The 'arg' can be omitted in both the registration and callback functions.
+</p>
+
+<h2>Saving Colors</h2>
+<p>
+Similar to <code>sessionID</code> for molecular data,
+there is <code>colorID</code> function
+that returns a value whose <code>repr()</code> can be saved into a session
+file. During a restore, that value can be given to
+SimpleSession's <code>getColor</code> function to
+get a Color object back.
+</p>
+<h2>Closing a Session</h2>
+
+<p>
+The Close Session entry in the Chimera file menu is meant to reset
+the state of Chimera, unloading all currently loaded data.  Extensions
+can reset their state when the session is closed by handling the
+CLOSE_SESSION trigger as illustrated below.
+</p>
+
+<font color="red">
+<pre>
+def closeSession(trigger, a1, a2):
+  default_path = '/default/path'
+  default_number = 1
+  restoreState(default_path, default_number)
+
+import chimera
+chimera.triggers.addHandler(chimera.CLOSE_SESSION, closeSession, None)
+</pre>
+</font>
+
+<h2>Changing Behavior During a Session Restore</h2>
+
+<p>
+If an extension needs to behave differently during a session restore
+than at other times (<i>e.g.</i> react differently to newly opened models),
+then it can register for the BEGIN_RESTORE_SESSION and END_RESTORE_SESSION
+triggers, in an analogous manner to the CLOSE_SESSION trigger in the 
+preceding section.
+</p>
+
+<h2>
+Running the Example
+</h2>
+
+<p>
+To try the example, save the above sections of code shown in red as file
+<i>SessionSaveExample.py</i>.
+Use the Chimera Favorites/Preferences/Tools/Locations interface to add the directory
+where you have placed the file to the extension search path.
+Show the Python shell window using the Tools/Programming/IDLE menu
+entry and type the following command.
+</p>
+
+<pre>
+>>> import SessionSaveExample
+</pre>
+
+<p>
+Now save the session with the File/Save Session As... menu entry
+and take a look at the session file in an editor.  You should be able
+to find the restoreSessionSaveExample code in the file.  The current value
+of the some_path variable can be inspected as follows.
+</p>
+
+<pre>
+>>> SessionSaveExample.some_path
+'/home/smith/tralala.data'
+</pre>
+
+<p>
+Now close the session with the File/Close Session menu entry and see
+that the some_path variable has been reset to the default value.
+</p>
+
+<pre>
+>>> SessionSaveExample.some_path
+'/default/path'
+</pre>
+
+<p>
+Now reload the session with the File/Open Session menu entry and see
+that the some_path variable has been restored.
+</p>
+
+<pre>
+>>> SessionSaveExample.some_path
+'/home/smith/tralala.data'
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2003 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>pdbrun</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>pdbrun</b> [ all ] [ conect ] [ nouser ] [ nowait ]
+<i>command</i> [<i>cmd_args...</i>] </h3>
+<p>
+<b>Pdbrun</b> causes <i>command</i> and <i>cmd_args</i> to be passed to
+the user's system shell for execution. A set of concatenated PDB files
+describing the current models (hereafter referred 
+to as a PDBRUN file) is also passed as standard input to <i>command</i>.
+Normal shell metacharacters (notably output redirection) can be used.
+Errors are ignored and any shell output is interpreted as commands and
+executed. For example, on a UNIX system,
+<blockquote><tt>
+<b>pdbrun cat &gt; file</b>
+</tt></blockquote>
+would create a PDBRUN file named <i>file</i> that describes the current models
+(see also the <b><A href="save.html">save</A></b>
+and <b><A href="write.html">write</A></b> commands).
+</p><p>
+The <b>all</b> option specifies that all atoms, not just those that
+are displayed, should be sent to <i>command</i>.
+</p><p>
+The <b>conect</b> [<i>sic</i>] option specifies that PDB-standard
+<tt>CONECT</tt> records should be generated for all residues, even if they
+have standard connectivity.
+</p><p>
+<tt>USER</tt> records are placed in the PDBRUN file to indicate display
+information such as atom colors, view direction, clipping planes, <i>etc</i>.
+The <b>nouser</b> option specifies that no <tt>USER</tt> records should appear
+in the file.
+</p><p>
+By default, Chimera waits for <i>command</i> to exit before continuing.
+The <b>nowait</b> option causes Chimera to continue without waiting for
+<i>command</i> to exit.
+</p><p>
+Any output from <i>command</i> is interpreted as commands and executed.
+Control returns to the user interface when the <b>pdbrun</b> command
+terminates. The <b>pdbrun</b> command facilitates additions to the normal
+command set.  For example, the <b><A href="conic.html">conic</A></b>
+command is implemented using <b>pdbrun</b>.
+</p><p>
+As mentioned above, a PDBRUN file is passed as input to <i>command</i>.
+This file describes not only current model coordinates, but also other
+aspects of the modeling environment such as clipping plane positions.
+Modeling environment annotations are supplied in various types of
+<tt>USER</tt> records, described in detail in Appendix 1 of the MidasPlus
+User's Manual.</p>
+<p>
+The PDBRUN file has three principal sections:
+<ol>
+<li><i>Annotation Headers</i> has global modeling information.
+<li><i>Per Molecule Annotations</i> has molecular data for
+each model. Each model's data starts with a <tt>USER FILE</tt> record and is
+terminated with an <tt>END</tt> record. The serial numbers in <tt>ATOM</tt>,
+<tt>HETATM</tt>, and <tt>TER</tt> records increment continuously from one
+model to the next. Due to field widths, this imposes a limit of 99999 atoms
+in a scene. Any PDB records present in the model's original source file
+(and not normally interpreted for display purposes, such as <tt>REMARK</tt>
+records) are preserved and placed just after the <tt>USER FILE</tt> record.
+<li><i>Annotation Trailers</i> contains records specifying the angles
+and distances being explicitly monitored in the current view.</ol></p>
+<p>
+Throughout, fields in PDB records that are not wide enough to hold their
+associated values are filled with asterisks instead.
+Details of the meaning and format of the <tt>USER</tt> records employed by
+<b>pdbrun</b> can be found in Appendix 1 of the MidasPlus User's
+Manual.  However, as there are no Midas-style nonmolecular objects
+in the framework of the Midas emulator in Chimera, PDBRUN files
+created therein will not contain any <tt>USER OBJ</tt>, <tt>USER ENDOBJ</tt>,
+or <tt>USER GFX</tt> records.</p>
+<p>
+A discussion of the motivation for and design criteria of the PDBRUN
+format can be found in: G. S. Couch, E. F. Pettersen, C. C. Huang and T. E.
+Ferrin "Annotating PDB files with scene information" <i>J. Mol. Graphics</i>
+<b>13</b>, 153-158 (1995).</p>
+<p>
+See also:
+<b><A href="runscript.html">runscript</A></b>,
+<b><A href="save.html">save</A></b>,
+<b><A href="system.html">system</A></b>,
+<b><A href="write.html">write</A></b>,
+<b><A href="export.html">export</A></b>,
+<b><A href="writesel.html">writesel</A></b>
+</p>
+</body></html>

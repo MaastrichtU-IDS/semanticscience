@@ -1,0 +1,221 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2003-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>UCSF Chimera Web Data</TITLE>
+</head>
+<body>
+<a name="webdata">
+<h3>UCSF Chimera Web Data</h3></a>
+<p>
+<a href="http://www.cgl.ucsf.edu/chimera/index.html" target="_blank">Chimera</a>
+can be used as a helper application for several types of
+files linked to web pages:
+<table border>
+<tr><th colspan="3" align="center">Web Data File Types</th></tr>
+<tr><th>type</th>
+<th><a name="suffix">suffix (extension)</a></th>
+<th>contents</th>
+</tr><tr>
+<td align="center"><a href="chimerax.html">Chimera web data</a></td>
+<td align="center">.chimerax</td>
+<td align="center">instructions on data files to open,
+commands and code to execute (can have a Chimera
+<a href="../demos/demos.html">demo</a> embedded)</td>
+</tr><tr>
+<td align="center">Mol2</td>
+<td align="center">.mol2</td>
+<td align="center">molecular structure</td>
+</tr><tr>
+<td align="center"><a href="../../UsersGuide/tutorials/framepdbintro.html"
+target="_top">PDB</a></td>
+<td align="center">.pdb<br>.ent</td>
+<td align="center">molecular structure</td>
+</tr><tr>
+<td align="center">Python</td>
+<td align="center">.py<br>.pyc<br>.pyo<br>.pyw</td>
+<td align="center">Python code</td>
+</tr><tr>
+<td align="center">VRML</td>
+<td align="center">.vrml<br>.wrl</td>
+<td align="center">graphical object</td>
+</tr>
+</table>
+</p><p>
+While the other file types are somewhat standard, 
+<a href="chimerax.html">Chimera web data (chimerax)</a>
+files are specifically meant to be interpreted by Chimera.
+</p><p>
+For Chimera to show the data when a link to a file is clicked,
+<ol>
+<li> the web browser must be <a href="#browser">configured</a>
+ to send the file to Chimera
+<li> except on Mac OS X,
+Chimera must be <a href="#acceptdata">enabled to accept</a> such files
+</ol>
+</p><p>
+<a name="confirm">
+Users will be asked to confirm
+</a>
+whether files containing Chimera commands and/or Python code 
+should be accepted.
+By default, this will happen the first time such a file is 
+encountered during each Chimera session; other options are to ask
+each time and never (controlled in the
+<a href="../../UsersGuide/preferences.html#Web Access"><b>Web Access</b>
+preferences</a>).
+Because commands and code written with malicious intent 
+may harm a user's computer, <b>only files from a trusted source 
+should be accepted</b>.
+</p>
+
+<h3><a name="browser">Browser Configuration</a>
+<img src="configicon.png" alt="Browser Configuration icon"></h3>
+<p>
+For Chimera to act as a helper application for
+<a href="#webdata">data linked to web pages</a>,
+the browser must recognize which files should be sent to Chimera.
+Except on Mac OS X, this can be set up automatically 
+using the <b>Browser Configuration</b> tool 
+(under <b>Tools... Utilities</b> in the Chimera menu).
+The alternative is to configure the browser <a href="#manual">manually</a>.
+</p>
+
+<h4><a name="manual">Manual Configuration</a></h4>
+<p>
+The <a href="#browser">automated approach</a> is much easier and should
+be used where possible.
+The manual configuration procedure varies with browser and system;
+the examples below address only the Chimera web data (chimerax) file type.
+</p><p>
+On <b>Mac OS X</b>:
+<blockquote>
+Currently, Safari cannot be configured to send files to Chimera.
+<p>
+The simplest way to configure Mozilla, Netscape, and Firefox 
+for file types not already assigned a helper application 
+is to attempt to open the file, then instruct the browser to
+<pre>
+<b>Open with</b> (browse to locate Chimera)
+</pre>
+(the default location is <b>/Applications/Chimera.app</b>);
+check the option to do this automatically for such files in the 
+future.  If the file type is already assigned a helper application,
+the assignment can be changed using the browser preferences.
+</p><p>
+Internet Explorer preferences include a section
+for file helpers (helper applications).
+A file helper should be added with the following information:
+<pre>
+<b>Description:</b> Chimera web data
+<b>Extension:</b> chimerax
+<b>MIME type:</b> application/x-chimerax
+<b>File type:</b> ????
+<b>File creator:</b> Chim
+<b>How to handle:</b> View with Application 
+  (browse to locate Chimera)
+</pre>
+The <b>File type</b> and <b>File creator</b>
+fields must contain only the four characters
+shown and no spaces.  Other settings (those not mentioned here)
+can be left unchanged.
+</blockquote>
+</p><p>
+On <b>UNIX</b>:
+<blockquote>
+Browser preferences generally 
+include a section for helper applications.
+A new type should be added with the following information:
+<pre>
+<b>Description:</b> Chimera web data
+<b>File extension (suffix):</b> chimerax
+<b>MIME type:</b> application/x-chimerax
+<b>Application:</b>
+  CHIMERA_ROOT/bin/chimera_send
+                  <b><i>- or sometimes -</i></b>
+  CHIMERA_ROOT/bin/chimera_send %s
+</pre>
+where the Chimera installation directory should be substituted for 
+CHIMERA_ROOT (<b>/usr/local/chimera</b> is the default).
+<br><br>
+In addition, UNIX systems use <b>.mime.types</b>
+to identify types of files downloaded from the web and
+<b>.mailcap</b> to associate these types with applications;
+both files reside in a user's home directory.  
+Both files should be created if they do not already exist.  The line
+<pre>
+application/x-chimerax chimerax
+</pre>
+should be added to the end of <b>.mime.types</b> and the lines
+<pre>
+application/x-chimerax
+CHIMERA_ROOT/bin/chimera_send %s
+</pre>
+should be added to the end of <b>.mailcap</b>.
+The Chimera installation directory should be substituted for CHIMERA_ROOT.
+</blockquote>
+On <b>Windows</b>:
+<blockquote>
+Mozilla/Netscape and Internet Explorer use the system registry
+to determine which application should handle a particular type of file.
+Only users with administrative privileges can register a file type.
+The general procedure for registering the Chimera file type
+will be something like:  from the Control Panel menu, choose
+(depending on the system) Tools... Folder Options or View... Options,
+then click the File Types tab.  Create a new type with
+<pre>
+<b>File extension:</b> chimerax
+</pre>
+and (if asked)
+<pre>
+<b>Description:</b> Chimera web data
+<b>MIME type:</b> application/x-chimerax
+</pre>
+Add a new action (it may be necessary to click on the line 
+for the chimerax type and then the Advanced button to add this information):
+<pre>
+<b>Action:</b> open
+<b>Application used to perform action:</b>
+  "CHIMERA_ROOT\bin\chimera.exe" "--send" "%1"
+</pre>
+where the Chimera installation directory should be substituted for 
+CHIMERA_ROOT (<b>C:\Program Files\Chimera</b> is the default).
+Check the box to "Always show extension" before closing the File Types panel.
+</blockquote>
+</p>
+
+<h3><a name="acceptdata">Accepting Web Data</a></h3>
+<p>
+After a browser has been <a href="#browser">configured</a> to send
+Chimera the appropriate files, setting 
+<b>Accept web data</b> to <b>true</b> in the
+<a href="../../UsersGuide/preferences.html#Web Access">
+<b>Web Access</b> preferences</a> enables the running instance of
+Chimera to accept such files.
+On Mac OS X, this preference is not shown, since
+Chimera will always be enabled to accept such files.
+If there is no running instance of Chimera enabled to accept web data,
+another instance of Chimera will be started and used to open the data. 
+If there are multiple running instances of Chimera set to accept web data,
+the file will be sent to the instance that most recently had focus
+(was most recently clicked into).
+</p><p>
+Even when Chimera is enabled to accept web data, it is necessary to 
+<a href="#confirm">confirm acceptance of certain file types</a>
+(once per session by default; controlled in the
+<a href="../../UsersGuide/preferences.html#Web Access">
+<b>Web Access</b> preferences</a>).
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / December 2009</address>
+</body>
+</html>

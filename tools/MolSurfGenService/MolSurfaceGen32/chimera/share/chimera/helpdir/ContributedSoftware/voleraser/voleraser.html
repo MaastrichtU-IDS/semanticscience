@@ -1,0 +1,150 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Volume Eraser</TITLE>
+</head>
+<body>
+<h3>Volume Eraser <img src="erasericon.png"
+alt="Volume Eraser icon"></h3>
+
+<table align="right">
+<tr><td>
+<img src="eraser.png" alt="Volume Eraser figure">
+</td></tr>
+</table>
+
+<p>
+<b>Volume Eraser</b> allows parts of
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> maps
+to be zeroed out interactively.
+After the <b>Volume Eraser</b> sphere has been moved to a desired
+location, data values for all points inside the sphere can be set to zero.
+The modified data can be 
+<a href="../volumeviewer/volumeviewer.html#filemenu">
+saved to a file</a> with
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+See also:
+<a href="../accelerators/accelerators.html"><b>Keyboard Shortcuts</b></a>,
+<a href="../../UsersGuide/midas/mask.html"><b>mask</b></a>,
+<a href="../../UsersGuide/midas/vop.html"><b>vop</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Volume Eraser</b>, a tool in the <b>Volume Data</b> category
+(including from the <a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a> <b>Tools</b> menu).
+</p><p>
+<a name="showsphere">
+<b>Show volume-erasing sphere</b></a> controls whether the sphere is shown
+and can be moved with the mouse.  This option is automatically activated when 
+<b>Volume Eraser</b> is started and deactivated when the
+tool is closed or iconified.  Upon activation, the sphere will appear
+in the center of the screen at the frontmost face of the
+<a href="../volumeviewer/volumeviewer.html#currentdisp">current 
+display region</a>
+of data in 
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.  
+The position of the sphere is forgotten upon deactivation.
+</p><p>
+The sphere's <b>Color</b> can be adjusted by clicking the
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>
+and using the
+<a href="../../UsersGuide/colortool.html"><b>Color Editor</b></a>.
+The sphere's <b>Radius</b>
+can be adjusted by entering a value or moving the slider. 
+The radius is initially set to one-tenth of the largest dimension of the
+<a href="../volumeviewer/volumeviewer.html#currentdisp">current 
+display region</a>
+of volume data.
+</p><p>
+<b>Use mouse [<i>button</i>] to move sphere</b> controls which mouse
+button is used to move the sphere.  
+The indicated mouse button, which can be changed using the pulldown menu,
+is reassigned from its existing function to sphere movement.
+Combining the indicated button with Shift moves the
+sphere in the Z dimension (perpendicular to the screen);
+dragging down/left brings the sphere forward and 
+dragging up/right moves it away.
+</p><p>
+Clicking <b>Erase</b> zeroes the sphere-enclosed portion of the
+volume data.  There is no undo capability.  However, a copy of the
+<a href="../volumeviewer/volumeviewer.html#currentdisp">current 
+display region</a>
+is automatically generated in the first cycle of erasure, and
+erasures apply only to that copy.
+The copy is named after the original data; if the original data is named
+<b>data123</b>, the copy will be named <b>Writable copy of data123</b>.
+The original data is not affected, allowing the process to be
+restarted if a mistake is made.
+</p><p>
+After one or more cycles of erasure, the modified data can be 
+<a href="../volumeviewer/volumeviewer.html#filemenu">
+saved to a file</a> with
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+</p><p>
+<b>Close</b> closes the <b>Volume Eraser</b> interface.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="shortcuts">
+<h3>Keyboard Shortcuts</h3></a>
+<p>
+Several 
+<a href="../accelerators/accelerators.html">accelerators</a> 
+(keyboard shortcuts) are available for
+<a href="../accelerators/alist.html#voledit">editing volume data</a>, 
+including:
+<ul>
+<li><b>es</b> - erase inside the sphere
+<li><b>eo</b> - erase outside the sphere
+<li><b>wv</b> - create a writable copy of the
+<a href="../volumeviewer/volumeviewer.html#currentdisp">current 
+display region</a> in
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> (rarely needed because a copy is
+created automatically in the first erasure cycle)
+</ul>
+Accelerators are disabled by default.  One way to enable their use is with the
+command <a href="../../UsersGuide/midas/ac.html"><b>ac</b></a>.
+</p>
+
+<a name="technical">
+<h3>Technical Notes</h3></a>
+<p>
+<b>The sphere is implemented as a marker</b>.
+The <b>Volume Eraser</b> sphere is implemented as a 
+<a href="../volumepathtracer/volumepathtracer.html#markers">marker</a>, 
+like those created by
+<a href="../volumepathtracer/framevolpath.html"
+target="_top"><b>Volume Tracer</b></a>.
+Moving the sphere is equivalent to
+<a href="../volumepathtracer/volumepathtracer.html#moving">moving a marker</a>.
+</p>
+<p>
+<b>Hidden data is also erased</b>.
+Data can be erased even if it is hidden by clipping planes, zoning
+(with <a href="../surfzone/surfzone.html"><b>Surface Zone</b></a>
+or <a href="../volumeviewer/volumeviewer.html#zone">zoning</a> in
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>), or 
+<a href="../volumeviewer/volumeviewer.html#mouseselect">subregion 
+selection</a> in
+<a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / September 2008</address>
+</body>
+</html>

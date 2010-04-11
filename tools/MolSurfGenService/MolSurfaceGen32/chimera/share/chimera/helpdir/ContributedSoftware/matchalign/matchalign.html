@@ -1,0 +1,172 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2003-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Match -> Align</TITLE>
+</head>
+<body>
+
+<h3>Match -> Align <img src="matchalign.png" alt="Match -> Align icon"></h3>
+
+<p>
+<b>Match -> Align</b> creates a sequence alignment from a
+<a href="../../UsersGuide/superposition.html">structural superposition</a>
+of proteins or nucleic acids in Chimera.  
+Residue types are not used, only their spatial proximities.  
+Iterations of refitting the structures using the sequence alignment
+and generating a new sequence alignment can be performed.
+</p><p>
+The output sequence alignment is automatically shown in
+<a href="../multalignviewer/framemav.html" target="_top">
+<b>Multalign Viewer</b></a>,
+and RMSDs over the fully populated columns of the alignment are 
+reported in the <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><td><a href="match3seq.png"><img src="match3seq.png" 
+width="280" height="185" title="click for larger image..."></a></td></tr>
+</table>
+<img src="match3struct.png" align="right">
+<p>
+For an informal introduction, see the 
+<a href="../../UsersGuide/tutorials/alignments.html">Superpositions and
+Alignments tutorial</a>.
+See also:  
+<a href="../matchmaker/matchmaker.html"><b>MatchMaker</b></a>,
+<a href="../multalignviewer/framemav.html" target="_top"><b>Multalign
+Viewer</b></a>, 
+and
+<blockquote>
+<a href="http://www.biomedcentral.com/1471-2105/7/339" target="_blank">
+Tools for integrated sequence-structure analysis with UCSF Chimera.</a>
+Meng EC, Pettersen EF, Couch GS, Huang CC, Ferrin TE.
+<i>BMC Bioinformatics.</i> 2006 Jul 12;7:339.
+</blockquote>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Match -> Align</b>, a tool in the <b>Structure Comparison</b> and
+<b>Sequence</b> categories.
+</p><p>
+Chains to be included in the sequence alignment should be chosen from
+the top section of the panel.
+<ul>
+<li><a name="cutoff"><b>Residue-residue distance cutoff (angstroms)</b></a>
+(default <b>5.0</b>) - maximum CA-CA distance (C4'-C4' for nucleic acids) 
+for defining membership in a column of the output sequence alignment
+<li><b>Residue aligned in column if within cutoff of:</b>
+  <ul>
+  <li><b>at least one other</b> (default)
+  <li><b>all others</b>
+  </ul>
+- how the <a href="#cutoff">cutoff</a> should be applied; 
+equivalent for alignments of only two chains
+<li><b>Gap character</b> - how to show gaps in the output sequence alignment
+  <ul>
+  <li> <b>.</b> (period)
+  <li> <b>-</b> (dash)
+  <li> <b>~</b> (tilde)
+  </ul>
+<li><b>Allow for circular permutation</b> - whether to double sequences 
+as needed to simultaneously align the N-terminal region of one protein 
+with the C-terminal region of the other and vice versa.  Doubling
+the sequence of one of a pair of proteins related by
+<b><i>circular permutation</i></b> is required because
+<b>Match->Align</b> enforces N &rarr; C chain directionality.
+Information on any permutations will be sent to the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+<li><b>Iterate superposition/alignment...</b> whether to perform 
+one or more cycles of refitting the structures using the sequence alignment 
+and generating a new sequence alignment from the adjusted superposition.
+Superpositions will not be adjusted unless iteration is turned on.
+Only the final superposition and final sequence alignment will be shown.
+The number of fully populated columns in any intermediate 
+sequence alignments and corresponding match statistics will be reported
+in the <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+<blockquote>
+<b>Iteration Parameters</b>:
+ <ul>
+ <li><b>Iterate alignment</b>:
+    <ul>
+    <li><b>at most [<i>N</i>] times</b> (default <b>3</b>) 
+    - refit and then generate a new sequence alignment <i>N</i> times
+    (or fewer, if convergence is reached)
+    <li><b>until convergence</b> - refit and then generate a new sequence
+   alignment until the number of fully populated columns no longer increases
+    </ul>
+ <li><b>Superimpose full columns</b>:
+    <ul>
+    <li><b>across entire alignment</b> - refit the structures 
+    using all fully populated columns of the sequence alignment
+    <li><b>in stretches of at least [<i>L</i>] consecutive columns</b>
+     (default <b>3</b>) - refit the structures using only the fully 
+     populated columns in consecutive stretches of <i>L</i> or more
+    </ul>
+ <li><b>Reference chain for matching</b> [<i>chain</i>] 
+  - which structure should remain fixed as the others are matched to it
+ </ul>
+</blockquote>
+</ul>
+<b>Save settings</b> writes the current <b>Match -> Align</b> parameters to the
+<a href="../../UsersGuide/preferences.html#preffile"><b>preferences</b> 
+file</a>. <b>Reset to defaults</b> resets the dialog to the factory default 
+parameter settings without changing any preferences.
+</p><p>
+Clicking <b>Apply</b> (or <b>OK</b>, which also dismisses the dialog)
+initiates the calculation.
+</p><p>
+The output sequence alignment is automatically shown in
+<a href="../multalignviewer/framemav.html" target="_top">
+<b>Multalign Viewer</b></a> and can be 
+<a href="../multalignviewer/multalignviewer.html#saving">saved to a file</a>
+from that tool.  The fully populated columns are highlighted as a
+<a href="../multalignviewer/multalignviewer.html#regions">region</a>
+(colored boxes).  Clicking the region will select the corresponding parts 
+of the structures, in effect their common cores.
+The <a href="../multalignviewer/multalignviewer.html#headers">header</a>
+named <b>RMSD</b> shows the spatial variation per column.
+</p><p>
+The number of fully populated columns in the alignment and
+the corresponding pairwise and overall RMSDs are reported 
+in the <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+All RMSDs are calculated using one atom per residue: CA in amino acids,
+C4' in nucleic acids.  Structures are not
+refit using the final sequence alignment; rather, the existing
+superpositions are simply evaluated over the fully populated columns
+of that alignment.
+</p><p>
+<b>Close</b> dismisses the dialog without generating an alignment.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<h3><a name="notes">Notes</a></h3>
+<p>
+In most cases, a semi-heuristic algorithm is used.
+However, a modified Needleman-Wunsch procedure (dynamic programming) 
+is used for the case of two chains and no allowance for circular permutation:
+<blockquote>
+The score for aligning a pair of residues is:
+<ul>
+<li> (cutoff &ndash; distance) for distances no greater than the 
+<a href="#cutoff">cutoff</a>
+<li> &ndash;1 for distances greater than the
+<a href="#cutoff">cutoff</a>
+</ul>
+The gap penalty is zero, since for this application the spatial
+proximity should be more important than adjacency in sequence; that is,
+residues farther apart than the distance cutoff should not be aligned.
+</blockquote>
+This process determines the sequence alignment that best represents
+the structural alignment.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / September 2009</address>
+</body>
+</html>

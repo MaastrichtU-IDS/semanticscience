@@ -1,0 +1,22 @@
+name = "Cytochrome C"
+
+conf = PDBConfiguration('2YCC.pdb')
+
+# construct the peptide chains
+chains = conf.createPeptideChains()
+
+# construct the isolated heme group
+heme = conf.createGroups({'HEM': 'bound_heme'})[0]
+
+# convert cysteins to cystines
+chains[0][18]._makeCystine()
+chains[0][21]._makeCystine()
+
+# attach the heme group
+chains[0].addGroup(heme, [(heme.CAB, chains[0][18].sidechain.S_gamma),
+                          (heme.CAC, chains[0][21].sidechain.S_gamma)])
+
+# assign positions to undefined hydrogen atoms
+chains[0].findHydrogenPositions()
+
+del conf

@@ -1,0 +1,380 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.4.8 The shadow line artifact</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_83.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_83.html">2.4.7 Miscellaneous questions</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.4.8 
+   The shadow line artifact</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_85.html">2.4.9 Smooth triangle artifact</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_85.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_04_08">2.4.8 </a>The shadow line artifact</h3>
+
+<h4><a name="s02_04_08_01">2.4.8.1 </a>What is the problem?</h4>
+
+<p>
+  People often find an annoying problem when applying normal modifier patterns to objects. It is said that one image 
+ tells more than a thousand words, and this saying also applies here. This image shows two cases where the problem 
+ appears: 
+</p>
+
+<p>
+  <img alt="Sometimes odd shadow lines appear on certain objects" src="images/tutorial/pic1.png"> 
+</p>
+
+<p>
+  
+</p>
+
+<ul>
+ 
+ <li>
+   The object in the left of the image is just a regular POV-Ray sphere with a normal modifier made with the bump 
+  pattern. 
+ </li>
+
+ <li>
+   The object in right of the image is a mesh of smooth triangles. 
+ </li>
+
+</ul>
+
+<p>
+  As you notice, there are two clear artifacts in the image. The sphere has a straight shadow line which seems 
+ unnatural and the mesh has a non-straight shadow line when it is supposed to have a straight one. 
+</p>
+
+<p>
+  Although the artifacts look quite different in nature, they are, in fact caused by the exact same problem. <br> 
+</p>
+
+<p>
+  <img alt="The image one would expect." src="images/tutorial/pic2.png"> 
+</p>
+
+<p>
+  What one could expect would be something like this image (do not mind about the bright part under the triangle 
+ mesh; this is explained later). <br> 
+</p>
+
+<h4><a name="s02_04_08_02">2.4.8.2 </a>What causes the problem?</h4>
+
+<p>
+  Let's start with the sphere with the perturbed normal, since it is easier to explain. 
+</p>
+
+<p>
+  <img alt="Shadow line test with modified normals" src="images/tutorial/shadowtest.png"> 
+</p>
+
+<p>
+  This image shows graphically what happens. 
+</p>
+
+<p>
+  The problem happens in the &quot;dark side&quot; of the object, that is, the side which does not &quot;see&quot; 
+ the light source. 
+</p>
+
+<p>
+  Although the surface normal points away from the light source (ie. its angle is &gt;90 degrees from the light 
+ source), the perturbed normal points towards it (ie. its angle is &lt;90 degrees) and thus, according to the normal 
+ vector, the light source should illuminate the point in question. 
+</p>
+
+<p>
+  However, when doing the shadow-ray test, POV-Ray sees that the test ray intersects with a surface (in this case the 
+ surface of the same sphere, but at the &quot;other side&quot;). Thus it decides that the surface in question is 
+ shadowing the current point and thus the light source does not illuminate it. 
+</p>
+
+<p>
+  This is what causes the straight shadow exactly where the (non-perturbed) surface normal is exactly at 90 degrees 
+ from the light source. <br> 
+</p>
+
+<p>
+  The problem with the mesh of smooth triangles is a bit more difficult, although very similar (and caused by the 
+ exact same problem). 
+</p>
+
+<p>
+  <img alt="Shadow test of a triangle mesh" src="images/tutorial/shadowtest2.png"> 
+</p>
+
+<p>
+  This image shows graphically what happens. 
+</p>
+
+<p>
+  Although there is no explicit normal perturbation, the fact that the surface is a mesh of smooth triangles means 
+ that there is an implicit normal perturbation. 
+</p>
+
+<p>
+  In order to get a smooth appearance, each vertex has a normal vector and the normal vector at any point in the 
+ surface of the triangle is calculated by interpolating the normal vectors of the vertices. 
+</p>
+
+<p>
+  Here the problem happens when the shadow line should pass across a triangle and the unperturbed normal vector of 
+ that triangle points away from the light source. As seen in the figure, a triangle that is closer to the light source 
+ will shadow the point in the current triangle (it is not necessarily the adjacent triangle, but if the mesh is closed, 
+ some triangle will surely shadow the point in question). 
+</p>
+
+<p>
+  This means that this unfortunate triangle will be completely shadowed, thus causing a triangular artifact in the 
+ shadow line of the mesh. <br> 
+</p>
+
+<p>
+  <img alt="The shadow line corresponds to the non-smooth mesh." src="images/tutorial/pic3.png"> 
+</p>
+
+<p>
+  The image on the left shows more clearly why the shadow line of the smooth triangle mesh is like it appeared in the 
+ first image of this page. 
+</p>
+
+<p>
+  The object at the left is the same triangle mesh, but with flat triangles, and the object at the right is the same 
+ object as in the image at the beginning of this page. 
+</p>
+
+<p>
+  Notice how the shadowed triangles of the flat mesh correspond exactly to the artifacts in the shadow line of the 
+ smooth mesh. The reason for this was explained in the figure above. <br> 
+</p>
+
+<h4><a name="s02_04_08_03">2.4.8.3 </a>Can this problem be solved?</h4>
+
+<p>
+  And how did I correct the problem in the second image at the beginning of this page? 
+</p>
+
+<p>
+  Firstly, do not think that it is a bug in POV-Ray. It is not a bug, but a real problem caused be the lighting model 
+ used in the renderer engine that is quite difficult to surpass. It is not a problem in POV-Ray in particular, but a 
+ problem in raytracing in general. Every raytracer will have this same problem when using perturbed surface normals 
+ (unless there is some fix coded into it). 
+</p>
+
+<p>
+  Perturbed surface normals are used, in fact, to simulate the perturbation of the surface itself. When calculating 
+ the lighting of the object, the surface normal perturbation will give the impression that the surface itself is 
+ perturbed (eg. in the images at the beginning of this page the sphere looks like it has a bumpy surface). 
+</p>
+
+<p>
+  In triangle meshes the normal interpolation is used to simulate curvature of the surface (a curvature which 
+ actually is not there). 
+</p>
+
+<p>
+  However, since the normal vector perturbation does not affect the surface itself in any way, this kind of artifact 
+ will be the price to pay (another one is that although the surface looks bumpy or smooth, its silhouette will still 
+ look straight or polygonized, but this usually is not such a big problem). 
+</p>
+
+<p>
+  This is a real problem that happens even to the best. For example, check this <a href="http://oz.irtc.org/ftp/pub/stills/1998-10-31/running.jpg" target="new">IRTC 
+ winner image</a>. Notice the straight shadow lines on the rocks (specially in the closest rock)? 
+</p>
+
+<p>
+  However, there are certain things that can be done to alleviate the problem. 
+</p>
+
+<h4><a name="s02_04_08_04">2.4.8.4 </a>Possible solutions?</h4>
+
+<p>
+  1) So what did I do to get the second image at the beginning of this page? 
+</p>
+
+<p>
+  I just made the objects shadowless. This gets rid of the problem of the surface shadowing the wrong point. 
+</p>
+
+<p>
+  This, of course, has severe problems. Since the object does not cast shadows anymore, it probably cannot be used in 
+ any real scene (although making the rocks shadowless in the IRTC winning image mentioned above would have perhaps 
+ helped the image a lot without making it too unrealistic). 
+</p>
+
+<p>
+  With smooth triangle meshes it also introduces another artifact, which can be seen in the second image at the 
+ beginning of the page. I do not know the exact mechanism of this artifact but it is a direct consequence of the mesh 
+ being shadowless (it may have something to do with the fact that smooth triangles are double-illuminated in POV-Ray). 
+</p>
+
+<p>
+  2) Perhaps a future version of POV-Ray or one of its patches may introduce a way to stop self-shadowing (while 
+ still casting shadows on other objects). 
+</p>
+
+<p>
+  This would alleviate the problem of the completely shadowless object since this object could be used in real scenes 
+ and they will cast shadows on other objects and they will not have the shadow line artifact. 
+</p>
+
+<p>
+  However, this solution applies only to a few range of objects (mainly convex objects). Objects where self-shadowing 
+ is essential (imagine a coffee cup, for example) will still have problems. 
+</p>
+
+<p>
+  3) I have proposed this sophisticated algorithm to get rid of the problem: 
+</p>
+
+<p>
+  When doing shadow ray tests, do the following: 
+</p>
+
+<ol>
+ 
+ <li>
+   Make the regular shadow ray test, which gets all the intersections of the ray with all the surfaces that are 
+  between the current point and the light source. 
+ </li>
+
+ <li>
+   Look if in the current point the unperturbed normal vector points away from the light source and the perturbed 
+  normal vector points towards the light source. 
+ </li>
+
+ <li>
+   If so, check if the closest intersection point of the shadow ray belongs to the current object. 
+ </li>
+
+ <li>
+   If so, remove that intersection point from the list. 
+ </li>
+
+</ol>
+
+<p>
+  If we want to be more sure, we could also check if we are hitting the &quot;inside&quot; of the surface at this 
+ closest intersection point and only then remove it. This might be necessary for non-closed surfaces. 
+</p>
+
+<p>
+  This algorithm will eliminate the shadowline artifact without eliminating shadowing and self-shadowing of the 
+ object. 
+</p>
+
+<p>
+  It has its defects, though: 
+</p>
+
+<ol>
+ 
+ <li>
+   For example, if the camera is inside the object in question (and all the light sources are outside), we would 
+  expect to get a completely shadowed view of the surface. However, if the surface has perturbed normal, we will see 
+  some illuminated parts of the surface. However, I think that this problem is quite irrelevant in the vast majority of 
+  scenes (and it should be possible to turn the fix off anyways). 
+ </li>
+
+ <li>
+   It has several problems which can happen with non-convex objects (thanks to Ron Parker to pointing this out). The 
+  object can shadow itself with more than one surface. If it shadows itself from the outside (eg. a coffee cup), there 
+  is no problem, but if it &quot;shadows itself&quot; from the inside (eg. a coffee cup upside down) this shadow will 
+  be seen in an unrealistic way in the outermost surface of the object. There might not be any easy way to detect, 
+  which one is the case. 
+ </li>
+
+ <li>
+   Another problem similar to the above is that if there is another object inside this object we are calculating, 
+  that another object will itself also &quot;cast a shadow&quot; on the surface (this might be possible to fix by 
+  ignoring all the objects inside the current object; this is possible to do in a rather simple way; however, it is 
+  does not work in all cases). 
+ </li>
+
+ <li>
+   We still get the same artifact in triangle meshes as is shown in the second image at the beginning of the page. 
+  However, I am sure that this problem could be fixed as well (although I may be wrong, of course). 
+ </li>
+
+</ol>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_83.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_83.html">2.4.7 Miscellaneous questions</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.4.8 The shadow line artifact</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_85.html">2.4.9 Smooth triangle artifact</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_85.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

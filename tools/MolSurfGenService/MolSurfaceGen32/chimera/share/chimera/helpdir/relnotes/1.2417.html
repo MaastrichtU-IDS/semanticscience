@@ -1,0 +1,281 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2007 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 2417 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 2417 Release Notes (30 May 2007)</h2>
+
+    <h3>
+      Changes since the <a href="1.2304.html">previous production release (1.0 build 2304)</a>:
+    </h3>
+
+<blockquote>
+  <h4>General:</h4>
+  <ul>
+  <li>switched from using the Numeric Python extension to
+  <a href="http://numpy.scipy.org/">NumPy</a> &mdash; <b>this may break
+    third-party extensions</b>
+  <li>POV-Ray now included for direct production of shadowed images
+  (see <b>File... Save Image</b>): 
+    <ul>
+    <li>new <b>POV-Ray Options</b> section of <b>Preferences</b>
+    <li>ribbon style <b>supersmooth</b> added for use with raytracing
+    <li>standard and 2D labels included
+    <li>as with all raytracers,
+    images with transparency take significantly longer to render
+    </ul>
+  <li><b>Save Image</b> dialog changed to use pixels as the default units
+  and to include the supersampling and print resolution settings
+  (formerly in the <b>Image Setup</b> preferences)
+  <li><b>Presets</b> menu added for convenient access to display settings 
+  for interactive and publication usage scenarios 
+  <li>new built-in ribbon scaling, <b>licorice</b> 
+  (does not vary with secondary structure); 
+   minor changes in <b>Chimera default</b> scaling
+  <li>VRML import now supports PROTOs (ie., should work for
+  <a href="http://www.cmbi.ru.nl/molden/molden.html">molden</a>,
+  and older Honig lab GRASS, output)
+  <li>new input format MDL MOL/SDF
+  <li>new <b>Fetch by ID</b> types: 
+  EDS (fo-fc) electron density difference map, PQS predicted biological unit
+  <li>opening electrostatic potential data (APBS, Delphi, Grasp, UHBD) now
+  starts <b>Electrostatic Surface Coloring</b> instead of <b>Volume Viewer</b>
+  <li>compressed files (*.Z) can be recognized and opened for many input types
+  if gzip is on the user's execution path
+  <li>multiple models saved to a single PDB file are delimited by MODEL/ENDMDL
+  records instead of END records
+  <li><b>Select... Chain</b> menu now includes rollovers for chain IDs that
+  appear in more than one model, allowing selection of a chain within
+  a specific model or (as before) all models
+  <li><b>Select... Structure</b> menu now includes <b>nucleic acid</b>
+  and <b>protein</b>
+  <li><b>Actions... Atoms/Bonds</b> now has three options for displaying 
+  backbone only: chain trace, full, and minimal
+  <li><b>Actions... Focus</b>
+  adjusts the view as before, but then sets the
+  center of rotation to track the center of view
+  (rather than setting a fixed center based on the specified atoms)
+  <li>changes in preferences:
+    <ul>
+    <li>a preferences file can be specified at startup with <b>--preferences</b>
+    <li>the preferences file location is reported but can no longer be changed
+    from within the <b>Preferences</b> dialog
+    <li>the preferences file can be designated read-only
+    <li>settings in each tab of the <b>Viewing</b> tool
+    can be explicitly saved to and restored from the preferences file
+    <li><b>Collaboratory</b> and <b>Image Setup</b> sections removed
+    </ul>
+  <li>VRex row stereo mode removed
+  <li>camera mode and stereo parameters are saved in sessions
+  <li>improved session merging (opening a session in the presence of
+   pre-existing models)
+  <li>mouse mode for pop-up Chimera menu implemented
+  (see the <b>Mouse</b> preferences)
+  <li>on Windows, rolling the mouse scroll wheel is another way to scale
+  <li>added 64-bit Linux AMD64/EMT64 production release
+  <li>added Mac OS X Aqua snapshot release (for users who need stereo,
+  full-window antialiasing, and/or background transparency)
+  <li>added orthographic support to export formats
+  <li>export labels to X3D and POV-Ray files
+  </ul>
+
+  <h4>New Tools:</h4>
+  <ul>
+  <li><b>Fit Map in Map</b> (Volume Data) &mdash;
+    locally optimize the overlap of two density maps
+  </ul>
+
+  <h4>Tool Changes:</h4>
+  <ul>
+  <li><b>Add Charge</b> (Structure Editing) &mdash;
+  updated to recognize v3.0 PDB naming conventions
+
+  <li><b>AddH</b> (Structure Editing) &mdash;
+   <ul>
+   <li>updated to give the hydrogens v3.0 PDB names if input is v3.0
+   <li>includes peptide terminus recognition with OXT addition as needed
+   </ul>
+ 
+  <li><b>Camera</b> (Viewing Controls) &mdash;
+   <ul>
+   <li><b>DTI side-by-side</b> mode added for stereo viewing with 
+    technology from Dimension Technologies Inc.
+   <li>allows control over additional parameters affecting stereo and
+   the amount of perspective
+   </ul>
+
+  <li><b>Collaboratory</b> removed (use version 1.2309 for this tool)
+
+  <li><b>DelPhiController</b> (Surface/Binding Analysis, Volume Data) &mdash;
+   <ul>
+   <li>can Browse to the DelPhi executable location
+   <li>improved handling of pathnames
+    and retention of parameter settings within a Chimera session
+   <li><b>DelPhiViewer</b> portion removed; use <b>Electrostatic Surface
+    Coloring</b> and/or <b>Volume Viewer</b> instead
+   </ul>
+
+  <li><b>Dock Prep</b> (Structure Editing) &mdash;
+   <ul>
+  <li>peptide terminus recognition moved out of this tool and into <b>AddH</b>
+  <li>option to delete ions added
+  </ul>
+
+  <li><b>EnsembleTile</b> (Structure Comparison, MD/Ensemble Analysis) &mdash;
+  <b>Border scale</b> parameter added to control spacing
+
+  <li><b>Fit Model in Map</b> (Volume Data) &mdash;
+  more detailed information sent to the <b>Reply Log</b>
+
+  <li><b>MatchMaker</b> (Structure Comparison) &mdash;
+  nucleic acid residues lacking C4' atoms are paired using P atoms instead
+
+  <li><b>MD Movie</b> (MD/Ensemble Analysis) &mdash;
+    <ul>
+    <li>GROMACS support added
+    <li>for PDB inputs only,
+    coordinates supplied for a frame may now include just the 
+    atoms that moved relative to the previous frame
+    <li>added option to ignore hydrogens when calculating RMSD values
+    <li>specifying end frame as "pipe" allows reading piped trajectories
+    <li>movie recording default image format PPM, frames can be 
+  supersampled or raytraced, movie can be encoded as a "round trip"
+    </ul>
+
+  <li><b>Measure Volume and Area</b> (Surface/Binding Analysis, 
+  Volume Data) &mdash; can update measurements automatically as a 
+  surface changes (excluding molecular surfaces)
+
+  <li><b>Morph Conformations</b> (Structure Comparison) &mdash;
+  improved to handle structures with different numbering, different numbers
+  of residues, and even different sequences
+
+  <li><b>Movie Recorder</b> (Utilities) &mdash;
+    <ul>
+    <li>default image format changed to PPM (faster to save than PNG)
+    <li>image frames can be supersampled or raytraced
+    <li>movie can be encoded as a "round trip" 
+    (A&rarr;B and then in reverse, B&rarr;A)
+    </ul>
+
+  <li><b>Multalign Viewer</b> (Structure Comparison) &mdash;
+    <ul>
+    <li>Find Subsequence, Find PROSITE Pattern, and Alignment Annotations 
+    moved from <b>Tools</b> menu to <b>Edit</b> menu 
+    <li>a tree (Newick format) can be read and displayed alongside the
+    corresponding sequence alignment
+    <li>sequences from structures open in Chimera can be added to an alignment
+    </ul>
+
+  <li><b>Nucleotides</b> (Depiction) &mdash;
+  updated to recognize v3.0 PDB naming conventions
+
+  <li><b>Render by Attribute</b> (Depiction, Structure Analysis) &mdash;
+    attribute values can be saved to a file (<b>File... Save Attributes</b>)
+
+  <li><b>Shininess Control</b> (Viewing Controls) &mdash;
+    made a subpart of the <b>Lighting</b> tool
+
+  <li><b>Side View</b> (Viewing Controls) &mdash;
+    <ul>
+    <li>double-clicking the eye position brings up a menu for changing
+    the camera mode (mono and stereo options)
+    <li><b>top view</b> interface added for
+    interactive adjustment of stereo parameters and perspective
+    </ul>
+
+  <li><b>Surface Color</b> (Volume Data) &mdash;
+    allows coloring by volume data gradient norm 
+
+  <li><b>ViewDock</b> (Surface/Binding Analysis) &mdash;
+    <ul>
+    <li> starts up with the first ligand displayed (rather than all) 
+    <li> descriptors such as DOCK scores are now assigned as attributes
+    (can be used for coloring, selection, etc.)
+    <li> which columns to display can be specified in a text file
+    </ul>
+  </ul>
+
+  <h4>New Commands:</h4>
+  <ul>
+  <li><b>bondzone</b> &mdash; make zoning tools use points along bonds
+  <li><b>namesel</b> &mdash; name and save the current selection
+  <li><b>ribscale</b> &mdash; set ribbon scaling 
+   (named set of secondary-structure-specific dimensions)
+  <li><b>windowsize</b> &mdash; set graphics window dimensions
+  </ul>
+
+  <h4>Command Changes:</h4>
+  <ul>
+  <li>in specifications by attribute, a color can be indicated with
+  a comma-separated list of component values 
+  (red, green, blue, and optionally alpha, in that order) as well as by name
+  <li><b>~color</b> &mdash; requires target specifiers 
+  (r for ribbon, <i>etc.</i>) to be comma-separated 
+  (this was already the case for <b>color</b>)
+  <li><b>copy</b> &mdash; raytracing keywords added
+  <li><b>focus</b> &mdash; adjusts the view as before,
+  but then sets the center of rotation to track the center of view
+  (rather than setting a fixed center based on the specified atoms)
+  <li><b>match</b> &mdash; allows use of &lt;4 atom pairs 
+  (although transformations are not unique for 1-2 pairs)
+  <li><b>movie</b> &mdash; default image format PPM, frames can be 
+  supersampled or raytraced, movie can be encoded as a "round trip"
+  <li><b>open</b> &mdash; <b>noprefs</b> keyword added to bypass the
+  <b>New Molecules</b> preferences when a structure is opened (prevents
+  inconsistent behavior of scripts potentially caused by the different
+  preferences settings of different users)
+  <li><b>rmsd</b> &mdash; allows use of &lt;4 atom pairs
+  <li><b>savepos</b> &mdash; includes positions of any per-model clipping planes
+  </ul>
+
+  <h4>Documentation Changes:</h4>
+  (other than updates/additions reflecting the changes above)
+  <ul>
+  <li><b>DelPhiController</b> documentation expanded significantly
+  to explain parameters and link to DelPhi documentation at Honig site
+  <li><b>Introduction to PDB Format</b> updated and converted from PDF to HTML
+  </ul>
+
+  <h4>Major Bugs Fixed:</h4>
+  <ul>
+  <li>molecule coordinates can be saved relative to a volume display 
+  (or other non-molecule model)
+  <li>cross-eye stereo mode fixed
+  <li>corrected stereo image saving with the "same as screen" option
+  when the graphics window is in cross-eye or wall-eye mode
+  <li>corrected label position/scale in saved images smaller than the 
+  current display (standard and 2D labels)
+  <li>accept <a href="http://www.dkfz-heidelberg.de/spec/sweet2/">Sweet2</a>
+  generated PDB files
+  <li>export transparency correctly to POV-Ray files
+  <li>don't export undisplayed models
+  <li><code>chimera --send</code> now always returns even if a new chimera is
+  started
+  </ul>
+
+</blockquote>
+</body>
+</html>

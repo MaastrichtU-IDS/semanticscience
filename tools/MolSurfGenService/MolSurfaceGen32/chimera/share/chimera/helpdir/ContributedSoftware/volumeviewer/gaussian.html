@@ -1,0 +1,139 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Volume Filter</TITLE>
+</head>
+<body>
+<h3>Volume Filter <img src="gaussianicon.png" alt="Volume Filter icon"></h3>
+<p>
+<b>Volume Filter</b> includes several options for smoothing or transforming
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a>.
+See also: 
+<a href="hidedust.html"><b>Hide Dust</b></a>,
+<a href="../../UsersGuide/midas/vop.html"><b>vop</b></a>,
+<a href="../../UsersGuide/midas/mask.html"><b>mask</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Volume Filter</b>, a tool in the <b>Volume Data</b> category
+(including from the
+<a href="framevolumeviewer.html" target="_top"><b>Volume Viewer</b></a>
+<b>Tools</b> menu).
+</p><p>
+<b>Filter type</b>:
+<ul>
+<li><b>Gaussian</b> - perform <a href="#gaussian">Gaussian filtering</a>
+  <ul>
+  <li><b>Width</b> - width in physical units (such as &Aring;) of the 
+   3D isotropic Gaussian function
+  </ul>
+<li><b>Median 3x3x3</b> - smooth the data by setting each value to the
+median of the 27 values in the enclosing 3x3x3 box of grid cells
+(median filtering with different box sizes can be performed with
+<a href="../../UsersGuide/midas/vop.html"><b>vop</b></a>)
+  <ul>
+  <li><b>Iterations</b> - how many cycles of value reassignment to perform
+  </ul>
+<li><b>Bin</b> - reduce data size by averaging the values in 
+NxNxN cells of the original data, where N is the <b>Bin size</b>
+<li><b>Laplacian</b> - perform <a href="#laplacian">Laplacian filtering</a>
+<li><b>Fourier Transform</b> - apply <a href="#moreft">Fourier transform</a>
+<li><b>Scale</b> - change data values (not grid point locations) and/or types:
+  <ul>
+  <li><b>Shift</b> - add a constant to each value; can be negative
+  <li><b>Scale</b> - multiply values by a factor
+  <li><b>Value type</b> - cast values to int (8-, 16-, or 32-bit), uint
+  (8-, 16-, or 32-bit), or float (32- or 64-bit)
+  </ul>
+Pressing return (Enter) in the <b>Shift</b> or <b>Scale</b> value field is
+equivalent to clicking <b>Filter</b>.  
+Shifting and scaling are applied in that order.
+Shifting and scaling use 32-bit float to avoid truncation problems.
+</ul>
+Clicking <b>Filter</b> 
+processes the <a href="volumeviewer.html#currentset">current set</a> of data
+in <a href="framevolumeviewer.html" target="_top"><b>Volume Viewer</b></a>.
+If the current set is the result of a previous application of the same type 
+of filtering, it will simply be updated to reflect the new settings (the
+original data are re-filtered with the new settings).
+Otherwise, a new volume data set will be created and made the current set. 
+The new data set can be
+<a href="volumeviewer.html#filemenu">saved to a file</a> with
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+</p><p>
+<a name="options">Clicking <b>Options</b></a> reveals additional settings
+(clicking the close button <img src ="../volumeviewer/x.png"</a> on the right
+hides them again):
+<ul>
+<li><b>Displayed subregion only</b>
+- whether to limit the procedure to the
+<a href="volumeviewer.html#currentdisp">current display region</a>
+(which could be a <a href="volumeviewer.html#subregiondef">subregion</a> of
+the current set)
+<li><b>Displayed subsampling only</b>
+- whether to use only the displayed subsample
+(when <a href="volumeviewer.html#datastep">step</a> &gt; 1)
+instead of the full resolution of the current set
+<li><b>Adjust threshold for constant volume</b> - adjust the contour level on 
+the result to enclose the same volume as the contour surface on the current set
+<li><b>Immediate update</b> - update the result as soon as 
+a slider parameter (Gaussian width or median iterations) is changed; 
+only applies when the current set
+is the result of a previous application of the same type of filtering
+</ul>
+<b>Close</b> dismisses the <b>Volume Filter</b> dialog; <b>Help</b>
+opens this manual page in a browser window.
+</p>
+
+<a name="notes">
+<h4>TECHNICAL NOTES</h4></a>
+<p>
+<a name="gaussian">
+<b>Gaussian filtering</b></a>.
+Convoluting the data with a Gaussian function 
+improves the ratio of signal to noise but reduces resolution.  
+It is fastest for data sizes that are powers of 2, and can be very slow 
+when insufficient memory is available. It uses temporary memory 
+four times the size of the input data (if in 32-bit floating point values) 
+and produces a 32-bit floating point result.  It may be helpful to limit
+the input to just a subsample or subregion of the original data.
+</p><p>
+<a name="laplacian">
+<b>Laplacian filtering</b></a>.
+The Laplacian operation is a sum of second derivatives.
+Laplacian filtering is useful for edge detection but
+amplifies noise, so it may be necessary to perform smoothing such as
+Gaussian filtering beforehand.
+Finite differences v(i-1)-2*v(i)+v(i+1) along each axis are used,
+and voxels at the edge of the box are set to zero. 
+</p><p>
+<a name="moreft">
+<b>Fourier transform</b>.</a>
+Only the magnitudes of the complex Fourier components are included in the
+new data set; the phases are discarded and the constant component is set to
+zero.  The box containing the Fourier transform
+(with axes in units of reciprocal space) is centered on the original data 
+and scaled to have the same total volume.
+Some properties of the original data are evident from the Fourier transform.
+High-frequency components are near the edges of the box, 
+low-freqency components near the center.
+Volume data is typically oversampled (voxel size two to three times smaller 
+than the actual data resolution) and this causes the Fourier transform 
+to have nonzero values only in the middle half or third of its bounding box.
+The missing wedge in electron microscope tomograms can also be seen.
+Spikes radiating along the principal axes in the Fourier transform are
+caused by nonperiodicity of the original data.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2009</address>
+</body></html>

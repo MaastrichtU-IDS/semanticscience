@@ -1,0 +1,245 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" href="../../chimera16.png" type="image/png">
+<title>Selections</title>
+</head>
+
+<body>
+<h1>Selections</h1>
+<p>The Selection class (and its subclasses) is used to manage collections
+of items derived from class Selectable.  Molecules, Residues, Atoms, and
+Bonds are all derived from Selectable.
+The examples given will use these common Selectables for
+simplicity, but one should keep in mind that classes such as Model and
+PseudoBond are also Selectables and can be managed with Selections.
+
+<p>An important thing to understand is that a Selection is not necessarily
+a fixed set of Selectables.  It may encapsulate an algorithm for choosing
+particular Selectables.  For example, a Selection may be used to hold
+&quot;all bonds/atoms in aromatic rings in all models&quot;.
+This Selection, when its contents are queried,
+would return differing results as models are opened/closed.
+
+<p>Every Selectable has an associated
+<i>selection level</i>:
+<ul>
+	<li>SelGraph (<i>e.g.</i>Molecule)
+	<li>SelSubgraph (<i>e.g.</i>Residue)
+	<li>SelVertex (<i>e.g.</i>Atom)
+	<li>SelEdge (<i>e.g.</i>Bond)
+</ul>
+Any Selectable's selection level is returned by its 
+<a href="footnotes/osl.html">osl</a>Level() member function. 
+
+<p>Selections typically only explicitly hold vertices and edges.
+Higher-level Selectables' (graphs/subgraphs) membership in a Selection
+is computed from member vertices/edges.
+Selection methods that enumerate graphs can do so based on that graph's
+vertices/edges either being completely or partially present in the
+selection, as desired.
+Inclusion of graphs that have no vertex or edge sub-components (such as
+VRML models) is explicity tracked in a selection.
+
+<p>Since a Selection may encapsulate an algorithm for choosing Selectables,
+or instead may hold a specific set of Selectables,
+there is no method in the class
+Selection for specifying the items held in the Selection.  Therefore,
+Selection is only used as a base class and all actual selections use
+subclasses.  The basic subclasses Chimera defines in
+<code>chimera.selection</code> are the following:
+
+<p><b>ItemizedSelection</b>:  holds a fixed set of Selectables.  However,
+Selectables <i>will</i> be deleted from the selection when the model(s)
+containing those Selectables are closed.  Therefore, sometimes it is
+convenient to use an ItemizedSelection to track atoms, <i>etc.</i>, 
+just to avoid having to write trigger-handling code yourself.
+
+<p><b>OrderedSelection</b>:  subclass of ItemizedSelection.  Used in the
+infrequent case where the ordering of the Selectables is important
+(<i>e.g.</i> structure matching).  Ordering is only maintained relative to
+Selectables at the same selection level.
+
+<p><b>OSLSelection</b>:  holds Selectables based on an OSL string.
+&quot;OSL&quot; stands for Object Selection Language, and a rundown of
+OSL syntax can be found <a href="footnotes/OSLsyntax.html">here</a>.
+Whenever Selectables are requested from an OSLSelection, the OSL string
+will be re-evaluated to obtain the matching Selectables.  Therefore,
+if the string contains an attribute test, it may return different Selectables
+at different times.
+
+<p><b>CodeSelection</b>:  uses a Python code string to determine what is
+selected.  The code is expected to apply functions (provided as local
+variables) to selected objects.
+
+<p>In addition to these classes,
+<code>chimera.selection</code>
+has many functions for manipulating
+the current selection shown in the Chimera graphics display.
+<code>help(chimera.selection)</code> in the IDLE shell will
+display information about them.
+
+<p>The code below demonstrates how to use a selection to hold the
+atoms/bonds of the protein mainchain, and then highlight them in
+the main Chimera graphics window.
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="BackboneSel/__init__.py"><i>BackboneSel/__init__.py</i></a></h2>
+<p>
+Import the standard modules used in this example.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import re<br></font>
+</code>
+<p>
+Import the Chimera modules used in this example.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera<br></font>
+<font color="red">from chimera import selection<br></font>
+</code>
+<p>
+Define a function that will select protein backbone atoms in the
+main Chimera graphics window<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def selBackbone(op=None):<br></font>
+</code>
+<dl><dd>
+<p>
+Define a regular expression for matching the names of protein backbone
+atoms (we do not include the carbonyl oxygens because they tend to
+clutter up the graphics display without adding much information).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">MAINCHAIN = re.compile("^(N|CA|C)$", re.I)<br></font>
+</code>
+<p>
+The <code>list</code> method of chimera.openModels will return a list of
+currently open models, and takes several optional keyword arguments
+to restrict this list to models matching certain criteria.
+When called with no arguments, this method will
+return a list of all visible models, essentially models that
+were created by the user. Internally managed (<code>hidden</code>) models,
+such as the distance monitor pseudobondgroup, do not show up in this
+list. A list of hidden models can be obtained by setting the
+optional keyword argument <code>hidden</code> to True.
+The <code>all</code> argument (True/False) can be used to return a list of all open models
+(including both hidden and visible). Other optional arguments include:<p>
+<code>id</code> and <code>subid</code>, which restrict the returned list to models with the given
+id and subid, respectively, while <code>modelTypes</code> (a list of model types,
+i.e. <code>[chimera.Molecule]</code>) will restrict the returned list to models
+of a particular type.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">bbAtoms = []<br></font>
+<font color="red">for m in chimera.openModels.list(modelTypes=[chimera.Molecule]):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">for a in m.atoms:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">if MAINCHAIN.match(a.name):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">bbAtoms.append(a)<br></font>
+</code>
+</dl>
+</dl>
+</dl>
+<p>
+Create a selection instance that we can use to hold the protein
+backbone atoms.  We could have added the atoms one by one to the
+selection while we were in the above loop, but it is more efficient
+to add items in bulk to selections if possible.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">backboneSel = selection.ItemizedSelection()<br></font>
+<font color="red">backboneSel.add(bbAtoms)<br></font>
+</code>
+<p>
+Add the connecting bonds to the selection.  The <code>addImplied</code> method
+of Selection adds bonds if both bond endpoint atoms are in the
+selection, and adds atoms if any of the atom's bonds are in the
+selection.  We use that method here to add the connecting bonds.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">backboneSel.addImplied()<br></font>
+</code>
+<p>
+Change the selection in the main Chimera window in the manner
+indicated by this function's <code>op</code> keyword argument. If op is
+<code>None</code>, then use whatever method is indicated by the <code>Selection Mode</code>
+item in Chimera's Select menu.  Otherwise, op should
+be one of: <code>selection.REPLACE</code>, <code>selection.INTERSECT</code>,
+<code>selection.EXTEND</code> or <code>selection.REMOVE</code>.<dl compact><dd>
+<dl compact>
+<dt>-<dd>
+<code>REPLACE</code> causes the Chimera selection to be replaced with
+<code>backboneSel</code>.<dt>-<dd>
+<code>INTERSECT</code> causes the Chimera selecion to be intersected
+with <code>backboneSel</code>.<dt>-<dd>
+<code>EXTEND</code> causes <code>backboneSel</code> to be appended to the Chimera
+selection.<dt>-<dd>
+<code>REMOVE</code> causes <code>backboneSel</code> to be unselected in the
+Chimera window.</dl>
+</dl>
+<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if op is None:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">chimera.tkgui.selectionOperation(backboneSel)<br></font>
+</code>
+</dl>
+<code>
+<font color="red">else:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">selection.mergeCurrent(op, backboneSel)<br></font>
+</code>
+</dl>
+</dl>
+<h2>Code Notes</h2>
+<p>See the <a href="Main_SelReg.html">Registering Selectors</a> example for
+how to make the &quot;selBackbone&quot; function available from the Chimera Select menu.
+<h2>Running the Example</h2>
+<p>The example code files must be saved in a directory named <code><i>BackboneSel</i></code>. 
+  To run the example, start <i>chimera</i> in the directory <em>above the package 
+  directory</em> and type the following commands into the <a href="../../ContributedSoftware/idle/idle.html">IDLE</a> command line:</p>
+<blockquote> 
+  <p><code>import BackboneSel</code></p>
+  <p><code>BackboneSel.selBackbone()</code></p>
+</blockquote>
+<p>This will cause the selection state of all protein backbone atoms to
+change, depending on the Selection Mode chosen in the Chimera Select menu.
+If the mode is the default (&quot;replace&quot;),
+then the protein backbone will
+become selected and all other atoms/bonds will become deselected.
+</body>
+</html>

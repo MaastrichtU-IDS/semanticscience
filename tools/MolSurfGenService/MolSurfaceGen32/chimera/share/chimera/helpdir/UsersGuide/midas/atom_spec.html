@@ -1,0 +1,787 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Atom Specification</title>
+</head><body>
+<h2>Atom Specification</h2>
+<p>
+Atoms may be specified in <a href="../framecommand.html" target="_top">
+commands</a> using:
+<ul>
+<li><a href="#hierarchy">hierarchical specifiers</a>
+<li><a href="#zones">zones</a>
+<li><a href="#builtin">built-in classifications</a>
+<li><a href="#descriptors">attributes</a>
+</ul>
+or <a href="#combinations">combinations</a> of these.
+</p><p>
+In many commands where the specification is the last argument
+(<i>e.g.</i> <a href="color.html"><b>color</b></a>),
+a blank specification means "all."
+In commands where the specification is not necessarily the last argument
+(<i>e.g.</i> <a href="findclash.html"><b>findclash</b></a>),
+specifications with embedded spaces should be enclosed 
+in single or double quote marks.
+Some commands accept specifications of
+<a href="#othermodels">non-atomic models</a>.
+</p><p>
+When a plus sign (<b>+</b>) has been typed into the
+<a href="../chimerawindow.html#emulator"><b>Command Line</b></a>,
+it will be replaced by the atom specification string of the next
+<a href="../selection.html#pickselect">picked</a> atom.
+Each plus sign must be preceded and followed by a space (or the
+end of the line).
+In addition, the following are valid atom specifications:
+<ul>
+<li><b>selected</b>, <b>sel</b>, or <b>picked</b>, indicating
+atoms that are <a href="../selection.html">selected</a>
+<li>names of previously <a href="../menu.html#namesel">
+saved selections</a>, using
+<b>sel=<i>selection_name</i></b> or just <b><i>selection_name</i></b>;
+if a saved selection has the same name as a <a href="surface.html#surfcats">
+surface category</a>, the saved selection will be used.
+</ul>
+Those familiar with atom specification in Midas may wish to consult
+the <a href="diffsum.html">summary of differences</a>.
+</p>
+
+<a name="hierarchy">
+<h2>Hierarchical Specifiers</h2></a>
+
+<table border width="95%" cellpadding="3" cellspacing="0">
+<tr><th colspan="3"><a name="basic">BASIC ATOM SPECIFICATION</a></th></tr>
+<tr><th>Symbol</th> <th>Reference Level</th> <th>Definition</th>
+</tr><tr>
+<td align=center><b>#</b></td> <td align=center>model</td> <td>number
+assigned to the model by default or by the user with the
+<b><A href="open.html">open</A></b> command.</td>
+</tr> <tr>
+<td align=center><b>:</b></td> <td align=center>residue</td>
+<td>residue name <br><i>OR</i><br>
+residue sequence number, with any insertion code appended</td>
+</tr> <tr>
+<td align=center><b>::</b></td> <td align=center>residue</td>
+<td>residue name</td>
+</tr> <tr>
+<td align=center><b>@</b></td> <td align=center>atom</td> <td>atom name</td>
+</tr>
+</table>
+<p>
+Each file of coordinates opened in Chimera becomes a <b><i>model</i></b>
+with an associated model ID number.
+Model numbers are assigned by the user with the
+<b><A href="open.html">open</A></b> command or sequentially by default.
+Each model contains one or more <b><i>residues</b></i>, and each residue
+contains one or more <b><i>atoms</i></b> with names that are unique within
+that residue.  Thus, an atom can be specified by its model number,
+residue number, and atom name.  The lack of a specifier is interpreted 
+to mean all units of the associated reference level; for example, if
+a model number is not given, the specification refers to all models.
+</p><p>
+Residue and atom names are read from the input file.
+In <a href="../tutorials/framepdbintro.html" target="_top">PDB format</a>, a
+standard nomenclature is used for standard amino acid and nucleic acid residues.
+Asterisks (<b>*</b>) in input atom names will be translated 
+to prime symbols (<b>'</b>), but translated back if coordinates
+are later <a href="../savemodel.html">saved</a> to a file.
+Prime symbols in input atom names are not translated on input or output.
+</p><p>
+Model and residue numbers are integers, although a residue number
+may have an insertion code directly appended.
+Multiple model numbers
+or residue numbers may be indicated by comma-separated lists
+and/or one or more ranges of the form <i>start</i>-<i>end</i>.
+The words <b>start</b> and <b>end</b> can be substituted for
+<i>start</i> and <i>end</i>, respectively, and
+<b>all</b> can be substituted for the whole range 
+(same as no specification at that level).
+</p><p>
+Residue names and numbers cannot be specified together using a
+single colon, but both can be specified in a single line by using
+more than one colon.  For example,
+to specify all residues named HEM and residue 52:
+<blockquote>
+<b>:hem:52</b> (NOT <b>:hem,52</b>)
+</blockquote>
+More examples:
+<blockquote>
+<b>#0</b>
+</blockquote>
+- all atoms in model 0
+<blockquote>
+<b>#3:45-83,90-98</b>
+</blockquote>
+- residues 45-83 and 90-98 in model 3
+<blockquote>
+<b>#0:12@CA,N</b>
+</blockquote>
+- alpha carbon and nitrogen of residue 12 in model 0
+<blockquote>
+<b>:12,14@CA</b>
+</blockquote>
+- alpha carbons of residues 12 and 14
+<blockquote>
+<b>:12:14@CA</b>
+</blockquote>
+- all atoms of residue 12 and alpha carbon of residue 14
+<blockquote>
+<b>:12-20@CA:14@N</b>
+</blockquote>
+- alpha carbons of residues 12-20 and nitrogen of residue 14
+<blockquote>
+<b>:lys</b>
+<br>- or -<br>
+<b>::lys</b>
+</blockquote>
+- all lysine residues
+</p><p>
+In some cases, the <a href="#basic">basic notations</a> cannot
+uniquely specify the model, residue, or atom of interest:
+</p>
+<table border width="95%" cellpadding="3" cellspacing="0">
+<tr><th colspan="2"><a name="subcats">SUBCATEGORIES</a></th></tr>
+<tr><th>General Form</th> <th>Explanation</th>
+</tr><tr>
+<td align=center><i><b>#</b>model(s)<b>.<i>submodel(s)</i></b></td>
+<td>when a single PDB file contains multiple MODELs, they are
+considered submodels 1, 2, ... of a single model in Chimera</td>
+</tr> <tr>
+<td align=center><i><b>:</b>residue(s)<b>.<i>chain(s)</i></b></td>
+<td>when a single model contains multiple chains, a unique specification
+includes both residue number and chain identifier</td>
+</tr> <tr>
+<td align=center><i><b>@</b>atom(s)<b>.<i>altloc(s)</i></b></td>
+<td>when a single residue contains alternate locations of certain atoms,
+an independent specification includes both atom name and alternate location
+identifier</td>
+</tr>
+</table>
+<p>
+<b><i>Submodel(s)</i></b> are integers and may be indicated by a single value
+or a range of the form <i>start</i>-<i>end</i>.
+The words <b>start</b> and <b>end</b> can be substituted for
+<i>start</i> and <i>end</i>, respectively, and
+<b>all</b> can be substituted for the whole range 
+(same as no submodel specification).
+</p><p>
+<b><i>Chain(s)</i></b> and <b><i>altloc(s)</i></b> are alphabetical characters.
+<a name="chainassign">
+Any residue in PDB HETATM records (or the mmCIF equivalent)
+that does not already have a chain identifier is assigned to chain <b>het</b>, 
+unless the residue is named WAT or HOH, in which case it is assigned to chain 
+<b>water</b></a>; residue numbers are unchanged.
+(See also the <a href="#resprops">residue attribute</a> <b>isHet</b>.)
+</p><p>
+Capitalization of residue and atom names, chain identifiers, insertion codes,
+or alternate location identifiers is not important, with one exception:
+when a model contains both uppercase and lowercase chain identifiers,
+case matters for chain specification in that model only.
+</p><p>
+Subcategorizations are appended to the basic specification.
+The symbol for the relevant category (#, :, or @) must precede
+the subcategory specification, although they need not
+be immediately adjacent. 
+<b>Because commas are used only to separate values of the basic reference
+levels (model, residue, and atom), they cannot be used
+to separate values of the sublevels directly.</b>  For example,</p>
+<blockquote>
+<b>#0.1-3,5</b>
+</blockquote>
+is interpreted as submodels 1-3 of model 0 and all of model 5, while
+<blockquote>
+<b>#0.1-3,.5</b>
+</blockquote>
+indicates submodels 1-3 of model 0 and submodel 5 of all models.
+</p><p>
+A subcategory specification applies only to the preceding category value(s)
+not separated from it by any commas. Thus, 
+<blockquote>
+<b>:50.B,.D</b>
+</blockquote>
+indicates residue 50 in chain B and all residues in chain D;
+<blockquote>
+<b>:12-15,26-28.a,45.b@ca</b>
+</blockquote>
+specifies CA atoms in residues 12-15 in all chains 
+(except the <a href="#chainassign">special chains</a> 
+<b>het</b> and <b>water</b>), 26-28 in chain A, and 45 in chain B.
+The following specifies residues 12-15 in no-ID chains only:
+<blockquote>
+<b>:12-15.</b>
+</blockquote>
+More examples:
+<blockquote>
+<b>:.b</b>
+</blockquote>
+- chain B
+<blockquote>
+<b>:.a@n,ca,c,o</b>
+</blockquote>
+- peptide backbone atoms in chain A
+<blockquote>
+<b>:195.a,221.a@n,ca,c,o</b>
+</blockquote>
+- peptide backbone atoms in residues 195 and 221 of chain A
+<blockquote>
+<b>:522.water</b>
+</blockquote>
+- <a href="#chainassign">water</a> residue 522 
+(a HETATM residue named HOH or WAT without a chain ID in the input file)
+<blockquote>
+<b>@.a</b>
+</blockquote>
+- all atoms with alternate location identifier A
+</p>
+
+<p><a name="wildcards">
+<b>WILD CARDS</b></a>
+</p><p>
+The <b>global wild card *</b> matches all atoms in a residue
+or all residues in a model.  It stands alone as a symbol, that is,
+it cannot be used to match <i>parts</i> of names,
+such as <b>G*</b> or <b>*A</b>.
+The <b>partial wild card =</b> matches parts of atom or residue names
+but not parts of residue sequence numbers; similarly,
+the <b>single-character wild card ?</b> matches single characters
+within residue or atom names but not single digits within residue
+sequence numbers.
+For example:</p>
+<blockquote>
+<b>#1:12@*</b>
+<br>- or -<br>
+<b>#1:12</b>
+</blockquote>
+- all atoms in residue 12 of model 1
+<blockquote>
+<b>#0,1,2:50-*@CA</b>
+</blockquote>
+- all alpha carbon atoms in residues 50 to the end of models 0, 1 and 2
+<blockquote>
+<b>#2:G??</b>
+</blockquote>
+- all residues which have three-letter names beginning with <b>G</b> in model 2
+<blockquote>
+<b>:fmn@?1</b>
+</blockquote>
+- atoms within residue FMN which have two-letter names ending with <b>1</b>
+<blockquote>
+<b>@S=</b>
+</blockquote>
+- all atoms which have names beginning with <b>S</b>;
+in general, this will be all sulfur atoms
+<blockquote>
+<b>#0@H@H?@H??</b>
+</blockquote>
+- all atoms with one-, two-, or three-letter names beginning with <b>H</b>
+ in model 0
+
+<hr>
+<a name="zones">
+<h2>Zones</h2></a>
+<p>
+Zone specifiers indicate atoms and residues that are within or beyond a
+given distance of the referenced atom(s). <b>z&lt;</b> and <b>zr&lt;</b>
+specify all <i>residues</i> with any atom within the given distance from
+the referenced atoms. <b>za&lt;</b> specifies all <i>atoms</i> within
+the given distance.
+<b>z&gt;</b>, <b>zr&gt;</b>, and <b>za&gt;</b> yield the sets complementary
+to their <b>&lt;</b> counterparts. For example,
+<blockquote>
+<b>#1:gtp za&lt;10.5</b>
+</blockquote>
+specifies all atoms within 10.5 &Aring; of any atom in residue GTP, model 1.
+</p>
+
+<hr>
+<a name="builtin">
+<h2>Built-in Classifications</h2></a>
+<p>
+Any of the entries in the following sections of the
+<a href="../menu.html#menuselect"><b>Select</b> menu</a>
+can be used for command-line atom specification:
+   <ul>
+   <li><b>Chemistry</b>
+   <li><b>Residue... <a href="../../ContributedSoftware/resprop/resprop.html#aacat">amino acid category</a></b>
+   <li><b>Structure</b>
+(includes the <a href="surface.html#surfcats">automatic categories for
+surface calculation</a>:  <b>main</b>, <b>ligand</b>, <b>solvent</b>,
+and <b>ions</b>)
+   </ul>
+The same pattern of capitalization and spaces, if any, as shown in the
+<a href="../menu.html#menuselect"><b>Select</b> menu</a> should be used. 
+Where there is ambiguity, the parent menu should be included in the
+specification, for example, "IDATM type.H" or "element.H" instead of "H" alone.
+The parent menu can be included in this manner even when not necessary.
+</p><p>
+One can also use
+custom amino acid categories that have been defined with
+<a href="../../ContributedSoftware/resprop/resprop.html"><b>ResProp</b></a>
+and
+custom categories for surface calculation that have been defined with the
+command <a href="msms.html"><b>msms cat</b> (<b>surfcat</b>)</a>.
+If a <a href="../menu.html#namesel">saved selection</a>
+has the same name as a surface category, the saved selection will be used.
+</p>
+<p>Some examples:</p>
+<blockquote>
+<b>side chain/base.without CA/C1'</b>
+<br>- or -<br>
+<b>without CA/C1'</b>
+</blockquote>
+- atoms in amino acid side chains (not including CA)
+and atoms in nucleic acid bases (not including C1')
+<blockquote>
+<b>#1 & Mg</b>
+</blockquote>
+- magnesium atoms/ions in model 1
+<blockquote>
+<b>carboxylate</b>
+</blockquote>
+- atoms in carboxylate groups
+<blockquote>
+<b>solvent</b>
+</blockquote>
+- atoms <a href="surface.html#surfcats">automatically categorized</a>
+as <b>solvent</b>
+<blockquote>
+<b>positive</b>
+</blockquote>
+- residues in the <b>positive</b>
+<a href="../../ContributedSoftware/resprop/resprop.html#aacat">amino
+acid category</a> 
+
+<hr>
+<a name="descriptors">
+<h2>Attributes</h2></a>
+<p>
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">
+Attributes</a> are properties of atoms, residues and models.
+The <b>slash mark /</b> indicates specification by
+<a href="#attrnames">attribute name</a> and value.
+The symbol for the relevant category (<b>@</b> for <a href="#atprops">atom
+attributes</a>, <b>:</b> for <a href="#resprops">residue attributes</a>, 
+<b>#</b> for <a href="#modprops">model attributes</a>) <b>must precede
+the slash mark</b>, although it need not be immediately adjacent.
+</p><p>
+Multiple attributes at the same reference level (different atom properties,
+for example) can follow a single slash mark and should be separated
+by <b>and</b> or <b>or</b>.  When <b>and</b> and <b>or</b> occur in
+the same list, <b>and</b> has higher priority (<b>and</b>-separated lists
+can be considered as grouped within parentheses).
+</p><p>
+The attribute <i>names</i> are case-sensitive; the
+attribute <i>values</i>, if any, are case-sensitive if specified
+with <b>==</b>, but not if specified with <b>=</b>.
+Attribute values containing spaces (some
+color names, for example) must be enclosed by double quotes.
+The <b>exclamation mark !</b> indicates
+that the atoms, residues, or models must <b>not</b> match the subsequent
+attribute specification.
+For yes/no properties the syntax is <b>!</b><i>attribute_name</i>,
+and for multivalued properties the syntax is
+<i>attribute_name</i><b>!=</b><i>value</i>.
+</p><p>
+Attributes with numerical values can also be used with
+<b>&gt</b> (greater than), <b>&lt</b> (less than), <b>&gt=</b>
+(greater than or equal to), and <b>&lt=</b> (less than or equal to).
+</p><p>
+Color values can be specified:
+<ul>
+<li> by name, <a href="../colortables.html">built-in</a>
+or defined previously with <b><A href="colordef.html">colordef</A></b>
+<li> as a comma-separated list of component values
+<i>red,green,blue,alpha</i> where
+each value can range from zero to 1 and specification of <i>alpha</i>
+(1 &ndash; transparency) is optional
+</ul>
+When placed before an attribute name,
+the <b>caret ^</b> indicates that the atoms, residues, or models have
+not been assigned any value for the attribute.  For example,
+<b>:/^kdHydrophobicity</b> designates residues 
+(such as water or nucleic acids) that lack a 
+<a href="hydrophob.html">Kyte-Doolittle hydrophobicity</a> assignment.
+</p><p>
+The operators <b>~</b> and <b>!~</b> can be used instead of
+<b>=</b> and <b>!=</b>, respectively, to
+indicate that the subsequent string should be treated as a
+<a href="http://www.python.org/doc/current/lib/re-syntax.html" target="_blank">
+regular expression</a>.
+</p>
+
+<table border width="95%" cellpadding="3" cellspacing="0">
+<tr><th colspan="2"><a name="atprops">SELECTED ATOM ATTRIBUTES</a>
+<sup><a href="#note">**</a></sup/></th></tr>
+<tr><th>Name and Usage</th> <th>Explanation</th>
+</tr><tr>
+<td align=center><b>altLoc=</b><i>altloc</i></td>
+<td><i>altloc</i> is the alternate location identifier of the atom</td>
+</tr><tr>
+<td align=center><b>areaSAS=</b><i>sasa</i></td>
+<td><i>sasa</i> is the
+<a href="../representation.html#surfaces">solvent-accessible</a>
+surface area of the atom (available when a
+<a href="../representation.html#surfaces">molecular surface</a>
+has been computed)
+</tr><tr>
+<td align=center><b>areaSES=</b><i>sesa</i></td>
+<td><i>sesa</i> is the
+<a href="../representation.html#surfaces">solvent-excluded</a>
+surface area of the atom (available when a
+<a href="../representation.html#surfaces">molecular surface</a>
+has been computed)
+</tr> <tr>
+<td align=center><b>bfactor=</b><i>bfactor</i></td>
+<td><i>bfactor</i> is the B-factor value of the atom (see also 
+<a href="../../ContributedSoftware/thermal/thermal.html"><b>Thermal
+Ellipsoids</b></a>)</td>
+</tr> <tr>
+<td align=center><b>color=</b><i>color</i></td>
+<td><i>color</i> is the color of the atom (assigned on a per-atom basis;
+see <a href="../hierarchy.html">coloring hierarchy</a>)</td>
+</tr> <tr>
+<td align=center><b>defaultRadius=</b><i>rad</i></td>
+<td><i>rad</i> is the <a href="vdwrad.html">default VDW radius</a>
+of the atom in &Aring;</td>
+</tr> <tr>
+<td align=center><b>display</b></td>
+<td>whether display is enabled at the atom level
+(see <a href="../hierarchy.html#displevels">display hierarchy</a>)</td>
+</tr> <tr>
+<td align=center><b>drawMode=</b><i>mode</i></td>
+<td><i>mode</i> can be 0 (synonyms: dot, wire, wireframe), 1 (sphere, cpk,
+space-filling), 2 (endcap, stick), or 3 (ball, ball and stick, ball-and-stick,
+ball+stick, bs, b+s); see <a href="../drawmode.html">draw mode</a>
+</td>
+</tr> <tr>
+<td align=center><b>element=</b><i>atno</i></td>
+<td><i>atno</i> is the atomic number</td>
+</tr> <tr>
+<td align=center><b>idatmType=</b><i>type</i></td>
+<td><i>type</i> is the <a href="../idatm.html">atom type</a></td>
+</tr> <tr>
+<td align=center><b>label</b></td>
+<td>whether the atom is labeled</td>
+</tr> <tr>
+<td align=center><b>label=</b><i>label</i></td>
+<td><i>label</i> is the text of the atom label</td>
+</tr> <tr>
+<td align=center><b>labelColor=</b><i>labcolor</i></td>
+<td><i>labcolor</i> is the color of the atom label</td>
+</tr> <tr>
+<td align=center><b>name=</b><i>name</i></td>
+<td><i>name</i> is the atom name</td>
+</tr> <tr>
+<td align=center><b>occupancy=</b><i>occupancy</i></td>
+<td><i>occupancy</i> is the occupancy value of the atom</td>
+</tr> <tr>
+<td align=center><b>radius=</b><i>radius</i></td>
+<td><i>radius</i> is the current VDW radius of the atom in &Aring;
+(may have been changed by the user from the
+<a href="vdwrad.html">default VDW radius</a>)</td>
+</tr> <tr>
+<td align=center><b>serialNumber=</b><i>n</i></td>
+<td><i>n</i> is the atom serial number in the input file</td>
+</tr> <tr>
+<td align=center><b>surfaceCategory=</b><i>category</i></td>
+<td><i>category</i> is the name of the surface calculation category 
+to which the atom
+has been assigned <a href="surface.html#surfcats">automatically</a>
+or manually using <a href="msms.html"><b>surfcat</b></a></td>
+</tr> <tr>
+<td align=center><b>surfaceDisplay</b></td>
+<td>whether molecular surface display is turned on for the atom
+(however, this can be true even for atoms that do not contribute to the
+molecular surface)</td>
+</tr>
+</table>
+
+<p>Examples:</p>
+<blockquote>
+<b>@ca/!label and color!=green and color!=red</b>
+<br>- or -<br>
+<b>@/name=ca and !label and color!=green and color!=red</b>
+</blockquote>
+- atoms named CA which are not labeled, and are not green or red
+<blockquote>
+<b>@n/drawMode=1 and color=green</b>
+</blockquote>
+- atoms named N that are green and drawn as spheres
+<blockquote>
+<b>@n/drawMode=1 or color=green</b>
+</blockquote>
+- atoms named N that are green and/or drawn as spheres
+<blockquote>
+<b>@/color=yellow or color=blue and label</b>
+</blockquote>
+- atoms that are yellow and atoms that are both blue and labeled
+<blockquote>
+<b>@/color!=yellow or color!=blue</b>
+</blockquote>
+- all atoms, because if an atom is yellow it fulfills the criterion of not
+being blue, and <i>vice versa</i>
+<blockquote>
+<b>@/bfactor>=50</b>
+</blockquote>
+- atoms with B-factor values greater than or equal to 50
+</p>
+
+<table border width="95%" cellpadding="3" cellspacing="0">
+<tr><th colspan="2"><a name="resprops">SELECTED RESIDUE ATTRIBUTES</a>
+<sup><a href="#note">**</a></sup/></th></tr>
+<tr><th>Name and Usage</th> <th>Explanation</th>
+</tr><tr>
+<td align=center><b>areaSAS=</b><i>sasa</i></td>
+<td><i>sasa</i> is the
+<a href="../representation.html#surfaces">solvent-accessible</a>
+surface area of the residue (available when a
+<a href="../representation.html#surfaces">molecular surface</a>
+has been computed)
+</tr><tr>
+<td align=center><b>areaSES=</b><i>sesa</i></td>
+<td><i>sesa</i> is the
+<a href="../representation.html#surfaces">solvent-excluded</a>
+surface area of the residue (available when a
+<a href="../representation.html#surfaces">molecular surface</a>
+has been computed)
+</tr><tr>
+<td align=center><b>isHelix</b></td>
+<td>whether the residue is in a helix (true is only possible for
+amino acids)
+</tr> <tr>
+<td align=center><b>isHet</b></td>
+<td>whether the residue is in PDB HETATM records (or the mmCIF equivalent)
+</tr> <tr>
+<td align=center><b>isSheet</b> <br><i>OR</i><br> <b>isStrand</b></td>
+<td>whether the residue is in a beta strand (true is only possible for
+amino acids)
+</tr> <tr>
+<td align=center><b>isTurn</b></td>
+<td>whether the residue is assigned to a turn in the input file
+(true is only possible for amino acids)</td>
+</tr> <tr>
+<td align=center><b>kdHydrophobicity=</b><i>value</i></td>
+<td><i>value</i> is the <a href="hydrophob.html">Kyte-Doolittle 
+hydrophobicity</a> of the amino acid residue</td>
+</tr> <tr>
+<td align=center><b>phi=</b><i>angle</i></td>
+<td><i>angle</i> is the protein/peptide backbone &phi; dihedral angle
+(C<sub><i>i-1</i></sub>-N-CA-C)</td>
+</tr> <tr>
+<td align=center><b>psi=</b><i>angle</i></td>
+<td><i>angle</i> is the protein/peptide backbone &psi; dihedral angle
+(N-CA-C-N<sub><i>i+1</i></sub>)</td>
+</tr> <tr>
+<td align=center><b>ribbonColor=</b><i>ribcolor</i></td>
+<td><i>ribcolor</i> is the color of the residue's ribbon segment
+(see <a href="../hierarchy.html">coloring hierarchy</a>)</td>
+</tr> <tr>
+<td align=center><b>ribbonDisplay</b></td>
+<td>whether ribbon display is turned on for the residue
+(however, this can be true even when the residue is a type
+that does not have any ribbon, such as water)</td>
+</tr> <tr>
+<td align=center><b>type=</b><i>resname</i></td>
+<td><i>resname</i> is the residue name</td>
+</tr>
+</table>
+<p>
+Helix, sheet, and turn assignments are taken from the input structure file.
+When the input file lacks secondary structure information, 
+<a href="ksdssp.html"><b>ksdssp</b></a> is called automatically to 
+generate helix and sheet assignments.  
+The <a href="ksdssp.html"><b>ksdssp</b></a> command (or
+<a href="../modelpanel.html#computess"><b>compute SS</b></a>
+in the <a href="../modelpanel.html"><b>Model Panel</b></a>)
+can also be used at will to recompute assignments.
+</p><p>
+Examples:
+</p>
+<blockquote>
+<b>:/type!=gly and type!=pro</b>
+</blockquote>
+- all residues not named GLY or PRO
+<blockquote>
+<b>:/isStrand :/isHelix</b>
+<br>- or -<br>
+<b>:/isStrand or isHelix</b>
+</blockquote>
+- all amino acid residues in beta strands or helices
+<blockquote>
+<b>:/isStrand and isHelix</b>
+</blockquote>
+- nothing, because the criteria are mutually exclusive
+<br><br>
+<table border width="95%" cellpadding="3" cellspacing="0">
+<tr><th colspan="2"><a name="modprops">SELECTED MOLECULE MODEL ATTRIBUTES</a>
+<sup><a href="#note">**</a></sup/></th></tr>
+<tr><th>Name and Usage</th> <th>Explanation</th>
+</tr><tr>
+<td align=center><b>ballScale=</b><i>factor</i></td>
+<td><i>factor</i> is ball radius relative to VDW radius</td>
+</tr> <tr>
+<td align=center><b>color=</b><i>color</i></td>
+<td><i>color</i> is the color assigned on a per-model basis
+(see <a href="../hierarchy.html">coloring hierarchy</a>)</td>
+</tr> <tr>
+<td align=center><b>display</b></td>
+<td>whether display is enabled at the model level
+(see <a href="../hierarchy.html#displevels">display hierarchy</a>)</td>
+</tr> <tr>
+<td align=center><b>lineWidth=</b><i>width</i></td>
+<td><i>width</i> is the linewidth of bonds in the model in the wire
+<a href="../representation.html">representation</a></td>
+</tr><tr>
+<td align=center><b>ribbonInsideColor=</b><i>color</i></td>
+<td><i>color</i> is the color used for the insides
+of peptide/protein helix ribbon segments</td>
+</tr><tr>
+<td align=center><b>stickScale=</b><i>factor</i></td>
+<td><i>factor</i> is stick radius relative to bond radius 
+(the default bond radius is 0.2 &Aring;)</td>
+</tr>
+</table>
+<p>
+<sup><a name="note">**</a></sup>Additional 
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attributes</a>
+can be created:
+<ul>
+<li> arbitrarily with 
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html"><b>Define
+Attribute</b></a>, <a href="defattr.html"><b>defattr</b></a>, or
+<a href="setattr.html"><b>setattr</b></a>
+<li> by combining other attributes using the
+<a href="../../ContributedSoftware/calculator/calculator.html"><b>Attribute 
+Calculator</b></a>
+<li> by various other Chimera tools such as
+<a href="../../ContributedSoftware/addcharge/addcharge.html"><b>Add 
+Charge</b></a>,
+<a href="../../ContributedSoftware/surfvol/surfvol.html"><b>Area/Volume 
+from Web</b></a>,
+<a href="../../ContributedSoftware/density/density.html"><b>Values 
+at Atom Positions</b></a>, and
+<a href="../../ContributedSoftware/multalignviewer/framemav.html"
+target="_top"><b>Multalign Viewer</b></a>
+</ul>
+<a name="attrnames"><h3>Attribute Names</h3></a>
+<p>
+The preceding tables [<a href="#atprops">atoms</a>] 
+[<a href="#resprops">residues</a>] [<a href="#modprops">molecule models</a>] 
+include the names of some commonly used
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">
+attributes</a>.  More obscure attributes are omitted, but more importantly,
+the tables are incomplete because some attributes may be generated only
+when a particular tool is used, or created arbitrarily by the user.
+</p><p>
+Name lookup in Chimera:
+<ul>
+<li>attribute names are shown in the balloon help of
+<a href="../modelattrib.html">attribute inspector</a> dialogs
+<br><br>
+<li><a href="../../ContributedSoftware/render/render.html#select"><b>Select 
+by Attribute</b></a> lists most numerical, string-valued, 
+and boolean attributes of atoms, residues, and molecule models;
+<a href="../../ContributedSoftware/render/render.html#render"><b>Render
+by Attribute</b></a> lists most numerical ones
+<br><br>
+<li>Data descriptors (attributes) defined in the C++
+layer of Chimera can be listed by entering the following into
+<a href="../../ContributedSoftware/idle/idle.html"><b>IDLE</b></a> (under
+<b>Tools... General Controls</b>):
+<blockquote>
+help(chimera.<i>Class</i>)
+</blockquote>
+where <i>Class</i> can be <b>Atom</b>, <b>Residue</b>, or <b>Molecule</b>.
+This approach also works for <b>Bond</b>, <b>PseudoBond</b>, and 
+<b>PseudoBondGroup</b>. 
+Attributes defined in the Python layer will not be included, however.
+</ul>
+<p>
+
+<hr>
+<a name="combinations">
+<h2>Combinations</h2></a>
+<p>
+Atom specifications can be combined with the operators:
+<ul>
+<li><b>&amp;</b> for <b>intersection</b> (AND)
+<li><b>|</b> for <b>union</b> (OR)
+<li><b>~</b> for <b>negation</b> (NOT)
+</ul>
+Space-delimiting these operators is optional.
+When <b>&amp;</b> and <b>|</b> occur in the same list, 
+<b>&amp;</b> has higher priority (<b>&amp;</b>-separated lists 
+can be considered as grouped within parentheses).
+</p><p>
+Note that a different set of operators 
+(<b>and</b>, <b>or</b>, <b>!</b>, <i>etc.</i>)
+are used to combine <a href="#descriptors">attribute</a> tests;
+however, both types of operators can be used within the same specification.
+</p><p>
+Examples:
+<blockquote>
+<b>#1:/type=asp or type=glu &amp; #0 z&lt;10</b>
+<br>- or -<br>
+<b>#1:asp,glu &amp; #0 z&lt;10</b>
+</blockquote>
+- aspartate residues and glutamate residues in model 1 
+that are within 10 &Aring; of model 0
+<blockquote>
+<b>:cys@sg &amp; ~disulfide</b>
+<br>- or -<br>
+<b>:cys&amp;S&amp;~disulfide</b>
+</blockquote>
+- cysteine sulfur atoms not participating in a disulfide bond
+<blockquote>
+<b>ions za&lt;4 &amp; ~ ions</b>
+</blockquote>
+- atoms within 4 &Aring; of atoms 
+<a href="surface.html#surfcats">categorized</a> as ions,
+excluding the ions themselves
+<blockquote>
+<b>ligand z&lt;5 &amp;~ ligand &amp;~ solvent</b>
+</blockquote>
+- residues with any atoms within 5 &Aring; of residues 
+<a href="surface.html#surfcats">categorized</a> as ligand, 
+excluding ligand and solvent
+<blockquote>
+<b>Ng+|N3+</b>
+</blockquote>
+- guanidinium nitrogens and <i>sp</i><sup>3</sup>-hybridized, 
+formally positive nitrogens (see <a href="../idatm.html">atom types</a>)
+</p>
+
+<hr>
+<a name="othermodels">
+<h2>Other Model Types</h2></a>
+<p>
+Some commands can apply to things other than molecule models 
+(atomic coordinates) and 
+<a href="../representation.html#surfaces">molecular surfaces</a>. 
+To handle such cases, "atom specification" has been extended as follows:
+<ul>
+<li>an entire <a href="../surfattrib.html#surfmodels">surface model</a> 
+(all of its pieces) can be specified by model number preceded by #,
+or by <a href="../selection.html">selection</a> and
+using the word <b>selected</b>, <b>sel</b>, or <b>picked</b>
+<li><a href="../surfattrib.html#surfpiecedef">surface pieces</a> 
+can be specified individually by 
+<a href="../selection.html#pickselect">selection from the screen</a>
+and using the word <b>selected</b>, <b>sel</b>, or <b>picked</b>
+</ul>
+Which of these can be used and whether they can be
+<a href="#combinations">combined</a> with atom specifications
+depends on the command.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / June 2009</address>
+</body></html> 

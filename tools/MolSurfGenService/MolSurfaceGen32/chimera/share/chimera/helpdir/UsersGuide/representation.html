@@ -1,0 +1,216 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Molecule Display</title>
+</head><body>
+
+<h2>Molecule Display</h2>
+
+<a name="representations">
+<h3>Atoms/Bonds</h3></a>
+<p>
+Several molecular display styles (<b><i>representations</i></b>)
+are available in Chimera.  Atoms/bonds can be shown as:
+<ul>
+<li><b>wire</b> - a simple line drawing with dot atoms and wire bonds
+<li><b>stick</b> - "endcap" atoms and stick bonds
+<li><b>ball-and-stick</b> - ball atoms 
+(scaled <a href="midas/vdwrad.html">VDW radius</a>) and stick bonds
+<li><b>sphere</b> - sphere atoms
+(full <a href="midas/vdwrad.html">VDW radius</a>) and wire bonds;
+also called Corey-Pauling-Koltun (CPK)
+</ul>
+<img src="wire3.png" alt="wire">
+<img src="stick.png" alt="stick">
+<img src="bs.png" alt="ball-and-stick">
+<img src="sphere.png" alt="sphere">
+</p><p>
+A model can only have one wire linewidth, but individual atoms and
+bonds can be shown in different representations.  Atom and bond displays
+can be combined with <a href="#ribbon">ribbons</a> and 
+<a href="#surfaces">surfaces</a>.  
+See also: <a href="menu.html#menupresets">presets</a>,
+<a href="preferences.html#New Molecules"><b>New Molecules</b> preferences</a>
+</p><p>
+The command <a href="midas/represent.html"><b>represent</b></a>
+sets atom/bond styles,
+<a href="midas/bondrepr.html"><b>bondrepr</b></a>
+sets bond styles,
+and <a href="midas/linewidth.html"><b>linewidth</b></a>
+changes wire linewidth.
+Atom/bond styles and wire linewidth can also be changed using the
+<a href="menu.html#menuactions"><b>Actions</b> menu</a>,
+the <a href="moleculeattrib.html">molecule model attributes panel</a>,
+and the <a href="inspection.html"><b>Selection Inspector</b></a>.
+</p><p>
+<a href="pbpanel.html#pbdef">Pseudobonds</a> are drawn to show
+connections other than covalent bonds.  For example,
+they can represent clashes, hydrogen bonds, or distance measurements.
+Pseudobond styles can be changed
+using the <a href="pbattrib.html">pseudobond attributes panel</a>
+and the <a href="inspection.html"><b>Selection Inspector</b></a>.
+</p>
+
+<a name="ribbon">
+<h3>Ribbons</h3></a>
+
+<p>
+Protein and nucleic acid chains can be shown with ribbons. 
+Protein helix and strand assignments are taken from the input structure
+file or generated with <a href="midas/ksdssp.html"><b>ksdssp</b></a>.
+For nucleic acids, the ribbon simply follows the backbone.  
+</p>
+<table hspace="5" vspace="5" align="right"><tr>
+<td><img src="flat.png" alt="flat ribbon"></td>
+<td><img src="edged.png" alt="edged ribbon"></td>
+<td><img src="rounded.png" alt="rounded ribbon"></td>
+</tr></table>
+<p>
+The built-in ribbon styles are:
+<ul>
+<li><b>flat</b>
+<li><b>edged</b>
+<li><b>rounded</b>
+<li><b>supersmooth</b> 
+(for <a href="raytracing.html">raytracing</a>)
+</ul>
+Ribbon segments for individual residues can be shown and hidden independently
+and displayed in different styles.
+New <a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html#xsection">
+styles</a> (cross-section shape and smoothing),
+<a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html#scaling">
+scalings</a> (width and height), and
+<a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html#class">residue
+classes</a> (defined by which atoms guide the ribbon path)
+can be created using
+<a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html">
+<b>Ribbon Style Editor</b></a>.
+</p><p>
+The command <a href="midas/ribbon.html"><b>ribbon</b></a> displays ribbons,
+<a href="midas/ribrepr.html"><b>ribrepr</b></a> sets which ribbon style 
+is shown, and <a href="midas/ribscale.html"><b>ribscale</b></a> sets which
+scaling is applied.
+Ribbon display and style can also be controlled with the
+<a href="menu.html#menuactions"><b>Actions</b> menu</a>;
+residue ribbon display, style, and scaling can be controlled in the
+<a href="moleculeattrib.html">molecule model attributes panel</a>
+and the <a href="inspection.html"><b>Selection Inspector</b></a>.
+</p><p>
+Protein secondary structure can also be shown with 
+<a href="../ContributedSoftware/pipesandplanks/pipesandplanks.html">
+<b>PipesAndPlanks</b></a>, and special representations of the
+base and sugar components of nucleic acids (combined with
+<a href="#representations"><b>stick</b></a> atoms/bonds in the figure)
+can be generated with the
+<a href="../ContributedSoftware/nucleotides/nucleotides.html">
+<b>Nucleotides</b></a> tool.
+</p>
+<img src="pnp.png" alt="pipes-and-planks VRML">
+<img src="nuc.png" alt="nucleotides VRML">
+<p>
+The pipes-and-planks and special nucleotide representations
+are VRML objects and can only be displayed/undisplayed as a whole.
+</p>
+
+<a name="surfaces">
+<h3>Molecular Surfaces</h3></a>
+<p>
+Chimera shows <b><i>solvent-excluded</i></b> molecular surfaces, 
+composed of probe contact, toroidal, and reentrant surface.
+These differ from <b><i>solvent-accessible</i></b> 
+surfaces, which are traced out by the probe center. 
+</p><p>
+When a molecular surface is computed, total
+solvent-excluded and and solvent-accessible surface areas 
+are reported in the <a href="reply.html"><b>Reply Log</b></a>,
+along with the values for each 
+<a name="surfcomponent">disconnected part, or <b><i>component</i></b></a>.
+The values are calculated analytically.
+Multi-component surfaces are common; for example, a protein surface 
+could include one or more completely enclosed interior pockets,
+and a <a href="midas/surface.html#surfcats">ligand</a> surface
+could separately enclose each of multiple ligand molecules.
+</p><p>
+Analytical solvent-excluded and solvent-accessible surface areas
+per atom and residue are assigned as
+<a href="../ContributedSoftware/defineattrib/defineattrib.html#attribdef">
+attributes</a> named <b>areaSES</b> and <b>areaSAS</b>, respectively.
+These may include contributions from more than one 
+<a href="#surfcomponent">component</a>.
+For example, one side of an atom could form part of an interior cavity 
+while the other side could form part of the exterior surface. 
+</p>
+<table hspace="5" vspace="5" align="right"><tr>
+<td><img src="solid.png" alt="solid surface"></td>
+<td><img src="mesh.png" alt="mesh surface"></td>
+<td><img src="dot.png" alt="dot surface"></td>
+</tr></table>
+<p>
+Molecular surface styles are:
+<ul>
+<li><b>solid</b>
+<li><b>mesh</b>
+<li><b>dot</b>
+</ul>
+A molecular surface model can only have one style, but
+molecular surface patches for individual atoms
+can be shown/hidden independently and can vary
+in <a href="coloring.html">color</a> and transparency.
+</p><p>
+The command <a href="midas/surface.html"><b>surface</b></a> displays
+molecular surface, 
+<a href="midas/msms.html"><b>surfrepr</b></a> sets which style is shown,
+and <a href="midas/surftransparency.html"><b>surftransparency</b></a>
+adjusts surface transparency.
+Molecular surface display, style, and transparency can also be controlled 
+with the <a href="menu.html#menuactions"><b>Actions</b> menu</a>,
+the <a href="msmsattrib.html">molecular surface attributes panel</a>,
+the <a href="inspection.html"><b>Selection Inspector</b></a>, and
+the command <a href="midas/setattr.html"><b>setattr</b></a>.
+Except for the <a href="menu.html#menuactions"><b>Actions</b> menu</a>,
+these also allow changes in probe radius, 
+vertex density, mesh line width, and dot size.
+Parameters for subsequently generated molecular surfaces can be set in the
+<a href="preferences.html#New Surfaces"><b>New Surfaces</b> preferences</a>.
+</p><p>
+In Chimera, molecular surfaces are created with embedded software from the 
+<a href="http://www.scripps.edu/~sanner/html/msms_home.html"
+target="_blank">MSMS package</a>, described in:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/8906967" target="_blank">
+Reduced surface: an efficient way to compute molecular surfaces.</a>
+Sanner MF, Olson AJ, Spehner JC.
+<i>Biopolymers.</i> 1996 Mar;38(3):305-20.
+</blockquote>
+Dot molecular surfaces in <a href="dms.html">MS/DMS format</a>
+can also be displayed in Chimera.
+</p>
+
+<a name="vdw">
+<h3>VDW Surfaces</h3></a>
+<p>
+A van der Waals (VDW) surface differs from a molecular surface
+in that fine crevices are not smoothed.  A VDW dot surface can be 
+displayed with the command <a href="midas/vdw.html"><b>vdw</b></a>
+and its dot density adjusted with <a href="midas/vdwdensity.html">
+<b>vdwdensity</b></a>.  The VDW dot size and dot density can also
+be adjusted in the the 
+<a href="moleculeattrib.html">molecule model attributes panel</a>.
+Note that the <a href="#representations"><b>sphere</b></a>
+representation also shows the VDW surface.
+</p><p>
+Chimera also displays <a href="surfattrib.html">other surfaces</a>
+that are not necessarily molecular.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / January 2009</address>
+</body></html>

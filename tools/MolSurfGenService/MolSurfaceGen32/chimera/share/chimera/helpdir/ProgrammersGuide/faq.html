@@ -1,0 +1,478 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!--
+>>> UCSF Chimera Copyright
+Copyright (c) 2000, 2002-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" href="../chimera16.png" type="image/png">
+<title>Chimera Programming FAQ</title>
+</head>
+
+<body>
+
+<h1>
+Chimera Programming Frequently Asked Questions
+</h1>
+
+<p>
+Last updated February 11, 2009.
+The most recent copy of the FAQ is at
+<a href="http://www.cgl.ucsf.edu/chimera/docs/ProgrammersGuide/faq.html">http://www.cgl.ucsf.edu/chimera/docs/ProgrammersGuide/faq.html</a>
+</p>
+
+<ol>
+<li><a href="#q1">Where is the programming documentation?</a>
+<li><a href="#q2">How to emulate command-line functionality.</a>
+<li><a href="#q3">Passing arguments to scripts.</a>
+<li><a href="#q4">How to rotate/translate the camera.</a>
+<li><a href="#q5">How to rotate/translate individual models.</a>
+<li><a href="#q6">How to save the current view as an image.</a>
+<li><a href="#q7">Some attributes return a copy of an object.</a>
+<li><a href="#q8">Explanation of transparency for Surface_Model, MSMSModel and VRMLModel.</a>
+<li><a href="#q9">Transparency displayed incorrectly when 2 or more models are transparent.</a>
+<li><a href="#q10">Explanation of openState attribute.</a>
+<li><a href="#q11">Memory leaks in scripts.</a>
+<li><a href="#q12">Getting the size of a volume data set.</a>
+<li><a href="#q13">How to write out a PDB file containing the crystal unit cell.</a>
+<li><a href="#q14">How to access files within the Chimera app on Macs.</a>
+</ol>
+
+<h2>
+<a name="q1">
+1) Where is the programming documentation?
+</a>
+</h2>
+
+<p>
+The
+<a href="Examples/index.html">Programming Examples</a>
+are a good source of information.
+More information can be gleamed from the C++ header files for the Chimera
+objects.
+Those header files are available in the
+<a href="http://www.cgl.ucsf.edu/chimera/sourcecode.html">source code</a> download.
+Another source of object info is the <code>help()</code> function in
+the Chimera's IDLE Python shell (under General Controls).
+For example, <code>help(chimera.Atom)</code> will show (C++) methods and
+attributes of Atom objects.
+Even more information is available via chimera developer's mailing list,
+<a href="mailto:chimera-dev@cgl.ucsf.edu">chimera-dev@cgl.ucsf.edu</a>.
+The archived mailing list is at
+<a href="http://www.cgl.ucsf.edu/pipermail/chimera-dev/">http://www.cgl.ucsf.edu/pipermail/chimera-dev</a>.
+</p>
+
+<h2>
+<a name="q2">
+2) How to emulate command-line functionality.
+</a>
+</h2>
+
+<p>
+Commands available at the type-in command line are almost all implemented in
+the Midas module's __init__.py file.  You can use the commands for convenience
+in implementing the same functionality in your extension.  For example, to
+color iron atoms red:
+</p>
+
+<pre>
+import Midas
+Midas.color('red', '@/element=Fe')
+</pre>
+
+<p>
+A few commands related to processing command text (<i>e.g.</i> handling files
+of commands) are in Midas.midas_text.  One in particular, makeCommand(),
+allows you to use command-line syntax directly instead of determining the
+proper arguments to a Midas module function.  So the above example of coloring
+atoms red would look like this using runCommand():
+
+<pre>
+from chimera import runCommand
+runCommand("color red @/element=Fe")
+</pre>
+
+<p>
+Note that if the command text may contain errors (<i>e.g.</i> it is based
+on user input), <code>runCommand()</code> can raise <code>MidasError</code>
+(defined in the Midas module)
+so in such cases you may want to embed the <code>runCommand()</code> in a 
+<code>try/except</code> block.
+
+<p>In pre-1.2107 versions of Chimera, the <code>runCommand()</code>
+convenience function doesn't exist, so you'd have to use
+the functionally identical <code>makeCommand()</code> as follows:
+
+<pre>
+import Midas
+from Midas.midas_text import makeCommand
+makeCommand("color red @/element=Fe")
+</pre>
+
+<h2>
+<a name="q3">
+3) Passing arguments to scripts.
+</a>
+</h2>
+
+<p>
+Use the <code>--script</code> option to put all unprocessed
+arguments into <code>sys.argv</code> for the given Python script to handle
+instead of having chimera try to open each one.
+A typical way to run the script would be:
+</p>
+
+<pre>
+chimera --nogui --nostatus --script script.py -- -p 1jhg
+</pre>
+
+The resulting <code>sys.argv</code> would be <code>['script.py', '-p', '1jhg']</code>.
+The <code>--</code> argument terminates the chimera arguments
+and is only necessary if
+there are arguments with a leading dash for your script.
+<p>
+To make your Python script look like any other command line tool,
+you can provide a shell script
+that only takes the Python script's arguments:
+</p>
+
+<pre>
+#!/bin/sh
+SCRIPT=PATH-TO-SCRIPT.py
+chimera --nogui --nostatus --script "$SCRIPT" -- "$@"
+</pre>
+
+<h2>
+<a name="q4">
+4) How to rotate/translate the camera.
+</a>
+</h2>
+
+<p>
+Camera always points in -z direction.  There is no way to rotate it.
+Instead, rotate all of the models.
+</p>
+
+<pre>
+>>> v = chimera.viewer
+>>> c = v.camera
+>>> print c.center
+(5.9539999961853027, -2.186500072479248, 10.296500205993652)
+>>> c.center = (3, 2.5, 10)	# to translate camera
+>>> v.scaleFactor = 1.5		# to zoom camera
+</pre>
+
+<h2>
+<a name="q5">
+5) How to rotate/translate individual models.
+</a>
+</h2>
+
+<p>
+The Xform object <a href="#q10">model.openState.xform</a>
+retrieves a copy of the rotation and translation transformation for a model.
+</p>
+
+<pre>
+>>> om = chimera.openModels
+>>> mlist = om.list()
+>>> m = mlist[0]
+>>> axis = chimera.Vector(1, 0, 0)
+>>> angle = 90			# degrees
+>>> xf = chimera.Xform.rotation(axis, angle)
+>>> print m.openState.xform	# 3x3 rotation matrix
+				# last column is translation
+0.982695 0.121524 0.139793 -1.07064
+0.0250348 0.660639 -0.750287 6.83425
+-0.183531 0.740803 0.646164 6.35578
+>>> m.openState.globalXform(xf)
+</pre>
+
+<p>
+Another method to change the transform
+</p>
+
+<pre>
+>>> curxform = m.openState.xform # get copy (not reference)
+>>> xf.premultiply(curxform)	 # changes xf
+>>> m.openState.xform = xf	 # set it
+</pre>
+
+<p>
+To rotate relative to model's data axes use
+</p>
+
+<pre>
+>>> m.openState.localXform(xf)
+</pre>
+
+<p>
+or
+</p>
+
+<pre>
+>>> curxform = m.openState.xform # get copy (not reference)
+>>> xf.multiply(curxform)	 # changes xf
+>>> m.openState.xform = xf	 # set it
+</pre>
+
+<h2>
+<a name="q6">
+6) How to save the current view as an image.
+</a>
+</h2>
+
+<pre>
+import Midas
+Midas.copy(file='/home/goddard/hoohoo.png', format='PNG')
+# format can be 'PNG', 'JPEG', 'TIFF', 'PS', 'EPS'
+</pre>
+
+<h2>
+<a name="q7">
+7) Some attributes return a copy of an object.
+</a>
+</h2>
+
+<pre>
+>>> xf = model.openState.xform	# xf is a copy of the model's Xform matrix.
+>>> xf.zRotate(45)		# This will not rotate the model.
+</pre>
+
+<pre>
+>>> c = model.atoms[0].color	# c is the MaterialColor object for the atom
+>>> c.ambientDiffuse = (1,0,0)	# The Atom color changes immediately to red.
+</pre>
+
+<p>
+Some Chimera objects returned as attributes are always copies, some are
+always references to the uncopied object.  Objects that are always copied
+include Xform, Vector, Point, Sphere, Element, MolResId, Coord, ....
+Objects that
+are never copied include Atom, Bond, PseudoBond, CoordSet, Molecule, Residue,
+RibbonStyle, ....  These objects that are not copied do not have any
+any method for copying them.  In order to know if an object type is 
+passed by value is to look at the Chimera C++ header files.  Classes without
+a WrapPy base class are copied.  Those with a WrapPy base class are not copied.
+This base class is part of the C++ to Python interface generation.
+</p>
+
+<h2>
+<a name="q8">
+8) Explanation of transparency for Surface_Model, MSMSModel and VRMLModel.
+</a>
+</h2>
+
+<p>
+Volume viewer isosurfaces are Surface_Model objects defined by the
+_surface.so C++ module.  The Surface_Model interface is given in the
+surfmodel.h source code file.  By default these surfaces use OpenGL (1,1-alpha)
+blending.  This means the color for a triangle is added to an image plus
+the transparency (= 1-alpha) times the color from triangles in back
+of this one.  As the transparency becomes greater, the brightness of
+the triangle does not diminish.  In fact, more shows through from behind
+the triangle
+so it appears brighter.  The specular highlights stay bright
+even if the triangle is black and fully tranparent.  In Chimera 1730
+a Surface_Model attribute transparency_blend_mode was added to allow
+the more common (alpha,1-alpha) blend mode.  This is like the above mode
+but the triangle color is multiplied by alpha
+before being added to the image.  For highly transparent triangles
+alpha is close to zero, and the triangle and specular highlights become
+dim.
+</p>
+
+<p>
+MSMS molecular surface models use (alpha, 1-alpha) blending.
+They also use a 2 pass algorithm which is faster than sorting all the
+triangles by depth, but gives the strictly correct appearance only
+when the viewer looks through at most 2 surface layers.
+</p>
+
+<p>
+VRML models use (alpha,1) blending.  That is they multiply triangle color
+by alpha, but add in all of the color from triangles further back without
+reducing it by the transparency factor.  This
+is like complete transparency, where the triangle colors are just scaled
+by the alpha value.  This is horrible looking unless you want complete
+transparency.
+</p>
+
+<h2>
+<a name="q9">
+9) Transparency displayed incorrectly when 2 or more models are transparent.
+</a>
+</h2>
+
+<p>
+The Chimera architecture only correctly displays transparency when at
+most one transparent model is shown.  Any number of opaque models can
+also be shown.  If two transparent models are shown, one will be drawn
+after the other.  This will make one appear as if it is drawn entirely
+on top of another even if they in actuality intersect.  The rearmost
+model, may in fact appear to be in front.  This is because Chimera
+sorts the triangles by depth within a single model as needed for
+rendering transparency, but is not able to sort triangles by depth across
+multiple models.
+</p>
+
+<h2>
+<a name="q10">
+10) Explanation of openState attribute.
+</a>
+</h2>
+
+<p>
+The <code>openState</code> attribute of a Model controls whether that model
+is active for motion ('<code>.active</code>'), and contains the model's
+transformation matrix ('<code>.xform</code>') and center of rotation
+('<code>.cofr</code>').  Since some models must move in synchrony
+(<i>e.g.</i> a molecule and its surface), OpenState instances may shared
+among multiple models.  If you create a model that needs a shared
+<code>openState</code> with another model, then when adding your model
+to the list of open models with <code>chimera.openModels.add()</code>,
+you should use the '<code>sameAs</code>' keyword to specify that other model.
+</p>
+
+<h2>
+<a name="q11">
+11) Memory leaks in scripts.
+</a>
+</h2>
+
+<p>
+In the 1700 release, Chimera uses a substantial amount of memory to hold
+molecular data, but does not have any large memory leaks to the best of
+our knowledge (<i>i.e.</i> as structures are closed their memory usage 
+will be reclaimed).  However, the memory is reclaimed by a task that runs
+during idle times, so therefore scripts that loop through many structures,
+opening and closing them, will have their memory use grow continuously
+until the script finishes.  This will often cause the script to fail as
+the Chimera process runs out of memory.
+<p>
+You can cause the memory-reclamation task to run during your script by
+calling:
+<pre><code>    chimera.update.checkForChanges()</code></pre>
+<p>
+You would want to call this after closing models in your script.  Since
+the checkForChanges() routine also allows
+<a href="http://www.cgl.ucsf.edu/chimera/docs/ProgrammersGuide/Examples/Main_AtomTrigger.html">triggers</a>
+to fire, you might want to also put it after any code that opens models.
+For example, the code that assigns surface categories to models runs
+from a trigger callback, so adding a molecular surface may not work as
+expected if checkForChanges() is not called after a molecule is opened.
+<p>
+In post-1700 releases and snapshots, checkForChanges() is called automatically
+when models are opened or closed, so you will not need to insert these
+calls into your code.
+
+
+<h2>
+<a name="q12">
+12) Getting the size of a volume data set.
+</a>
+</h2>
+
+<p>
+Here's some code to find the size of a volume data set.
+</p>
+
+<pre>
+import VolumeViewer
+d = VolumeViewer.volume_dialog()
+d0 = d.data_sets[0]	# There may be more than one data set opened
+			# You could look at each one's name (= file name)
+			# to find the one you want.
+data = d0.data		# This is a Grid_Data object defined in
+			# VolumeData/griddata.py
+xsize, ysize, zsize = data.size
+</pre>
+
+<h2>
+<a name="q13">
+13) How to write out a PDB file containing the crystal unit cell.
+</a>
+</h2>
+
+<p>
+Here's code that creates the copies of a PDB molecule needed to fill
+out a crystallographic unit cell, then writes all the copies to a new
+PDB file.  This code uses the standard Chimera 1.1892 PDBmatrices
+module, which uses the PDB SMTRY remarks or CRYST1 record to determine
+the needed transformations.
+</p>
+
+<p>
+You can run it without a graphical user interface as follows
+<p>
+
+<pre>
+	% chimera --nogui myfile.pdb writeunitcell.py
+</pre>
+
+<p>
+where the writeunitcell.py file contains the script given below.
+</p>
+
+<pre>
+# Get the Molecule that has already been opened
+import chimera
+m = chimera.openModels.list()[0]
+
+# Get the symmetry matrices
+import PDBmatrices
+tflist = PDBmatrices.crystal_symmetry_matrices(m.pdbHeaders)
+
+# Get center of bounding box
+import UnitCell
+center = UnitCell.molecule_center(m)
+
+# Get CRYST1 line from PDB headers
+cryst1 = m.pdbHeaders['CRYST1'][0]
+
+# Getting crystal parameters
+from PDBmatrices import crystal
+cp = crystal.pdb_cryst1_parameters(cryst1)
+a,b,c,alpha,beta,gamma = cp[:6]
+
+# Adjust matrices to produce close packing.
+cpm = PDBmatrices.close_packing_matrices(tflist, center, a, b, c, alpha, beta, gamma)
+
+# Apply transformations to copies of Molecule
+mlist = []
+from PDBmatrices import matrices
+path = m.openedAs[0]			# Path to original PDB file
+for tf in cpm:
+    xf = matrices.chimera_xform(tf)	# Chimera style transform matrix
+    m.openState.globalXform(xf)
+    mlist.append(m)
+    m = chimera.openModels.open(path)[0]	# Open another copy
+
+# Write PDB file with transformed copies of molecule
+import Midas
+out_path = 'unitcell.pdb'
+Midas.write(mlist, None, out_path)
+</pre>
+
+<h2>
+<a name="q14">
+14) How to access files within the Chimera app on Macs.
+</a>
+</h2>
+<p>
+One way to access the Python code and other Chimera files on a Mac
+is to right-click on the Chimera app icon and choose "Show Package Contents" 
+from the resulting pop-up menu.  Another way is to use Terminal.app
+and the command "cd" to navigate into the Chimera.app directory and
+its subdirectories.  Most files of interest can be found under
+Contents/Resources/share/.
+</p>
+</body>
+</html>

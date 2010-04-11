@@ -1,0 +1,93 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>combine</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>combine</b> 
+ <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+<a href="#options"><i>options</i></a></h3>
+<p>
+The <b>combine</b> command combines multiple molecule models into a 
+single model or makes a copy of a single molecule model.
+Although a narrower <a href="frameatom_spec.html" target="_top">
+<i>atom-spec</i></a> may be supplied,
+the entire model(s) containing the specified atoms will be included
+in a new model.  
+</p><p>
+The colors, labels, and display settings of the
+input model(s) will be copied to the new model.
+To copy settings from one existing molecule model to another without creating
+a new model, use the command <a href="mcopy.html"><b>mcopy</b></a>.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a>
+<p>
+Option keywords for <b>combine</b> can be truncated to unique strings
+and their case does not matter.
+A vertical bar "|" designates mutually exclusive options, and
+default values are indicated with <b>bold</b>.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p>
+<blockquote>
+  <tt><b>refMol</b> <i>ID</i></tt>
+  <br>Which model's coordinate system to use for the new model
+  (default is the lowest-numbered model involved in the combination).
+  The reference model's untransformed coordinates (if part of the 
+  combination) and its current transformation will be carried over 
+  into the new model.  The coordinates of any other model in the 
+  combination will be transformed relative to the reference model.
+  <i>ID</i> is the number of the reference model preceded by #.
+</blockquote>
+<blockquote>
+  <tt><b>newchainids</b> <b>true</b>|false</tt>
+    <br>Whether to allow changes in chain identifiers 
+    to make each residue in the new model uniquely specifiable;
+    otherwise, residues may be renumbered to make them uniquely specifiable.  
+    Even when <b>newchainids</b> is true, residues in
+   <a href="atom_spec.html#chainassign">chains <b>water</b> and <b>het</b></a> 
+   may be renumbered.
+</blockquote>
+<blockquote>
+  <tt><b>name</b> <i>new-model-name</i></tt>
+    <br>Name for the new model (default <b>combination</b>).
+    Model names are shown in the 
+   <a href="../modelpanel.html"><b>Model Panel</b></a> and other model lists.
+</blockquote>
+<blockquote>
+  <tt><b>modelId</b> <i>N</i></tt>
+  <br>Open the new structure as model number <i>N</i> (an integer, optionally
+  preceded by #).  The default is the lowest unused number.
+</blockquote>
+<blockquote>
+  <tt><b>close</b> true|<b>false</b></tt>
+  <br>Whether to close the original model(s).
+</blockquote>
+<blockquote>
+  <tt><b>log</b> <b>true</b>|false</tt>
+    <br>Whether to report changes in chain identifiers or residue numbering 
+    in the <a href="../reply.html"><b>Reply Log</b></a>.
+</blockquote>
+</p><p>
+See also:
+<a href="split.html"><b>split</b></a>,
+<b><A href="mcopy.html">mcopy</A></b>,
+<a href="../../ContributedSoftware/editing/editing.html"><b>Build
+Structure</b></a>, the <a href="../modelpanel.html"><b>Model Panel</b></a>
+</p>
+</body></html>

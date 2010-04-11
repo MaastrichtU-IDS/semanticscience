@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN//2.0">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<html><head>
+<link rev="made" href="mailto:chimera@cgl.ucsf.edu">
+<title>Chimera Selector Workbench</title>
+</head>
+<body>
+<h1>Selector Construction Panel</h1>
+<p>
+The <b>Selector Construction Panel</b> is opened when <b>Select...
+Construct Selector</b> is chosen from the menu.
+This panel is
+used to construct custom selectors, either for immediate use or
+for later invocation from the <b>Select</b> menu.
+
+<p>Whatever is selected in the main Chimera window is
+always available as the special selector named &quot;Existing selection&quot;.
+
+<p>To facilitate constructing new selectors, the selector panel has the
+concept of a &quot;current&quot; selector and a &quot;workbench&quot; selector.
+The current selector is chosen via the &quot;Selector list&quot;
+menu button just below the menubar.  The workbench selector is
+a scratch selector that can be edited textually or operated upon with boolean
+operators (with the current selector as the other operand).
+The workbench selector can be saved into the selector list as desired.
+
+<h2>Interface Components</h2>
+<ul>
+	<li><a name="menuBar">Menu bar</a></li>
+	<ul>
+		<li><a href="#mb-selector">Selector pull-down menu</a></li>
+		<li><a href="#mb-workbench">Workbench pull-down menu</a></li>
+		<li><a href="#mb-panels">Panels pull-down menu</a></li>
+	</ul>
+	<li><a href="#selList">Selector list menu</a></li>
+	<li><a href="#selArea">Select Area</a></li>
+	<li><a href="#wbArea">Workbench Area</a></li>
+	<li><a href="#statusArea">Status Area</a></li>
+</ul>
+
+<h3><a name="mb-selector">&quot;Selector&quot; pull-down menu</a></h3>
+<p>The leftmost menu in the menubar that spans the top of the selector
+panel is the &quot;Selector&quot; menu.
+The items of the menu are used to move or delete selectors.
+Only selectors created by you can be moved or deleted.
+The items are:
+<dl>
+	<dt>Rename
+	<dd>Change the name of the current selector.
+	<dt>Delete
+	<dd>Excise the current selector.
+	<dt>Delete Menu...
+	<dd>Delete a category of selectors contained in a submenu.  A dialog will pop up to obtain specifics about what to delete and to confirm the deletion.
+</dl>
+
+<h3><a name="mb-workbench">&quot;Workbench&quot; pull-down menu</a></h3>
+<p>The middle menu in the menubar is the &quot;Workbench&quot; menu.
+The items of the menu are used to perform actions on/with the workbench
+selector.
+The items are:
+<dl>
+	<dt>Load from current
+	<dd>The contents of the current selector are loaded into the workbench selector.
+	<dt>Save...
+	<dd>The workbench selector is saved into the selector list.  A dialog comes up to query for the new selector name and what submenu (if any) to place it under.
+</dl>
+
+<h3><a name="mb-panels">&quot;Panels&quot; pull-down menu</a></h3>
+<p>The rightmost menu in the menubar is the &quot;Panels&quot; menu.
+The items of the menu are checkbuttons that control whether the
+contents of the workbench and current selectors are displayed.
+If displayed, they will be shown in their own individual panels.
+A selector's content is typically Python code.
+The content can instead be an OSL string,
+but there is rarely any call for this,
+since OSL selectors are more restrictive than the
+&quot;Midas atom specifier&quot; selector.
+The workbench selector panel is editable.
+See the <a href="#python-selectors">Python Selectors</a>
+section for details of how Python-code selectors work.
+
+<h3><a name="selList">Selector list menu</a></h3>
+<p>Directly below the menubar is a menu of all available selectors.
+Related selectors may be grouped together and made available
+as a submenu of the selectors menu.
+The menu button shows the currently chosen selector.
+If the current selector is in a submenu, only the non-submenu
+component is shown on the menu button.
+The full menu path of the selector is always shown in the Status area near the
+bottom of the selector panel.
+The selector
+&quot;Existing selection&quot; always contains
+whatever is currently selected in the main Chimera window.
+
+<p>One of the selectors in the main list is
+&quot;Midas atom specifier&quot;.
+Choosing this will bring up a panel in which a
+<a href="midas/atom_spec.html#basic">Midas atom specifier</a>
+can be entered.
+Once an atom spec is entered,
+this selector is used the same as any other selector
+for purposes of workbench construction and so forth.
+Note that it isn't the same as the &quot;Midas atom specifier&quot;
+menu item/panel in the Chimera &quot;Select&quot; menu; entering an atom spec
+in one panel has no effect on the other.
+
+<h3><a name="selArea">&quot;Select&quot; area</a></h3>
+<p>Below the selectors menu button is the &quot;Select&quot; area.
+Buttons in this area are used to select
+items in the main Chimera window.
+The &quot;Current&quot; button uses the current selector to select items
+whereas the &quot;Workbench&quot; button uses the workbench selector.
+<a name="internal">The &quot;Internal bonds&quot; button</a>
+adds to the selection any
+bonds that have both endpoint atoms selected.
+
+<h3><a name="wbArea">&quot;Workbench&quot; area</a></h3>
+<p>Below the Select area is the &quot;Workbench&quot; area.
+Buttons in this area perform operations on the workbench selector.
+
+<p>The &quot;Zone...&quot; button brings up a dialog in which to specify a
+&quot;selection zone&quot;.  This selection zone is specified as an angstrom
+distance from the atoms/bonds currently selected by the workbench selector.
+The zone may be specified either as all atoms/bonds further away
+than the distance or (the more frequent case) closer than the distance.
+The end result is that the
+workbench selector selects atoms/bonds in the selection zone.
+If the zone is of the &quot;further away&quot; type,
+the selection won't include the atoms upon which the zone definition was
+originally based.
+
+<p>The &quot;Clear&quot; button clears the workbench.
+
+<p>The &quot;Operations&quot; button brings up a menu for performing
+various operations on the workbench selector.  The menu contains:
+<dl>
+	<dt>Select internal bonds
+	<dd>Similar to <a href="#internal">&quot;Internal bonds&quot; button</a> in Select area.
+	<dt>Union with current
+	<dd>Union with the current selector.
+	<dt>Intersect with current
+	<dd>Intersect with the current selector.
+	<dt>Workbench - current
+	<dd>Subtract the current selector from the workbench selector.
+	<dt>Current - workbench
+	<dd>Subtract the workbench selector from the current selector, and put the result in the workbench selector.
+</dl>
+
+<h3><a name="statusArea">&quot;Status&quot; area</a></h3>
+<p>The status area displays the name of the current selector.
+
+<a name="python-selectors"><h2>Python Selectors</h2></a>
+<p>This section assumes you are familiar with the basics of writing
+Python code.  If you are not, consult the 
+<a href="http://docs.python.org/tutorial/index.html"
+target="_blank">Python Tutorial</a>.
+
+<p>When the Python code of a selector is executed, certain useful local
+variables are &quot;pre-set&quot; for use in the selector.  They are:
+<dl>
+	<dt>models
+	<dd>All models currently open in Chimera, including non-molecular models.
+	<dt>molecules
+	<dd>All molecules currently open in Chimera.
+	<dt>sel
+	<dd>An empty ItemizedSelection (see the selection module).  The selector is expected to populate this ItemizedSelection with the proper selected items.
+	<dt>sels
+	<dd>A list that is used as a stack when doing compositing operations such as the intersection or union of selectors.  Typically ignored when creating simple selectors.  Nonetheless, don't use the name for other purposes.
+	<dt>selection
+	<dd>A reference to <a href="../ProgrammersGuide/Reference/generated/chimera/selection/index.html">chimera.selection</a>, for convenience.
+</dl>
+
+</body></html>

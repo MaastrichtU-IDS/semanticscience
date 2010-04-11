@@ -1,0 +1,69 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>texture</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>texture new</b> <i>texture_name</i> [<i>num_colors</i>]</h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>texture map</b> <i>index=name</i> ...</h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>texture color</b> <i>index</i> <i>color</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>texture use</b> <i>texture_name</i></h3>
+<p>
+<b>Texture new</b>
+creates a new texture with the given name.  If <i>num_colors</i>
+is not given, the texture will be able to contain five distinct colors.
+If given, <i>num_colors</i> must be <b>4</b> or <b>5</b>.
+The principal advantage of using a four-color texture is that color
+transitions occur midway between vertices in a four-color texture,
+but not in a five-color texture.</p>
+<p>
+<b>Texture map</b>
+assigns names to the texture colors.  This command can be used
+in two ways.  It can be used to assign mnemonics to the texture colors 
+(<i>e.g.</i>, <b>texture map 1=hydrophilic 2=hydrophobic</b> ...),
+in which case the <b>texture color</b> command would be used to assign
+actual color values to the texture colors, or it can be used to directly
+assign color values to the texture colors (<i>e.g.</i>,
+<b>texture map 1=red 2=green 3=blue</b> ...).  At this time,
+redefining a color with the <a href="colordef.html"><b>colordef</b></a>
+command <i>after</i> that
+color has been used in <b>texture map</b> will not cause a change in the
+texture color.</p>
+<p>
+<b>Texture color</b>
+assigns <i>color</i> to the texture color corresponding to <i>index</i>.</p>
+<p>
+<b>Texture use</b>
+makes the texture named <i>texture_name</i> the current texture
+for purposes of further <b>texture</b> and <a href="tcolor.html">
+<b>tcolor</b></a> commands.
+The initial default texture is named <b>default</b>.
+</p><p>
+Example:
+<blockquote><tt><b>
+texture map 1=red 2=blue 3=yellow 4=gray
+<br>tcolor gray
+<br>tcolor red @o=
+<br>tcolor blue @n=
+<br>tcolor yellow @s=
+</b></tt></blockquote>
+</p><p>
+See also: <b><A href="tcolor.html">tcolor</A></b>
+</p>
+</body></html>

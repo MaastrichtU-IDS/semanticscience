@@ -1,0 +1,126 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2007 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>ksdssp</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>ksdssp</b> [ -c <i>cutoff</i> ] [ -h <i>helix_min</i> ]
+[ -s <i>strand_min</i> ] [ -S <i>file</i> ]
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></h3>
+<p>
+<b>Ksdssp</b> is an implementation of the <b>K</b>absch and <b>S</b>ander
+algorithm for <b>d</b>efining the <b>s</b>econdary <b>s</b>tructure of
+<b>p</b>roteins, as described in:
+<blockquote>
+  W. Kabsch and C. Sander, "Dictionary of Protein Secondary
+  Structure: Pattern Recognition of Hydrogen-Bonded and Geometrical
+  Features" <i>Biopolymers</i> <b>22</b>:2577 (1983).
+</blockquote>
+Many, but not all, input structure files include protein secondary structure 
+information.  In <a href="../tutorials/framepdbintro.html" 
+target="_top">PDB format</a>, secondary structure assignments are described in
+<a href="../tutorials/pdbintro.html#secondary">HELIX and SHEET records</a>.
+When a peptide or protein structure file
+that does not include secondary structure assignments is read,
+<b>ksdssp</b> is <b><i>automatically</i></b>
+invoked to generate helix and sheet information.
+<b>Ksdssp</b> is also called automatically when
+<b><A href="../../ContributedSoftware/matchmaker/matchmaker.html">
+MatchMaker</A></b> is used with the 
+<b>Compute secondary structure assignments</b> option,
+regardless of whether secondary structure assignments already exist.
+</p><p>
+In Chimera, helix and sheet assignments are stored as true/false settings
+(for each amino acid residue)
+of the <a href="atom_spec.html#resprops">residue attributes</a>
+<b>isHelix</b> and <b>isStrand</b> (<b>isSheet</b>).
+The assignments are used for drawing protein
+<a href="../representation.html#ribbon">ribbons</a> 
+and may be used by
+<b><A href="../../ContributedSoftware/matchmaker/matchmaker.html">
+MatchMaker</A></b>, depending on its settings.
+</p><p>
+Parameter settings used are reported
+in the <a href="../reply.html"><b>Reply Log</b></a>.  
+Defaults to be used when <b>ksdssp</b> is called automatically can be changed
+with the <a href="../modelpanel.html#computess"><b>compute SS</b></a> dialog 
+(opened from the <a href="../modelpanel.html"><b>Model Panel</b></a>).
+Defaults for the <b>ksdssp</b> <i>command</i>, however, cannot be changed
+and are given <a href="#options">below</a>.
+Different values can be specified with the command-line
+<a href="#options">options</a>.
+</p><p>
+<b>Ksdssp</b> uses the coordinates of the backbone atoms
+(N, CA, C, O, and optionally H) of a protein to determine
+which residues are in helices and beta strands.  If an amide
+hydrogen is missing, it is placed 1.01 angstroms from N along the bisector
+of (1) the vector opposite the bisector of C-N-CA, and (2) the vector
+opposite the C-O vector from the previous amino acid.
+</p><p>
+The calculation is applied to the models containing
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>,
+and a blank <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+is interpreted as "all."
+Models that do not appear to contain amino acids
+(that is, nonpeptide molecules and nonmolecular objects) are ignored.
+</p><p>
+<b>Known problem</b>: reassigning secondary structure sets the
+<a href="../../ContributedSoftware/ribbonstyle/ribbonstyle.html#scaling">ribbon
+scaling</a> of some residues to <b>Chimera default</b>; any other scalings
+previously in effect need to be reapplied (for example, with
+<a href="ribscale.html"><b>ribscale</b></a>).
+</p>
+
+<h4><a name="options">Options</a></h4>
+<blockquote>
+  <tt><b>-c</b> <i>cutoff</i></tt>
+    <br><b>Ksdssp</b> estimates the energy of each candidate
+    hydrogen-bonding interaction and classifies it as a hydrogen bond
+    if the energy is no greater than (at least as favorable as)
+    <i>cutoff</i>.  The default is <b>&ndash;0.5</b> kcal/mol, as recommended
+    by Kabsch and Sander, who add that "A good H-bond has about -3
+    kcal/mol binding energy."
+</blockquote>
+<blockquote>
+  <tt><b>-h</b> <i>helix_min</i></tt>
+    <br>Helices must be at least
+    <i>helix_min</i> residues long; the default is <b>3</b>.
+</blockquote>
+<blockquote>
+  <tt><b>-s</b> <i>strand_min</i></tt>
+    <br>Beta strands must be at least
+    <i>strand_min</i> residues long; the default is <b>3</b>.
+    Reducing <i>strand_min</i> to 1 is not recommended,
+    as there are bridges in many structures that confuse the
+    algorithm for defining sheets.
+</blockquote>
+<p>
+In most cases, the default parameter values
+are reasonable for computing secondary structure.
+</p>
+<p>
+See also:
+ <b><A href="ribbon.html">ribbon</A></b>,
+ <b><A href="ribscale.html">ribscale</A></b>,
+ <b><A href="ribinsidecolor.html">ribinsidecolor</A></b>,
+ <b><A href="../../ContributedSoftware/pipesandplanks/pipesandplanks.html">
+ PipesAndPlanks</A></b>,
+ <b><A href="../../ContributedSoftware/ribbonstyle/ribbonstyle.html">
+ Ribbon Style Editor</A></b>,
+ <b><A href="../../ContributedSoftware/matchmaker/matchmaker.html">
+ MatchMaker</A></b>
+</p>
+</body></html>

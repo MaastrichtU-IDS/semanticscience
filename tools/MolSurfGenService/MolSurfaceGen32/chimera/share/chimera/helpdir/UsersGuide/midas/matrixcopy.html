@@ -1,0 +1,56 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>matrixcopy</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>matrixcopy</b> <i>from_model to_models</i> 
+ [ moving <i>move_models</i> ]</h3>
+<p>
+<b>Matrixcopy</b> applies the 4x4 transformation matrix of <i>from_model</i>
+to one or more <i>to_models</i>.  Models are indicated by integer 
+model number, with or without a preceding <b>#</b> symbol.
+</p><p>
+The <b>moving</b> keyword allows transforming a different set of models
+than <i>to_models</i>.  Normally (<b>moving</b> not used),
+just the <i>to_models</i> will be transformed.
+If <b>moving</b> is used, only one <i>to_model</i> should be given,
+and the <i>move_models</i> will move as if rigidly carried along with 
+<i>to_model</i> if the <i>from_model</i> matrix were applied to it
+(even if <i>to_model</i> is not actually moved).
+</p><p>
+<a name="examples">Examples</a>:
+</p>
+<blockquote><b>
+matrixcopy 0 1
+<br>
+matrixcopy 0 1-2
+<br>
+matrixcopy #1 #0,2
+<br>
+matrixcopy #0 #4 moving #1,2,3
+</b></blockquote>
+The latter moves models #1-3 as if rigidly transformed along with #4
+if the matrix of #0 were applied to #4.
+</p><p>
+See also:
+<b><A href="match.html">match</A></b>,
+<b><A href="mmaker.html">matchmaker</A></b>,
+<A href="matrixget.html"><b>matrixget</b></a>,
+<A href="matrixget.html"><b>matrixset</b></a>,
+<a href="measure.html#rotation"><b>measure rotation</b></a>,
+<b><A href="sym.html">sym</A></b>
+</body></html>

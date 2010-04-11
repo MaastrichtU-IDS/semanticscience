@@ -1,0 +1,615 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.3.3 Global Settings</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_101.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_101.html">3.3.2 Atmospheric Effects</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.3.3 
+   Global Settings</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_103.html">3.3.4 Radiosity</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_103.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_03_03">3.3.3 </a>Global Settings</h3>
+<a name="s03_03_03_i1"><a name="s03_03_03_i2"><a name="global_settings"></a><a name="s03_03_03_i3"><a name="global_settings, keyword"></a><a name="s03_03_03_i4"><a name="s03_03_03_i5"><a name="adc_bailout, global_settings"></a><a name="s03_03_03_i6"><a name="s03_03_03_i7"><a name="ambient_light, global_settings"></a><a name="s03_03_03_i8"><a name="s03_03_03_i9"><a name="assumed_gamma, global_settings"></a><a name="s03_03_03_i10"><a name="s03_03_03_i11"><a name="hf_gray_16, global_settings"></a><a name="s03_03_03_i12"><a name="s03_03_03_i13"><a name="irid_wavelength, global_settings"></a><a name="s03_03_03_i14"><a name="s03_03_03_i15"><a name="charset, global_settings"></a><a name="s03_03_03_i16"><a name="s03_03_03_i17"><a name="max_intersections, global_settings"></a><a name="s03_03_03_i18"><a name="s03_03_03_i19"><a name="max_trace_level, global_settings"></a><a name="s03_03_03_i20"><a name="s03_03_03_i21"><a name="number_of_waves, global_settings"></a><a name="s03_03_03_i22"><a name="s03_03_03_i23"><a name="noise_generator, global_settings"></a><a name="s03_03_03_i24"><a name="s03_03_03_i25"><a name="radiosity, global_settings"></a><a name="s03_03_03_i26"><a name="s03_03_03_i27"><a name="photon, global_settings"></a><a name="s03_03_03_i28"><a name="s03_03_03_i29"><a name="ascii, global_settings"></a><a name="s03_03_03_i30"><a name="s03_03_03_i31"><a name="utf8, global_settings"></a><a name="s03_03_03_i32"><a name="s03_03_03_i33"><a name="sys, global_settings"></a><a name="s03_03_03_i34">
+<p>
+  The <code>global_settings</code> statement is a catch-all statement that gathers together a number of global 
+ parameters. The statement may appear anywhere in a scene as long as it is not inside any other statement. You may have 
+ multiple <code>global_settings</code> statements in a scene. Whatever values were specified in the last <code>global_settings</code> 
+ statement override any previous settings. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> some items which were language directives in earlier versions of POV-Ray have 
+ been moved inside the <code>global_settings</code> statement so that it is more obvious to the user that their effect 
+ is global. The old syntax is permitted but generates a warning. 
+</p>
+
+<p>
+  The new syntax is: 
+</p>
+
+<pre>
+GLOBAL_SETTINGS:
+    global_settings { [GLOBAL_SETTINGS_ITEMS...] }
+GLOBAL_SETTINGS_ITEM:
+    adc_bailout Value | ambient_light COLOR | assumed_gamma Value | 
+    hf_gray_16 [Bool] | irid_wavelength COLOR |
+    charset GLOBAL_CHARSET | max_intersections Number |
+    max_trace_level Number | number_of_waves Number |
+    noise_generator Number | radiosity { RADIOSITY_ITEMS... } |
+    photon { PHOTON_ITEMS... }
+GLOBAL_CHARSET:
+    ascii | utf8 | sys
+</pre>
+
+<p>
+  Global setting default values: <a name="s03_03_03_i35"> 
+</p>
+
+<pre>
+charset            : ascii
+adc_bailout        : 1/255
+ambient_light      : &lt;1,1,1&gt;
+assumed_gamma      : No gamma correction
+hf_gray_16         : off
+irid_wavelength    : &lt;0.25,0.18,0.14&gt;
+max_trace_level    : 5
+max_intersections  : 64
+number_of_waves    : 10
+noise_generator    : 2
+
+Radiosity:
+  adc_bailout      : 0.01
+  always_sample    : on
+  brightness       : 1.0
+  count            : 35  (max = 1600)
+  error_bound      : 1.8
+  gray_threshold   : 0.0
+  low_error_factor : 0.5
+  max_sample       : non-positive value
+  minimum_reuse    : 0.015
+  nearest_count    : 5   (max = 20)
+  normal           : off 
+  pretrace_start   : 0.08
+  pretrace_end     : 0.04
+  recursion_limit  : 3
+</pre>
+
+<p>
+  Each item is optional and may appear in any order. If an item is specified more than once, the last setting 
+ overrides previous values. Details on each item are given in the following sections. 
+</p>
+
+<h4><a name="s03_03_03_01">3.3.3.1 </a>ADC_Bailout</h4>
+<a name="s03_03_03_01_i1"><a name="s03_03_03_01_i2"><a name="adc_bailout"></a>
+<p>
+  In scenes with many reflective and transparent surfaces, POV-Ray can get bogged down tracing multiple reflections 
+ and refractions that contribute very little to the color of a particular pixel. The program uses a system called <em>Adaptive 
+ Depth Control</em> (ADC) to stop computing additional reflected or refracted rays when their contribution is 
+ insignificant. 
+</p>
+
+<p>
+  You may use the global setting <code>adc_bailout</code> keyword followed by float value to specify the point at 
+ which a ray's contribution is considered insignificant. For example: 
+</p>
+
+<pre>
+  global_settings { adc_bailout 0.01 }
+</pre>
+
+<p>
+  The default value is 1/255, or approximately 0.0039, since a change smaller than that could not be visible in a 24 
+ bit image. Generally this setting is perfectly adequate and should be left alone. Setting <code>adc_bailout</code> to 
+ 0 will disable ADC, relying completely on <code><a href="s_102.html#s03_03_03_07">max_trace_level</a></code> to set an 
+ upper limit on the number of rays spawned. 
+</p>
+
+<p>
+  See section &quot;<a href="s_102.html#s03_03_03_07">Max_Trace_Level</a>&quot; for details on how ADC and <code>max_trace_level</code> 
+ interact. 
+</p>
+
+<h4><a name="s03_03_03_02">3.3.3.2 </a>Ambient_Light</h4>
+<a name="s03_03_03_02_i1"><a name="s03_03_03_02_i2"><a name="ambient_light"></a>
+<p>
+  Ambient light is used to simulate the effect of inter-diffuse reflection that is responsible for lighting areas 
+ that partially or completely lie in shadow. POV-Ray provides the <code>ambient_light</code> keyword to let you easily 
+ change the brightness of the ambient lighting without changing every ambient value in all finish statements. It also 
+ lets you create interesting effects by changing the color of the ambient light source. The syntax is: 
+</p>
+
+<pre>
+ global_settings { ambient_light COLOR }
+</pre>
+
+<p>
+  The default is a white ambient light source set at <code>rgb &lt;1,1,1&gt;</code>. Only the rgb components are 
+ used. The actual ambient used is: <em>Ambient = Finish_Ambient * Global_Ambient</em>. 
+</p>
+
+<p>
+  See section &quot;<a href="#l128">Ambient</a>&quot; for more information. 
+</p>
+
+<h4><a name="s03_03_03_03">3.3.3.3 </a>Assumed_Gamma</h4>
+<a name="s03_03_03_03_i1"><a name="s03_03_03_03_i2"><a name="assumed_gamma"></a>
+<p>
+  Many people may have noticed at one time or another that some images are too bright or dim when displayed on their 
+ system. As a rule, Macintosh users find that images created on a PC are too bright, while PC users find that images 
+ created on a Macintosh are too dim. 
+</p>
+
+<p>
+  The <code>assumed_gamma</code> global setting works in conjunction with the <code><a href="s_95.html#s03_01_02_03_01">Display_Gamma</a></code> 
+ INI setting (see section &quot;<a href="s_95.html#s03_01_02_03_01">Display Hardware Settings</a>&quot;) to ensure that 
+ scene files render the same way across the wide variety of hardware platforms that POV-Ray is used on. The assumed 
+ gamma setting is used in a scene file by adding 
+</p>
+
+<pre>
+ global_settings { assumed_gamma Value }
+</pre>
+
+<p>
+  where the assumed gamma value is the correction factor to be applied before the pixels are displayed and/or saved 
+ to disk. For scenes created in older versions of POV-Ray, the assumed gamma value will be the same as the display 
+ gamma value of the system the scene was created on. For PC systems, the most common display gamma is 2.2, while for 
+ scenes created on Macintosh systems should use a scene gamma of 1.8. Another gamma value that sometimes occurs in 
+ scenes is 1.0. 
+</p>
+
+<p>
+  Scenes that do not have an <code>assumed_gamma</code> global setting will not have any gamma correction performed 
+ on them, for compatibility reasons. If you are creating new scenes or rendering old scenes, it is strongly recommended 
+ that you put in an appropriate <code>assumed_gamma</code> global setting. For new scenes, you should use an assumed 
+ gamma value of 1.0 as this models how light appears in the real world more realistically. 
+</p>
+
+<p>
+  Before we go to the following sections, that explain more thoroughly what gamma is and why it is important, a short 
+ overview of how gamma works in POV-Ray: 
+</p>
+
+<dl>
+ 
+ <dt>
+   no <code>assumed_gamma</code> in scene : 
+ <dd>
+   No gamma correction is applied to output file. 
+ <dt>
+   <code>assumed_gamma 1</code> : 
+ <dd>
+   Gamma <code>Display_Gamma</code> is applied to output file. 
+ <dd>
+   If <code>Display_Gamma</code> is not specified, 2.2 is used. 
+ <dt>
+   <code>assumed_gamma G</code> : 
+ <dd>
+   Gamma <code>Display_Gamma/G</code> is applied to output file. 
+ <dd>
+   If <code>Display_Gamma</code> is not specified, 2.2/G is used. 
+ <dt>
+   Recommended value for <code>assumed_gamma</code> is 1. 
+</dl>
+
+<h5><a name="s03_03_03_03_01">3.3.3.3.1 </a>Monitor Gamma</h5>
+<a name="s03_03_03_03_01_i1">
+<p>
+  The differences in how images are displayed is a result of how a computer actually takes an image and displays it 
+ on the monitor. In the process of rendering an image and displaying it on the screen, several gamma values are 
+ important, including the POV scene file or image file gamma and the monitor gamma. 
+</p>
+
+<p>
+  Most image files generated by POV-Ray store numbers in the range from 0 to 255 for each of the red, green and blue 
+ components of a pixel. These numbers represent the intensity of each color component, with 0 being black and 255 being 
+ the brightest color (either 100% red, 100% green or 100% blue). When an image is displayed, the graphics card converts 
+ each color component into a voltage which is sent to the monitor to light up the red, green and blue phosphors on the 
+ screen. The voltage is usually proportional to the value of each color component. 
+</p>
+
+<p>
+  Gamma becomes important when displaying intensities that are not the maximum or minimum possible values. For 
+ example, 127 should represent 50% of the maximum intensity for pixels stored as numbers between 0 and 255. On systems 
+ that do not do gamma correction, 127 will be converted to 50% of the maximum voltage, but because of the way the 
+ phosphors and the electron guns in a monitor work, this may be only 22% of the maximum color intensity on a monitor 
+ with a gamma of 2.2. To display a pixel which is 50% of the maximum intensity on this monitor, we would need a voltage 
+ of 73% of the maximum voltage, which translates to storing a pixel value of 186. 
+</p>
+
+<p>
+  The relationship between the input pixel value and the displayed intensity can be approximated by an exponential 
+ function<em><code> obright = ibright ^ display_gamma</code></em> where obright is the output intensity and ibright is 
+ the input pixel intensity. Both values are in the range from 0 to 1 (0% to 100%). Most monitors have a fixed gamma 
+ value in the range from 1.8 to 2.6. Using the above formula with display_gamma values greater than 1 means that the 
+ output brightness will be less than the input brightness. In order to have the output and input brightness be equal an 
+ overall system gamma of 1 is needed. To do this, we need to gamma correct the input brightness in the same manner as 
+ above but with a gamma value of 1/display_gamma before it is sent to the monitor. To correct for a display gamma of 
+ 2.2, this pre-monitor gamma correction uses a gamma value of 1.0/2.2 or approximately 0.45. 
+</p>
+
+<p>
+  How the pre-monitor gamma correction is done depends on what hardware and software is being used. On Macintosh 
+ systems, the operating system has taken it upon itself to insulate applications from the differences in display 
+ hardware. Through a gamma control panel the user may be able to set the actual monitor gamma and Mac will then convert 
+ all pixel intensities so that the monitor will appear to have the specified gamma value. On Silicon Graphics machines, 
+ the display adapter has built-in gamma correction calibrated to the monitor which gives the desired overall gamma (the 
+ default is 1.7). Unfortunately, on PCs and most UNIX systems, it is up to the application to do any gamma correction 
+ needed. 
+</p>
+
+<h5><a name="s03_03_03_03_02">3.3.3.3.2 </a>Image File Gamma</h5>
+<a name="s03_03_03_03_02_i1">
+<p>
+  Since most PC and UNIX applications and image file formats do not understand display gamma, they do not do anything 
+ to correct for it. As a result, users creating images on these systems adjust the image in such a way that it has the 
+ correct brightness when displayed. This means that the data values stored in the files are made brighter to compensate 
+ for the darkening effect of the monitor. In essence, the 0.45 gamma correction is built in to the image files created 
+ and stored on these systems. When these files are displayed on a Macintosh system, the gamma correction built in to 
+ the file, in addition to gamma correction built into MacOS, means that the image will be too bright. Similarly, files 
+ that look correct on Macintosh or SGI systems because of the built-in gamma correction will be too dark when displayed 
+ on a PC. 
+</p>
+
+<p>
+  The PNG format files generated by POV-Ray overcome the problem of too much or not enough gamma correction by 
+ storing the image file gamma (which is 1.0/display_gamma) inside the PNG file when it is generated by POV-Ray. When 
+ the PNG file is later displayed by a program that has been set up correctly, it uses this gamma value as well as the 
+ current display gamma to correct for the potentially different display gamma used when originally creating the image. 
+</p>
+
+<p>
+  Unfortunately, of all the image file formats POV-Ray supports, PNG is the only one that has any gamma correction 
+ features and is therefore preferred for images that will be displayed on a wide variety of platforms. 
+</p>
+
+<h5><a name="s03_03_03_03_03">3.3.3.3.3 </a>Scene File Gamma</h5>
+<a name="s03_03_03_03_03_i1">
+<p>
+  The image file gamma problem itself is just a result of how scenes themselves are generated in POV-Ray. When you 
+ start out with a new scene and are placing light sources and adjusting surface textures and colors, you generally make 
+ several attempts before the lighting is how you like it. How you choose these settings depends upon the preview image 
+ or the image file stored to disk, which in turn is dependent upon the overall gamma of the display hardware being 
+ used. 
+</p>
+
+<p>
+  This means that as the artist you are doing gamma correction in the POV-Ray scene file for your particular 
+ hardware. This scene file will generate an image file that is also gamma corrected for your hardware and will display 
+ correctly on systems similar to your own. However, when this scene is rendered on another platform, it may be too 
+ bright or too dim, regardless of the output file format used. Rather than have you change all the scene files to have 
+ a single fixed gamma value (heaven forbid!), POV-Ray allows you to specify in the scene file the display gamma of the 
+ system that the scene was created on. 
+</p>
+
+<p>
+  The <code>assumed_gamma</code> global setting, in conjunction with the <code>Display_Gamma</code> INI setting lets 
+ POV-Ray know how to do gamma correction on a given scene so that the preview and output image files will appear the 
+ correct brightness on any system. Since the gamma correction is done internally to POV-Ray, it will produce output 
+ image files that are the correct brightness for the current display, regardless of what output format is used. As 
+ well, since the gamma correction is performed in the high-precision data format that POV-Ray uses internally, it 
+ produces better results than gamma correction done after the file is written to disk. 
+</p>
+
+<p>
+  Although you may not notice any difference in the output on your system with and without an <code>assumed_gamma</code> 
+ setting, the assumed gamma is important if the scene is ever rendered on another platform. 
+</p>
+
+<h4><a name="s03_03_03_04">3.3.3.4 </a>HF_Gray_16</h4>
+<a name="s03_03_03_04_i1"><a name="s03_03_03_04_i2"><a name="hf_gray_16"></a>
+<p>
+  The <code>hf_gray_16</code> setting is useful when using POV-Ray to generate heightfields for use in other POV-Ray 
+ scenes. The syntax is... global_settings { hf_gray_16 [Bool] } 
+</p>
+
+<p>
+  The boolean value turns the option on or off. If the keyword is specified without the boolean value then the option 
+ is turned on. If <code> hf_gray_16</code> is not specified in any <code>global_settings</code> statement in the entire 
+ scene then the default is off. 
+</p>
+
+<p>
+  When <code> hf_gray_16</code> is on, the output file will be in the form of a heightfield, with the height at any 
+ point being dependent on the brightness of the pixel. The brightness of a pixel is calculated in the same way that 
+ color images are converted to grayscale images:<em><code> height = 0.3 * red + 0.59 * green + 0.11 * blue</code></em>. 
+</p>
+
+<p>
+  Setting the <code> hf_gray_16</code> option will cause the preview display, if used, to be grayscale rather than 
+ color. This is to allow you to see how the heightfield will look because some file formats store heightfields in a way 
+ that is difficult to understand afterwards. See section &quot;<a href="s_105.html#s03_04_01_05">Height Field</a>&quot; 
+ for a description of how POV-Ray heightfields are stored for each file type. 
+</p>
+
+<h4><a name="s03_03_03_05">3.3.3.5 </a>Irid_Wavelength</h4>
+<a name="s03_03_03_05_i1"><a name="s03_03_03_05_i2"><a name="irid_wavelength"></a>
+<p>
+  Iridescence calculations depend upon the dominant wavelengths of the primary colors of red, green and blue light. 
+ You may adjust the values using the global setting <code>irid_wavelength</code> as follows... 
+</p>
+
+<pre>
+ global_settings { irid_wavelength COLOR }
+</pre>
+
+<p>
+  The default value is <code>rgb &lt;0.25,0.18,0.14&gt;</code> and any filter or transmit values are ignored. These 
+ values are proportional to the wavelength of light but they represent no real world units. 
+</p>
+
+<p>
+  In general, the default values should prove adequate but we provide this option as a means to experiment with other 
+ values. 
+</p>
+
+<h4><a name="s03_03_03_06">3.3.3.6 </a>Charset</h4>
+<a name="s03_03_03_06_i1"><a name="s03_03_03_06_i2"><a name="ascii"></a><a name="s03_03_03_06_i3"><a name="utf8"></a><a name="s03_03_03_06_i4"><a name="sys"></a>
+<p>
+  This allows you to specify the assumed character set of all text strings. If you specify <code>ascii</code> only 
+ standard ASCII character codes in the range from 0 to 127 are valid. You can easily find a table of ASCII characters 
+ on the internet. The option <code>utf8</code> is a special Unicode text encoding and it allows you to specify 
+ characters of nearly all languages in use today. We suggest you use a text editor with the capability to export text 
+ to UTF8 to generate input files. You can find more information, including tables with codes of valid characters on the <a href="http://www.unicode.org/" target="new">Unicode 
+ website</a> The last possible option is to use a system specific character set. For details about the <code>sys</code> 
+ character set option refer to the platform specific documentation. 
+</p>
+
+<h4><a name="s03_03_03_07">3.3.3.7 </a>Max_Trace_Level</h4>
+<a name="s03_03_03_07_i1"><a name="s03_03_03_07_i2"><a name="max_trace_level"></a>
+<p>
+  In scenes with many reflective and transparent surfaces POV-Ray can get bogged down tracing multiple reflections 
+ and refractions that contribute very little to the color of a particular pixel. The global setting <code> 
+ max_trace_level</code> defines the integer maximum number of recursive levels that POV-Ray will trace a ray. 
+</p>
+
+<pre>
+ global_settings { max_trace_level Level }
+</pre>
+
+<p>
+  This is used when a ray is reflected or is passing through a transparent object and when shadow rays are cast. When 
+ a ray hits a reflective surface, it spawns another ray to see what that point reflects. That is trace level one. If it 
+ hits another reflective surface another ray is spawned and it goes to trace level two. The maximum level by default is 
+ five. 
+</p>
+
+<p>
+  One speed enhancement added to POV-Ray in version 3.0 is <em>Adaptive Depth Control</em> (ADC). Each time a new ray 
+ is spawned as a result of reflection or refraction its contribution to the overall color of the pixel is reduced by 
+ the amount of reflection or the filter value of the refractive surface. At some point this contribution can be 
+ considered to be insignificant and there is no point in tracing any more rays. Adaptive depth control is what tracks 
+ this contribution and makes the decision of when to bail out. On scenes that use a lot of partially reflective or 
+ refractive surfaces this can result in a considerable reduction in the number of rays fired and makes it safer to use 
+ much higher <code> max_trace_level</code> values. 
+</p>
+
+<p>
+  This reduction in color contribution is a result of scaling by the reflection amount and/or the filter values of 
+ each surface, so a perfect mirror or perfectly clear surface will not be optimizable by ADC. You can see the results 
+ of ADC by watching the <code> Rays Saved</code> and <code>Highest Trace Level</code> displays on the statistics 
+ screen. 
+</p>
+
+<p>
+  The point at which a ray's contribution is considered insignificant is controlled by the <code>adc_bailout</code> 
+ value. The default is 1/255 or approximately 0.0039 since a change smaller than that could not be visible in a 24 bit 
+ image. Generally this setting is perfectly adequate and should be left alone. Setting <code><a href="s_102.html#s03_03_03_01">adc_bailout</a></code> 
+ to 0 will disable ADC, relying completely on <code> max_trace_level</code> to set an upper limit on the number of rays 
+ spawned. 
+</p>
+
+<p>
+  If <code>max_trace_level</code> is reached before a non-reflecting surface is found and if ADC has not allowed an 
+ early exit from the ray tree the color is returned as black. Raise <code>max_trace_level</code> if you see black areas 
+ in a reflective surface where there should be a color. 
+</p>
+
+<p>
+  The other symptom you could see is with transparent objects. For instance, try making a union of concentric spheres 
+ with a clear texture on them. Make ten of them in the union with radius's from 1 to 10 and render the scene. The image 
+ will show the first few spheres correctly, then black. This is because a new level is used every time you pass through 
+ a transparent surface. Raise <code>max_trace_level</code> to fix this problem. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> that raising <code>max_trace_level</code> will use more memory and time and it 
+ could cause the program to crash with a stack overflow error, although ADC will alleviate this to a large extent. 
+</p>
+
+<p>
+  Values for <code>max_trace_level</code> can be set up to a maximum of 256. If there is no <code>max_trace_level</code> 
+ set and during rendering the default value is reached, a warning is issued. 
+</p>
+
+<h4><a name="s03_03_03_08">3.3.3.8 </a>Max_Intersections</h4>
+<a name="s03_03_03_08_i1"><a name="s03_03_03_08_i2"><a name="max_intersections"></a>
+<p>
+  POV-Ray uses a set of internal stacks to collect ray/object intersection points. The usual maximum number of 
+ entries in these <em>I-Stacks</em> is 64. Complex scenes may cause these stacks to overflow. POV-Ray does not stop but 
+ it may incorrectly render your scene. When POV-Ray finishes rendering, a number of statistics are displayed. If you 
+ see <code>I-Stack Overflows</code> reported in the statistics you should increase the stack size. Add a global setting 
+ to your scene as follows: 
+</p>
+
+<pre>
+ global_settings { max_intersections Integer }
+</pre>
+
+<p>
+  If the <code>I-Stack Overflows</code> remain increase this value until they stop. 
+</p>
+
+<h4><a name="s03_03_03_09">3.3.3.9 </a>Number_Of_Waves</h4>
+<a name="s03_03_03_09_i1"><a name="s03_03_03_09_i2"><a name="number_of_waves"></a>
+<p>
+  The <code><a href="s_125.html#s03_05_11_35">waves</a></code> and <code><a href="s_125.html#s03_05_11_29">ripples</a></code> 
+ patterns are generated by summing a series of waves, each with a slightly different center and size. By default, ten 
+ waves are summed but this amount can be globally controlled by changing the <code>number_of_waves</code> setting. 
+</p>
+
+<pre>
+ global_settings { number_of_waves Integer }
+</pre>
+
+<p>
+  Changing this value affects both waves and ripples alike on all patterns in the scene. 
+</p>
+
+<h4><a name="s03_03_03_10">3.3.3.10 </a>Noise_generator</h4>
+<a name="s03_03_03_10_i1">
+<p>
+  There are three noise generators implemented. 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>noise_generator 1</code> the noise that was used in POV_Ray 3.1 
+ </li>
+
+ <li>
+   <code>noise_generator 2</code> 'range corrected' version of the old noise, it does not show the plateaus seen 
+  with <code>noise_generator 1</code> 
+ </li>
+
+ <li>
+   <code>noise_generator 3</code> generates Perlin noise 
+ </li>
+
+</ul>
+
+<p>
+  The default is <code>noise_generator 2</code> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> The noise_generators can also be used within the pigment/normal/etc. statement. 
+</p>
+
+<h4><a name="s03_03_03_11">3.3.3.11 </a>Radiosity Basics</h4>
+
+<p>
+  <em>Important notice:</em> The radiosity features in POV-Ray are somewhat experimental. There is a high probability 
+ that the design and implementation of these features will be changed in future versions. We cannot guarantee that 
+ scenes using these features in this version will render identically in future releases or that full backwards 
+ compatibility of language syntax can be maintained. 
+</p>
+
+<p>
+  Radiosity is an extra calculation that more realistically computes the diffuse interreflection of light. This 
+ diffuse interreflection can be seen if you place a white chair in a room full of blue carpet, blue walls and blue 
+ curtains. The chair will pick up a blue tint from light reflecting off of other parts of the room. Also notice that 
+ the shadowed areas of your surroundings are not totally dark even if no light source shines directly on the surface. 
+ Diffuse light reflecting off of other objects fills in the shadows. Typically ray-tracing uses a trick called <em> 
+ ambient</em> light to simulate such effects but it is not very accurate. 
+</p>
+
+<p>
+  Radiosity calculations are only made when a <code>radiosity{}</code> block is used inside the <code>global_settings{}</code> 
+ block. 
+</p>
+
+<p>
+  The following sections describes how radiosity works, how to control it with various global settings and tips on 
+ trading quality vs. speed. 
+</p>
+
+<p>
+ <a name="l128">
+<small><strong>More about &quot;Ambient&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_117.html#s03_05_03">3.5.3 Finish</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_117.html#s03_05_03_01">3.5.3.1 Ambient</a> in 3.5.3 Finish
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_101.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_101.html">3.3.2 Atmospheric Effects</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.3.3 Global Settings</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_103.html">3.3.4 Radiosity</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_103.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

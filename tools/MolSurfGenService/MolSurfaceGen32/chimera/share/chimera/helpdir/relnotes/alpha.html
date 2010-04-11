@@ -1,0 +1,340 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>Chimera Alpha Release Notes</title>
+  </head>
+  <body>
+    <p>
+    <img src="../title.gif" width="361" height="56" alt="logo">
+    </p>
+
+    <h2>Chimera Alpha Release Notes</h2>
+
+    <h3>Alpha version 1.0 Build <a name="1389">1389</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#1351">previous release</a>:
+      <ul>
+	<li>Revised Open/Save dialogs for a consistent UI with more functionality
+	<li>New set of 60 colors available from the <b>Actions</b> menu and
+	the command line
+	<li>"Latest Version?" <b>Help</b> menu item
+	<li><b>Volume Viewer</b> 5-10x faster isosurface rendering (surface or mesh)
+	<li><b>Volume Path Tracer</b> documentation integrated with the User's Guide
+	<li><b>SimpleSession</b> can save to an arbitrary name
+	<li><b>Menu Functions</b> tutorial
+	<li>Automatic stereo video switching for SGI IRIX workstations
+	<li>Fixed resizing bug in <b>PDB Preferences</b> dialog
+	<li>Fixed <b>ViewDock</b> bug 
+	<li>Fixed <b>Model Panel</b> column configuration bug 
+	<li>Fixed <b>FindHBond</b> failure for structures with double-bonded non-ring nitrogens
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>On Windows 98 (only), Chimera bombs on start-up due to a problem with
+	the preferences-saving mechanism.
+	You can fix this by downloading
+	<a href="base.py">this python file</a>
+	and replacing the following file with it: &lt;where you installed Chimera&gt;
+	-&gt; share -&gt; chimera -&gt; preferences -&gt; base.py
+	<br>If you chose the default when installing, then
+	&quot;where you installed Chimera&quot; is C:\Program Files\chimera.
+	Even with this fixed file, Chimera will be unable to store preferences
+	on Windows 98.
+	You can work around this by going to the Chimera Settings
+	menu and choosing "Preferences" from it.  This will bring up a preferences
+	window with a menu button near the top.  Press the menu button and choose
+	Preferences on it.  The window will change so that a menu button labeled
+	&quot;Location:&quot; is shown.  Change the menu button so that 
+	&quot;preferences&quot; is selected.  Chimera should then be able to
+	save preferences.  Preferences are used not only to store the user
+	preferences set from the Settings -&gt; Preferences menu item,
+	but to store such things as the directory history used by Chimera's
+	File -&gt; Open... dialog, so while it is not absolutely necessary to
+	apply this workaround, it is very desirable to do so.
+	<li>Problems with the <b>Page Setup</b>, <b>Window Setup</b>,
+	and <b>Print Panel</b> remain.  In particular, changing settings in
+	these panels will cause problems in saved preferences, and subsequent
+	Chimera sessions will abort on start up.
+	To get past the start-up problem,
+	you need to remove your preferences file (or, if you know what you're
+	doing, edit the preferences file to remove the print panel preferences).
+	The preferences file is kept in the '.chimera'
+	subdirectory of your home directory (and is named 'preferences').
+	On Windows, you will have to use the <b>Find</b> item on your
+	<b>Start</b> menu to find the '.chimera' folder.
+	<li>Not all Open/Save dialogs converted to new style
+	<li>Sessions saved in the previous version will not restore completely
+	correctly in this version (and you will see an error message).
+	In particular, the clipping plane positions
+	and the center of view will not be restored.  You can adjust the clipping
+	planes manually with the SideView widget (in the Controllers menu)
+	after restoring the session.  If it is critical to get the center of view
+	restored, you can edit the old session (it's a regular text file) as
+	follows:  near the end of the file (about 16 lines from the end) is a line
+	that contains
+	<tt>curNear = camera.near</tt>;
+	delete that line and all the following lines up to and including the line
+	<tt>del cameraAttrs[&quot;far&quot;]</tt> (about 5 from the end);
+	save the edited file.  The edited session will restore the center of view
+	correctly but the clipping planes will still have to be manually positioned.
+	<li>Color names typed to the color editor use the Tk version of the color,
+	rather than the Chimera version.
+	<li>Closing the Sequence panel (invoked via the &quot;sequence...&quot;
+	button of the Model panel) will cause many errors in any selection operation
+	afterward.  Until the next release, the workaround is to not close the
+	Sequence panel during a Chimera session.
+	<li>On SGIs, switching from stereo to mono does not switch the video mode.
+	<li>On Windows systems, if the last directory a file was opened from in a
+	previous Chimera session no longer exists when a new session is started,
+	no open/save panels will work (this typically happens when the directory
+	was on removable media, or was a network drive that is no longer mapped).
+	To get Chimera open/save panels to work again, you either have to edit
+	your Chimera preferences file, or make the non-existent directory 
+	available again.  To find your preferences file, use the <b>Find</b>
+	item on your Windows <b>Start</b> menu.  Look for a folder named
+	<i>.chimera</i> (this could take a few minutes).  In that folder is
+	a file named <i>preferences</i> which you can either remove, or edit
+	with whatever text editor you are comfortable with.  If you edit it,
+	look for a line that contains the word <tt>dirHistory</tt>.  There
+	should be a non-existent single-quoted directory path in that same line.
+	Change the directory path to one that exists (using two backslashes
+	instead of one between path components).  Save the file and Chimera
+	open/save panels should then work.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="1351">1351</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#1298">previous release</a>:
+      <ul>
+	<li>Significant functionality in the new <b>Actions</b> menu
+	(Color, Display, Label, Represent, and Surface)
+	<li>Renaming and reorganization of existing menu items
+	<ul>
+	  <li><b>Session</b> has become <b>File</b>
+	  <li><b>Tools</b> has been divided into <b>Controllers</b> and <b>Settings</b>
+	</ul>
+	<li>Center of view option for center of rotation
+	<li>Use of up/down arrow keys to broaden/narrow a selection
+	<li><b>SimpleSession</b> extension (for saving modeling sessions)
+	<li>Automatic display options in the <b>Volume Viewer</b> extension
+	<li><b>Volume Path Tracer</b> extension (for interactive tracing of
+	paths through volume data)
+	<li>Fixed ViewDock bug<strong> -- Viewdock bug <i>not</i> fixed.
+	  See &quot;Known bugs/workarounds&quot;, below</strong>.
+	<li>Fixed autorotation preference bug
+	<li>Added line width and point size option for MSMS surfaces.
+	<li>Added preliminary full-screen antialiasing support.
+	<li>Speed up load time of large molecules.
+	<li>Fixed midas wait command.
+	<li>The midas swapaa command now works.
+	<li>The midas select command has been extended to change the chimera
+	selection if given an atom specification.
+	<li>Fixed ribbon arrow endcaps to not be too shiny.
+	<li>Stub-bond behavior is now optional per-molecule.  Default is off.
+	<li>Added --pypath command line option.
+	<li>Fixed collaboratory and GUI display synchronization bug.
+	<li>Fixed infinite loop in PDB preferences panel.
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>Problems with the <b>Page Setup</b>, <b>Window Setup</b>,
+	and <b>Print Panel</b> remain.
+	<li>Viewdock compounds &quot;off by one&quot;: choosing a compound from the
+	list shows the one after.  You can fix this by downloading
+	<a href="Compound.py">this python file</a>
+	and replacing the following file with it: &lt;where you installed chimera&gt;
+	-&gt; share -&gt; ViewDock -&gt; Compound.py
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="1298">1298</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#1182">previous release</a>:
+      <ul>
+	<li>Documentation bundled with distribution.
+	<li>MSMS surface-generation library bundled with distribution.
+	<li>Python 2.1.1 based.
+	<li>Can read structures from formatted Gaussian checkpoint files.
+	<li>Can read nonstandard PDB files generated by Babel.
+	<li>Improved sequence support in Model panel (<i>e.g.</i>, BLAST on PDB)
+	<li>Streamlined collaboratory session management.
+	<li>Memory trashing bug with ions fixed.
+	<li>High resolution printing revised (only to files on Windows) but we still don't like the interface.
+	<li>Revised volume rendering interface.
+	<ul>
+	  <li>Automatically adjust subsampling to comply with an upper limit on voxels.
+	  <li>Mouse selection of volume subregions.
+	  <li>Handle precomputed subsample files.
+	</ul>
+	<li>Squashed bug where in rare cases rotation with the mouse wouldn't rotate the models.
+	<li>Squashed bug with Midas emulator command history focus war.
+	<li>Fixed nucleic acid templates to match PDB order.
+	<li>Added aromatic oxygen type.
+	<li>Add swapaa and swapna commands to midas emulator.
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>ViewDock is broken; fixed in the next release.
+	<li>On Windows only, sometimes we get an exception on exit.  It is safe to ignore it.
+	<li>On Windows only, the Midas pdbrun command doesn't work.
+	<li>On Windows only, if you used an earlier version of Chimera where MSMS
+	had to be downloaded separately, you may have to remove that version of
+	MSMS in order for Chimera to find the bundled version.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="1182">1182</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#1050">previous release</a>:
+      <ul>
+	<li>Python 2.1 based.
+	<li>Lots of minor changes.
+	<li>Compiled extensions on the PC work again.
+	<li>Stereo display support.
+	<li>High resolution printing (only to files on Windows).
+	<li>SGI version should run on early versions of IRIX 6.5 (with C++ runtime patch).
+	<li>Volume rendering with 2d textures.
+	<li>The collaboratory has been completely rewritten.
+	<li>Use user's default web browser for documentation.
+	<li>Improved aromatic ring detection.
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>On Windows only, sometimes we get an exception on exit.  It is safe to ignore it.
+	<li>On Linux only, labels are disabled.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="1050">1050</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#1001">previous release</a>:
+      <ul>
+	<li>Lots of minor changes.
+	<li>Fixed major Windows bug with C++ exceptions across DLLs.
+	<li>Added missing version information.
+	<li>Added missing grail web browser.
+	<li>Added missing bonds to chained atoms.
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>Same as previous release.
+	<li>SGI IRIX must be IRIX 6.5.8 or later.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="1001">1001</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#938">previous release</a>:
+      <ul>
+	<li>revised registration, reregister if asked
+	<li>Memory leaks removed
+	<li>single installation file
+	<li>smart bonds
+	<li>nested lenses work
+	<li>Collaboratory 
+	<li>Lots of other improvements
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+	<li>
+	On Windows,
+	chimera will die sometimes with an exception while exiting.
+	<li>
+	On Windows,
+	trying to display a surface without having the msms python package
+	causes an exception.
+	<li>
+	On IRIX, if you have IMPACT graphics you must set the SOFT_WIDE_AA_LINES
+	environment variable to 1 if you want antialiased lines whose width is
+	greater than one.  This does slow down line drawing.
+	<li>
+	On Linux, OpenGL support from vendors still needs work.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="938">938</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#634">previous release</a>:
+      <ul>
+	<li>Use Python classes instead of Extension classes
+	<li>Many memory leaks introduced
+	<li>On Windows, chimera dies less often on exit.
+	<li>Lots of other changes
+      </ul>
+      <p>
+      Known bugs:
+      <ul>
+	<li>
+	On Windows,
+	chimera will die sometimes with an exception while exiting.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="634">634</a></h3>
+    <blockquote><p>
+      Changes from the <a href="#388">previous release</a>:
+      <ul>
+	<li>Many memory leaks removed
+	<li>A bug that could randomly crash chimera was squashed
+	<li>Windows version is much more reliable
+	<li>Lots of user interface improvements
+	<li>Per surface point color/texture
+	<li>Use IDLE window for Python interface (instead of current command line)
+	<li>Pop-up warnings (in addition to current reply log)
+	<li>Volume visualization
+	<li>Model panel (incomplete)
+      </ul>
+      <p>
+      Known bugs:
+      <ul>
+	<li>
+	On Windows,
+	chimera will die sometimes with an exception while exiting.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="388">388</a></h3>
+    <blockquote><p>
+      Second alpha release.
+      <p>
+      Known bugs:
+      <ul>
+	<li>
+	On Windows,
+	chimera will die sometimes with an exception while exiting.
+      </ul>
+    </blockquote>
+
+    <h3>Alpha version 1.0 Build <a name="154">154</a></h3>
+    <blockquote><p>
+      Initial alpha release.
+      <p>
+      Known bugs:
+      <ul>
+	<li>
+	On Windows,
+	chimera will die sometimes with an exception while exiting.
+      </ul>
+    </blockquote>
+
+  </body>
+</html>

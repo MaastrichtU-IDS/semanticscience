@@ -1,0 +1,65 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>perframe</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>perframe</b> <i>alias-name</i> [<i>frame-digits</i>] </h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>~perframe</b></h3>
+<p>
+The <b>perframe</b> command specifies operations to be executed
+at each subsequent display frame, until stopped with <b>~perframe</b>.  
+The set of operations must have been defined 
+previously as an <a href="alias.html"><b>alias</b></a>.
+</p><p>
+The <a href="alias.html"><b>alias</b></a> definition must start
+with <b>^</b> to indicate a beginning-of-line alias, and it can
+include one argument specified as <b>$1</b>.  The <b>perframe</b>
+mechanism will replace <b>$1</b> with a frame counter, starting at 1.  
+If <i>frame-digits</i> is supplied, the number will be padded with
+leading zeroes up to the specified number of digits.
+</p><p>
+For example,
+<blockquote><tt>
+<b>alias ^getx3d <a href="export.html">export</a> $1.x3d</b>
+<br>
+<b>perframe getx3d 3;<a href="roll.html">roll</a> y 2 180;wait;~perf</b>
+</tt></blockquote>
+will save X3D files 001.x3d, 002.x3d, ... 180.x3d as a structure
+is rotated in 2&deg; increments about the Y axis.
+</p><p>
+The following example shows how this mechanism could be used to re-evaluate
+hydrogen bonds between two molecules as they are gradually changed from
+a previously saved position named <b>undocked</b> to a previously saved
+position named <b>docked</b>.  This could be part of a
+<a href="../movies.html#content">movie script</a>.
+<blockquote><tt>
+<b>alias ^evalhb <a href="hbonds.html">hb</a> intramod false line 2</b>
+<br>
+<b><a href="reset.html">reset</a> undocked</b>
+<br>
+<b>perframe evalhb;<a href="reset.html">reset</a> docked 40;wait;~perf</b>
+</tt></blockquote>
+See also:
+<b><A href="alias.html">alias</A></b>, 
+<a href="../movies.html#moviecommands">movie-related commands</a>,
+<a href="../../ContributedSoftware/movie/movie.html#per-frame">per-frame
+scripts</a> in
+<a href="../../ContributedSoftware/movie/framemovie.html"
+target="_top"><b>MD Movie</b></a>
+</p>
+</body></html> 

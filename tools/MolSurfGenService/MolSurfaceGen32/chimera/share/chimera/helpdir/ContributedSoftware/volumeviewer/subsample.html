@@ -1,0 +1,56 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2001, 2005 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Volume Viewer - precomputed subsamples</TITLE>
+</head>
+<body>
+<h3>Volume Viewer - precomputed subsamples</h3>
+<p>
+The use of
+<a href="volumeviewer.html#precomputed">precomputed subsamples</a>
+in <a href="framevolumeviewer.html" target="_top"><b>Volume Viewer</b></a>
+decreases memory usage and time spent reading files.
+</p><p>
+The <a href="volumeviewer.html#datastep"><b>Step</b></a>
+values (<a href="volumeviewer.html#cellsizes">cell sizes</a>) 
+used to generate a subsample are inferred by comparing the numbers of
+data points in the full data set and in the subsample.
+For each dimension,
+valid cell sizes S for full data size N and subsample size M satisfy
+(M-1)S < N < (M+1)S.  If there are no valid cell sizes, the subsample
+file will not be accepted, and a warning message will be issued.
+If there is more than one valid cell size, the user is queried.
+Examples:
+<ul>
+<li> If the full data set is (100,100,100) and the subsample is
+(33,33,33) or (34,34,34), the inferred <b>Step</b> values are (3,3,3).
+If the subsample is (32,32,32), a warning message will be issued. 
+<li> If the full data set is (20,20,20) and the subsample is (3,3,3),
+possible <b>Step</b> values in each dimension are 6, 7, 8, and 9.
+The user will be asked to specify the correct <b>Step</b> values.
+</ul>
+</p><p>
+The target <b>Step</b> values are shown in the
+<a href="volumeviewer.html#datastep"><b>Data and Step menus</b> section</a> 
+of <a href="framevolumeviewer.html" target="_top"><b>Volume Viewer</b></a>.
+If a subsample is inferred to have been generated
+with these same values, it will be used.  If not,
+then another subsample that includes the desired subsample
+will be sought and used, if possible.  For example, if a (2,2,4) subsampling
+is the target but does not exist, an existing (2,2,2) subsampling can
+be used to generate it.  A (2,2,3) subsampling could not be used in this
+situation.  If no suitable subsample is available, the full data will be used.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2005</address>
+</body></html>

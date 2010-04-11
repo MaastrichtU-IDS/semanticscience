@@ -1,0 +1,62 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>crystalcontacts</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>crystalcontacts</b> <i>model_number</i> <i>distance</i>
+[ copies true|false ] [ replace true|false ]</h3>
+<p>
+The <b>crystalcontacts</b> command checks for clashes 
+between copies of a structure when they are positioned 
+according to symmetry information in the header of the PDB file.  
+It is the command-line implementation of
+<a href="../../ContributedSoftware/crystalcontacts/crystalcontacts.html">
+<b>Crystal Contacts</b></a>. 
+</p><p>
+The structure must have been opened from a PDB file containing
+symmetry information; otherwise, there is no reason to use this command.  
+The <i>model_number</i> (preceded by #) specifies the structure,
+and <i>distance</i> specifies what will be considered a close contact.
+</p><p>
+The results are shown schematically.
+Each copy of the original structure is shown as a ball, and close contacts 
+between copies are shown as cylinders connecting the balls:
+  <ul>
+  <li> <b>green balls</b> = the original structure and 
+  copies related by noncrystallographic symmetry
+  <li> <b>blue balls</b> = copies related by crystallographic symmetry, 
+   together with the green balls representing one unit cell
+  <li> <b>yellow balls</b> = copies from neighboring unit cells
+  <li> <b>red cylinders</b> = close contacts
+  </ul>
+See <a href="../../ContributedSoftware/crystalcontacts/crystalcontacts.html">
+<b>Crystal Contacts</b></a> for details.
+</p><p>
+The <b>copies</b> keyword (default <b>false</b>) indicates whether to
+load the full atomic coordinates of any contacting copies.  The keyword
+<b>replace</b> (default <b>true</b>) indicates whether to replace any
+pre-existing schematic representation from <b>crystalcontacts</b>
+with the new one rather than generating an additional model.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p><p>
+See also:
+<a href="sym.html"><b>sym</b></a>,
+<a href="distance.html"><b>distance</b></a>,
+<a href="findclash.html"><b>findclash</b></a>,
+<A href="../../ContributedSoftware/unitcell/unitcell.html"><b>Unit Cell</b></a>
+</p>
+</body></html>

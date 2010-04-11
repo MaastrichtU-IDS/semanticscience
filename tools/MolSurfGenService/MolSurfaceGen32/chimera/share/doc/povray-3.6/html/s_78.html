@@ -1,0 +1,404 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.4.2 Language Things that don't work as one expects</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_77.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_77.html">2.4.1 Language Tips and tricks to achieve useful 
+   things</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.4.2 
+   Language Things that don't work as one expects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_79.html">2.4.3 Language related things</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_79.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_04_02">2.4.2 </a>Language Things that don't work as one expects</h3>
+
+<h4><a name="s02_04_02_01">2.4.2.1 </a>Using several transparent objects makes them black?</h4>
+
+<p>
+  <em>&quot;When I put several transparent objects one in front of another or inside another, POV-Ray calculates a 
+ few of them, but the rest are completely black, no matter what transparency values I give.&quot;</em> 
+</p>
+
+<p>
+  Short answer: Try increasing the <code>max_trace_level</code> value in the <code>global_settings</code> block (the 
+ default is 5). 
+</p>
+
+<p>
+  Long answer: 
+</p>
+
+<p>
+  Raytracing has a peculiar feature: It can calculate reflection and refraction. Each time a ray hits the surface of 
+ an object, the program looks if this surface is reflective and/or refractive. If so, it shoots another ray from this 
+ point to the appropriate direction. 
+</p>
+
+<p>
+  Now, imagine we have a glass sphere. Glass reflects and refracts, so when the ray hits the sphere, two additional 
+ rays are calculated, one outside the sphere (for the reflection) and one inside (for the refraction). Now the inside 
+ ray will hit the sphere again, so two new rays are calculated, and so on and so on... 
+</p>
+
+<p>
+  You can easily see that there must be a maximum number of reflections/refractions calculated, because otherwise 
+ POV-Ray would calculate that one pixel forever. 
+</p>
+
+<p>
+  This number can be set with the <code>max_trace_level</code> option in the <code>global_settings</code> block. The 
+ default value is 5, which is enough for most scenes. Sometimes it is not enough (specially when there are lots of 
+ semitransparent objects one over another) so you have to increase it. 
+</p>
+
+<p>
+  So try something like: 
+</p>
+
+<pre>
+global_settings
+{
+  max_trace_level 10
+}
+</pre>
+
+<h4><a name="s02_04_02_02">2.4.2.2 </a>I'm getting color banding in the image</h4>
+
+<p>
+  <em>&quot;When I make an image with POV-Ray, it seems to use just a few colors since I get color banding or 
+ concentric circles of colors or whatever where it should not. How can I make POV-Ray to use more colors?&quot;</em> 
+</p>
+
+<p>
+  POV-Ray always writes true color images (ie. with 16777216 colors, ie. 256 shades of red, 256 shades of green and 
+ 256 shades of blue) (this can be changed when outputting to PNG or to B/W TGA but this is irrelevant when answering to 
+ this question). 
+</p>
+
+<p>
+  So POV-Ray is not guilty. It always uses the maximum color resolution available in the target image file format. 
+</p>
+
+<p>
+  This problem usually happens when you are using windows with 16-bit colors (ie. only 65536 colors, the so-called 
+ hicolor mode) and open the image created by POV-Ray with a program which does not dither the image. The image is still 
+ true color, but the program is unable to show all the colors, but shows only 65536 of them (dithering is a method that 
+ &quot;fakes&quot; more colors by mixing pixels of two adjacent colors to simulate the in-between colors). 
+</p>
+
+<p>
+  So the problem is not in POV-Ray, but in your image viewer program. Even if POV-Ray shows a poor image while 
+ rendering because you have a resolution with too few colors, the image file created will have full color range. 
+</p>
+
+<h4><a name="s02_04_02_03">2.4.2.3 </a>Rotation behaves very strangely</h4>
+
+<p>
+  <em>&quot;When I rotate an object, it dissapears from the image or moves very strangely. Why?&quot;</em> 
+</p>
+
+<p>
+  You need to understand how rotation works in POV-Ray. 
+</p>
+
+<p>
+  Objects are <strong>always</strong> rotated around the axes. When you rotate, for example, <code>&lt;20,0,0&gt;</code>, 
+ that means that you are rotating around the X-axis 20 degrees (counter-clockwise). This is independent of the location 
+ of the object: It always rotates around the axis (what is the center of the object anyways? how do you locate it?). 
+ This means that if the object is not centered in the axis, it will orbit this axis like the Moon orbits the Earth 
+ (showing always the same side to the Earth). 
+</p>
+
+<p>
+  It is a very good practice to define all objects centered at the origin (ie. its 'center' is located at <code>&lt;0,0,0&gt;</code>). 
+ Then you can rotate it arbitrarily. After this you can translate it to its proper location in the scene. It is a good 
+ idea to do this to every object even if you do not rotate it (because you cannot never say if you will rotate it some 
+ day nevertheless). 
+</p>
+
+<p>
+  What if, after all, you have a very complex object defined, but its center is not at the origin, and you want to 
+ rotate it around its center? Then you can just translate it to the origin, rotate it and then translate it back to its 
+ place. Suppose that the center of the object is located at <code>&lt;10,20,-30&gt;</code>; you can rotate it this way: 
+</p>
+
+<pre>
+translate -&lt;10,20,-30&gt;
+rotate &lt;whatever&gt;
+translate &lt;10,20,-30&gt;
+</pre>
+
+<h4><a name="s02_04_02_04">2.4.2.4 </a>The image gets distorted when rendering a square image</h4>
+
+<p>
+  <em>&quot;If I tell POV-Ray to render a square image or otherwise change the aspect ratio, the output image is 
+ distorted. What am I doing wrong?&quot;</em> 
+</p>
+
+<p>
+  The problem is that the camera is set to an aspect ratio of 4/3, while the picture you are trying to render has an 
+ aspect ratio of 1/1 (or whatever). 
+</p>
+
+<p>
+  You can set the aspect ratio with the 'right' keyword in the camera block. The general way to set the correct 
+ aspect ratio for your image dimensions is: 
+</p>
+
+<pre>
+camera
+{ right x*ImageWidth/ImageHeight
+  (other camera settings...)
+}
+</pre>
+
+<p>
+  This keyword can also be used to change the handedness of POV-Ray (see the question about <a href="s_100.html#s03_03_01_01_07">Moray 
+ and POV-Ray handedness</a> for more details). 
+</p>
+
+<p>
+  Note: One could think &quot;why does not POV-Ray always set automatically the aspect ratio of the camera according 
+ to the resolution of the image?&quot;. 
+</p>
+
+<p>
+  There is one thing wrong in this thought: It assumes that pixels are always square (ie. the aspect ratio of the 
+ pixels is 1/1). The logic of this behaviour comes clear with an example: 
+</p>
+
+<p>
+  Suppose that you design a scene using a regular 4/3 aspect ratio, as usual (like 320x240, 640x480 and so on). This 
+ image is designed to look good when viewing in a 4/3 monitor (as they all are in home computers). 
+</p>
+
+<p>
+  Now you want to render this image for the Windows startup image. The resolution of the Windows startup image is 
+ 320x400. This resolution has not an aspect ratio of 4/3 and the pixels are not square (the pixels have an aspect ratio 
+ of 1/0.6 instead of 1/1). Now, when you render your image at a resolution of 320x400 with POV-Ray and show it with the 
+ monitor set to that resolution (as it is set at windows startup when the startup image is shown), the aspect ratio 
+ will be the correct one so the image will have the correct proportions (and it will not be squeezed in any direction). 
+</p>
+
+<p>
+  If you had changed the aspect ratio of the camera to 320/400 (instead of using the default 4/3) you would not only 
+ have got a different image (showing parts of the scene not shown in the original or hiding parts visible in the 
+ original), but it would have looked sqeezed when shown in the 320x400 screen resolution. 
+</p>
+
+<p>
+  Thus, the camera aspect ratio is the aspect ratio of the final image on screen, when viewed in the final resolution 
+ (which might not be a 4/3-resolution). Since the monitor screen has an aspect ratio of 4/3, this is the default for 
+ the camera as well. 
+</p>
+
+<h4><a name="s02_04_02_05">2.4.2.5 </a>Why are there strange dark pixels or noise on my CSG object?</h4>
+<a name="s02_04_02_05_i1"><a name="black spots"></a>
+<p>
+  This is the typical 'coincident surfaces problem'. This happens when two surfaces are exactly at the same place. 
+ For example: 
+</p>
+
+<pre>
+union
+{ box { &lt;-1,0,-1&gt;,&lt;1,-2,1&gt; texture { Texture1 } }
+  box { &lt;-2,0,-2&gt;,&lt;2,-1,2&gt; texture { Texture2 } }
+}
+</pre>
+
+<p>
+  The top surface of the first box is coincident with the top surface of the second box. When a ray hits this area, 
+ POV-Ray has to decide which surface is closest. It cannot, since they are exactly in the same place. Which one it 
+ actually chooses depends on the float number calculations, rounding error, initial parameters, position of the camera, 
+ etc, and varies from pixel to pixel, causing those seemingly &quot;random&quot; pixels. 
+</p>
+
+<p>
+  The solution to the problem is to decide which surface you want to be on top and translate that surface just a bit, 
+ so it protrudes past the unwanted surface. In the example above, if we want, for example, that the second box is at 
+ the top, we will type something like: 
+</p>
+
+<pre>
+union
+{ box { &lt;-1,0,-1&gt;,&lt;1,-2,1&gt; texture { Texture1 } }
+  box { &lt;-2,0.001,-2&gt;,&lt;2,-1,2&gt; texture { Texture2 } }
+}
+</pre>
+
+<p>
+  Note that a similar problem appears when a light source is exactly on a surface: POV-Ray cannot calculate 
+ accurately if it is actually inside or outside the surface, so dark (shadowed) pixels appear on every surface that is 
+ illuminated by this light. 
+</p>
+
+<h4><a name="s02_04_02_06">2.4.2.6 </a>Why won't the textures in stars.inc work with my sky_sphere?</h4>
+
+<p>
+  The only thing that works with a <code>sky_sphere</code> is pigments. Textures and finishes are not allowed. Do not 
+ be discouraged though because you can still use the textures in stars.inc with the following method: 
+</p>
+
+<p>
+  Extract only the pigment statement from the declared textures. For example: 
+</p>
+
+<pre>
+texture
+{
+  pigment { color_map { [0 rgb ..][.5 rgb ..][1.0 rgb ..] } scale .. }
+  finish { .. }
+}
+</pre>
+
+<p>
+  becomes: 
+</p>
+
+<pre>
+pigment { color_map { [0 rgb ..][.5 rgb ..][1.0 rgb ..] } scale .. }
+</pre>
+
+<p>
+  The reason for this is that <code>sky_sphere</code> does not have a surface, it is not an actual object. It is 
+ really just a fancy version of the background feature which extracts a color from a pigment instead of being a flat 
+ color. Because of this, normal and finish features, which depend on the characteristics of the surface of an object 
+ for their calculations, cannot be used. The textures in <code>stars.inc</code> were intended to be mapped onto a real 
+ sphere, and can be used something like this: 
+</p>
+
+<pre>
+sphere
+{ 0, 1
+  hollow // So it doesn't interfere with any media in the scene
+  texture { YourSkyTexture }
+  scale 100000
+}
+</pre>
+
+<h4><a name="s02_04_02_07">2.4.2.7 </a>When I use filter or transmit with my .tga image map nothing happens.</h4>
+
+<p>
+  POV-Ray can only apply filter or transmit to 8 bit 256 color palleted images. Since most <code>.tga</code>, <code>.png</code>, 
+ and <code>.bmp</code> images are 24bit and 16 million colors they do not work with filter or transmit. If you must use 
+ filter or transmit with your image maps you must reduce the color depth to a format the supports 256 colors such as 
+ the <code>.gif</code> image format. 
+</p>
+
+<p>
+  You might also check the POV-Ray docs on using the alpha channel of <code>.png</code> files if you need specific 
+ areas that are transparent. 
+</p>
+
+<h4><a name="s02_04_02_08">2.4.2.8 </a>Isosurface not rendering properly?</h4>
+
+<p>
+  <em>&quot;My isosurface is not rendering properly: there are holes or random noise or big parts or even the whole 
+ isosurface just disappears.&quot;</em> 
+</p>
+
+<p>
+  The most common reason for these type of phenomena with isosurfaces is a too low <code>max_gradient</code> value. 
+ Use <code>evaluate</code> to make POV-Ray calculate a proper <code>max_gradient</code> for the isosurface (remember to 
+ specify a sensible <code>max_gradient</code> even when you use <code>evaluate</code> or else the result may not be 
+ correct). 
+</p>
+
+<p>
+  Sometimes a too high <code>accuracy</code> value can also cause problems even when the <code>max_gradient</code> is 
+ ok. If playing with the latter does not seem to help, try also lowering the <code>accuracy</code>. 
+</p>
+
+<p>
+  Remember that specifying a <code>max_gradient</code> which is too high for an isosurface, although it gives the 
+ correct result, is needlessly slow, so you should always calculate the proper <code>max_gradient</code> for each 
+ isosurface you make. 
+</p>
+
+<p>
+  Note that there are certain pathological functions where no <code>max_gradient</code> or <code>accuracy</code> will 
+ help. These functions usually have discontinuities or similar &quot;ill-behaving&quot; properties. With those you just 
+ have to find a solution which gives the best quality/speed tradeoff. Isosurfaces work best with functions which give 
+ smooth surfaces. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_77.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_77.html">2.4.1 Language Tips and tricks to achieve useful 
+   things</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.4.2 Language Things that don't work as one expects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_79.html">2.4.3 Language related things</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_79.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

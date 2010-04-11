@@ -1,0 +1,153 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Benchmark</TITLE>
+</head>
+<body>
+<h3>Benchmark <img src="benchicon.png" alt="Benchmark icon"></h3>
+<p>
+<b>Benchmark</b> measures graphics card and CPU performance on
+standard Chimera rendering tasks.  It facilitates comparisons among
+hardware systems, and for users with access to different systems,
+indicates which will give the best performance with Chimera.
+Results can be sent to the Chimera developers for inclusion in the
+<a href="http://plato.cgl.ucsf.edu/trac/chimera/wiki/benchmarks"
+target="_blank">benchmark Web page</a>.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Benchmark</b>, a tool in the <b>Utilities</b> category.
+</p><p>
+For accurate results, any models open in Chimera should be closed
+and any other processes running on the system should be halted before
+benchmarks are run.  Other windows should not be placed on top of the
+Chimera graphics window during benchmark calculations.
+</p><p>
+The top part of the <b>Benchmark</b> panel contains explanatory text. 
+Clicking <b>Run Benchmarks</b> performs all of the benchmark tasks
+(which may take several minutes) and appends the results to this text.
+The tasks include rendering <a href="#molecule">atomic coordinates</a>
+and <a href="#volume">volume data</a>.
+Clicking <b>Halt</b> aborts benchmark calculations in progress.
+After the full set of benchmarks has been run, the
+<b>Report Scores</b> button can be clicked.
+<b>Report Scores</b> uses the bug-reporting system to
+send the results to the Chimera developers for inclusion in the
+<a href="http://plato.cgl.ucsf.edu/trac/chimera/wiki/benchmarks"
+target="_blank">benchmark Web page</a>.
+<b>Show scores reported by others</b> opens that page in a browser window.
+</p><p>
+Typically, <b>Measure frame rate continuously</b> (every second)
+<b>or one time</b> (when that button is clicked) would not be used during
+a benchmark run, but instead to evaluate the <b><i>actual</i></b>
+frame rate during some manually executed display task.
+On some systems, <b>Benchmark</b> results are affected by the
+monitor refresh rate.  The actual frame rate is additionally subject to the
+fixed delay introduced by Chimera (upper limit ~30 frames/sec).
+</p><p>
+<b>Close</b> dismisses the <b>Benchmark</b> interface, and <b>Help</b>
+opens this manual page in a browser window.
+</p>
+
+<h3>Individual Benchmarks</h3>
+<p>
+<b>Show individual test controls</b> displays buttons for running
+the various benchmarks individually.  
+<ul>
+<li><a name="molecule"><b>molecule</b></a> -
+render a macromolecular structure, PDB entry 1f4h.  
+The structure is opened and shown in various
+<a href="../../UsersGuide/representation.html">representations</a>.
+The values reported are:
+  <ul>
+  <li> frames per second in each representation,
+  including <b>Null</b> (open but not displayed)
+  <li> operations per second (<b>Ops</b>), where an operation consists of
+  flipping the display status of each atom computationally
+  but not visibly; this is a measure of CPU performance
+  </ul>
+</ul>
+<a name="volume">
+The remaining benchmarks use volume data, a grid of numbers.</a>
+<ul>
+<li><b>surface</b> - measure the OpenGL rendering rate for triangles
+by drawing the surface of the cube
+<li><b>mesh</b> - measure the OpenGL rendering rate for lines by drawing
+a mesh surface of the cube
+<li><b>contour</b> - measure CPU and memory performance by contouring
+a Gaussian bump in the cube at a threshold that produces a spherical
+surface occupying nearly the whole volume (not displayed)
+<li><b>solid</b> - measure two-dimensional texture mapping performance
+by making each point in the cube opaque white
+<li><b>recolor</b> - measure bandwidth to the graphics card
+by repeatedly updating the color at each point in the cube
+</ul>
+Each volume benchmark finds and reports the edge size N of an N by N by N cube 
+on which the task can be performed at 10 frames per second (fps).
+An iterative approach is used
+to find the data size that can be handled at 10 fps; if this fails
+to converge, the <b>Halt</b> button can be used to stop the calculation.
+This edge size is also called the <b><i>score</i></b> for the task.
+Data that can be handled at 10 fps is easily manipulable in Chimera.
+</p><p>
+Pressing one of the buttons next to <b>Show standard model</b>
+(<b>surface</b>, <b>mesh</b>, or <b>solid</b>) 
+will open the specified model type 
+of the specified <b>size</b> in the graphics window.
+Depending on the size and viewing angle, a <b>solid</b> model may look like
+a stack of planes; this is an artifact of the rendering procedure.
+The models can be closed with the
+<a href="../../UsersGuide/modelpanel.html"><b>Model Panel</b></a>
+or the command
+<a href="../../UsersGuide/midas/open.html"><b>close</b></a>.
+<table border="1" align="right" style="margin:8px 8px 8px 8px">
+<tr><td>
+<img src="benchsurf.png" alt="surface model">
+</td><td>
+<img src="benchmesh.png" alt="mesh model">
+</td><td>
+<img src="benchsolid.png" alt="solid model">
+</td></tr>
+</table>
+Rendering time depends on window size and model position
+within the view; these can be set as in the benchmark runs using
+the <b>Set standard view</b> buttons <b>camera</b> (position and orientation
+of model within the view) and <b>window size</b> (512 x 512 pixels).
+</p>
+
+<h4>TECHNICAL NOTES</h4></a>
+<p>
+<b>Chimera window comes to top</b>.
+When the Chimera graphics window is covered
+by other windows, some systems will shortcut the drawing process.
+Running any of the benchmarks brings the graphics window to the top.
+</p><p>
+<b>Timing method</b>.
+The benchmark timings use wall clock time (the Python time.time() call)
+instead of CPU time (Python time.clock()) because the latter does not
+measure the time used by the graphics card. 
+</p><p>
+<b>Insufficient memory</b>.
+The <b>solid</b> volume benchmark can run out of memory on a machine with fast
+graphics relative to main memory size. 
+</p><p>
+<b>Convergence method</b>.
+Iterative bisection is used to find the 10 fps size for volume data.
+An alternative is to get the time for a given size and use a scaling law.
+However, there is no simple relationship between rate and data size;
+pixel fill rate, number of primitives, texture memory size, and CPU cache size
+can all cause hard-to-predict scaling behavior.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / May 2008</address>
+</body>
+</html>

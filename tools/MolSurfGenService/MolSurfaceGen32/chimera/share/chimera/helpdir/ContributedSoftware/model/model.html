@@ -1,0 +1,120 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2007 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Model Loops</TITLE>
+</head>
+<body>
+<h3>Model Loops <img src="modloopicon.png" alt="Model Loops icon"></h3>
+<b>** This tool is in an early phase of development and may
+change significantly. **</b>
+<p>
+<b>Model Loops</b> is an interface to
+<a href="http://salilab.org/modeller/index.html" target="_blank">MODELLER</a>.
+Although MODELLER is best known as a comparative modeling program, 
+<b>Model Loops</b> currently only interfaces with the
+<a href="http://salilab.org/modeller/manual/node34.html"
+target="_blank">loop optimization</a> feature: it generates alternative 
+conformations of peptide segments already present in a structure,  
+but will not build segments that are missing.
+</p><p>
+MODELLER is <a href="http://salilab.org/modeller/download_installation.html"
+target="_blank">available</a> from the
+<a href="http://salilab.org/index.html" target="_blank">Sali lab</a>
+for Windows, Mac OS X, Linux, and other UNIX platforms. 
+It is not included with Chimera.
+</p><p>
+<a name="windows">
+On <b>Windows</b>, MODELLER must be run via a script 
+that sets the values of some environmental variables:</a>  
+the script <a href="runmod.bat" type="text/plain">runmod.bat</a> should be
+text-edited as needed to specify the program version and license key
+(<b>rem</b> should be removed from the beginning of the license key line),
+placed in the bin directory of the MODELLER installation,
+and specified instead of the MODELLER executable as the
+<a href="#location"><b>Modeller location</b></a>.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Model Loops</b>, a tool in the <b>Structure Editing</b> category.
+</p><p>
+The first step is to <a href="../../UsersGuide/selection.html">select</a>
+one or more stretches of residues to model. There are several approaches;
+one is to use the <a href="../multalignviewer/framemav.html"
+target="_top"><b>Sequence</b></a> tool.
+Stretches of at least four amino acids 
+can be modeled regardless of whether they reside in loops.
+If multiple stretches are selected, they will be modeled together as a 
+single system.  Interactions with the rest of the protein will be taken
+into account.
+</p><p>
+<a name="options">
+Options</a>:
+<ul>
+<li><b>Restrict selections to molecule</b>
+- the molecule model of interest should be chosen from the menu.  
+Segments from multiple molecule models cannot be modeled together.
+<li><b>Restrict selections to turns</b> (<b>true</b>/false)
+- whether residues assigned as helix or strand should be removed from the
+<a href="../../UsersGuide/selection.html">selection</a> to model.
+Helix and strand assignments are taken from the input structure
+file or generated with <a href="../../UsersGuide/midas/ksdssp.html"><b>ksdssp</b
+></a>.
+<li><b>Include HETATM residues</b> (true/<b>false</b>)
+ - whether in addition to the rest of the protein,
+ HETATM residues should be taken into account during modeling
+<li><b>Include waters</b> (option not currently available; however, note that
+waters are usually HETATM residues)
+<li><b>Include nucleic acids</b> (option not currently available)
+<li><b>Number of models</b> (default <b>10</b>) 
+- how many sets of coordinates (alternative conformations) to generate; here,
+the meaning of "models" is slightly different than in Chimera generally
+<li><b>Refinement</b>  (very fast/<b>fast</b>/slow/very slow/slow large/none)
+- method of coordinate improvement
+</ul>
+Clicking <b>Prune selection</b> adjusts the
+<a href="../../UsersGuide/selection.html">selection</a> to show
+which parts of the structure will be sent to MODELLER.
+Stretches of fewer than four amino acids will be pruned, along with
+any other atoms as specified in the <a href="#options">options</a>.
+</p><p>
+<a name="location">
+The <b>Modeller location</b></a> is the pathname of the program executable
+(or the <a href="#windows">script</a> that runs the program).
+Input and output files will be placed in a 
+temporary directory (the location will be given in the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>).
+</p><p>
+Clicking <b>OK</b> starts the calculation.  
+<b>Cancel</b> dismisses the dialog without starting a calculation,
+and <b>Help</b> opens this manual page in a browser window.
+</p><p>
+Once the alternative conformations have been generated,
+they will be displayed and the original coordinates of the segments 
+will be undisplayed (but remain
+<a href="../../UsersGuide/selection.html">selected</a>).  
+Atoms from residues flanking each modeled segment are included in the output 
+coordinates
+so that the segment will appear to be connected to the rest of the protein.
+<a href="../viewdock/framevd.html" target="_top"><b>ViewDock</b></a> is
+called to display the conformations.  Much like docked ligands, the alternative
+conformations can be viewed individually by clicking the corresponding lines 
+in the <a href="../viewdock/viewdock.html#listbox"><b>ListBox</b></a> interface.
+</p><p>
+Currently, Chimera does not provide a way to replace
+the original coordinates of the segments with a new conformation
+from MODELLER to produce a new molecule model.  This can only be
+accomplished by editing the text of the coordinate files outside of Chimera.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2008</address>
+</body>
+</html>

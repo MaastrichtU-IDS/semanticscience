@@ -1,0 +1,528 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<title>conic</title>
+</head>
+<body>
+<h4>NAME</h4>
+  <h3>conic - generate CPK-style molecular models with shadows</h3>
+
+<h4>SYNOPSIS</h4>
+<h3>
+  <b>conic</b> [ -p ] [ -f <i>output-format</i> ] [ -s ] [ -a <i>mode</i> ]
+ [ -o <i>output-file</i> ] [ -x <i>pixels-wide</i> ] [ -y <i>pixels-high</i> ]
+ [ -c <i>config-file</i> ] [ -e <i>shell-command</i> ] [ -t ] [ -v ] [ -A ]
+ [ -C ] [ -F ] [ -S <i>scale_factor</i> ] [ -W ] [ <i>PDB-file</i> ]
+</h3>
+
+<h4>DESCRIPTION</h4>
+<p>
+  <b>Conic</b> reads a Protein Data Bank file and generates a 
+  Corey-Pauling-Koltun style
+  image of the molecule. If no PDB file is specified, standard input is
+  used.	 There can be an arbitrary number of light sources.  Specular
+  highlights, diffuse reflections, and shadows are all computed properly.
+</p><p>
+<a name="note1">
+  *</a>The <a href="#pdbfile"><i>PDB-file</i></a>
+  argument should not be given when <b>conic</b> is used from within Chimera.
+</p><p>
+<a name="note2">
+  *</a>On <b>Mac</b> systems, either the <a href="#oflag"><b>-o</b></a> flag
+   or the configuration file <a href="#output"><b>output</b></a> option
+   must be used to generate any output at all.  If display is desired in
+   addition to an output file, the
+   <a href="#sflag"><b>-s</b></a> flag should also be used.
+</p>
+
+<h4>COMMAND-LINE ARGUMENTS</h4>
+
+<blockquote>
+  <tt><b>-p</b></tt>   
+<br>Use preview mode.  Set the image size to 645 x 484 and antialias mode to
+       none (see the <a href="#aflag"><b>-a</b></a> flag).
+</blockquote>
+
+<blockquote>
+<a name="sflag">
+  <tt><b>-s</b></tt></a>
+<br>
+     Display the computed image file;
+     meaningful only when used in conjunction with the 
+     <a href="#oflag"><b>-o</b></a> flag
+     or the configuration file <a href="#output"><b>output</b></a> option.
+     Mac users, see the <a href="#note2">note</a> above.
+     The <b>-s</b> flag works only on Linux, Mac, and SGI systems, and
+     not all <a href="#fflag">formats</a> can be displayed on all systems.
+</blockquote>
+
+<blockquote>
+<a name="aflag">
+  <tt><b>-a</b> <i>mode</i></tt></a>
+     <br>Set the antialias mode.  <i>Mode</i> is the same as the argument to
+     the <a href="#antialias"><b>antialias</b></a> option
+     in the configuration file.
+</blockquote>
+
+<blockquote>
+<a name="oflag">
+  <tt><b>-o</b> <i>file</i></tt></a>
+    <br>Store the computed image in <i>file</i> in the selected
+    <a href="#fflag">format</a>.
+    The image will not be displayed unless <a href="#sflag"><b>-s</b></a>
+    is also specified.  Mac users, see the <a href="#note2">note</a> above.
+</blockquote>
+
+<blockquote>
+  <tt><b>-x</b> <i>size</i></tt>
+       <br>Set the horizontal image size to <i>size</i> pixels.
+</blockquote>
+
+<blockquote>
+  <tt><b>-y</b> <i>size</i></tt>
+       <br>Set the vertical image size to <i>size</i> pixels.
+</blockquote>
+
+<blockquote>
+  <tt><b>-e</b> <i>shell-command</i></tt>
+ <br>Execute <i>shell-command</i> when the image has finished drawing and exit
+       when the command is done.
+</blockquote>
+
+<blockquote>
+  <tt><b>-c</b> <i>file</i></tt>
+       <br>Use <i>file</i> as the <b>conic</b> configuration file.
+</blockquote>
+
+<blockquote>
+<a name="fflag">
+  <tt><b>-f</b> <i>output-format</i></tt></a>
+   <br>Possible <i>output-format</i> settings are: 
+       <ul>
+       <li><b>screen</b>
+       - screen display instead of a file
+       (not available on Mac systems, see the <a href="#note2">note</a> above).
+       <b>Screen</b> is the default when no output file is requested
+       (when neither <a href="#oflag"><b>-o</b></a> nor the configuration
+       file <a href="#output"><b>output</b></a> option is used).
+       <li><b>ps</b> - Encapsulated PostScript file; see also the 
+       <a href="#Hflag"><b>-H</b></a> option
+       <li><b>sgi</b> - SGI image file; the default output file format
+       on SGI systems
+       <li><b>tiff</b> - TIFF file; the default output file format
+       on systems other than SGI
+       </ul>
+</blockquote>
+
+<blockquote>
+  <tt><b>-t</b></tt>
+<br>   Make the background color transparent.  This only works when writing
+       output to SGI and TIFF image files, and it adds an alpha channel to
+       the file so that the resulting image can be composited onto other
+       backgrounds.
+</blockquote>
+
+<blockquote>
+  <tt><b>-v</b></tt>
+<br>   Print progress messages.
+</blockquote>
+
+<blockquote>
+  <tt><b>-A</b></tt>
+<br>   Ignore USER COLOR, USER RADIUS, and USER MATPROP records present in
+       the input file.	Since the <a href="pdbrun.html"><b>pdbrun</b></a>
+       command provides USER COLOR and USER RADIUS records for each atom,
+       this flag must be used if atomic information is coming from Chimera,
+       but a color scheme specified in an atom information file is desired
+       (see <a href="#coloring">COLORING THE MOLECULE</a>).
+</blockquote>
+
+<blockquote>
+  <tt><b>-C</b></tt>
+<br>   Force <b>conic</b> to display full spheres at the near clipping plane.
+  This option affects those spheres whose centers lie across the near clipping
+    plane from the viewer, but whose nearest extent crosses the clipping
+    plane (<b>conic</b> always discards spheres whose centers are closer
+    than the clipping plane).  By default, <b>conic</b> shows the sphere with a
+    portion "cut away."  With this option, the entire sphere is shown.
+    It should be noted that the "cut away" depiction is inaccurate in
+    two regards: the partially cut spheres still cast full shadows, and no
+    part of a sphere is shown if its center is in front of the clipping
+    plane, even though it may extend through the plane.  Typically, these
+    inaccuracies are not noticeable, but in some situations (such as
+    when point light sources are used) they may produce odd-looking results.
+</blockquote>
+
+<blockquote>
+  <tt><b>-F</b></tt>
+<br>   Set the image size to be the full screen.
+</blockquote>
+
+<blockquote>
+<a name="Hflag">
+  <tt><b>-H</b></tt></a>
+<br>   If the output format is <b>ps</b>
+ (see the <a href="#fflag"><b>-f</b></a> and
+ <a href="#oflag"><b>-o</b></a> flags), causes binary data to be hex-encoded.
+       Though raw binary format is more space-efficient, many printers cannot
+       print binary data unless it is hex-encoded.  Note that future versions
+       of <b>conic</b> may make hex-encoding the default (and the <b>-H</b>
+       flag would turn it off).
+</blockquote>
+
+<blockquote>
+  <tt><b>-S</b> <i>scale_factor</i></tt>
+       <br>Zoom in on the center of the image by the specified factor.
+       The size of the window remains unchanged.
+</blockquote>
+
+<blockquote>
+  <tt><b>-W</b></tt>
+<br>   Force Chimera to wait until <b>conic</b> has exited before continuing.
+</blockquote>
+
+<blockquote>
+<a name="pdbfile">
+  <tt><i>PDB-file</i></tt></a>
+       <br>Indicates the name of the input PDB file.
+       If no <i>PDB-file</i> is given, the data is read from standard input.
+       See the <a href="#note1">note</a> above.
+</blockquote>
+
+<h4><a name="conicdat">CONFIGURATION FILE</a></h4>
+<p>
+  The scene computed by <b>conic</b> is described by a list of options in a
+  configuration file.
+  If the configuration file is absent, or the option is omitted,
+  then a default value will be used.  Lines beginning with `#' are comments
+  and are ignored.  All other lines are options, which begin with a
+  keyword and are followed by space-separated values.  The available options
+  are listed below.
+</p>
+
+<blockquote>
+  <tt><b>ambient</b> <i>r g b</i></tt>
+       <br>Set the ambient light to the given RGB value, which is three
+       floating-point intensities ranging from 0 to 1.	The default ambient
+       lighting is (0.2 0.2 0.2).
+</blockquote>
+
+<blockquote>
+<a name="antialias">
+  <tt><b>antialias</b> <i>mode</i></tt></a>
+       <br>Set the antialiasing algorithm.
+    <i>Mode</i> may be <b>none</b>, for no antialiasing;
+       <b>3/2</b>, for mapping 3x3 calculation pixels onto 2x2 image pixels; or
+       <b>2x2</b>, for mapping 2x2 calculation pixels onto single image pixels.
+       Antialiasing improves the picture quality at the expense of computation
+       time.  The time increase is proportional to the number of pixels
+       computed modulo the startup time.  Thus, for small molecules, which
+       have low startup times, going from none to 2x2 will increase the
+       computation time four-fold.  The relative increase is less for large
+       molecules since the startup time for large molecules is a significant
+       fraction of total computation time.  The default <i>mode</i> is none.
+</blockquote>
+
+<blockquote>
+  <tt><b>atinfo</b> <i>file</i></tt>
+       <br>Use <i>file</i> as the atom information file, which contains
+       default atomic radii and information on 
+       how each type of atom should be colored.
+       Coloring the molecule is described in greater detail below.  This
+       option has no effect if <b>conic</b> is invoked from within Chimera,
+       as Chimera fully specifies the atom colors and
+       <a href="vdwrad.html">radii</a>.
+</blockquote>
+
+<blockquote>
+  <tt><b>background</b> <i>r g b</i> [<i>r g b</i> [ <i>r g b</i> ] ]</tt>
+       <br>Set the background color for the image.  If only one RGB value is
+       given, then the entire background is set in that color.	If two RGB
+       values are given, then the background is interpolated between the two
+       colors from bottom to top. If three RGB values are specified, then the
+       background is smoothly interpolated from the first color at the bottom
+       of the image to the second color in the middle to the third color at
+       the top.	 The default background color is black (0 0 0).
+       NOTE: if this option is given in the configuration file,
+       it will override any color specified in the input PDB file.
+</blockquote>
+
+<blockquote>
+  <tt><b>cone</b> <i>x y z r g b dx dy dz angle</i></tt>
+       <br>Define a cone light.  The absolute Cartesian coordinates of the light
+       source are (<i>x y z</i>).  The color of the light is given by (<i>
+       r g b</i>).  The Cartesian direction of the cone light is given by
+     (<i>dx dy dz</i>), and the half-angle of the cone is <i>angle</i> degrees.
+</blockquote>
+
+<blockquote>
+  <tt><b>eye</b> <i>r g b</i></tt>
+  <br><b>Conic</b> places an additional point light source which coincides
+    with the eye position.  The purpose of this light source is to weakly
+    illuminate shadowed areas so that they have discernible features
+    rather than a uniform color.  The <b>eye</b> option sets the color of the
+    point light source.  The default value is (0.3 0.3 0.3).
+</blockquote>
+
+<blockquote>
+  <tt><b>format</b> <i>output-format</i></tt>
+  <br>See the <a href="#fflag"><b>-f</b></a> option for possible
+  <i>output-format</i> settings.
+</blockquote>
+
+<blockquote>
+<a name="fov">
+  <tt><b>fov</b> <i>angle</i></tt></a>
+       <br><i>Angle</i> is the field-of-view half-angle; the
+       default is 15 degrees.
+</blockquote>
+
+<blockquote>
+  <tt><b>input</b> <i>file</i></tt>
+       <br>Use <i>file</i> as the Protein Data Bank file.
+</blockquote>
+
+<blockquote>
+  <tt><b>light</b> <i>x y z r g b</i></tt>
+       <br>Add an infinite light source to the scene being computed.
+  The direction of the light source is specified by (<i>x y z</i>).
+  The color of the light source is specified by (<i>r g b</i>).
+  By default, <b>conic</b> defines a light source with direction
+ (1 1 1) and color (1 1 1).  The default light source is removed if other
+ sources are specified via the <b>light</b> option.
+</blockquote>
+
+<blockquote>
+  <tt><b>location</b> <i>x y</i></tt>
+       <br>Sets the image location on the screen.  This parameter is only
+       meaningful if the
+       output is to the screen, <i>i.e.</i>, for output format <b>screen</b>.
+</blockquote>
+
+<blockquote>
+  <tt><b>ls_flags</b> <i>flag</i></tt>
+       <br>Change the behavior of subsequently specified light sources.
+       The value of <i>flag</i> may be <b>noshadow</b> or <b>shadow</b>.
+       By default, a light source only shines on a point if there are no
+       intervening spheres.
+       If <b>noshadow</b> is specified, however, all
+       points are considered to be lit.  Using
+       <b>shadow</b> will undo the effects of <b>noshadow</b>
+       for subsequent light sources.  <b>Noshadow</b>
+       is generally used if the scene is very complex and
+       shadows make the resulting image difficult to interpret.  This problem
+       may also be mitigated by using multiple light sources.
+</blockquote>
+
+<blockquote>
+<a name="matprop">
+  <tt><b>matprop</b> <i>kd ks power</i></tt></a>
+       <br>Define default material properties.  <i>Kd</i>
+       is the diffuse reflection coefficient.
+   <i>Ks</i> is the specular reflection coefficient.  <i>Power</i> controls
+       how sharply defined a specular light is, and must be a positive
+       even integer.  The higher the value of power, the smaller the specular
+       reflection area.	 The default values are 0.5, 0.25, and 8, respectively.
+       <i>Kd</i> and <i>ks</i> must be in the range 0-1, and
+       <i>power</i> must be 2 or higher.
+</blockquote>
+
+<blockquote>
+<a name="output">
+  <tt><b>output</b> <i>file</i></tt></a>
+  <br>Store the computed image in <i>file</i> in the selected
+  <a href="#fflag">format</a>; 
+  equivalent to using <a href="#oflag"><b>-o</b></a>.
+  Mac users, see the <a href="#note2">note</a> above.
+</blockquote>
+
+<blockquote>
+  <tt><b>point</b> <i>x y z r g b</i></tt>
+       <br>Define a point light source.  The arguments are the same as those for
+       the <b>light</b> option, except that
+       (<i>x y z</i>) defines the light position rather than direction.
+</blockquote>
+
+<blockquote>
+  <tt><b>quad</b> <i>x1 y1 z1 x2 y2 z2 x3 y3 z3</i></tt>
+       <br>Define a quadrilateral (actually a parallelogram) in the image.
+Since the quad is a parallelogram, only three vertices are necessary to
+       define it.  Quads are "second-class" objects: They can be in shadow
+       from first-class objects (spheres), but cannot cast shadows
+       themselves.
+       In fact, they cannot even block first-class objects; first-class
+       objects show through.  Quads are typically used to construct
+       large background areas that show the shadow of the scene as a whole.
+       For best results, there are two important things to note.  First, the
+       default field-of-view for <b>conic</b> is quite narrow, and if you do
+       not see
+       an expected shadow it may be because it is falling outside the field
+       of view.	 In such a case, you may want to expand the field of view
+       half-angle (using the <a href="#fov"><b>fov</b></a> option)
+       from the default 15
+       degrees to 25 or 30 degrees.  The second thing to note is that
+       because of ambient light, shadows will not be black.  If you desire
+       black shadows, turn off ambient lighting (using the <b>ambient</b>
+       option, above).
+</blockquote>
+
+<blockquote>
+<tt><b>quad_color</b> <i>r1 g1 b1</i> [ <i>r2 g2 b2 r3 g3 b3 r4 g4 b4</i> ]</tt>
+   <br>Define the vertex colors of following quads.  The interior color of
+       the quad will be smoothly interpolated between the vertex colors.  If
+       only one RGB triple is specified, all vertices will have that color.
+</blockquote>
+
+<blockquote>
+  <tt><b>rcone</b> <i>x y z r g b dx dy dz angle</i></tt>
+       <br><b>Rcone</b> is to <b>cone</b> as <b>rpoint</b> is to <b>point</b>.
+</blockquote>
+
+<blockquote>
+  <tt><b>rpoint</b> <i>x y z r g b</i></tt>
+       <br>Define a point light source relative to the scene, similar to 
+       <b>point</b>.  The (<i>x y z</i>) coordinate is relative to the
+       center of the scene, with
+       lengths normalized such that the distance from the eye to the center
+       of the scene is 1.  Thus, the option
+<blockquote><tt>
+       rpoint 0 0 1 1 1 1
+</tt></blockquote>
+       would define a point light source that coincided with the eye, whereas
+<blockquote><tt>
+       rpoint 0 2 0 1 1 1
+</tt></blockquote>
+       would define a point light source directly above the center of the
+       scene, twice as far above the scene as the distance from the center of
+       the scene to the eye.
+</blockquote>
+
+<blockquote>
+  <tt><b>rquad</b> <i>x1 y1 z1 x2 y2 z2 x3 y3 z3</i></tt>
+       <br><b>Rquad</b> is to <b>quad</b> as <b>rpoint</b> is to <b>point</b>.
+</blockquote>
+
+<blockquote>
+  <tt><b>rspot</b> <i>x y z r g b dx dy dz power</i></tt>
+       <br><b>Rspot</b> is to <b>spot</b> as <b>rpoint</b> is to <b>point</b>.
+</blockquote>
+
+<blockquote>
+  <tt><b>size</b> <i>x y</i></tt>
+     <br>Sets the image size.  The default image size is 1280 x 1024.
+      If <b>conic</b> is invoked from within Chimera, then the default
+      image size will be the same as the Chimera window size.
+</blockquote>
+
+<blockquote>
+  <tt><b>spot</b> <i>x y z r g b dx dy dz power</i></tt>
+       <br>Define a spotlight.  The absolute Cartesian coordinates of the light
+       source are (<i>x y z</i>).  The color of the light is given by
+       (<i>r g b</i>).  The
+       Cartesian direction of the spotlight is given by (<i>dx dy dz</i>).  The
+       intensity of the spotlight drops off as the angle between the
+       spotlight direction and the pixel direction; the rate of decrease is
+       the cosine of the angle raised to the <i>power</i>th power.
+       <i>Power</i> must be an
+       even integer; odd integers will be incremented silently.
+</blockquote>
+
+<a name="coloring">
+<h4>COLORING THE MOLECULE</h4>
+</a>
+<p>
+  <b>Conic</b> uses two sources of atom radius and coloring information.
+  If neither
+  source of information yields a radius and color for an atom, then the atom
+  is ignored.
+</p><p>
+  The first source is embedded in the input to <b>conic</b>, which is an
+  extended
+  Protein Data Bank format.  The format is identical to standard PDB format
+  except that ATOM and HETATM records may be preceded by USER records, whose
+  text field contains a keyword and some values.
+  (The <a href="pdbrun.html"><b>pdbrun</b></a> command
+  generates output of this format.)  The keywords that <b>conic</b> uses are
+  COLOR, RADIUS, and MATPROP.  COLOR is followed by three floating-point RGB
+  intensities and a color name.  RADIUS is followed by a floating-point
+  number representing the atom radius in angstroms.  MATPROP is followed
+  by the three parameters to the <a href="#matprop"><b>matprop</b></a>
+  option in the configuration file.
+  Once COLOR, RADIUS, or MATPROP is given, it applies to all of the
+  succeeding atoms in the file.
+</p><p>
+  If the input fails to specify the color, radius, or material properties of
+  an atom, <b>conic</b> uses an atom information file to supply missing
+  values.  The file contains comment lines, which begin with <b>#</b>,
+  and information  lines,
+  which have either five or eight fields:  atom type, radius, an RGB triple,
+  and optionally three material property values (see the
+  <a href="#matprop"><b>matprop</b></a>
+  keyword in the configuration file
+  section for the meaning of material property fields
+  and their default values).  The atom type is either one or two characters
+  and is used to match the atom type in the PDB input.  The atom type
+  <b>*</b> is
+  a special case and matches any atom which does not match any other
+  information lines.
+  Using	an atom information file, simple color-by-type images
+  may be generated from raw PDB files.
+</p><p>
+The default atom information file
+<a href="conic.atinfo">conic.atinfo</a> contains the following parameters:
+<table><tt>
+<tr><th>#atomtype</th> <th>radius</th> <th>R</th><th>G</th><th>B</th></tr>
+<tr>
+<td>C       <td>1.8</td>     <td>0.5</td>     <td>0.5</td>     <td>0.5</td>
+</tr><tr>
+<td>N       <td>1.8</td>     <td>0</td>       <td>0</td>       <td>1</td>
+</tr><tr>
+<td>O       <td>1.5</td>     <td>1</td>       <td>0</td>       <td>0</td>
+</tr><tr>
+<td>S       <td>1.85</td>   <td>1</td>       <td>1</td>       <td>0</td>
+</tr><tr>
+<td>H       <td>1.0</td>     <td>1</td>       <td>1</td>       <td>1</td>
+</tr><tr>
+<td>P       <td>1.9</td>     <td>1</td>       <td>0.5</td>     <td>0</td>
+</tr><tr>
+<td>F       <td>1.35</td>    <td>0</td>       <td>1</td>       <td>0</td>
+</tr><tr>
+<td>CL      <td>1.8</td>     <td>0</td>       <td>1</td>       <td>0</td>
+</tr><tr>
+<td>BR      <td>1.95</td>    <td>0</td>       <td>1</td>       <td>0</td>
+</tr><tr>
+<td>I       <td>2.15</td>    <td>0</td>       <td>1</td>       <td>0</td>
+</tr><tr>
+<td>B       <td>1.8</td>     <td>0.5</td>     <td>0</td>       <td>0</td>
+</tr><tr>
+<td>FE      <td>0.64</td>    <td>0.5</td>     <td>0</td>       <td>0</td>
+</tr><tr>
+<td>CU      <td>1.28</td>    <td>0.5</td>     <td>0</td>       <td>0</td>
+</tr><tr>
+<td>ZN      <td>1.38</td>    <td>0.5</td>     <td>0</td>       <td>0</td>
+</tr>
+</tt></table>
+</p>
+
+<h4>BUGS</h4>
+Light intensity does not attenuate with distance.
+
+<h4>FILES</h4>
+/usr/local/chimera/share/<a href="conic.atinfo">conic.atinfo</a>
+ - default atom information file
+
+<h4>AUTHORS</h4>
+    Eric F. Pettersen, Conrad Huang, Gregory S. Couch
+<br>Computer Graphics Laboratory
+<br>University of California, San Francisco
+</body></html>

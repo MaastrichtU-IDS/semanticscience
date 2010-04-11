@@ -1,0 +1,139 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Model Attributes: MSMSModel (Molecular Surface)</title>
+</head><body>
+<h2>Model Attributes: MSMSModel (Molecular Surface)</h2>
+<p>
+Once a model has been chosen in the left
+side of the <a href="modelpanel.html"><b>Model Panel</b></a>, clicking
+the <b>attributes...</b> button in the right side of the panel brings up
+a window that shows and allows changes in model attribute values.
+<a href="representation.html#surfaces">Molecular surface</a>
+models are of class <b>MSMSModel</b> 
+(a specialized subtype of <a href="surfattrib.html"><b>SurfaceModel</b></a>).
+They can be generated using the <b>Surface</b> section of the
+<a href="menu.html#menuactions"><b>Actions</b> menu</a> or
+the command <a href="midas/surface.html"><b>surface</b></a>.
+</p><p>
+The list includes the attributes of the
+<a href="#msms">molecular surface model</a>
+and selected attributes of its component
+<a href="#atom">atom surfaces</a>.
+</p>
+
+<h3><a name="msms">MSMSModel Attributes</a></h3>
+<ul>
+<li><b>active</b> - whether the model is
+<a href="mouse.html#activedef">activated for motion</a>
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>color source</b> - whether the surface color reflects
+the color at the model or atom level
+(see <a href="hierarchy.html">coloring hierarchy</a>).  When surface
+color is set independent of these levels, <b>unknown</b> is reported.
+This occurs when the surface has been custom-colored, for example with
+<a href="../ContributedSoftware/surfcolor/surfcolor.html"><b>Surface
+Color</b></a>.
+ <ul>
+ <li><b>model</b>
+ <li><b>atoms</b>
+ <li><b>unknown</b>
+ </ul>
+<li><b>displayed</b> - whether surface
+display is enabled at the model level
+(see <a href="hierarchy.html#displevels">display hierarchy</a>)
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>dot size</b> - pixel size of dots used in the <b>dot</b>
+ <a href="representation.html#surfaces">surface representation</a>
+<li><b>line width</b> - pixel width of lines used in the <b>mesh</b>
+ <a href="representation.html#surfaces">surface representation</a>
+<li><b>one transparent layer</b>
+- whether to show only the topmost layer when the surface is transparent
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>pieces</b>
+- number of <a href="surfattrib.html#surfpiecedef">surface pieces</a>
+(independently selectable subparts) in the model.
+<a href="inspection.html#subsurfprop">Surface piece attributes</a>  
+are shown in the <a href="inspection.html"><b>Selection Inspector</b></a>.
+<li><b><a name="proberad">probe radius</a></b> 
+ - radius in &Aring; of the probe sphere used to compute the surface.  
+A larger probe decreases surface bumpiness because it fits into fewer crevices.
+A radius of 1.4 &Aring; is commonly used to approximate a water molecule.
+<li><b>representation</b> - which type of
+<a href="representation.html#surfaces">surface representation</a>
+is being used
+ <ul>
+ <li><b>solid</b>
+ <li><b>mesh</b>
+ <li><b>dots</b>
+ </ul>
+<li><b>selectable with mouse</b>
+- whether the <a href="surfattrib.html#surfpiecedef">surface piece(s)</a>
+comprising the model can be
+<a href="selection.html#pickselect">picked</a> with the mouse
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>show disjoint surfaces</b> - whether to check
+for multiple disjoint surfaces rather than assuming there is only one
+(increases calculation time)
+<li><b>triangles</b> - number of triangles in the surface model
+<li><b>vertex density</b> - vertices per &Aring;<sup>2</sup>
+used to compute the surface.
+Greater density results in a smoother surface but
+increases computational demands for calculating and moving the surface.
+</ul>
+
+<h3><a name="atom">Component Atom Attributes</a></h3>
+<p>
+Attributes of individual atom surfaces within a molecular surface model
+can be set independently.  When different per-atom surfaces within the
+molecular surface model have different attribute values, the value is 
+reported to be <b>--&nbsp;multiple&nbsp;--</b>.
+If one of the other options is chosen, all per-atom surfaces
+in the molecular surface model will be changed accordingly.
+</p>
+<ul>
+<li><b>surface color</b> (a <a href="coloring.html#colorwell">color well</a>)
+ - atom-level surface color; see
+ <a href="hierarchy.html">coloring hierarchy</a>
+<li><b>surface displayed</b> - whether surface
+ display is enabled at the atom level
+ (see <a href="hierarchy.html#displevels">display hierarchy</a>)
+ <ul>
+ <li><b>--&nbsp;multiple&nbsp;--</b>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>surface opacity</b> - atom-level surface opacity, ranging from
+ 0 (completely transparent) to 1 (completely opaque); a negative value
+ indicates that the opacity included in the definition of the atom-level
+ surface color(s) should be used instead
+</ul>
+<a href="moleculeattrib.html">Model Attributes: <b>Molecule</b></a>
+<br><a href="surfattrib.html">Model Attributes: <b>SurfaceModel</b>
+and <b>Volume</b></a>
+<br><a href="vrmlattrib.html">Model Attributes: <b>VRMLModel</b> 
+and <b>Volume_Model</b></a>
+<hr>
+<address>UCSF Computer Graphics Laboratory / February 2009</address>
+</body></html>

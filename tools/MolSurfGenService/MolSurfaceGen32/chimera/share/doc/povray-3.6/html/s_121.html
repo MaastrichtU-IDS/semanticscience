@@ -1,0 +1,212 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.5.7 UV Mapping</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_120.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_120.html">3.5.6 Layered Textures</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.5.7 
+   UV Mapping</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_122.html">3.5.8 Triangle Texture Interpolation</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_122.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_05_07">3.5.7 </a>UV Mapping</h3>
+<a name="s03_05_07_i1"><a name="uv_mapping"></a>
+<p>
+  All textures in POV-Ray are defined in 3 dimensions. Even planar image mapping is done this way. However, it is 
+ sometimes more desirable to have the texture defined for the surface of the object. This is especially true for 
+ bicubic_patch objects and mesh objects, that can be stretched and compressed. When the object is stretched or 
+ compressed, it would be nice for the texture to be <em>glued</em> to the object's surface and follow the object's 
+ deformations. 
+</p>
+
+<p>
+  When uv_mapping is used, then that object's texture will be mapped to it using surface coordinates (u and v) 
+ instead of spatial coordinates (x, y, and z). This is done by taking a slice of the object's regular 3D texture from 
+ the XY plane (Z=0) and wrapping it around the surface of the object, following the object's surface coordinates. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> some textures should be rotated to fit the slice in the XY plane. 
+</p>
+
+<p>
+  Syntax: 
+</p>
+
+<pre>
+texture {
+ uv_mapping pigment{PIGMENT_BODY} | pigment{uv_mapping PIGMENT_BODY}
+ uv_mapping normal {NORMAL_BODY } | normal {uv_mapping NORMAL_BODY }
+ uv_mapping texture{TEXTURE_BODY} | texture{uv_mapping TEXTURE_BODY)
+}
+</pre>
+
+<h4><a name="s03_05_07_01">3.5.7.1 </a>Supported Objects</h4>
+
+<p>
+  Surface mapping is currently defined for the following objects: 
+</p>
+
+<ul>
+ 
+ <li>
+   <strong>bicubic_patch</strong> : UV coordinates are based on the patch's parametric coordinates. They stretch 
+  with the control points. The default range is (0..1) and can be changed.<br>&nbsp; 
+ </li>
+
+ <li>
+   <strong>mesh, mesh2</strong> : UV coordinates are defined for each vertex and interpolated between.<br>&nbsp; 
+ </li>
+
+ <li>
+   <strong>lathe, sor</strong> : modified spherical mapping... the u coordinate (0..1) wraps around the y axis, 
+  while the v coordinate is linked to the object's control points (also ranging 0..1). <br>Surface of Revolution also 
+  has special disc mapping on the end caps if the object is not 'open'.<br>&nbsp; 
+ </li>
+
+ <li>
+   <strong>sphere</strong> : boring spherical mapping.<br>&nbsp; 
+ </li>
+
+ <li>
+   <strong>box</strong> : the image is <em>wrapped</em> around the box, as shown below.<br>&nbsp; <br><br><center><img alt="UV Boxmap" src="images/reference/boxmap.png"></center> 
+  
+ </li>
+
+ <li>
+   <strong>parametric</strong> : In this case the map is not taken from a &quot;fixed&quot; set of coordinates but 
+  the map is taken from the area defined by the boundaries of the uv-space, in which the parametric surface has to be 
+  calculated.<br>&nbsp; 
+ </li>
+
+ <li>
+   <strong>torus</strong> : The map is taken from the area &lt;0,0&gt;&lt;1,1&gt; where the u-coordinate is wrapped 
+  around the major radius and the the v-coordinate is wrapped around the minor radius. 
+ </li>
+
+</ul>
+
+<h4><a name="s03_05_07_02">3.5.7.2 </a>UV Vectors</h4>
+
+<p>
+  With the keyword <code>uv_vectors</code>, the UV coordinates of the corners can be controlled for bicubic patches 
+ and standard triangle mesh. 
+</p>
+
+<p>
+  For bicubic patches the UV coordinates can be specified for each of the four corners of the patch. This goes right 
+ before the control points. <br>The syntax is: 
+</p>
+
+<p>
+  <code>&nbsp;&nbsp;uv_vectors &lt;corner1&gt;,&lt;corner2&gt;,&lt;corner3&gt;, &lt;corner4&gt;</code> <br>with 
+ default <br><code>&nbsp;&nbsp;uv_vectors &lt;0,0&gt;,&lt;1,0&gt;,&lt;1,1&gt;,&lt;0,1&gt;</code> 
+</p>
+
+<p>
+  For standard triangle meshes (not mesh2) you can specify the UV coordinates for each of the three vertices <code>uv_vectors 
+ &lt;uv1&gt;,&lt;uv2&gt;,&lt;uv3&gt;</code> inside each mesh triangle. This goes right after the coordinates (or 
+ coordinates &amp; normals with smooth triangles) and right before the texture. <br>Example: 
+</p>
+
+<pre>
+  mesh {
+    triangle {
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;
+      uv_vectors &lt;0,0&gt;, &lt;1,0&gt;, &lt;1,1&gt;
+    }
+    triangle {
+      &lt;0,0,0&gt;, &lt;0.5,0.5,0&gt;, &lt;0,0.5,0&gt;
+      uv_vectors &lt;0,0&gt;, &lt;1,1&gt;, &lt;0,1&gt;
+    }
+    texture {
+      uv_mapping pigment {
+        image_map {
+          sys &quot;SomeImage&quot;
+          map_type 0
+          interpolate 0
+        }
+      }
+    }
+  }
+</pre>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_120.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_120.html">3.5.6 Layered Textures</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.5.7 UV Mapping</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_122.html">3.5.8 Triangle Texture Interpolation</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_122.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

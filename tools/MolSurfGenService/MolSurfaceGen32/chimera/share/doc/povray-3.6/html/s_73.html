@@ -1,0 +1,484 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.3.8 Making Animations</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_72.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_72.html">2.3.7 Radiosity</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.3.8 
+   Making Animations</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_74.html">2.3.9 While-loop tutorial</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_74.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_03_08">2.3.8 </a>Making Animations</h3>
+
+<p>
+  There are a number of programs available that will take a series of still image files (such as POV-Ray outputs) and 
+ assemble them into animations. Such programs can produce AVI, MPEG, FLI/FLC, QuickTime, or even animated GIF files 
+ (for use on the World Wide Web). The trick, therefore, is how to produce the frames. That, of course, is where POV-Ray 
+ comes in. In earlier versions producing an animation series was no joy, as everything had to be done manually. We had 
+ to set the clock variable, and handle producing unique file names for each individual frame by hand. We could achieve 
+ some degree of automation by using batch files or similar scripting devices, but still, We had to set it all up by 
+ hand, and that was a lot of work (not to mention frustration... imagine forgetting to set the individual file names 
+ and coming back 24 hours later to find each frame had overwritten the last). 
+</p>
+
+<p>
+  Now, at last, with POV-Ray 3, there is a better way. We no longer need a separate batch script or external 
+ sequencing programs, because a few simple settings in our INI file (or on the command line) will activate an internal 
+ animation sequence which will cause POV-Ray to automatically handle the animation loop details for us. 
+</p>
+
+<p>
+  Actually, there are two halves to animation support: those settings we put in the INI file (or on the command 
+ line), and those code modifications we work into our scene description file. If we have already worked with animation 
+ in previous versions of POV-Ray, we can probably skip ahead to the section &quot;<a href="s_73.html#s02_03_08_05">INI 
+ File Settings</a>&quot; below. Otherwise, let's start with basics. Before we get to how to activate the internal 
+ animation loop, let's look at a couple examples of how a couple of keywords can set up our code to describe the 
+ motions of objects over time. 
+</p>
+
+<h4><a name="s02_03_08_01">2.3.8.1 </a>The Clock Variable: Key To It All</h4>
+<a name="s02_03_08_01_i1">
+<p>
+  POV-Ray supports an automatically declared floating point variable identified as <code><a href="s_97.html#s03_02_01_03_06">clock</a></code> 
+ (all lower case). This is the key to making image files that can be automated. In command line operations, the clock 
+ variable is set using the <code>+k</code> switch. For example, <code> +k3.4</code> from the command line would set the 
+ value of clock to 3.4. The same could be accomplished from the INI file using <code>Clock=3.4</code> in an INI file. 
+</p>
+
+<p>
+  If we do not set clock for anything, and the animation loop is not used (as will be described a little later) the 
+ clock variable is still there - it is just set for the default value of 0.0, so it is possible to set up some POV code 
+ for the purpose of animation, and still render it as a still picture during the object/world creation stage of our 
+ project. 
+</p>
+
+<p>
+  The simplest example of using this to our advantage would be having an object which is travelling at a constant 
+ rate, say, along the x-axis. We would have the statement 
+</p>
+
+<pre>
+  translate &lt;clock, 0, 0&gt;
+</pre>
+
+<p>
+  in our object's declaration, and then have the animation loop assign progressively higher values to clock. And that 
+ is fine, as long as only one element or aspect of our scene is changing, but what happens when we want to control 
+ multiple changes in the same scene simultaneously? 
+</p>
+
+<p>
+  The secret here is to use normalized clock values, and then make other variables in your scene proportional to 
+ clock. That is, when we set up our clock, (we are getting to that, patience!) have it run from 0.0 to 1.0, and then 
+ use that as a multiplier to some other values. That way, the other values can be whatever we need them to be, and 
+ clock can be the same 0 to 1 value for every application. Let's look at a (relatively) simple example 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;0, 3, -6&gt;
+    look_at &lt;0, 0, 0&gt;
+  }
+  light_source { &lt;20, 20, -20&gt; color White }
+  plane {
+    y, 0
+    pigment { checker color White color Black }
+  }
+  sphere {
+    &lt;0, 0, 0&gt; , 1
+    pigment {
+      gradient x
+      color_map {
+        [0.0 Blue  ]
+        [0.5 Blue  ]
+        [0.5 White ]
+        [1.0 White ]
+      }
+      scale .25
+    }
+    rotate &lt;0, 0, -clock*360&gt;
+    translate &lt;-pi, 1, 0&gt;
+    translate &lt;2*pi*clock, 0, 0&gt;
+  }
+</pre>
+
+<p>
+  Assuming that a series of frames is run with the clock progressively going from 0.0 to 1.0, the above code will 
+ produce a striped ball which rolls from left to right across the screen. We have two goals here: 
+</p>
+
+<ol>
+ 
+ <li>
+   Translate the ball from point A to point B, and, 
+ </li>
+
+ <li>
+   Rotate the ball in exactly the right proportion to its linear movement to imply that it is rolling -- not gliding 
+  -- to its final position. 
+ </li>
+
+</ol>
+
+<p>
+  Taking the second goal first, we start with the sphere at the origin, because anywhere else and rotation will cause 
+ it to orbit the origin instead of rotating. Throughout the course of the animation, the ball will turn one complete 
+ 360 degree turn. Therefore, we used the formula, <code>360*clock</code> to determine the rotation in each frame. Since 
+ clock runs 0 to 1, the rotation of the sphere runs from 0 degrees through 360. 
+</p>
+
+<p>
+  Then we used the first translation to put the sphere at its initial starting point. Remember, we could not have 
+ just declared it there, or it would have orbited the origin, so before we can meet our other goal (translation), we 
+ have to compensate by putting the sphere back where it would have been at the start. After that, we re-translate the 
+ sphere by a clock relative distance, causing it to move relative to the starting point. We have chosen the formula of 
+ 2*pi* r*clock (the widest circumference of the sphere times current clock value) so that it will appear to move a 
+ distance equal to the circumference of the sphere in the same time that it rotates a complete 360 degrees. In this 
+ way, we have synchronized the rotation of the sphere to its translation, making it appear to be smoothly rolling along 
+ the plane. 
+</p>
+
+<p>
+  Besides allowing us to coordinate multiple aspects of change over time more cleanly, mathematically speaking, the 
+ other good reason for using normalized clock values is that it will not matter whether we are doing a ten frame 
+ animated GIF, or a three hundred frame AVI. Values of the clock are proportioned to the number of frames, so that same 
+ POV code will work without regard to how long the frame sequence is. Our rolling ball will still travel the exact same 
+ amount no matter how many frames our animation ends up with. 
+</p>
+
+<h4><a name="s02_03_08_02">2.3.8.2 </a>Clock Dependant Variables And Multi-Stage Animations</h4>
+<a name="s02_03_08_02_i1">
+<p>
+  Okay, what if we wanted the ball to roll left to right for the first half of the animation, then change direction 
+ 135 degrees and roll right to left, and toward the back of the scene. We would need to make use of POV-Ray's new 
+ conditional rendering directives, and test the clock value to determine when we reach the halfway point, then start 
+ rendering a different clock dependant sequence. But our goal, as above, it to be working in each stage with a variable 
+ in the range of 0 to 1 (normalized) because this makes the math so much cleaner to work with when we have to control 
+ multiple aspects during animation. So let's assume we keep the same camera, light, and plane, and let the clock run 
+ from 0 to 2! Now, replace the single sphere declaration with the following... 
+</p>
+
+<pre>
+  #if ( clock &lt;= 1 )
+    sphere { &lt;0, 0, 0&gt; , 1
+      pigment {
+        gradient x
+        color_map {
+          [0.0 Blue  ]
+          [0.5 Blue  ]
+          [0.5 White ]
+          [1.0 White ]
+        }
+        scale .25
+      }
+      rotate &lt;0, 0, -clock*360&gt;
+      translate &lt;-pi, 1, 0&gt;
+      translate &lt;2*pi*clock, 0, 0&gt;
+    }
+  #else
+    // (if clock is &gt; 1, we're on the second phase)
+    // we still want to work with  a value from 0 - 1
+    #declare ElseClock = clock - 1;
+    sphere { &lt;0, 0, 0&gt; , 1
+      pigment {
+        gradient x
+        color_map {
+          [0.0 Blue  ]
+          [0.5 Blue  ]
+          [0.5 White ]
+          [1.0 White ]
+        }
+        scale .25
+      }
+      rotate &lt;0, 0, ElseClock*360&gt;
+      translate &lt;-2*pi*ElseClock, 0, 0&gt;
+      rotate &lt;0, 45, 0&gt;
+      translate &lt;pi, 1, 0&gt;
+    }
+  #end
+</pre>
+
+<p>
+  If we spotted the fact that this will cause the ball to do an unrealistic <em>snap turn</em> when changing 
+ direction, bonus points for us - we are a born animator. However, for the simplicity of the example, let's ignore that 
+ for now. It will be easy enough to fix in the real world, once we examine how the existing code works. 
+</p>
+
+<p>
+  All we did differently was assume that the clock would run 0 to 2, and that we wanted to be working with a 
+ normalized value instead. So when the clock goes over 1.0, POV assumes the second phase of the journey has begun, and 
+ we declare a new variable <code>Elseclock</code> which we make relative to the original built in clock, in such a way 
+ that while clock is going 1 to 2, Elseclock is going 0 to 1. So, even though there is only one <code> clock</code>, 
+ there can be as many additional variables as we care to declare (and have memory for), so even in fairly complex 
+ scenes, the single clock variable can be made the common coordinating factor which orchestrates all other motions. 
+</p>
+
+<h4><a name="s02_03_08_03">2.3.8.3 </a>The Phase Keyword</h4>
+<a name="s02_03_08_03_i1">
+<p>
+  There is another keyword we should know for purposes of animations: the <code><a href="s_126.html#s03_05_12">phase</a></code> 
+ keyword. The phase keyword can be used on many texture elements, especially those that can take a color, pigment, 
+ normal or texture map. Remember the form that these maps take. For example: 
+</p>
+
+<pre>
+  color_map {
+    [0.00 White ]
+    [0.25 Blue ]
+    [0.76 Green ]
+    [1.00 Red ]
+  }
+</pre>
+
+<p>
+  The floating point value to the left inside each set of brackets helps POV-Ray to map the color values to various 
+ areas of the object being textured. Notice that the map runs cleanly from 0.0 to 1.0? 
+</p>
+
+<p>
+  Phase causes the color values to become shifted along the map by a floating point value which follows the keyword <code>phase</code>. 
+ Now, if we are using a normalized clock value already anyhow, we can make the variable clock the floating point value 
+ associated with phase, and the pattern will smoothly shift over the course of the animation. Let's look at a common 
+ example using a gradient normal pattern 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  #include &quot;textures.inc&quot;
+  background { rgb&lt;0.8, 0.8, 0.8&gt; }
+  camera {
+    location &lt;1.5, 1, -30&gt;
+    look_at &lt;0, 1, 0&gt;
+    angle 10
+  }
+  light_source { &lt;-100, 20, -100&gt; color White }
+  // flag
+  polygon {
+    5, &lt;0, 0&gt;, &lt;0, 1&gt;, &lt;1, 1&gt;, &lt;1, 0&gt;, &lt;0, 0&gt;
+    pigment { Blue }
+    normal {
+      gradient x
+      phase clock
+      scale &lt;0.2, 1, 1&gt;
+      sine_wave
+    }
+    scale &lt;3, 2, 1&gt;
+    translate &lt;-1.5, 0, 0&gt;
+  }
+  // flagpole
+  cylinder {
+    &lt;-1.5, -4, 0&gt;, &lt;-1.5, 2.25, 0&gt;, 0.05
+    texture { Silver_Metal }
+  }
+  // polecap
+  sphere {
+    &lt;-1.5, 2.25, 0&gt;, 0.1
+    texture { Silver_Metal }
+  }
+</pre>
+
+<p>
+  Now, here we have created a simple blue flag with a gradient normal pattern on it. We have forced the gradient to 
+ use a sine-wave type wave so that it looks like the flag is rolling back and forth as though flapping in a breeze. But 
+ the real magic here is that phase keyword. It has been set to take the clock variable as a floating point value which, 
+ as the clock increments slowly toward 1.0, will cause the crests and troughs of the flag's wave to shift along the 
+ x-axis. Effectively, when we animate the frames created by this code, it will look like the flag is actually rippling 
+ in the wind. 
+</p>
+
+<p>
+  This is only one, simple example of how a clock dependant phase shift can create interesting animation effects. 
+ Trying phase will all sorts of texture patterns, and it is amazing the range of animation effects we can create simply 
+ by phase alone, without ever actually moving the object. 
+</p>
+
+<h4><a name="s02_03_08_04">2.3.8.4 </a>Do Not Use Jitter Or Crand</h4>
+<a name="s02_03_08_04_i1"><a name="s02_03_08_04_i2"><a name="s02_03_08_04_i3">
+<p>
+  One last piece of basic information to save frustration. Because jitter is an element of anti-aliasing, we could 
+ just as easily have mentioned this under the INI file settings section, but there are also forms of anti-aliasing used 
+ in area lights, and the new atmospheric effects of POV-Ray, so now is as good a time as any. 
+</p>
+
+<p>
+  <a href="s_111.html#s03_04_07_05">Jitter</a> is a very small amount of random ray perturbation designed to diffuse 
+ tiny aliasing errors that might not otherwise totally disappear, even with intense anti-aliasing. By randomizing the 
+ placement of erroneous pixels, the error becomes less noticeable to the human eye, because the eye and mind are 
+ naturally inclined to look for regular patterns rather than random distortions. 
+</p>
+
+<p>
+  This concept, which works fantastically for still pictures, can become a nightmare in animations. Because it is 
+ random in nature, it will be different for each frame we render, and this becomes even more severe if we dither the 
+ final results down to, say 256 color animations (such as FLC's). The result is jumping pixels all over the scene, but 
+ especially concentrated any place where aliasing would normally be a problem (e.g., where an infinite plane disappears 
+ into the distance). 
+</p>
+
+<p>
+  For this reason, we should always set jitter to <code>off</code> in area lights and anti-aliasing options when 
+ preparing a scene for an animation. The (relatively) small extra measure quality due to the use of jitter will be 
+ offset by the ocean of jumpies that results. This general rule also applies to any truly random texture elements, such 
+ as <code><a href="s_117.html#s03_05_03_02_03">crand</a></code>. 
+</p>
+
+<h4><a name="s02_03_08_05">2.3.8.5 </a>INI File Settings</h4>
+<a name="s02_03_08_05_i1"><a name="s02_03_08_05_i2"><a name="s02_03_08_05_i3"><a name="s02_03_08_05_i4"><a name="s02_03_08_05_i5">
+<p>
+  Okay, so we have a grasp of how to code our file for animation. We know about the clock variable, user declared 
+ clock-relative variables, and the phase keyword. We know not to jitter or crand when we render a scene, and we are all 
+ set build some animations. Alright, let's have at it. 
+</p>
+
+<p>
+  The first concept we will need to know is the INI file settings, <code><a href="s_95.html#s03_01_02_01_02">Initial_Frame</a></code> 
+ and <code><a href="s_95.html#s03_01_02_01_02">Final_Frame</a></code>. These are very handy settings that will allow us 
+ to render a particular number of frames and each with its own unique frame number, in a completely hands free way. It 
+ is of course, so blindingly simple that it barely needs explanation, but here is an example anyway. We just add the 
+ following lines to our favorite INI file settings 
+</p>
+
+<pre>
+  Initial_Frame = 1
+  Final_Frame = 20
+</pre>
+
+<p>
+  and we will initiate an automated loop that will generate 20 unique frames. The settings themselves will 
+ automatically append a frame number onto the end of whatever we have set the output file name for, thus giving each 
+ frame an unique file number without having to think about it. Secondly, by default, it will cycle the clock variable 
+ up from 0 to 1 in increments proportional to the number of frames. This is very convenient, since, no matter whether 
+ we are making a five frame animated GIF or a 300 frame MPEG sequence, we will have a clock value which smoothly cycles 
+ from exactly the same start to exactly the same finish. 
+</p>
+
+<p>
+  Next, about that clock. In our example with the rolling ball code, we saw that sometimes we want the clock to cycle 
+ through values other than the default of 0.0 to 1.0. Well, when that is the case, there are setting for that too. The 
+ format is also quite simple. To make the clock run, as in our example, from 0.0 to 2.0, we would just add to your INI 
+ file the lines<code> <a href="s_95.html#s03_01_02_01_02">Initial_Clock</a> = 0.0<br> <a href="s_95.html#s03_01_02_01_02">Final_Clock</a> 
+ = 2.0<br> </code> 
+</p>
+
+<p>
+  Now, suppose we were developing a sequence of 100 frames, and we detected a visual glitch somewhere in frames, say 
+ 51 to 75. We go back over our code and we think we have fixed it. We would like to render just those 25 frames instead 
+ of redoing the whole sequence from the beginning. What do we change? 
+</p>
+
+<p>
+  If we said make <code>Initial_Frame = 51</code>, and <code>Final_Frame = 75</code>, we are wrong. Even though this 
+ would re-render files named with numbers 51 through 75, they will not properly fit into our sequence, because the 
+ clock will begin at its initial value starting with frame 51, and cycle to final value ending with frame 75. The only 
+ time <code>Initial_Frame</code> and <code>Final_Frame</code> should change is if we are doing an essentially new 
+ sequence that will be appended onto existing material. 
+</p>
+
+<p>
+  If we wanted to look at just 51 through 75 of the original animation, we need two new INI settings<code> <a href="s_95.html#s03_01_02_01_03">Subset_Start_Frame</a> 
+ = 51<br> <a href="s_95.html#s03_01_02_01_03">Subset_End_Frame</a> = 75<br> </code> 
+</p>
+
+<p>
+  Added to settings from before, the clock will still cycle through its values proportioned from frames 1 to 100, but 
+ we will only be rendering that part of the sequence from the 51st to the 75th frames. 
+</p>
+
+<p>
+  This should give us a basic idea of how to use animation. Although, this introductory tutorial does not cover all 
+ the angles. For example, the last two settings we just saw, subset animation, can take fractional values, like 0.5 to 
+ 0.75, so that the number of actual frames will not change what portion of the animation is being rendered. There is 
+ also support for efficient odd-even field rendering as would be useful for animations prepared for display in 
+ interlaced playback such as television (see the reference section for full details). 
+</p>
+
+<p>
+  With POV-Ray 3 now fully supporting a complete host of animation options, a whole fourth dimension is added to the 
+ raytracing experience. Whether we are making a FLIC, AVI, MPEG, or simply an animated GIF for our web site, animation 
+ support takes a lot of the tedium out of the process. And do not forget that phase and clock can be used to explore 
+ the range of numerous texture elements, as well as some of the more difficult to master objects (hint: the julia 
+ fractal for example). So even if we are completely content with making still scenes, adding animation to our 
+ repertoire can greatly enhance our understanding of what POV-Ray is capable of. Adventure awaits! 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_72.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_72.html">2.3.7 Radiosity</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.3.8 Making Animations</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_74.html">2.3.9 While-loop tutorial</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_74.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

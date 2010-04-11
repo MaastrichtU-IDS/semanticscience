@@ -1,0 +1,82 @@
+logFile leap.log
+#
+# ----- leaprc for loading the Cornell et al. 1994 force field.
+#
+#	Load the main parameter set.
+#
+parm91 = loadamberparams parm91X.dat
+#
+#	Load protein and dna
+#
+loadOff pro-dna91.nmr.lib
+#
+#	Define the PDB name map for the amino acids and DNA.
+#
+#  charged amino residues for proteins not currently used in the "nmr" files
+#  { 0 "ALA" "NALA" } { 1 "ALA" "CALA" }
+#  { 0 "ARG" "NARG" } { 1 "ARG" "CARG" }
+#  { 0 "ASN" "NASN" } { 1 "ASN" "CASN" }
+#  { 0 "ASP" "NASP" } { 1 "ASP" "CASP" }
+#  { 0 "CYS" "NCYS" } { 1 "CYS" "CCYS" }
+#  { 0 "CYX" "NCYX" } { 1 "CYX" "CCYX" }
+#  { 0 "GLN" "NGLN" } { 1 "GLN" "CGLN" }
+#  { 0 "GLU" "NGLU" } { 1 "GLU" "CGLU" }
+#  { 0 "GLY" "NGLY" } { 1 "GLY" "CGLY" }
+#  { 0 "HID" "NHID" } { 1 "HID" "CHID" }
+#  { 0 "HIE" "NHIE" } { 1 "HIE" "CHIE" }
+#  { 0 "HIP" "NHIP" } { 1 "HIP" "CHIP" }
+#  { 0 "ILE" "NILE" } { 1 "ILE" "CILE" }
+#  { 0 "LEU" "NLEU" } { 1 "LEU" "CLEU" }
+#  { 0 "LYS" "NLYS" } { 1 "LYS" "CLYS" }
+#  { 0 "MET" "NMET" } { 1 "MET" "CMET" }
+#  { 0 "PHE" "NPHE" } { 1 "PHE" "CPHE" }
+#  { 0 "PRO" "NPRO" } { 1 "PRO" "CPRO" }
+#  { 0 "SER" "NSER" } { 1 "SER" "CSER" }
+#  { 0 "THR" "NTHR" } { 1 "THR" "CTHR" }
+#  { 0 "TRP" "NTRP" } { 1 "TRP" "CTRP" }
+#  { 0 "TYR" "NTYR" } { 1 "TYR" "CTYR" }
+#  { 0 "VAL" "NVAL" } { 1 "VAL" "CVAL" }
+#  { 0 "HIS" "NHIS" } { 1 "HIS" "CHIS" }
+
+addPdbResMap {
+  { 0 "GUA" "DG5"  } { 1 "GUA" "DG3"  } { "GUA" "DG" }
+  { 0 "ADE" "DA5"  } { 1 "ADE" "DA3"  } { "ADE" "DA" }
+  { 0 "CYT" "DC5"  } { 1 "CYT" "DC3"  } { "CYT" "DC" }
+  { 0 "THY" "DT5"  } { 1 "THY" "DT3"  } { "THY" "DT" }
+  { 0 "G5'" "DG5"  } { 1 "G3'" "DG3"  }
+  { 0 "A5'" "DA5"  } { 1 "A3'" "DA3"  }
+  { 0 "C5'" "DC5"  } { 1 "C3'" "DC3"  }
+  { 0 "T5'" "DT5"  } { 1 "T3'" "DT3"  }
+  { 0 "  G" "DG5"  } { 1 "  G" "DG3"  } { "  G" "DG" }
+  { 0 "  A" "DA5"  } { 1 "  A" "DA3"  } { "  A" "DA" }
+  { 0 "  C" "DC5"  } { 1 "  C" "DC3"  } { "  C" "DC" }
+  { 0 "  T" "DT5"  } { 1 "  T" "DT3"  } { "  T" "DT" }
+  { "HMU" "DHU" }
+
+}
+
+addPdbAtomMap {
+  { "O5*" "O5'" }
+  { "C5*" "C5'" }
+  { "C4*" "C4'" }
+  { "O4*" "O4'" }
+  { "C3*" "C3'" }
+  { "O3*" "O3'" }
+  { "C2*" "C2'" }
+  { "C1*" "C1'" }
+  { "C5M" "C7"  }
+  { "O5M" "O7"  }
+  { "HO5" "HO7" }
+# old ff atom names -> new
+  { "O1'" "O4'" }
+  { "OA"  "O1P" }
+  { "OB"  "O2P" }
+}
+
+#
+# assumed that most often users will want to use HID
+#
+NHIS = NHID
+HIS = HID
+CHIS = CHID
+

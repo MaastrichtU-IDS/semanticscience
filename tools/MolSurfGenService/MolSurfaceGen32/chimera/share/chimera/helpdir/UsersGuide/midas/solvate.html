@@ -1,0 +1,82 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>solvate</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>solvate</b> <b>box|oct</b> <i>solvent_model</i> <i>box_size</i></h3> 
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>solvate</b> <b>cap</b> <i>solvent_model</i> <i>center</i> <i>radius</i></h3> 
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>solvate</b> <b>shell</b> <i>solvent_model</i> <i>thickness</i></h3> 
+<p>
+The <b>solvate</b> command adds solvent around molecule models using
+<a href="http://ambermd.org/#AmberTools" target="_blank">AmberTools</a>.
+It is the command-line implementation of
+<a href="../../ContributedSoftware/solvate/solvate.html"><b>Solvate</b></a>.
+Thanks to Wei Zhang for adding this command.
+</p><p>
+Deleting any existing solvent and ions and closing other molecule models is
+recommended before running <b>solvate</b>.
+Explicit hydrogens must be present for solvent addition;
+if the molecule model does not include hydrogens, a dialog for running
+<a href="../../ContributedSoftware/addh/addh.html"><b>AddH</b></a> beforehand
+will appear.
+</p><p>
+One of the following methods must be specified:
+<ul>
+<li><b>box</b> - rectangular box with edges no closer than
+<i>box_size</i> (&Aring;) to any atom in the solute
+<li><b>oct</b> - truncated octahedron with edges no closer than
+<i>box_size</i> (&Aring;) to any atom in the solute 
+<li><b>cap</b> - spherical cap with the specified 
+<i>center</i> and <i>radius</i> (&Aring;).
+The <i>center</i> can be:
+  <ul>
+  <li>a residue identified by the residue ID (starting from 1)
+  <li> an atom identified by a string like <b>ddd.xxx</b>, where 
+  <b>ddd</b> is the residue ID and <b>xxx</b> is the name of the atom
+  </ul>
+<li><b>shell</b> - a layer of solvent extending <i>thickness</i> (&Aring;)
+from the solute.  The shell will be irregular in shape since it
+reflects the contours of the solute.
+</ul>
+</p><p>
+The <i>solvent_model</i> can be any of the following:
+<ul>
+<li><b>CHCL3BOX</b> - chloroform
+<li><b>MEOHBOX</b> - methanol
+<li><b>NMABOX</b> - N-methylacetamide
+<li><b>POL3BOX</b> - POL3 water model
+<li><b>SPCBOX</b> - SPC/E water model
+<li><b>SPCFWBOX</b> - SPC/Fw water model
+<li><b>QSPCFWBOX</b> - qSPC/Fw water model
+<li><b>TIP3PBOX</b> - TIP3P water model
+<li><b>TIP3PFBOX</b> - TIP3P/F water model
+<li><b>TIP4PBOX</b> - TIP4P water model
+<li><b>TIP4PEWBOX</b> - TIP4P/Ew water model
+</ul>
+See the
+<a href="http://ambermd.org/#AmberTools" target="_blank">AmberTools</a>
+documentation for further details.
+</p><p>
+See also:
+<b><A href="addh.html">addh</A></b>,
+<b><A href="delete.html">delete</A></b>,
+<b><A href="minimize.html">minimize</A></b>,
+<a href="../../ContributedSoftware/solvate/solvate.html"><b>Solvate</b></a>
+</p>
+</body></html>

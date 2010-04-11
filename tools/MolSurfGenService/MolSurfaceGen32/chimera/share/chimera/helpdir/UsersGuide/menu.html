@@ -1,0 +1,669 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2001-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Chimera Menus</title>
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head><body>
+
+<a name="top">
+<h2>Chimera Menus</h2>
+</a>
+<p>
+The major menu headings are:
+<ul>
+<li><a href="#menufile"><b>File</b></a>
+<li><a href="#menuselect"><b>Select</b></a>
+<li><a href="#menuactions"><b>Actions</b></a>
+<li><a href="#menupresets"><b>Presets</b></a>
+<li><a href="#menuvolume"><b>Volume</b></a> (not always present)
+<li><a href="#menutools"><b>Tools</b></a>
+<li><a href="#menufavorites"><b>Favorites</b></a>
+<li><a href="#menualiases"><b>Aliases</b></a> (not always present)
+<li><a href="#menuhelp"><b>Help</b></a>
+</ul>
+<a name="tear-off">
+The menus are <b><i>tear-off</i></b>, as indicated by a dashed line
+above the entries when the menu contents are shown.</a>
+Choosing the dashed line instead of an entry makes the menu
+an independent window that remains up until explicitly closed.
+Unavailable options are grayed out.
+</p>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menufile">File</a></h3>
+<ul>
+<li><b>Open...</b> bring up the <a href="opensave.html#opendialog"><b>Open 
+File</b> dialog</a>
+<li><b>Fetch by ID...</b> <a href="fetch.html">specify by 
+database identifier</a> a file to be retrieved and opened
+</ul><ul>
+<li>
+<b>Restore Session...</b> bring up a <a href="opensave.html">dialog</a> for
+opening a previously saved
+<a href="sessions.html#sesdef">session</a> (Python file)
+<li><b>Save Session</b> - save the current
+<a href="sessions.html#sesdef">session</a>
+in the working directory; available when the current session 
+has been named with <b>Save Session As...</b> or was started by
+<a href="sessions.html#restartsess">
+restoring</a> an existing session)
+<li><b>Save Session As...</b>
+bring up a <a href="opensave.html">dialog</a> for 
+saving the current
+<a href="sessions.html#sesdef">session</a> 
+to a specified name and directory location
+</ul><ul>
+<li><b>Save Image...</b> bring up the
+<a href="print.html"><b>Save Image</b> dialog</a>
+<li><b>Save PDB...</b> bring up a dialog for
+<a href="savemodel.html#pdb">saving PDB files</a> 
+<li><b>Save Mol2...</b> bring up a dialog for
+<a href="savemodel.html#mol2">saving Mol2 files</a> 
+<li><b>Export Scene...</b> bring up a dialog for
+<a href="export.html">exporting the scene</a> from Chimera
+</ul><ul>
+<li><b>Close Session</b> - clear session contents without exiting from Chimera
+<li><b>Quit</b> - exit from Chimera
+</ul>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menuselect">Select</a></h3>
+
+<a href="selection.html">Selection</a> designates items for subsequent 
+<a href="#menuactions"><b>Actions</b></a>.  
+When nothing is selected, <a href="#menuactions"><b>Actions</b></a>
+apply to "all." (Note: Any of the entries in <b>Chemistry</b>,
+<b>Residue... <a href="../ContributedSoftware/resprop/resprop.html#aacat">amino acid category</a></b>, and
+<b>Structure</b> can also be used to <a href="midas/frameatom_spec.html"
+target="_top">specify atoms</a> in the 
+<a href="chimerawindow.html#emulator"><b>Command Line</b></a>.)
+<ul>
+<li><b>Chain</b>
+  <br>
+  [<i>only chain IDs found in currently open structures will be listed</i>]
+<li><b>Chemistry</b>
+  <ul>
+  <li><b>element</b>
+      <br>[<i>many entries</i>]
+  <li><b>functional group</b>
+      <br>[<i>many entries</i>]
+  <li><b><a href="idatm.html">IDATM type</a></b>
+      <br>[<i>many entries</i>]
+  </ul>
+<li><b>Residue</b>
+  <ul>
+  <li><b><a href="../ContributedSoftware/resprop/resprop.html#aacat">amino acid category</a></b>
+      <br>[<i>many entries</i>]
+  <br>(the existing amino acid categories can be changed and new
+  categories defined and listed here, using
+  <a href="../ContributedSoftware/resprop/resprop.html"><b>ResProp</b></a>)
+  </ul>
+  [<i>only residue names found in currently open structures will be listed,
+  sorted into nonstandard residues, standard nucleic acids, 
+  and standard amino acids</i>]
+<li><b>Structure</b>
+  <ul>
+  <li><b>backbone</b> (only applies to amino acids and/or nucleic acids)
+    <ul>
+    <li><b>full</b> -  the amide backbone in peptides,
+    the sugar-phosphate backbone in nucleic acids
+    <li><b>minimal</b> - a continuous series of bonded atoms
+    connecting the <a href="#tracedef">chain trace</a>
+    atoms (-[N-CA-C]<sub><i>n</i></sub>- in peptides and 
+    -[O5'-C5'-C4'-C3'-O3'-P]<sub><i>n</i></sub>- in nucleic acids)
+    </ul>
+  <li><b>ions</b> - ions,
+   using the same <a href="midas/surface.html#surfcats">definition</a>
+   as surface calculations
+  <li><b>ligand</b> - ligand,
+   using the same <a href="midas/surface.html#surfcats">definition</a>
+   as surface calculations
+  <li><b>main</b> - main,
+   using the same <a href="midas/surface.html#surfcats">definition</a>
+   as surface calculations
+  <li><b>nucleic acid</b> - nucleosides, nucleotides, RNA, and DNA
+  <li><b>protein</b> - amino acids, peptides, and proteins
+  <li><b>secondary structure</b> (only applies to peptides/proteins;
+   helix and strand assignments are taken from the input structure 
+   file or generated with <a href="midas/ksdssp.html"><b>ksdssp</b></a>)
+    <ul>
+    <li><b>helix</b> - residues in helices
+    <li><b>strand</b> - residues in strands
+    <li><b>turn</b> - residues in turns according to the input file
+    </ul>
+  <li><b>side chain/base</b>
+  (only applies to amino acids and/or nucleic acids)
+    <ul>
+    <li><b>with CA/C1'</b>
+    <li><b>without CA/C1'</b>
+    </ul>
+  <li><b>solvent</b> - solvent,
+   using the same <a href="midas/surface.html#surfcats">definition</a>
+   as surface calculations
+  </ul>
+</ul>
+<ul>
+<li><a name="selectseq">
+<b>Sequence...</b></a> <a href="findseq.html">find and select</a>
+a specified amino acid and/or nucleotide sequence (atoms and bonds
+in any/all matching segments will be selected)
+<li><b>Atom Specifier...</b> use
+<a href="midas/atom_spec.html#basic">
+atom specification syntax</a> for selection
+<li><b>By Attribute Value...</b> open the 
+<a href="../ContributedSoftware/render/render.html#select">
+<b>Select by Attribute</b></a> tool to select by attribute values
+<li><a name="selectzone">
+<b>Zone...</b></a> select atoms and bonds within (or beyond)
+a specified distance from the currently selected atoms, on a per-atom or
+whole-residue basis
+</ul><ul>
+<li><b>Clear Selection</b> - clear (deselect) the current selection
+<li><b>Invert (all models)</b> - select all currently
+unselected atoms and deselect all currently selected atoms
+<li><b>Invert (selected models)</b> - in models containing selections only,
+select all currently unselected atoms and deselect all currently selected atoms
+<li><b>Select All</b> - select all open models and their constituent parts
+<li><b>Selection Mode (<i>current_mode</i>)</b>
+- control whether a new selection <i>via</i> the menu will be
+added to, subtracted from, intersected with, or used to replace
+the existing selection
+<li><b>Broaden</b> - expand the current selection up a
+level in the <a href="selection.html#expandselect">selection cascade</a>
+<li><b>Narrow</b> - narrow a previously broadened selection down a 
+level in the <a href="selection.html#expandselect">selection cascade</a>
+<li><b>Undo</b> - undo the most recent selection operation
+</ul><ul>
+<li><a name="namesel"><b>Name Selection...</b></a>
+name and save the current selection
+(see also the command <a href="midas/namesel.html"><b>namesel</b></a>).
+The selection contents are remembered, not the process by which the
+selection was generated (<i>i.e.</i>, if all oxygens in the current 
+structure(s) are selected, later retrieving the named selection when 
+<i>different</i> structures are open will not select their oxygens).
+<li><b>Named Selections</b> - retrieve a previously saved selection
+</ul>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menuactions">Actions</a></h3>
+
+Which items are affected by <b>Actions</b> 
+(the <a name="targdef"><b><i>targets</i></b></a>) 
+depends on the current <a href="selection.html">selection</a>.
+For actions under <a href="#actdisplay"><b>Atoms/Bonds</b></a>,
+<a href="#actribbon"><b>Ribbon</b></a>,
+<a href="#actsurface"><b>Surface</b></a>,
+<a href="#actcolor"><b>Color</b></a>,
+<a href="#actlabel"><b>Label</b></a>,
+<a href="#actfocus"><b>Focus</b></a>,
+and <a href="#actpivot"><b>Set Pivot</b></a>:
+<ul>
+<li>When nothing is selected, the action affects all applicable items:
+molecule models and/or <a href="surfattrib.html#surfmodels">surface models</a>,
+depending on the action.
+<li>Surface actions apply not only to selected
+<a href="surfattrib.html#surfpiecedef">surface pieces</a>, but also to the
+<a href="representation.html#surfaces">molecular surface</a> patches
+of selected atoms.
+</ul>
+<a href="inspection.html">Inspection</a> and
+<a href="#writespec">file-writing actions</a>, however,
+apply only to explicit selections.
+<ul>
+<li><a name="actdisplay"><b>Atoms/Bonds</b></a>
+  (see also the commands <a href="midas/display.html"><b>display</b></a>
+  and <a href="midas/represent.html"><b>represent</b></a>)
+  <ul>
+  <li><b>show</b>
+  <li><b>show only</b>
+  <li><b>hide</b>
+<br>
+  <li><b>backbone only</b>
+  - only applies to residues in bonded chains of amino acids or nucleic acids
+    <ul>
+    <li> <a name="tracedef"><b>chain trace</b></a> 
+    - show only one atom per residue, CA in each amino acid and 
+    C4' in each nucleic acid residue
+    (turns on <a href="moleculeattrib.html#autochaining">auto-chaining</a>)
+    <li><b>full</b> - show only the amide backbone in peptides,
+    the sugar-phosphate backbone in nucleic acids
+    <li><b>minimal</b> - show only a continuous series of bonded atoms
+    connecting the <a href="#tracedef">chain trace</a>
+    atoms (-[N-CA-C]<sub><i>n</i></sub>- in peptides and 
+    -[O5'-C5'-C4'-C3'-O3'-P]<sub><i>n</i></sub>- in nucleic acids)
+    </ul>
+  <li><b>side chain/base</b>
+  - only applies to residues in bonded chains of amino acids or nucleic acids.
+  Each amino acid <b>side chain</b> includes any side chain
+  atoms from CB outward, plus the atom CA (for connectivity purposes);
+  similarly, each nucleic acid <b>base</b> includes the base
+  plus the sugar atom to which it is bonded, usually named C1'.
+    <ul>
+    <li><b>show</b> - display side chains/bases and turn
+  <a href="moleculeattrib.html#autochaining">auto-chaining</a> on
+    <li><b>show only</b> - undisplay other atoms in the chain and turn
+  <a href="moleculeattrib.html#autochaining">auto-chaining</a> off
+    </ul>
+  <li><a name="wirewidth"><b>wire width</b></a>
+  - always affects entire molecule models even
+   though the <a href="#targdef">targets</a> may be narrower
+  (like the command <a href="midas/linewidth.html"><b>linewidth</b></a>)
+    <ul>
+    <li><b>1</b>
+    <li><b>1.5</b>
+    <li><b>2</b>
+    <li><b>2.5</b>
+    <li><b>3</b>
+    <li><b>4</b>
+    <li><b>5</b>
+    </ul>
+  <li><b>wire</b>
+(wire <a href="representation.html">representation</a>)
+  <li><b>stick</b>
+(stick <a href="representation.html">representation</a>)
+  <li><b>ball & stick</b>
+(ball-and-stick <a href="representation.html">representation</a>)
+  <li><b>sphere</b>
+(sphere or CPK <a href="representation.html">representation</a>)
+  <li><b>delete</b> - remove atoms/bonds (<b>caution: irreversible</b>)
+  like the command <a href="midas/delete.html"><b>delete</b></a>
+  </ul>
+<li><a name="actribbon"><b>Ribbon</b></a>
+ - <a href="representation.html#ribbon">secondary structure ribbon</a>
+(see also the commands <a href="midas/ribbon.html"><b>ribbon</b></a>
+and <a href="midas/ribrepr.html"><b>ribrepr</b></a>).
+Ribbons are only drawn for proteins and nucleic acids.
+By default, showing ribbon hides the corresponding
+<a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html#mainchain">mainchain atoms</a> 
+(but see <a href="midas/ribbackbone.html"><b>ribbackbone</b></a>).
+Protein helix and strand assignments are taken from the input structure 
+file or generated with <a href="midas/ksdssp.html"><b>ksdssp</b></a>.
+</a>
+  <ul>
+  <li><b>show</b>
+  <li><b>hide</b>
+  <li><b>flat</b>
+  <li><b>edged</b>
+  <li><b>rounded</b>
+  <li><b>supersmooth</b>
+  <br>
+  (note that additional styles can be defined and listed here, using the
+  <a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html"><b>Ribbon
+  Style Editor</b></a>)
+  </ul>
+<li><a name="actsurface"><b>Surface</b></a>
+- <a href="representation.html#surfaces">molecular surfaces</a>
+and <a href="surfattrib.html#surfmodels">surface models</a>.
+Even though the <a href="#targdef">targets</a> may be narrower,
+representations (<b>solid</b>, <b>mesh</b>, and <b>dot</b>) always apply 
+to entire <a href="surfattrib.html#surfpiecedef">surface pieces</a>
+and <b>transparency</b> layer options always apply to entire
+<a href="surfattrib.html#surfmodels">surface models</a>.
+</a>
+  <ul>
+  <li><b>show</b>
+  <li><b>hide</b>
+  <li><b>solid</b>
+  <li><b>mesh</b>
+  <li><b>dot</b>
+  <li><b>transparency</b>
+   (surfaces colored with 
+   <a href="midas/tcolor.html"><b>tcolor</b></a> will not be affected)
+     <ul>
+     <li><b>0%</b>
+     <li><b>10%</b>
+     <li><b>20%</b>
+     <li><b>30%</b>
+     <li><b>40%</b>
+     <li><b>50%</b>
+     <li><b>60%</b>
+     <li><b>70%</b>
+     <li><b>80%</b>
+     <li><b>90%</b>
+     <li><b>100%</b>
+     <li><a name="othertrans"><b>other...</b></a>
+      set surface transparency percentage to a typed-in value
+     <li><b>base color</b>
+      - use transparencies included in color definitions
+      (rather than overriding them via this menu)
+     <li><b>one layer</b> 
+      - show only the topmost layer of a transparent surface
+     <li><b>all layers</b> - show all layers of a transparent surface
+     </ul>
+  </ul>
+<li><a name="actcolor"><b>Color</b></a>
+(see also the command <a href="midas/color.html"><b>color</b></a>)
+  <ul>
+ <li>[<a href="colortables.html#topcolors"><b><i>20 top tier colors</i></b></a>]
+<br>
+   The following control which level(s) in the <a href="hierarchy.html">
+   coloring hierarchy</a> will be affected by a subsequent color choice.
+    <ul>
+    <li><b>atoms/bonds</b>
+    <li><b>ribbons</b>
+    <li><b>surfaces</b> (<a href="representation.html#surfaces">molecular 
+    surfaces</a> and <a href="surfattrib.html#surfmodels">surface models</a>)
+    <li><b>atom labels</b>
+    <li><b>bond labels</b> (does not include <a href="pbpanel.html#pbdef">
+   pseudobond</a> labels; a bond label can be created/deleted by
+   <a href="selection.html#pickselect">picking</a> a bond and using
+   the <a href="inspection.html"><b>Selection Inspector</b></a>)
+    <li><b>residue labels</b>
+    <li><b>all of the above</b> (default)
+    <li><b>ribbon helix interior</b> - set
+    <a href="moleculeattrib.html#ribinsidecolor">ribbon inside color</a>; 
+    affects all protein helix ribbon segments in a model
+    even if the <a href="#targdef">targets</a> are narrower
+    (a model can only have one ribbon inside color); 
+    color <b>none</b> restores the default behavior 
+    of matching interior and exterior
+    <li><b>background</b> - set the 
+    <a href="chimerawindow.html#bg_color">background color</a>
+    (regardless of the current <a href="#targdef">targets</a>)
+    <li><b>depth cue</b> - set the color used for front-to-back shading
+    (<a href="sideview.html#dc">depth cueing</a>)
+    (regardless of the current <a href="#targdef">targets</a>)
+    </ul>
+  <li><b>by heteroatom</b>
+  - use a built-in <a href="colortables.html#byelement">
+  color-by-element scheme</a>, except leaving carbon atoms unchanged; 
+  does not affect ribbons, residue labels, background, or depth cue colors
+  <li><b>by element</b>
+  - use a built-in <a href="colortables.html#byelement">
+  color-by-element scheme</a>; does not affect
+  ribbons, residue labels, background, or depth cue colors
+  <li><b>from editor</b> - open the
+  <a href="colortool.html"><b>Color Editor</b></a>
+   and use its current color; apply any color adjustments made in the 
+  <a href="colortool.html"><b>Color Editor</b></a> until it is closed
+  or reassigned to a different coloring operation by
+  clicking a <a href="coloring.html#colorwell">color well</a>.
+  If during that time the selection is changed, any color adjustments 
+  will be applied to the new selection.
+  <li><b>none</b> - remove color assignments;
+  assignments at other levels in the
+  <a href="hierarchy.html">coloring hierarchy</a> may become visible
+  <li><b>all colors</b> - a further menu of
+  <a href="colortables.html#allcolors">60 built-in colors</a>
+  </ul>
+<li><a name="actlabel"><b>Label</b></a>
+(see also the command <a href="midas/label.html"><b>label</b></a>)
+  <ul>
+  <li><b>off</b> - undisplay atom labels
+  <li><b>name</b> - label atoms by name 
+  (with any alternate location ID appended)
+  <li><b>element</b> - label atoms by element
+  <li><b>IDATM type</b> - label atoms by
+  <a href="idatm.html">atom type</a>
+  <li><a name="actlabother"><b>other...</b></a>
+  label atoms with an arbitrary string or with the values of
+  <a href="midas/atom_spec.html#atprops">atom attributes</a>:
+     <ul>
+     <li><b>altLoc</b> - alternate location identifier, if any
+     <li><b>bfactor</b> - B-factor value, if any
+     <br> (<i>etc.</i>) 
+     </ul>
+Newly generated numerical, boolean, or string-valued atom
+<a href="../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attributes</a> will also be listed.
+  <li><b>residue</b>
+  (see also the command <a href="midas/rlabel.html"><b>rlabel</b></a>)
+  - A residue label is placed at the centroid of the displayed atoms
+  in the residue.  When ribbon is displayed instead of 
+<a href="../ContributedSoftware/ribbonstyle/ribbonstyle.html#mainchain">mainchain atoms</a>, 
+  mainchain atom positions are still used in computing the centroid.
+    <ul>
+    <li><b>off</b> - undisplay residue labels
+    <li><b>name</b> - label residues by name
+    <li><b>1-letter code</b> - label standard 
+    amino acid residues by one-letter code, other residues by name
+    <li><a name="resspec"><b>specifier</b></a>
+     - label residues by specifier (residue number,
+    insertion code, and chain ID); see <a href="customlabel.html">custom
+    residue labeling</a> for number alone
+    <li><b>name + specifier</b> - label residues by name and 
+    <a href="#resspec">specifier</a>
+    <li><b>1-letter code + specifier</b> - label standard amino acid residues
+    by 1-letter code and <a href="#resspec">specifier</a>,
+    other residues by name and <a href="#resspec">specifier</a>
+    <li><b>custom...</b>
+    <a href="customlabel.html">custom-label residues</a>
+    with an arbitrary string and/or other residue information such as
+    <a href="midas/atom_spec.html#resprops">attributes</a>
+    </ul>
+  </ul>
+<li><a name="actfocus"><b>Focus</b></a> - focus the view on the 
+<a href="#targdef">targets</a> that are also displayed
+and set the <a href="sideview.html#rotation">center of rotation method</a> to 
+<b>center of view</b> (analogous to the command 
+<a href="midas/focus.html"><b>focus</b></a>); 
+if nothing is selected, set the
+<a href="sideview.html#rotation">center of rotation method</a>
+to <b>front center</b>
+  </ol>
+<li><a name="actpivot"><b>Set Pivot</b></a>
+- set the center of rotation to the center of the bounding sphere of the 
+<a href="#targdef">targets</a> 
+and set the <a href="sideview.html#rotation">center of rotation method</a> to 
+<b>fixed</b> (analogous to the command 
+<a href="midas/cofr.html"><b>cofr</b></a>);
+if nothing is selected, set the
+<a href="sideview.html#rotation">center of rotation method</a>
+to <b>front center</b>
+</ul><ul>
+<li><b>Inspect</b> -
+open the <a href="inspection.html"><b>Selection Inspector</b></a>,
+which lists what items are selected, shows their attributes, and allows
+their attributes to be changed
+<li><a name="writespec"><b>Write List...</b></a>
+bring up a dialog for saving specifications
+as a parsable list.  Specifications can be saved for
+the selected (or unselected) <b>atoms</b>, <b>bonds</b>, <b>pseudobonds</b>,
+<b>residues</b>, <b>molecules</b> (molecule models), or <b>models</b>
+(non-molecule models: molecular surface, surface, VRML, and volume).
+The <a href="preferences.html#namingstyle">naming style</a> controls
+the format of the specifications.
+Clicking the <b>Log</b> button sends the information to the 
+<a href="reply.html"><b>Reply Log</b></a> instead of saving a file.
+<li><b>Write PDB...</b> bring up a dialog for
+<a href="savemodel.html#pdb">saving the selection as a PDB file</a> 
+</ul>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menupresets">Presets</a></h3>
+<p>
+A <b><i>preset</i></b> is a predefined combination of display settings.
+Choosing an entry in the <b>Presets</b> menu applies its settings
+and is much easier than adjusting the many settings individually.
+Presets are provided for a handful of usage scenarios; of course,
+many more combinations of settings are possible.
+See also:  the <a href="midas/preset.html"><b>preset</b></a> command, the
+<a href="preferences.html#New Molecules"><b>New Molecules</b> preferences</a>
+</p>
+<ul>
+<li> <a name="interactive"><b>Interactive</b> presets</a>
+are meant for interactive manipulation and analysis. 
+They may change what items (atoms, ribbons, surfaces) are displayed
+and how they are colored.
+The <a href="chimerawindow.html#bg_color">background color</a> is set to black.
+ <ul>
+ <li> The <b>ribbons</b> preset
+shows most peptide and nucleic acid chains as ribbons,
+plus atomic detail (excluding hydrogens on carbon atoms)
+for residues within 3.5 &Aring; 
+of a <a href="midas/surface.html#surfcats">ligand</a> residue or metal ion.
+Atomic detail is also used for chains that are very short.  Nucleic acids
+may be shown with special sugar and base representations (as produced by
+<a href="../ContributedSoftware/nucleotides/nucleotides.html"><b>Nucleotides</b></a>),
+with the level of abstraction dependent on size.
+ <li> The <b>all atoms</b> preset
+displays all atoms and bonds as wires with heteroatom
+color-coding.  Carbons are shown in the model colors so that models will be
+distinguishable from one another.
+ <li>The <b>hydrophobicity surface</b> preset shows amino acid hydrophobicity 
+in the <a href="midas/hydrophob.html">Kyte-Doolittle scale</a> 
+with <a href="colortables.html#allcolors">colors</a> ranging from 
+dodger blue for the most hydrophilic to white at 0.0 to
+to orange red for the most hydrophobic.  
+Surfaces of nonpeptides (which do not have Kyte-Doolittle hydrophobicity
+values) will be colored to match the underlying atoms instead.
+</ul><br>
+<li> <a name="publication"><b>Publication</b> presets</a>
+are intended for generating images for
+presentation and publication. They do not change what items are displayed 
+or their colors, but may change their styles, and
+the <a href="chimerawindow.html#bg_color">background color</a> is set to white.
+For example, choosing a preset with <b>rounded ribbon</b> or 
+<b>licorice</b> will not turn on ribbon display, but will adjust any
+currently displayed ribbon segments; similarly, only the currently displayed
+atoms and bonds will be shown as <b>sticks</b>.
+Publication presets may decrease interactive performance
+because finer divisions are used to depict curved objects
+(<a href="representation.html#surfaces">molecular surfaces</a>,
+<a href="representation.html#ribbon">ribbons</a>, <i>etc.</i>).
+Individual display parameters are discussed in more detail in the
+<a href="print.html#tips">tips on preparing images</a>.
+</ul>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menuvolume">Volume</a></h3>
+<p>
+The <b>Volume</b> menu is a replica of the <b>Tools... Volume Data</b> menu.
+It can be shown/hidden using 
+<b>Tools... Volume Data... Volume Menu on Menubar</b>
+or the similar entry in the
+<a href="../ContributedSoftware/volumeviewer/volumeviewer.html#toolsmenu"> 
+<b>Tools</b> menu</a> of
+<a href="../ContributedSoftware/volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>.
+</p>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menutools">Tools</a></h3>
+<p>
+The <b>Tools</b> menu contains the Chimera tools or extensions.
+In general, there will be several submenus of the form
+<ul>
+<li><b><i>Category</i></b>
+  <ul>
+  <li><b><i>Tool1</i></b>
+  <li><b><i>Tool2</i></b>
+  </ul>
+</ul>
+where choosing an individual tool (extension) launches it.
+See the <a href="framecontrib.html" target="_top">Chimera Tools index</a> 
+for descriptions of the individual tools.
+</p><p>
+If certain tools or extensions have been started and not quit during
+a Chimera session, their <a href="instances.html">instances</a>
+will appear in the bottom section of the <b>Tools</b> menu:
+<ul>
+<li><b><i>Tool_name</i></b> (or <b><i>Tool_name - data</i></b>)
+  <ul>
+  <li><b>Raise</b> - open the tool interface (if closed) and
+  bring it to the front
+  <li><b>Hide</b> - close the tool interface without exiting
+  <li><b>Quit</b> - exit from this instance of the tool
+  </ul>
+</ul>
+</p>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menufavorites">Favorites</a></h3>
+<p>
+The <b>Favorites</b> menu contains the
+<a href="preferences.html"><b>Preferences</b></a>
+in addition to any subset of the
+<a href="#menutools"><b>Tools</b> menu</a> (individually specified
+using the <a href="preferences.html#Tools"><b>Tools</b> preferences</a>).
+The default contents are
+<ul>
+<li><b>Model Panel</b> - open the <a href="modelpanel.html">
+<b>Model Panel</b></a>, which lists the current models
+and enables many operations upon them
+<li><b>Side View</b> - open the <a href="sideview.html#sideview">
+<b>Side View</b></a> for easy adjustment of scale and clipping planes
+<li><b>Command Line</b> - show the
+<a href="chimerawindow.html#emulator"><b>Command Line</b></a>
+<li><b>Reply Log</b> - open the <a href="reply.html"><b>Reply Log</b></a>
+containing informational, warning, and error messages from Chimera
+</ul><ul>
+<li><b>Add to Favorites/Toolbar...</b> open the 
+<a href="preferences.html#Tools"><b>Tools</b> preferences</a>
+<li><b>Preferences...</b> show and allow changes in
+<a href="preferences.html"><b>Preferences</b></a> settings
+</ul>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menualiases">Aliases</a></h3>
+<p>
+Start-of-line aliases defined with the command 
+<a href="midas/alias.html"><b>alias</b></a> will be listed here.  
+Choosing an entry from the <b>Aliases</b> menu executes the alias.
+The <b>Aliases</b> menu will only be present when there is
+at least one start-of-line alias.
+</p>
+
+<h3><a href="#top" class="nounder">&larr;</a>
+<a name="menuhelp">Help</a></h3>
+<p>
+Documentation pages requested from the <b>Help</b> menu 
+will be shown in a browser window.
+<ul>
+<li><b>Search Documentation...</b> bring up a dialog for
+<a name="localsearch">
+searching the local (bundled) Chimera documentation 
+</a>
+(which includes the <a href="index.html" target="_top"><b>User's Guide</b></a>,
+<a href="../ProgrammersGuide/index.html" target="_top"><b>Programmer's 
+Guide</b></a>, and other items listed in the
+<a href="../index.html" target="_top">Chimera documentation index</a>)
+<p>
+One or more terms can be entered in the search field.  
+Combinations of terms can be indicated with
+<b>and</b>, <b>or</b>, <b>not</b> and parentheses.
+Separating terms with a space is equivalent to using <b>and</b>.  
+Pressing return (Enter) or clicking <b>Search</b> initiates the search.
+Hits will be listed in the <b>Search Results</b> column as links to
+the corresponding documentation.
+</p>
+<li><b>User's Guide</b> - open the <a href="index.html" target="_top">
+<b>Chimera User's Guide</b></a>
+<li><b>Tutorials</b> - open the <a href="frametut.html" target="_top">
+<b>Tutorials</b></a> section of the <b>Chimera User's Guide</b>
+<li><b>Context Help</b> - describe the feature that is clicked next
+(avoid clicking the top bar of a dialog, since
+that will fail to bring up a help page)
+</ul><ul>
+<li><b>Check for Updates</b> (requires internet connectivity)
+- see if any production releases are newer than the 
+version in use, and if so, provide links to download them
+<li><b>Contact Us</b> - show <a href="../feedback.html" target="_top">e-mail
+addresses</a> for asking questions or making suggestions
+<li><b>Report a Bug...</b> open a 
+<a href="http://www.cgl.ucsf.edu/cgi-bin/chimera_bug_report_2.py"
+target="_blank">form for bug submission</a>
+<li><b>Citation Info</b> - show <a href="../credits.html" target="_top">how 
+to cite usage</a> of Chimera
+<li><b>Registration...</b> open a form for registration as a Chimera user
+<li><b>About UCSF Chimera</b> - report what version of Chimera is being used
+and show copyright information
+(like the command <a href="midas/version.html"><b>version</b></a>)
+</ul>
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2009</address>
+</body></html>

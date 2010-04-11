@@ -1,0 +1,24 @@
+name = 'nmethyl'
+symbol = 'NME'
+
+NBond = Atom('N')
+H = Atom('H')
+CH3 = Atom('C')
+HH31 = Atom('H')
+HH32 = Atom('H')
+HH33 = Atom('H')
+
+bonds = [Bond(NBond, H), Bond(NBond, CH3),
+	 Bond(CH3, HH31), Bond(CH3, HH32), Bond(CH3, HH33)]
+
+chain_links = [NBond, None]
+
+amber_atom_type = {CH3: 'CT', HH31: 'H1', HH32: 'H1', HH33: 'H1',
+		   NBond: 'N', H: 'H'}
+
+amber_charge = {CH3: -0.149, HH31: 0.0976, HH32: 0.0976, HH33: 0.0976,
+		NBond: -0.4157, H: 0.2719}
+
+pdbmap = [('NME', {'CH3': CH3, '1HH3': HH31, '2HH3': HH32, '3HH3': HH33,
+		   'N': NBond, 'H': H})]
+pdb_alternative = {'HH31': '1HH3', 'HH32': '2HH3', 'HH33': '3HH3'}

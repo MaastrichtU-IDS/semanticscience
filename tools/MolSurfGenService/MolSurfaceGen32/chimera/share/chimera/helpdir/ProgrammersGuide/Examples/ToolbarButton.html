@@ -1,0 +1,75 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButton.py"><i>ToolbarButton.py</i></a></h2>
+<p>
+Import system modules used in this example.
+The regular expression module, <code>re</code>, is used for matching atom names.
+The operating system module, <code>os</code>, is used for constructing the icon
+file name (see below).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import re<br></font>
+<font color="red">import os<br></font>
+</code>
+<p>
+Import Chimera modules used in this example.
+The <code>chimera</code> module is needed to access the molecular data.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera<br></font>
+</code>
+<p>
+Function <code>mainchain</code> sets the display status of atoms
+and requires no arguments.  The body of the function is
+identical to the example described in
+<a href="MolecularEditing.html">Molecular Editing Using Python</a>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def mainchain():<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">MAINCHAIN = re.compile("^(N|CA|C)$", re.I)<br></font>
+<font color="red">for m in chimera.openModels.list(modelTypes=[chimera.Molecule]):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">for a in m.atoms:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">a.display = MAINCHAIN.match(a.name) != None<br></font>
+</code>
+</dl>
+</dl>
+</dl>
+<p>
+Create a button in the toolbar.
+The first argument to <code>chimera.tkgui.app.toolbar.add</code> is the icon,
+which is either the path to an image file, or the name of a standard
+Chimera icon (which is the base name of an image file found in the
+&quot;share/chimera/images&quot; directory in the Chimera installation directory).
+In this case, since <code>ToolbarButton.tiff</code> is not an absolute path, the
+icon will be looked for under that name in both the current directory
+and in the Chimera images directory.
+The second argument is the Python function to be called when the button
+is pressed (a.k.a., the &quot;callback function&quot;).
+The third argument is a short description of what the button does
+(used typically as balloon help).
+The fourth argument is the URL to a full description.
+For this example the icon name is <code>ToolbarButton.tiff</code>;
+the Python function is <code>mainchain</code>;
+the short description is &quot;Show Main Chain&quot;;
+and there is no URL for context help.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">chimera.tkgui.app.toolbar.add('ToolbarButton.tiff', mainchain, 'Show Main Chain', None)<br></font>
+</code>

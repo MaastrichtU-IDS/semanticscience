@@ -1,0 +1,1692 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.3.10 SDL tutorial: A raytracer</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_74.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_74.html">2.3.9 While-loop tutorial</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.3.10 
+   SDL tutorial: A raytracer</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_76.html">2.4 Questions and Tips</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_76.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_03_10">2.3.10 </a>SDL tutorial: A raytracer</h3>
+
+<dl class="famousquote">
+ 
+ <dt>
+   <em>You know you have been raytracing too long when ...<br> ... You've been asked how you did that thing you did, 
+  by the author of the raytracer you used to do it.</em> 
+ <dd>
+   <em>-- Alex McLeod</em> 
+</dl>
+
+<h4><a name="s02_03_10_01">2.3.10.1 </a>Introduction</h4>
+
+<p>
+  A raytracer made with POV-Ray sounds really weird, doesn't it? What is it anyways? POV-Ray is already a raytracer 
+ in itself, how can we use it to make a raytracer? What the...? 
+</p>
+
+<p>
+  The idea is to make a simple sphere raytracer which supports colored spheres (with diffuse and specular lighting), 
+ colored light sources, reflections and shadows with the POV-Ray SDL (Scene Description Language), then just render the 
+ image created this way. That is, we do not use POV-Ray itself to raytrace the spheres, but we make our own raytracer 
+ with its SDL and use POV-Ray's raytracing part to just get the image on screen. 
+</p>
+
+<p>
+  What obscure idea could be behind this weirdness (besides a very serious case of YHBRFTLW...)? Why do not just use 
+ POV-Ray itself to raytrace the spheres a lot faster and that is it? 
+</p>
+
+<p>
+  The idea is not speed nor quality, but to show the power of the POV-Ray SDL. If you know how to make such a thing 
+ as a raytracer with it, we can really grasp the expressive power of the SDL. 
+</p>
+
+<p>
+  The idea of this document is to make a different approach to POV-Ray SDL teaching. It is intended to be a different 
+ type of tutorial: Instead of starting from the basics and give simple and dumb examples, we jump right into a high-end 
+ SDL code and see how it is done. However, this is done in a way that even beginners can learn something from it. 
+</p>
+
+<p>
+  Another advantage is that you will learn how a simple sphere raytracer is done by reading this tutorial. There are 
+ lots of misconceptions about raytracing out there, and knowing how to make one helps clear most of them. 
+</p>
+
+<p>
+  Although this tutorial tries to start from basics, it will go quite fast to very &quot;high-end&quot; scripting, so 
+ it might not be the best tutorial to read for a completely new user, but it should be enough to have some basic 
+ knowledge. Also more advanced users may get some new info from it. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> in some places some mathematics is needed, so you would better not be afraid of 
+ math. 
+</p>
+
+<p>
+  If some specific POV-Ray SDL syntax is unclear you should consult the POV-Ray documentation for more help. This 
+ tutorial explains how they can be used, not so much what is their syntax. 
+</p>
+
+<h4><a name="s02_03_10_02">2.3.10.2 </a>The idea and the code</h4>
+
+<p>
+  The idea is to raytrace a simple scene consisting of spheres and light sources into a 2-dimensional array 
+ containing color vectors which represents our &quot;screen&quot;. 
+</p>
+
+<p>
+  After this we just have to put those colors on the actual scene for POV-Ray to show them. This is made by creating 
+ a flat colored triangle mesh. The mesh is just flat like a plane with a color map on it. We could as well have written 
+ the result to a format like PPM and then read it and apply it as an image map to a plane, but this way we avoid a 
+ temporary file. 
+</p>
+
+<p>
+  The following image is done with the raytracer SDL. It calculated the image at a resolution of 160x120 pixels and 
+ then raytraced an 512x384 image from it. This causes the image to be blurred and jagged (because it is practically 
+ &quot;zoomed in&quot; by a factor of 3.2). Calculating the image at 320x240 gives a much nicer result, but it is also 
+ much slower: 
+</p>
+
+<p>
+  <img alt="Some spheres raytraced by the SDL at 160x120" src="images/tutorial/raytracer.png"> 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> there are no real spheres nor light sources here (&quot;real&quot; from the 
+ point of view of POV-Ray), just a flat colored triangle mesh (like a plane with a pigment on it) and a camera, nothing 
+ else. 
+</p>
+
+<p>
+  Here is the source code of the raytracer; we will look it part by part through this tutorial. 
+</p>
+
+<pre>
+#declare ImageWidth = 160;
+#declare ImageHeight = 120;
+#declare MaxRecLev = 5;
+#declare AmbientLight = &lt;.2,.2,.2&gt;;
+#declare BGColor = &lt;0,0,0&gt;;
+
+// Sphere information.
+// Values are:
+// Center, &lt;Radius, Reflection, 0&gt;, Color, &lt;phong_size, amount, 0&gt;
+#declare Coord = array[5][4]
+{ {&lt;-1.05,0,4&gt;, &lt;1,.5,0&gt;, &lt;1,.5,.25&gt;, &lt;40, .8, 0&gt;}
+  {&lt;1.05,0,4&gt;, &lt;1,.5,0&gt;, &lt;.5,1,.5&gt;, &lt;40, .8, 0&gt;}
+  {&lt;0,-3,5&gt;, &lt;2,.5,0&gt;, &lt;.25,.5,1&gt;, &lt;30, .4, 0&gt;}
+  {&lt;-1,2.3,9&gt;, &lt;2,.5,0&gt;, &lt;.5,.3,.1&gt;, &lt;30, .4, 0&gt;}
+  {&lt;1.3,2.6,9&gt;, &lt;1.8,.5,0&gt;, &lt;.1,.3,.5&gt;, &lt;30, .4, 0&gt;}
+}
+
+// Light source directions and colors:
+#declare LVect = array[3][2]
+{ {&lt;-1, 0, -.5&gt;, &lt;.8,.4,.1&gt;}
+  {&lt;1, 1, -.5&gt;, &lt;1,1,1&gt;}
+  {&lt;0,1,0&gt;, &lt;.1,.2,.5&gt;}
+}
+
+
+
+//==================================================================
+// Raytracing calculations:
+//==================================================================
+#declare MaxDist = 1e5;
+#declare ObjAmnt = dimension_size(Coord, 1);
+#declare LightAmnt = dimension_size(LVect, 1);
+
+#declare Ind = 0;
+#while(Ind &lt; LightAmnt)
+  #declare LVect[Ind][0] = vnormalize(LVect[Ind][0]);
+  #declare Ind = Ind+1;
+#end
+
+#macro calcRaySphereIntersection(P, D, sphereInd)
+  #local V = P-Coord[sphereInd][0];
+  #local R = Coord[sphereInd][1].x;
+
+  #local DV = vdot(D, V);
+  #local D2 = vdot(D, D);
+  #local SQ = DV*DV-D2*(vdot(V, V)-R*R);
+  #if(SQ &lt; 0) #local Result = -1;
+  #else
+    #local SQ = sqrt(SQ);
+    #local T1 = (-DV+SQ)/D2;
+    #local T2 = (-DV-SQ)/D2;
+    #local Result = (T1&lt;T2 ? T1 : T2);
+  #end
+  Result
+#end
+
+#macro Trace(P, D, recLev)
+  #local minT = MaxDist;
+  #local closest = ObjAmnt;
+
+  // Find closest intersection:
+  #local Ind = 0;
+  #while(Ind &lt; ObjAmnt)
+    #local T = calcRaySphereIntersection(P, D, Ind);
+    #if(T&gt;0 &amp; T&lt;minT) 
+      #local minT = T;
+      #local closest = Ind;
+    #end
+    #local Ind = Ind+1;
+  #end
+
+  // If not found, return background color:
+  #if(closest = ObjAmnt)
+    #local Pixel = BGColor;
+  #else
+    // Else calculate the color of the intersection point:
+    #local IP = P+minT*D;
+    #local R = Coord[closest][1].x;
+    #local Normal = (IP-Coord[closest][0])/R;
+
+    #local V = P-IP;
+    #local Refl = 2*Normal*(vdot(Normal, V)) - V;
+
+    // Lighting:
+    #local Pixel = AmbientLight;
+    #local Ind = 0;
+    #while(Ind &lt; LightAmnt)
+      #local L = LVect[Ind][0];
+
+      // Shadowtest:
+      #local Shadowed = false;
+      #local Ind2 = 0;
+      #while(Ind2 &lt; ObjAmnt)
+        #if(Ind2!=closest &amp; calcRaySphereIntersection(IP,L,Ind2)&gt;0)
+          #local Shadowed = true;
+          #local Ind2 = ObjAmnt;
+        #end
+        #local Ind2 = Ind2+1;
+      #end
+      
+      #if(!Shadowed)
+        // Diffuse:
+        #local Factor = vdot(Normal, L);
+        #if(Factor &gt; 0)
+          #local Pixel=Pixel+LVect[Ind][1]*Coord[closest][2]*Factor;
+        #end
+
+        // Specular:
+        #local Factor = vdot(vnormalize(Refl), L);
+        #if(Factor &gt; 0)
+          #local Pixel = 
+             Pixel +
+             LVect[Ind][1]*pow(Factor, Coord[closest][3].x)*
+             Coord[closest][3].y;
+        #end
+      #end
+      #local Ind = Ind+1;
+    #end
+
+    // Reflection:
+    #if(recLev &lt; MaxRecLev &amp; Coord[closest][1].y &gt; 0)
+      #local Pixel = 
+	    Pixel + Trace(IP, Refl, recLev+1)*Coord[closest][1].y;
+    #end
+  #end
+
+  Pixel
+#end
+
+
+#debug &quot;Rendering...\n\n&quot;
+#declare Image = array[ImageWidth][ImageHeight]
+#declare IndY = 0;
+#while(IndY &lt; ImageHeight)
+  #declare CoordY = IndY/(ImageHeight-1)*2-1;
+  #declare IndX = 0;
+  #while(IndX &lt; ImageWidth)
+    #declare CoordX = 
+      (IndX/(ImageWidth-1)-.5)*2*ImageWidth/ImageHeight;
+    #declare Image[IndX][IndY] =
+      Trace(-z*3, &lt;CoordX, CoordY, 3&gt;, 1);
+    #declare IndX = IndX+1;
+  #end
+  #declare IndY = IndY+1;
+  #debug concat(&quot;\rDone &quot;, str(100*IndY/ImageHeight, 0, 1),
+    &quot;%  (line &quot;,str(IndY,0,0),&quot; out of &quot;,str(ImageHeight,0,0),&quot;)&quot;)
+#end
+#debug &quot;\n&quot;
+
+
+//==================================================================
+// Image creation (colored mesh):
+//==================================================================
+#default { finish { ambient 1 } }
+
+#debug &quot;Creating colored mesh to show image...\n&quot;
+mesh2
+{ vertex_vectors
+  { ImageWidth*ImageHeight*2,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth)
+        &lt;(IndX/(ImageWidth-1)-.5)*ImageWidth/ImageHeight*2,
+         IndY/(ImageHeight-1)*2-1, 0&gt;,
+        &lt;((IndX+.5)/(ImageWidth-1)-.5)*ImageWidth/ImageHeight*2,
+         (IndY+.5)/(ImageHeight-1)*2-1, 0&gt;
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+  texture_list
+  { ImageWidth*ImageHeight*2,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth)
+        texture { pigment { rgb Image[IndX][IndY] } }
+        #if(IndX &lt; ImageWidth-1 &amp; IndY &lt; ImageHeight-1)
+          texture { pigment { rgb
+            (Image[IndX][IndY]+Image[IndX+1][IndY]+
+             Image[IndX][IndY+1]+Image[IndX+1][IndY+1])/4 } }
+        #else
+          texture { pigment { rgb 0 } }
+        #end
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+  face_indices
+  { (ImageWidth-1)*(ImageHeight-1)*4,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight-1)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth-1)
+        &lt;IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+
+        &lt;IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+
+        &lt;IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+
+        &lt;IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+}
+
+camera { orthographic location -z*2 look_at 0 }
+</pre>
+
+<h4><a name="s02_03_10_03">2.3.10.3 </a>Short introduction to raytracing</h4>
+
+<p>
+  Before we start looking at the code, let's look briefly how raytracing works. This will help you understand what 
+ the script is doing. 
+</p>
+
+<p>
+  The basic idea of raytracing is to &quot;shoot&quot; rays from the camera towards the scene and see what does the 
+ ray hit. If the ray hits the surface of an object then lighting calculations are performed in order to get the color 
+ of the surface at that place. 
+</p>
+
+<p>
+  The following image shows this graphically: 
+</p>
+
+<p>
+  <br><center><img alt="The basic raytracing algorithm" src="images/tutorial/raytracing.png"></center> 
+</p>
+
+<p>
+  First a ray is &quot;shot&quot; in a specified direction to see if there is something there. As this is solved 
+ mathematically, we need to know the mathematical representation of the ray and the objects in the scene so that we can 
+ calculate where does the ray intersect the objects. Once we get all the intersection points, we choose the closest 
+ one. 
+</p>
+
+<p>
+  After this we have to calculate the lighting (ie. the illumination) of the object at the intersection point. In the 
+ most basic lighting model (as the one used in the script) there are three main things that affect the lighting of the 
+ surface: 
+</p>
+
+<ul>
+ 
+ <li>
+   The shadow test ray, which determines whether a light source illuminates the intersection point or not. 
+ </li>
+
+ <li>
+   The normal vector, which is a vector perpendicular (ie. at 90 degrees) to the object surface at the intersection 
+  point. It determines the diffuse component of the lighting as well as the direction of the reflected ray (in 
+  conjunction with the incoming ray; that is, the angle alpha determines the direction of the reflected ray). 
+ </li>
+
+ <li>
+   The reflected ray, which determines the specular component of the lighting and of course the color of the 
+  reflection (if the object is reflective). 
+ </li>
+
+</ul>
+
+<p>
+  Do not worry if these things sound a bit confusing. Full details of all these things will be given through this 
+ tutorial, as we look what does the raytracing script do. The most important thing at this stage is to understand how 
+ the basic raytracing algorithm works at theoretical level (the image above should say most of it). 
+</p>
+
+<p>
+  Let's just look at the raytracer source code line by line and look what does it do 
+</p>
+
+<h4><a name="s02_03_10_04">2.3.10.4 </a>Global settings</h4>
+
+<pre>
+#declare ImageWidth = 160;
+#declare ImageHeight = 120;
+#declare MaxRecLev = 5;
+#declare AmbientLight = &lt;.2,.2,.2&gt;;
+#declare BGColor = &lt;0,0,0&gt;;
+</pre>
+
+<p>
+  These lines just declare some identifiers defining some general values which will be used later in the code. The 
+ keyword we use here is <code>#declare</code> and it means that we are declaring a global identifier, which will be 
+ seen in the whole code. 
+</p>
+
+<p>
+  As you can see, we declare some identifiers to be of float type and others to be of vector type. The vector type 
+ identifiers are, in fact, used later for color definition (as their name implies). 
+</p>
+
+<p>
+  The <code>ImageWidth</code> and <code>ImageHeight</code> define the resolution of the image we are going to render. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> this only defines the resolution of the image we are going to render in our SDL 
+ (ie. into the array we will define later); it does not set the resolution of the image which POV-Ray will render. 
+</p>
+
+<p>
+  The <code>MaxRecLev</code> limits the maximum number of recursive reflections the code will calculate. It is 
+ equivalent to the <code>max_trace_level</code> value in <code>global_settings</code> which POV-Ray uses to raytrace. 
+</p>
+
+<p>
+  The <code>AmbientLight</code> defines a color which is added to all surfaces. This is used to &quot;lighten 
+ up&quot; shadowed parts so that they are not completely dark. It is equivalent to the <code>ambient_light</code> value 
+ in <code>global_settings</code>. 
+</p>
+
+<p>
+  Finally, <code>BGColor</code> defines the color of the rays which do not hit anything. It is equivalent to the <code>background</code> 
+ block of POV-Ray. 
+</p>
+
+<h4><a name="s02_03_10_05">2.3.10.5 </a>Scene definition</h4>
+
+<pre>
+// Sphere information.
+// Values are:
+// Center, &lt;Radius, Reflection, 0&gt;, Color, &lt;phong_size, amount, 0&gt;
+#declare Coord = array[5][4]
+{ {&lt;-1.05,0,4&gt;, &lt;1,.5,0&gt;, &lt;1,.5,.25&gt;, &lt;40, .8, 0&gt;}
+  {&lt;1.05,0,4&gt;, &lt;1,.5,0&gt;, &lt;.5,1,.5&gt;, &lt;40, .8, 0&gt;}
+  {&lt;0,-3,5&gt;, &lt;2,.5,0&gt;, &lt;.25,.5,1&gt;, &lt;30, .4, 0&gt;}
+  {&lt;-1,2.3,9&gt;, &lt;2,.5,0&gt;, &lt;.5,.3,.1&gt;, &lt;30, .4, 0&gt;}
+  {&lt;1.3,2.6,9&gt;, &lt;1.8,.5,0&gt;, &lt;.1,.3,.5&gt;, &lt;30, .4, 0&gt;}
+}
+
+// Light source directions and colors:
+#declare LVect = array[3][2]
+{ {&lt;-1, 0, -.5&gt;, &lt;.8,.4,.1&gt;}
+  {&lt;1, 1, -.5&gt;, &lt;1,1,1&gt;}
+  {&lt;0,1,0&gt;, &lt;.1,.2,.5&gt;}
+}
+</pre>
+
+<p>
+  Here we use a bit more complex declarations: Array declarations. 
+</p>
+
+<p>
+  In fact, they are even more complex than simple arrays, as we are declaring two-dimensional arrays. 
+</p>
+
+<p>
+  A simple one-dimensional array can be declared like: 
+</p>
+
+<pre>
+#declare MyArray = array[4] { 1, 2, 3, 4 }
+</pre>
+
+<p>
+  and then values can be read from inside it with for example: <code>MyArray[2]</code> (which will return <code>3</code> 
+ in this case as the indexing starts from 0, ie. the index 0 gets the first value in the array). 
+</p>
+
+<p>
+  A two-dimensional array can be thought as an array containing arrays. That is, if you say <code>array[3][2]</code>, 
+ that means &quot;an array which has 3 elements; each one of those elements is an array with 2 elements&quot;. When you 
+ want to read a value from it, for example <code>MyArray[1][3]</code>, you can think about it as &quot;get the fourth 
+ value from the second array&quot; (as indexing starts from 0, then the index value 3 actually means &quot;fourth 
+ value&quot;). 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> although you can put almost anything inside an array (floats, vectors, objects 
+ and so on) you can only put one type of things inside an array. That is, you cannot mix float values and objects 
+ inside the same array. (One nice feature is that all POV-Ray objects are considered equivalent, which means that an 
+ object array can contain any objects inside it.) 
+</p>
+
+<p>
+  What we are doing here is to define the information for our spheres and light sources. The first array (called <code>Coord</code>) 
+ defines the information for the spheres and the second (<code>LVect</code>) defines the light sources. 
+</p>
+
+<p>
+  For spheres we define their center as the first vector. The second vector has both the radius of the sphere and its 
+ reflection amount (which is equivalent to the <code>reflection</code> value in the <code>finish</code> block of an 
+ object). This is a trick we use to not to waste so much space, so we use two values of the same vector for defining 
+ two different things. 
+</p>
+
+<p>
+  The third vector defines the color of the sphere and the fourth the specular component of the lighting (equivalent 
+ to <code>phong_size</code> and <code>phong</code> values in the <code>finish</code> block of an object). 
+</p>
+
+<p>
+  The light source definition array contains direction vectors and colors. This means that the light sources are 
+ directional, that is, they just say which direction the light is coming from. It could have been equally easy to make 
+ point lights, though. 
+</p>
+
+<p>
+  We will use the information inside these arrays later in order to raytrace the scene they define. 
+</p>
+
+<h4><a name="s02_03_10_06">2.3.10.6 </a>Initializing the raytracer</h4>
+
+<pre>
+#declare MaxDist = 1e5;
+#declare ObjAmnt = dimension_size(Coord, 1);
+#declare LightAmnt = dimension_size(LVect, 1);
+
+#declare Ind = 0;
+#while(Ind &lt; LightAmnt)
+  #declare LVect[Ind][0] = vnormalize(LVect[Ind][0]);
+  #declare Ind = Ind+1;
+#end
+</pre>
+
+<p>
+  Before being able to start the raytracing, we have to intialize a couple of things. 
+</p>
+
+<p>
+  The <code>MaxDist</code> defines the maximum distance a surface can be from the starting point of a ray. This means 
+ that if a surface is farther away from the starting point of the ray than this value, it will not be seen. Strictly 
+ speaking this value is unnecessary and we can make the raytracer so that there is no such a limitation, but we save 
+ one extra step when we do it this way, and for scenes sized like ours it does not really matter. (If you really, 
+ really want to get rid of the limitation, I am sure you will figure out yourself how to do it after this tutorial.) 
+</p>
+
+<p>
+  The <code>ObjAmnt</code> and <code>LightAmnt</code> identifiers are declared just to make it easier for us to see 
+ how many objects and lights are there (we need this info to loop through all the objects and lights). Calling the <code>dimension_size()</code> 
+ function is a really nice way of getting the number of items in an array. 
+</p>
+
+<p>
+  All right, now we are getting to a bit more advanced stuff: What does the while-loop do there? 
+</p>
+
+<p>
+  The <code>#while</code>-loop uses the <code>Ind</code> identifier as an index value going from <code>0</code> to <code>LightAmnt-1</code> 
+ (yes, <code>-1</code>; when <code>Ind</code> gets the value <code>LightAmnt</code> the loop is ended right away). We 
+ also see that we are indexing the <code>LVect</code> array; thus, it is clear we are going through all the light 
+ sources (specifically through their direction vectors, as we only use the <code>[0]</code> part) and we assign 
+ something to them. 
+</p>
+
+<p>
+  What we are doing is to assign a normalized version of each light source direction onto themselves, that is, just 
+ normalizing them. 
+</p>
+
+<p>
+  Normalize is a synonym for &quot;convert to unit vector&quot;, that is, convert to a vector with the same direction 
+ as the original but with length 1. 
+</p>
+
+<p>
+  Why? We will later see that for illumination calculations we will be needing unit vectors. It is more efficient to 
+ convert the light source directions to unit vectors once at the beginning than every time for each pixel later. 
+</p>
+
+<h4><a name="s02_03_10_07">2.3.10.7 </a>Ray-sphere intersection</h4>
+
+<pre>
+#macro calcRaySphereIntersection(P, D, sphereInd)
+  #local V = P-Coord[sphereInd][0];
+  #local R = Coord[sphereInd][1].x;
+
+  #local DV = vdot(D, V);
+  #local D2 = vdot(D, D);
+  #local SQ = DV*DV-D2*(vdot(V, V)-R*R);
+  #if(SQ &lt; 0) #local Result = -1;
+  #else
+    #local SQ = sqrt(SQ);
+    #local T1 = (-DV+SQ)/D2;
+    #local T2 = (-DV-SQ)/D2;
+    #local Result = (T1&lt;T2 ? T1 : T2);
+  #end
+  Result
+#end
+</pre>
+
+<p>
+  This is the core of the whole raytracing process. 
+</p>
+
+<p>
+  First let's see how a macro works (if you know it, just skip the following section): 
+</p>
+
+<h5><a name="s02_03_10_07_01">2.3.10.7.1 </a>Inner workings of a #macro</h5>
+
+<p>
+  A macro works like a substitution command (similar to the #define macros in the C programming language). The body 
+ of the macro is in practice inserted in the place where the macro is called. For example you can use a macro like 
+ this: 
+</p>
+
+<pre>
+#macro UnitSphere()
+  sphere { 0,1 }
+#end
+
+object { UnitSphere() pigment { rgb 1 } }
+</pre>
+
+<p>
+  The result of this code is, in effect, as if you had written: 
+</p>
+
+<pre>
+object { sphere { 0,1 } pigment { rgb 1 } }
+</pre>
+
+<p>
+  Of course there is no reason in making this, as you could have just #declared the <code>UnitSphere</code> as a 
+ sphere of radius 1. However, the power of macros kick in when you start using macro parameters. For example: 
+</p>
+
+<pre>
+#macro Sphere(Radius)
+  sphere { 0, Radius }
+#end
+
+object { Sphere(3) pigment { rgb 1 } }
+</pre>
+
+<p>
+  Now you can use the macro <code>Sphere</code> to create a sphere with the specified radius. Of course this does not 
+ make much sense either, as you could just write the sphere primitive directly because it is so short, but this example 
+ is intentionally short to show how it works; the macros become very handy when they create something much more 
+ complicated than just a sphere. 
+</p>
+
+<p>
+  There is one important difference between macros in POV-Ray and real substitution macros: Any <code>#local</code> 
+ statement inside the macro definition will be parsed at the visibility level of the macro only, that is, it will have 
+ no effect on the environment where the macro was called from. The following example shows what I am talking about: 
+</p>
+
+<pre>
+#macro Sphere(Radius)
+  #local Color = &lt;1,1,1&gt;;
+  sphere { 0, Radius pigment { rgb Color } }
+#end
+
+#declare Color = &lt;1,0,0&gt;;
+object { Sphere(3) }
+   // 'Color' is still &lt;1,0,0&gt; here, 
+   // thus the following box will be red:
+box { -1,1 pigment { rgb Color } }
+</pre>
+
+<p>
+  In the example above, although the macro creates a local identifier called <code>Color</code> and there is an 
+ identifier with the same name at global level, the local definition does not affect the global one. Also even if there 
+ was not any global definition of <code>Color</code>, the one inside the macro is not seen outside it. 
+</p>
+
+<p>
+  There is one important exception to this, and this is one of the most powerful features of macros (thanks to this 
+ they can be used as if they were functions): If an identifier (be it local or global) appears alone in the body of a 
+ macro (usually at the end), its value will be passed outside the macro (as if it was a return value). The following 
+ example shows how this works: 
+</p>
+
+<pre>
+#macro Factorial(N)
+  #local Result = 1;
+  #local Ind = 2;
+  #while(Ind &lt;= N)
+    #local Result = Result*Ind;
+    #local Ind = Ind+1;
+  #end
+  Result
+#end
+
+#declare Value = Factorial(5);
+</pre>
+
+<p>
+  Although the identifier <code>Result</code> is local to the macro, its value is passed as if it was a return value 
+ because of the last line of the macro (where <code>Result</code> appears alone) and thus the identifier <code>Value</code> 
+ will be set to the factorial of 5. 
+</p>
+
+<h5><a name="s02_03_10_07_02">2.3.10.7.2 </a>The ray-sphere intersection macro</h5>
+
+<p>
+  Here is again the macro at the beginning of the page so that you do not have to scroll so much in order to see it: 
+</p>
+
+<pre>
+#macro calcRaySphereIntersection(P, D, sphereInd)
+  #local V = P-Coord[sphereInd][0];
+  #local R = Coord[sphereInd][1].x;
+
+  #local DV = vdot(D, V);
+  #local D2 = vdot(D, D);
+  #local SQ = DV*DV-D2*(vdot(V, V)-R*R);
+  #if(SQ &lt; 0) #local Result = -1;
+  #else
+    #local SQ = sqrt(SQ);
+    #local T1 = (-DV+SQ)/D2;
+    #local T2 = (-DV-SQ)/D2;
+    #local Result = (T1&lt;T2 ? T1 : T2);
+  #end
+  Result
+#end
+</pre>
+
+<p>
+  The idea behind this macro is that it takes a starting point (ie. the starting point of the ray) a direction vector 
+ (the direction where the ray is shot) and an index to the sphere definition array defined previously. The macro 
+ returns a factor value; this value expresses how much we have to multiply the direction vector in order to hit the 
+ sphere. 
+</p>
+
+<p>
+  This means that if the ray hits the specified sphere, the intersection point will be located at:<br> <code>StartingPoint 
+ + Result*Direction</code> 
+</p>
+
+<p>
+  The return value can be negative, which means that the intersection point was actually behind the starting point. A 
+ negative value will be just ignored, as if the ray did not hit anything. We can use this to make a little trick (which 
+ may seem obvious when said, but not so obvious when you have to figure it out for yourself): If the ray actually does 
+ not hit the sphere, we return just a negative value (does not really matter which). 
+</p>
+
+<p>
+  And how does the macro do it? What is the theory behind those complicated-looking mathematical expressions? 
+</p>
+
+<p>
+  I will use a syntax similar to POV-Ray syntax to express mathematical formulas here since that is probably the 
+ easiest way of doing it. 
+</p>
+
+<p>
+  Let's use the following letters: 
+</p>
+
+<p>
+  <code>P</code> = Starting point of the ray<br> <code>D</code> = Direction of the ray<br> <code>C</code> = Center of 
+ the sphere<br> <code>R</code> = Radius of the sphere 
+</p>
+
+<p>
+  The theory behind the macro is that we have to see what is the value <code>T</code> for which holds that: 
+</p>
+
+<p>
+  <code>vlength(P+T*D-C) = R</code> 
+</p>
+
+<p>
+  This means: The length of the vector between the center of the sphere (<code>C</code>) and the intersection point (<code>P+T*D</code>) 
+ is equal to the radius (<code>R</code>). 
+</p>
+
+<p>
+  If we use an additional letter so that: 
+</p>
+
+<p>
+  <code>V = P-C</code> 
+</p>
+
+<p>
+  then the formula is reduced to: 
+</p>
+
+<p>
+  <code>vlength(T*D+V) = R</code> 
+</p>
+
+<p>
+  which makes our life easier. This formula can be opened as: 
+</p>
+
+<p>
+  <code>(T*D<sub>x</sub>+V<sub>x</sub>)<sup>2</sup> + (T*D<sub>y</sub>+V<sub>y</sub>)<sup>2</sup> + (T*D<sub>z</sub>+V<sub>z</sub>)<sup>2</sup> 
+ - R<sup>2</sup> = 0</code> 
+</p>
+
+<p>
+  Solving <code>T</code> from that is rather trivial math. We get a 2nd order polynomial which has two solutions (I 
+ will use the &quot;&#183;&quot; symbol to represent the dot-product of two vectors): 
+</p>
+
+<p>
+  <code>T = (-D&#183;V &#177; sqrt((D&#183;V)<sup>2</sup> - D<sup>2</sup>(V<sup>2</sup>-R<sup>2</sup>))) / D<sup>2</sup></code> 
+ 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> <code>D<sup>2</sup></code> means actually <code>D&#183;D</code>) 
+</p>
+
+<p>
+  When the discriminant (ie. the expression inside the square root) is negative, the ray does not hit the sphere and 
+ thus we can return a negative value (the macro returns -1). We must check this in order to avoid the <em>square root 
+ of a negative number</em> error; as it has a very logical meaning in this case, the checking is natural. 
+</p>
+
+<p>
+  If the value is positive, there are two solutions (or just one if the value is zero, but that does not really 
+ matter here), which corresponds to the two intersection points of the ray with the sphere. 
+</p>
+
+<p>
+  As we get two values, we have to return the one which is smaller (the closest intersection). This is what this 
+ portion of the code does: 
+</p>
+
+<pre>
+    #local Result = (T1&lt;T2 ? T1 : T2);
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> this is an incomplete algorithm: If one value is negative and the other 
+ positive (this happens when the starting point is inside the sphere), we would have to return the positive one. The 
+ way it is now results in that we will not see the inner surface of the sphere if we put the camera inside one. 
+</p>
+
+<p>
+  For our simple scene this is enough as we do not put our camera inside a sphere nor we have transparent spheres. We 
+ could add a check there which looks if one of the values is positive and the other negative and returns the positive 
+ one. However, this has an odd and very annoying result (you can try it if you want). This is most probably caused by 
+ the inaccuracy of floating point numbers and happens when calculating reflections (the starting point is exactly on 
+ the surface of the sphere). We could correct these problems by using epsilon values to get rid of accuracy problems, 
+ but in our simple scene this will not be necessary. 
+</p>
+
+<h4><a name="s02_03_10_08">2.3.10.8 </a>The Trace macro</h4>
+
+<pre>
+#macro Trace(P, D, recLev)
+</pre>
+
+<p>
+  If the ray-sphere intersection macro was the core of the raytracer, then the Trace-macro is practically everything 
+ else, the &quot;body&quot; of the raytracer. 
+</p>
+
+<p>
+  The Trace-macro is a macro which takes the starting point of a ray, the direction of the ray and a recursion count 
+ (which should always be 1 when calling the macro from outside; 1 could be its default value if POV-Ray supported 
+ default values for macro parameters). It calculates and returns a color for that ray. 
+</p>
+
+<p>
+  This is the macro we call for each pixel we want to calculate. That is, the starting point of the ray is our camera 
+ location and the direction is the direction of the ray starting from there and going through the &quot;pixel&quot; we 
+ are calculating. The macro returns the color of that pixel. 
+</p>
+
+<p>
+  What the macro does is to see which sphere (if any) does the ray hit and then calculates the lighting for that 
+ intersection point (which includes calculating reflection), and returns the color. 
+</p>
+
+<p>
+  The Trace-macro is <em>recursive</em>, meaning that it calls itself. More specifically, it calls itself when it 
+ wants to calculate the ray reflected from the surface of a sphere. The <code>recLev</code> value is used to stop this 
+ recursion when the maximum recursion level is reached (ie. it calculates the reflection only if <code>recLev &lt; 
+ MaxRecLev</code>). 
+</p>
+
+<p>
+  Let's examine this relatively long macro part by part: 
+</p>
+
+<h5><a name="s02_03_10_08_01">2.3.10.8.1 </a>Calculating the closest intersection</h5>
+
+<pre>
+  #local minT = MaxDist;
+  #local closest = ObjAmnt;
+
+  // Find closest intersection:
+  #local Ind = 0;
+  #while(Ind &lt; ObjAmnt)
+    #local T = calcRaySphereIntersection(P, D, Ind);
+    #if(T&gt;0 &amp; T&lt;minT) 
+      #local minT = T;
+      #local closest = Ind;
+    #end
+    #local Ind = Ind+1;
+  #end
+</pre>
+
+<p>
+  A ray can hit several spheres and we need the closest intersection point (and to know which sphere does it belong 
+ to). One could think that calculating the closest intersection is rather complicated, needing things like sorting all 
+ the intersection points and such. However, it is quite simple, as seen in the code above. 
+</p>
+
+<p>
+  If we remember from the previous part, the ray-sphere intersection macro returns a factor value which tells us how 
+ much do we have to multiply the direction vector in order to get the intersection point. What we do is just to call 
+ the ray-sphere intersection macro for each sphere and take the smallest returned value (which is greater than zero). 
+</p>
+
+<p>
+  First we initialize the <code>minT</code> identifier, which will hold this smallest value to something big (this is 
+ where we need the <code>MaxDist</code> value, although modifying this code to work around this limitation is trivial 
+ and left to the user). Then we go through all the spheres and call the ray-sphere intersection macro for each one. 
+ Then we look if the returned value was greater than 0 and smaller than <code>minT</code>, and if so, we assign the 
+ value to <code>minT</code>. When the loop ends, we have the smallest intersection point in it. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> we also assign the index to the sphere which the closest intersection belongs 
+ to in the <code>closest</code> identifier. 
+</p>
+
+<p>
+  Here we use a small trick, and it is related to its initial value: <code>ObjAmnt</code>. Why did we initialize it 
+ to that? The purpose of it was to initialize it to some value which is not a legal index to a sphere (<code>ObjAmnt</code> 
+ is not a legal index as the indices go from 0 to <code>ObjAmnt-1</code>); a negative value would have worked as well, 
+ it really does not matter. If the ray does not hit any sphere, then this identifier is not changed and so we can see 
+ it afterwards. 
+</p>
+
+<h5><a name="s02_03_10_08_02">2.3.10.8.2 </a>If the ray doesn't hit anything</h5>
+
+<pre>
+  // If not found, return background color:
+  #if(closest = ObjAmnt)
+    #local Pixel = BGColor;
+</pre>
+
+<p>
+  If the ray did not hit any sphere, what we do is just to return the bacground color (defined by the <code>BGColor</code> 
+ identifier). 
+</p>
+
+<h5><a name="s02_03_10_08_03">2.3.10.8.3 </a>Initializing color calculations</h5>
+
+<p>
+  Now comes one of the most interesting parts of the raytracing process: How do we calculate the color of the 
+ intersection point? 
+</p>
+
+<p>
+  First we have to pre-calculate a couple of things: 
+</p>
+
+<pre>
+  #else
+    // Else calculate the color of the intersection point:
+    #local IP = P+minT*D;
+    #local R = Coord[closest][1].x;
+    #local Normal = (IP-Coord[closest][0])/R;
+
+    #local V = P-IP;
+    #local Refl = 2*Normal*(vdot(Normal, V)) - V;
+</pre>
+
+<p>
+  Naturally we need the intersection point itself (needed to calculate the normal vector and as the starting point of 
+ the reflected ray). This is calculated into the <code>IP</code> identifier with the formula which I have been 
+ repeating a few times during this tutorial. 
+</p>
+
+<p>
+  Then we need the normal vector of the surface at the intersection point. A normal vector is a vector perpendicular 
+ (ie. at 90 degrees) to the surface. For a sphere this is very easy to calculate: It is just the vector from the center 
+ of the sphere to the intersection point. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> we normalize it (ie. convert it into a unit vector, ie. a vector of length 1) 
+ by dividing it by the radius of the sphere. The normal vector needs to be normalized for lighting calculation. 
+</p>
+
+<p>
+  Now a tricky one: We need the direction of the reflected ray. This vector is of course needed to calculate the 
+ reflected ray, but it is also needed for specular lighting. 
+</p>
+
+<p>
+  This is calculated into the <code>Refl</code> identifier in the code above. What we do is to take the vector from 
+ the intersection point to the starting point (<code>P-IP</code>) and &quot;mirror&quot; it with respect to the normal 
+ vector. The formula for &quot;mirroring&quot; a vector <code>V</code> with respect to a unit vector (let's call it <code>Axis</code>) 
+ is: 
+</p>
+
+<p>
+  <code>MirroredV = 2*Axis*(Axis&#183;V) - V</code> 
+</p>
+
+<p>
+  (We could look at the theory behind this formula in more detail, but let's not go too deep into math in this 
+ tutorial, shall we?) 
+</p>
+
+<h5><a name="s02_03_10_08_04">2.3.10.8.4 </a>Going through the light sources</h5>
+
+<pre>
+    // Lighting:
+    #local Pixel = AmbientLight;
+    #local Ind = 0;
+    #while(Ind &lt; LightAmnt)
+      #local L = LVect[Ind][0];
+</pre>
+
+<p>
+  Now we can calculate the lighting of the intersection point. For this we need to go through all the light sources. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> <code>L</code>contains the direction vector which points towards the light 
+ source, not its location. 
+</p>
+
+<p>
+  We also initialize the color to be returned (<code>Pixel</code>) with the ambient light value (given in the global 
+ settings part). The goal is to add colors to this (the colors come from diffuse and specular lighting, and 
+ reflection). 
+</p>
+
+<h5><a name="s02_03_10_08_05">2.3.10.8.5 </a>Shadow test</h5>
+
+<p>
+  The very first thing to do for calculating the lighting for a light source is to see if the light source is 
+ illuminating the intersection point in the first place (this is one of the nicest features of raytracing: shadow 
+ calculations are laughably easy to do): 
+</p>
+
+<pre>
+      // Shadowtest:
+      #local Shadowed = false;
+      #local Ind2 = 0;
+      #while(Ind2 &lt; ObjAmnt)
+        #if(Ind2!=closest &amp; calcRaySphereIntersection(IP,L,nd2)&gt;0)
+          #local Shadowed = true;
+          #local Ind2 = ObjAmnt;
+        #end
+        #local Ind2 = Ind2+1;
+      #end
+</pre>
+
+<p>
+  What we do is to go through all the spheres (we skip the current sphere although it is not necessary, but a little 
+ optimization is still a little optimization), take the intersection point as starting point and the light direction as 
+ the direction vector and see if the ray-sphere intersection test returns a positive value for any of them (and quit 
+ the loop immediately when one is found, as we do not need to check the rest anymore). 
+</p>
+
+<p>
+  The result of the shadow test is put into the <code>Shadowed</code> identifier as a boolean value (<code>true</code> 
+ if the point is shadowed). 
+</p>
+
+<h5><a name="s02_03_10_08_06">2.3.10.8.6 </a>Diffuse lighting</h5>
+
+<p>
+  The diffuse component of lighting is generated when a light ray hits a surface and it is reflected equally to all 
+ directions. The brightest part of the surface is where the normal vector points directly in the direction of the 
+ light. The lighting diminishes in relation to the cosine of the angle between the normal vector and the light vector. 
+</p>
+
+<pre>
+      #if(!Shadowed)
+        // Diffuse:
+        #local Factor = vdot(Normal, L);
+        #if(Factor &gt; 0)
+          #local Pixel = 
+             Pixel + LVect[Ind][1]*Coord[closest][2]*Factor;
+        #end
+</pre>
+
+<p>
+  The code for diffuse lighting is surprisingly short. 
+</p>
+
+<p>
+  There is an extremely nice trick in mathematics to get the cosine of the angle between two unit vectors: It is 
+ their dot-product. 
+</p>
+
+<p>
+  What we do is to calculate the dot-product of the normal vector and the light vector (both have been normalized 
+ previously). If the dot-product is negative it means that the normal vector points in the opposite direction than the 
+ light vector. Thus we are only interested in positive values. 
+</p>
+
+<p>
+  Thus, we add to the pixel color the color of the light source multiplied by the color of the surface of the sphere 
+ multiplied by the dot-product. This gives us the diffuse component of the lighting. 
+</p>
+
+<h5><a name="s02_03_10_08_07">2.3.10.8.7 </a>Specular lighting</h5>
+
+<p>
+  The specular component of lighting comes from the fact that most surfaces do not reflect light equally to all 
+ directions, but they reflect more light to the &quot;reflected ray&quot; direction, that is, the surface has some 
+ mirror properties. The brightest part of the surface is where the reflected ray points in the direction of the light. 
+</p>
+
+<p>
+  Photorealistic lighting is a very complicated issue and there are lots of different lighting models out there, 
+ which try to simulate real-world lighting more or less accurately. For our simple raytracer we just use a simple Phong 
+ lighting model, which suffices more than enough. 
+</p>
+
+<pre>
+        // Specular:
+        #local Factor = vdot(vnormalize(Refl), L);
+        #if(Factor &gt; 0)
+          #local Pixel = Pixel + LVect[Ind][1]*
+                         pow(Factor, Coord[closest][3].x)*
+                         Coord[closest][3].y;
+        #end
+</pre>
+
+<p>
+  The calculation is similar to the diffuse lighting with the following differences: 
+</p>
+
+<ul>
+ 
+ <li>
+   We do not use the normal vector, but the reflected vector. 
+ </li>
+
+ <li>
+   The color of the surface is not taken into account (a very simple Phong lighting model). 
+ </li>
+
+ <li>
+   We do not take the dot-product as is, but we raise it to a power given in the scene definition (&quot;phong 
+  size&quot;). 
+ </li>
+
+ <li>
+   We use a brightness factor given in the scene definition to multiply the color (&quot;phong amount&quot;). 
+ </li>
+
+</ul>
+
+<p>
+  Thus, the color we add to the pixel color is the color of the light source multiplied by the dot-product (which is 
+ raised to the given power) and by the given brightness amount. 
+</p>
+
+<p>
+  Then we close the code blocks: 
+</p>
+
+<pre>
+      #end // if(!Shadowed)
+      #local Ind = Ind+1;
+    #end // while(Ind &lt; LightAmnt)
+</pre>
+
+<h5><a name="s02_03_10_08_08">2.3.10.8.8 </a>Reflection Calculation</h5>
+
+<pre>
+    // Reflection:
+    #if(recLev &lt; MaxRecLev &amp; Coord[closest][1].y &gt; 0)
+      #local Pixel = 
+        Pixel + Trace(IP, Refl, recLev+1)*Coord[closest][1].y;
+    #end
+</pre>
+
+<p>
+  Another nice aspect of raytracing is that reflection is very easy to calculate. 
+</p>
+
+<p>
+  Here we check that the recursion level has not reached the limit and that the sphere has a reflection component 
+ defined. If both are so, we add the reflected component (the color of the reflected ray multiplied by the reflection 
+ factor) to the pixel color. 
+</p>
+
+<p>
+  This is where the recursive call happens (the macro calls itself). The recursion level (recLev) is increased by one 
+ for the next call so that somewhere down the line, the series of Trace() calls will know to stop (preventing a ray 
+ from bouncing back and forth forever between two mirrors). This is basically how the max_trace_level global setting 
+ works in POV-Ray. 
+</p>
+
+<p>
+  Finally, we close the code blocks and return the pixel color from the macro: 
+</p>
+
+<pre>
+  #end // else
+
+  Pixel
+#end
+</pre>
+
+<h4><a name="s02_03_10_09">2.3.10.9 </a>Calculating the image</h4>
+
+<pre>
+#debug &quot;Rendering...\n\n&quot;
+#declare Image = array[ImageWidth][ImageHeight]
+
+#declare IndY = 0;
+#while(IndY &lt; ImageHeight)
+  #declare CoordY = IndY/(ImageHeight-1)*2-1;
+  #declare IndX = 0;
+  #while(IndX &lt; ImageWidth)
+    #declare CoordX =
+       (IndX/(ImageWidth-1)-.5)*2*ImageWidth/ImageHeight;
+    #declare Image[IndX][IndY] =
+      Trace(-z*3, &lt;CoordX, CoordY, 3&gt;, 1);
+    #declare IndX = IndX+1;
+  #end
+  #declare IndY = IndY+1;
+  #debug concat(&quot;\rDone &quot;, str(100*IndY/ImageHeight,0,1),
+    &quot;%  (line &quot;, str(IndY,0,0),&quot; out of &quot;,str(ImageHeight,0,0),&quot;)&quot;)
+#end
+#debug &quot;\n&quot;
+</pre>
+
+<p>
+  Now we just have to calculate the image into an array of colors. This array is defined at the beginning of the code 
+ above; it is a two-dimensional array representing the final image we are calculating. 
+</p>
+
+<p>
+  Note how we use the <code>#debug</code> stream to output useful information about the rendering process while we 
+ are calculating. This is nice because the rendering process is quite slow and it is good to give the user some 
+ feedback about what is happening and how long it will take. (Also note that the &quot;<code>%</code>&quot; character 
+ in the string of the second <code>#debug</code> command will work ok only in the Windows version of POV-Ray; for other 
+ versions it may be necessary to convert it to &quot;<code>%%</code>&quot;.) 
+</p>
+
+<p>
+  What we do here is to go through each &quot;pixel&quot; of the &quot;image&quot; (ie. the array) and for each one 
+ calculate the camera location (fixed to <code>-z*3</code> here) and the direction of the ray that goes through the 
+ pixel (in this code the &quot;viewing plane&quot; is fixed and located in the x-y-plane and its height is fixed to 1). 
+</p>
+
+<p>
+  What the following line: 
+</p>
+
+<pre>
+  #declare CoordY = IndY/(ImageHeight-1)*2-1;
+</pre>
+
+<p>
+  does is to scale the <code>IndY</code> so that it goes from -1 to 1. It is first divided by the maximum value it 
+ gets (which is <code>ImageHeight-1</code>) and then it is multiplied by 2 and substracted by 1. This results in a 
+ value which goes from -1 to 1. 
+</p>
+
+<p>
+  The <code>CoordX</code> is calculated similarly, but it is also multiplied by the aspect ratio of the image we are 
+ calculating (so that we do not get a squeezed image). 
+</p>
+
+<h4><a name="s02_03_10_10">2.3.10.10 </a>Creating the colored mesh</h4>
+
+<p>
+  If you think that these things we have been examining are advanced, then you have not seen anything. Now comes real 
+ hard-core advanced POV-Ray code, so be prepared. This could be called <em>The really advanced section</em>. 
+</p>
+
+<p>
+  We have now calculated the image into the array of colors. However, we still have to show these color 
+ &quot;pixels&quot; on screen, that is, we have to make POV-Ray to render our pixels so that it creates a real image. 
+</p>
+
+<p>
+  There are several ways of doing this, all of them being more or less &quot;kludges&quot; (as there is currently no 
+ way of directly creating an image map from a group of colors). One could create colored boxes representing each pixel, 
+ or one could output to an ascii-formatted image file (mainly PPM) and then read it as an image map. The first one has 
+ the disadvantage of requiring huge amounts of memory and missing bilinear interpolation of the image; the second one 
+ has the disadvantage of requiring a temporary file. 
+</p>
+
+<p>
+  What we are going to do is to calculate a colored mesh2 which represents the &quot;screen&quot;. As colors are 
+ interpolated between the vertices of a triangle, the bilinear interpolation comes for free (almost). 
+</p>
+
+<h5><a name="s02_03_10_10_01">2.3.10.10.1 </a>The structure of the mesh</h5>
+
+<p>
+  Although all the triangles are located in the x-y plane and they are all the same size, the structure of the mesh 
+ is quite complicated (so complicated it deserves its own section here). 
+</p>
+
+<p>
+  The following image shows how the triangles are arranged for a 4x3 pixels image: 
+</p>
+
+<p>
+  <br><center><img alt="Triangle arrangement for a 4x3 image" src="images/tutorial/triangles.png"></center> 
+</p>
+
+<p>
+  The number pairs in parentheses represent image pixel coordinates (eg. <code>(0,0)</code> refers to the pixel at 
+ the lower left corner of the image and <code>(3,2)</code> to the pixel at the upper right corner). That is, the 
+ triangles will be colored as the image pixels at these points. The colors will then be interpolated between them along 
+ the surface of the triangles. 
+</p>
+
+<p>
+  The filled and non-filled circles in the image represent the vertex points of the triangles and the lines 
+ connecting them show how the triangles are arranged. The smaller numbers near these circles indicate their index value 
+ (the one which will be created inside the <code>mesh2</code>). 
+</p>
+
+<p>
+  We notice two things which may seem odd: Firstly there are extra vertex points outside the mesh, and secondly, 
+ there are extra vertex points in the middle of each square. 
+</p>
+
+<p>
+  Let's start with the vertices in the middle of the squares: We could have just made each square with two triangles 
+ instead of four, as we have done here. However, the color interpolation is not nice this way, as there appears a clear 
+ diagonal line where the triangle edges go. If we make each square with four triangles instead, then the diagonal lines 
+ are less apparent, and the interpolation resembles a lot better a true bilinear interpolation. And what is the color 
+ of the middle points? Of course it is the average of the color of the four points in the corners. 
+</p>
+
+<p>
+  Secondly: Yes, the extra vertex points outside the mesh are completely obsolete and take no part in the creation of 
+ the mesh. We could perfectly create the exact same mesh without them. However, getting rid of these extra vertex 
+ points makes our lives more difficult when creating the triangles, as it would make the indexing of the points more 
+ difficult. It may not be too much work to get rid of them, but they do not take any considerable amount of resources 
+ and they make our lives easier, so let's just let them be (if you want to remove them, go ahead). 
+</p>
+
+<h5><a name="s02_03_10_10_02">2.3.10.10.2 </a>Creating the mesh</h5>
+
+<p>
+  What this means is that for each pixel we create two vertex points, one at the pixel location and one shifted by 
+ &quot;0.5&quot; in the x and y directions. Then we specify the color for each vertex points: For the even vertex 
+ points it is directly the color of the correspondent pixel; for the odd vertex points it is the average of the four 
+ surrounding pixels. 
+</p>
+
+<p>
+  Let's examine the creation of the mesh step by step: 
+</p>
+
+<h5><a name="s02_03_10_10_03">2.3.10.10.3 </a>Creating the vertex points</h5>
+
+<pre>
+#default { finish { ambient 1 } }
+
+#debug &quot;Creating colored mesh to show image...\n&quot;
+mesh2
+{ vertex_vectors
+  { ImageWidth*ImageHeight*2,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth)
+        &lt;(IndX/(ImageWidth-1)-.5)*ImageWidth/ImageHeight*2,
+         IndY/(ImageHeight-1)*2-1, 0&gt;,
+        &lt;((IndX+.5)/(ImageWidth-1)-.5)*ImageWidth/ImageHeight*2,
+         (IndY+.5)/(ImageHeight-1)*2-1, 0&gt;
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+</pre>
+
+<p>
+  First of all we use a nice trick in POV-Ray: Since we are not using light sources and there is nothing illuminating 
+ our mesh, what we do is to set the ambient value of the mesh to 1. We do this by just making it the default with the <code>#default</code> 
+ command, so we do not have to bother later. 
+</p>
+
+<p>
+  As we saw above, what we are going to do is to create two vertex points for each pixel. Thus we know without 
+ further thinking how many vertex vectors there will be: <code>ImageWidth*ImageHeight*2</code> 
+</p>
+
+<p>
+  That was the easy part; now we have to figure out how to create the vertex points themselves. Each vertex location 
+ should correspond to the pixel location it is representing, thus we go through each pixel index (practically the 
+ number pairs in parentheses in the image above) and create vertex points using these index values. The location of 
+ these pixels and vertices are the same as we assumed when we calculated the image itself (in the previous part). Thus 
+ the y coordinate of each vertex point should go from -1 to 1 and similarly the x coordinate, but scaled with the 
+ aspect ratio. 
+</p>
+
+<p>
+  If you look at the creation of the first vector in the code above, you will see that it is almost identical to the 
+ direction vector we calculated when creating the image. 
+</p>
+
+<p>
+  The second vector should be shifted by 0.5 in both directions, and that is exactly what is done there. The second 
+ vector definition is identical to the first one except that the index values are shifted by 0.5. This creates the 
+ points in the middle of the squares. 
+</p>
+
+<p>
+  The index values of these points will be arranged as shown in the image above. 
+</p>
+
+<h5><a name="s02_03_10_10_04">2.3.10.10.4 </a>Creating the textures</h5>
+
+<pre>
+  texture_list
+  { ImageWidth*ImageHeight*2,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth)
+        texture { pigment { rgb Image[IndX][IndY] } }
+        #if(IndX &lt; ImageWidth-1 &amp; IndY &lt; ImageHeight-1)
+          texture { pigment { rgb
+            (Image[IndX][IndY]+Image[IndX+1][IndY]+
+             Image[IndX][IndY+1]+Image[IndX+1][IndY+1])/4 } }
+        #else
+          texture { pigment { rgb 0 } }
+        #end
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+</pre>
+
+<p>
+  Creating the textures is very similar to creating the vertex points (we could have done both inside the same loop, 
+ but due to the syntax of the <code>mesh2</code> we have to do it separately). 
+</p>
+
+<p>
+  So what we do is to go through all the pixels in the image and create textures for each one. The first texture is 
+ just the pixel color itself. The second texture is the average of the four surrounding pixels. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> we can calculate it only for the vertex points in the middle of the squares; 
+ for the extra vertex points outside the image we just define a dummy black texture. 
+</p>
+
+<p>
+  The textures have the same index values as the vertex points. 
+</p>
+
+<h5><a name="s02_03_10_10_05">2.3.10.10.5 </a>Creating the triangles</h5>
+
+<p>
+  This one is a bit trickier. Basically we have to create four triangles for each &quot;square&quot; between pixels. 
+ How many triangles will there be? 
+</p>
+
+<p>
+  Let's examine the creation loop first: 
+</p>
+
+<pre>
+  face_indices
+  { (ImageWidth-1)*(ImageHeight-1)*4,
+    #declare IndY = 0;
+    #while(IndY &lt; ImageHeight-1)
+      #declare IndX = 0;
+      #while(IndX &lt; ImageWidth-1)
+
+        ...
+
+        #declare IndX = IndX+1;
+      #end
+      #declare IndY = IndY+1;
+    #end
+  }
+</pre>
+
+<p>
+  The number of &quot;squares&quot; is one less than the number of pixels in each direction. That is, the number of 
+ squares in the x direction will be one less than the number of pixels in the x direction. The same for the y 
+ direction. As we want four triangles for each square, the total number of triangles will then be <code>(ImageWidth-1)*(ImageHeight-1)*4</code>. 
+ 
+</p>
+
+<p>
+  Then to create each square we loop the amount of pixels minus one for each direction. 
+</p>
+
+<p>
+  Now in the inside of the loop we have to create the four triangles. Let's examine the first one: 
+</p>
+
+<pre>
+        &lt;IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+</pre>
+
+<p>
+  This creates a triangle with a texture in each vertex. The first three values (the indices to vertex points) are 
+ identical to the next three values (the indices to the textures) because the index values were exactly the same for 
+ both. 
+</p>
+
+<p>
+  The <code>IndX</code> is always multiplied by 2 because we had two vertex points for each pixel and <code>IndX</code> 
+ is basically going through the pixels. Likewise <code>IndY</code> is always multiplied by <code>ImageWidth*2</code> 
+ because that is how long a row of index points is (ie. to get from one row to the next at the same x coordinate we 
+ have to advance <code>ImageWidth*2</code> in the index values). 
+</p>
+
+<p>
+  These two things are identical in all the triangles. What decides which vertex point is chosen is the 
+ &quot;+1&quot; or &quot;+2&quot; (or &quot;+0&quot; when there is nothing). For <code>IndX</code> &quot;+0&quot; is 
+ the current pixel, &quot;+1&quot; chooses the point in the middle of the square and &quot;+2&quot; chooses the next 
+ pixel. For <code>IndY</code> &quot;+1&quot; chooses the next row of pixels. 
+</p>
+
+<p>
+  Thus this triangle definition creates a triangle using the vertex point for the current pixel, the one for the next 
+ pixel and the vertex point in the middle of the square. 
+</p>
+
+<p>
+  The next triangle definition is likewise: 
+</p>
+
+<pre>
+        &lt;IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  IndY    *(ImageWidth*2),
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+</pre>
+
+<p>
+  This one defines the triangle using the current point, the point in the next row and the point in the middle of the 
+ square. 
+</p>
+
+<p>
+  The next two definitions define the other two triangles: 
+</p>
+
+<pre>
+        &lt;IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+  (IndY+1)*(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2),
+
+        &lt;IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)&gt;,
+         IndX*2+2+IndY    *(ImageWidth*2),
+         IndX*2+2+(IndY+1)*(ImageWidth*2),
+         IndX*2+1+IndY    *(ImageWidth*2)
+</pre>
+
+<h4><a name="s02_03_10_11">2.3.10.11 </a>The Camera-setup</h4>
+
+<p>
+  The only thing left is the camera definition, so that POV-Ray can calculate the image correctly: 
+</p>
+
+<pre>
+  camera { orthographic location -z*2 look_at 0 }
+</pre>
+
+<p>
+  Why &quot;2&quot;? As the default <code>direction</code> vector is <code>&lt;0,0,1&gt;</code> and the default <code>up</code> 
+ vector is <code>&lt;0,1,0&gt;</code> and we want the up direction to cover 2 units, we have to move the camera two 
+ units away. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_74.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_74.html">2.3.9 While-loop tutorial</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.3.10 SDL tutorial: A raytracer</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_76.html">2.4 Questions and Tips</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_76.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

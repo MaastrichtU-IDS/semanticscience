@@ -1,0 +1,81 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>rainbow</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>rainbow</b> [<i>level</i>]
+ [<i>color1</i>,<i>color2</i>, ...]
+ <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></h3>
+<p>
+The command <b>rainbow</b> colors successive residues, chains, or models
+over a specified color range.  If <i>level</i> is <b>residue</b>
+or <b>residues</b> (the default), the color changes per residue, 
+starting over for each chain.  If <i>level</i> is <b>chain</b> 
+or <b>chains</b>, the color changes per chain,
+starting over for each model (where "model" indicates a submodel 
+or a model that is not subdivided into submodels).
+<a href="atom_spec.html#chainassign">WATER and HET chains</a>
+are not affected when the color is changed per residue or chain.
+If <i>level</i> is <b>model</b> or <b>models</b>,
+the color changes per model.
+</p><p>
+Two or more color names <i>color1</i>, <i>color2</i>, <i>etc.</i>
+can be supplied as a comma-separated list.
+Each can be any <a href="color.html#colorname">color name</a>
+that specifies a single color, except that R,G,B[,A] tuples cannot be used.
+If two names are given, they designate the starting and ending
+colors; if more than two names are given, they designate the starting
+color, intermediate color(s), and ending color.
+The default color range is defined by <b>blue</b>, <b>cyan</b>,
+<b>green</b>, <b>yellow</b>, and <b>red</b>, in that order.
+The 
+<a href="../../ContributedSoftware/rainbow/rainbow.html"><b>Rainbow</b></a>
+tool is a graphical implementation of <b>rainbow</b> in which five
+colors are used.
+</p><p>
+If no atoms are specified, all molecule models will be affected.
+Thus, <b>rainbow</b> without any arguments will color the residues in
+each polymer chain from blue to red (peptides from N-terminus to C-terminus,
+nucleic acids from 5' end to 3' end).
+Although a narrower <a href="frameatom_spec.html" target="_top">
+<i>atom-spec</i></a> may be supplied,
+the entire model(s) containing the specified atoms will be affected.
+The coloring cannot be limited to a subset of the residues in a chain
+or a subset of the polymer chains in a model, although it can be
+limited to a subset of the open submodels/models.
+</p><p>
+Apparent color is determined by a
+<a href="../hierarchy.html">hierarchy</a>;
+briefly, atom colors assigned on a per-atom
+basis and ribbon colors assigned on a per-residue basis
+override the model-level color. 
+When coloring per residue or chain,
+<b>rainbow</b> sets individual atom colors and per-residue ribbon colors;
+when coloring per model, it sets model-level colors and removes 
+any atom-level  and ribbon color assignments within the models.
+</p><p>
+See also: <b><A href="color.html">color</A></b>,
+<b><A href="rangecolor.html">rangecolor</A></b>,
+<b><A href="ribbon.html">ribbon</A></b>,
+<b><A href="ribcolor.html">ribcolor</A></b>,
+<b><A href="scolor.html">scolor</A></b>, 
+<b><A href="surfcolor.html">surfcolor</A></b>, 
+<b><A href="msc.html">msc</A></b>,
+the 
+<a href="../../ContributedSoftware/rainbow/rainbow.html"><b>Rainbow</b></a> tool
+</p>
+</body></html>

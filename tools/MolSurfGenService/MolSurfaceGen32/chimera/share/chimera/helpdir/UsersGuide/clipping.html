@@ -1,0 +1,116 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Clipping</title>
+</head><body>
+<h2>Clipping</h2>
+<p>
+Clipping planes cut away parts of structures, surfaces, and objects.  
+Chimera includes 
+<a href="#global">global</a> and <a href="#per-model">per-model</a>
+clipping planes.  Clipping plane status, locations, and orientations 
+are included in <a href="midas/savepos.html">saved positions</a> 
+and <a href="sessions.html">sessions</a>.  
+By default, clipped surfaces appear solid rather than hollow because
+planar caps are drawn where the surfaces are cut away.
+Cap appearance and whether caps are shown can be controlled using
+<a href="../ContributedSoftware/surfcapper/surfcapper.html"><b>Surface 
+Capping</b></a>.
+</p>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="side.png" alt="Side View"></td></tr>
+</table>
+
+<a name="global">
+<h3>Global Clipping Planes</h3></a>
+<p>
+The <b><i>global</i></b> clipping planes affect all models and demarcate 
+the front and back of the visible scene.
+The front (<b><i>hither</i></b>) and back (<b><i>yon</i></b>) 
+global clipping planes are always 
+perpendicular to the line of sight.
+They can be moved interactively in the
+<a href="sideview.html#sideview"><b>Side View</b></a> 
+or adjusted with the commands
+<a href="midas/clip.html"><b>clip</b></a>,
+<a href="midas/section.html"><b>section</b></a>, and
+<a href="midas/thickness.html"><b>thickness</b></a>.
+</p><p>
+Global clipping is <b>off</b> by default, meaning that the planes 
+are automatically adjusted to abut the bounding sphere of the
+displayed items.
+Turning on global clipping discontinues the automatic adjustment and
+allows items to become clipped.
+Global clipping can be turned on by:
+<ul>
+<li>moving the planes:
+  <ul>
+  <li>interactively in the <a href="sideview.html#sideview"><b>Side View</b></a>
+  <li>with commands (<a href="midas/clip.html"><b>clip</b></a>,
+  <a href="midas/section.html"><b>section</b></a>,
+  <a href="midas/thickness.html"><b>thickness</b></a>)
+  <li>by editing near/far plane locations in the 
+  <a href="sideview.html#camera"><b>Camera</b></a> tool
+  </ul>
+<li>checking the <b>Clip</b> option in the 
+<a href="sideview.html#sideview"><b>Side View</b></a>
+<li>using <a href="midas/focus.html"><b>focus</b></a> or
+<a href="midas/window.html"><b>window</b></a> on
+<a href="midas/frameatom_spec.html" target="_top">specified</a> items
+<li>using <a href="menu.html#actfocus"><b>Actions... Focus</b></a>
+on a <a href="selection.html">selection</a>
+</ul>
+Global clipping can be turned off by: 
+<ul>
+<li>clicking <b>View All</b> in the
+<a href="sideview.html#sideview"><b>Side View</b></a>
+<li>unchecking the <b>Clip</b> option in the
+<a href="sideview.html#sideview"><b>Side View</b></a>
+<li>using <a href="midas/focus.html"><b>focus</b></a> or
+<a href="midas/window.html"><b>window</b></a> without arguments
+(or using <a href="midas/focus.html"><b>~focus</b></a>)
+<li>using <a href="menu.html#actfocus"><b>Actions... Focus</b></a>
+with nothing <a href="selection.html">selected</a>
+</ul>
+In addition,
+<a href="midas/reset.html">resetting</a> a
+<a href="midas/savepos.html">saved position</a> or 
+<a href="sessions.html">restoring a session</a>
+may turn clipping on or off.
+</p><p>
+<a href="sideview.html#effects">Depth cueing</a> is modulated
+by the positions of the global clipping planes.
+</p>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="../ContributedSoftware/per-model/permod.png" 
+width="147" height="137" alt="per-model clipping"></td></tr>
+</table>
+
+<a name="per-model">
+<h3>Per-Model Clipping Planes</h3></a>
+<p>
+A <b><i>per-model</i></b> clipping plane affects only a single model and
+can face in any direction.  Since a
+<a href="representation.html#surfaces">molecular surface</a> and
+its underlying structure are separate models, they can be clipped
+separately, as shown in the figure.
+Up to one plane per model can be activated and positioned with the
+<a href="../ContributedSoftware/per-model/per-model.html"><b>Per-Model
+Clipping</b></a> tool or the command
+<a href="midas/mclip.html"><b>mclip</b></a>.
+All parts of a model to one side of its clipping plane can be shown,
+or just a slab of specified thickness.
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2008</address>
+</body></html>

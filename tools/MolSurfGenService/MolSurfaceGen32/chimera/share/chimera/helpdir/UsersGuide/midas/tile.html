@@ -1,0 +1,81 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>tile</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>tile</b> <i>models</i>
+[ columns <i>N</i> ] [ spacingFactor <i>f</i> ] 
+[&nbsp;independentRotation&nbsp;true|false&nbsp;] 
+[&nbsp;viewAll&nbsp;true|false&nbsp;]
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>~tile</b> <i>models</i>
+[&nbsp;viewAll&nbsp;true|false&nbsp;]
+</h3>
+<p>
+The command <b>tile</b> spreads models out into a plane; 
+it is the command-line implementation of 
+<a href="../../ContributedSoftware/ensembletile/ensembletile.html"><b>Tile 
+Structures</b></a>. The <i>models</i> argument should be a
+comma-separated list of model numbers or ranges preceded by #, or simply
+# or blank (nothing) to indicate all models.  
+A blank specification can only be used when no keywords are given.
+</p><p>
+The <b>columns</b> keyword specifies arranging the models into <i>N</i>
+columns in the viewing plane.  If not specified, the numbers of rows 
+and columns that best fit the window dimensions will be used.
+</p><p>
+The <b>spacingFactor</b> <i>f</i> indicates how far apart the structures
+should be spaced, with larger values giving greater separations.  The default
+of <b>1.0</b> spaces the models so that their bounding spheres abut, while
+0.0 superimposes the bounding sphere centers.
+</p><p>
+The <b>independentRotation</b> option (default <b>true</b>) makes models rotate
+about individual centers rather than a collective center; it sets the
+<a href="../sideview.html#rotation">center of rotation method</a> to
+<b>independent</b>.
+Specifying this option as false will not turn off independent rotation,
+however.  Instead, rotation about a collective center can be restored with
+the command <b>~tile</b> or 
+<A href="set.html#independent"><b>~set independent</b></a>.
+</p><p>
+The <b>viewAll</b> option (default <b>true</b>) adjusts the view 
+to enclose all displayed models regardless of whether they were specified,
+equivalent to clicking <b>View All</b> in the
+<A href="../sideview.html#sideview"><b>Side View</b></a>.
+</p><p>
+The command <b>~tile</b> sets the transform of all of the specified models
+to be the same as the first model.
+Any prior transformation of one model relative to another
+such as <a href="../superposition.html">superposition</a> or docking
+in Chimera will be lost.  If such manipulations have been performed, using
+<a href="savepos.html"><b>savepos</b></a> to save the position before tiling
+is recommended.  If the
+<a href="../sideview.html#rotation">center of rotation method</a> is
+<b>independent</b>, the command <b>~tile</b> changes it to <b>front center</b>.
+</p><p>
+Default or previously saved positions can be restored with the command 
+<a href="reset.html"><b>reset</b></a>, while previous model transformations 
+(but not scale or camera center) can be restored with 
+<a href="../../ContributedSoftware/undomove/undomove.html"><b>Undo Move</b></a>.
+</p><p>
+See also: <b><A href="align.html">align</A></b>,
+<b><A href="center.html">center</A></b>,
+<a href="matrixcopy.html"><b>matrixcopy</b></a>,
+<A href="window.html"><b>window</b></a>,
+<a href="../superposition.html">superimposing structures</a>
+</p>
+</body></html>

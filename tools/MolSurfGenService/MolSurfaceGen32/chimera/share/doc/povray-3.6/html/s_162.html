@@ -1,0 +1,737 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.8.10 Texture</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_161.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_161.html">3.8.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.8.10 
+   Texture</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_163.html">3.8.11 Media</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_163.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_08_10">3.8.10 </a>Texture</h3>
+<a name="s03_08_10_i1"><a name="quickref, texture"></a><a name="s03_08_10_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe the surface of an object 
+ <dt>
+   TEXTURE: 
+ <dd>
+   <code>PLAIN_TEXTURE | LAYERED_TEXTURE | PATTERNED_TEXTURE</code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_01">3.8.10.1 </a>Plain Texture</h4>
+<a name="s03_08_10_01_i1"><a name="quickref, plain texture"></a><a name="s03_08_10_01_i2"><a name="s03_08_10_01_i3">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe a texture consisting of a single pigment, normal and finish: 
+ <dt>
+   PLAIN_TEXTURE: 
+ <dd>
+   <code><strong>texture {</strong> PLAIN_TEXTURE_BODY <strong>}</strong></code> 
+ <dt>
+   PLAIN_TEXTURE_BODY: 
+ <dd>
+   <code>[PLAIN_TEXTURE_IDENT] [PNF_IDENTIFIERS] [PNF_ITEMS]</code> 
+ <dt>
+   PNF_IDENTIFIERS: 
+ <dd>
+   <code>[PIGMENT_IDENTIFIER] &amp; [NORMAL_IDENTIFIER] &amp; [FINISH_IDENTIFIER]</code> 
+ <dt>
+   PNF_ITEMS: 
+ <dd>
+   <code>[PIGMENT] &amp; [NORMAL] &amp; [FINISH] &amp; [TRANSFORMATION...]</code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_02">3.8.10.2 </a>Layered Texture</h4>
+<a name="s03_08_10_02_i1"><a name="quickref, layered texture"></a><a name="s03_08_10_02_i2"><a name="s03_08_10_02_i3">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe a texture consisting of two or more semi-transparent layers: 
+ <dt>
+   LAYERED_TEXTURE: 
+ <dd class="Jump">
+   <a href="s_120.html#s03_05_06">Jump to SDL</a> 
+ <dd>
+   <code><strong>texture {</strong> LAYERED_TEXTURE_IDENT <strong>}</strong> |<br> PLAIN_TEXTURE PLAIN_TEXTURE...</code> 
+  
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_03">3.8.10.3 </a>Patterned Texture</h4>
+<a name="s03_08_10_03_i1"><a name="quickref, patterned texture"></a><a name="s03_08_10_03_i2"><a name="s03_08_10_03_i3">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe a texture using a pattern or blending function: 
+ <dt>
+   PATTERNED_TEXTURE: 
+ <dd class="Jump">
+   <a href="s_119.html#s03_05_05">Jump to SDL</a> 
+ <dd>
+   <code><strong>texture {</strong> PATTERNED_TEXTURE_BODY <strong>}</strong></code> 
+ <dt>
+   PATTERNED_TEXTURE_BODY: 
+ <dd>
+   <code>PATTERNED_TEXTURE_IDENT [TRANSFORMATION...] | TEXTURE_PATTERN [PATTERN_MODIFIERS] | MATERIAL_MAP 
+  [TRANSFORMATION...]</code> 
+ <dt>
+   TEXTURE_PATTERN: 
+ <dd>
+   <code>TEXTURE_LIST_PATTERN | MAP_PATTERN TEXTURE_MAP</code> 
+ <dt>
+   TEXTURE_LIST_PATTERN: 
+ <dd>
+   <code><strong>brick</strong> TEXTURE, TEXTURE [BRICK_ITEMS] |<br> <strong>checker</strong> TEXTURE, TEXTURE |<br> <strong>hexagon</strong> 
+  TEXTURE, TEXTURE, TEXTURE |<br> <strong>object {</strong> LIST_OBJECT TEXTURE, TEXTURE <strong>}</strong></code> 
+ <dt>
+   <a name="s03_08_10_03_i4"><a name="quickref, brick_item"></a>BRICK_ITEMS: 
+ <dd>
+   <code>[<strong>brick_size</strong>&nbsp;VECTOR] &amp; [<strong>mortar</strong>&nbsp;FLOAT]</code> 
+ <dt>
+   <a name="s03_08_10_03_i5"><a name="quickref, list_object"></a>LIST_OBJECT: 
+ <dd>
+   <code>UNTEXTURED_SOLID_OBJECT | UNTEXTURED_SOLID_OBJECT_IDENT</code> 
+ <dt>
+   TEXTURE_MAP: 
+ <dd>
+   <code><strong>texture_map {</strong> TEXTURE_MAP_BODY <strong>}</strong> <a href="s_162.html#s03_08_10_08">[BLEND_MAP_MODIFIERS]</a></code> 
+  
+ <dt>
+   TEXTURE_MAP_BODY: 
+ <dd>
+   <code>TEXTURE_MAP_IDENTIFIER | TEXTURE_MAP_ENTRY...</code> 
+ <dd class="ItemNote">
+   There may be from 2 to 256 map entries. 
+ <dt>
+   TEXTURE_MAP_ENTRY: 
+ <dd>
+   <code><strong>[</strong> FLOAT TEXTURE_BODY <strong>]</strong></code> 
+ <dd class="ItemNote">
+   The brackets here are part of the map entry. 
+ <dt>
+   TEXTURE_BODY: 
+ <dd>
+   <code>PLAIN_TEXTURE_BODY | LAYERED_TEXTURE_IDENT | PATTERNED_TEXTURE_BODY</code> 
+ <dt>
+   MATERIAL_MAP: 
+ <dd>
+   <code><strong>material_map {</strong> <a href="s_162.html#s03_08_10_08">BITMAP_IMAGE</a> [BITMAP_MODIFIERS] 
+  TEXTURE... <strong>}</strong></code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_04">3.8.10.4 </a>Pigment</h4>
+<a name="s03_08_10_04_i1"><a name="quickref, pigment"></a><a name="s03_08_10_04_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe a color or pattern of colors for a texture: 
+ <dt>
+   PIGMENT: 
+ <dd class="Jump">
+   <a href="#l165">Jump to SDL</a> 
+ <dd>
+   <code><strong>pigment {</strong> PIGMENT_BODY <strong>}</strong></code> 
+ <dt>
+   PIGMENT_BODY: 
+ <dd>
+   <code>[PIGMENT_IDENTIFIER] [PIGMENT_TYPE] [PIGMENT_MODIFIERS]</code> 
+ <dt>
+   PIGMENT_TYPE: 
+ <dd>
+   <code>COLOR | COLOR_LIST_PATTERN | PIGMENT_LIST_PATTERN | IMAGE_MAP | MAP_PATTERN&nbsp;[COLOR_MAP] | 
+  MAP_PATTERN&nbsp;PIGMENT_MAP</code> 
+ <dt>
+   COLOR_LIST_PATTERN: 
+ <dd>
+   <code><strong>brick</strong> [COLOR [, COLOR]] <a href="s_162.html#s03_08_10_03">[BRICK_ITEMS]</a> |<br> <strong>checker</strong> 
+  [COLOR [, COLOR]] |<br> <strong>hexagon</strong> [COLOR [, COLOR [, COLOR]]] |<br> <strong>object {</strong> <a href="s_162.html#s03_08_10_03">LIST_OBJECT</a> 
+  [COLOR [, COLOR]] <strong>}</strong></code> 
+ <dt>
+   PIGMENT_LIST_PATTERN: 
+ <dd>
+   <code><strong>brick</strong> PIGMENT, PIGMENT <a href="s_162.html#s03_08_10_03">[BRICK_ITEMS]</a> |<br> <strong>checker</strong> 
+  PIGMENT, PIGMENT |<br> <strong>hexagon</strong> PIGMENT, PIGMENT, PIGMENT |<br> <strong>object {</strong> <a href="s_162.html#s03_08_10_03">LIST_OBJECT</a> 
+  PIGMENT, PIGMENT <strong>}</strong></code> 
+ <dt>
+   IMAGE_MAP: 
+ <dd>
+   <code><strong>image_map {</strong><a href="s_162.html#s03_08_10_08">BITMAP_IMAGE</a> [IMAGE_MAP_MODIFIER...] 
+  [BITMAP_MODIFIERS] <strong>}</strong></code> 
+ <dt>
+   IMAGE_MAP_MODIFIER: 
+ <dd>
+   <code><strong>filter</strong>&nbsp;I_PALETTE,&nbsp;F_AMOUNT | <strong>filter&nbsp;all</strong>&nbsp;F_AMOUNT | <strong>transmit</strong>&nbsp;I_PALETTE,&nbsp;F_AMOUNT 
+  | <strong>transmit&nbsp;all</strong>&nbsp;F_AMOUNT</code> 
+ <dt>
+   COLOR_MAP: 
+ <dd>
+   <code><strong>color_map {</strong> COLOR_MAP_BODY <strong>}</strong> <a href="s_162.html#s03_08_10_08">[BLEND_MAP_MODIFIERS]</a> 
+  |<br> <strong>colour_map {</strong> COLOR_MAP_BODY <strong>}</strong> [BLEND_MAP_MODIFIERS]</code> 
+ <dt>
+   COLOR_MAP_BODY: 
+ <dd>
+   <code>COLOR_MAP_IDENTIFIER | COLOR_MAP_ENTRY...</code> 
+ <dd class="ItemNote">
+   There may be from 2 to 256 map entries. 
+ <dt>
+   COLOR_MAP_ENTRY: 
+ <dd>
+   <code><strong>[</strong> FLOAT COLOR <strong>]</strong></code> 
+ <dd class="ItemNote">
+   The brackets here are part of the map entry. 
+ <dt>
+   PIGMENT_MAP: 
+ <dd>
+   <code><strong>pigment_map {</strong> PIGMENT_MAP_BODY <strong>}</strong> <a href="s_162.html#s03_08_10_08">[BLEND_MAP_MODIFIERS]</a></code> 
+  
+ <dt>
+   PIGMENT_MAP_BODY: 
+ <dd>
+   <code>PIGMENT_MAP_IDENTIFIER | PIGMENT_MAP_ENTRY...</code> 
+ <dd class="ItemNote">
+   There may be from 2 to 256 map entries. 
+ <dt>
+   PIGMENT_MAP_ENTRY: 
+ <dd>
+   <code><strong>[</strong> FLOAT PIGMENT_BODY <strong>]</strong></code> 
+ <dd class="ItemNote">
+   The brackets here are part of the map entry. 
+ <dt>
+   PIGMENT_MODIFIERS: 
+ <dd>
+   <code>[QUICK_COLOR] &amp; [PATTERN_MODIFIERS]</code> 
+ <dt>
+   QUICK_COLOR: 
+ <dd>
+   <code><strong>quick_color</strong>&nbsp;COLOR | <strong>quick_colour</strong>&nbsp;COLOR</code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_05">3.8.10.5 </a>Normal</h4>
+<a name="s03_08_10_05_i1"><a name="quickref, normal"></a><a name="s03_08_10_05_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Simulate the visual or tactile surface characteristics of a texture: 
+ <dt>
+   NORMAL: 
+ <dd class="Jump">
+   <a href="#l165">Jump to SDL</a> 
+ <dd>
+   <code><strong>normal {</strong> NORMAL_BODY <strong>}</strong></code> 
+ <dt>
+   NORMAL_BODY: 
+ <dd>
+   <code>[NORMAL_IDENTIFIER] [NORMAL_TYPE] [NORMAL_MODIFIERS]</code> 
+ <dt>
+   NORMAL_TYPE: 
+ <dd>
+   <code>NORMAL_PATTERN | BUMP_MAP</code> 
+ <dt>
+   NORMAL_PATTERN: 
+ <dd>
+   <code>NORMAL_LIST_PATTERN |<br> MAP_PATTERN [F_DEPTH] [SLOPE_MAP] |<br> MAP_PATTERN NORMAL_MAP</code> 
+ <dt>
+   NORMAL_LIST_PATTERN: 
+ <dd>
+   <code><strong>brick</strong> NORMAL, NORMAL <a href="s_162.html#s03_08_10_03">[BRICK_ITEMS]</a> | <strong>brick</strong>&nbsp;[F_DEPTH]&nbsp;[BRICK_ITEMS] 
+  |<br> <strong>checker</strong> NORMAL, NORMAL | <strong>checker</strong>&nbsp;[F_DEPTH] |<br> <strong>hexagon</strong> 
+  NORMAL, NORMAL, NORMAL | <strong>hexagon</strong>&nbsp;[F_DEPTH] |<br> <strong>object {</strong> <a href="s_162.html#s03_08_10_03">LIST_OBJECT</a> 
+  NORMAL, NORMAL <strong>}</strong> | <strong>object&nbsp;{</strong>&nbsp;LIST_OBJECT&nbsp;<strong>}</strong>&nbsp;[F_DEPTH]</code> 
+  
+ <dt>
+   NORMAL_MAP: 
+ <dd>
+   <code><strong>normal_map {</strong> NORMAL_MAP_BODY <strong>}</strong> <a href="s_162.html#s03_08_10_08">[BLEND_MAP_MODIFIERS]</a></code> 
+  
+ <dt>
+   NORMAL_MAP_BODY: 
+ <dd>
+   <code>NORMAL_MAP_IDENTIFIER | NORMAL_MAP_ENTRY...</code> 
+ <dd class="ItemNote">
+   There may be from 2 to 256 map entries. 
+ <dt>
+   NORMAL_MAP_ENTRY: 
+ <dd>
+   <code><strong>[</strong> FLOAT NORMAL_BODY <strong>]</strong></code> 
+ <dd class="ItemNote">
+   The brackets here are part of the map entry. 
+ <dt>
+   SLOPE_MAP: 
+ <dd>
+   <code><strong>slope_map {</strong> SLOPE_MAP_BODY <strong>}</strong> <a href="s_162.html#s03_08_10_08">[BLEND_MAP_MODIFIERS]</a></code> 
+  
+ <dt>
+   SLOPE_MAP_BODY: 
+ <dd>
+   <code>SLOPE_MAP_IDENTIFIER | SLOPE_MAP_ENTRY...</code> 
+ <dd class="ItemNote">
+   There may be from 2 to 256 map entries. 
+ <dt>
+   SLOPE_MAP_ENTRY: 
+ <dd>
+   <code><strong>[</strong> FLOAT, &lt; F_HEIGHT, F_SLOPE &gt; <strong>]</strong></code> 
+ <dd class="ItemNote">
+   The brackets here are part of the map entry. 
+ <dt>
+   BUMP_MAP: 
+ <dd>
+   <code><strong>bump_map {</strong> <a href="s_162.html#s03_08_10_08">BITMAP_IMAGE</a> [BUMP_MAP_MODIFIERS] <strong>}</strong></code> 
+  
+ <dt>
+   BUMP_MAP_MODIFIERS: 
+ <dd>
+   <code><a href="s_162.html#s03_08_10_08">[BITMAP_MODIFIERS]</a> &amp; [BUMP_METHOD] &amp; [<strong>bump_size</strong>&nbsp;FLOAT]</code> 
+  
+ <dt>
+   BUMP_METHOD: 
+ <dd>
+   <code><strong>use_index</strong> | <strong>use_color</strong> | <strong>use_colour</strong></code> 
+ <dt>
+   NORMAL_MODIFIERS: 
+ <dd>
+   <code>[PATTERN_MODIFIERS] &amp; [<strong>bump_size</strong>&nbsp;FLOAT] &amp; [<strong>no_bump_scale</strong>&nbsp;[BOOL]] 
+  &amp; [<strong>accuracy</strong>&nbsp;FLOAT]</code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_06">3.8.10.6 </a>Finish</h4>
+<a name="s03_08_10_06_i1"><a name="quickref, finish"></a><a name="s03_08_10_06_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Describe the reflective properties of a surface: 
+ <dt>
+   FINISH: 
+ <dd class="Jump">
+   <a href="s_117.html#s03_05_03">Jump to SDL</a> 
+ <dd>
+   <code><strong>finish {</strong> [FINISH_IDENTIFIER] [FINISH_ITEMS] <strong>}</strong></code> 
+ <dt>
+   FINISH_ITEMS: 
+ <dd>
+   <code>[<strong>ambient</strong> COLOR] &amp; [<strong>diffuse</strong>&nbsp;FLOAT] &amp; [<strong>brilliance</strong>&nbsp;FLOAT] 
+  &amp; [PHONG] &amp; [SPECULAR] &amp; [REFLECTION] &amp; [IRID] &amp; [<strong>crand</strong>&nbsp;FLOAT] &amp; [<strong>conserve_energy</strong>&nbsp;[BOOL]]</code> 
+  
+ <dt>
+   PHONG: 
+ <dd>
+   <code><strong>phong</strong> FLOAT &amp; [<strong>phong_size</strong>&nbsp;FLOAT] &amp; [<strong>metallic</strong>&nbsp;[FLOAT]]</code> 
+  
+ <dt>
+   SPECULAR: 
+ <dd>
+   <code><strong>specular</strong> FLOAT &amp; [<strong>roughness</strong>&nbsp;FLOAT] &amp; [<strong>metallic</strong>&nbsp;[FLOAT]]</code> 
+  
+ <dt>
+   REFLECTION: 
+ <dd>
+   <code><strong>reflection</strong> COLOR [<strong>reflection_exponent</strong>&nbsp;FLOAT] |<br> <strong>reflection 
+  {</strong> [COLOR,] COLOR [REFLECTION_ITEMS] <strong>}</strong></code> 
+ <dt>
+   REFLECTION_ITEMS: 
+ <dd>
+   <code>[<strong>fresnel</strong> BOOL] &amp; [<strong>falloff</strong>&nbsp;FLOAT] &amp; [<strong>exponent</strong>&nbsp;FLOAT] 
+  &amp; [<strong>metallic</strong>&nbsp;[FLOAT]]</code> 
+ <dd class="ItemNote">
+   Must also use <code><strong>interior&nbsp;{ior</strong>&nbsp;FLOAT<strong>}</strong></code> in 
+  the object when <strong><code>fresnel</code></strong> is used. 
+ <dt>
+   IRID: 
+ <dd>
+   <code><strong>irid {</strong> F_AMOUNT [IRID_ITEMS] <strong>}</strong></code> 
+ <dt>
+   IRID_ITEMS: 
+ <dd>
+   <code>[<strong>thickness</strong> FLOAT] &amp; [<strong>turbulence</strong>&nbsp;FLOAT]</code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_07">3.8.10.7 </a>Pattern</h4>
+<a name="s03_08_10_07_i1"><a name="quickref, pattern"></a><a name="s03_08_10_07_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Specify a pattern function for a texture, pigment, normal or density: 
+ <dt>
+   MAP_PATTERN: 
+ <dd class="Jump">
+   <a href="s_125.html#s03_05_11">Jump to SDL</a> 
+ <dd>
+   <code>AGATE | <strong>average</strong> | <strong>boxed</strong> | <strong>bozo</strong> | <strong>bumps</strong> 
+  | <strong>cells</strong> | CRACKLE | <strong>cylindrical</strong> | DENSITY_FILE | <strong>dents</strong> | FACETS | 
+  FRACTAL | <strong>function {</strong> <a href="s_155.html#s03_08_03_04">FN_FLOAT</a> <strong>}</strong> | <strong>gradient</strong>&nbsp;VECTOR 
+  | <strong>granite</strong> | IMAGE_PATTERN | <strong>leopard</strong> | <strong>marble</strong> | <strong>onion</strong> 
+  | <strong>pigment_pattern&nbsp;{</strong>&nbsp;<a href="s_162.html#s03_08_10_04">PIGMENT_BODY</a>&nbsp;<strong>}</strong> 
+  | <strong>planar</strong> | QUILTED | <strong>radial</strong> | <strong>ripples</strong> | SLOPE | <strong>spherical</strong> 
+  | <strong>spiral1</strong>&nbsp;I_NUM_ARMS | <strong>spiral2</strong>&nbsp;I_NUM_ARMS | <strong>spotted</strong> | <strong>waves</strong> 
+  | <strong>wood</strong> | <strong>wrinkles</strong></code> 
+ <dt>
+   AGATE: 
+ <dd>
+   <code><strong>agate</strong> [<strong>agate_turb</strong> FLOAT]</code> 
+ <dt>
+   CRACKLE: 
+ <dd>
+   <code><strong>crackle</strong> [CRACKLE_TYPES]</code> 
+ <dt>
+   CRACKLE_TYPES: 
+ <dd>
+   <code>[<strong>form</strong> VECTOR] &amp; [<strong>metric</strong>&nbsp;FLOAT] &amp; [<strong>offset</strong>&nbsp;FLOAT] 
+  &amp; [<strong>solid</strong>]</code> 
+ <dt>
+   DENSITY_FILE: 
+ <dd>
+   <code><strong>density_file df3</strong> FILE_NAME [<strong>interpolate</strong>&nbsp;DENSITY_INTERPOLATE]</code> 
+ <dt>
+   DENSITY_INTERPOLATE: 
+ <dd>
+   <code><strong>0</strong> | <strong>1</strong> | <strong>2</strong></code> 
+ <dt>
+   FACETS: 
+ <dd>
+   <code><strong>facets</strong> FACETS_TYPE</code> 
+ <dd class="ItemNote">
+   Note, <code><strong>facets</strong></code> can only be used as a <code><strong>normal</strong></code> 
+  pattern. 
+ <dt>
+   FACETS_TYPE: 
+ <dd>
+   <code><strong>coords</strong> F_SCALE | <strong>size</strong>&nbsp;F_SIZE_FACTOR</code> 
+ <dt>
+   FRACTAL: 
+ <dd>
+   <code>MANDELBROT_FRACTAL | JULIA_FRACTAL | MAGNET_MANDEL_FRACTAL | MAGNET_JULIA_FRACTAL</code> 
+ <dt>
+   MANDELBROT_FRACTAL: 
+ <dd>
+   <code><strong>mandel</strong> I_ITERATIONS [<strong>exponent</strong>&nbsp;INT] [<strong>exterior</strong>&nbsp;EXTERIOR_TYPE,&nbsp;F_FACTOR] 
+  [<strong>interior</strong>&nbsp;INTERIOR_TYPE,&nbsp;F_FACTOR]</code> 
+ <dt>
+   JULIA_FRACTAL: 
+ <dd>
+   <code><strong>julia</strong> V2_COMPLEX, I_ITERATIONS [<strong>exponent</strong>&nbsp;INT] [<strong>exterior</strong>&nbsp;EXTERIOR_TYPE,&nbsp;F_FACTOR] 
+  [<strong>interior</strong>&nbsp;INTERIOR_TYPE,&nbsp;F_FACTOR]</code> 
+ <dt>
+   MAGNET_MANDEL_FRACTAL: 
+ <dd>
+   <code><strong>magnet</strong> MAGNET_TYPE <strong>mandel</strong>&nbsp;I_ITERATIONS [<strong>exterior</strong>&nbsp;EXTERIOR_TYPE,&nbsp;F_FACTOR] 
+  [<strong>interior</strong>&nbsp;INTERIOR_TYPE,&nbsp;F_FACTOR]</code> 
+ <dt>
+   MAGNET_TYPE: 
+ <dd>
+   <code><strong>1</strong> | <strong>2</strong></code> 
+ <dt>
+   MAGNET_JULIA_FRACTAL: 
+ <dd>
+   <code><strong>magnet</strong> MAGNET_TYPE <strong>julia</strong> V2_COMPLEX, I_ITERATIONS [<strong>exterior</strong>&nbsp;EXTERIOR_TYPE,&nbsp;F_FACTOR] 
+  [<strong>interior</strong>&nbsp;INTERIOR_TYPE,&nbsp;F_FACTOR]</code> 
+ <dt>
+   EXTERIOR_TYPE: 
+ <dd>
+   <code><strong>0</strong> | <strong>1</strong> | <strong>2</strong> | <strong>3</strong> | <strong>4</strong> | <strong>5</strong> 
+  | <strong>6</strong></code> 
+ <dt>
+   INTERIOR_TYPE: 
+ <dd>
+   <code><strong>0</strong> | <strong>1</strong> | <strong>2</strong> | <strong>3</strong> | <strong>4</strong> | <strong>5</strong> 
+  | <strong>6</strong></code> 
+ <dt>
+   IMAGE_PATTERN: 
+ <dd>
+   <code><strong>image_pattern {</strong><a href="s_162.html#s03_08_10_08">BITMAP_IMAGE</a> 
+  [IMAGE_PATTERN_MODIFIERS] <strong>}</strong></code> 
+ <dt>
+   IMAGE_PATTERN_MODIFIERS: 
+ <dd>
+   <code><a href="s_162.html#s03_08_10_08">[BITMAP_MODIFIERS]</a> &amp; [<strong>use_alpha</strong>]</code> 
+ <dt>
+   QUILTED: 
+ <dd>
+   <code><strong>quilted</strong> [<strong>control0</strong>&nbsp;FLOAT] [<strong>control1</strong>&nbsp;FLOAT]</code> 
+  
+ <dt>
+   SLOPE: 
+ <dd>
+   <code><strong>slope {</strong> V_DIRECTION [, F_LOW_SLOPE, F_HIGH_SLOPE ] [<strong>altitude</strong>&nbsp;VECTOR 
+  [, F_LOW_ALT, F_HIGH_ALT ]] <strong>}</strong></code> 
+ <dd class="ItemNote">
+   The <code><strong>slope</strong></code> pattern does not work in media densities. 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<h4><a name="s03_08_10_08">3.8.10.8 </a>Pattern Modifiers</h4>
+<a name="s03_08_10_08_i1"><a name="quickref, pattern modifiers"></a><a name="s03_08_10_08_i2">
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Modify the evaluation of a pattern function: 
+ <dt>
+   PATTERN_MODIFIERS: 
+ <dd class="Jump">
+   <a href="s_126.html#s03_05_12">Jump to SDL</a> 
+ <dd>
+   <code>[TURBULENCE] &amp; [WARP...] &amp; [TRANSFORMATION...] &amp; [<strong>noise_generator</strong>&nbsp;NG_TYPE]</code> 
+  
+ <dt>
+   NG_TYPE: 
+ <dd>
+   <code><strong>1</strong> | <strong>2</strong> | <strong>3</strong></code> 
+ <dt>
+   TURBULENCE: 
+ <dd>
+   <code><strong>turbulence</strong> VECTOR &amp; [<strong>octaves</strong>&nbsp;INT] &amp; [<strong>omega</strong>&nbsp;FLOAT] 
+  &amp; [<strong>lambda</strong>&nbsp;FLOAT]</code> 
+ <dt>
+   WARP: 
+ <dd>
+   <code><strong>warp {</strong> WARP_ITEM <strong>}</strong></code> 
+ <dt>
+   WARP_ITEM: 
+ <dd>
+   <code>REPEAT_WARP | BLACK_HOLE_WARP | TURBULENCE | CYLINDRICAL_WARP | SPHERICAL_WARP | TOROIDAL_WARP | PLANAR_WARP</code> 
+  
+ <dt>
+   REPEAT_WARP: 
+ <dd>
+   <code><strong>repeat</strong> VECTOR [<strong>offset</strong>&nbsp;VECTOR] [<strong>flip</strong>&nbsp;VECTOR]</code> 
+  
+ <dt>
+   BLACK_HOLE_WARP: 
+ <dd>
+   <code><strong>black_hole</strong> V_LOCATION, F_RADIUS [BLACK_HOLE_ITEMS]</code> 
+ <dt>
+   BLACK_HOLE_ITEMS: 
+ <dd>
+   <code>[<strong>strength</strong> FLOAT] &amp; [<strong>falloff</strong>&nbsp;FLOAT] &amp; [<strong>inverse</strong>] 
+  &amp; [<strong>repeat</strong>&nbsp;VECTOR&nbsp;[<strong>turbulence</strong>&nbsp;VECTOR]]</code> 
+ <dt>
+   CYLINDRICAL_WARP: 
+ <dd>
+   <code><strong>cylindrical</strong> [<strong>orientation</strong>&nbsp;VECTOR] [<strong>dist_exp</strong>&nbsp;FLOAT]</code> 
+  
+ <dt>
+   SPHERICAL_WARP: 
+ <dd>
+   <code><strong>spherical</strong> [<strong>orientation</strong>&nbsp;VECTOR] [<strong>dist_exp</strong>&nbsp;FLOAT]</code> 
+  
+ <dt>
+   TOROIDAL_WARP: 
+ <dd>
+   <code><strong>toroidal</strong> [<strong>orientation</strong>&nbsp;VECTOR] [<strong>dist_exp</strong>&nbsp;FLOAT] 
+  [<strong>major_radius</strong>&nbsp;FLOAT]</code> 
+ <dt>
+   PLANAR_WARP: 
+ <dd>
+   <code><strong>planar</strong> [V_NORMAL, F_DISTANCE]</code> 
+</dl>
+
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   <a name="s03_08_10_08_i3"><a name="quickref, blend_map_modifiers"></a>Modify the usage of a blend 
+  map: 
+ <dt>
+   BLEND_MAP_MODIFIERS: 
+ <dd class="Jump">
+   <a href="s_126.html#s03_05_12">Jump to SDL</a> 
+ <dd>
+   [<strong>frequency</strong> FLOAT] &amp; [<strong>phase</strong> FLOAT] &amp; [WAVEFORM] 
+ <dt>
+   WAVEFORM: 
+ <dd class="Jump">
+   <a href="s_126.html#s03_05_12_03">Jump to SDL</a> 
+ <dd>
+   <code><strong>ramp_wave</strong> | <strong>triangle_wave</strong> | <strong>sine_wave</strong> | <strong>scallop_wave</strong> 
+  | <strong>cubic_wave</strong> | <strong>poly_wave</strong>&nbsp;[F_EXPONENT]</code> 
+</dl>
+
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   <a name="s03_08_10_08_i4"><a name="quickref, bitmap"></a>Specify a two-dimensional bitmap image 
+  for a pattern: 
+ <dt>
+   BITMAP_IMAGE: 
+ <dd>
+   <code>FUNCTION_IMAGE | BITMAP_TYPE&nbsp;FILE_NAME</code> 
+ <dt>
+   FUNCTION_IMAGE: 
+ <dd class="Jump">
+   <a href="s_125.html#s03_05_11_16">Jump to SDL</a> 
+ <dd>
+   <code><strong>function</strong> I_WIDTH, I_HEIGHT <strong>{</strong>&nbsp;FUNCTION_IMAGE_BODY&nbsp;<strong>}</strong></code> 
+  
+ <dt>
+   FUNCTION_IMAGE_BODY: 
+ <dd>
+   <code>PIGMENT | <a href="s_155.html#s03_08_03_04">FN_FLOAT</a> | <strong>pattern&nbsp;{</strong>&nbsp;PATTERN 
+  [PATTERN_MODIFIERS]&nbsp;<strong>}</strong></code> 
+ <dt>
+   PATTERN: 
+ <dd>
+   <code>MAP_PATTERN | <strong>brick</strong> <a href="s_162.html#s03_08_10_03">[BRICK_ITEMS]</a> | <strong>checker</strong> 
+  | <strong>hexagon</strong> | <strong>object {</strong> <a href="s_162.html#s03_08_10_03">LIST_OBJECT</a> <strong>}</strong></code> 
+  
+ <dt>
+   BITMAP_TYPE: 
+ <dd class="Jump">
+   <a href="s_115.html#s03_05_01_05">Jump to SDL</a> 
+ <dd>
+   <code><strong>gif</strong> | <strong>tga</strong> | <strong>iff</strong> | <strong>ppm</strong> | <strong>pgm</strong> 
+  | <strong>png</strong> | <strong>jpeg</strong> | <strong>tiff</strong> | <strong>sys</strong></code> 
+</dl>
+
+<dl class="Syntax">
+ 
+ <dt class="SubDesc">
+   Modify how a 2-D bitmap is to be applied to a 3-D surface: 
+ <dt>
+   BITMAP_MODIFIERS: 
+ <dd class="Jump">
+   <a href="s_126.html#s03_05_12_07">Jump to SDL</a> 
+ <dd>
+   <code>[<strong>once</strong>] &amp; [<strong>map_type</strong>&nbsp;MAP_TYPE] &amp; [<strong>interpolate</strong>&nbsp;INTERPOLATE_TYPE]</code> 
+  
+ <dt>
+   MAP_TYPE: 
+ <dd>
+   <code><strong>0</strong> | <strong>1</strong> | <strong>2</strong> | <strong>5</strong></code> 
+ <dt>
+   INTERPOLATE_TYPE: 
+ <dd>
+   <code><strong>2</strong> | <strong>4</strong></code> 
+</dl>
+
+<p>
+  <a href="s_153.html#s03_08_01">Quick Reference Contents</a> 
+</p>
+
+<p>
+ <a name="l165">
+<small><strong>More about &quot;Jump to SDL&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_115.html#s03_05_01">3.5.1 Pigment</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_69.html#s02_03_04_01">2.3.4.1 Pigments</a> in 2.3.4 Advanced Texture Options
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_161.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_161.html">3.8.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.8.10 Texture</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_163.html">3.8.11 Media</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_163.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

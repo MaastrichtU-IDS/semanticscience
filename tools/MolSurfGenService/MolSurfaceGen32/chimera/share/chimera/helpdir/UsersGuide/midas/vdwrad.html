@@ -1,0 +1,120 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>VDW radii</title>
+</head><body>
+<h3>VDW Radii</h3>
+<p>
+VDW (van der Waals) radii are used to show atoms in the <b>sphere</b> 
+<a href="../representation.html">representation</a>
+and, when multiplied by the <a href="../moleculeattrib.html#ballscale"><b>ball
+scale</b> factor</a>, the <b>ball-and-stick</b>
+<a href="../representation.html">representation</a>.
+VDW radii are also used in
+calculating <a href="../representation.html#surfaces">surfaces</a>,
+<a href="../../ContributedSoftware/findclash/findclash.html">finding
+close contacts</a>,
+and rendering atoms with <a href="conic.html"><b>conic</b></a>
+and <a href="neon.html"><b>neon</b></a>.
+</p><p>
+VDW radii are stored as the atom
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attribute</a>
+<b>radius</b>.  Chimera assigns default values based on
+<a href="../idatm.html">atom type</a>, but radii can be
+<a href="#changing">changed</a>.
+</p>
+
+<h3><a name="defaults">Default Assignments</a></h3>
+<p>
+For <b>C</b>, <b>N</b>, <b>O</b>, and <b>S</b>, the default 
+VDW radii depend on whether explicit hydrogen atoms are present:
+</p>
+<ul>
+<li> When a molecule model has <b>no explicit hydrogens</b>,
+<a href="vdwtables.html#united">"united atom" radii</a>
+based on the ProtOr set are used:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/10388571" target="_blank">
+The packing density in proteins: standard radii and volumes.</a>
+Tsai J, Taylor R, Chothia C, Gerstein M.
+<i>J Mol Biol.</i> 1999 Jul 2;290(1):253-66.
+</blockquote>
+<li>When there are <b>explicit hydrogens</b>, 
+<a href="vdwtables.html#allatom">"all atom" radii</a> 
+derived from the <a href="http://ambermd.org/index.html"
+target="_blank"><b>Amber</b></a> parm99 parameters
+are used for the filled-valence atoms.
+<a href="vdwtables.html#united">United atom radii</a>
+are used for any atoms with unfilled valence 
+(those apparently missing hydrogens).
+</ul>
+Due to differences in how the sets were derived,
+<a href="vdwtables.html#united">united atom radii</a>
+are not always larger than the corresponding
+<a href="vdwtables.html#allatom">all atom radii</a>.
+</p><p>
+<a href="vdwtables.html#ionic">Ionic radii</a>
+from <i>The CRC Handbook of Chemistry and Physics</i>,
+82nd Edition (2001-2002) are used for <b>ions</b>.
+If the charge state of an ion differs from that listed in the
+<a href="vdwtables.html#ionic">table</a>,
+a different radius may be more appropriate.
+</p><p>
+For <b>P</b>, and for <b>F</b>, <b>Cl</b>, <b>Br</b>, and <b>I</b> 
+in the context of molecules (as opposed to singleton ions),
+<a href="vdwtables.html#allatom">all atom radii</a> 
+derived from the <a href="http://ambermd.org/index.html"
+target="_blank"><b>Amber</b></a> parm99 parameters are used.
+</p><p>
+The default VDW radii of any <b>remaining atoms</b> are twice the
+covalent bond radii listed in Table III of:
+<blockquote>
+<a href="http://www3.interscience.wiley.com/journal/109582660/abstract"
+target="_blank">Determination of molecular topology and atomic hybridization
+states from heavy atom coordinates.</a>
+Meng EC, Lewis RA.
+<i>J Comput Chem.</i> 1991 Sep;12(7):891-8.
+</blockquote>
+</ul>
+</p>
+
+<h3><a name="changing">Changing VDW Radii</a></h3>
+<p>
+Ways to change VDW radii directly:
+<ul>
+<li>with the command <b><A href="vdwdefine.html">vdwdefine</a></b>
+(<b><A href="vdwdefine.html">~vdwdefine</a></b> restores the default values)
+<li>by <a href="../selection.html">selecting</a> one or more atoms
+and then changing the <b>radius</b> value in the
+<a href="../inspection.html"><b>Selection Inspector</b></a>
+<li>reassigning <b>radius</b> values with
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html">
+<b>Define Attribute</b></a> 
+or its command equivalent, <b><A href="defattr.html">defattr</a></b>
+(can assign multiple values simultaneously; see
+<a href="../../ContributedSoftware/defineattrib/midasrad.txt">example
+assignment file</a>) 
+<li>reassigning <b>radius</b> with the command 
+<b><A href="setattr.html">setattr</a></b> 
+(assigns one value at a time, although potentially to multiple atoms)
+<li>according to attribute values using
+<a href="../../ContributedSoftware/render/render.html">
+<b>Render by Attribute</b></a> (see the 
+<a href="../../ContributedSoftware/render/render.html#radii"><b>Radii</b></a>
+section)
+</ul>
+The VDW radius of an atom may also change as a side effect of changing its
+<a href="../idatm.html">atom type</a> or number of attached hydrogens.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2008</address>
+</body></html>

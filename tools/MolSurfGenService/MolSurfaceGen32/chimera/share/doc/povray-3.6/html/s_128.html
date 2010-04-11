@@ -1,0 +1,667 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.6.1 Interior</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_127.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_127.html">3.6 Interior &amp; Media &amp; Photons</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.6.1 
+   Interior</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_129.html">3.6.2 Media</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_129.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_06_01">3.6.1 </a>Interior</h3>
+<a name="s03_06_01_i1"><a name="interior"></a><a name="s03_06_01_i2"><a name="interior, keyword"></a><a name="s03_06_01_i3"><a name="s03_06_01_i4"><a name="ior, interior"></a><a name="s03_06_01_i5"><a name="s03_06_01_i6"><a name="caustics, interior"></a><a name="s03_06_01_i7"><a name="s03_06_01_i8"><a name="dispersion, interior"></a><a name="s03_06_01_i9"><a name="s03_06_01_i10"><a name="dispersion_samples, interior"></a><a name="s03_06_01_i11"><a name="s03_06_01_i12"><a name="fade_distance, interior"></a><a name="s03_06_01_i13"><a name="s03_06_01_i14"><a name="fade_power, interior"></a><a name="s03_06_01_i15"><a name="s03_06_01_i16"><a name="fade_color, interior"></a><a name="s03_06_01_i17">
+<p>
+  Introduced in POV-Ray 3.1 is an object modifier statement called <code> interior</code>. The syntax is: 
+</p>
+
+<pre>
+INTERIOR:
+    interior { [INTERIOR_IDENTIFIER] [INTERIOR_ITEMS...] }
+INTERIOR_ITEM:
+    ior Value | caustics Value | dispersion Value | 
+    dispersion_samples Samples | fade_distance Distance | 
+    fade_power Power | fade_color &lt;Color&gt;
+    MEDIA...
+</pre>
+
+<p>
+  Interior default values: <a name="s03_06_01_i18"> 
+</p>
+
+<pre>
+ior                : 1.0
+caustics           : 0.0
+dispersion         : 1.0
+dispersion_samples : 7
+fade_distance      : 0.0 
+fade_power         : 0.0
+fade_color         : &lt;0,0,0&gt;
+</pre>
+<a name="s03_06_01_i19"><a name="open"></a>
+<p>
+  The <code>interior</code> contains items which describe the properties of the interior of the object. This is in 
+ contrast to the <code> texture</code> and <code>interior_texture</code> which describe the surface properties only. 
+ The interior of an object is only of interest if it has a transparent texture which allows you to see inside the 
+ object. It also applies only to solid objects which have a well-defined inside/outside distinction. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the <code>open</code> keyword, or <code>clipped_by</code> modifier also allows 
+ you to see inside but interior features may not render properly. They should be avoided if accurate interiors are 
+ required. 
+</p>
+
+<p>
+  Interior identifiers may be declared to make scene files more readable and to parameterize scenes so that changing 
+ a single declaration changes many values. An identifier is declared as follows. 
+</p>
+
+<pre>
+INTERIOR_DECLARATION:
+    #declare IDENTIFIER = INTERIOR |
+    #local IDENTIFIER = INTERIOR
+</pre>
+
+<p>
+  Where <em>IDENTIFIER</em> is the name of the identifier up to 40 characters long and <em>INTERIOR</em> is any valid <code><a href="s_161.html#s03_08_09_03">interior</a></code> 
+ statement. See &quot;<a href="s_98.html#s03_02_02_02_02">#declare vs. #local</a>&quot; for information on identifier 
+ scope. 
+</p>
+
+<h4><a name="s03_06_01_01">3.6.1.1 </a>Why are Interior and Media Necessary?</h4>
+
+<p>
+  In previous versions of POV-Ray, most of the items in the <code>interior</code> statement were previously part of 
+ the <code><a href="#l155">finish</a></code> statement. Also the <code>halo</code> statement which was once part of the <code><a href="#l156">texture</a></code> 
+ statement has been discontinued and has been replaced by the <code><a href="#l157">media</a></code> statement which is 
+ part of <code>interior</code>. 
+</p>
+
+<p>
+  You are probably asking <strong>WHY?</strong> As explained earlier, the <code>interior</code> contains items which 
+ describe the properties of the interior of the object. This is in contrast to the <code>texture</code> which describes 
+ the surface properties only. However this is not just a philosophical change. There were serious inconsistencies in 
+ the old model. 
+</p>
+
+<p>
+  The main problem arises when a <code><a href="s_119.html#s03_05_05_01">texture_map</a></code> or other patterned 
+ texture is used. These features allow you to create textures that are a blend of two textures and which vary the 
+ entire texture from one point to another. It does its blending by fully evaluating the apparent color as though only 
+ one texture was applied and then fully reevaluating it with the other texture. The two final results are blended. 
+</p>
+
+<p>
+  It is totally illogical to have a ray enter an object with one index or refraction and then recalculate with 
+ another index. The result is not an average of the two ior values. Similarly it makes no sense to have a ray enter at 
+ one ior and exit at a different ior without transitioning between them along the way. POV-Ray only calculates 
+ refraction as the ray enters or leaves. It cannot incrementally compute a changing ior through the interior of an 
+ object. Real world objects such as optical fibers or no-line bifocal eyeglasses can have variable iors but POV-Ray 
+ cannot simulate them. 
+</p>
+
+<p>
+  Similarly the <code>halo</code> calculations were not performed as the syntax implied. Using a <code>halo</code> in 
+ such multi-textured objects did not vary the <code>halo</code> through the interior of the object. Rather, it computed 
+ two separate halos through the whole object and averaged the results. The new design for <code>media</code> which 
+ replaces <code> halo</code> makes it possible to have media that varies throughout the interior of the object 
+ according to a pattern but it does so independently of the surface texture. Because there are other changes in the 
+ design of this feature which make it significantly different, it was not only moved to the <code>interior</code> but 
+ the name was changed. 
+</p>
+
+<p>
+  During our development, someone asked if we will create patterned interiors or a hypothetical <code>interior_map</code> 
+ feature. We will not. That would defeat the whole purpose of moving these features in the first place. They cannot be 
+ patterned and have logical or self-consistent results. 
+</p>
+
+<h4><a name="s03_06_01_02">3.6.1.2 </a>Empty and Solid Objects</h4>
+<a name="s03_06_01_02_i1">
+<p>
+  It is very important that you know the basic concept behind empty and solid objects in POV-Ray to fully understand 
+ how features like interior and translucency are used. Objects in POV-Ray can either be solid, empty or filled with 
+ (small) particles. 
+</p>
+
+<p>
+  A solid object is made from the material specified by its pigment and finish statements (and to some degree its 
+ normal statement). By default all objects are assumed to be solid. If you assign a stone texture to a sphere you will 
+ get a ball made completely of stone. It is like you had cut this ball from a block of stone. A glass ball is a massive 
+ sphere made of glass. You should be aware that solid objects are conceptual things. If you clip away parts of the 
+ sphere you will clearly see that the interior is empty and it just has a very thin surface. 
+</p>
+
+<p>
+  This is not contrary to the concept of a solid object used in POV-Ray. It is assumed that all space inside the 
+ sphere is covered by the sphere's <code> interior</code>. Light passing through the object is affected by attenuation 
+ and refraction properties. However there is no room for any other particles like those used by fog or interior media. 
+</p>
+
+<p>
+  Empty objects are created by adding the <code>hollow</code> keyword (see &quot;Hollow&quot;) to the object 
+ statement. An empty (or hollow) object is assumed to be made of a very thin surface which is of the material specified 
+ by the pigment, finish and normal statements. The object's interior is empty, it normally contains air molecules. 
+</p>
+
+<p>
+  An empty object can be filled with particles by adding fog or atmospheric media to the scene or by adding an 
+ interior media to the object. It is very important to understand that in order to fill an object with any kind of 
+ particles it first has to be made hollow. 
+</p>
+
+<p>
+  There is a pitfall in the empty/solid object implementation that you have to be aware of. 
+</p>
+
+<p>
+  In order to be able to put solid objects inside a media or fog, a test has to be made for every ray that passes 
+ through the media. If this ray travels through a solid object the media will not be calculated. This is what anyone 
+ will expect. A solid glass sphere in a fog bank does not contain fog. 
+</p>
+
+<p>
+  The problem arises when the camera ray is inside any non-hollow object. In this case the ray is already traveling 
+ through a solid object and even if the media's container object is hit and it is hollow, the media will not be 
+ calculated. There is no way of telling between these two cases. 
+</p>
+
+<p>
+  POV-Ray has to determine whether the camera is inside any object prior to tracing a camera ray in order to be able 
+ to correctly render medias when the camera is inside the container object. There is no way around doing this. 
+</p>
+
+<p>
+  The solution to this problem (that will often happen with infinite objects like planes) is to make those objects 
+ hollow too. Thus the ray will travel through a hollow object, will hit the container object and the media will be 
+ calculated. 
+</p>
+
+<h4><a name="s03_06_01_03">3.6.1.3 </a>Scaling objects with an interior</h4>
+
+<p>
+  All the statements that can be put in an interior represent aspects of the matter that an object is made of. 
+ Scaling an object, changing its size, does not change its matter. Two pieces of the same quality steel, one twice as 
+ big as the other, both have the same density. The bigger piece is quite a bit heavier though. 
+</p>
+
+<p>
+  So, in POV-Ray, if you design a lens from a glass with an ior of 1.5 and you scale it bigger, the focal distance of 
+ the lens will get longer as the ior stays the same. For light attenuation it means that an object will be 
+ &quot;darker&quot; after being scaled up. The light intensity decreases a certain amount per pov-unit. The object has 
+ become bigger, more pov-units, so more light is faded. The <code>fade_distance, fade_power</code> themselves have not 
+ been changed. 
+</p>
+
+<p>
+  The same applies to media. Imagine media as a density of particles, you specify 100 particles per cubic pov-unit. 
+ If we scale a 1 cubic pov-unit object to be twice as big in every direction, we will have a total of 800 particles in 
+ the object. The object will look different, as we have more particles to look through. Yet the objects density is 
+ still 100 particles per cubic pov-unit. In media this &quot;particle density&quot; is set by the color after <code>emission</code>, 
+ <code>absorption</code>, or in the <code>scattering</code> statement 
+</p>
+
+<pre>
+#version 3.5;
+global_settings {assumed_gamma 1.0}
+camera {location &lt;0, 0,-12.0&gt; look_at 0 angle 30 }
+#declare Container_T= texture {
+   pigment {rgbt &lt;1,1,1,1&gt;}
+   finish {ambient 0 diffuse 0}
+}
+
+#declare Scale=2;
+
+box {                  //The reference
+   &lt;-1,-1,0&gt;,&lt;1,1,.3&gt;
+   hollow
+   texture {Container_T}
+   interior {
+      media {
+         intervals 1         
+         samples 1,1          
+         emission 1
+      }
+   }
+   translate &lt;-2.1,0,0&gt;
+}
+
+box {                  //Object scaled twice as big
+   &lt;-1,-1,0&gt;,&lt;1,1,.3&gt;  //looks different but same
+   hollow                          //particle density
+   texture {Container_T}
+   interior {
+      media {
+         intervals 1         
+         samples 1,1          
+         emission 1
+      }
+   }
+   scale Scale
+   translate&lt;0,0,12&gt;
+}
+
+box {                  //Object scaled twice as big       
+   &lt;-1,-1,0&gt;,&lt;1,1,.3&gt;  //looks the same but particle
+   hollow                          //density scaled down
+   texture {Container_T}
+   interior {
+      media {
+         intervals 1         
+         samples 1,1          
+         emission 1/Scale
+      }
+   }
+   scale Scale
+   translate&lt;0,0,12&gt;
+   translate&lt;4.2,0,0&gt;
+}
+</pre>
+
+<p>
+  The third object in the scene above, shows what to do, if you want to scale the object <em>and</em> want it to keep 
+ the same look as before. The interior feature has to be divided by the same amount, that the object was scaled by. 
+ This is only possible when the object is scaled uniform. 
+</p>
+
+<p>
+  In general, the correct approach is to scale the media density proportionally to the change in container volume. 
+ For non-uniform scaling to get an unambiguous result, that can be explained in physical terms, we need to do: 
+</p>
+
+<pre>
+Density*sqrt(3)/vlength(Scale)
+</pre>
+
+<p>
+  where Density is your original media density and Scale is the scaling vector applied to the container. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the density modifiers inside the <code>density{}</code> statement are scaled 
+ along with the object. 
+</p>
+
+<h4><a name="s03_06_01_04">3.6.1.4 </a>Refraction</h4>
+<a name="s03_06_01_04_i1"><a name="ior"></a>
+<p>
+  When light passes through a surface either into or out of a dense medium the path of the ray of light is bent. Such 
+ bending is called <em> refraction</em>. The amount of bending or refracting of light depends upon the density of the 
+ material. Air, water, crystal and diamonds all have different densities and thus refract differently. The <em>index of 
+ refraction</em> or <em>ior</em> value is used by scientists to describe the relative density of substances. The <code>ior</code> 
+ keyword is used in POV-Ray in the <code>interior</code> to turn on refraction and to specify the ior value. For 
+ example: 
+</p>
+
+<pre>
+  object { MyObject pigment {Clear } interior { ior 1.5 } }
+</pre>
+
+<p>
+  The default ior value of 1.0 will give no refraction. The index of refraction for air is 1.0, water is 1.33, glass 
+ is 1.5 and diamond is 2.4. 
+</p>
+
+<p>
+  Normally transparent or semi-transparent surfaces in POV-Ray do not refract light. Earlier versions of POV-Ray 
+ required you to use the <code> refraction</code> keyword in the <code>finish</code> statement to turn on refraction. 
+ This is no longer necessary. Any non-zero <code>ior</code> value now turns refraction on. 
+</p>
+
+<p>
+  In addition to turning refraction on or off, the old <code>refraction</code> keyword was followed by a float value 
+ from 0.0 to 1.0. Values in between 0.0 and 1.0 would darken the refracted light in ways that do not correspond to any 
+ physical property. Many POV-Ray scenes were created with intermediate refraction values before this bug was discovered 
+ so the feature has been maintained. A more appropriate way to reduce the brightness of refracted light is to change 
+ the <code><a href="s_97.html#s03_02_01_05">filter</a></code> or <code><a href="s_97.html#s03_02_01_05">transmit</a></code> 
+ value in the colors specified in the pigment statement or to use the <code><a href="s_128.html#s03_06_01">fade_power</a></code> 
+ and <code><a href="s_128.html#s03_06_01">fade_distance</a></code> keywords. See &quot;<a href="s_128.html#s03_06_01_06">Attenuation</a>&quot;. 
+ 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> neither the <code>ior</code> nor <code>refraction</code> keywords cause the 
+ object to be transparent. Transparency only occurs if there is a non-zero <code>filter</code> or <code> transmit</code> 
+ value in the color. 
+</p>
+
+<p>
+  The <code>refraction</code> and <code>ior</code> keywords were originally specified in <code>finish</code> but are 
+ now properly specified in <code> interior</code>. They are accepted in <code><a href="#l155">finish</a></code> for 
+ backward compatibility and generate a warning message. 
+</p>
+
+<h4><a name="s03_06_01_05">3.6.1.5 </a>Dispersion</h4>
+<a name="s03_06_01_05_i1"><a name="dispersion_samples"></a>
+<p>
+  For all materials with a ior different from 1.0 the refractive index is not constant throughout the spectrum. It 
+ changes as a function of wavelength. Generally the refractive index decreases as the wavelength increases. Therefore 
+ light passing through a material will be separated according to wavelength. This is known as chromatic dispersion. 
+</p>
+
+<p>
+  By default POV-Ray does not calculate dispersion as light travels through a transparent object. In order to get a 
+ more realistic effect the <code>dispersion </code> and <code>dispersion_samples</code> keywords can be added to the <code>interior{}</code> 
+ block. They will simulate dispersion by creating a prismatic color effect in the object.<a name="s03_06_01_05_i2"><a name="dispersion"></a> 
+ 
+</p>
+
+<p>
+  The <code>dispersion</code> value is the ratio of refractive indices for violet to red. It controls the strength of 
+ dispersion (how much the colors are spread out) used. A DISPERSION_VALUE of 1 will give no dispersion, good values are 
+ 1.01 to 1.1. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> there will be no dispersion, unless the <code>ior</code> keyword has been 
+ specified in <code>interior{ }</code>. An ior of 1 is legal. The ior has no influence on the dispersion strength, only 
+ on the angle of refraction. 
+</p>
+
+<p>
+  As POV-Ray does not use wavelengths for raytracing, a spectrum is simulated. The <code>dispersion_samples</code> 
+ value controls the amount of color-steps and smoothness in the spectrum. The default value is 7, the minimum is 2. 
+ Values up to 100 or higher may be needed to get a very smooth result. 
+</p>
+
+<h5><a name="s03_06_01_05_01">3.6.1.5.1 </a>Dispersion &amp; Caustics</h5>
+
+<p>
+  Dispersion only affects the interior of an object and has no effect on faked caustics (See &quot;<a href="s_128.html#s03_06_01_07">Faked 
+ Caustics</a>&quot;). <br>To see the effects of dispersion in caustics, photon mapping is needed (See the sections 
+ &quot;<a href="#l158">Photons</a>&quot; and &quot;<a href="s_130.html#s03_06_03_05_03">Dispersion &amp; Photons</a>&quot;). 
+ 
+</p>
+
+<h4><a name="s03_06_01_06">3.6.1.6 </a>Attenuation</h4>
+<a name="s03_06_01_06_i1"><a name="s03_06_01_06_i2"><a name="s03_06_01_06_i3"><a name="fade_color"></a><a name="s03_06_01_06_i4"><a name="fade_colour"></a><a name="s03_06_01_06_i5"><a name="s03_06_01_06_i6">
+<p>
+  Light attenuation is used to model the decrease in light intensity as the light travels through a transparent 
+ object. The keywords <code>fade_power</code>, <code>fade_distance</code> and <code>fade_color</code> are specified in 
+ the <code>interior</code> statement. 
+</p>
+
+<p>
+  The <code>fade_distance</code> value determines the distance the light has to travel to reach half intensity while 
+ the <code>fade_power</code> value determines how fast the light will fall off. <code>fade_color</code> colorizes the 
+ attenuation. For realistic effects a fade power of 1 to 2 should be used. Default values for <code>fade_power</code> 
+ and <code>fade_distance</code> is 0.0 which turns this feature off. Default for <code>fade_color</code> is <code>&lt;0,0,0&gt;</code>, 
+ if <code>fade_color</code> is <code>&lt;1,1,1&gt;</code> there is no attenuation. The actual colors give colored 
+ attenuation. <code>&lt;1,0,0&gt;</code> looks red, not cyan as in media. 
+</p>
+
+<p>
+  The attenuation is calculated by a formula similar to that used for light source attenuation. 
+</p>
+
+<p>
+  <br><center><img alt="" src="images/reference/medatten.png"></center> 
+</p>
+
+<p>
+  If you set fade_power in the interior of an object at 1000 or above, a realistic exponential attenuation function 
+ will be used: 
+</p>
+
+<pre>   Attenuation = exp(-depth/fade_dist)</pre>
+
+<p>
+  The <code>fade_power</code> and <code>fade_distance</code> keywords were originally specified in <code>finish</code> 
+ but are now properly specified in <code>interior</code>. They are accepted in <code>finish</code> for backward 
+ compatibility and generate a warning message. 
+</p>
+
+<h4><a name="s03_06_01_07">3.6.1.7 </a>Simulated Caustics</h4>
+<a name="s03_06_01_07_i1"><a name="caustics"></a><a name="s03_06_01_07_i2">
+<p>
+  Caustics are light effects that occur if light is reflected or refracted by specular reflective or refractive 
+ surfaces. Imagine a glass of water standing on a table. If sunlight falls onto the glass you will see spots of light 
+ on the table. Some of the spots are caused by light being reflected by the glass while some of them are caused by 
+ light being refracted by the water in the glass. 
+</p>
+
+<p>
+  Since it is a very difficult and time-consuming process to actually calculate those effects (though it is not 
+ impossible, see the sections <a href="#l159">&quot;Photons&quot;</a>) POV-Ray uses a quite simple method to simulate 
+ caustics caused by refraction. The method calculates the angle between the incoming light ray and the surface normal. 
+ Where they are nearly parallel it makes the shadow brighter. Where the angle is greater, the effect is diminished. 
+ Unlike real-world caustics, the effect does not vary based on distance. This caustic effect is limited to areas that 
+ are shaded by the transparent object. You will get no caustic effects from reflective surfaces nor in parts that are 
+ not shaded by the object. 
+</p>
+
+<p>
+  The <code>caustics</code> <em><code>Power</code></em> keyword controls the effect. Values typically range from 0.0 
+ to 1.0 or higher. Zero is the default which is no caustics. Low, non-zero values give broad hot-spots while higher 
+ values give tighter, smaller simulated focal points. 
+</p>
+
+<p>
+  The <code> caustics</code> keyword was originally specified in <code> finish</code> but is now properly specified 
+ in <code>interior</code>. It is accepted in <code> finish</code> for backward compatibility and generates a warning 
+ message. 
+</p>
+
+<h4><a name="s03_06_01_08">3.6.1.8 </a>Object-Media</h4>
+<a name="s03_06_01_08_i1"><a name="object media"></a><a name="s03_06_01_08_i2"><a name="media, object"></a>
+<p>
+  The <code>interior</code> statement may contain one or more <code>media</code> statements. Media is used to 
+ simulate suspended particles such as smoke, haze, or dust. Or visible gasses such as steam or fire and explosions. 
+ When used with an object interior, the effect is constrained by the object's shape. The calculations begin when the 
+ ray enters an object and ends when it leaves the object. This section only discusses media when used with object 
+ interior. The complete syntax and an explanation of all of the parameters and options for <code>media</code> is given 
+ in the section &quot;Media&quot;. 
+</p>
+
+<p>
+  Typically the object itself is given a fully transparent texture however media also works in partially transparent 
+ objects. The texture pattern itself does not effect the interior media except perhaps to create shadows on it. The 
+ texture pattern of an object applies only to the surface shell. Any interior media patterns are totally independent of 
+ the texture. 
+</p>
+
+<p>
+  In previous versions of POV-Ray, this feature was called <code> halo</code> and was part of the <code> texture</code> 
+ specification along with <code> pigment</code>, <code> normal</code>, and <code>finish</code>. See &quot;<a href="s_128.html#s03_06_01_01">Why 
+ are Interior and Media Necessary?</a>&quot; for an explanation of the reasons for the change. 
+</p>
+
+<p>
+  Media may also be specified outside an object to simulate atmospheric media. There is no constraining object in 
+ this case. If you only want media effects in a particular area, you should use object media rather than only relying 
+ upon the media pattern. In general it will be faster and more accurate because it only calculates inside the 
+ constraining object. See &quot;<a href="s_101.html#s03_03_02_01">Atmospheric Media</a>&quot; for details on 
+ unconstrained uses of media. 
+</p>
+
+<p>
+  You may specify more than one <code>media</code> statement per <code> interior</code> statement. In that case, all 
+ of the media participate and where they overlap, they add together. 
+</p>
+
+<p>
+  Any object which is supposed to have media effects inside it, whether those effects are object media or atmospheric 
+ media, must have the <code>hollow on</code> keyword applied. Otherwise the media is blocked. See &quot;<a href="s_128.html#s03_06_01_02">Empty 
+ and Solid Objects</a>&quot; for details. 
+</p>
+
+<p>
+ <a name="l155">
+<small><strong>More about &quot;finish&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_117.html#s03_05_03">3.5.3 Finish</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_06">3.8.10.6 Finish</a> in 3.8.10 Texture
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l156">
+<small><strong>More about &quot;texture&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_114.html#s03_05">3.5 Textures</a> in 3 POV-Ray Reference
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10">3.8.10 Texture</a> in 3.8 Quick Reference
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l157">
+<small><strong>More about &quot;media&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_129.html#s03_06_02">3.6.2 Media</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_163.html#s03_08_11">3.8.11 Media</a> in 3.8 Quick Reference
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l158">
+<small><strong>More about &quot;Photons&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_130.html#s03_06_03">3.6.3 Photons</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_130.html#s03_06_03_02_01">3.6.3.2.1 Photon Global Settings</a> in 3.6.3.2 Using Photon Mapping 
+   in Your Scene
+  </small>
+
+  <li><small>
+   <a href="s_165.html#s03_08_13_02">3.8.13.2 Photons</a> in 3.8.13 Global Settings
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l159">
+<small><strong>More about &quot;&quot;Photons&quot;&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_130.html#s03_06_03">3.6.3 Photons</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_130.html#s03_06_03_02_01">3.6.3.2.1 Photon Global Settings</a> in 3.6.3.2 Using Photon Mapping 
+   in Your Scene
+  </small>
+
+  <li><small>
+   <a href="s_165.html#s03_08_13_02">3.8.13.2 Photons</a> in 3.8.13 Global Settings
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_127.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_127.html">3.6 Interior &amp; Media &amp; Photons</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.6.1 Interior</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_129.html">3.6.2 Media</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_129.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

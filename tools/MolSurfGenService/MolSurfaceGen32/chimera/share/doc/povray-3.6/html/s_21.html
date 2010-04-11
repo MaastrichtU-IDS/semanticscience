@@ -1,0 +1,191 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>1.3.6 Rendering the Sample Scenes</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_20.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_20.html">1.3.5 Tutorials</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>1.3.6 
+   Rendering the Sample Scenes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_22.html">1.3.7 POV-Ray for Unix Tips</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_22.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s01_03_06">1.3.6 </a>Rendering the Sample Scenes</h3>
+
+<p>
+  POV-Ray for Unix comes with a set of shell scripts to automatically render the sample scenes coming with POV-Ray. 
+</p>
+
+<p>
+  These shell scripts are usually installed in <code>/usr/local/share/povray-3.6/scripts</code>. They require a bash 
+ compatible shell. There are three scripts that are supposed to be called by the user. 
+</p>
+
+<ul>
+ 
+ <li>
+   
+  <p>
+    <code>allscene.sh</code>: 
+  </p>
+
+  <p>
+    renders all stills. The syntax is: 
+  </p>
+
+<pre>allscene.sh [log] [all] [-d scene_directory] [-o output_directory] [-h html_file]</pre>
+   
+  <p>
+    If <code>html_file</code> is specified a HTML listing of the rendered scenes is generated. if <a href="http://www.imagemagick.org/" target="new">ImageMagick</a> 
+   is installed the listing will also contain thumbnails of the rendered images. 
+   <li>
+     
+    <p>
+      <code>allanim.sh</code>: 
+    </p>
+
+    <p>
+      renders all animations. The syntax is: 
+    </p>
+
+<pre>allanim.sh [log] [-d scene_directory] [-o output_directory] [-h html_file]</pre>
+     
+    <p>
+      If <a href="http://ffmpeg.sourceforge.net/" target="new">ffmpeg</a> is installed the script will compile mpeg 
+     files from the rendered animations. 
+     <li>
+       
+      <p>
+        <code>portfolio.sh</code>: 
+      </p>
+
+      <p>
+        renders the portfolio. The syntax is: 
+      </p>
+
+<pre>portfolio.sh [log] [-d scene_directory] [-o output_directory]</pre>
+       
+      <p>
+        The portfolio is a collection of images illustrating the POV-Ray features and include files coming with the 
+       package. 
+      </p>
+
+     </li>
+
+    </p>
+
+   </li>
+
+  </p>
+
+ </li>
+
+</ul>
+
+<p>
+  If the option <code>log</code> is specified, a log file with the complete text output from POV-Ray is written 
+ (filename <code>log.txt</code>) 
+</p>
+
+<p>
+  If <code>scene_directory</code> is specified, the sample scenes in this directory are rendered, otherwise the scene 
+ directory is determined form the main povray ini file (usually <code>/usr/local/share/povray-3.6/scenes</code>). 
+</p>
+
+<p>
+  If <code>output_directory</code> is specified, all images are written to this directory; if it is not specified the 
+ images are written into the scene file directories. If the directories are not writable, the images are written in the 
+ current directory. All other files (html files, thumbnails) are written here as well. 
+</p>
+
+<p>
+  To determine the correct render options the scripts analyze the beginning of the scene files. They search for a 
+ comment of the form 
+</p>
+
+<pre>// -w320 -h240 +a0.3</pre>
+
+<p>
+  in the first 50 lines of the scene. The animation script possibly also uses an INI file with the same basename as 
+ the scene file. The <code>allscene.sh</code> has the additional <code>all</code> option which - if specified - renders 
+ also scenes without such an options comment (using default options then). 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_20.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_20.html">1.3.5 Tutorials</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>1.3.6 Rendering the Sample Scenes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_22.html">1.3.7 POV-Ray for Unix Tips</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_22.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

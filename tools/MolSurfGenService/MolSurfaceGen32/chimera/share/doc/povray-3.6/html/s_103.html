@@ -1,0 +1,399 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.3.4 Radiosity</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_102.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_102.html">3.3.3 Global Settings</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.3.4 
+   Radiosity</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_104.html">3.4 Objects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_104.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_03_04">3.3.4 </a>Radiosity</h3>
+<a name="s03_03_04_i1"><a name="Radiosity, reference"></a><a name="s03_03_04_i2"><a name="radiosity"></a>
+<h4><a name="s03_03_04_01">3.3.4.1 </a>How Radiosity Works</h4>
+<a name="s03_03_04_01_i1">
+<p>
+  The problem of ray-tracing is to figure out what the light level is at each point that you can see in a scene. 
+ Traditionally, in ray tracing, this is broken into the sum of these components: 
+</p>
+
+<dl>
+ 
+ <dt>
+   Diffuse 
+ <dd>
+   the effect that makes the side of things facing the light brighter; 
+ <dt>
+   Specular 
+ <dd>
+   the effect that makes shiny things have dings or sparkles on them; 
+ <dt>
+   Reflection 
+ <dd>
+   the effect that mirrors give; and 
+ <dt>
+   Ambient 
+ <dd>
+   the general all-over light level that any scene has, which keeps things in shadow from being pure black. 
+</dl>
+
+<p>
+  POV-Ray's radiosity system, based on a method by Greg Ward, provides a way to replace the last term - the constant 
+ ambient light value - with a light level which is based on what surfaces are nearby and how bright in turn they are. 
+</p>
+
+<p>
+  The first thing you might notice about this definition is that it is circular: the brightness and color of 
+ everything is dependent on everything else and vice versa. This is true in real life but in the world of ray-tracing, 
+ we can make an approximation. The approximation that is used is: the objects you are looking at have their <code>ambient</code> 
+ values calculated for you by checking the other objects nearby. When those objects are checked during this process, 
+ however, their <code>diffuse</code> term is used. The brightness of radiosity in POV-Ray is based on two things: 
+</p>
+
+<ol>
+ 
+ <li>
+   the amount of light &quot;gathered&quot; 
+ </li>
+
+ <li>
+   the 'diffuse' property of the surface finish 
+ </li>
+
+</ol>
+
+<p>
+  An object can have both radiosity and an ambient term. However, it is suggested that if you use radiosity in a 
+ scene, you either set <code>ambient_light</code> to 0 in <code>global_settings</code>, or use <code>ambient 0</code> 
+ in each object's finish. This lighting model is much more realistic, and POV-Ray will not try to adjust the overall 
+ brightness of the radiosity to match the ambient level specified by the user. 
+</p>
+
+<p>
+  How does POV-Ray calculate the ambient term for each point? By sending out more rays, in many different directions, 
+ and averaging the results. A typical point might use 200 or more rays to calculate its ambient light level correctly. 
+</p>
+
+<p>
+  Now this sounds like it would make the ray-tracer 200 times slower. This is true, except that the software takes 
+ advantage of the fact that ambient light levels change quite slowly (remember, shadows are calculated separately, so 
+ sharp shadow edges are not a problem). Therefore, these extra rays are sent out only <em>once in a while</em> (about 1 
+ time in 50), then these calculated values are saved and reused for nearby pixels in the image when possible. 
+</p>
+
+<p>
+  This process of saving and reusing values is what causes the need for a variety of tuning parameters, so you can 
+ get the scene to look just the way you want. 
+</p>
+
+<h4><a name="s03_03_04_02">3.3.4.2 </a>Adjusting Radiosity</h4>
+<a name="s03_03_04_02_i1">
+<p>
+  As described earlier, radiosity is turned on by using the <code>radiosity{}</code> block in <code>global_setting</code>. 
+ Radiosity has many parameters that are specified as follows: 
+</p>
+
+<pre>
+    global_settings { radiosity { [RADIOSITY_ITEMS...] } }
+RADIOSITY_ITEMS:
+    adc_bailout Float | always_sample Bool | brightness Float | 
+    count Integer | error_bound Float | gray_threshold Float |
+    load_file Filename | low_error_factor Float | max_sample Float |
+    media Bool | minimum_reuse Float | nearest_count Integer |
+    normal Bool | pretrace_end Float | pretrace_start Float |
+    recursion_limit Integer | save_file Filename
+</pre>
+
+<p>
+  Each item is optional and may appear in any order. If an item is specified more than once the last setting 
+ overrides previous values. Details on each item is given in the following sections. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> Considerable changes have been made to the way radiosity works in POV-Ray 3.5 
+ compared to POV-Ray 3.1. Old scene will not render to the same result, if they render at all. It is not possible to 
+ use the <code>#version</code> directive to get backward compatibility for radiosity. 
+</p>
+
+<h5><a name="s03_03_04_02_01">3.3.4.2.1 </a>radiosity adc_bailout</h5>
+<a name="s03_03_04_02_01_i1">
+<p>
+  You can specify an adc_bailout for radiosity rays. Use <code>adc_bailout = 0.01 / brightest_ambient_object</code> 
+ for good results. Default is 0.01. 
+</p>
+
+<h5><a name="s03_03_04_02_02">3.3.4.2.2 </a>always_sample</h5>
+<a name="s03_03_04_02_02_i1"><a name="always_sample"></a>
+<p>
+  You can force POV-Ray to only use the data from the pretrace step and not gather any new samples during the final 
+ radiosity pass. This may reduce splotchiness. To do this, use <code>always_sample off</code>, by default it is <code>on</code>. 
+ It can also be usefully when reusing previously saved radiosity data. 
+</p>
+
+<h5><a name="s03_03_04_02_03">3.3.4.2.3 </a>brightness</h5>
+<a name="s03_03_04_02_03_i1"><a name="brightness"></a>
+<p>
+  The <code>brightness</code> keyword specifies a float value that is the degree to which objects are brightened 
+ before being returned upwards to the rest of the system. The default value is 1.0. In cases where you would raise the <code>global_settings{ambient_light 
+ value}</code> to increase the over all brightness in a non-radiosity scene, you can use <code>brightness</code> in a 
+ radiosity scene. 
+</p>
+
+<h5><a name="s03_03_04_02_04">3.3.4.2.4 </a>count</h5>
+<a name="s03_03_04_02_04_i1"><a name="count"></a>
+<p>
+  The integer number of rays that are sent out whenever a new radiosity value has to be calculated is given by <code>count</code>. 
+ A value of 35 is the default, the maximum is 1600. When this value is too low, the light level will tend to look a 
+ little bit blotchy, as if the surfaces you are looking at were slightly warped. If this is not important to your scene 
+ (as in the case that you have a bump map or if you have a strong texture) then by all means use a lower number. 
+</p>
+
+<h5><a name="s03_03_04_02_05">3.3.4.2.5 </a>error_bound</h5>
+
+<p>
+  The <code>error_bound</code> float value is one of the two main speed/quality tuning values (the other is of course 
+ the number of rays shot). In an ideal world, this would be the <code>only</code> value needed. It is intended to mean 
+ the fraction of error tolerated. For example, if it were set to 1 the algorithm would not calculate a new value until 
+ the error on the last one was estimated at as high as 100%. Ignoring the error introduced by rotation for the moment, 
+ on flat surfaces this is equal to the fraction of the reuse distance, which in turn is the distance to the closest 
+ item hit. If you have an old sample on the floor 10 inches from a wall, an error bound of 0.5 will get you a new 
+ sample at a distance of about 5 inches from the wall. 
+</p>
+
+<p>
+  The default value of 1.8 is good for a smooth general lighting effect. Using lower values is more accurate, but it 
+ will strongly increase the danger of artifacts and therefore require higher <code>count</code>. You can use values 
+ even lower than 0.1 but both render time and memory use can become extremely high then. 
+</p>
+
+<h5><a name="s03_03_04_02_06">3.3.4.2.6 </a>gray_threshold</h5>
+<a name="s03_03_04_02_06_i1"><a name="gray_threshold"></a>
+<p>
+  Diffusely interreflected light is a function of the objects around the point in question. Since this is recursively 
+ defined to millions of levels of recursion, in any real life scene, every point is illuminated at least in part by 
+ every other part of the scene. Since we cannot afford to compute this, if we only do one bounce, the calculated 
+ ambient light is very strongly affected by the colors of the objects near it. This is known as color bleed and it 
+ really happens but not as much as this calculation method would have you believe. The <code>gray_threshold</code> 
+ float value grays it down a little, to make your scene more believable. A value of .6 means to calculate the ambient 
+ value as 60% of the equivalent gray value calculated, plus 40% of the actual value calculated. At 0%, this feature 
+ does nothing. At 100%, you always get white/gray ambient light, with no hue. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> this does not change the lightness/darkness, only the strength of hue/grayness 
+ (in HLS terms, it changes S only). The default value is 0.0 
+</p>
+
+<h5><a name="s03_03_04_02_07">3.3.4.2.7 </a>low_error_factor</h5>
+<a name="s03_03_04_02_07_i1"><a name="low_error_factor"></a>
+<p>
+  If you calculate just enough samples, but no more, you will get an image which has slightly blotchy lighting. What 
+ you want is just a few extra interspersed, so that the blending will be nice and smooth. The solution to this is the 
+ mosaic preview, controlled by <code><a href="s_103.html#s03_03_04_02_13">pretrace</a></code>: it goes over the image 
+ one or more times beforehand, calculating radiosity values. To ensure that you get a few extra, the radiosity 
+ algorithm lowers the error bound during the pre-final passes, then sets it back just before the final pass. The <code> 
+ low_error_factor</code> is a float tuning value which sets the amount that the error bound is dropped during the 
+ preliminary image passes. If your low error factor is 0.8 and your error bound is set to 0.4 it will really use an 
+ error bound of 0.32 during the first passes and 0.4 on the final pass. The default value is 0.5. 
+</p>
+
+<h5><a name="s03_03_04_02_08">3.3.4.2.8 </a>max_sample</h5>
+<a name="s03_03_04_02_08_i1"><a name="max_sample"></a>
+<p>
+  Sometimes there can be problems with splotchiness that is caused by objects that are very bright. This can be 
+ sometimes avoided by using the <code>max_sample</code> keyword. <code>max_sample</code> takes a float parameter which 
+ specifies the brightest that any gathered sample is allowed to be. Any samples brighter than this will have their 
+ brightness decreased (without affecting color). Specifying a non-positive value for <code>max_sample</code> will allow 
+ any brightness of samples (which is the default). 
+</p>
+
+<h5><a name="s03_03_04_02_09">3.3.4.2.9 </a>Media and Radiosity</h5>
+
+<p>
+  Radiosity estimation can be affected by media. To enable this feature, add <code>media on</code> to the <code>radiosity{}</code> 
+ block. The default is <code>off</code> 
+</p>
+
+<h5><a name="s03_03_04_02_10">3.3.4.2.10 </a>minimum_reuse</h5>
+<a name="s03_03_04_02_10_i1"><a name="minimum_reuse"></a>
+<p>
+  The minimum effective radius ratio is set by <code>minimum_reuse</code> float value. This is the fraction of the 
+ screen width which sets the minimum radius of reuse for each sample point (actually, it is the fraction of the 
+ distance from the eye but the two are roughly equal). For example, if the value is 0.02, the radius of maximum reuse 
+ for every sample is set to whatever ground distance corresponds to 2% of the width of the screen. Imagine you sent a 
+ ray off to the horizon and it hits the ground at a distance of 100 miles from your eye point. The reuse distance for 
+ that sample will be set to 2 miles. At a resolution of 300*400 this will correspond to (very roughly) 8 pixels. The 
+ theory is that you do not want to calculate values for every pixel into every crevice everywhere in the scene, it will 
+ take too long. This sets a minimum bound for the reuse. If this value is too low, (which it should be in theory) 
+ rendering gets slow, and inside corners can get a little grainy. If it is set too high, you do not get the natural 
+ darkening of illumination near inside edges, since it reuses. At values higher than 2% you start getting more just 
+ plain errors, like reusing the illumination of the open table underneath the apple. Remember that this is a unit less 
+ ratio. The default value is 0.015. 
+</p>
+
+<h5><a name="s03_03_04_02_11">3.3.4.2.11 </a>nearest_count</h5>
+<a name="s03_03_04_02_11_i1"><a name="error_bound"></a><a name="s03_03_04_02_11_i2"><a name="nearest_count"></a>
+<p>
+  The <code>nearest_count</code> integer value is the minimum number of old ambient values blended together to create 
+ a new interpolated value. The total number blended will vary depending on <code>error_bound</code>. All previous 
+ values that fit within the specified error_bound will be used in the average. 
+</p>
+
+<p>
+  It will always be the n geometrically closest reusable points that get used. If you go lower than 4, things can get 
+ pretty patchy. This can be good for debugging, though. Must be no more than 20, since that is the size of the array 
+ allocated. The default value is 5. 
+</p>
+
+<h5><a name="s03_03_04_02_12">3.3.4.2.12 </a>Normal and Radiosity</h5>
+
+<p>
+  Radiosity estimation can be affected by normals. To enable this feature, add <code>normal on</code> to the <code>radiosity{}</code> 
+ block. The default is <code>off</code> 
+</p>
+
+<h5><a name="s03_03_04_02_13">3.3.4.2.13 </a>Pretrace</h5>
+<a name="s03_03_04_02_13_i1"><a name="pretrace_start"></a><a name="s03_03_04_02_13_i2"><a name="pretrace_end"></a>
+<p>
+  To control the radiosity pre-trace gathering step, use the keywords <code>pretrace_start</code> and <code>pretrace_end</code> 
+ within the <code>radiosity{}</code> block. Each of these is followed by a decimal value between 0.0 and 1.0 which 
+ specifies the size of the blocks in the mosaic preview as a percentage of the image size. The defaults are 0.08 for <code>pretrace_start</code> 
+ and 0.04 for <code>pretrace_end</code> 
+</p>
+
+<h5><a name="s03_03_04_02_14">3.3.4.2.14 </a>recursion_limit</h5>
+<a name="s03_03_04_02_14_i1"><a name="recursion_limit"></a>
+<p>
+  The <code>recursion_limit</code> is an integer value which determines how many recursion levels are used to 
+ calculate the diffuse inter-reflection. The default value is 3, the upper limit is 20. 
+</p>
+
+<h5><a name="s03_03_04_02_15">3.3.4.2.15 </a>Save and load radiosity data</h5>
+<a name="s03_03_04_02_15_i1"><a name="load_file"></a><a name="s03_03_04_02_15_i2"><a name="save_file"></a><a name="s03_03_04_02_15_i3"><a name="load_file, radiosity"></a><a name="s03_03_04_02_15_i4"><a name="save_file, radiosity"></a>
+<p>
+  You can save the radiosity data using <code>save_file &quot;file_name&quot;</code> and load the same data later 
+ using <code>load_file &quot;file_name&quot;</code>. In general, it is not a good idea to save and load radiosity data 
+ if scene objects are moving. Even if data are loaded, more samples may be taken during rendering (which produces a 
+ better approximation). You can disable samples from being taken during the final rendering phase by specifying <code>always_sample 
+ off</code>. 
+</p>
+
+<h4><a name="s03_03_04_03">3.3.4.3 </a>Tips on Radiosity</h4>
+<a name="s03_03_04_03_i1">
+<p>
+  Have a look at the <a href="s_72.html#s02_03_07">&quot;Radiosity Tutorial&quot;</a> in the &quot;Advanced 
+ Tutorial&quot; section, to get a feel for what the visual result of changing radiosity parameters is. 
+</p>
+
+<p>
+  If you want to see where your values are being calculated set radiosity <code>count</code> down to about 20, set 
+ radiosity <code> nearest_count</code> to 1 and set <code>gray_threshold</code> to 0. This will make everything 
+ maximally patchy, so you will be able to see the borders between patches. There will have been a radiosity calculation 
+ at the center of most patches. As a bonus, this is quick to run. You can then change the <code> error_bound</code> up 
+ and down to see how it changes things. Likewise modify <code>minimum_reuse</code>. 
+</p>
+
+<p>
+  One way to get extra smooth results: crank up the sample count (we have gone as high as 1300) and drop the <code> 
+ low_error_factor</code> to something small like 0.6. Bump up the <code> nearest_count</code> to 7 or 8. This will get 
+ better values, and more of them, then interpolate among more of them on the last pass. This is not for people with a 
+ lack of patience since it is like a squared function. If your blotchiness is only in certain corners or near certain 
+ objects try tuning the error bound instead. Never drop it by more than a little at a time, since the run time will get 
+ very long. 
+</p>
+
+<p>
+  Sometimes extra samples are taken during the final rendering pass. These newer samples can cause discontinuities in 
+ the radiosity in some scenes. To decrease these artefacts, use a pretrace_end of 0.04 (or even 0.02 if you are really 
+ patient and picky). This will cause the majority of the samples to be taken during the preview passes, and decrease 
+ the artefacts created during the final rendering pass. You can force POV-Ray to only use the data from the pretrace 
+ step and not gather any new samples during the final radiosity pass. To do this, use &quot;always_sample no&quot; 
+ within the radiosity block inside global_settings. 
+</p>
+
+<p>
+  If your scene uses ambient objects (especially small ambient objects) as light sources, you should probably use a 
+ higher count (100-150 and higher). For such scenes, an error_bound of 1.0 is usually good. Higher causes too much 
+ error, but lower causes very slow rendering. And it is important to adapt adc_bailout. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_102.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_102.html">3.3.3 Global Settings</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.3.4 Radiosity</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_104.html">3.4 Objects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_104.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

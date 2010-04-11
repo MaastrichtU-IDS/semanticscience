@@ -1,0 +1,170 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Movie Recorder</TITLE>
+</head>
+<body>
+<h3>Movie Recorder <img src="recordicon.png"
+alt="Movie Recorder icon"></h3>
+<p>
+<b>Movie Recorder</b> captures image frames from Chimera and
+assembles them into <a href="../../UsersGuide/movies.html">movies</a>.
+See <a href="../../UsersGuide/movies.html"><b>Making Movies</b></a>
+for information on developing
+<a href="../../UsersGuide/movies.html#content">movie content</a> 
+(often in the form of
+<a href="../../UsersGuide/movies.html#examples">command files</a>)
+and troubleshooting
+<a href="../../UsersGuide/movies.html#powerpoint">problems
+in PowerPoint</a>.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Movie Recorder</b>, a tool in the <b>Utilities</b> category.
+<b>Movie Recorder</b> is also implemented as the command
+<a href="../../UsersGuide/midas/movie.html"><b>movie</b></a>.
+Movies of trajectories can be recorded with
+<a href="../movie/framemovie.html" target="_top"><b>MD Movie</b></a>.
+</p><p>
+The window size should be adjusted as desired before recording is started.
+The window can be resized manually, or with the command 
+<a href="../../UsersGuide/midas/windowsize.html">windowsize</a>, or
+by selecting a <a href="#preset">preset</a>
+from the <a href="#movieoptions"><b>Movie Options</b></a>.
+Any <a href="#preset">preset</a> specification
+or change in <a href="#frameoptions"><b>Frame Options</b></a>
+should be done before recording is started.
+On certain platforms, other windows should not overlap
+the Chimera graphics window during recording
+(<a href="../../UsersGuide/print.html#exception">details...</a>).
+This is not an issue when <a href="#raytrace">raytracing</a> is used.
+</p><p>
+On the <b>Movie Recorder</b> dialog, clicking <b>Record</b> initiates
+frame capture and changes the button to <b>Stop</b>.  
+Clicking <b>Stop</b> halts frame capture.
+Frame capture can be restarted by clicking <b>Record</b> again.  
+This can be repeated until the desired segments have been saved.  
+<a name="reset"><b>Reset</b></a> resets the frame count to zero and 
+(unless <a href="#saveframes"><b>Save images on Reset</b></a>
+has been turned on) deletes the frames.  
+</p><p>
+When the desired frames have been saved, the next step is to specify
+the movie <b>Output file</b> name/location and 
+<a name="format"><b>Output format</b></a>:
+<ul>
+<li> MPEG-1 [.mpg]
+<li> MPEG-2 [.mpg]
+<li> MPEG-4 [.mp4]
+<li> AVI MSMPEG-4v2 [.avi]
+<li> <b>Quicktime [.mov]</b> (default, unless a <a href="#preset">preset</a>
+has been chosen)
+</ul>
+Clicking <b>Make movie</b> initiates the
+process of encoding the saved frames into a movie file.  During
+encoding, the button changes to <b>Cancel movie</b>, which
+can be clicked to halt the process.
+When the movie is fully assembled, a <a href="#reset">reset</a> 
+will occur unless <b>Reset after encode</b> has been turned off.
+</p>
+<ul>
+<li> <a name="frameoptions"><b>Frame Options</b></a>
+  <ul>
+  <li> <b>Directory</b> - image file location
+  <li> <b>Filename pattern</b> - string for naming image files
+  <li> <b>Format</b> - image file format
+ (regardless of which format is specified, however, 
+ frames are always saved in the PNG format when
+  <a href="#raytrace">raytracing</a> is used)
+     <ul>
+     <li>JPEG [.jpeg]
+     <li>PNG [.png]
+     <li><b>PPM [.ppm]</b> (default)
+     </ul>
+  <li><a name="supersample"><b>Supersample</b></a> (<b>off</b> by default)
+- whether to increase the image quality over what is displayed on the screen.
+The supersampling level is the number of pixels sampled in the X and Y 
+dimensions for each pixel in the final saved image; supersampling at
+levels greater than 1x1 entails generating initial images larger than 
+the window and sampling them down to the final size.  
+Activating this option (even at 1x1) allows the
+<a href="../../UsersGuide/sideview.html#subqual">subdivision quality</a>
+to be <a href="../../UsersGuide/sideview.html#subup">adjusted automatically</a>.
+Higher values increase smoothness but also calculation time.
+     <ul>
+     <li>1x1
+     <li>2x2
+     <li><b>3x3</b> - recommended when supersampling is used
+     <li>4x4
+     <li>5x5
+     <li>6x6
+     </ul>
+  <li><a name="raytrace"><b>Raytrace with POV-Ray</b></a> 
+(<b>off</b> by default)
+- whether to <a href="../../UsersGuide/raytracing.html">raytrace with 
+POV-Ray</a> rather than saving the contents of the Chimera graphics window.
+Raytraced images include fancier effects like shadows,
+but take longer to compute.  The adjacent <b>Options</b> button opens
+the <a href="../../UsersGuide/preferences.html#POV-Ray Options">
+<b>POV-Ray Options</b> preferences</a> 
+(see <a href="../../UsersGuide/raytracing.html#speedup">balancing 
+time requirements and results</a>).
+  <li> <a name="saveframes"><b>Save images on Reset</b></a>
+(<b>off</b> by default)
+   - whether to keep individual image files when a <a href="#reset">reset</a> 
+   occurs
+  </ul>
+</ul>
+<ul>
+<li> <a name="movieoptions"><b>Movie Options</b></a>
+  <ul>
+  <li><b>Bit rate controls quality and file size</b>:
+    <ul>
+    <li> <b>Constant bit rate (Kbits/s)</b> (default)
+    - encode the movie to play back with a constant data rate.
+    Generally, 200 Kbits/s is a low rate, 1000 medium, 
+    and 6000 high (default <b>2000</b>).
+    Increasing the bit rate increases movie quality and file size 
+    for a given resolution (window size) and frame rate.
+    At a given bit rate, a larger window and/or a higher frame rate
+    correspond to lower movie quality. 
+    <li> <b>Variable bit rate. Q (1-31)</b> - encode the movie to play back
+    with a variable data rate specified with a quality factor, Q.  The
+    quality factor can range from 1 (highest quality and highest data rates) 
+    to 31 (lowest quality) (default <b>5</b>).
+    Some movie players may not handle variable bit rates correctly, 
+    yielding uneven playback.
+    </ul>
+  <li> <a name="fps"><b>Frames per second</b></a> (default <b>25</b>)
+  - movie playback rate in terms of image frames
+  <li> <b>Buffer size (Kbytes)</b> (default <b>200</b>)
+  <li> <b>Play forward then backward</b> (<b>off</b> by default)
+  - whether to include the frames in reverse order as the 
+  second half of the movie
+  <li> <a name="preset"><b>Set standard format</b></a>
+  - whether to use a preset with a built-in set of parameters:
+    <ul>
+     <li> <b>VCD</b> (Video Compact Disc)
+- MPEG-1, resolution 352x240, bit rate 1150 Kbits/s, buffer size 40 Kbytes
+     <li> <b>SVCD</b> (Super Video Compact Disc)
+- MPEG-2, resolution 480x480, bit rate 2040 Kbits/s, buffer size 224 Kbytes
+     <li> <b>DVD</b> (Digital Versatile/Video Disc)
+- MPEG-2, resolution 720x480, bit rate 6000 Kbits/s, buffer size 224 Kbytes
+    </ul>
+  Choosing a preset will resize the graphics window and adjust other 
+  parameters accordingly.  Parameters can be readjusted after a preset 
+  has been chosen, however.
+  </ul>
+</ul>
+<hr>
+<address>UCSF Computer Graphics Laboratory / July 2009</address>
+</body>
+</html>

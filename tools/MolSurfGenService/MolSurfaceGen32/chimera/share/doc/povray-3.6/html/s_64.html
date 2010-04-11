@@ -1,0 +1,328 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.2.8 Setting POV-Ray Options</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_63.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_63.html">2.2.7 POV-Ray Coordinate System</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.2.8 
+   Setting POV-Ray Options</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_65.html">2.3 Advanced Features</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_65.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_02_08">2.2.8 </a>Setting POV-Ray Options</h3>
+<a name="s02_02_08_i1"><a name="s02_02_08_i2"><a name="s02_02_08_i3">
+<p>
+  POV-Ray was originally created as a command-line program for operating systems without graphical interfaces, dialog 
+ boxes and pull-down menus. Most versions of POV-Ray still use command-line switches to tell it what to do. This 
+ documentation assumes you are using the command-line version. If you are using Macintosh, MS-Windows or other GUI 
+ versions, there will be dialog boxes or menus which do the same thing. There is system-specific documentation for each 
+ system describing the specific commands.<a name="s02_02_08_i4"> 
+</p>
+
+<p>
+  There are two distinct ways of setting POV-Ray options (other than through the GUI interface, if applicable) : 
+ command line switches and INI file keywords. Both are explained in detail in the following sections. 
+</p>
+
+<h4><a name="s02_02_08_01">2.2.8.1 </a>Command Line Switches</h4>
+<a name="s02_02_08_01_i1"><a name="s02_02_08_01_i2">
+<p>
+  Command line switches consist of a <code>+</code> (plus) or <code> -</code> (minus) sign, followed by one or more 
+ alphabetic characters and possibly a numeric value. Here is a typical command line with switches. 
+</p>
+
+<pre>
+  POVRAY +Isimple.pov +V +W80 +H60
+</pre>
+
+<p>
+  <code>povray</code> is the name of the program and it is followed by several switches. Each switch begins with a 
+ plus or minus sign. The <code> +I</code> switch with the filename tells POV-Ray what scene file it should use as input 
+ and <code>+V</code> tells the program to output its status to the text screen as it is working. The <code>+W</code> 
+ and <code> +H</code> switches set the width and height of the image in pixels. This image will be 80 pixels wide by 60 
+ pixels high. 
+</p>
+
+<p>
+  In switches which toggle a feature, the plus turns it on and minus turns it off. For example <code> +P</code> turns 
+ on the <em>pause for keypress when finished</em> option while <code>-P</code> turns it off. Other switches are used to 
+ specify values and do not toggle a feature. Either plus or minus may be used in that instance. For example <code>+W320</code> 
+ sets the width to 320 pixels. You could also use <code> -W320</code> and get the same results. 
+</p>
+
+<p>
+  Switches may be specified in upper or lower case. They are read left to right but in general may be specified in 
+ any order. If you specify a switch more than once, the previous value is generally overwritten with the last 
+ specification. The only exception is the <code>+L</code> switch for setting library paths. Up to ten unique paths may 
+ be specified. 
+</p>
+
+<p>
+  Almost all <code> +</code> or <code>-</code> switches have an equivalent option which can be used in an INI file 
+ which is described in the next section. A detailed description of each switch is given in the option reference 
+ section. 
+</p>
+
+<h4><a name="s02_02_08_02">2.2.8.2 </a>Using INI Files</h4>
+<a name="s02_02_08_02_i1"><a name="s02_02_08_02_i2">
+<p class="Note">
+  <strong>Note:</strong> although the term 'INI file' is used by POV-Ray, this was implemented before 
+ the widespread acceptance of Microsoft Windows, and while POV-Ray's INI files are almost identical to those of 
+ Windows, there are some minor differences (the foremost being that it is legal to have multiple instances of the same 
+ item in a section). INI files are used on all platform versions of POV-Ray, not just on the Windows platform. 
+</p>
+
+<p>
+  Because it is difficult to set more than a few options on a command line, you have the ability to put multiple 
+ options in one or more text files. These initialization files or INI files have .ini as their default extension. 
+ Previous versions of POV-Ray called them default files or DEF files. You may still use existing DEF files with this 
+ version of POV-Ray. 
+</p>
+
+<p>
+  The majority of options you use will be stored in INI files. The command line switches are recommended for options 
+ which you will turn off or on frequently as you perform test renderings of a scene you are developing. The file <code> 
+ povray.ini</code> is automatically read if present. You may specify additional INI files on the command-line by simply 
+ typing the file name on the command line. For example: 
+</p>
+
+<pre>
+  POVRAY MYOPTS.INI
+</pre>
+
+<p>
+  If no extension is given, then <code>.ini</code> is assumed. POV-Ray knows this is not a switch because it is not 
+ preceded by a plus or minus. 
+</p>
+
+<p>
+  You may have multiple INI files on the command line along with switches. For example: 
+</p>
+
+<pre>
+  POVRAY MYOPTS +V OTHER
+</pre>
+
+<p>
+  This reads options from <code>myopts.ini</code>, then sets the <code> +V</code> switch, then reads options from <code>other.ini</code>. 
+ 
+</p>
+
+<p>
+  An INI file is a plain ASCII text file with options of the form... 
+</p>
+
+<pre>
+  Option_keyword=VALUE ; Text after semicolon is a comment
+</pre>
+
+<p>
+  For example the INI equivalent of the switch <code>+Isimple.pov</code> is... 
+</p>
+
+<pre>
+  Input_File_Name=simple.pov
+</pre>
+
+<p>
+  Options are read top to bottom in the file but in general may be specified in any order. If you specify an option 
+ more than once, the previous values are generally overwritten with the last specification. The only exception is the <code>Library_Path=path</code> 
+ options. Up to 25 unique paths may be specified. 
+</p>
+
+<p>
+  Almost all INI-style options have equivalent <code>+</code> or <code> -</code> switches. The option reference 
+ section gives a detailed description of all POV-Ray options. It includes both the INI-style settings and the <code>+</code>/<code>-</code> 
+ switches. 
+</p>
+
+<p>
+  The INI keywords are not case sensitive. Only one INI option is permitted per line of text. You may also include 
+ switches in your INI file if they are easier for you. You may have multiple switches per line but you should not mix 
+ switches and INI options on the same line. You may nest INI files by simply putting the file name on a line by itself 
+ with no equals sign after it. Nesting may occur up to ten levels deep. For example: 
+</p>
+
+<pre>
+  ; This is a sample INI file. This entire line is a comment.
+  ; Blank lines are permitted.
+  Input_File_Name=simple.pov ;This sets the input file name
+  +W80 +H60 ; Traditional +/- switches are permitted too
+  MOREOPT   ; Read MOREOPT.INI and continue with next line
+  +V        ; Another switch
+  ; That's all folks!
+</pre>
+
+<p>
+  INI files may have labeled sections so that more than one set of options may be stored in a single file. Each 
+ section begins with a label in [] brackets. For example: 
+</p>
+
+<pre>
+  ; RES.INI
+  ; This sample INI file is used to set resolution.
+  +W120 +H100  ; This section has no label.
+               ; Select it with &quot;RES&quot;
+  [Low]
+  +W80 +H60    ; This section has a label.
+               ; Select it with &quot;RES[Low]&quot;
+  [Med]
+  +W320 +H200  ; This section has a label.
+               ; Select it with &quot;RES[Med]&quot;
+  [High]
+  +W640 +H480  ; Labels are not case sensitive.
+               ; &quot;RES[high]&quot; works
+  [Really High]
+  +W800 +H600  ; Labels may contain blanks
+</pre>
+
+<p>
+  When you specify the INI file you should follow it with the section label in brackets. For example... 
+</p>
+
+<pre>
+  POVRAY RES[Med] +Imyfile.pov
+</pre>
+
+<p>
+  POV-Ray reads <code>res.ini</code> and skips all options until it finds the label <code>Med</code>. It processes 
+ options after that label until it finds another label and then it skips. If no label is specified on the command line 
+ then only the unlabeled area at the top of the file is read. If a label is specified, the unlabeled area is ignored. 
+</p>
+
+<p>
+  If a file or path contains blanks the whole file and path specification has to be put in quotes. You may either use 
+ a double-quote oir a single-quote, but you have to use the same at the beginning and end. For example: 
+</p>
+
+<pre>
+ +I&quot;my file.pov&quot;
+ +I'my file.pov'
+ Input_File=&quot;my file.pov&quot;
+ Input_File='my file.pov'
+</pre>
+
+<p>
+  By using either single or double quotes it is possible to specify files whose name or path contains either as part 
+ of the name. For example: 
+</p>
+
+<pre>
+ +I&quot;file's.pov&quot;
+ +I'my &quot;big&quot; file.pov'
+ Input_File=&quot;file's.pov&quot;
+ Input_File='my &quot;big&quot; file.pov'
+</pre>
+
+<h4><a name="s02_02_08_03">2.2.8.3 </a>Using the POVINI Environment Variable</h4>
+<a name="s02_02_08_03_i1"><a name="s02_02_08_03_i2"><a name="s02_02_08_03_i3"><a name="s02_02_08_03_i4"><a name="s02_02_08_03_i5">
+<p>
+  The environment variable POVINI is used to specify the location and name of a default INI file that is read every 
+ time POV-Ray is executed. If POVINI is not specified, or if your computer platform does not use environment variables, 
+ a default INI file may be read. If the specified file does not exist, a warning message is printed. To set the 
+ environment variable under MS-DOS you might put the following line in your <code>autoexec.bat</code> file... 
+</p>
+
+<pre>
+  set POVINI=c:\povray3\default.ini
+</pre>
+
+<p>
+  On most operating systems the sequence of reading options is as follows: 
+</p>
+
+<ol>
+ 
+ <li>
+   Read options from default INI file specified by the POVINI environment variable or platform specific INI file. 
+ </li>
+
+ <li>
+   Read switches from command line (this includes reading any specified INI/DEF files). 
+ </li>
+
+</ol>
+
+<p>
+  The POVRAYOPT environment variable supported by previous POV-Ray versions is no longer available. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_63.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_63.html">2.2.7 POV-Ray Coordinate System</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.2.8 Setting POV-Ray Options</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_65.html">2.3 Advanced Features</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_65.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

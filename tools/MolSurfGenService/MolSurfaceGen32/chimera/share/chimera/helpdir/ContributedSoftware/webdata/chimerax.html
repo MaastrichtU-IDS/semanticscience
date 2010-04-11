@@ -1,0 +1,189 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>UCSF Chimera Web Data format</TITLE>
+</head>
+<body>
+<h3>UCSF Chimera Web Data Format</h3>
+<p>
+<b><i>Chimera web data</i></b> files (<b><i>chimerax</i></b> files)
+allow web sites to send information and instructions to a locally 
+running instance of <a href="http://www.cgl.ucsf.edu/chimera/index.html" 
+target="_blank">Chimera</a>.
+While several types of <a href="webdata.html">files linked to web pages</a> 
+can use Chimera as a helper application, the chimerax type
+was designed specifically for Chimera.  See also:
+<a href="../../webservices.html#webdatasites">sites that provide
+Chimera Web data</a>
+</p><p>
+Chimerax files can instruct Chimera to:
+<ul> 
+<li>retrieve and open files from the Web, provided they are in
+<a href="../../UsersGuide/filetypes.html">supported formats</a>
+<li>retrieve and open files from the 
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>
+using PDB identifiers
+<li>execute arbitrary <a href="../../UsersGuide/framecommand.html"
+target="_top">Chimera commands</a>
+<li>execute arbitrary Python code
+</ul>
+Molecular structure files are opened without applying any
+<a href="../../UsersGuide/preferences.html#New Molecules"><b>New 
+Molecules</b> preferences</a>
+(as if  <a href="../../UsersGuide/midas/open.html"><b>open noprefs</b></a> 
+had been used); this avoids inconsistencies that could result from
+the different preferences settings of different users.
+</p><p>
+Chimera web data files have the extension <b>.chimerax</b> 
+and the MIME type <b>application/x-chimerax</b>.
+The browser must be 
+<a href="webdata.html#browser">configured</a> to recognize such files.
+Clicking a link to a chimerax file sends the data
+to a locally running instance of Chimera that has been
+<a href="webdata.html#acceptdata">enabled to accept</a> web data; 
+if there is none, another instance of Chimera will be started 
+and used to open the data.  
+If there are multiple running instances of Chimera set to accept web data,
+the file will be sent to the instance that most recently had focus 
+(was most recently clicked into).
+</p><p>
+Chimerax files can also be opened directly in Chimera.  The chimerax
+<a href="../../UsersGuide/filetypes.html">file type</a>
+can be designated with the suffix <b>.chimerax</b> (part of the filename)
+or the prefix <b>chimerax:</b> (not part of the filename).
+</p><p>
+Users will be asked to <a href="webdata.html#confirm">confirm</a>
+whether files containing Chimera commands and/or Python code
+should be accepted.
+Because commands and code written with malicious intent
+may harm a user's computer, <b>only files from a trusted source
+should be accepted</b>.
+</p><p>
+(<i>Note to webmasters and database administrators</i>:
+the MIME type <b>application/x-chimerax</b> should be mapped to the
+extension <b>.chimerax</b> in the server configuration file.
+A CGI script that generates Chimerax files on the fly should specify the 
+header field <b>Content-type</b> as <b>application/x-chimerax</b>.)
+<!--
+For example, the Apache modification that you need is to put the line:
+
+AddType application/x-chimerax .chimerax
+
+in your configuration file, probably named httpd.conf or something similar.  
+There should already be some AddType statements in there, so just append 
+this line after the last one.
+-->
+</p>
+
+<h3>Chimerax File Format</h3>
+<p>
+The format will be described by walking through an example file,
+<a href="test_std_chimerax.txt">test_std.chimerax</a>
+(for a more formal definition, see the document type descriptor
+<a href="std_webdata_dtd.txt">std_webdata.dtd</a>).
+</p><p>
+Chimerax files are in
+<a href="http://www.xml.org" target="_blank">XML</a> format,
+as indicated by the first line in
+<a href="test_std_chimerax.txt">test_std.chimerax</a>:
+
+<pre>     
+&lt;?xml version="1.0"?&gt;
+</pre>
+
+The <b>&lt;ChimeraPuppet&gt;</b> tag has a <b>type</b> attribute
+indicating the name of the file (minus the <b>.py</b> suffix) 
+that will be used to handle the chimerax file when it is received by Chimera.
+
+<blockquote><pre>     
+&lt;ChimeraPuppet type="std_webdata"&gt;
+</pre></blockquote>
+
+In this case, the file <b>std_webdata.py</b> (included with Chimera)
+will be used.  The handler <b>std_webdata.py</b> should be used for chimerax
+files that conform to the standard format described here.
+Different handlers can be written (for files that vary from the 
+standard format), but this requires a high level of familiarity 
+with Python.
+</p><p>
+The <b>&lt;web_files&gt;</b> tag specifies files
+to be downloaded from the Web:
+
+<blockquote><pre>     
+&lt;web_files&gt;
+   &lt;file name="myfile.pdb" format="text" loc="http://mysite.edu/dir/subdir/myfile.pdb" /&gt;
+&lt;/web_files&gt;
+</pre></blockquote>
+
+It can have zero or more sub-tags named <b>&lt;file&gt;</b>,
+each with the three attributes:
+<ul>
+  <li><b>name</b> indicates the name of the file to which the 
+  URL contents will be saved locally
+  <li><b>format</b> must be either "text" (plain text) or "html"
+  (if the URL points to an HTML file, with the data between 
+  &lt;pre&gt;&lt;/pre&gt; tags)
+  <li><b>loc</b> indicates the URL to the file
+</ul>
+
+The <b>&lt;pdb_files&gt;</b> tag specifies structures
+to be downloaded from the 
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>:
+
+<blockquote><pre>     
+&lt;pdb_files&gt;
+   &lt;pdb id="1gcn" /&gt;
+&lt;/pdb_files&gt;
+</pre></blockquote>
+
+<p>
+It can have zero or more sub-tags named <b>&lt;pdb&gt;</b>,
+each with the attribute <b>id</b> indicating the PDB identifier of a structure.
+</p><p>
+The <b>&lt;commands&gt;</b> tag contains commands and code to be executed 
+once the models have been opened:
+
+<blockquote><pre>     
+&lt;commands&gt;
+  &lt;mid_cmd&gt;repr stick&lt;/mid_cmd&gt;
+  &lt;mid_cmd&gt;scale 2&lt;/mid_cmd&gt;
+  &lt;py_cmd&gt; m = chimera.openModels.list()[0] &lt;/py_cmd&gt;
+  &lt;py_cmd&gt; m.color = chimera.Color_lookup('blue') &lt;/py_cmd&gt;
+&lt;/commands&gt;
+</pre></blockquote>
+
+<p>
+It can have two sub-tags:
+<ul>
+<li> zero or more sub-tags named <b>&lt;mid_cmd&gt;</b>, 
+each containing a <a href="../../UsersGuide/framecommand.html"
+target="_top">Chimera command</a> to execute
+<li> zero or more sub-tags named <b>&lt;py_cmd&gt;</b>, each containing 
+Python code to execute.  The code may span more than one line; 
+indenting (if any) must be consistent within that block of code.
+</ul>
+
+<p>
+Commands and code are executed in the order given in the file, and
+<b>&lt;py_cmd&gt;</b> and <b>&lt;mid_cmd&gt;</b> tags can be interspersed.
+</p><p>
+Finally, the closing <b>&lt;ChimeraPuppet&gt;</b> tag marks
+the end of information in the file.
+<blockquote><pre>     
+&lt;/ChimeraPuppet&gt;
+</pre></blockquote>
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / September 2009</address>
+</body>
+</html>

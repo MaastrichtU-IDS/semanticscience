@@ -1,0 +1,145 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>Chimera Beta Version 1.0 Build 1602 Release Notes</title>
+  </head>
+  <body>
+    <p>
+    <img src="../title.gif" width="361" height="56" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>Chimera Beta Version 1.0 Build 1602 Release Notes (6 November 2002)</h2>
+    <blockquote><p>
+      Changes from the <a href="1.1516.html">previous release</a>:
+      <ul>
+	<li>Initial port to Mac OS X 10.2 -- requires an X server (Aqua port to follow).
+	<li>Now use an anti-aliased font for labels.
+	<li>Labels now maintain relative size when saved in a high resolution image.
+	<li>Some performance optimizations:
+	<ul>
+	  <li>large models should open faster.
+	  <li><b>Model Panel</b> is much faster with large numbers of models.
+	  <li><b>Side View</b> no longer drawn if containing dialog is closed.
+	  <li>Splash screen shows up faster.
+	</ul>
+	<li><b>Preferences</b> now has Save/Restore/Reset buttons (changes are not immediately saved).
+	<li>You are no longer required to press return in entry fields.
+	Moving the cursor outside the entry field has the same effect.
+	This affects attribute panels, <b>Selection Inspector</b>, <b>Preferences</b>,
+	and the <b>Image Save</b> panel.
+	<li>Write command implemented -- it allows modified molecules to be written out as PDB files.
+	<li><b>Select</b> menu reorganization -- <b>Chemistry</b> section including
+	new residue type item,
+	<b>Structure</b> section including new entries for sidechain/mainchain
+	and automatic categories (ligand, main solvent, ions).
+	<li>Automatic categories (ligand, main, solvent, ions) can be used as command line atom specs.
+	<li>Color well activation occurs by click anywhere on the well,
+	not just the border.
+	<li>Chimera window appears at same location as splash screen (even when moved!).
+	<li>The conic and neon commands now work on UNIX for people
+	who don't have midas installed.
+	<li>Surfaces and atoms that are default colored now update with the
+	residue color changes.
+	<li><b>Delphi Viewer</b> fixes: try to read all types of PHI files; fix color mapping of Delphi (<i>a.k.a.</i> Grasp) surfaces to use correct scale.
+	<li>Modal dialogs are now centered over invoking dialog.
+	<li>New Extension:
+	<ul>
+	  <li><b>Benchmark</b> -- measures hardware performance on chimera display tasks with an emphasis on volume models.
+	</ul>
+	<li>Extension changes:
+	<ul>
+	  <li><b>Multalign Viewer</b> now supports
+	  region creation according to actual or predicted secondary structure,
+	  residue selection based on conservation in alignment, superposition
+	  assessment, and automatic loading of PDB structures based on sequence names.
+	  <li><b>Collaboratory</b> users can send chat messages and see others' pointer positions
+	  (color-coded by user); Start Session can now be used within Chimera; password protected sessions.
+	  <li><b>Phantom</b> documentation integrated into User's Guide.
+	  <li>The <b>Volume Viewer</b> interface has been rearranged and
+	  extended.  Maximum intensity projections are supported on newer graphics cards.  Subregion history and named subregions were added.
+	  <li>The <b>Ribbon Style Editor</b> now allows styles to be saved and retrieved.
+	  <li>Amber 7 support in <b>Movie</b> extension.
+	</ul>
+	<li>Tutorials:
+	<ul>
+	  <li>Getting Started tutorial now comes in two versions:
+	  one for menu users and one for command line users.
+	  <li>New "Sequences and Structures" tutorial.
+	</ul>
+      </ul>
+      <p>
+      Known bugs/workarounds:
+      <ul>
+        <li>On Mac OS 10.2.3 with Radeon 9000 graphics Chimera sometimes
+	causes a system crash when using the side view.  This is probably
+	a graphics driver bug.  It has been reported to Apple.  It can be
+	produced by opening PDB 1gcn with the side view up and switching to
+	sphere representation.
+        <li>On Mac OS 10.2.4 with GeForce 4 Ti graphics Chimera sometimes
+	causes a system crash when showing large models.  This is probably
+	a graphics driver bug.  It has been reported to Apple.  It can be
+	produced by starting the Benchmark extension and making a standard
+	surface model of size 200.
+        <li>On Linux with the nVidia 3123 driver MSMS surfaces and
+	Volume Viewer isosurfaces are sometimes only partly displayed
+	on GeForce 4 Ti and Quadro 4 graphics cards.  This is a bug in
+	the nVidia 3123 driver.  The older 2880 driver and the newer
+	4191 driver do not have this problem.  For volume isosurfaces,
+	using a non-zero transparency works around the problem.
+	<li>With Mesa 3.4.2 (softare OpenGL sometimes used on Linux and Mac)
+	Chimera selections (atoms, bonds ...) do not show a green outline.
+	The outline is black.  Also dragging a selection box with the
+	mouse produces a black box instead of a green box.  This is a Mesa
+	bug.  Setting Fill mode for selection highlighting in Preferences
+	works around this problem.
+	<li>Adobe Illustrator and Photoshop are unable to open the TIFF files generated by chimera.  The workaround/fix is to add the following line to CHIMERA/share/PIL/TiffImagePlugin.py at line 659:
+	<pre><code>
+  ifd[COMPRESSION] = 1
+	</code></pre>
+	<li>On Windows,
+	if you're having problems installing or starting up chimera,
+	and you downloaded before 12 Nov 2002, please download again.
+	<li>On Windows, if you downloaded before 20 Nov 2002,
+	please remove lib\libotf.dll (and keep bin\libotf.dll).  The
+	symptom that this fixes is the error
+	"ImportError: DLL load failed: ...." when starting several of
+	the extensions.
+	<li>Secondary structure records in PDB files written out with the write command need work.
+	<li>On Windows, collaboratory hub GUI startup (<code>-g</code> option) almost works.
+	<li>The &quot;conic&quot; command does not work right on
+		non-Tru64 systems.  On such non-working systems,
+		Chimera may quit after the &quot;conic&quot; is run.
+	<li>The &quot;neon&quot; command does not work on systems
+		without MidasPlus previously installed.  On such
+		non-working systems, Chimera may quit after
+		&quot;neon&quot; is run.
+	<li>The &quot;ribbonjr&quot; command does not work on systems
+		without MidasPlus previously installed.  This is
+		expected, since &quot;ribbonjr&quot; is not distributed
+		with Chimera.  However, on such non-working systems
+		Chimera may quit after &quot;ribbonjr&quot; is run.
+	<li>Changing the probe radius of an MSMS surface to a very large
+		value may cause to Chimera to quit.
+	<li>Surfacing unusual structures may cause errors in the MSMS
+		library, which in turn may cause Chimera to quit.
+      </ul>
+    </blockquote>
+
+  </body>
+</html>

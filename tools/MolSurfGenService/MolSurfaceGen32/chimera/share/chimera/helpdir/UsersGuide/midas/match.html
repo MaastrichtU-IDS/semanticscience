@@ -1,0 +1,101 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>match</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>match</b> [ iterate <i>cutoff</i> ] 
+[ showMatrix true|false ] [ move true|false ] [ active ]
+<a href="atom_spec.html#basic"><i>atom-spec1</i></a>
+<a href="atom_spec.html#basic"><i>atom-spec2</i></a></h3>
+<p>
+The <b>match</b> command uses least-squares fitting to superimpose
+two models.  <a href="atom_spec.html#basic"><i>Atom-spec1</i></a> and
+<a href="atom_spec.html#basic"><i>atom-spec2</i></a>
+should contain equal numbers of atoms from two different models, respectively.
+The atoms need not be connected.
+Atoms are paired according to the order in which they are specified,
+<i>i.e.</i>, the first atom of the first model is matched to the first atom
+of the second model, the second atom to the second atom, and so on.
+The first model will be transformed so that its atoms overlay those of the
+second model.  At least three pairs of atoms are needed to define a unique
+transformation, although fewer pairs can be used.
+</p><p>
+If atom order is not specified, for example,
+<blockquote>
+<b>match #1:fad #0:fad</b>
+<!-- example structures 1f3p and 1lvl -->
+<br>
+<b>match #2:246,295 #0:195,221</b>
+<!-- example structures 4enl #2 and 2mnr #0 -->
+</blockquote>
+the atoms within a residue are ordered first by name,
+and where these are identical, by alternate location identifier, and where
+these are also identical, by serial number.
+</p><p>
+All of the atoms (from both models) can be specified collectively
+using the word <b>selected</b>, <b>sel</b>, or <b>picked</b> if the
+current <a href="../selection.html">selection</a> contains
+equal numbers of atoms from each model.  The atoms should have
+been <a href="../selection.html">selected</a>
+(most likely <a href="../selection.html#pickselect">picked</a>)
+in the proper order, first the desired atoms from one model,
+then the corresponding atoms in the corresponding order from the other model.
+When order information is lacking
+(for example, the atoms were selected simultaneously),
+the match may not be the one intended.
+</p><p>
+The <b>iterate</b> keyword indicates that successive rounds of 
+matching should be performed. In each cycle, atom pairs 
+are removed from the match list and the remaining
+pairs are fitted, until no matched pair is
+more than <i>cutoff</i> angstroms apart.
+The atom pairs removed are either the 10% farthest apart of all pairs
+or the 50% farthest apart of all pairs exceeding the cutoff, whichever
+is the lesser number of pairs.
+This excludes conformationally dissimilar regions from the final fit
+and allows the best-matching regions to be well superimposed.
+</p><p>
+The final root-mean-square deviation (RMSD) of just the paired atoms
+is reported in the 
+<a href="../chimerawindow.html#statusline">status line</a> and
+<a href="../reply.html"><b>Reply Log</b></a>.
+The <b>showMatrix</b> option (synonym <b>show</b>, default <b>false</b>) 
+indicates whether the transformation matrix should also be reported
+in the <a href="../reply.html"><b>Reply Log</b></a>.
+The related command <a href="rmsd.html"><b>rmsd</b></a> calculates an
+RMSD of atoms in their current positions, without any fitting.
+</p><p>
+The <b>move</b> option (default <b>true</b>) indicates 
+whether the transformation should be performed.  
+If false, the first model will not be moved to overlay the second, 
+but the reported RMSD and matrix values will still reflect what would have
+been obtained if the transformation had taken place.
+</p><p>
+If the <b>active</b> keyword is given, not only the first model will be
+transformed, but also any other models that are
+<a href="../mouse.html#activedef">activated for motion</a>
+(except the second, reference model),
+using the same transformation that was applied to the first.
+</p><p>
+See also:
+<b><A href="mmaker.html">matchmaker</A></b>,
+<b><A href="rmsd.html">rmsd</A></b>,
+<a href="measure.html#rotation"><b>measure rotation</b></a>,
+<b><A href="matrixcopy.html">matrixcopy</A></b>,
+<a href="../superposition.html">superimposing structures</a>
+</p>
+</body></html>

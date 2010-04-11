@@ -1,0 +1,109 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Alignment Header Definition Files</TITLE>
+</head>
+<body>
+<h3>Alignment Header Definition Files</h3>
+<p>
+Sequence alignments shown in 
+<a href="framemav.html" target="_top"><b>Multalign Viewer</b></a> 
+may include <a href="multalignviewer.html#headers">header</a> lines.  
+For example, a
+<a href="multalignviewer.html#conservation"><b>Conservation</b></a>
+line is shown by default.
+</p><p>
+Arbitrary, user-defined header lines may also be shown.  
+New header contents can be loaded from an external
+<a href="#headerformat"><b><i>header definition file</i></b></a>
+(<a href="multalignviewer.html#mavmenu-headers"><b>Headers... Load</b></a>
+in the <b>Multalign Viewer</b> menu), 
+while existing header contents can be saved to the same type of file 
+(<a href="multalignviewer.html#mavmenu-headers"><b>Headers... Save</b></a> 
+in the <b>Multalign Viewer</b> menu).
+Loading values for a header with the same name as an 
+existing header will create an additional header line,
+not replace the values in the existing header line.
+</p>
+
+<h4><a name="headerformat">HEADER DEFINITION FORMAT</a></h4>
+<p>
+<a name="comment">
+A hash symbol # at the beginning of a line indicates a <b><i>comment</i></b>.
+</a>
+A <a name="controlline"><b><i>control line</i></b></a> specifies
+<a name="headername">the name of the header</a>:
+<blockquote><tt>
+<b>name:</b> <i>header_name</i>
+</tt></blockquote>
+where <i>header_name</i> is a character string.
+</p><p>
+An additional, optional control line specifies
+<a name="headerstyle">
+the type of information</a>:
+<blockquote><tt>
+<b>style:</b> <i>data_type</i>
+</tt></blockquote>
+where <i>data_type</i> can be <b>character</b> or <b>numeric</b>.
+Characters (a single character per position) will be displayed directly
+in the header line, while numeric values will be displayed as a histogram.
+Although numeric values will be
+<a href="multalignviewer.html#headers">mapped</a> to histogram bar heights 
+in the range 0-1 for display, the original input values will be used for
+<a href="multalignviewer.html#mavAttributes">residue attributes</a>
+and written out when header contents are 
+<a href="multalignviewer.html#saveheader">saved</a>.
+</p><p>
+Header values are given in
+<a name="dataline"><b><i>data lines</i></b></a> of the form:
+<blockquote><tt>
+(Tab)<i>alignment_pos</i>(Tab)<i>header-value</i>(Tab)<i>color</i>
+</tt></blockquote>
+where <i>alignment_pos</i> is a position in the alignment (an integer).
+Data lines can be in any order, and not every position in the alignment
+must be represented in the file.  Positions with no value will be
+blank in the header line.
+<a href="#controlline">Control lines</a> and <a href="#comment">comments</a>
+can be interspersed with data lines. 
+However, if multiple headers are defined in the same file, the
+<b>name</b> control line should precede all other
+lines for the corresponding header.
+</p><p>
+The <a href="#headerstyle"><b>style</b></a>
+governs whether <i>header-value</i> must be a single character or a number.
+If the <a href="#headerstyle"><b>style</b></a>
+is not specified, it will be assumed to be <b>character</b>
+if the <i>header_value</i> in the first data line is a single 
+character; otherwise, it will be assumed to be <b>numeric</b>.
+</p><p>
+The <i>color</i> is optional but can be specified as either
+of the following:
+  <ul>
+  <li>a color name (a
+  <a href="../../UsersGuide/colortables.html">built-in name</a> 
+  or one defined previously with 
+  <a href="../../UsersGuide/midas/colordef.html"><b>colordef</b></a>)
+  <li>a set of RGB values, three space-separated numbers each ranging 
+  from 0 to 1 (inclusive) that represent the red, green, and blue
+  components of the color
+  </ul>
+A single header definition file can incorporate both kinds of color 
+specifications, as well as lines without color specifications.  
+Default colors are used for data without color specifications: 
+<b>black</b> for character values,
+<b>dark gray</b> for numeric values (which will be shown with histogram bars).
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / July 2008</address>
+</body>
+</html>

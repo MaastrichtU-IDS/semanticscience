@@ -1,0 +1,16 @@
+C = Atom('C')
+C_alpha = Atom('CH')
+H_1 = Atom('H')
+H_2 = Atom('H')
+H_3 = Atom('H')
+N = Atom('N')
+O = Atom('O')
+bonds = [Bond(N, H_1), Bond(N, H_2), Bond(N, H_3), Bond(N, C_alpha), Bond(C_alpha, C), Bond(C, O), ]
+pdbmap = [('', {'N': N, 'O': O, '2HT': H_2, 'CA': C_alpha, '1HT': H_1, '3HT': H_3, 'C': C, }, ), ]
+
+#PJC change, added 1H,2H,3H to copy H1,H2,H3
+#pdb_alternative = {'HT1': '1HT', 'HT2': '2HT', 'HT3': '3HT', 'H1': '1HT', 'H3': '3HT', 'H2': '2HT', }
+pdb_alternative = {'HT1': '1HT', 'HT2': '2HT', 'HT3': '3HT', 'H1': '1HT', '1H': '1HT', 'H3': '3HT', '3H': '3HT', 'H2': '2HT','2H': '2HT' }
+
+amber91_atom_type = {H_1: 'H3', H_3: 'H3', C: 'C', N: 'N3', O: 'O', C_alpha: 'CH', H_2: 'H3', }
+name = 'peptide N terminus'

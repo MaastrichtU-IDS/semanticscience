@@ -1,0 +1,389 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Phantom Force Feedback</TITLE>
+</head>
+<body>
+<h3>Phantom Force Feedback  <img src="phanticon.png"
+alt="Phantom Force Feedback icon"></h3>
+<p>
+The <b>Phantom Force Feedback</b> extension of Chimera
+provides an interface to the <a href="#device">Phantom haptic device</a>
+(<b>Windows</b> only).
+The device is a robotic arm that is attached to a computer and used
+as a pointer in three dimensions, like a mouse is used
+as a pointer in two dimensions.  It is most useful in conjunction with
+<a href="../../UsersGuide/stereo.html">stereo</a>.
+The user must have connected the device and installed the 
+<a href="http://www.sensable.com/support-downloads.htm"
+target="_blank">OpenHaptics library and Phantom device driver</a>.
+</p><p>
+In Chimera, the Phantom is generally used to guide placement of
+<a href="../volumepathtracer/framevolpath.html" target="_top">markers</a>
+within <a href="../../UsersGuide/filetypes.html#volume">volume data</a> 
+displayed by <a href="../volumeviewer/framevolumeviewer.html" target="_top">
+<b>Volume Viewer</b></a>.
+It can also be used to trace paths and/or move models in the absence
+of volume data.  Although there will not be force feedback in such cases,
+the increased degrees of freedom provided by the
+device as compared to a mouse can be very helpful.
+</p>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px">
+<tr><th><a name="device">The Phantom Device</a></th></tr>
+<tr><td>
+<img src="p2mol.gif" alt="the Phantom device">
+</td></tr>
+</table>
+<p>
+<a href="http://www.SensAble.com" target="_blank">SensAble Technologies</a>
+manufactures several models of the 
+<a href="http://www.sensable.com/products-haptic-devices.htm" target="_blank">
+Phantom</a>; the Desktop model is described here.
+</p><p>
+The endmost segment of the three-segment arm is called the
+stylus.  The pointer position corresponds to the joint that
+attaches the stylus to the rest of the arm.  The stylus has
+a single button on it.  With the pointer at a fixed position, the
+stylus can adopt many orientations.  It can be tilted horizontally
+and vertically and twisted.  The three pointer positional coordinates
+and three stylus orientational coordinates
+make the Phantom a 6-degree-of-freedom input device.
+</p><p>
+Motors allow the Phantom to exert force on a user's hand.
+The Desktop model exerts force in the X, Y, and Z dimensions;
+other models can also exert torques.
+The forces are specified by the computer
+program controlling the Phantom and give the feeling
+of interacting with virtual objects in three dimensions.
+In the present application, the force is toward
+more positive data values (brighter regions of the volume)
+and is proportional to the data value gradient.
+</p>
+
+<a name="startup">
+<h4>STARTUP AND INPUT</h4></a>
+<p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Phantom Force Feedback</b>, a tool in the <b>Volume Data</b> category
+(including from the <a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> <b>Tools</b> menu).
+</p><p>
+Simply opening
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> 
+in Chimera automatically starts
+<a href="../volumeviewer/framevolumeviewer.html" target="_top">
+<b>Volume Viewer</b></a>.
+The <a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a> tool will start automatically when needed,
+but it is also fine to have started it earlier.
+<a href="../../UsersGuide/stereo.html">Stereo</a> viewing is recommended.
+</p>
+
+<a name="cursor">
+<h4>CURSOR APPEARANCE</h4></a>
+<p>
+Enabling <b>cursor</b> makes a cursor appear in the Chimera graphics window
+and initiates communication with the Phantom device.
+<a name="style"><b>Cursor shape</b></a> options:
+<ul>
+<li><b>cross</b> - three perpendicular lines intersecting at the 
+   cursor position
+<li><b>jack</b> - a small sphere with six radiating conical spikes
+   centered at the cursor position
+<li><b>sphere</b> - a sphere centered at the cursor position
+<li><a name="setcrosshair"><b>volume crosshair</b></a>
+- three perpendicular lines aligned with the volume data axes,
+intersecting at the cursor position and spanning the volume data region.
+The volume data region is the space occupied by the 
+<a href="../volumeviewer/volumeviewer.html#currentset">current set</a>
+of data shown with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top">
+<b>Volume Viewer</b></a>. The cursor reverts to a cross shape when it
+is moved outside the volume data region.
+Showing the crosshair along with a box outlining the region (see the
+<a href="../volumeviewer/volumeviewer.html#disp-options"><b>Data
+display options</b></a>
+in <a href="../volumeviewer/framevolumeviewer.html" target="_top">
+<b>Volume Viewer</b></a>) can aid depth perception when
+<a href="../../UsersGuide/stereo.html">stereo</a>
+is not being used.
+</ul>
+
+<table border="1" align="left" style="margin:8px 8px 8px 8px">
+<tr><td>
+<img src="cursor.png" alt="Phantom cursor">
+</td></tr>
+</table>
+
+The lines forming the <b>cross</b> are thin and can be difficult to see, while
+the <b>sphere</b> is easy to see but tends to disappear within volume
+displays when small and obscure some data when large.
+The <b>jack</b> (shown in purple in the figure)
+combines the better features of the <b>cross</b> and <b>sphere</b>;
+it is a solid shape with protusions that help to indicate its position.
+The lines of the <b>cross</b> and the spikes of the <b>jack</b>
+show stylus orientation.
+</p><p>
+Cursor <b>size</b> is expressed in the current display units
+and refers to the <b>cross</b> line length, <b>sphere</b> diameter,
+or for the <b>jack</b>, the distance between the tips of opposing spikes.
+It is necessary to press return (Enter) to apply a new size.
+Cursor <b>color</b> can be edited using the adjacent
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>.
+A cursor color that contrasts with the data display color is usually best.
+</p><p>
+Disabling <b>cursor</b> halts communication with the Phantom device.
+</p>
+
+<a name="force">
+<h4>FORCE FEEDBACK</h4></a>
+<p>
+Enabling <a name="setforce"><b>forces</b></a>
+turns on force feedback based on the
+<a href="../volumeviewer/volumeviewer.html#currentset">current set</a>
+of data shown with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top">
+<b>Volume Viewer</b></a>
+(see also the <a href="#commands">key command</a> <b>f</b>).
+When force feedback is off, the Phantom can still be used as a pointer.
+</p><p>
+The force is directly proportional to the data gradient and pushes
+toward more positive data values.  At each
+grid point, the gradient in each dimension is half of
+the difference between the values at the two flanking grid points.
+For example, if the grid point indices are (i,j,k), the X component
+of the force is obtained by subtracting the value at (i+1,j,k) from
+the value at (i-1,j,k) and dividing by 2.  Thus the force is
+calculated relative to grid point indices; the physical spacing
+of the grid points (grid resolution) is not used.
+When the pointer is not exactly at a grid point, the force is
+interpolated from the gradients at the eight surrounding grid points.
+</p><p>
+<a name="settings">Clicking the <b>Settings</b> button</a> 
+reveals additional parameters and information.   
+The dialog can be collapsed again by clicking the small button 
+<img src ="../volumeviewer/x.png"</a> on the right.
+<blockquote>
+<a name="range">
+<b>Phantom physical range (mm)</b></a> (default <b>200</b>, about 8 inches)
+controls the size in each dimension of a cube where the
+pointer joint can be placed.
+The physical cube is mapped into the Chimera graphics space so that its
+back face just fits within the viewing area at the far clipping plane
+and its center is halfway between the near and far clipping planes.
+The mapping is recalculated according to these rules whenever 
+the view is scaled or the 
+<a href="../../UsersGuide/sideview.html#sideview">clipping planes</a> are 
+moved.  When the clipping planes are close together, the physical cube may
+extend in front of the near clipping plane and behind the far clipping plane.
+The cursor will not be visible when the pointer is moved into these regions.
+<p>
+If the Chimera window is not square, parts of the viewing area will
+be beyond the reach of the Phantom cursor (the right and left edges if
+the Chimera window horizontal dimension is larger, the top and bottom
+if the Chimera window vertical dimension is larger).
+Regions in front of the near clipping plane and behind the far clipping
+plane will also be unreachable.  When parts of the volume display
+are not reachable, moving the volume display or the clipping planes
+can solve the problem.
+</p>
+</blockquote><blockquote>
+The <a name="maxforce"><b>Maximum force (lbs)</b></a> setting 
+(default <b>0.4</b>) prevents
+excessive forces from being sent to the Phantom.  If the calculated
+force exceeds this value, the maximum force is used instead.
+<a name="maxprob">
+The Phantom Desktop can exert a maximum force of 1.45 lbs (6.4 N)
+and sustain a force of 0.4 lbs (1.7 N) for 24 hours.  If its maximum
+is exceeded, the Phantom will generate an error message and disable itself.
+</a>
+Disabling and re-enabling <b>cursor</b> may restore a usable state; 
+if not, it may
+be necessary to rerun the configuration program that came with the
+Phantom device.
+</blockquote><blockquote>
+<a name="autoadjust"><b>Auto-adjust force constant</b></a>
+(<b>on</b> by default) continually adjusts the force
+constant so that the largest gradient encountered so far generates
+the force specified as the <a href="#maxforce">maximum</a>.
+The force constant automatically shrinks
+as larger gradients are encountered when this option is on.
+</blockquote><blockquote>
+The <a name="fconstant"><b>Force constant</b></a>
+controls the scaling of force relative to gradient.
+The proper setting depends on the data gradient magnitudes
+and the user's comfort level.  The gradient is multiplied
+by the force constant to calculate a force in Newtons
+(1 Newton = 0.2248 lbs).  Setting the force constant 
+by entering a number or moving the slider turns off its
+<a href="#autoadjust">automatic adjustment</a>.
+</blockquote>
+The bottom part of the dialog shows
+information on the pointer position and force components.
+<ul>
+<li><b>Phantom position</b>
+is the position of the pointer within its physical range, in mm relative
+to the center of the cube.  
+<li><b>Chimera position</b> is the position of
+the pointer in the display coordinate system.  
+<li><b>Volume position</b> is
+the position of the pointer in the display units along the volume data axes
+using the volume data origin.  
+<li><b>Volume index</b> is the position
+of the pointer in the the data grid index units relative to the
+(0,0,0) corner of the volume data.  
+</ul>
+The calculated <b>Gradient</b> and <b>Force</b> components are also shown, 
+along with the interpolated <b>Data value</b> at the pointer position.
+When the calculated force exceeds the
+<a href="#maxforce">maximum force</a> allowed, the maximum is used instead.
+</p>
+
+<a name="placement">
+<h4>MARKER PLACEMENT</h4></a>
+<p>
+Pressing the button on the Phantom stylus places a marker
+at the current pointer position using
+<a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a>.  Clicking the <b>Markers</b> button opens the
+<a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a> dialog.
+While not needed for placing markers, the dialog controls various
+aspects of markers (color, size) and the links connecting them.
+Its <a href="../volumepathtracer/volumepathtracer.html#mousemode">
+<b>Mouse mode options</b></a> to place/move markers are ignored 
+while the Phantom is being used.
+</p><p>
+Since pressing the button on the Phantom stylus
+can jiggle the pointer position and interfere with proper placement, 
+users may want to use the <a href="#commands">key command</a> <b>m</b> instead.
+The <a href="#commands">key command</a> <b>p</b> allows moving a marker
+with the Phantom.
+</p>
+
+<a name="commands">
+<h4>KEY COMMANDS</h4></a>
+<p>
+Enabling <b>key commands</b> allows use of the following shortcuts
+when the mouse cursor is in the main Chimera window:
+<ul>
+<li>space bar - toggle whether manipulating the Phantom moves all
+<a href="../../UsersGuide/mouse.html#activedef">active</a>
+models in Chimera (including volume displays)
+<li><b>z</b> - toggle whether twisting the stylus scales the view
+<li><b>c</b> - toggle whether twisting the stylus adjusts the 
+volume contour level (the lowest threshold, if more than one exists)
+<li><b>f</b> - toggle whether <a href="#setforce">force feedback</a>
+is generated from the volume data gradient
+<li><b>m</b> - place a marker at the current pointer position
+<li><b>p</b> - grab the marker at the current pointer position and drag
+it until <b>p</b> is pressed again
+<li><b>s</b> - <a href="../../UsersGuide/selection.html">select</a> the
+marker at the current pointer position
+<li><b>u</b> - unselect all markers
+<li><b>d</b> - delete any
+<a href="../../UsersGuide/selection.html">selected</a> markers
+<li><b>x</b> - delete any
+<a href="../../UsersGuide/selection.html">selected</a> links
+<li>escape key - disable key commands
+</ul>
+</p>
+
+<a name="limitations">
+<h4>LIMITATIONS</h4></a>
+
+<p>
+<b>Only available for Windows.</b>
+Attempts to use <b>Phantom Force Feedback</b> on platforms 
+other than <b>Windows</b> will produce the error message
+"Could not load Chimera _phantomcursor library."
+The user is responsible for downloading and installing the 
+SensAble <a href="http://www.sensable.com/support-downloads.htm"
+target="_blank">OpenHaptics library and Phantom device driver</a>.
+The tool has been tested with Phantom driver version 4.2.49 and
+OpenHaptics Academic Edition version 2.0.
+</p>
+
+<p>
+<b>Phantom vibrates or buzzes.</b> Large changes in force over small
+distances can lead to aberrant vibrations.  Solutions include zooming
+in (scaling the view up) to spread out the gradient and
+decreasing the <a href="#maxforce">maximum force</a> setting.
+For example, imagine a force that is constant and upward below a plane
+and zero above the plane.  When the pointer is pushed slightly below
+the plane, the force pushes it back above the plane.  This leads to an
+oscillation or buzzing effect when the user is
+applying a downward force that is less than the upward force exerted by
+the Phantom.  The buzzing is caused by the finite force update rate
+(1000 Hz).  If the user applies a greater downward force, the pointer
+will move past the interface.
+A similar situation occurs at the steep walls
+of a potential well corresponding to a bright spot in the data.
+</p>
+
+<p>
+<b>Phantom overheats.</b>
+When the Phantom overheats, it generates a warning message and will not
+function until its motors have cooled sufficiently.  Cooling can take
+from 10 minutes to about an hour.
+Overheating can occur when the <a href="#fconstant">force constant</a>
+is too high and there is frequent application
+of the <a href="#maxforce">maximum force</a> limit.
+</p>
+
+<p>
+<b>Phantom maximum force exceeded.</b>
+See <a href="#maxprob">above</a>.
+</p>
+
+<a name="notes">
+<h4>TECHNICAL NOTES</h4></a>
+
+<p>
+<b>Other 3D devices.</b>
+The Chimera Cursor_Model and Force_Field classes implemented in _phantom.so
+and _phantom.dll contain no Phantom-specific code, so that it will be
+possible to use other 3D input devices for marker placement.
+</p>
+
+<p>
+<b>Pruning Data in 3D.</b>
+Marker placement and path tracing with the mouse are fairly easy.
+Because the Phantom is expensive, it is probably worth exploring
+3D applications for which a standard mouse is poorly suited.
+The Phantom may be especially useful for pruning multidimensional data;
+it could be used as a 3D data eraser.
+</p>
+
+<p>
+<b>Possible new features.</b>
+<a href="#commands">Key commands</a> may be added to:
+<ul>
+<li><a href="../../UsersGuide/selection.html">select</a> the
+link at the current pointer position (could be the same as the
+marker selection command)
+<li>toggle the 
+<a href="../volumepathtracer/volumepathtracer.html#mousemenu"><b>Link 
+consecutively selected markers</b></a> mode of
+<a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a>
+<li>control marker and link color
+<li>control marker and link size according to stylus twist
+</ul>
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / April 2008</address>
+</body>
+</html>

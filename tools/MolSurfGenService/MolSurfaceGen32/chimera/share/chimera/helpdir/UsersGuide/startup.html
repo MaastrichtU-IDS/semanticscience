@@ -1,0 +1,167 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Chimera Startup and Input</title>
+
+</head><body>
+<a name="startup">
+<h2>Chimera Startup</h2>
+</a>
+On <b>Windows</b>,
+<blockquote>
+Chimera can be started by clicking the <b>chimera</b> icon.  
+To specify <a href="options.html">options</a> or 
+<a href="#inputfiles">input files</a> at startup:
+<ol>
+<li> drag the <b>chimera</b> icon with the right mouse button
+and select <b>Copy Here</b> from the menu that appears; this
+creates another shortcut icon
+called "<b>copy&nbsp;of&nbsp;chimera</b>"
+<li> right-click the new <b>copy&nbsp;of&nbsp;chimera</b>
+icon, select <b>Properties</b> from the menu that appears
+<li> in the resulting panel, click the <b>Shortcut</b> tab and then
+append the desired <a href="options.html">option(s)</a> and
+<a href="#inputfiles">input(s)</a>
+to the command in the <b>Target</b> field.
+The path to the Chimera executable, arguments of options, and
+input file pathnames should each be enclosed in double quotes if 
+they contain any spaces, for example:
+<pre>
+<b>"C:\Program Files\Chimera\bin\chimera.exe" --stereo "f:\PDB Files\protease.pdb"</b>
+</pre>
+<li> click the the new <b>copy&nbsp;of&nbsp;chimera</b> icon
+</ol>
+</blockquote>
+
+<a name="unixstart">
+On <b>UNIX</b></a>,
+<blockquote>
+ Chimera can be started from the system command line:
+<br><pre>
+&gt <b>chimera [<a href="options.html"><i>options</i></a>] [<a href="#inputfiles"><i>input1</i> <i>input2</i></a> ...]</b>
+</pre>
+Bracketed arguments are optional.  The user's execution path should include
+<b><i>chimera_install_dir</i>/bin</b> 
+(the default <b><i>chimera_install_dir</i></b>
+is <b>/usr/local/chimera</b>).
+</blockquote>
+
+On <b>Mac OS X</b>,
+<blockquote>
+Chimera can be started by
+clicking the <b>chimera</b> icon or by dragging and dropping 
+certain file types on the <b>chimera</b> icon.
+The drag-and-drop approach currently works for the 
+<a href="../ContributedSoftware/webdata/chimerax.html">Chimera web data</a> 
+(*.chimerax) and PDB (*.pdb) <a href="filetypes.html">file types</a>.  
+<p>
+Chimera can also be started from the system command line: 
+<br><pre>
+<b>&gt <i>chimera_install_dir</i>/Contents/MacOS/chimera [<a href="options.html"><i>options</i></a>] [<a href="#inputfiles"><i>input1</i> <i>input2</i></a> ...]</b>
+</pre>
+Bracketed arguments are optional.  The default 
+<b><i>chimera_install_dir</i></b> is <b>/Applications/Chimera.app</b>.
+<p>
+Chimera for Mac OS X (X Windows) requires an X server to be 
+installed and running.  Starting this version of Chimera will 
+automatically start the X server if it is not already running.
+</p>
+</blockquote>
+
+<a name="startupfiles">
+<h3>Startup Files</h3></a>
+<p>
+If a Chimera <a href="preferences.html#preffile"><b>preferences</b> file</a>
+is <a href="preferences.html#prefhunt">found</a>, it is read at startup.
+If a <b>midasrc</b> file is found (see the 
+<a href="preferences.html#Command Line"><b>Command Line</b> preferences</a>),
+it will be executed when the 
+<a href="chimerawindow.html#emulator"><b>Command Line</b></a> is shown.
+</p>
+
+<a name="inputfiles">
+<h3>System Command-Line Input</h3>
+</a><p>
+Input files may contain structures to be displayed, commands or code to
+be executed, or other data.  If Chimera is started in
+<a href="options.html#nogui">nogui mode</a> 
+without command/script file input,
+a prompt will be supplied in the system shell for entering
+<a href="framecommand.html" target="_top">Chimera commands</a> 
+on standard input.
+</p><p>
+Any of the <a href="filetypes.html">registered file types</a>
+can be opened from the system command line at the time of
+<a href="#startup">Chimera startup</a>.
+File type can be specified
+by a <a href="filetypes.html#suffix">suffix</a> that is part of the filename
+or by <b><i><a href="filetypes.html#prefix">prefix</a>:filename</i></b>,
+where <a href="filetypes.html#prefix">prefix</a> is not part of the filename.
+If a prefix and a suffix are both given, the prefix overrides the suffix.
+Filenames, prefixes, and suffixes are case-sensitive.
+Unrecognizable prefixes are assumed to be part of the filename.
+For many of the <a href="filetypes.html">registered file types</a>, 
+files that are gzipped (as indicated by .gz following the regular filename)
+are recognized and opened.  
+Similarly, compressed files (*.Z) can be recognized and opened 
+for many input types if <i>gzip</i> is on the user's execution path 
+(can be run by entering <i>gzip</i> at the system command line). 
+</p><p>
+Input is generally specified as a pathname to a file
+or the name of a file in the current working directory.
+In some cases (<a href="midas/open.html#fetch">indicated with certain
+prefixes</a>), the filename can be the database identifier
+of a file to be retrieved and opened.
+Internet connectivity is required to fetch files over the Web.
+</p>
+
+<a name="input">
+<h3>Input within Chimera</h3></a>
+<p>
+Any of the <a href="filetypes.html">registered file types</a>
+can also be opened from within Chimera.
+The most general ways are:
+<ul>
+<li> with <a href="opensave.html#opendialog"><b>File... Open</b></a>
+(local files), <a href="fetch.html"><b>Fetch by ID</b></a> 
+(files to be fetched from databases)
+<li> from the Chimera 
+<a href="chimerawindow.html#emulator"><b>Command Line</b></a>,
+using the command <a href="midas/open.html"><b>open</b></a> (default type
+<a href="tutorials/framepdbintro.html" target="_top">PDB</a>)
+</ul>
+In addition, many <a href="framecontrib.html" target="_top">tools</a> 
+bring up dialogs to open specific file types.
+</p><p>
+On a Mac, dragging and dropping known <a href="filetypes.html">file types</a> 
+on the Chimera icon will start Chimera (if not already started) 
+and open the files.
+</p><p>
+Models can be closed with
+the command <a href="midas/open.html"><b>close</b></a>,
+the <a href="modelpanel.html"><b>Model Panel</b></a>,
+or <b>File... Close Session</b>.
+</p>
+
+<h3>Exit from Chimera</h3>
+<p>
+A Chimera session can be terminated by choosing <b>File... Quit</b>
+from the menu, or by entering the command
+<a href="midas/stop.html"><b>stop</b></a> in the
+<a href="chimerawindow.html#emulation"><b>Command Line</b></a>.
+By default, the user is asked to confirm exit, but
+this can be turned off in the
+<a href="preferences.html#General"><b>General</b> preferences</a>.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2008</address>
+</body></html>

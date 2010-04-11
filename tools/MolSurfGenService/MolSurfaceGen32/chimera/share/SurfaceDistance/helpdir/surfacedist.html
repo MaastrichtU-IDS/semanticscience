@@ -1,0 +1,64 @@
+<html>
+<title>Surface Distance</title>
+<body>
+
+<img src="surfdist.png" align=right>
+
+<h1>
+Surface Distance
+</h1>
+
+<p>
+September 5, 2006
+</p>
+
+<p>
+This tool reports the distance from selected atoms or markers to the nearest
+point on a displayed surface.  Distances are calculated using the keyboard
+accelerator "sd".  Keyboard acclerators are activated with menu entry
+<b>Tools / General Controls / Accelerators On</b>.  Distances between
+each selected atom or marker and each displayed surface model are reported
+to the <b>Reply Log</b>.  The reply log can be shown using menu entry
+<b>Favorites / Reply Log</b>.  The main window status line also reports
+the distance, although if multiple distances are calculated, only the last
+is shown.
+</p>
+
+<h2>
+Example Distance Report
+</h2>
+
+<pre>
+Distance from #0:18.water@O to surface MSMS main surface of 1a0m.pdb
+ d = 2.09, surface point (3.14, -1.28, 7.85), side 1
+</pre>
+
+<p>
+The coordinates of the nearest surface point and the side of the surface
+the point lies on (+1 = outside, -1 = inside) are given.
+</p>
+
+<h2>
+Technical Notes and Limitations
+</h2>
+
+<p>
+<b>Closest point definition.</b>  The closest surface point may lie within
+a triangle, on a triangle edge, or at a triangle vertex of the triangulated
+surface.  If multiple surface points are equidistant only one is reported.
+</p>
+
+<p>
+<b>Slow calculation.</b>  The closest point is calculated in Python and
+is rather time consuming (~1 second for one distance to a 10,000 triangle
+surface on a 2006 desktop PC).  The distance calculation code may be rewritten
+in C++ in the future.
+</p>
+
+<p>
+<b>Reported precision.</b> Five significant digits are reported for distance
+values and nearest point positions.
+</p>
+
+</body>
+</html>

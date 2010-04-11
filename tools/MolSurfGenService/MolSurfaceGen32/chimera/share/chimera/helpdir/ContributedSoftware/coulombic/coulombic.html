@@ -1,0 +1,207 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Coulombic Surface Coloring</TITLE>
+</head>
+<body>
+<h3>Coulombic Surface Coloring <img src="coulombicon.png"
+alt="Coulombic Surface Coloring icon"></h3>
+
+<p>
+<b>Coulombic Surface Coloring</b> colors
+<a href="../../UsersGuide/representation.html#surfaces">molecular surfaces</a>
+by electrostatic potential calculated with Coulomb's law:
+<blockquote>
+<font size ="+1">
+&phi; = &Sigma; [q<sub>i</sub> / (&epsilon;d<sub>i</sub>)]
+</font>
+</blockquote>
+&phi; is the potential (which varies in space),
+q are the atomic partial charges,
+d are the distances from the atoms, and
+&epsilon; is the dielectric, representing screening by the medium or solvent.
+A distance-dependent dielectric (&epsilon; = <i>C</i>d where <i>C</i> is some 
+constant) is sometimes used to approximate screening by implicit solvent.
+</p><p>
+The
+<a href="../surfcolor/surfcolor.html"><b>Electrostatic Surface Coloring</b></a>
+tool is similar, but uses an 
+<a href="../../UsersGuide/filetypes.html#esp">electrostatic potential map</a>
+previously calculated with any of several 
+<a href="../../UsersGuide/filetypes.html#esp">separate programs</a>
+not included with Chimera.  These continuum electrostatics programs 
+perform calculations that are more complex and (if done correctly) more
+accurate than simple Coulomb's law approaches.
+However, a Coulombic potential may suffice for visualization.
+</p><p>
+See also:
+<a href="../render/render.html#render"><b>Render by Attribute</b></a>,
+<a href="../addh/addh.html"><b>AddH</b></a>,
+<a href="../addcharge/addcharge.html"><b>Add Charge</b></a>,
+<a href="../resprop/resprop.html"><b>ResProp</b></a>,
+<a href="../2dlabels/2dlabels.html#colorkey"><b>Color Key</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Coulombic Surface Coloring</b>, a tool
+in the <b>Surface/Binding Analysis</b> category.
+</p><p>
+The 
+<a href="../../UsersGuide/representation.html#surfaces">molecular surface(s)</a>
+should first be displayed (using <b>Actions... Surface... show</b>
+or the command <a href="../../UsersGuide/midas/surface.html"><b>surface</b></a>)
+and then chosen from the list of <b>Surfaces to color by ESP</b>. 
+Only the residues enclosed by a surface will be used
+to calculate the potential on that surface.
+For example, nearby ions, solvent, or ligand molecules will not affect
+the results for a surface that encloses only protein,
+and it is not possible to show the potential from one molecule on the
+surface of another.
+<ul>
+<li><b>Number of colors/values</b> 
+(default <b>3</b>: <b>red</b>, <b>white</b>, and <b>blue</b>)
+- up to 11 pairs can be used. 
+Each color can be adjusted by clicking its 
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a> and 
+using the <a href="../../UsersGuide/colortool.html"><b>Color Editor</b></a>.
+The values can be edited directly (units are kcal/mol&middot;e at 298 K).
+<!--
+Eric: potentials calculated with proton charge units and Angstroms
+get scaled by a factor of 331.62, which according to the midas
+esp source code converts them to "Kcals energy units". 
+ECM: I believe it is actually kcal/mol per proton charge at 25C = 298K.
+Note DelPhi ESP is in kT/e and 1 kT = 0.593 kcal/mol at 298 K.
+-->
+<p>
+The specified color/value pairs or thresholds define a color mapping.
+The value calculated for each surface vertex will be compared to the thresholds.
+Surface vertices with values lower than any threshold will be assigned the 
+color of the lowest-value threshold, while vertices with values higher than
+any threshold will be assigned the color of the highest-value threshold.  
+The colors of the remaining vertices will be obtained by linear 
+interpolation between the nearest lower and higher thresholds.
+Finally, each surface triangle will be colored by linearly interpolating
+its vertex colors.
+Colors are defined by red, green, blue, and opacity/transparency components. 
+</p>
+<li><b>Distance-dependent dielectric</b> (<b>true</b>/false) 
+- whether &epsilon; should vary in proportion to the distance from each charge
+<li><b>Dielectric constant</b> (default <b>4.0</b>)
+- value of <i>C</i>, where &epsilon; = <i>C</i>d if distance-dependent,
+&epsilon; = <i>C</i> if not distance-dependent
+<li><b>Distance from surface</b> (default <b>1.4</b> &Aring;)
+- how far out from each surface vertex, along its normal,
+to evaluate the electrostatic potential.  The rationale for looking outward
+is that the values at the centers of any interacting atoms are more relevant
+than those at their surfaces.  A 
+<a href="../../UsersGuide/representation.html#surfaces">molecular surface</a>
+is <b><i>solvent-excluded</i></b>; it shows where the surface of a 
+spherical probe (typically of radius 1.4 &Aring;) can lie.  Thus, 1.4 &Aring; 
+out from the molecular surface is about as close as the probe center
+can get, the <b><i>solvent-accessible</i></b> surface.
+</ul>
+<a name="hisprot">
+The <b>Implicit Histidine Protonation</b> section controls the charge states
+of histidines in structures without hydrogens.</a>
+Although hydrogens will not be added explicitly, the implicit 
+protonation states will affect the results because the charges differ
+throughout the residue for different
+<a href="../addcharge/addcharge.html#alterstates">protonation states</a>,
+and the charges of the implicit hydrogens will be merged 
+with those of the attached heavy atoms.
+<ul>
+<li><b>Residue name-based</b>
+- residue names will be used to determine which histidine sidechain 
+nitrogens should be implicitly protonated: the &delta;-nitrogen
+in residues named HID, the &epsilon;-nitrogen in HIE, and both 
+nitrogens in HIP.  
+The <b>HIS =</b> setting specifies how residues with the standard histidine
+name (HIS) should be treated:
+  <ul>
+  <li><b>estimated from H-bonds</b> (default) 
+  - choose protonation state based on local H-bonding environment
+  <li><b>delta</b> 
+  - neutral sidechain, implicit hydrogen at &delta;-nitrogen
+  <li><b>epsilon</b> 
+  - neutral sidechain, implicit hydrogen at &epsilon;-nitrogen
+  <li><b>both</b>
+   - positive sidechain, implicitly protonated at both sidechain nitrogens
+  </ul>
+<li><b>Specified individually...</b> 
+the desired protonation state of each histidine residue
+will be specified with checkboxes in the dialog
+</ul>
+Clicking <b>Apply</b> (or <b>OK</b>, which also dismisses the dialog)
+calculates the electrostatic potential and applies the coloring.
+</p><p>
+The calculation requires charge assignments, which in turn require hydrogens.
+An existing structure lacking hydrogens is not changed, 
+but a copy is created in memory, <a href="../addh/addh.html">protonated</a>,
+and <a href="../addcharge/addcharge.html">assigned charges</a>
+(<a href="../addcharge/addcharge.html#standard">details</a>),
+which are then transferred to the existing structure.  Where hydrogens 
+are missing from the existing structure, their charges are collapsed
+onto the adjacent heavy atom.
+</p><p>
+<b>Pre-existing hydrogens and/or charges</b>.
+A structure may already have explicit hydrogens, or they can be added
+beforehand with <a href="../addh/addh.html"><b>AddH</b></a>.  Note
+surfaces are more rugged (have more small bumps) for structures with hydrogens.
+A structure may also have pre-existing charge assignments, such as from
+<a href="../addcharge/addcharge.html"><b>Add Charge</b></a> or a previous
+use of <b>Coulombic Surface Coloring</b>.
+If all of the atoms corresponding to the chosen surface already have
+charges, those values will be used rather than assigned anew, 
+with the exception: changing a setting in the
+<a href="#hisprot"><b>Implicit Histidine Protonation</b></a> section 
+indicates that existing charges on those atoms should be erased 
+and charges assigned anew when <b>Apply</b> or <b>OK</b> is clicked.
+</p><p>
+<b>Create corresponding color key</b> opens the
+<a href="../2dlabels/2dlabels.html#colorkey"><b>Color Key</b></a> dialog
+and populates it with the current colors and values;
+a color key can then be created interactively with the mouse.
+</p><p>
+<b>Close</b> simply dismisses the dialog, while
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="limitations">
+<h4>LIMITATIONS</h4></a>
+<p>
+<b>Subsequent coloring operations may erase surface custom colors</b>. 
+Unless explicitly limited to non-surface items, subsequent use of
+<a href="../../UsersGuide/menu.html#actcolor"><b>Actions... Color</b></a>
+or the command <a href="../../UsersGuide/midas/color.html"><b>color</b></a>
+on the molecule model corresponding to a
+<a href="../../UsersGuide/representation.html#surfaces">molecular surface</a>
+will reset the surface's color source to <b>atoms</b> and wipe out 
+the Coulombic potential colors.  The custom surface coloring
+will be erased even when only parts of the molecule model 
+that do not contribute to the molecular surface are recolored.
+</p>
+<p>
+<b>Subsequent recomputation of the molecular surface erases custom colors</b>. 
+Anything that triggers surface recalculation, 
+such as deleting atoms from the molecule model or changing certain 
+<a href="../../UsersGuide/msmsattrib.html">molecular surface parameters</a>, 
+will erase the Coulombic potential colors.  
+</p>
+<p>
+<b>Surface caps not colored</b>.
+This tool does not color
+<a href="../surfcapper/surfcapper.html">caps</a>
+on <a href="../../UsersGuide/clipping.html">clipped</a> surfaces.
+<hr>
+<address>UCSF Computer Graphics Laboratory / September 2009</address>
+</body>
+</html>

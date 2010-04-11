@@ -1,0 +1,426 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2001-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Saving Images</title>
+</head><body>
+<a name="saveimage">
+<h2>Saving Images</h2>
+</a>
+<p>
+The contents of the Chimera graphics window
+or a <a href="#raytrace">raytraced</a> image from POV-Ray 
+can be saved to a file with <b>File... Save Image</b>.
+See also: <b><A href="midas/copy.html">copy</A></b>,
+<a href="movies.html">making movies</a>, 
+<a href="export.html">exporting a scene</a>, 
+<a href="#tips">tips on preparing images</a>
+</p>
+<ul>
+<li><a name="imagesize"><b>Image Size</b></a>:
+  <ul>
+  <li><a name="printunits"><b>Use print units</b></a> - allow image size to be
+  specified in units of length rather than pixels
+  <li><a name="units"><b>Units</b></a> (<b>pixels</b> by default, but
+  centimeters/<b>inches</b>/millimeters/points if
+  <a href="#printunits">using print units</a>)
+  - units in which the image dimensions are specified; all except pixels
+  are units of length (72 points = 1 inch)
+  <li><b>Image width</b> - image width in <a href="#units">units</a>
+  <li><b>Image height</b> - image height in <a href="#units">units</a>
+  </ul>
+  <p>
+  When <b>Maintain current aspect ratio</b> is on, the
+  image width/height ratio is constrained to match
+  the width/height ratio of the graphics window (not including borders).
+  Entering the width automatically adjusts the height and <i>vice versa</i>.
+  </p><p>
+  When <b>Maintain current aspect ratio</b> is off, both width and height
+  can be set as desired.
+  <b>Grow to Fit</b> resizes the graphics window
+  to match the image aspect ratio by increasing one window dimension
+  (<i>i.e.</i>, width or height),
+  while <b>Shrink to Fit</b> resizes the graphics window
+  to match the image aspect ratio by decreasing one window dimension.
+  If the window has not been grown or shrunk to match the image aspect ratio,
+  a saved image will include more than what is displayed.
+  </p><p>
+  When dimensions are specified in
+  <a href="#units">units</a> of length (anything other than pixels), 
+  they are converted to inches internally and multiplied by 
+  the <a name="resolution"><b>Print resolution (dpi)</b></a>
+  to give the output pixel dimensions.
+  The print resolution setting is saved in the
+  <a href="preferences.html#preffile"><b>preferences</b> file</a>.
+  </p>
+<li><b>Image Information</b>:
+  <ul>
+  <li><b>Description</b> - text annotation to be placed in the saved image file 
+  (does not affect image appearance)
+  <li><b>Image Credits</b> - open the
+  <a href="preferences.html#Image Credits"><b>Image Credits</b> preferences</a>
+  <li><b>Citing Chimera</b> - show
+  <a href="../credits.html" target="_top">how to cite Chimera</a>
+  </ul>
+</ul><ul>
+<li><a name="raytrace"><b>Raytrace with POV-Ray</b> (true/<b>false</b>)
+- whether to <a href="raytracing.html">raytrace with POV-Ray</a>
+rather than saving the contents of the Chimera graphics window.
+The <b>POV-Ray Options</b> button opens the
+<a href="preferences.html#POV-Ray Options"><b>POV-Ray Options</b> 
+preferences</a>.
+</ul><ul>
+<li><a name="supersampling"><b>Supersample</b></a> 
+(1x1/2x2/<b>3x3</b>/4x4/5x5/6x6)
+- how many pixels are sampled in the X and Y dimensions for each pixel in
+the final saved image.
+Higher values increase the smoothness of edges in saved images
+and increase calculation time.  The supersampling level is saved in the
+<a href="preferences.html#preffile"><b>preferences</b> file</a>.
+</ul><ul>
+<li><b>Adjust field of view</b> 
+  - when the <a href="#imagesize">image size</a>
+  is specified in <a href="#units">units</a> of length,
+  whether to use the specified image width instead of the
+  graphics window width to compute the image field of view
+  (<a href="sideview.html#stereoparm">details...</a>).  
+  This may provide a better sense of depth. 
+  <ul>
+  <li><b>no</b>
+  <li><b>yes</b>
+  <li><b>stereo cameras</b> 
+   - yes, except when the <a href="#imagemode"><b>Image camera mode</b></a>
+   is <a name="#sameasscreen"><b>same as screen</b></a> and the 
+   <a href="stereo.html#modedef">camera mode</a> of the graphics window
+   is <b>mono</b>
+  </ul>
+  <br>
+<li><a name="imagemode"><b>Image camera mode</b></a> 
+- <a href="stereo.html#modedef">camera mode</a> refers to any of several
+stereo and mono viewing options.
+  <ul>
+  <li><a name="sameasscreen"><b>same as screen</b></a> - use the current
+  <a href="stereo.html#modedef">camera mode</a> of the graphics window 
+  for the image.  If the mode is <b><i>sequential stereo</i></b>, 
+  two separate image files (left-eye and right-eye views) will be saved.
+  <li><b>lenticular</b> 
+  - regardless of the graphics window 
+  <a href="stereo.html#modedef">camera mode</a>,
+  save multiple separate image files of views from slightly different angles, 
+  for making a <a href="lenticular.html">lenticular image</a> 
+  with apparent depth.  The files will be named by appending
+  a number to the specified file name, before any file type suffix.
+  <li><a name="stereopair"><b>stereo pair</b></a> 
+  - regardless of the graphics window
+  <a href="stereo.html#modedef">camera mode</a>, save a <b><i>cross-eye
+  stereo</i></b> pair in a single image twice as wide as the
+  specified <a href="#imagesize">size</a>, optionally using one of the
+  special <a href="#stereoformats">stereo formats</a>.
+  (To save a <b><i>wall-eye stereo</i></b> image, set the graphics window 
+  to that <a href="stereo.html#modedef">camera mode</a> and use the 
+  <a href="#sameasscreen"><b>same as screen</b></a> option instead.)
+  </ul>
+</ul>
+Clicking <b>Save As</b> dismisses the dialog and initiates saving the image.
+<b>Cancel</b> dismisses the dialog without saving an image.
+<b>Help</b> opens this manual page in a browser window, while
+<b>Tips</b> shows the <a href="#tips">tips on preparing images</a>.
+</p><p>
+If <a href="#raytrace">raytracing</a>:
+</p>
+<blockquote>
+Images can only be saved in the PNG format.
+First, POV-Ray input files containing the scene (*.pov)
+and raytracing options (*.ini) are generated, and then
+the raytracing calculation is run as a background job
+that can be monitored or canceled using the
+<a href="../ContributedSoftware/idle/task.html"><b>Task Panel</b></a>.
+</blockquote>
+Otherwise:
+<blockquote>
+The image will be rendered offscreen as permitted by the system.
+(<a name="exception">Offscreen rendering is not supported by X11 in Mac OS 
+or by certain older machines with other operating systems.</a>  
+On those systems,
+the image will be redrawn in the graphics window, piece by piece
+depending on the specified <a href="#imagesize">image size</a> 
+and degree of <a href="#supersampling">supersampling</a>. 
+The graphics window should not be obscured by other windows
+or moved offscreen, even partially, while being used to draw the image.)
+<p>
+After the image has been rendered, 
+the file name and type (format) can be specified, 
+or the save can be canceled. 
+Images can be saved in the PNG, TIFF (LZW-compressed), 
+TIFF-fast (uncompressed), PPM, JPEG, PS (PostScript), and
+EPS (Encapsulated PostScript) formats. The quality of JPEG files
+can be specified as an integer in the range 5-95,
+with higher values corresponding to higher quality and larger files.
+</p><p>
+<a name="stereoformats">
+Additional format options</a> for <a href="#stereopair">stereo pairs</a>
+are stereo JPEG (*.jps) and stereo PNG (*.pns).
+Viewing such files as standard JPEG and PNG shows side-by-side images, 
+but special viewers are available to show them as stereo.
+Free viewers include
+<a href="http://stereo.jpn.org/eng/stphmkr/index.html" 
+target="_blank">StereoPhoto Maker</a>,
+<a href="http://www.brothersoft.com/jpsviewer-88379.html"
+target="_blank">JPSViewer</a>, and NVidia's 
+<a href="http://www.nvidia.com/object/3dstereo_91.31" target="_blank">consumer
+3D stereo driver</a> (requires the appropriate graphics hardware).
+</p>
+</blockquote>
+
+<a name="tips"><h2>Tips on Preparing Images</h2></a>
+<p>
+The <a href="frametut.html" target="_top">tutorials</a>
+include step-by-step examples of preparing images in Chimera.
+</p><p>
+Many <a href="representation.html">display styles</a> and
+<a href="colortables.html#allcolors">colors</a> are available.
+</p><p>
+<b>Presets</b> are predefined combinations of display settings.
+A preset can be applied by choosing it from the
+<a href="menu.html#menupresets"><b>Presets</b> menu</a>
+or by using the <a href="midas/preset.html"><b>preset</b></a> command.
+Further changes can be made after a preset has been applied.
+<b>Publication</b> presets make the background white, adjust display styles,
+and increase smoothness.
+</p><p>
+<b>Background color</b> can be changed using
+the menu (<a href="menu.html#actcolor"><b>Actions... Color</b></a>),
+the <a href="midas/set.html"><b>set</b></a> command,
+(for example, <b>set bg_color white</b>), or the
+<a href="preferences.html#Background"><b>Background</b> preferences</a>.
+If system hardware permits, background transparency can be enabled with
+the <a href="sideview.html#effects"><b>Effects</b> tool</a>.
+Images saved with a transparent background are easier to composite with
+different backgrounds in image-editing applications.
+</p><p>
+<b>Depth cueing</b> is progressive shading from front to back,
+also known as fog.  Depth cueing can be adjusted by moving the 
+<a href="clipping.html#global">global clipping planes</a>
+or by changing associated parameters including the shading color
+with the <a href="sideview.html#effects"><b>Effects</b> tool</a> or
+the <a href="midas/set.html"><b>set</b></a> command.
+The depth-cueing color can also be changed using
+the menu (<a href="menu.html#actcolor"><b>Actions... Color</b></a>).
+</p><p>
+<a name="clipping">
+<b>Clipping planes</b></a> 
+cut away portions of structures, surfaces and objects.
+The <a href="clipping.html#global">global clipping planes</a>
+shown in the <a href="sideview.html#sideview"><b>Side View</b></a>
+affect all models and can only be perpendicular 
+to the line of sight.  In addition, each model can have a
+<a href="clipping.html#per-model">per-model clipping plane</a>
+oriented at any angle.
+<a href="../ContributedSoftware/surfcapper/surfcapper.html"><b>Surface 
+Capping</b></a> controls whether clipped surfaces appear solid or hollow.
+</p><p>
+<b>Silhouette edges</b> are outlines that emphasize borders and discontinuities.
+Although shown in the interactive display, these are mainly intended 
+for output images (<a href="#sstip">supersampling</a> 
+makes them look much smoother in the image than on the screen).
+Silhouette edges and their thickness and color can be controlled
+with the <a href="sideview.html#effects"><b>Effects</b> tool</a> or
+the <a href="midas/set.html"><b>set</b></a> command.
+</p><p>
+<b>Smoothness</b> can be increased by increasing the pixel dimensions
+of an image (its resolution).  Additionally, independent of resolution:
+<ul>
+<li><b>Atoms, bonds, ribbons</b>.
+<a href="representation.html">Display styles</a> 
+other than wire (which is not recommended for publication images)
+can be smoothed by raising the <b>subdivision quality</b> 
+with the <a href="sideview.html#effects"><b>Effects</b> tool</a> or
+the <a href="midas/set.html"><b>set</b></a> command.
+This setting also affects curved <b>geometric objects</b>
+defined in <a href="bild.html">BILD format</a>.
+If less than 5.0, the subdivision quality will be set
+to 5.0 automatically and temporarily when an image is saved
+with the <a href="print.html#saveimage"><b>Save Image</b> dialog</a>
+or the <b><A href="midas/copy.html">copy</A></b> command.
+<br><br>
+<li><b>Surfaces</b>.  The smoothness of a
+<a href="representation.html#surfaces">molecular surface</a>
+can be increased by increasing its <b>vertex density</b>
+with the command <a href="midas/setattr.html"><b>setattr</b></a>,
+the <a href="inspection.html"><b>Selection Inspector</b></a>, 
+or the <a href="msmsattrib.html">molecular surface attributes panel</a>
+(see also the <a href="preferences.html#New Surfaces"><b>New Surfaces</b>
+preferences</a>.) Separate smoothing options are available in
+<a href="../ContributedSoftware/multiscale/framemulti.html" target="_top">
+<b>Multiscale Models</b></a> and
+<a href="../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> for the surfaces they create.
+<br><br>
+<li><a name="sstip"><b>Supersampling</b></a>.
+The smoothness of edges in saved images can be increased by supersampling,
+where Chimera automatically saves an image at higher resolution (larger
+pixel dimensions) than requested and then samples it back down 
+to the requested final size.  The default level of supersampling, 3x3, is
+usually recommended for publication images and gives much smoother edges 
+than no supersampling (1x1).  The level can be controlled with the
+<a href="#supersampling"><b>Supersample</b></a> setting in the
+<a href="print.html#saveimage"><b>Save Image</b> dialog</a> or the
+<a href="midas/copy.html"><b>copy</b></a> command's <b>supersample</b> keyword.
+For <a href="movies.html">movies</a>, supersampling is specified in the 
+<a href="../ContributedSoftware/recorder/recorder.html#frameoptions">
+<b>Frame Options</b></a> section of 
+<a href="../ContributedSoftware/recorder/recorder.html"><b>Movie 
+Recorder</b></a>, or with the 
+<b>supersample</b> option of the command
+<a href="midas/movie.html#record-options"><b>movie record</b></a>.
+</ul>
+<b>Shininess</b>.
+Setting <b>quality</b> to <b>glossy</b> 
+in the <a href="sideview.html#lighting"><b>Lighting</b> tool</a>
+makes everything look smoother and shinier;
+whether this option is available depends on the graphics driver.
+Even if glossy lighting is not available,
+specular highlights can be adjusted in the
+<a href="sideview.html#shininess"><b>Shininess</b></a> tool.
+</p><p>
+<b>Transparency</b>.  Surfaces and other items can be transparent.
+<ul>
+<li><b>Surfaces</b> 
+can be made transparent without otherwise changing their colors using
+the <a href="menu.html#actsurface"><b>Actions... Surface</b> menu</a>
+(for <a href="surfattrib.html#surfmodels">surface models</a> in general)
+or the command 
+<a href="midas/surftransparency.html"><b>surftransparency</b></a>
+(<a href="representation.html#surfaces">molecular surfaces</a> only).
+  <ul>
+  <li>Whether to render only the topmost layer or all layers
+   of a transparent surface can be set using
+   the <a href="menu.html#actsurface"><b>Actions... Surface</b> menu</a>.
+   Showing only the topmost layer simplifies the display and
+   de-emphasizes surface ripples and folds.
+   <br><br>
+  <li>Setting <b>quality</b> to <b>glossy</b>
+  in the <a href="sideview.html#lighting"><b>Lighting</b> tool</a>
+  gives angle-dependent transparency, i.e., makes surface triangles
+  appear more opaque when viewed edge-on;
+  whether this option is available depends on the graphics driver.
+  </ul>
+<br>
+<li><b>Atoms, bonds, ribbons</b> can be assigned transparent colors.
+This more general approach also works for surfaces.
+A transparent color can be defined in the 
+<a href="colortool.html"><b>Color Editor</b></a> and applied using the
+<a href="menu.html#actcolor"><b>Actions... Color</b> menu</a> or
+various <a href="coloring.html">coloring</a> commands.  
+Transparent colors can also be specified in commands by name
+(previously assigned with <a href="midas/colordef.html"><b>colordef</b></a>)
+or as four comma-separated values (red, green, blue, and opacity
+components, each in the range 0-1).
+<br><br>
+<li><b>Geometric objects</b> defined in <a href="bild.html">BILD format</a> 
+can be made transparent with the <b>.transparency</b> directive.
+</ul>
+<b>Lighting</b>.  There are two lights in Chimera, key and fill.
+Their positions and other characteristics can be adjusted in the 
+<a href="sideview.html#lighting"><b>Lighting</b> tool</a>.
+</p><p>
+<b>Shadows</b>.
+Shadowed images can be produced by <a href="raytracing.html">raytracing with
+POV-Ray</a>. 
+Not all of the <a href="#tips">image tips</a> apply to raytracing: 
+some aspects of a Chimera scene are not handled
+(see <a href="raytracing.html#limitations">raytracing limitations</a>), and 
+some raytracing parameters are controlled independently of the Chimera scene 
+in the <a href="preferences.html#POV-Ray Options"><b>POV-Ray Options</b> 
+preferences</a>.
+The <b>supersmooth</b> style of <a href="representation.html#ribbon">ribbon</a>
+is recommended for use with raytracing.
+Shadowed images can also be generated with
+<a href="midas/conic.html"><b>conic</b></a> or
+<a href="midas/neon.html"><b>neon</b></a> 
+(the latter is not available on Windows).
+</p><p>
+<a name="labeling"><b>Labels</b></a>.
+Labels suitable for publication images can be added 
+with the <a href="../ContributedSoftware/2dlabels/2dlabels.html"><b>2D
+Labels</b></a> tool 
+(or command <a href="midas/2dlabels.html"><b>2dlabels</b></a>).
+2D labels containing arbitrary text and/or
+<a href="../ContributedSoftware/2dlabels/symbols.html">symbols</a>
+can be placed or dragged anywhere in the plane of
+the graphics window, and each can be colored and sized independently.
+Standard Chimera labels (those shown with the 
+<a href="menu.html#actlabel"><b>Actions... Label</b></a> menu or
+the commands <a href="midas/label.html"><b>label</b></a>
+and <a href="midas/rlabel.html"><b>rlabel</b></a>)
+can be repositioned <a href="mouse.html#othermouse">with the mouse</a>,
+but their size can only be adjusted collectively in the
+<a href="preferences.html#Background"><b>Background</b> preferences</a>.
+</p><p>
+<a name="labeling"><b>Color Keys</b></a>.
+Color keys suitable for publication images can be created with the 
+<a href="../ContributedSoftware/2dlabels/2dlabels.html#colorkey"><b>Color 
+Key</b></a> tool.  A color key shows how colors relate to quantities.
+Such coloring schemes are applied by various tools, including
+<a href="../ContributedSoftware/render/render.html#render"><b>Render by 
+Attribute</b></a>.
+</p><p>
+<a name="stereo"><b>Stereo</b></a>. 
+Wall-eye, cross-eye, and <a href="stereo.html#anaglyph">red-cyan</a> stereo
+images can be saved by changing the graphics window to the 
+corresponding <a href="stereo.html#modedef">camera mode</a> with the
+<a href="sideview.html#camera"><b>Camera</b></a> tool
+(or the command <a href="midas/stereo.html"><b>stereo</b></a>)
+and using the <b>same as screen</b>
+<a href="#imagemode"><b>Image camera mode</b></a> 
+in the <a href="#saveimage"><b>Save Image</b> dialog</a>.
+Another way to save cross-eye stereo images is 
+with the <b>stereo pair</b> <a href="#imagemode"><b>Image camera mode</b></a>; 
+in that case, it does not matter what
+<a href="stereo.html#modedef">camera mode</a> 
+is being used in the graphics window, but the resulting image
+will be twice as wide as the specified <a href="#imagesize">size</a>.
+</p><p>
+<a name="colorspace"><b>Color space</b></a>. 
+Some publications require images to be in the CMYK color space.
+Chimera currently saves images in only the RGB color space, so
+a separate application such as Adobe Photoshop&reg;
+must be used to switch between the two.
+</p><p>
+<a name="colorschemes"><b>Color schemes</b>.
+Several factors should be considered in color scheme design, including
+what the colors are meant to indicate, how the data are presented,
+and whether viewers may have color vision deficiencies.
+Useful Web sites include:
+<ul>
+<li><a href="http://www.colorbrewer.org" target="_blank">ColorBrewer</a>
+- multipurpose color-scheme picker; 3- to 12-color schemes are displayed 
+on a map and rated by suitability for red-green colorblind viewers,
+projection, color printing, black-and-white photocopying, <i>etc.</i>
+<br>
+(Note: <b>hex</b> color specifications at this site can be converted to 
+<a href="colortool.html#tkcode">Tk codes</a>
+by replacing the leading <b>0x</b> with <b>#</b>; for example, 
+hex <b>0xe78ac3</b> corresponds to Tk code <b>#e78ac3</b>.  In Chimera, 
+Tk codes can be used in <a href="coloring.html">coloring</a> commands 
+and entered into the <a href="colortool.html"><b>Color Editor</b></a>.)
+<li><a href="http://www.vischeck.com" target="_blank">Vischeck</a>
+- simulates the effects of color-blindness on your own uploaded image
+or a specified Web page
+<li><a href="http://www.idea.org/vision-demo.html"
+target="_blank">IDEA vision demo</a>
+- simulates several types of color-blindness using images already at the site
+</ul>
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2009</address>
+</body></html>
