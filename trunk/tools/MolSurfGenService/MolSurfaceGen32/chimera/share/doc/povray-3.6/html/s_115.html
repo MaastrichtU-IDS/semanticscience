@@ -1,0 +1,710 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.5.1 Pigment</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_114.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_114.html">3.5 Textures</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.5.1 
+   Pigment</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_116.html">3.5.2 Normal</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_116.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_05_01">3.5.1 </a>Pigment</h3>
+<a name="s03_05_01_i1"><a name="pigment"></a><a name="s03_05_01_i2"><a name="pigment, keyword"></a><a name="s03_05_01_i3"><a name="s03_05_01_i4"><a name="image_map, pigment"></a><a name="s03_05_01_i5"><a name="s03_05_01_i6"><a name="color_map, pigment"></a><a name="s03_05_01_i7"><a name="s03_05_01_i8"><a name="colour_map, pigment"></a><a name="s03_05_01_i9"><a name="s03_05_01_i10"><a name="pigment_map, pigment"></a><a name="s03_05_01_i11"><a name="s03_05_01_i12"><a name="quick_color, pigment"></a><a name="s03_05_01_i13"><a name="s03_05_01_i14"><a name="quick_colour, pigment"></a><a name="s03_05_01_i15">
+<p>
+  The color or pattern of colors for an object is defined by a <code> pigment</code> statement. All plain textures 
+ must have a pigment. If you do not specify one the default pigment is used. The color you define is the way you want 
+ the object to look if fully illuminated. You pick the basic color inherent in the object and POV-Ray brightens or 
+ darkens it depending on the lighting in the scene. The parameter is called <code>pigment</code> because we are 
+ defining the basic color the object actually is rather than how it looks. 
+</p>
+
+<p>
+  The syntax for pigment is: 
+</p>
+
+<pre>
+PIGMENT:
+    pigment {
+        [PIGMENT_IDENTIFIER]
+        [PIGMENT_TYPE]
+        [PIGMENT_MODIFIER...]
+    }
+PIGMENT_TYPE:
+    PATTERN_TYPE | COLOR |
+    image_map { 
+        BITMAP_TYPE &quot;bitmap.ext&quot; [IMAGE_MAP_MODS...]
+    }
+PIGMENT_MODIFIER:
+    PATTERN_MODIFIER | COLOR_LIST | PIGMENT_LIST | 
+    color_map { COLOR_MAP_BODY } | colour_map { COLOR_MAP_BODY } | 
+    pigment_map { PIGMENT_MAP_BODY } | quick_color COLOR |
+    quick_colour COLOR
+</pre>
+
+<p>
+  Each of the items in a pigment are optional but if they are present, they must be in the order shown. Any items 
+ after the <em> PIGMENT_IDENTIFIER</em> modify or override settings given in the identifier. If no identifier is 
+ specified then the items modify the pigment values in the current default texture. The <em>PIGMENT_TYPE</em> fall into 
+ roughly four categories. Each category is discussed the sub-sections which follow. The four categories are solid color 
+ and image map patterns which are specific to <code>pigment</code> statements or color list patterns, color mapped 
+ patterns which use POV-Ray's wide selection of general patterns. See &quot;<a href="s_125.html#s03_05_11">Patterns</a>&quot; 
+ for details about specific patterns. 
+</p>
+
+<p>
+  The pattern type is optionally followed by one or more pigment modifiers. In addition to general pattern modifiers 
+ such as transformations, turbulence, and warp modifiers, pigments may also have a <em>COLOR_LIST</em>, <em> 
+ PIGMENT_LIST</em>, <code>color_map</code>, <code>pigment_map</code>, and <code>quick_color</code> which are specific 
+ to pigments. See &quot;<a href="#l142">Pattern Modifiers</a>&quot; for information on general modifiers. The 
+ pigment-specific modifiers are described in sub-sections which follow. Pigment modifiers of any kind apply only to the 
+ pigment and not to other parts of the texture. Modifiers must be specified last. 
+</p>
+
+<p>
+  A pigment statement is part of a <code>texture</code> specification. However it can be tedious to use a <code>texture</code> 
+ statement just to add a color to an object. Therefore you may attach a pigment directly to an object without 
+ explicitly specifying that it as part of a texture. For example instead of this: 
+</p>
+
+<pre>
+  object { My_Object texture {pigment { color Red } } }
+</pre>
+
+<p>
+  you may shorten it to: 
+</p>
+
+<pre>
+  object { My_Object pigment {color Red } }
+</pre>
+
+<p>
+  Doing so creates an entire <code>texture</code> structure with default <code>normal</code> and <code>finish</code> 
+ statements just as if you had explicitly typed the full <code> texture {...}</code> around it. 
+</p>
+
+<p>
+  Pigment identifiers may be declared to make scene files more readable and to parameterize scenes so that changing a 
+ single declaration changes many values. An identifier is declared as follows. 
+</p>
+
+<pre>
+PIGMENT_DECLARATION:
+    #declare IDENTIFIER = PIGMENT |
+    #local IDENTIFIER = PIGMENT
+</pre>
+
+<p>
+  Where <em>IDENTIFIER</em> is the name of the identifier up to 40 characters long and <em>PIGMENT</em> is any valid <code>pigment</code> 
+ statement. See &quot;<a href="s_98.html#s03_02_02_02_02">#declare vs. #local</a>&quot; for information on identifier 
+ scope. 
+</p>
+
+<h4><a name="s03_05_01_01">3.5.1.1 </a>Solid Color Pigments</h4>
+<a name="s03_05_01_01_i1">
+<p>
+  The simplest type of pigment is a solid color. To specify a solid color you simply put a color specification inside 
+ a <code>pigment</code> statement. For example: 
+</p>
+
+<pre>
+  pigment { color Orange }
+</pre>
+
+<p>
+  A color specification consists of the optional keyword <code> color</code> followed by a color identifier or by a 
+ specification of the amount of red, green, blue, filtered and unfiltered transparency in the surface. See section 
+ &quot;<a href="s_97.html#s03_02_01_05">Specifying Colors</a>&quot; for more details about colors. Any pattern 
+ modifiers used with a solid color are ignored because there is no pattern to modify. 
+</p>
+
+<h4><a name="s03_05_01_02">3.5.1.2 </a>Color List Pigments</h4>
+<a name="s03_05_01_02_i1">
+<p>
+  There are four color list patterns: <code>checker</code>, <code> hexagon</code>, <code>brick</code> and <code>object</code>. 
+ The result is a pattern of solid colors with distinct edges rather than a blending of colors as with color mapped 
+ patterns. Each of these patterns is covered in more detail in a later section. The syntax is: 
+</p>
+
+<pre>
+COLOR_LIST_PIGMENT:
+  pigment {brick [COLOR_1, [COLOR_2]] [PIGMENT_MODIFIERS...] }|
+  pigment {checker [COLOR_1, [COLOR_2]] [PIGMENT_MODIFIERS...]}|
+  pigment { 
+     hexagon [COLOR_1, [COLOR_2, [COLOR_3]]] [PIGMENT_MODIFIERS...] 
+  }|
+  pigment {object OBJECT_IDENTIFIER | OBJECT {} [COLOR_1, COLOR_2]}
+</pre>
+
+<p>
+  Each <em>COLOR_n</em> is any valid color specification. There should be a comma between each color or the <code>color</code> 
+ keyword should be used as a separator so that POV-Ray can determine where each color specification starts and ends. 
+ The <code>brick</code> and <code>checker</code> pattern expects two colors and <code>hexagon</code> expects three. If 
+ an insufficient number of colors is specified then default colors are used. 
+</p>
+
+<h4><a name="s03_05_01_03">3.5.1.3 </a>Color Maps</h4>
+<a name="s03_05_01_03_i1"><a name="s03_05_01_03_i2"><a name="color_map"></a><a name="s03_05_01_03_i3"><a name="colour_map"></a>
+<p>
+  Most of the color patterns do not use abrupt color changes of just two or three colors like those in the brick, 
+ checker or hexagon patterns. They instead use smooth transitions of many colors that gradually change from one point 
+ to the next. The colors are defined in a pigment modifier called a <code>color_map</code> that describes how the 
+ pattern blends from one color to the next. 
+</p>
+
+<p>
+  Each of the various pattern types available is in fact a mathematical function that takes any x, y, z location and 
+ turns it into a number between 0.0 and 1.0 inclusive. That number is used to specify what mix of colors to use from 
+ the color map. 
+</p>
+
+<p>
+  The syntax for <code> color_map</code> is as follows: 
+</p>
+
+<pre>
+COLOR_MAP:
+    color_map { COLOR_MAP_BODY } | colour_map { COLOR_MAP_BODY }
+COLOR_MAP_BODY:
+    COLOR_MAP_IDENTIFIER | COLOR_MAP_ENTRY...
+COLOR_MAP_ENTRY:
+    [ Value COLOR ] | 
+    [ Value_1, Value_2 color COLOR_1 color COLOR_2 ]
+</pre>
+
+<p>
+  Where each <em><code>Value_n</code></em> is a float values between 0.0 and 1.0 inclusive and each <em>COLOR_n</em>, 
+ is color specifications. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the <code>[]</code> brackets are part of the actual <em> COLOR_MAP_ENTRY</em>. 
+ They are not notational symbols denoting optional parts. The brackets surround each entry in the color map. 
+</p>
+
+<p>
+  There may be from 2 to 256 entries in the map. The alternate spelling <code>colour_map</code> may be used. 
+</p>
+
+<p>
+  Here is an example: 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,1,2&gt;, 2
+    pigment {
+      gradient x       //this is the PATTERN_TYPE
+      color_map {
+        [0.1  color Red]
+        [0.3  color Yellow]
+        [0.6  color Blue]
+        [0.6  color Green]
+        [0.8  color Cyan]
+      }
+    }
+  }
+</pre>
+
+<p>
+  The pattern function <code>gradient x</code> is evaluated and the result is a value from 0.0 to 1.0. If the value 
+ is less than the first entry (in this case 0.1) then the first color (red) is used. Values from 0.1 to 0.3 use a blend 
+ of red and yellow using linear interpolation of the two colors. Similarly values from 0.3 to 0.6 blend from yellow to 
+ blue. 
+</p>
+
+<p>
+  The 3rd and 4th entries both have values of 0.6. This causes an immediate abrupt shift of color from blue to green. 
+ Specifically a value that is less than 0.6 will be blue but exactly equal to 0.6 will be green. Moving along, values 
+ from 0.6 to 0.8 will be a blend of green and cyan. Finally any value greater than or equal to 0.8 will be cyan. 
+</p>
+
+<p>
+  If you want areas of unchanging color you simply specify the same color for two adjacent entries. For example: 
+</p>
+
+<pre>
+  color_map {
+    [0.1  color Red]
+    [0.3  color Yellow]
+    [0.6  color Yellow]
+    [0.8  color Green]
+  }
+</pre>
+
+<p>
+  In this case any value from 0.3 to 0.6 will be pure yellow. 
+</p>
+
+<p>
+  The first syntax version of <em>COLOR_MAP_ENTRY</em> with one float and one color is the current standard. The 
+ other double entry version is obsolete and should be avoided. The previous example would look as follows using the old 
+ syntax. 
+</p>
+
+<pre>
+  color_map {
+    [0.0 0.1  color Red color Red]
+    [0.1 0.3  color Red color Yellow]
+    [0.3 0.6  color Yellow color Yellow]
+    [0.6.0.8  color Yellow color Green]
+    [0.8 1.0  color Green color Green]
+  }
+</pre>
+
+<p>
+  You may use <code>color_map</code> with any patterns except <code> brick</code>, <code>checker</code>, <code>hexagon</code>, 
+ <code>object</code> and <code> image_map</code>. You may declare and use <code>color_map</code> identifiers. For 
+ example: 
+</p>
+
+<pre>
+  #declare Rainbow_Colors=
+    color_map {
+      [0.0   color Magenta]
+      [0.33  color Yellow]
+      [0.67  color Cyan]
+      [1.0   color Magenta]
+    }
+  object {
+    My_Object
+    pigment {
+      gradient x
+      color_map { Rainbow_Colors }
+    }
+  }
+</pre>
+
+<h4><a name="s03_05_01_04">3.5.1.4 </a>Pigment Maps and Pigment Lists</h4>
+<a name="s03_05_01_04_i1"><a name="s03_05_01_04_i2"><a name="pigment_map"></a>
+<p>
+  In addition to specifying blended colors with a color map you may create a blend of pigments using a <code>pigment_map</code>. 
+ The syntax for a pigment map is identical to a color map except you specify a pigment in each map entry (and not a 
+ color). 
+</p>
+
+<p>
+  The syntax for <code>pigment_map</code> is as follows: 
+</p>
+
+<pre>
+PIGMENT_MAP:
+    pigment_map { PIGMENT_MAP_BODY }
+PIGMENT_MAP_BODY:
+    PIGMENT_MAP_IDENTIFIER | PIGMENT_MAP_ENTRY...
+PIGMENT_MAP_ENTRY:
+    [ Value PIGMENT_BODY ]
+</pre>
+
+<p>
+  Where <em><code>Value</code></em> is a float value between 0.0 and 1.0 inclusive and each <em>PIGMENT_BODY</em> is 
+ anything which can be inside a <code>pigment{...}</code> statement. The <code>pigment</code> keyword and <code>{}</code> 
+ braces need not be specified. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> that the <code>[]</code> brackets are part of the actual <em> PIGMENT_MAP_ENTRY</em>. 
+ They are not notational symbols denoting optional parts. The brackets surround each entry in the pigment map. 
+</p>
+
+<p>
+  There may be from 2 to 256 entries in the map. 
+</p>
+
+<p>
+  For example 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,1,2&gt;, 2
+    pigment {
+      gradient x       //this is the PATTERN_TYPE
+      pigment_map {
+        [0.3 wood scale 0.2]
+        [0.3 Jade]    //this is a pigment identifier
+        [0.6 Jade]
+        [0.9 marble turbulence 1]
+      }
+    }
+  }
+</pre>
+
+<p>
+  When the <code>gradient x</code> function returns values from 0.0 to 0.3 the scaled wood pigment is used. From 0.3 
+ to 0.6 the pigment identifier Jade is used. From 0.6 up to 0.9 a blend of Jade and a turbulent marble is used. From 
+ 0.9 on up only the turbulent marble is used. 
+</p>
+
+<p>
+  Pigment maps may be nested to any level of complexity you desire. The pigments in a map may have color maps or 
+ pigment maps or any type of pigment you want. Any entry of a pigment map may be a solid color however if all entries 
+ are solid colors you should use a <code>color_map</code> which will render slightly faster. 
+</p>
+
+<p>
+  Entire pigments may also be used with the block patterns such as <code> checker</code>, <code>hexagon</code> and <code>brick</code>. 
+ For example... 
+</p>
+
+<pre>
+  pigment {
+    checker
+    pigment { Jade scale .8 }
+    pigment { White_Marble scale .5 }
+  }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> that in the case of block patterns the <code>pigment</code> wrapping is 
+ required around the pigment information. 
+</p>
+
+<p>
+  A pigment map is also used with the <code>average</code> pigment type. See &quot;<a href="s_125.html#s03_05_11_02">Average</a>&quot; 
+ for details. 
+</p>
+
+<p>
+  You may not use <code>pigment_map</code> or individual pigments with an <code>image_map</code>. See section &quot;<a href="s_119.html#s03_05_05_01">Texture 
+ Maps</a>&quot; for an alternative way to do this. 
+</p>
+
+<p>
+  You may declare and use pigment map identifiers but the only way to declare a pigment block pattern list is to 
+ declare a pigment identifier for the entire pigment. 
+</p>
+
+<h4><a name="s03_05_01_05">3.5.1.5 </a>Image Maps</h4>
+<a name="s03_05_01_05_i1"><a name="image_map"></a>
+<p>
+  When all else fails and none of the above pigment pattern types meets your needs you can use an <code>image_map</code> 
+ to wrap a 2-D bit-mapped image around your 3-D objects. 
+</p>
+
+<h5><a name="s03_05_01_05_01">3.5.1.5.1 </a>Specifying an Image Map</h5>
+
+<p>
+  The syntax for an <code>image_map</code> is: 
+</p>
+
+<pre>
+IMAGE_MAP:
+    pigment
+    {
+        image_map
+        {
+            [BITMAP_TYPE] &quot;bitmap[.ext]&quot;
+            [IMAGE_MAP_MODS...]
+        }
+        [PIGMENT_MODFIERS...]
+    }
+BITMAP_TYPE:
+    gif | tga | iff | ppm | pgm | png | jpeg | tiff | sys
+IMAGE_MAP_MOD:
+    map_type Type | once | interpolate Type | 
+    filter Palette, Amount | filter all Amount |
+    transmit Palette, Amount | transmit all Amount
+</pre>
+<a name="s03_05_01_05_01_i1"><a name="gif"></a><a name="s03_05_01_05_01_i2"><a name="tga"></a><a name="s03_05_01_05_01_i3"><a name="iff"></a><a name="s03_05_01_05_01_i4"><a name="ppm"></a><a name="s03_05_01_05_01_i5"><a name="pgm"></a><a name="s03_05_01_05_01_i6"><a name="png"></a><a name="s03_05_01_05_01_i7"><a name="jpeg"></a><a name="s03_05_01_05_01_i8"><a name="tiff"></a><a name="s03_05_01_05_01_i9"><a name="sys, image_map"></a>
+<p>
+  After the optional <em>BITMAP_TYPE</em> keyword is a string expression containing the name of a bitmapped image 
+ file of the specified type. If the <em>BITMAP_TYPE</em> is not given, the same type is expected as the type set for 
+ output.<br> Example: 
+</p>
+
+<pre>
+  plane {
+    -z,0 
+    pigment {
+      image_map {png &quot;Eggs.png&quot;}
+    }
+  }
+
+  plane {
+    -z,0 
+    pigment {
+      image_map {&quot;Eggs&quot;}
+    }
+  }
+</pre>
+
+<p>
+  The second method will look for, and use &quot;Eggs.png&quot; if the output file type is set to be <code>png</code> 
+ (Output_File_Type=N in INI-file or +FN on command line). It is particularly useful when the image used in the <code>image_map</code> 
+ is also rendered with POV-Ray. 
+</p>
+
+<p>
+  Several optional modifiers may follow the file specification. The modifiers are described below. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> earlier versions of POV-Ray allowed some modifiers before the <em>BITMAP_TYPE</em> 
+ but that syntax is being phased out in favor of the syntax described here. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> <code>sys</code> format is a system-specific format such as BMP for Windows or 
+ Pict for Macintosh. 
+</p>
+
+<p>
+  Filenames specified in the <code>image_map</code> statements will be searched for in the home (current) directory 
+ first and, if not found, will then be searched for in directories specified by any <code>+L</code> or <code> 
+ Library_Path</code> options active. This would facilitate keeping all your image maps files in a separate subdirectory 
+ and giving a <code> Library_Path</code> option to specify where your library of image maps are. See &quot;<a href="s_95.html#s03_01_02_05_04">Library 
+ Paths</a>&quot; for details. 
+</p>
+
+<p>
+  By default, the image is mapped onto the x-y-plane. The image is <em> projected</em> onto the object as though 
+ there were a slide projector somewhere in the -z-direction. The image exactly fills the square area from (x,y) 
+ coordinates (0,0) to (1,1) regardless of the image's original size in pixels. If you would like to change this default 
+ you may translate, rotate or scale the pigment or texture to map it onto the object's surface as desired. 
+</p>
+
+<p>
+  In the section &quot;<a href="s_125.html#s03_05_11_08">Checker</a>&quot;, the <code>checker</code> pigment pattern 
+ is explained. The checks are described as solid cubes of colored clay from which objects are carved. With image maps 
+ you should imagine that each pixel is a long, thin, square, colored rod that extends parallel to the z-axis. The image 
+ is made from rows and columns of these rods bundled together and the object is then carved from the bundle. 
+</p>
+
+<p>
+  If you would like to change this default orientation you may translate, rotate or scale the pigment or texture to 
+ map it onto the object's surface as desired. 
+</p>
+
+<p>
+  The file name is optionally followed by one or more <em> BITMAP_MODIFIERS</em>. The <code> filter</code>, <code>filter 
+ all</code>, <code>transmit</code>, and <code> transmit all</code> modifiers are specific to image maps and are 
+ discussed in the following sections. An <code> image_map</code> may also use generic bitmap modifiers <code>map_type</code>, 
+ <code>once</code> and <code> interpolate</code> described in &quot;Bitmap Modifiers&quot; 
+</p>
+
+<h5><a name="s03_05_01_05_02">3.5.1.5.2 </a>The Filter and Transmit Bitmap Modifiers</h5>
+<a name="s03_05_01_05_02_i1"><a name="filter, bitmap modfier"></a><a name="s03_05_01_05_02_i2"><a name="transmit, bitmap modifier"></a><a name="s03_05_01_05_02_i3"><a name="all"></a>
+<p>
+  To make all or part of an image map transparent you can specify <code> filter</code> and/or <code>transmit</code> 
+ values for the color palette/registers of PNG, GIF or IFF pictures (at least for the modes that use palettes). You can 
+ do this by adding the keyword <code>filter</code> or <code>transmit</code> following the filename. The keyword is 
+ followed by two numbers. The first number is the palette number value and the second is the amount of transparency. 
+ The values should be separated by a comma. For example: 
+</p>
+
+<pre>
+  image_map {
+    gif &quot;mypic.gif&quot;
+    filter   0, 0.5 // Make color 0 50% filtered transparent
+    filter   5, 1.0 // Make color 5 100% filtered transparent
+    transmit 8, 0.3 // Make color 8 30% non-filtered transparent
+  }
+</pre>
+
+<p>
+  You can give the entire image a <code>filter</code> or <code> transmit</code> value using <code>filter all</code> <em><code> 
+ Amount</code></em> or <code>transmit all</code> <em><code> Amount</code></em>. For example: 
+</p>
+
+<pre>
+  image_map {
+    gif &quot;stnglass.gif&quot;
+    filter all 0.9
+  }
+</pre>
+<a name="s03_05_01_05_02_i4"><a name="alpha"></a>
+<p class="Note">
+  <strong>Note:</strong> early versions of POV-Ray used the keyword <code>alpha</code> to specify 
+ filtered transparency however that word is often used to describe non-filtered transparency. For this reason <code>alpha</code> 
+ is no longer used. 
+</p>
+
+<p>
+  See section &quot;<a href="s_97.html#s03_02_01_05">Specifying Colors</a>&quot; for details on the differences 
+ between filtered and non-filtered transparency. 
+</p>
+
+<h5><a name="s03_05_01_05_03">3.5.1.5.3 </a>Using the Alpha Channel</h5>
+
+<p>
+  Another way to specify non-filtered transmit transparency in an image map is by using the<em> alpha channel</em>. 
+ POV-Ray will automatically use the alpha channel for transmittance when one is stored in the image. PNG file format 
+ allows you to store a different transparency for each color index in the PNG file, if desired. If your paint programs 
+ support this feature of PNG you can do the transparency editing within your paint program rather than specifying 
+ transmit values for each color in the POV file. Since PNG and TGA image formats can also store full alpha channel 
+ (transparency) information you can generate image maps that have transparency which is not dependent on the color of a 
+ pixel but rather its location in the image. 
+</p>
+
+<p>
+  Although POV uses <code>transmit 0.0</code> to specify no transparency and <code> 1.0</code> to specify full 
+ transparency, the alpha data ranges from 0 to 255 in the opposite direction. Alpha data 0 means the same as <code> 
+ transmit 1.0</code> and alpha data 255 produces <code>transmit 0.0</code>. 
+</p>
+
+<h4><a name="s03_05_01_06">3.5.1.6 </a>Quick Color</h4>
+<a name="s03_05_01_06_i1"><a name="quick_color"></a><a name="s03_05_01_06_i2"><a name="quick_colour"></a>
+<p>
+  When developing POV-Ray scenes it is often useful to do low quality test runs that render faster. The <code>+Q</code> 
+ command line switch or <code> Quality</code> INI option can be used to turn off some time consuming color pattern and 
+ lighting calculations to speed things up. See &quot;<a href="s_95.html#s03_01_02_08_01">Quality Settings</a>&quot; for 
+ details. However all settings of <code>+Q5</code> or <code>Quality=5</code> or lower turns off pigment calculations 
+ and creates gray objects. 
+</p>
+
+<p>
+  By adding a <code>quick_color</code> to a pigment you tell POV-Ray what solid color to use for quick renders 
+ instead of a patterned pigment. For example: 
+</p>
+
+<pre>
+  pigment {
+    gradient x
+    color_map{
+      [0.0 color Yellow]
+      [0.3 color Cyan]
+      [0.6 color Magenta]
+      [1.0 color Cyan]
+    }
+    turbulence 0.5
+    lambda 1.5
+    omega 0.75
+    octaves 8
+    quick_color Neon_Pink
+  }
+</pre>
+
+<p>
+  This tells POV-Ray to use solid <code>Neon_Pink</code> for test runs at quality <code>+Q5</code> or lower but to 
+ use the turbulent gradient pattern for rendering at <code>+Q6</code> and higher. Solid color pigments such as 
+</p>
+
+<pre>
+  pigment {color Magenta}
+</pre>
+
+<p>
+  automatically set the <code>quick_color</code> to that value. You may override this if you want. Suppose you have 
+ 10 spheres on the screen and all are yellow. If you want to identify them individually you could give each a different <code>quick_color</code> 
+ like this: 
+</p>
+
+<pre>
+  sphere {
+    &lt;1,2,3&gt;,4
+    pigment { color Yellow  quick_color Red }
+  }
+  sphere {
+    &lt;-1,-2,-3&gt;,4
+    pigment { color Yellow  quick_color Blue }
+  }
+</pre>
+
+<p>
+  and so on. At <code>+Q6</code> or higher they will all be yellow but at <code>+Q5</code> or lower each would be 
+ different colors so you could identify them. 
+</p>
+
+<p>
+  The alternate spelling <code>quick_colour</code> is also supported. 
+</p>
+
+<p>
+ <a name="l142">
+<small><strong>More about &quot;Pattern Modifiers&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_126.html#s03_05_12">3.5.12 Pattern Modifiers</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_08">3.8.10.8 Pattern Modifiers</a> in 3.8.10 Texture
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_114.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_114.html">3.5 Textures</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.5.1 Pigment</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_116.html">3.5.2 Normal</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_116.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

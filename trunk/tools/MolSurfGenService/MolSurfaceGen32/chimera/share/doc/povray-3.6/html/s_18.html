@@ -1,0 +1,190 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>1.3.3 Starting a Render Job</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_17.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_17.html">1.3.2 Configuration</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>1.3.3 
+   Starting a Render Job</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_19.html">1.3.4 Interrupting POV-Ray</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_19.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s01_03_03">1.3.3 </a>Starting a Render Job</h3>
+
+<p>
+  Starting POV-Ray rendering any scene file is as simple as running <code>povray</code> from a command-line with the 
+ scene file name as an argument. This will work with either a POV file or an INI file (as long as it has an associated 
+ POV file). See <a href="s_29.html#s01_05">Understanding File Types</a>. The scene is rendered with the current POV-Ray 
+ 3 options (see <a href="s_32.html#s01_06">Understanding POV-Ray Options</a>). 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> One of the more common errors new users make is turning off the display option. 
+ The Display option (<code>+d</code>) is ON by default. If you turn this OFF in the INI file or on the command line, 
+ POV-Ray will not display the file as you render. 
+</p>
+
+<p>
+  Please also note that POV-Ray for Unix will write the output file to a .png by default. There is no way to 'save 
+ the render window' after rendering is completed. If you turned file output off before starting the render, and change 
+ your mind, you will have to start the rendering all over again. We recommend that you just leave file output on all 
+ the time. 
+</p>
+
+<h4><a name="s01_03_03_01">1.3.3.1 </a>X Window display</h4>
+
+<p>
+  When the X Window display is used, the rendered image is displayed in a graphics window. During rendering, the 
+ window will be updated after every scanline has been rendered, or sooner if the rendering is taking a long time. To 
+ update it sooner you can click any mouse button in the window or press (almost) any key. Pressing <code>&lt;CTRL-R&gt;</code> 
+ or <code>&lt;CTRL-L&gt;</code> during rendering will refresh the whole screen. If you have the <code>Exit_Enable</code> 
+ or <code>+X</code> flag set, pressing 'q' or 'Q' at any time during the rendering will stop POV-Ray rendering and 
+ exit. The rendering will pause when complete if the <code>Pause_When_Done</code> (or <code>+P</code>) flag is set. To 
+ exit at this point, press the 'q' or 'Q' key or click any mouse button in the window. 
+</p>
+
+<p>
+  POV-Ray 3.6 includes a color icon in the program if it was compiled with libXpm (which is available on most 
+ platforms where the X Window System is installed). If this icon is used for the render view window depends on the 
+ window manager being used (KDE, Gnome, fvwm, ...). POV-Ray also comes with a separate color icon (<code>xpovicon.xpm</code>) 
+ for use with the window managers that can use external icons. For instance, to have fvwm use this icon, copy the icon 
+ file to one of the directories pointed to by PixmapPath (or ImagePath) which is defined in your <code>$HOME/.fvwmrc</code>. 
+ Then, add the following line in <code>$HOME/.fvwmrc</code>: 
+</p>
+
+<pre>Style &quot;Povray&quot; Icon xpovicon.xpm</pre>
+
+<p>
+  and re-start the X Window server (re-starting fvwm will not be enough). Using this icon with another window manager 
+ may use a different procedure. 
+</p>
+
+<p>
+  Documentation of the special command line options to configure the X Window display can be found in <a href="s_33.html#s01_06_01">Special 
+ Command-Line Options</a>. 
+</p>
+
+<h4><a name="s01_03_03_02">1.3.3.2 </a>SVGAlib display</h4>
+
+<p>
+  For GNU/Linux systems that don't have the X Window System installed, or for those Linux users who prefer to run on 
+ the console, it is possible to use the SVGA library to display directly to the screen. For SVGAlib display, the <code>povray</code> 
+ binary must be installed as a setuid root executable. If POV-Ray does not use SVGAlib display, first try (as root): 
+</p>
+
+<pre>
+chown root.root povray
+chmod 4755 povray
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> Doing this may have serious security implications. Running POV-Ray as root or 
+ through 'sudo' might be a better idea. 
+</p>
+
+<p>
+  If it still doesn't work then make sure SVGAlib is installed on your machine and works properly. Anything that can 
+ at least use the 320x200x256 mode (ie regular VGA) should be fine, although modes up to 1280x1024x16M are possible. If 
+ you do not have root priviledges or can't have the system admin install POV-Ray, then you must use the X Window or 
+ text display which do not require any special system priviledges to run. If you are using a display resolution that is 
+ lower than what you are rendering, the display will be scaled to fit as much of the viewing window as possible. 
+</p>
+
+<h4><a name="s01_03_03_03">1.3.3.3 </a>Output file formats</h4>
+
+<p>
+  The default output file format of POV-Ray for Unix is PNG (+fn). This can be changed at runtime by setting the <code>Output_File_Type</code> 
+ or <code>+fx</code> option. Eventually, the default format can be changed at compile time by setting <code>DEFAULT_FILE_FORMAT</code> 
+ in the <code>config.h</code> file located in the unix/ directory. 
+</p>
+
+<p>
+  Other convenient formats on Unix systems might be PPM (+fp) and TGA (+ft). For more information about output file 
+ formats see <a href="s_95.html#s03_01_02_04">File Output Options</a>. 
+</p>
+
+<p>
+  If you are generating histogram files (See <a href="s_95.html#s03_01_02_04_04">CPU Utilization Histogram</a>) in 
+ the CSV format (comma separated values), then the units of time are in tens of microseconds (10 x 10<sup>-6</sup> s), 
+ and each grid block can store times up to 12 hours. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_17.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_17.html">1.3.2 Configuration</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>1.3.3 Starting a Render Job</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_19.html">1.3.4 Interrupting POV-Ray</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_19.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

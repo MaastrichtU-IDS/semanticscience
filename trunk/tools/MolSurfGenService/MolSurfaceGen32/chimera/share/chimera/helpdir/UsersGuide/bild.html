@@ -1,0 +1,277 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2010 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>BILD format</title>
+</head><body>
+
+<h2>BILD format</h2>
+<p>
+BILD is a simple text format that describes
+lines, polygons, and geometric primitives such
+as spheres, boxes, cylinders, and cones with commands
+(see <a href="example.bild" type="text/plain">example.bild</a>).
+The commands are used to generate a VRML model in Chimera.  
+The objects can be specified in absolute coordinates and/or
+transformed and scaled coordinates.  See also:
+<a href="midas/shape.html"><b>shape</b></a>,
+<a href="../ContributedSoftware/pipesandplanks/pipesandplanks.html">
+<b>PipesAndPlanks</b></a>,
+<a href="../ContributedSoftware/nucleotides/nucleotides.html">
+<b>Nucleotides</b></a>
+</p><p>
+This file type is indicated by the filename suffix <b>.bild</b>
+or <b>.bld</b>, or by using <b>bild:<i>filename</i></b> in the command line.
+</p><p>
+Curved objects (spheres, cones, and cylinders) read from BILD format
+are described as perfectly smooth in <a href="export.html">exported files</a>, 
+but display within Chimera uses planar facets.  
+The number of facets and the apparent smoothness
+can be increased by raising the <b>subdivision quality</b> with the 
+<a href="sideview.html#effects"><b>Effects</b> tool</a> or
+the <a href="midas/set.html"><b>set</b></a> command.
+</p>
+
+<h4>BILD Commands</h4>
+
+<p>
+Square brackets denote optional parameters.
+</p>
+
+<blockquote>
+<tt><b>.arrow</b> <i>x1 y1 z1 x2 y2 z2</i> 
+[<i>r1</i> [<i>r2</i> [<i>rho</i>]]]</tt>
+<br>
+Draw an arrow from (<i>x1, y1, z1</i>) to (<i>x2, y2, z2</i>). 
+An arrow consists of a 
+cylinder stretching from the initial point to an intermediary junction, 
+and a cone stretching from the junction to the final point. 
+The radius of the cylinder is <i>r1</i> (default <b>0.1</b>), 
+the radius of the base of the cone is <i>r2</i> (default 4*<i>r1</i>), 
+and the fraction of the total distance taken up by the cylinder is 
+<i>rho</i> (default <b>0.75</b>).
+</blockquote>
+
+<blockquote>
+<tt><b>.box</b> <i>x1 y1 z1 x2 y2 z2</i></tt>
+<br>
+Draw a box with opposite corners at (<i>x1, y1, z1</i>) and 
+(<i>x2, y2, z2</i>).
+</blockquote>
+
+<blockquote>
+<a name="color">
+<tt><b>.color</b> <i>name</i></tt>
+<br>or<br>
+<tt><b>.color</b> <i>r g b</i></tt>
+</a>
+<br>
+Set the color of subsequently defined items.
+The <i>name</i> can be a 
+<a href="colortables.html">built-in name</a>,
+a name defined previously with 
+<b><A href="midas/colordef.html">colordef</A></b>,
+or an integer that refers to the old BILD 
+color wheel (0-65, inclusive).  Alternatively, a color
+can be described by its red (<i>r</i>), green (<i>g</i>), and blue 
+(<i>b</i>) components, each in the range 0-1, inclusive.
+Any transparency in the color is ignored, but 
+<a href="#transparency">transparency</a> can be set separately.
+</blockquote>
+
+<blockquote>
+<tt><b>.comment</b> <i>text</i></tt>
+<br>
+User comment line (ignored during object creation).
+</blockquote>
+
+<blockquote>
+<tt><b>.cone</b> <i>x1 y1 z1 x2 y2 z2 r</i> [<b>open</b>]</tt>
+<br>
+Draw a cone with a base of radius <i>r</i> centered at 
+(<i>x1, y1, z1</i>) and a tip at (<i>x2, y2, z2</i>).  If the keyword 
+<b>open</b> is present, the base of the cone will be invisible.
+</blockquote>
+
+<blockquote>
+<tt><b>.cylinder</b> <i>x1 y1 z1 x2 y2 z2 r</i> [<b>open</b>]</tt>
+<br>
+Draw a cylinder with radius <i>r</i> and bases centered at 
+(<i>x1, y1, z1</i>) and (<i>x2, y2, z2</i>).  If the keyword 
+<b>open</b> is present, the bases of the cylinder will be invisible. 
+</blockquote>
+
+<blockquote>
+<a name="dotat">
+<tt><b>.dotat</b> <i>x y z</i></tt>
+<br>or<br>
+<tt><b>.dot</b> <i>x y z</i></tt>
+</a>
+<br>
+Draw a sphere of unit radius centered at (<i>x, y, z</i>).
+The sphere center is treated as a vertex if there is a subsequent
+<a href="#draw"><b>.draw</b></a>, 
+<a href="#drawrel"><b>.drawrel</b></a>, or
+<a href="#moverel"><b>.moverel</b></a> command.
+</blockquote>
+
+<blockquote>
+<a name="draw">
+<tt><b>.draw</b> <i>x y z</i></tt>
+<br>or<br>
+<tt><b>.d</b> <i>x y z</i></tt>
+</a>
+<br>
+Add another vertex to the current set of line segments. 
+A line will be drawn from the previous vertex to this vertex at 
+(<i>x, y, z</i>).  There should be a prior
+<a href="#move"><b>.move</b></a>,
+<a href="#moverel"><b>.moverel</b></a>,
+<a href="#dotat"><b>.dotat</b></a>, or
+<a href="#marker"><b>.marker</b></a> command
+(these initiate sets of line segments).
+</blockquote>
+
+<blockquote>
+<a name="drawrel">
+<tt><b>.drawrel</b> <i>dx dy dz</i></tt>
+<br>or<br>
+<tt><b>.dr</b> <i>dx dy dz</i></tt>
+</a>
+<br>
+Add another vertex to the current set of line segments. 
+A line will be drawn from the previous vertex at (<i>x, y, z</i>) to this 
+vertex at (<i>x</i> + <i>dx</i>, <i>y</i> + <i>dy</i>, <i>z</i> + <i>dz</i>). 
+</blockquote>
+
+<blockquote>
+<a name="marker">
+<tt><b>.marker</b> <i>x y z</i></tt>
+</a>
+<br>
+Draw a box of unit cubic diagonal centered at (<i>x, y, z</i>),
+<i>i.e.</i>, a box with opposite corners at 
+(<i>x</i> &ndash; 0.5, <i>y</i> &ndash; 0.5, <i>z</i> &ndash; 0.5) and 
+(<i>x</i> + 0.5, <i>y</i> + 0.5, <i>z</i> + 0.5).
+The box center is treated as a vertex if there is a subsequent
+<a href="#draw"><b>.draw</b></a>, 
+<a href="#drawrel"><b>.drawrel</b></a>, or
+<a href="#moverel"><b>.moverel</b></a> command.
+</blockquote>
+
+<blockquote>
+<a name="move">
+<tt><b>.move</b> <i>x y z</i></tt>
+<br>or<br>
+<tt><b>.m</b> <i>x y z</i></tt>
+</a>
+<br>
+Start a new set of line segments whose first vertex is at (<i>x, y, z</i>).
+</blockquote>
+
+<blockquote>
+<a name="moverel">
+<tt><b>.moverel</b> <i>dx dy dz</i></tt>
+<br>or<br>
+<tt><b>.mr</b> <i>dx dy dz</i></tt>
+</a>
+<br>
+Start a new set of line segments whose first vertex is at 
+(<i>x</i> + <i>dz</i>, <i>y</i> + <i>dy</i>, <i>z</i> + <i>dz</i>), 
+where (<i>x, y, z</i>) is the coordinate of the last vertex defined.
+</blockquote>
+
+<blockquote>
+<tt><b>.polygon</b> <i>x1 y1 z1 x2 y2 z2 ... xN yN zN</i></tt>
+<br>
+Draw a flat polygon with vertices at (<i>x1, y1, z1</i>), (<i>x2, y2, z2</i>),
+..., (<i>xN, yN, zN</i>).
+</blockquote>
+
+<blockquote>
+<tt><b>.pop</b></tt>
+<br>
+Discard the most recent transformation (<a href="#rotate">rotation</a>, 
+<a href="#scale">scaling</a>, or <a href="#translate">translation</a>) 
+from the transformation stack.
+</blockquote>
+
+<blockquote>
+<a name="rotate">
+<tt><b>.rotate</b> <i>angle axis</i></tt>
+<br>or<br>
+<tt><b>.rot</b> <i>angle axis</i></tt>
+</a>
+<br>
+Rotate all subsequent coordinates by <i>angle</i> degrees
+about the given <i>axis</i>.
+The <i>axis</i> can be given as a single letter (<b>x</b>, <b>y</b>, 
+or <b>z</b>) or as three numbers defining an arbitrary vector:
+<i>x<sub>a</sub></i> <i>y<sub>a</sub></i> <i>z<sub>a</sub></i>.
+This transformation is added to the top of the transformation stack.
+</blockquote>
+
+<blockquote>
+<a name="scale">
+<tt><b>.scale</b> <i>xscale</i> [<i>yscale</i> [<i>zscale</i>]]</tt>
+</a>
+<br>
+Scale all subsequent coordinates by the given factor(s).
+The x coordinates will be scaled by <i>xscale</i>, y coordinates
+by <i>yscale</i> (equal to <i>xscale</i> by default), and z coordinates 
+by <i>zscale</i> (equal to <i>xscale</i> by default).
+This transformation is added to the top of the 
+transformation stack.
+</blockquote>
+
+<blockquote>
+<tt><b>.sphere</b> <i>x y z r</i></tt>
+<br>
+Draw a sphere centered at (<i>x, y, z</i>) with radius <i>r</i>.
+</blockquote>
+
+<blockquote>
+<a name="translate">
+<tt><b>.translate</b> <i>dx dy dz</i></tt>
+<br>or<br>
+<tt><b>.tran</b> <i>dx dy dz</i></tt>
+</a>
+<br>
+Translate all subsequent coordinates
+by the specified amount. This transformation is added to the top of the 
+transformation stack.
+</blockquote>
+
+<blockquote>
+<a name="transparency">
+<tt><b>.transparency</b> <i>value</i></tt>
+</a>
+<br>
+Set the transparency of subsequently defined items.  The <i>value</i> 
+can range from 0.0 (not transparent) to 1.0 (completely transparent).
+</blockquote>
+
+<blockquote>
+<tt><b>.vector</b></tt> <i>x1 y1 z1 x2 y2 z2</i></tt>
+<br>or<br>
+<tt><b>.v</b> <i>x1 y1 z1 x2 y2 z2</i></tt>
+<br>
+Draw a line segment from (<i>x1, y1, z1</i>) to (<i>x2, y2, z2</i>). 
+This command is a shorthand for
+  <blockquote>
+  <tt><a href="#move"><b>.m</b></a> <i>x1 y1 z1</i></tt>
+  <br>
+  <tt><a href="#draw"><b>.d</b></a> <i>x2 y2 z2</i></tt>
+  </blockquote>
+</blockquote>
+<hr>
+<address>UCSF Computer Graphics Laboratory / March 2009</address>
+</body></html>

@@ -1,0 +1,85 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Values at Atom Positions</TITLE>
+</head>
+<body>
+<h3>Values at Atom Positions <img src="valuesicon.png" 
+alt="Values at Atom Positions icon"></h3>
+<p>
+<b>Values at Atom Positions</b> maps
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a>
+to atom positions and assigns the values as an atom 
+<a href="../defineattrib/defineattrib.html#attribdef">attribute</a>.
+See also: 
+<a href="../fitmaps/fitmaps.html"><b>Fit in Map</b></a>,
+<a href="../rotamers/framerot.html" target="_top"><b>Rotamers</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Values at Atom Positions</b>, a tool in the <b>Volume Data</b> category
+(including from the <a href="../volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> <b>Tools</b> menu).
+The <b>Molecule</b> 
+(containing the atoms onto which data values will be mapped)
+should be chosen from the list of open molecule models.
+The <b>Volume data</b> should be chosen
+from the list of open volume data sets.
+<b>Browse...</b> can be used to locate and open a volume data file. 
+</p><p>
+The <a href="../defineattrib/defineattrib.html#attribdef">attribute</a>
+will be named <b>value_<i>name</i></b>,
+where <b><i>name</i></b> is the name of the volume data set
+(except with any characters other than numbers and letters
+changed to underscores).
+For example, an attribute based on the volume data file <b>default.phi</b>
+will be named <b>value_default_phi</b>.  
+</p><p>
+Values of the attribute are assigned to all atoms in the chosen molecule model.
+The transformed coordinates of the molecule model 
+and the volume data (but see <a href="#transformprob">below</a>)
+are used to map data values to atoms.
+For each atom within the bounds of the volume data,
+the value is found by trilinear interpolation 
+from the eight corners of the enclosing volume grid cell.
+Atoms outside the bounds of the volume data are assigned a value of zero.
+</p><p>
+Clicking <b>Histogram</b> assigns the values and opens
+<a href="../render/render.html"><b>Render/Select by Attribute</b></a>,
+which includes a histogram of the values.
+</p><p>
+<b>Close</b> dismisses the dialog, and
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="limitations">
+<h4>LIMITATIONS</h4></a>
+<p>
+<b>Values not saved in sessions.</b>
+The new attribute and associated values are not saved 
+in <a href="../../UsersGuide/sessions.html#sesdef">session</a> files.
+</p><p>
+<a name="transformprob">
+<b>Volume data must be displayed before it can be transformed separately</b>.
+</a>
+There is no volume model until the data is displayed with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a>.  When there is no volume model, the transformation of
+the volume data is assumed to be the same as that of the chosen
+molecule model.  To use a different transformation for data mapping,
+the volume data must be displayed and the volume model moved while
+the molecule model is held fixed (or <i>vice versa</i>).
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / February 2008</address>
+</body>
+</html>

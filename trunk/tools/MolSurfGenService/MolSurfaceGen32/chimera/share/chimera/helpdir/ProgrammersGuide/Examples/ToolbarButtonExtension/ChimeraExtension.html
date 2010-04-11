@@ -1,0 +1,103 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonExtension/ChimeraExtension.py"><i>ToolbarButtonExtension/ChimeraExtension.py</i></a></h2>
+<p>
+<a href="ToolbarButtonExtension/ChimeraExtension.py">ChimeraExtension.py</a> derives a class from <code>chimera.extension.EMO</code>
+to define how functionality defined in <a href="ToolbarButtonExtension/__init__.py">__init__.py</a> may be invoked
+by the Chimera extension manager.<br>
+<spacer type="vertical" size=5>
+<code>
+<br>
+<font color="red">import chimera.extension<br></font>
+</code>
+<p>
+Class <code>MainChainEMO</code> is the derived class.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">class MainChainEMO(chimera.extension.EMO):<br></font>
+</code>
+<dl><dd>
+<p>
+Return the actual name of the extension.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def name(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'Backbone'<br></font>
+</code>
+</dl>
+<p>
+Return the short description that typically appears as
+balloon help or in the Tools preference category.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def description(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'display only protein backbone'<br></font>
+</code>
+</dl>
+<p>
+Return the categories in which this extension should appear.
+It is either a list or a dictionary.  If it is a dictionary
+then the keys are the category names and the values are
+category-specific descriptions (and the description() method
+above is ignored).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def categories(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return ['Utilities']<br></font>
+</code>
+</dl>
+<p>
+Return the name of a file containing an icon that may be used
+on the tool bar to provide a shortcut for launching the extension.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def icon(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return self.path('mainchain.tiff')<br></font>
+</code>
+</dl>
+<p>
+Invoke the extension.  Note that when this method is called,
+the content of &quot;__init__.py&quot; is not available.  To simplify
+calling functions, the <code>EMO</code> provides a <code>module</code> method that
+locates modules in the extension package by name; if no name
+is supplied, the &quot;__init__.py&quot; module is returned.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def activate(self):<br></font>
+</code>
+<dl><dd>
+<p>
+Call the <code>mainchain</code> function in the &quot;__init__.py&quot; module.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">self.module().mainchain()<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Register an instance of <code>MainChainEMO</code> with the Chimera
+extension manager.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">chimera.extension.manager.registerExtension(MainChainEMO(__file__))<br></font>
+</code>

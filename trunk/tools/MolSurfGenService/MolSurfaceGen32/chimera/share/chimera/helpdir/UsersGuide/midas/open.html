@@ -1,0 +1,229 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>open, close</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>: 
+<BR><b>open</b> [ noprefs ] [ nowildcard ]
+[ <i>model-ID</i> ] [ <i>filename1</i> <i>filename2</i> ... ]</h3>
+<h3><a href="usageconventions.html">Usage</a>: 
+<BR>( <b>close</b> | <b>~open</b> ) 
+( <i>model-ID</i> | <b>all</b> | <b>session</b> )</h3>
+<p>
+Chimera <a href="../filetypes.html">input files</a> may contain structures 
+to be displayed, commands or code to be executed, or other data.
+The command <b>open</b> reads <a href="#local">local files</a> and
+fetches <a href="#fetch">data from the Web</a>.
+Any resulting models in Chimera are assigned the specified <i>model-ID</i>
+number, or if none is specified, the lowest number(s) available.
+When multiple models are opened with a single command, <i>model-ID</i>
+should not be specified unless there is some reason to assign all of the
+models the same number.
+</p><p>
+Various attributes of newly opened molecules can be customized
+in the <a href="../preferences.html#New Molecules">
+<b>New Molecules</b> preferences</a>
+(see also <b><A href="set.html">set autocolor</a></b>).
+The <b>noprefs</b> keyword indicates that a user's
+<a href="../preferences.html#New Molecules"><b>New Molecules</b> preferences</a>
+should not be applied.  This prevents inconsistent behavior of
+<a href="../indexcommand.html#cmdfile">command files</a> and
+<a href="../../ContributedSoftware/demos/demos.html">demos</a>
+potentially caused by the different preferences settings of different users.
+</p><p>
+If a model is closed and another model opened with the same model number,
+none of the transformations applied to the previous model are applied to
+the newly opened model.  The transformation matrix of one model can be applied
+to another model using <b><A href="matrixcopy.html">matrixcopy</A></b>.</p>
+</p><p>
+The command <b>close</b> or <b>~open</b> removes structures and other data:
+model(s) with a specified <i>model-ID</i> number, 
+or <b>all</b> models (everything listed in the 
+<a href="../modelpanel.html"><b>Model Panel</b></a>), 
+or the <b>session</b> (all models, plus data without associated model numbers,
+such as <a href="2dlabels.html">2D labels</a> and 
+<a href="../filetypes.html#alignment">sequence alignments</a>).
+</p>
+
+<a name="local">
+<h3>Local Files</h3></a>
+<p>
+A filename is generally a pathname to a local file, either absolute 
+or relative to the current working directory.  The working
+directory can be changed with <b><A href="cd.html">cd</A></b>.
+A pathname may start with "~" to indicate the user's home directory.
+Multiple files can be specified by including * (wild card), 
+? (single-character wild card), and/or square-bracketed character ranges
+in a filename.  Such filename expansion or <b><i>globbing</i></b> 
+is on by default, but can be turned off with the <b>nowildcard</b> keyword.
+If no filename is supplied, a <a href="../opensave.html">dialog</a>
+for browsing the filesystem will appear.
+</p><p>
+Any of the <a href="../filetypes.html">registered file types</a>
+can be opened.
+</p><p>
+A file type can be specified
+by a <a href="../filetypes.html#suffix">suffix</a>
+that is part of the filename or by
+<b><i><a href="../filetypes.html#prefix">prefix</a>:filename</i></b>,
+where <a href="../filetypes.html#prefix">prefix</a>
+is not part of the filename.
+If a prefix and a suffix are both given, the prefix overrides the suffix.
+Filenames, prefixes, and suffixes are case-sensitive.
+Unrecognized prefixes are assumed to be part of the filename.
+For many of the <a href="../filetypes.html">registered file types</a>,
+files that are gzipped (as indicated by <b>.gz</b> 
+following the regular filename) are recognized and opened.
+Similarly, compressed files (as indicated by <b>.Z</b>) 
+can be recognized and opened
+for many input types if <i>gzip</i> is on the user's execution path
+(can be run by entering <i>gzip</i> at the system command line).
+<a href="../tutorials/framepdbintro.html" target="_top">PDB format</a>
+is the default input type.
+</p>
+
+<a name="fetch">
+<h3>Files from the Web</h3></a>
+<p>
+Other than a local file, a filename can specify data to be retrieved 
+over the Web:
+<ul>
+<li> many <a href="../filetypes.html">registered types</a> can be opened 
+by specifying an URL of the form <b>http://[...]</b> as the filename.
+Prefix and suffix rules are as described above for 
+<a href="#local">local files</a>, but filename
+globbing and reading compressed or gzipped files are not supported.
+<li> the prefix <b>pdbID:</b> indicates a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> to be used to fetch a PDB-format file
+from the Protein Data Bank.
+Chimera will first attempt to find the file within a
+<a href="../fetch.html#local">local installation</a> of the Protein Data Bank;
+if the file is not found locally, Chimera will try to retrieve it from the
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank web site</a>
+(by default; this can be turned off in the
+<a href="../preferences.html#PDB"><b>PDB</b> preferences</a>).
+<li> any input specified as PDB format (which is the default) will be
+fetched in the same way if the filename resembles a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> 
+and is not found in the current working directory
+or any <a href="../preferences.html#PDB">personal PDB directories</a>
+<li> the prefix <b>cifID:</b> indicates a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> to be used to fetch an mmCIF-format file
+from the <a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>
+<li> the prefix <b>ndb:</b> indicates an
+<a href="http://ndbserver.rutgers.edu/index.html" target="_blank">NDB</a>
+ID to be translated into a PDB ID and used to fetch the corresponding structure
+from the <a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>
+<li> the prefix <b>scop:</b> indicates a
+<a href="../scop.html">SCOP domain</a> ID
+to be used to fetch a domain structure from the
+<a href="http://astral.berkeley.edu/index.html" target="_blank">
+ASTRAL Compendium</a>
+<li> the prefix <b>castp:</b> or <b>CASTp:</b> indicates a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> 
+(with chain ID optionally appended, for example <b>2gsh.A</b>)
+to be used to fetch a structure and its
+precomputed pocket measurements from the 
+<a href="http://sts-fw.bioengr.uic.edu/castp/index.php" target="_blank">
+Computed Atlas of Surface Topography of proteins</a>
+(does not include results for all PDB entries; measurements
+will be displayed in a <a href="../castp.html">pocket list</a>)
+<li> the prefix <b>viperID:</b> indicates an identifier in the
+<a href="http://viperdb.scripps.edu/" target="_blank">Virus
+Particle Explorer database</a> of icosahedral virus capsid structures
+(the capsid will be constructed automatically with
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a>)
+<li> the prefix <b>pqsID:</b> indicates a 
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> to be used to fetch the predicted biological unit 
+from the <a href="http://pqs.ebi.ac.uk/pqs-doc.shtml" target="_blank">Protein 
+Quaternary Structure server</a>
+(predictions are not available for all PDB entries; some entries have
+multiple predictions, and for those, multiple files will be retrieved)
+<li> the prefix <b>modbase:</b> indicates a 
+SwissProt, TrEMBL, GenPept or PIR accession code for which to fetch 
+PDB-format comparative models from
+<a href="http://modbase.compbio.ucsf.edu/modbase-cgi/index.cgi"
+target="_blank">ModBase</a> (associated information will be shown 
+in a <a href="../modbase.html">list</a>).
+If multiple modeled structures are available for the sequence,
+they will be opened as <a href="atom_spec.html#subcats">submodels</a>
+of a single model number.  
+<li><a name="smiles">the prefix <b>smiles:</b> or <b>SMILES:</b></a> 
+indicates a 
+<a href="http://www.daylight.com/dayhtml/doc/theory/theory.smiles.html"
+target="_blank">SMILES</a> string to be converted to a 3D structure SDF
+using the 
+<a href="http://cheminfo.wikispaces.com/smi23d" target="_blank">smi23d</a>
+service provided by the <a href="http://www.chembiogrid.org/index.html"
+target="_blank">Chemical Informatics and Cyberinfrastructure Collaboratory
+(CICC)</a> at Indiana University.  This service deploys the same procedure 
+used to populate the <b>Pub3D</b> database (below).
+<li><a name="pubchem">the prefix <b>pubchem:</b> or <b>PubChem:</b></a> 
+indicates a 
+<a href="http://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem</a>
+compound identifier (CID) for which to fetch a modeled 3D structure
+(SDF) from the <b>Pub3D</b> database provided by the 
+<a href="http://www.chembiogrid.org/index.html"
+target="_blank">Chemical Informatics and Cyberinfrastructure Collaboratory
+(CICC)</a> at Indiana University.  This database is described in 
+<a href="http://www.biomedcentral.com/1471-2105/8/487" 
+target="_blank">Willighagen <i>et al.</i></a>, <i>BMC Bioinformatics</i> 
+<b>8</b>:487 (2007).
+<li> the prefix <b>edsID:</b> indicates a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> to be used to fetch an electron density map from the
+<a href="http://eds.bmc.uu.se/eds/index.html" target="_blank">Electron 
+Density Server</a> (not all PDB entries have maps available;
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> will be used to show the map)
+<li> the prefix <b>edsdiffID:</b> indicates a
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> to be used to fetch an electron density 
+difference map (fo-fc) from the
+<a href="http://eds.bmc.uu.se/eds/index.html" target="_blank">Electron 
+Density Server</a> (not all PDB entries have maps available;
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> will be used to show the map)
+<li> the prefix <b>emdbID:</b> indicates a
+numerical identifier to be used to fetch an
+electron density map from the
+<a href="http://www.ebi.ac.uk/pdbe/emdb/" target="_blank">Electron 
+Microscopy Data Bank</a>
+<li> the prefix <b>emdbfitID:</b> indicates a
+numerical identifier to be used to fetch an
+electron density map from the
+<a href="http://www.ebi.ac.uk/pdbe/emdb/" target="_blank">Electron 
+Microscopy Data Bank</a>, along with any corresponding PDB entries
+(which may or may not be in the fit positions relative to the map)
+</ul>
+See also:
+<b><A href="read.html">read</A></b>,
+<b><A href="runscript.html">runscript</A></b>,
+<b><A href="delete.html">delete</A></b>,
+<b><A href="split.html">split</A></b>,
+<b><A href="start.html">start</A></b>,
+the <a href="../opensave.html#opendialog"><b>Open 
+File</b> dialog</a>, <b><A href="../fetch.html">Fetch by ID</A></b>,
+the <a href="../modelpanel.html#close"><b>close</b></a> function
+in the <a href="../modelpanel.html"><b>Model Panel</b></a>
+</p>
+</body></html>

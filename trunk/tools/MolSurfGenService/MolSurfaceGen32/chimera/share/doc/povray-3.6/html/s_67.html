@@ -1,0 +1,754 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.3.2 Polygon Based Shapes</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_66.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_66.html">2.3.1 Spline Based Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.3.2 
+   Polygon Based Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_68.html">2.3.3 Other Shapes</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_68.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_03_02">2.3.2 </a>Polygon Based Shapes</h3>
+<a name="s02_03_02_i1">
+<h4><a name="s02_03_02_01">2.3.2.1 </a>Mesh Object</h4>
+<a name="s02_03_02_01_i1">
+<dl class="famousquote">
+ 
+ <dt>
+   <em>You know you have been raytracing too long when ...<br> ... You think that the evolution theory was based on 
+  the triangular origin of the wheel.</em> 
+ <dd>
+   <em>-- Mark Kadela</em> 
+</dl>
+
+<p>
+  Mesh objects are very useful because they allow us to create objects containing hundreds or thousands of triangles. 
+ Compared to a simple union of triangles the mesh object stores the triangles more efficiently. Copies of mesh objects 
+ need only a little additional memory because the triangles are stored only once. 
+</p>
+
+<p>
+  Almost every object can be approximated using triangles but we may need a lot of triangles to create more complex 
+ shapes. Thus we will only create a very simple mesh example. This example will show a very useful feature of the 
+ triangles meshes though: a different texture can be assigned to each triangle in the mesh. 
+</p>
+
+<p>
+  Now let's begin. We will create a simple box with differently colored sides. We create an empty file called <code>meshdemo.pov</code> 
+ and add the following lines. Note that a mesh is - not surprisingly - declared using the keyword <code><a href="#l24">mesh</a></code>. 
+ 
+</p>
+
+<pre>
+  camera {
+    location &lt;20, 20, -50&gt;
+    look_at &lt;0, 5, 0&gt;
+  }
+  light_source { &lt;50, 50, -50&gt; color rgb&lt;1, 1, 1&gt; }
+  #declare Red = texture {
+    pigment { color rgb&lt;0.8, 0.2, 0.2&gt; }
+    finish { ambient 0.2 diffuse 0.5 }
+  }
+  #declare Green = texture {
+    pigment { color rgb&lt;0.2, 0.8, 0.2&gt; }
+    finish { ambient 0.2 diffuse 0.5 }
+  }
+  #declare Blue = texture {
+    pigment { color rgb&lt;0.2, 0.2, 0.8&gt; }
+    finish { ambient 0.2 diffuse 0.5 }
+  }
+</pre>
+
+<p>
+  We must declare all textures we want to use inside the mesh before the mesh is created. Textures cannot be 
+ specified inside the mesh due to the poor memory performance that would result. 
+</p>
+
+<p>
+  Now we add the mesh object. Three sides of the box will use individual textures while the other will use the <em> 
+ global</em> mesh texture. 
+</p>
+
+<pre>
+  mesh {
+    /* top side */
+    triangle {
+      &lt;-10, 10, -10&gt;, &lt;10, 10, -10&gt;, &lt;10, 10, 10&gt;
+      texture { Red }
+    }
+    triangle {
+      &lt;-10, 10, -10&gt;, &lt;-10, 10, 10&gt;, &lt;10, 10, 10&gt;
+      texture { Red }
+    }
+    /* bottom side */
+    triangle { &lt;-10, -10, -10&gt;, &lt;10, -10, -10&gt;, &lt;10, -10, 10&gt; }
+    triangle { &lt;-10, -10, -10&gt;, &lt;-10, -10, 10&gt;, &lt;10, -10, 10&gt; }
+    /* left side */
+    triangle { &lt;-10, -10, -10&gt;, &lt;-10, -10, 10&gt;, &lt;-10, 10, 10&gt; }
+    triangle { &lt;-10, -10, -10&gt;, &lt;-10, 10, -10&gt;, &lt;-10, 10, 10&gt; }
+    /* right side */
+    triangle {
+      &lt;10, -10, -10&gt;, &lt;10, -10, 10&gt;, &lt;10, 10, 10&gt;
+      texture { Green }
+    }
+    triangle {
+      &lt;10, -10, -10&gt;, &lt;10, 10, -10&gt;, &lt;10, 10, 10&gt;
+      texture { Green }
+    }
+    /* front side */
+    triangle {
+      &lt;-10, -10, -10&gt;, &lt;10, -10, -10&gt;, &lt;-10, 10, -10&gt;
+      texture { Blue }
+    }
+    triangle {
+      &lt;-10, 10, -10&gt;, &lt;10, 10, -10&gt;, &lt;10, -10, -10&gt;
+      texture { Blue }
+    }
+    /* back side */
+    triangle { &lt;-10, -10, 10&gt;, &lt;10, -10, 10&gt;, &lt;-10, 10, 10&gt; }
+    triangle { &lt;-10, 10, 10&gt;, &lt;10, 10, 10&gt;, &lt;10, -10, 10&gt; }
+    texture {
+      pigment { color rgb&lt;0.9, 0.9, 0.9&gt; }
+      finish { ambient 0.2 diffuse 0.7 }
+    }
+  }
+</pre>
+
+<p>
+  Tracing the scene at 320x240 we will see that the top, right and front side of the box have different textures. 
+ Though this is not a very impressive example it shows what we can do with mesh objects. More complex examples, also 
+ using smooth triangles, can be found under the scene directory as <code> chesmsh.pov</code>. 
+</p>
+
+<h4><a name="s02_03_02_02">2.3.2.2 </a>Mesh2 Object</h4>
+
+<p>
+  The <code>mesh2</code> is a representation of a mesh, that is much more like POV-Ray's internal mesh representation 
+ than the standard <code>mesh</code>. As a result, it parses faster and it file size is smaller. 
+</p>
+
+<p>
+  Due to its nature, <code>mesh2</code> is not really suitable for building meshes by hand, it is intended for use by 
+ modelers and file format converters. An other option is building the meshes by macros. Yet, to understand the format, 
+ we will do a small example by hand and go through all options. 
+</p>
+
+<p>
+  <br><center><img alt="to be written as mesh2" src="images/tutorial/mesh2.png"></center> 
+</p>
+
+<p>
+  We will turn the mesh sketched above into a <code>mesh2</code> object. The mesh is made of 8 triangles, each with 3 
+ vertices, many of these vertices are shared among the triangles. This can later be used to optimize the mesh. First we 
+ will set it up straight forward. 
+</p>
+
+<p>
+  In <code>mesh2</code> all the vertices are listed in a list named <code>vertex_vectors{}</code>. A second list, <code>face_indices{}</code>, 
+ tells us how to put together three vertices to create one triangle, by pointing to the index number of a vertex. All 
+ lists in <code>mesh2</code> are zero based, the number of the first vertex is 0. The very first item in a list is the 
+ amount of vertices, normals or uv_vectors it contains. <code>mesh2</code> has to be specified in the order <em>VECTORS...</em>, 
+ <em>LISTS...</em>, <em>INDICES...</em>. 
+</p>
+
+<p>
+  Lets go through the mesh above, we do it counter clockwise. The total amount of vertices is 24 (8 triangle * 3 
+ vertices). 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      24,
+      ...
+</pre>
+
+<p>
+  Now we can add the coordinates of the vertices of the first triangle: 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      24, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;
+      ..
+</pre>
+
+<p>
+  Next step, is to tell the mesh how the triangle should be created; There will be a total of 8 face_indices (8 
+ triangles). The first point in the first face, points to the first vertex_vector (0: &lt;0,0,0&gt;), the second to the 
+ second (1: &lt;0.5,0,0&gt;), etc... 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      24, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;
+      ...
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt; 
+      ...
+</pre>
+
+<p>
+  The complete mesh: 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      24, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;, //1
+      &lt;0.5,0,0&gt;, &lt;1,0,0&gt;, &lt;0.5,0.5,0&gt;, //2
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;0.5,0.5,0&gt;, //3
+      &lt;1,0.5,0&gt;, &lt;1,1,0&gt;, &lt;0.5,0.5,0&gt;, //4
+      &lt;1,1,0&gt;, &lt;0.5,1,0&gt;, &lt;0.5,0.5,0&gt;, //5
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;, &lt;0.5,0.5,0&gt;, //6
+      &lt;0,1,0&gt;, &lt;0,0.5,0&gt;, &lt;0.5,0.5,0&gt;, //7
+      &lt;0,0.5,0&gt;, &lt;0,0,0&gt;, &lt;0.5,0.5,0&gt;  //8
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;,    &lt;3,4,5&gt;,       //1 2
+      &lt;6,7,8&gt;,    &lt;9,10,11&gt;,     //3 4
+      &lt;12,13,14&gt;, &lt;15,16,17&gt;,    //5 6
+      &lt;18,19,20&gt;, &lt;21,22,23&gt;     //7 8
+   }
+   pigment {rgb 1}
+}
+</pre>
+
+<p>
+  As mentioned earlier, many vertices are shared by triangles. We can optimize the mesh by removing all duplicate 
+ vertices but one. In the example this reduces the amount from 24 to 9. 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      /*as 1*/ &lt;1,0,0&gt;,   /*as 2*/
+      /*as 3*/ &lt;1,0.5,0&gt;, /*as 2*/
+      /*as 4*/ &lt;1,1,0&gt;,   /*as 2*/
+      /*as 5*/ &lt;0.5,1,0&gt;, /*as 2*/
+      /*as 6*/ &lt;0,1,0&gt;,   /*as 2*/
+      /*as 7*/ &lt;0,0.5,0&gt;, /*as 2*/
+      /*as 8*/ /*as 0*/   /*as 2*/
+   }
+   ...
+   ...
+</pre>
+
+<p>
+  Next step is to rebuild the list of face_indices, as they now point to indices in the <code>vertex_vector{}</code> 
+ list that do not exist anymore. 
+</p>
+
+<pre>
+   ...
+   ...
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;,
+      &lt;5,6,2&gt;, &lt;6,7,2&gt;,
+      &lt;7,8,2&gt;, &lt;8,0,2&gt;
+   }
+   pigment {rgb 1}
+}
+</pre>
+
+<h5><a name="s02_03_02_02_01">2.3.2.2.1 </a>Smooth triangles and mesh2</h5>
+
+<p>
+  In case we want a smooth mesh, the same steps we did also apply to the normals in a mesh. For each vertex there is 
+ one normal vector listed in <code>normal_vectors{}</code>, duplicates can be removed. If the number of normals equals 
+ the number of vertices then the <code>normal_indices{}</code> list is optional and the indexes from the <code>face_indices{}</code> 
+ list are used instead. 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;,
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;, &lt;0,0.5,0&gt;   
+   }
+   normal_vectors {
+      9,
+     &lt;-1,-1,0&gt;,&lt;0,-1,0&gt;, &lt;0,0,1&gt;,
+      /*as 1*/ &lt;1,-1,0&gt;, /*as 2*/
+      /*as 3*/ &lt;1,0,0&gt;,  /*as 2*/
+      /*as 4*/ &lt;1,1,0&gt;,  /*as 2*/
+      /*as 5*/ &lt;0,1,0&gt;,  /*as 2*/
+      /*as 6*/ &lt;-1,1,0&gt;, /*as 2*/
+      /*as 7*/ &lt;-1,0,0&gt;, /*as 2*/
+      /*as 8*/ /*as 0*/  /*as 2*/ 
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;,
+      &lt;5,6,2&gt;, &lt;6,7,2&gt;,
+      &lt;7,8,2&gt;, &lt;8,0,2&gt;
+   }
+   pigment {rgb 1}
+}
+</pre>
+
+<p>
+  When a mesh has a mix of smooth and flat triangles a list of <code>normal_indices{}</code> has to be added, where 
+ each entry points to what vertices a normal should be applied. In the example below only the first four normals are 
+ actually used. 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;,
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;,   &lt;0,0.5,0&gt;
+   }
+   normal_vectors {
+      9,
+      &lt;-1,-1,0&gt;, &lt;0,-1,0&gt;, &lt;0,0,1&gt;,
+      &lt;1,-1,0&gt;, &lt;1,0,0&gt;, &lt;1,1,0&gt;,
+      &lt;0,1,0&gt;, &lt;-1,1,0&gt;, &lt;-1,0,0&gt;
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;,
+      &lt;5,6,2&gt;, &lt;6,7,2&gt;,
+      &lt;7,8,2&gt;, &lt;8,0,2&gt;
+   }
+   normal_indices {
+      4, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;
+   }
+   pigment {rgb 1}
+}
+</pre>
+
+<h5><a name="s02_03_02_02_02">2.3.2.2.2 </a>UV mapping and mesh2</h5>
+
+<p>
+  uv_mapping is a method of 'sticking' 2D textures on an object in such a way that it follows the form of the object. 
+ For uv_mapping on triangles imagine it as follows; First you cut out a triangular section of a texture form the 
+ xy-plane. Then stretch, shrink and deform the piece of texture to fit to the triangle and stick it on. 
+</p>
+
+<p>
+  Now, in <code>mesh2</code> we first build a list of 2D-vectors that are the coordinates of the triangular sections 
+ in the xy-plane. This is the <code>uv_vectors{}</code> list. In the example we map the texture from the rectangular 
+ area <code>&lt;-0.5,-0.5&gt;, &lt;0.5,0.5&gt;</code> to the triangles in the mesh. Again we can omit all duplicate 
+ coordinates 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;,
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;,   &lt;0,0.5,0&gt;
+   }
+   uv_vectors {
+      9
+     &lt;-0.5,-0.5&gt;,&lt;0,-0.5&gt;,  &lt;0,0&gt;,
+      /*as 1*/   &lt;0.5,-0.5&gt;,/*as 2*/
+      /*as 3*/   &lt;0.5,0&gt;,   /*as 2*/
+      /*as 4*/   &lt;0.5,0.5&gt;, /*as 2*/
+      /*as 5*/   &lt;0,0.5&gt;,   /*as 2*/
+      /*as 6*/   &lt;-0.5,0.5&gt;,/*as 2*/
+      /*as 7*/   &lt;-0.5,0&gt;,  /*as 2*/
+      /*as 8*/   /*as 0*/   /*as 2*/       
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;,
+      &lt;5,6,2&gt;, &lt;6,7,2&gt;,
+      &lt;7,8,2&gt;, &lt;8,0,2&gt;
+   }
+   uv_mapping
+   pigment {wood scale 0.2}
+}
+</pre>
+
+<p>
+  Just as with the <code>normal_vectors</code>, if the number of <code>uv_vectors</code> equals the number of 
+ vertices then the <code>uv_indices{}</code> list is optional and the indices from the <code>face_indices{}</code> list 
+ are used instead. 
+</p>
+
+<p>
+  In contrary to the <code>normal_indices</code> list, if the <code>uv_indices</code> list is used, the amount of 
+ indices should be equal to the amount of <code>face_indices</code>. In the example below only 'one texture section' is 
+ specified and used on all triangles, using the <code>uv_indices</code>. 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;,
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;,   &lt;0,0.5,0&gt;
+   }
+   uv_vectors {
+      3
+      &lt;0,0&gt;, &lt;0.5,0&gt;, &lt;0.5,0.5&gt;    
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;1,3,2&gt;,
+      &lt;3,4,2&gt;, &lt;4,5,2&gt;,
+      &lt;5,6,2&gt;, &lt;6,7,2&gt;,
+      &lt;7,8,2&gt;, &lt;8,0,2&gt;
+   }
+   uv_indices {
+      8, 
+      &lt;0,1,2&gt;, &lt;0,1,2&gt;,
+      &lt;0,1,2&gt;, &lt;0,1,2&gt;,
+      &lt;0,1,2&gt;, &lt;0,1,2&gt;,
+      &lt;0,1,2&gt;, &lt;0,1,2&gt;
+   }
+   uv_mapping
+   pigment {gradient x scale 0.2}
+}
+</pre>
+
+<h5><a name="s02_03_02_02_03">2.3.2.2.3 </a>A separate texture per triangle</h5>
+
+<p>
+  By using the <code>texture_list</code> it is possible to specify a texture per triangle or even per vertex in the 
+ mesh. In the latter case the three textures per triangle will be interpolated. To let POV-Ray know what texture to 
+ apply to a triangle, the index of a texture is added to the <code>face_indices</code> list, after the face index it 
+ belongs to. 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;   
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;, &lt;0,0.5,0&gt; 
+   }
+   texture_list {
+      2,
+      texture{pigment{rgb&lt;0,0,1&gt;}}
+      texture{pigment{rgb&lt;1,0,0&gt;}}
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;,0,  &lt;1,3,2&gt;,1,
+      &lt;3,4,2&gt;,0,  &lt;4,5,2&gt;,1,
+      &lt;5,6,2&gt;,0,  &lt;6,7,2&gt;,1,
+      &lt;7,8,2&gt;,0,  &lt;8,0,2&gt;,1
+   }
+}
+</pre>
+
+<p>
+  To specify a texture per vertex, three <code>texture_list</code> indices are added after the <code>face_indices</code> 
+ 
+</p>
+
+<pre>
+mesh2 {
+   vertex_vectors {
+      9, 
+      &lt;0,0,0&gt;, &lt;0.5,0,0&gt;, &lt;0.5,0.5,0&gt;,
+      &lt;1,0,0&gt;, &lt;1,0.5,0&gt;, &lt;1,1,0&gt;   
+      &lt;0.5,1,0&gt;, &lt;0,1,0&gt;, &lt;0,0.5,0&gt; 
+   }
+   texture_list {
+      3,
+      texture{pigment{rgb &lt;0,0,1&gt;}}
+      texture{pigment{rgb 1}}
+      texture{pigment{rgb &lt;1,0,0&gt;}}
+   }
+   face_indices {
+      8, 
+      &lt;0,1,2&gt;,0,1,2,  &lt;1,3,2&gt;,1,0,2,
+      &lt;3,4,2&gt;,0,1,2,  &lt;4,5,2&gt;,1,0,2,
+      &lt;5,6,2&gt;,0,1,2,  &lt;6,7,2&gt;,1,0,2,
+      &lt;7,8,2&gt;,0,1,2,  &lt;8,0,2&gt;,1,0,2
+   }
+}
+</pre>
+
+<p>
+  Assigning a texture based on the <code>texture_list</code> and texture interpolation is done on a per triangle 
+ base. So it is possible to mix triangles with just one texture and triangles with three textures in a mesh. It is even 
+ possible to mix in triangles without any texture indices, these will get their texture from a general <code>texture</code> 
+ statement in the <code>mesh2</code>. uv_mapping is supported for texturing using a <code>texture_list</code>. 
+</p>
+
+<h4><a name="s02_03_02_03">2.3.2.3 </a>Polygon Object</h4>
+<a name="s02_03_02_03_i1">
+<p>
+  The <code><a href="s_106.html#s03_04_02_05">polygon</a></code> object can be used to create any planar, n-sided 
+ shapes like squares, rectangles, pentagons, hexagons, octagons, etc. 
+</p>
+
+<p>
+  A polygon is defined by a number of points that describe its shape. Since polygons have to be closed the first 
+ point has to be repeated at the end of the point sequence. 
+</p>
+
+<p>
+  In the following example we will create the word &quot;POV&quot; using just one polygon statement. 
+</p>
+
+<p>
+  We start with thinking about the points we need to describe the desired shape. We want the letters to lie in the 
+ x-y-plane with the letter O being at the center. The letters extend from y=0 to y=1. Thus we get the following points 
+ for each letter (the z coordinate is automatically set to zero). 
+</p>
+
+<p>
+  Letter P (outer polygon): 
+</p>
+
+<pre>
+    &lt;-0.8, 0.0&gt;, &lt;-0.8, 1.0&gt;,
+    &lt;-0.3, 1.0&gt;, &lt;-0.3, 0.5&gt;,
+    &lt;-0.7, 0.5&gt;, &lt;-0.7, 0.0&gt;
+</pre>
+
+<p>
+  Letter P (inner polygon): 
+</p>
+
+<pre>
+    &lt;-0.7, 0.6&gt;, &lt;-0.7, 0.9&gt;,
+    &lt;-0.4, 0.9&gt;, &lt;-0.4, 0.6&gt;
+</pre>
+
+<p>
+  Letter O (outer polygon): 
+</p>
+
+<pre>
+    &lt;-0.25, 0.0&gt;, &lt;-0.25, 1.0&gt;,
+    &lt; 0.25, 1.0&gt;, &lt; 0.25, 0.0&gt;
+</pre>
+
+<p>
+  Letter O (inner polygon): 
+</p>
+
+<pre>
+    &lt;-0.15, 0.1&gt;, &lt;-0.15, 0.9&gt;,
+    &lt; 0.15, 0.9&gt;, &lt; 0.15, 0.1&gt;
+</pre>
+
+<p>
+  Letter V: 
+</p>
+
+<pre>
+    &lt;0.45, 0.0&gt;, &lt;0.30, 1.0&gt;,
+    &lt;0.40, 1.0&gt;, &lt;0.55, 0.1&gt;,
+    &lt;0.70, 1.0&gt;, &lt;0.80, 1.0&gt;,
+    &lt;0.65, 0.0&gt;
+</pre>
+
+<p>
+  Both letters P and O have a hole while the letter V consists of only one polygon. We will start with the letter V 
+ because it is easier to define than the other two letters. 
+</p>
+
+<p>
+  We create a new file called <code> polygdem.pov</code> and add the following text. 
+</p>
+
+<pre>
+  camera {
+    orthographic
+    location &lt;0, 0, -10&gt;
+    right 1.3 * 4/3 * x
+    up 1.3 * y
+    look_at &lt;0, 0.5, 0&gt;
+  }
+  light_source { &lt;25, 25, -100&gt; color rgb 1 }
+  polygon {
+    8,
+    &lt;0.45, 0.0&gt;, &lt;0.30, 1.0&gt;, // Letter &quot;V&quot;
+    &lt;0.40, 1.0&gt;, &lt;0.55, 0.1&gt;,
+    &lt;0.70, 1.0&gt;, &lt;0.80, 1.0&gt;,
+    &lt;0.65, 0.0&gt;,
+    &lt;0.45, 0.0&gt;
+    pigment { color rgb &lt;1, 0, 0&gt; }
+  }
+</pre>
+
+<p>
+  As noted above the polygon has to be closed by appending the first point to the point sequence. A closed polygon is 
+ always defined by a sequence of points that ends when a point is the same as the first point. 
+</p>
+
+<p>
+  After we have created the letter V we will continue with the letter P. Since it has a hole we have to find a way of 
+ cutting this hole into the basic shape. This is quite easy. We just define the outer shape of the letter P, which is a 
+ closed polygon, and add the sequence of points that describes the hole, which is also a closed polygon. That is all we 
+ have to do. There will be a hole where both polygons overlap. 
+</p>
+
+<p>
+  In general we will get holes whenever an even number of sub-polygons inside a single polygon statement overlap. A 
+ sub-polygon is defined by a closed sequence of points. 
+</p>
+
+<p>
+  The letter P consists of two sub-polygons, one for the outer shape and one for the hole. Since the hole polygon 
+ overlaps the outer shape polygon we will get a hole. 
+</p>
+
+<p>
+  After we have understood how multiple sub-polygons in a single polygon statement work, it is quite easy to add the 
+ missing O letter. 
+</p>
+
+<p>
+  Finally, we get the complete word POV. 
+</p>
+
+<pre>
+  polygon {
+    30,
+    &lt;-0.8, 0.0&gt;, &lt;-0.8, 1.0&gt;,    // Letter &quot;P&quot;
+    &lt;-0.3, 1.0&gt;, &lt;-0.3, 0.5&gt;,    // outer shape
+    &lt;-0.7, 0.5&gt;, &lt;-0.7, 0.0&gt;,
+    &lt;-0.8, 0.0&gt;,
+    &lt;-0.7, 0.6&gt;, &lt;-0.7, 0.9&gt;,    // hole
+    &lt;-0.4, 0.9&gt;, &lt;-0.4, 0.6&gt;,
+    &lt;-0.7, 0.6&gt;
+    &lt;-0.25, 0.0&gt;, &lt;-0.25, 1.0&gt;,  // Letter &quot;O&quot;
+    &lt; 0.25, 1.0&gt;, &lt; 0.25, 0.0&gt;,  // outer shape
+    &lt;-0.25, 0.0&gt;,
+    &lt;-0.15, 0.1&gt;, &lt;-0.15, 0.9&gt;,  // hole
+    &lt; 0.15, 0.9&gt;, &lt; 0.15, 0.1&gt;,
+    &lt;-0.15, 0.1&gt;,
+    &lt;0.45, 0.0&gt;, &lt;0.30, 1.0&gt;,    // Letter &quot;V&quot;
+    &lt;0.40, 1.0&gt;, &lt;0.55, 0.1&gt;,
+    &lt;0.70, 1.0&gt;, &lt;0.80, 1.0&gt;,
+    &lt;0.65, 0.0&gt;,
+    &lt;0.45, 0.0&gt;
+    pigment { color rgb &lt;1, 0, 0&gt; }
+  }
+</pre>
+
+<p>
+  <img alt="The word &quot;POV&quot; made with one polygon statement." src="images/tutorial/polyword.png"> 
+</p>
+
+<p>
+ <a name="l24">
+<small><strong>More about &quot;mesh&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_106.html#s03_04_02_03">3.4.2.3 Mesh</a> in 3.4.2 Finite Patch Primitives
+  </small>
+
+  <li><small>
+   <a href="s_106.html#s03_04_02_04">3.4.2.4 Mesh2</a> in 3.4.2 Finite Patch Primitives
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_66.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_66.html">2.3.1 Spline Based Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.3.2 Polygon Based Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_68.html">2.3.3 Other Shapes</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_68.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

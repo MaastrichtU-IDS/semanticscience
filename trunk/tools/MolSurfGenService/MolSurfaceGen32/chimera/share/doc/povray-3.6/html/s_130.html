@@ -1,0 +1,850 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.6.3 Photons</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_129.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_129.html">3.6.2 Media</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.6.3 
+   Photons</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_131.html">3.7 Include Files</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_131.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_06_03">3.6.3 </a>Photons</h3>
+
+<h4><a name="s03_06_03_01">3.6.3.1 </a>Overview</h4>
+
+<p>
+  The basic goal of this implementation of the photon map is to render true reflective and refractive caustics. The 
+ photon map was first introduced by Henrik Wann Jensen (see <a href="s_91.html#s02_05_05">Suggested Reading</a>). 
+</p>
+
+<p>
+  Photon mapping is a technique which uses a forward ray-tracing pre-processing step to render refractive and 
+ reflective caustics realistically. This means that mirrors can reflect light rays and lenses can focus light. 
+</p>
+
+<p>
+  Photon mapping works by shooting packets of light (photons) from light sources into the scene. The photons are 
+ directed towards specific objects. When a photon hits an object after passing through (or bouncing off of) the target 
+ object, the ray intersection is stored in memory. This data is later used to estimate the amount of light contributed 
+ by reflective and refractive caustics. 
+</p>
+
+<h5><a name="s03_06_03_01_01">3.6.3.1.1 </a>Examples</h5>
+
+<p>
+  <img align="center" alt="Reflective caustics" src="images/reference/photons1.png"> 
+</p>
+
+<p>
+  This image shows refractive caustics from a sphere and a cylinder. Both use an index of refraction of <code>1.2</code>. 
+ Also visible is a small amount of reflective caustics from the metal sphere, and also from the clear cylinder and 
+ sphere. 
+</p>
+
+<p>
+  <img alt="Photons used for lenses and caustics" src="images/reference/photons2.png"> 
+</p>
+
+<p>
+  Here we have three lenses and three light sources. The middle lens has photon mapping turned off. You can also see 
+ some reflective caustics from the brass box (some light reflects and hits the blue box, other light bounces through 
+ the nearest lens and is focused in the lower left corner of the image). 
+</p>
+
+<h4><a name="s03_06_03_02">3.6.3.2 </a>Using Photon Mapping in Your Scene</h4>
+
+<p>
+  When designing a scene with photons, it helps to think of the scene objects in two categories. Objects in the first 
+ category will show photon caustics when hit by photons. Objects in the second category cause photon caustics by 
+ reflecting or refracting photons. Some objects may be in both categories, and some objects may be in neither category. 
+</p>
+
+<p>
+  Category 1 - Objects that show photon caustics 
+</p>
+
+<p>
+  By default, all objects are in the first category. Whenever a photon hits an object, the photon is stored and will 
+ later be used to render caustics on that object. This means that, by default, caustics from photons can appear on any 
+ surface. To speed up rendering, you can take objects out of this category. You do this with the line: <code>photons{collect 
+ off}</code>. If you use this syntax, caustics from photons will not appear on the object. This will save both memory 
+ and computational time during rendering. 
+</p>
+
+<p>
+  Category 2 - Objects that cause photon caustics 
+</p>
+
+<p>
+  By default, there are no objects in the second category. If you want your object to cause caustics, you need to do 
+ two things. First, make your object into a &quot;target.&quot; You do this with the <code>target</code> keyword. This 
+ enables light sources to shoot photons at your object. Second, you need to specify if your object reflects photons, 
+ refracts photons, or both. This is done with the <code>reflection on</code> and <code>refraction on</code> keywords. 
+ To allow an object to reflect and refract photons, you would use the following lines of code inside the object: 
+</p>
+
+<pre>
+photons{
+  target
+  reflection on
+  refraction on
+}
+</pre>
+
+<p>
+  Generally speaking, you do not want an object to be in both categories. Most objects that cause photon caustics do 
+ not themselves have much color or brightness. Usually they simply refract or reflect their surroundings. For this 
+ reason, it is usually a waste of time to display photon caustics on such surfaces. Even if computed, the effects from 
+ the caustics would be so dim that they would go unnoticed. 
+</p>
+
+<p>
+  Sometimes, you may also wish to add <code>photons{collect off}</code> to other clear or reflective objects, even if 
+ they are not photon targets. Again, this is done to prevent unnecessary computation of caustic lighting. 
+</p>
+
+<p>
+  Finally, you may wish to enable photon reflection and refraction for a surface, even if it is not a target. This 
+ allows indirect photons (photons that have already hit a target and been reflected or refracted) to continue their 
+ journey after hitting this object. 
+</p>
+
+<h5><a name="s03_06_03_02_01">3.6.3.2.1 </a>Photon Global Settings</h5>
+<a name="s03_06_03_02_01_i1"><a name="photons"></a><a name="s03_06_03_02_01_i2"><a name="refraction"></a>
+<pre>global_photon_block:
+photons {
+  spacing &lt;photon_spacing&gt; | count &lt;photons_to_shoot&gt;
+
+  [gather &lt;min_gather&gt;, &lt;max_gather&gt;]
+  [media &lt;max_steps&gt; [,&lt;factor&gt;]]
+  [jitter &lt;jitter_amount&gt;]
+  [max_trace_level &lt;photon_trace_level&gt;]
+  [adc_bailout &lt;photon_adc_bailout&gt;]
+  [save_file &quot;filename&quot; | load_file &quot;filename&quot;]
+  [autostop &lt;autostop_fraction&gt;]
+  [expand_thresholds &lt;percent_increase&gt;, &lt;expand_min&gt;]
+  [radius &lt;gather_radius&gt;,&lt;multiplier&gt;,
+          &lt;gather_radius_media&gt;,&lt;multiplier&gt;]
+}</pre>
+
+<p>
+  All photons default values: <a name="s03_06_03_02_01_i3"> 
+</p>
+
+<pre>
+Global :
+  expand_min    : 40 
+  gather        : 20, 100
+  jitter        : 0.4
+  media         : 0
+  
+Object :
+  collect       : on
+  refraction    : off
+  reflection    : off
+  split_union   : on
+  target        : 1.0
+    
+Light_source:
+  area_light    : off
+  refraction    : off
+  reflection    : off
+
+</pre>
+
+<p>
+  To specify photon gathering and storage options you need to add a photons block to the global_settings section of 
+ your scene. 
+</p>
+
+<p>
+  For example: 
+</p>
+
+<pre>
+ global_settings {
+   photons {
+     count 20000
+     autostop 0
+     jitter .4
+   }
+ }
+</pre>
+
+<p>
+  The number of photons generated can be set using either the spacing or count keywords: 
+</p>
+
+<ul>
+ <a name="s03_06_03_02_01_i4"><a name="spacing"></a>
+ <li>
+   If spacing is used, it specifies approximately the average distance between photons on surfaces. If you cut the 
+  spacing in half, you will get four times as many surface photons, and eight times as many media photons. 
+ </li>
+
+ <li>
+   If count is used, POV-Ray will shoot the approximately number of photons specified. The actual number of photons 
+  that result from this will almost always be at least slightly different from the number specified. Still, if you 
+  double the photons_to_shoot value, then twice as many photons will be shot. If you cut the value in half, then half 
+  the number of photons will be shot. 
+  <ul>
+   
+   <li>
+     It may be less, because POV shoots photons at a target object's bounding box, which means that some photons 
+    will miss the target object. 
+   </li>
+
+   <li>
+     On the other hand, may be more, because each time one object hits an object that has both reflection and 
+    refraction, two photons are created (one for reflection and one for refraction). 
+   </li>
+
+   <li>
+     POV will attempt to compensate for these two factors, but it can only estimate how many photons will actually 
+    be generated. Sometimes this estimation is rather poor, but the feature is still usable. 
+   </li>
+
+  </ul>
+   
+ </li>
+
+</ul>
+<a name="s03_06_03_02_01_i5"><a name="gather"></a>
+<p>
+  The keyword <code>gather</code> allows you to specify how many photons are gathered at each point during the 
+ regular rendering step. The first number (default 20) is the minimum number to gather, while the second number 
+ (default 100) is the maximum number to gather. These are good values and you should only use different ones if you 
+ know what you are doing.<a name="s03_06_03_02_01_i6"><a name="media, photons"></a><a name="s03_06_03_02_01_i7"><a name="photons, media"></a> 
+ 
+</p>
+
+<p>
+  The keyword <code>media</code> turns on media photons. The parameter <code>max_steps</code> specifies the maximum 
+ number of photons to deposit over an interval. The optional parameter factor specifies the difference in media spacing 
+ compared to surface spacing. You can increase factor and decrease max_steps if too many photons are being deposited in 
+ media.<a name="s03_06_03_02_01_i8"> 
+</p>
+
+<p>
+  The keyword <code>jitter</code> specifies the amount of jitter used in the sampling of light rays in the 
+ pre-processing step. The default value is good and usually does not need to be changed.<a name="s03_06_03_02_01_i9"><a name="s03_06_03_02_01_i10"> 
+ 
+</p>
+
+<p>
+  The keywords <code>max_trace_level</code> and <code>adc_bailout</code> allow you to specify these attributes for 
+ the photon-tracing step. If you do not specify these, the values for the primary ray-tracing step will be used.<a name="s03_06_03_02_01_i11"><a name="load_file, photons"></a><a name="s03_06_03_02_01_i12"><a name="save_file, photons"></a> 
+ 
+</p>
+
+<p>
+  The keywords <code>save_file</code> and <code>load_file</code> allow you to save and load photon maps. If you load 
+ a photon map, no photons will be shot. The photon map file contains all surface (caustic) and media photons.<a name="s03_06_03_02_01_i13"><a name="radius, photons"></a> 
+ 
+</p>
+
+<p>
+  <code>radius</code> is used for gathering photons. The larger the radius, the longer it takes to gather photons. 
+ But if you use too small of a radius, you might not get enough photons to get a good estimate. Therefore, choosing a 
+ good radius is important. Normally POV-Ray looks through the photon map and uses some ad-hoc statistical analysis to 
+ determine a reasonable radius. Sometimes it does a good job, sometimes it does not. The radius keyword lets you 
+ override or adjust POV-Ray's guess. 
+</p>
+
+<p>
+  <code>radius</code> parameters (all are optional): 
+</p>
+
+<ol>
+ 
+ <li>
+   Manually set the gather radius for surface photons. If this is either zero or if you leave it out, POV-Ray will 
+  analyze and guess. 
+ </li>
+
+ <li>
+   Adjust the radius for surface photons by setting a multiplier. If POV-Ray, for example, is picking a radius that 
+  you think is too big (render is too slow), you can use &quot;<code>radius ,0.5</code>&quot; to lower the radius 
+  (multiply by 0.5) and speed up the render at the cost of quality. 
+ </li>
+
+ <li>
+   Manually set the gather radius for media photons. 
+ </li>
+
+ <li>
+   Adjust the radius for media photons by setting a multiplier. 
+ </li>
+
+</ol>
+<a name="s03_06_03_02_01_i14"><a name="autostop"></a>
+<p>
+  The keywords <code><a href="s_130.html#s03_06_03_05_01">autostop</a></code> and <code><a href="s_130.html#s03_06_03_05_02">expand_thresholds</a></code> 
+ will be explained later. 
+</p>
+
+<h5><a name="s03_06_03_02_02">3.6.3.2.2 </a>Shooting Photons at an Object</h5>
+
+<pre>
+object_photon_block:
+photons {
+  [target [&lt;spacing_multiplier&gt;]]
+  [refraction on|off]
+  [reflection on|off]
+  [collect on|off]
+  [pass_through]
+}
+</pre>
+
+<p>
+  To shoot photons at an object, you need to tell POV that the object receives photons. To do this, create a <code>photons 
+ { }</code> block within the object. For example: 
+</p>
+
+<pre>
+ object {
+   MyObject
+   photons {
+     target
+     refraction on
+     reflection on
+     collect off
+   }
+ }
+</pre>
+
+<p>
+  In this example, the object both reflects and refracts photons. Either of these options could be turned off (by 
+ specifying reflection off, for example). By using this, you can have an object with a reflective finish which does not 
+ reflect photons for speed and memory reasons.<a name="s03_06_03_02_02_i1"><a name="target"></a> 
+</p>
+
+<p>
+  The keyword <code>target</code> makes this object a target.<a name="s03_06_03_02_02_i2"><a name="spacing_multiplier"></a> 
+ 
+</p>
+
+<p>
+  The density of the photons can be adjusted by specifying the <code>spacing_multiplier</code>. If, for example, you 
+ specify a <code>spacing_multiplier</code> of 0.5, then the spacing for photons hitting this object will be 1/2 of the 
+ distance of the spacing for other objects. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> This means four times as many surface photons, and eight times as many media 
+ photons.<a name="s03_06_03_02_02_i3"><a name="collect"></a> 
+</p>
+
+<p>
+  The keyword <code>collect off</code> causes the object to ignore photons. Photons are neither deposited nor 
+ gathered on that object.<a name="s03_06_03_02_02_i4"><a name="pass_through"></a> 
+</p>
+
+<p>
+  The keyword <code>pass_through</code> causes photons to pass through the object <strong>unaffected</strong> on 
+ their way to a target object. Once a photon hits the target object, it will ignore the <code>pass_through</code> flag. 
+ This is basically a photon version of the <code>no_shadow</code> keyword, with the exception that media within the 
+ object will still be affected by the photons (unless that media specifies collect off). If you use the <code>no_shadow</code> 
+ keyword, the object will be tagged as <code>pass_through</code> automatically. You can then turn off <code>pass_through</code> 
+ if necessary by simply using <code>photons { pass_through off }</code>. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> Photons will not be shot at an object unless you specify the <code>target</code> 
+ keyword. Simply turning refraction on will not suffice. 
+</p>
+
+<p>
+  When shooting photons at a CSG-union, it may sometimes be of advantage to use <code><a href="s_110.html#s03_04_06_02_01">split_union 
+ off</a></code> inside the union. POV-Ray will be forced to shoot at the whole object, instead of splitting it up and 
+ shooting photons at its compound parts. 
+</p>
+
+<h5><a name="s03_06_03_02_03">3.6.3.2.3 </a>Photons and Light Sources</h5>
+<a name="s03_06_03_02_03_i1">
+<pre>
+ light_photon_block:
+ photons {
+   [refraction on | off]
+   [reflection on | off]
+   [area_light]
+ }
+</pre>
+
+<p>
+  Example: 
+</p>
+
+<pre>
+ light_source {
+   MyLight
+   photons {
+     refraction on
+     reflection on
+   }
+ }
+</pre>
+
+<p>
+  Sometimes, you want photons to be shot from one light source and not another. In that case, you can turn photons on 
+ for an object, but specify <code>photons { reflection off refraction off }</code> in the light source's definition. 
+ You can also turn off only reflection or only refraction for any light source. 
+</p>
+
+<h5><a name="s03_06_03_02_04">3.6.3.2.4 </a>Photons and Media</h5>
+<a name="s03_06_03_02_04_i1">
+<pre>
+ global_settings {
+   photons {
+     count 10000
+     media 100
+   }
+ }
+</pre>
+
+<p>
+  Photons also interact fully with media. This means that volumetric photons are stored in scattering media. This is 
+ enabled by using the keyword media within the photons block. 
+</p>
+
+<p>
+  To store photons in media, POV deposits photons as it steps through the media during the photon-tracing phase of 
+ the render. It will deposit these photons as it traces caustic photons, so the number of media photons is dependent on 
+ the number of caustic photons. As a light ray passes through a section of media, the photons are deposited, separated 
+ by approximately the same distance that separates surface photons. 
+</p>
+
+<p>
+  You can specify a factor as a second optional parameter to the media keyword. If, for example, factor is set to 
+ 2.0, then photons will be spaced twice as far apart as they would otherwise have been spaced. 
+</p>
+
+<p>
+  Sometimes, however, if a section of media is very large, using these settings could create a large number of 
+ photons very fast and overload memory. Therefore, following the media keyword, you must specify the maximum number of 
+ photons that are deposited for each ray that travels through each section of media. A setting of 100 should probably 
+ work in most cases. 
+</p>
+
+<p>
+  You can put <code>collect off</code> into media to make that media ignore photons. Photons will neither be 
+ deposited nor gathered in a media that is ignoring them. Photons will also not be gathered nor deposited in 
+ non-scattering media. However, if multiple medias exist in the same space, and at least one does not ignore photons 
+ and is scattering, then photons will be deposited in that interval and will be gathered for use with all media in that 
+ interval. 
+</p>
+
+<h4><a name="s03_06_03_03">3.6.3.3 </a>Photons FAQ</h4>
+
+<p>
+  <em>I made an object with IOR 1.0 and the shadows look weird.</em> 
+</p>
+
+<p>
+  If the borders of your shadows look odd when using photon mapping, do not be alarmed. This is an unfortunate 
+ side-effect of the method. If you increase the density of photons (by decreasing spacing and gather radius) you will 
+ notice the problem diminish. We suggest not using photons if your object does not cause much refraction (such as with 
+ a window pane or other flat piece of glass or any objects with an IOR very close to 1.0). 
+</p>
+
+<p>
+  <em>My scene takes forever to render.</em> 
+</p>
+
+<p>
+  When POV-Ray builds the photon maps, it continually displays in the status bar the number of photons that have been 
+ shot. Is POV-Ray stuck in this step and does it keep shooting lots and lots of photons? 
+</p>
+
+<p>
+  <em>yes</em> 
+</p>
+
+<p>
+  If you are shooting photons at an infinite object (like a plane), then you should expect this. Either be patient or 
+ do not shoot photons at infinite objects. 
+</p>
+
+<p>
+  Are you shooting photons at a CSG difference? Sometimes POV-Ray does a bad job creating bounding boxes for these 
+ objects. And since photons are shot at the bounding box, you could get bad results. Try manually bounding the object. 
+ You can also try the autostop feature (try <code>autostop 0</code>). See the docs for more info on autostop. 
+</p>
+
+<p>
+  <em>no</em> 
+</p>
+
+<p>
+  Does your scene have lots of glass (or other clear objects)? Glass is slow and you need to be patient. 
+</p>
+
+<p>
+  <em>My scene has polka dots but renders really quickly. Why?</em> 
+</p>
+
+<p>
+  You should increase the number of photons (or decrease the spacing). 
+</p>
+
+<p>
+  <em>The photons in my scene show up only as small, bright dots. How can I fix this?</em> 
+</p>
+
+<p>
+  The automatic calculation of the gather radius is probably not working correctly, most likely because there are 
+ many photons not visible in your scene which are affecting the statistical analysis. 
+</p>
+
+<p>
+  You can fix this by either reducing the number of photons that are in your scene but not visible to the camera 
+ (which confuse the auto-computation), or by specifying the initial gather radius manually by using the keyword radius. 
+ If you must manually specify a gather radius, it is usually best to also use spacing instead of count, and then set 
+ radius and spacing to a 5:1 (radius:spacing) ratio. 
+</p>
+
+<p>
+  <em>Adding photons slowed down my scene a lot, and I see polka dots.</em> 
+</p>
+
+<p>
+  This is usually caused by having both high- and low-density photons in the same scene. The low density ones cause 
+ polka dots, while the high density ones slow down the scene. It is usually best if the all photons are on the same 
+ order of magnitude for spacing and brightness. Be careful if you are shooting photons objects close to and far from a 
+ light source. There is an optional parameter to the target keyword which allows you to adjust the spacing of photons 
+ at the target object. You may need to adjust this factor for objects very close to or surrounding the light source. 
+</p>
+
+<p>
+  <em>I added photons, but I do not see any caustics.</em> 
+</p>
+
+<p>
+  When POV-Ray builds the photon maps, it continually displays in the status bar the number of photons that have been 
+ shot. Did it show any photons being shot? 
+</p>
+
+<p>
+  <em>no</em> 
+</p>
+
+<p>
+  Try avoiding <code>autostop</code>, or you might want to bound your object manually. 
+</p>
+
+<p>
+  Try increasing the number of photons (or decreasing the spacing). 
+</p>
+
+<p>
+  <em>yes</em> 
+</p>
+
+<p>
+  <em>Were any photons stored (the number after <code>total</code> in the rendering message as POV-Ray shoots 
+ photons)?</em> 
+</p>
+
+<p>
+  <em>no</em> 
+</p>
+
+<p>
+  It is possible that the photons are not hitting the target object (because another object is between the light 
+ source and the other object). 
+</p>
+
+<p>
+  <em>yes</em> 
+</p>
+
+<p>
+  The photons may be diverging more than you expect. They are probably there, but you cannot see them since they are 
+ spread out too much 
+</p>
+
+<p>
+  <em>The base of my glass object is really bright.</em> 
+</p>
+
+<p>
+  Use <code>collect off</code> with that object. 
+</p>
+
+<p>
+  <em>Will area lights work with photon mapping?</em> 
+</p>
+
+<p>
+  Photons do work with area lights. However, normally photon mapping ignores all area light options and treats all 
+ light sources as point lights. If you would like photon mapping to use your area light options, you must specify the 
+ &quot;area_light&quot; keyword <strong>within</strong> the <code>photons { }</code> block in your light source's code. 
+ Doing this will not increase the number of photons shot by the light source, but it might cause regular patterns to 
+ show up in the rendered caustics (possibly splotchiness). 
+</p>
+
+<p>
+  <em>What do the stats mean?</em> 
+</p>
+
+<p>
+  In the stats, <code>photons shot</code> means how many light rays were shot from the light sources. <code>photons 
+ stored</code> means how many photons are deposited on surfaces in the scene. If you turn on reflection and refraction, 
+ you could get more photons stored than photons shot, since the each ray can get split into two. 
+</p>
+
+<h4><a name="s03_06_03_04">3.6.3.4 </a>Photon Tips</h4>
+
+<ul>
+ 
+ <ul>
+  
+  <li>
+    Use <code>collect off</code> in objects that photons do not hit. Just put <code>photons { collect off }</code> 
+   in the object's definition. 
+  </li>
+
+  <li>
+    Use <code>collect off</code> in glass objects. 
+  </li>
+
+  <li>
+    Use <code>autostop</code> unless it causes problems. 
+  </li>
+
+  <li>
+    A big tip is to make sure that all of the final densities of photons are of the same general magnitude. You do 
+   not want spots with really high density photons and another area with really low density photons. You will always 
+   have some variation (which is a good thing), but having really big differences in photon density is what causes some 
+   scenes to take many hours to render. 
+  </li>
+
+ </ul>
+
+</ul>
+
+<h4><a name="s03_06_03_05">3.6.3.5 </a>Advanced Techniques</h4>
+
+<h5><a name="s03_06_03_05_01">3.6.3.5.1 </a>Autostop</h5>
+
+<p>
+  <img alt="Example of the photon autostop option" src="images/reference/shootph.png"> 
+</p>
+
+<p>
+  To understand the <code>autostop</code> option, you need to understand the way photons are shot from light sources. 
+ Photons are shot in a spiral pattern with uniform angular density. Imagine a sphere with a spiral starting at one of 
+ the poles and spiraling out in ever-increasing circles to the equator. Two angles are involved here. The first, phi, 
+ is the how far progress has been made in the current circle of the spiral. The second, theta, is how far we are from 
+ the pole to the equator. Now, imagine this sphere centered at the light source with the pole where the spiral starts 
+ pointed towards the center of the object receiving photons. Now, photons are shot out of the light in this spiral 
+ pattern. 
+</p>
+
+<p>
+  Normally, POV does not stop shooting photons until the target object's entire bounding box has been thoroughly 
+ covered. Sometimes, however, an object is much smaller than its bounding box. At these times, we want to stop shooting 
+ if we do a complete circle in the spiral without hitting the object. Unfortunately, some objects (such as copper 
+ rings), have holes in the middle. Since we start shooting at the middle of the object, the photons just go through the 
+ hole in the middle, thus fooling the system into thinking that it is done. To avoid this, the <code>autostop</code> 
+ keyword lets you specify how far the system must go before this auto-stopping feature kicks in. The value specified is 
+ a fraction of the object's bounding box. Valid values are 0.0 through 1.0 (0% through 100%). POV will continue to 
+ shoot photons until the spiral has exceeded this value or the bounding box is completely covered. If a complete circle 
+ of photons fails to hit the target object after the spiral has passed the autostop threshold, POV will then stop 
+ shooting photons. 
+</p>
+
+<p>
+  The <code>autostop</code> feature will also not kick in until at least one photon has hit the object. This allows 
+ you to use <code>autostop 0</code> even with objects that have holes in the middle. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong>If the light source is within the object's bounding box, the photons are shot in 
+ all directions from the light source. 
+</p>
+
+<h5><a name="s03_06_03_05_02">3.6.3.5.2 </a>Adaptive Search Radius</h5>
+
+<p>
+  Unless photons are interacting with media, POV-Ray uses an adaptive search radius while gathering photons. If the 
+ minimum number of photons is not found in the original search radius, the radius is expanded and searched again. Using 
+ this adaptive search radius can both decrease the amount of time it takes to render the image, and sharpen the borders 
+ in the caustic patterns.<a name="s03_06_03_05_02_i1"><a name="expand_thresholds"></a> 
+</p>
+
+<p>
+  Sometimes this adaptive search technique can create unwanted artefacts at borders. To remove these artefacts, a few 
+ thresholds are used, which can be specified by <code>expand_thresholds</code>. For example, if expanding the radius 
+ increases the estimated density of photons by too much (threshold is percent_increase, default is 20%, or 0.2), the 
+ expanded search is discarded and the old search is used instead. However, if too few photons are gathered in the 
+ expanded search (<code>expand_min</code>, default is 40), the new search will be used always, even if it means more 
+ than a 20% increase in photon density. 
+</p>
+
+<h5><a name="s03_06_03_05_03">3.6.3.5.3 </a>Photons and Dispersion</h5>
+<a name="s03_06_03_05_03_i1"><a name="photons, dispersion"></a><a name="s03_06_03_05_03_i2">
+<p>
+  When dispersion is specified for interior of a transparent object, photons will make use of that and show 
+ &quot;colored&quot; caustics. 
+</p>
+
+<h5><a name="s03_06_03_05_04">3.6.3.5.4 </a>Saving and Loading Photon Maps</h5>
+
+<p>
+  It is possible to save and load photon maps to speed up rendering. The photon map itself is view-independent, so if 
+ you want to animate a scene that contains photons and you know the photon map will not change during the animation, 
+ you can save it on the first frame and then load it for all subsequent frames. 
+</p>
+
+<p>
+  To save the photon map, put the line 
+</p>
+
+<pre>
+ save_file &quot;myfile.ph&quot;
+</pre>
+
+<p>
+  into the <code>photons { }</code> block inside the <code>global_settings</code> section. 
+</p>
+
+<p>
+  Loading the photon map is the same, but with <code>load_file</code> instead of <code>save_file</code>. You cannot 
+ both load and save a photon map in the POV file. If you load the photon map, it will load all of the photons. No 
+ photons will be shot if the map is loaded from a file. All other options (such as gather radius) must still be 
+ specified in the POV scene file and are not loaded with the photon map. 
+</p>
+
+<p>
+  When can you safely re-use a saved photon map? 
+</p>
+
+<ul>
+ 
+ <li>
+   Moving the camera is <em>always</em> safe. 
+ </li>
+
+ <li>
+   Moving lights that do not cast photons is <em>always</em> safe. 
+ </li>
+
+ <li>
+   Moving objects that do not have photons shot at them, that do not receive photons, and would not receive photons 
+  in the new location is <em>always</em> safe. 
+ </li>
+
+ <li>
+   Moving an object that recieves photons to a new location where it does not receive photons is <em>sometimes</em> 
+  safe. 
+ </li>
+
+ <li>
+   Moving an object to a location where it recieves photons is <em>not</em> safe 
+ </li>
+
+ <li>
+   Moving an object that has photons shot at it is <em>not</em> safe 
+ </li>
+
+ <li>
+   Moving a light that casts photons is <em>not</em> safe. 
+ </li>
+
+ <li>
+   Changing the texture of an object that recieves photons is safe. 
+ </li>
+
+ <li>
+   Changing the texture of an object that has photons shot at it produces results that are not realistic, but can be 
+  useful sometimes. 
+ </li>
+
+</ul>
+
+<p>
+  In general, changes to the scene geometry require photons to be re-shot. Changing the camera parameters or changing 
+ the image resolution does not. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_129.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_129.html">3.6.2 Media</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.6.3 Photons</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_131.html">3.7 Include Files</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_131.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

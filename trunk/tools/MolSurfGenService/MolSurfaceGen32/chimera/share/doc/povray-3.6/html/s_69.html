@@ -1,0 +1,1967 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.3.4 Advanced Texture Options</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_68.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_68.html">2.3.3 Other Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.3.4 
+   Advanced Texture Options</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_70.html">2.3.5 Using Atmospheric Effects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_70.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_03_04">2.3.4 </a>Advanced Texture Options</h3>
+<a name="s02_03_04_i1">
+<p>
+  The extremely powerful texturing ability is one thing that really sets POV-Ray apart from other raytracers. So far 
+ we have not really tried anything too complex but by now we should be comfortable enough with the program's syntax to 
+ try some of the more advanced texture options. 
+</p>
+
+<p>
+  Obviously, we cannot try them all. It would take a tutorial a lot more pages to use every texturing option 
+ available in POV-Ray. For this limited tutorial, we will content ourselves to just trying a few of them to give an 
+ idea of how textures are created. With a little practice, we will soon be creating beautiful textures of our own. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> early versions of POV-Ray made a distinction between pigment and normal 
+ patterns, i. e. patterns that could be used inside a <code> normal</code> or <code>pigment</code> statement. Since 
+ POV-Ray 3.0 this restriction was removed so that all patterns listed in section &quot;Patterns&quot; can be used as a 
+ pigment or normal pattern. 
+</p>
+
+<h4><a name="s02_03_04_01">2.3.4.1 </a>Pigments</h4>
+<a name="s02_03_04_01_i1">
+<p>
+  Every surface must have a color. In POV-Ray this color is called a <code><a href="#l30">pigment</a></code>. It does 
+ not have to be a single color. It can be a color pattern, a color list or even an image map. Pigments can also be 
+ layered one on top of the next so long as the uppermost layers are at least partially transparent so the ones beneath 
+ can show through. Let's play around with some of these kinds of pigments. 
+</p>
+
+<p>
+  We create a file called <code>texdemo.pov</code> and edit it as follows: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;1, 1, -7&gt;
+    look_at 0
+    angle 36
+  }
+  light_source { &lt;1000, 1000, -1000&gt; White }
+  plane {
+    y, -1.5
+    pigment { checker Green, White }
+  }
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Red }
+  }
+</pre>
+
+<p>
+  Giving this file a quick test render at 200x150 <code>-A</code> we see that it is a simple red sphere against a 
+ green and white checkered plane. We will be using the sphere for our textures. 
+</p>
+
+<h5><a name="s02_03_04_01_01">2.3.4.1.1 </a>Using Color List Pigments</h5>
+<a name="s02_03_04_01_01_i1">
+<p>
+  Before we begin we should note that we have already made one kind of pigment, the color list pigment. In the 
+ previous example we have used a checkered pattern on our plane. There are three other kinds of color list pigments, <code><a href="s_125.html#s03_05_11_05">brick</a></code>, 
+ <code><a href="s_125.html#s03_05_11_19">hexagon</a></code> and the <code><a href="#l31">object</a></code> pattern. 
+ Let's quickly try each of these. First, we change the plane's pigment as follows: 
+</p>
+
+<pre>
+  pigment { hexagon Green, White, Yellow }
+</pre>
+
+<p>
+  Rendering this we see a three-color hexagonal pattern. Note that this pattern requires three colors. Now we change 
+ the pigment to... 
+</p>
+
+<pre>
+  pigment { brick Gray75, Red rotate -90*x scale .25 }
+</pre>
+
+<p>
+  Looking at the resulting image we see that the plane now has a brick pattern. We note that we had to rotate the 
+ pattern to make it appear correctly on the flat plane. This pattern normally is meant to be used on vertical surfaces. 
+ We also had to scale the pattern down a bit so we could see it more easily. We can play around with these color list 
+ pigments, change the colors, etc. until we get a floor that we like. 
+</p>
+
+<h5><a name="s02_03_04_01_02">2.3.4.1.2 </a>Using Pigment and Patterns</h5>
+<a name="s02_03_04_01_02_i1">
+<p>
+  Let's begin texturing our sphere by using a pattern and a color map consisting of three colors. We replace the 
+ pigment block with the following. 
+</p>
+
+<pre>
+  pigment {
+    gradient x
+    color_map {
+      [0.00 color Red]
+      [0.33 color Blue]
+      [0.66 color Yellow]
+      [1.00 color Red]
+    }
+  }
+</pre>
+
+<p>
+  Rendering this we see that the <code><a href="#l32">gradient</a></code> pattern gives us an interesting pattern of 
+ vertical stripes. We change the gradient direction to y. The stripes are horizontal now. We change the gradient 
+ direction to z. The stripes are now more like concentric rings. This is because the gradient direction is directly 
+ away from the camera. We change the direction back to x and add the following to the pigment block. 
+</p>
+
+<pre>
+  pigment {
+    gradient x
+    color_map {
+      [0.00 color Red]
+      [0.33 color Blue]
+      [0.66 color Yellow]
+      [1.00 color Red]
+    }
+    rotate -45*z          // &lt;- add this line
+  }
+</pre>
+
+<p>
+  The vertical bars are now slanted at a 45 degree angle. All patterns can be rotated, scaled and translated in this 
+ manner. Let's now try some different types of patterns. One at a time, we substitute the following keywords for <code>gradient 
+ x</code> and render to see the result: <code><a href="s_125.html#s03_05_11_04">bozo</a></code>, <code><a href="s_125.html#s03_05_11_22">marble</a></code>, 
+ <code><a href="s_125.html#s03_05_11_01">agate</a></code>, <code><a href="s_125.html#s03_05_11_18">granite</a></code>, <code><a href="s_125.html#s03_05_11_21">leopard</a></code>, 
+ <code><a href="s_125.html#s03_05_11_34">spotted</a></code> and <code><a href="#l33">wood</a></code> (if we like we can 
+ test all patterns listed in section &quot;<a href="s_125.html#s03_05_11">Patterns</a>&quot;). 
+</p>
+
+<p>
+  Rendering these we see that each results in a slightly different pattern. But to get really good results each type 
+ of pattern requires the use of some pattern modifiers. 
+</p>
+
+<h5><a name="s02_03_04_01_03">2.3.4.1.3 </a>Using Pattern Modifiers</h5>
+<a name="s02_03_04_01_03_i1"><a name="s02_03_04_01_03_i2"><a name="s02_03_04_01_03_i3"><a name="s02_03_04_01_03_i4"><a name="s02_03_04_01_03_i5"><a name="s02_03_04_01_03_i6">
+<p>
+  Let's take a look at some pattern modifiers. First, we change the pattern type to bozo. Then we add the following 
+ change. 
+</p>
+
+<pre>
+  pigment {
+    bozo
+    frequency 3            // &lt;- add this line
+    color_map {
+      [0.00 color Red]
+      [0.33 color Blue]
+      [0.66 color Yellow]
+      [1.00 color Red]
+    }
+    rotate -45*z
+  }
+</pre>
+
+<p>
+  The <code>frequency</code> modifier determines the number of times the color map repeats itself per unit of size. 
+ This change makes the <code>bozo</code> pattern we saw earlier have many more bands in it. Now we change the pattern 
+ type to <code>marble</code>. When we rendered this earlier, we saw a banded pattern similar to <code>gradient y</code> 
+ that really did not look much like marble at all. This is because marble really is a kind of gradient and it needs 
+ another pattern modifier to look like marble. This modifier is called <code><a href="#l34">turbulence</a></code>. We 
+ change the line <code> frequency 3</code> to <code>turbulence 1</code> and render again. That's better! Now let's put <code>frequency 
+ 3</code> back in right after the turbulence and take another look. Even more interesting! 
+</p>
+
+<p>
+  But wait, it gets better! Turbulence itself has some modifiers of its own. We can adjust the turbulence several 
+ ways. First, the float that follows the <code>turbulence</code> keyword can be any value with higher values giving us 
+ more turbulence. Second, we can use the keywords <code><a href="s_126.html#s03_05_12">omega</a></code>, <code><a href="s_126.html#s03_05_12">lambda</a></code> 
+ and <code><a href="s_126.html#s03_05_12">octaves</a></code> to change the turbulence parameters. 
+</p>
+
+<p>
+  Let's try this now: 
+</p>
+
+<pre>
+  pigment {
+    marble
+    turbulence 0.5
+    lambda 1.5
+    omega 0.8
+    octaves 5
+    frequency 3
+    color_map {
+      [0.00 color Red]
+      [0.33 color Blue]
+      [0.66 color Yellow]
+      [1.00 color Red]
+    }
+    rotate 45*z
+  }
+</pre>
+
+<p>
+  Rendering this we see that the turbulence has changed and the pattern looks different. We play around with the 
+ numerical values of turbulence, lambda, omega and octaves to see what they do. 
+</p>
+
+<h5><a name="s02_03_04_01_04">2.3.4.1.4 </a>Using Transparent Pigments and Layered Textures</h5>
+<a name="s02_03_04_01_04_i1"><a name="s02_03_04_01_04_i2">
+<p>
+  Pigments are described by numerical values that give the <a href="s_97.html#s03_02_01_05_01">rgb</a> value of the 
+ color to be used (like <code>color rgb&lt;1,0,0&gt;</code> giving us a red color). But this syntax will give us more 
+ than just the rgb values. We can specify filtering transparency by changing it as follows: <code>color 
+ rgbf&lt;1,0,0,1&gt;</code>. The <em>f</em> stands for <code>filter</code>, POV-Ray's word for <a href="s_97.html#s03_02_01_05_01">filtered 
+ transparency</a>. A value of one means that the color is completely transparent, but still filters the light according 
+ to what the pigment is. In this case, the color will be a transparent red, like red cellophane. 
+</p>
+
+<p>
+  There is another kind of transparency in POV-Ray. It is called <em>transmittance</em> or non-filtering transparency 
+ (the keyword is <code><a href="s_97.html#s03_02_01_05">transmit</a></code>; see also <code><a href="s_97.html#s03_02_01_05_01">rgbt</a></code>). 
+ It is different from <code>filter</code> in that it does not filter the light according to the pigment color. It 
+ instead allows all the light to pass through unchanged. It can be specified like this: <code>rgbt &lt;1,0,0,1&gt;</code>. 
+ 
+</p>
+
+<p>
+  Let's use some transparent pigments to create another kind of texture, the layered texture. Returning to our 
+ previous example, declare the following texture. 
+</p>
+
+<pre>
+  #declare LandArea = texture {
+      pigment {
+        agate
+        turbulence 1
+        lambda 1.5
+        omega .8
+        octaves 8
+        color_map {
+          [0.00 color rgb &lt;.5, .25, .15&gt;]
+          [0.33 color rgb &lt;.1, .5, .4&gt;]
+          [0.86 color rgb &lt;.6, .3, .1&gt;]
+          [1.00 color rgb &lt;.5, .25, .15&gt;]
+        }
+      }
+    }
+</pre>
+
+<p>
+  This texture will be the land area. Now let's make the oceans by declaring the following. 
+</p>
+
+<pre>
+  #declare OceanArea = texture {
+      pigment {
+        bozo
+        turbulence .5
+        lambda 2
+        color_map {
+          [0.00, 0.33 color rgb &lt;0, 0, 1&gt;
+                      color rgb &lt;0, 0, 1&gt;]
+          [0.33, 0.66 color rgbf &lt;1, 1, 1, 1&gt;
+                      color rgbf &lt;1, 1, 1, 1&gt;]
+          [0.66, 1.00 color rgb &lt;0, 0, 1&gt;
+                      color rgb &lt;0, 0, 1&gt;]
+        }
+      }
+    }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> how the ocean is the opaque blue area and the land is the clear area which will 
+ allow the underlying texture to show through. 
+</p>
+
+<p>
+  Now, let's declare one more texture to simulate an atmosphere with swirling clouds. 
+</p>
+
+<pre>
+  #declare CloudArea = texture {
+    pigment {
+      agate
+      turbulence 1
+      lambda 2
+      frequency 2
+      color_map {
+        [0.0 color rgbf &lt;1, 1, 1, 1&gt;]
+        [0.5 color rgbf &lt;1, 1, 1, .35&gt;]
+        [1.0 color rgbf &lt;1, 1, 1, 1&gt;]
+      }
+    }
+  }
+</pre>
+
+<p>
+  Now apply all of these to our sphere. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    texture { LandArea }
+    texture { OceanArea }
+    texture { CloudArea }
+  }
+</pre>
+
+<p>
+  We render this and have a pretty good rendition of a little planetoid. But it could be better. We do not 
+ particularly like the appearance of the clouds. There is a way they could be done that would be much more realistic. 
+</p>
+
+<h5><a name="s02_03_04_01_05">2.3.4.1.5 </a>Using Pigment Maps</h5>
+<a name="s02_03_04_01_05_i1"><a name="s02_03_04_01_05_i2">
+<p>
+  Pigments may be blended together in the same way as the colors in a color map using the same pattern keywords and a <code>pigment_map</code>. 
+ Let's just give it a try. 
+</p>
+
+<p>
+  We add the following declarations, making sure they appear before the other declarations in the file. 
+</p>
+
+<pre>
+  #declare Clouds1 = pigment {
+      bozo
+      turbulence 1
+      color_map {
+        [0.0 color White filter 1]
+        [0.5 color White]
+        [1.0 color White filter 1]
+      }
+    }
+  #declare Clouds2 = pigment {
+    agate
+    turbulence 1
+    color_map {
+      [0.0 color White filter 1]
+      [0.5 color White]
+      [1.0 color White filter 1]
+      }
+    }
+  #declare Clouds3 = pigment {
+    marble
+    turbulence 1
+    color_map {
+      [0.0 color White filter 1]
+      [0.5 color White]
+      [1.0 color White filter 1]
+    }
+  }
+  #declare Clouds4 = pigment {
+    granite
+    turbulence 1
+    color_map {
+      [0.0 color White filter 1]
+      [0.5 color White]
+      [1.0 color White filter 1]
+    }
+  }
+</pre>
+
+<p>
+  Now we use these declared pigments in our cloud layer on our planetoid. We replace the declared cloud layer with. 
+</p>
+
+<pre>
+  #declare CloudArea = texture {
+    pigment {
+      gradient y
+      pigment_map {
+        [0.00 Clouds1]
+        [0.25 Clouds2]
+        [0.50 Clouds3]
+        [0.75 Clouds4]
+        [1.00 Clouds1]
+      }
+    }
+  }
+</pre>
+
+<p>
+  We render this and see a remarkable pattern that looks very much like weather patterns on the planet earth. They 
+ are separated into bands, simulating the different weather types found at different latitudes. 
+</p>
+
+<h4><a name="s02_03_04_02">2.3.4.2 </a>Normals</h4>
+
+<p>
+  Objects in POV-Ray have very smooth surfaces. This is not very realistic so there are several ways to disturb the 
+ smoothness of an object by perturbing the surface normal. The surface normal is the vector that is perpendicular to 
+ the angle of the surface. By changing this normal the surface can be made to appear bumpy, wrinkled or any of the many 
+ patterns available. Let's try a couple of them. 
+</p>
+
+<h5><a name="s02_03_04_02_01">2.3.4.2.1 </a>Using Basic Normal Modifiers</h5>
+<a name="s02_03_04_02_01_i1">
+<p>
+  We comment out the planetoid sphere for now and, at the bottom of the file, create a new sphere with a simple, 
+ single color texture. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray75 }
+    normal { bumps 1 scale .2 }
+  }
+</pre>
+
+<p>
+  Here we have added a <code>normal</code> block in addition to the <code> pigment</code> block (note that these do 
+ not have to be included in a <code> texture</code> block unless they need to be transformed together or need to be 
+ part of a layered texture). We render this to see what it looks like. Now, one at a time, we substitute for the 
+ keyword <code><a href="s_125.html#s03_05_11_06">bumps</a></code> the following keywords: <code><a href="s_125.html#s03_05_11_12">dents</a></code>, 
+ <code><a href="s_125.html#s03_05_11_37">wrinkles</a></code>, <code><a href="s_125.html#s03_05_11_29">ripples</a></code> 
+ and <code><a href="s_125.html#s03_05_11_35">waves</a></code> (we can also use any of the patterns listed in &quot;<a href="s_125.html#s03_05_11">Patterns</a>&quot;). 
+ We render each to see what they look like. We play around with the float value that follows the keyword. We also 
+ experiment with the scale value. 
+</p>
+
+<p>
+  For added interest, we change the plane texture to a single color with a normal as follows. 
+</p>
+
+<pre>
+  plane {
+    y, -1.5
+    pigment { color rgb &lt;.65, .45, .35&gt; }
+    normal { dents .75 scale .25 }
+  }
+</pre>
+
+<h5><a name="s02_03_04_02_02">2.3.4.2.2 </a>Blending Normals</h5>
+<a name="s02_03_04_02_02_i1"><a name="s02_03_04_02_02_i2">
+<p>
+  Normals can be layered similar to pigments but the results can be unexpected. Let's try that now by editing the 
+ sphere as follows. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray75 }
+      normal { radial frequency 10 }
+      normal { gradient y scale .2 }
+  }
+</pre>
+
+<p>
+  As we can see, the resulting pattern is neither a radial nor a gradient. It is instead the result of first 
+ calculating a radial pattern and then calculating a gradient pattern. The results are simply additive. This can be 
+ difficult to control so POV-Ray gives the user other ways to blend normals. 
+</p>
+
+<p>
+  One way is to use normal maps. A normal map works the same way as the pigment map we used earlier. Let's change our 
+ sphere texture as follows. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray75 }
+    normal {
+      gradient y
+      frequency 3
+      turbulence .5
+      normal_map {
+        [0.00 granite]
+        [0.25 spotted turbulence .35]
+        [0.50 marble turbulence .5]
+        [0.75 bozo turbulence .25]
+        [1.00 granite]
+      }
+    }
+  }
+</pre>
+
+<p>
+  Rendering this we see that the sphere now has a very irregular bumpy surface. The gradient pattern type separates 
+ the normals into bands but they are turbulated, giving the surface a chaotic appearance. But this gives us an idea. 
+</p>
+
+<p>
+  Suppose we use the same pattern for a normal map that we used to create the oceans on our planetoid and applied it 
+ to the land areas. Does it follow that if we use the same pattern and modifiers on a sphere the same size that the 
+ shape of the pattern would be the same? Would not that make the land areas bumpy while leaving the oceans smooth? 
+ Let's try it. First, let's render the two spheres side-by-side so we can see if the pattern is indeed the same. We 
+ un-comment the planetoid sphere and make the following changes. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    texture { LandArea }
+    texture { OceanArea }
+    //texture { CloudArea }  // &lt;-comment this out
+    translate -x             // &lt;- add this transformation
+  }
+</pre>
+
+<p>
+  Now we change the gray sphere as follows. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray75 }
+    normal {
+      bozo
+      turbulence .5
+      lambda 2
+      normal_map {
+        [0.4 dents .15 scale .01]
+        [0.6 agate turbulence 1]
+        [1.0 dents .15 scale .01]
+      }
+    }
+    translate x // &lt;- add this transformation
+  }
+</pre>
+
+<p>
+  We render this to see if the pattern is the same. We see that indeed it is. So let's comment out the gray sphere 
+ and add the <code>normal</code> block it contains to the land area texture of our planetoid. We remove the 
+ transformations so that the planetoid is centered in the scene again. 
+</p>
+
+<pre>
+  #declare LandArea = texture {
+    pigment {
+      agate
+      turbulence 1
+      lambda 1.5
+      omega .8
+      octaves 8
+      color_map {
+        [0.00 color rgb &lt;.5, .25, .15&gt;]
+        [0.33 color rgb &lt;.1, .5, .4&gt;]
+        [0.86 color rgb &lt;.6, .3, .1&gt;]
+        [1.00 color rgb &lt;.5, .25, .15&gt;]
+      }
+    }
+    normal {
+      bozo
+      turbulence .5
+      lambda 2
+      normal_map {
+        [0.4 dents .15 scale .01]
+        [0.6 agate turbulence 1]
+        [1.0 dents .15 scale .01]
+      }
+    }
+  }
+</pre>
+
+<p>
+  Looking at the resulting image we see that indeed our idea works! The land areas are bumpy while the oceans are 
+ smooth. We add the cloud layer back in and our planetoid is complete. 
+</p>
+
+<p>
+  There is much more that we did not cover here due to space constraints. On our own, we should take the time to 
+ explore slope maps, average and bump maps. 
+</p>
+
+<h4><a name="s02_03_04_03">2.3.4.3 </a>Finishes</h4>
+<a name="s02_03_04_03_i1">
+<p>
+  The final part of a POV-Ray texture is the <code><a href="#l35">finish</a></code>. It controls the properties of 
+ the surface of an object. It can make it shiny and reflective, or dull and flat. It can also specify what happens to 
+ light that passes through transparent pigments, what happens to light that is scattered by less-than-perfectly-smooth 
+ surfaces and what happens to light that is reflected by surfaces with thin-film interference properties. There are 
+ twelve different properties available in POV-Ray to specify the finish of a given object. These are controlled by the 
+ following keywords: <code><a href="#l36">ambient</a></code>, <code><a href="s_117.html#s03_05_03_02_01">diffuse</a></code>, 
+ <code><a href="s_117.html#s03_05_03_02_02">brilliance</a></code>, <code><a href="s_117.html#s03_05_03_03_01">phong</a></code>, 
+ <code><a href="s_117.html#s03_05_03_03_02">specular</a></code>, <code><a href="s_117.html#s03_05_03_03_03">metallic</a></code>, 
+ <code><a href="s_117.html#s03_05_03_04">reflection</a></code>, <code><a href="s_117.html#s03_05_03_02_03">crand</a></code> 
+ and <code><a href="s_117.html#s03_05_03_06">iridescence</a></code>. Let's design a couple of textures that make use of 
+ these parameters. 
+</p>
+
+<h5><a name="s02_03_04_03_01">2.3.4.3.1 </a>Using Ambient</h5>
+<a name="s02_03_04_03_01_i1">
+<p>
+  Since objects in POV-Ray are illuminated by light sources, the portions of those objects that are in shadow would 
+ be completely black were it not for the first two finish properties, <code><a href="#l36">ambient</a></code> and <code><a href="s_117.html#s03_05_03_02_01">diffuse</a></code>. 
+ Ambient is used to simulate the light that is scattered around the scene that does not come directly from a light 
+ source. Diffuse determines how much of the light that is seen comes directly from a light source. These two keywords 
+ work together to control the simulation of ambient light. Let's use our gray sphere to demonstrate this. Let's also 
+ change our plane back to its original green and white checkered pattern. 
+</p>
+
+<pre>
+  plane {
+    y, -1.5
+    pigment {checker Green, White}
+  }
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray75 }
+    finish {
+      ambient .2
+      diffuse .6
+    }
+  }
+</pre>
+
+<p>
+  In the above example, the default values for ambient and diffuse are used. We render this to see what the effect is 
+ and then make the following change to the finish. 
+</p>
+
+<pre>
+  ambient 0
+  diffuse 0
+</pre>
+
+<p>
+  The sphere is black because we have specified that none of the light coming from any light source will be reflected 
+ by the sphere. Let's change <code>diffuse</code> back to the default of 0.6. 
+</p>
+
+<p>
+  Now we see the gray surface color where the light from the light source falls directly on the sphere but the shaded 
+ side is still absolutely black. Now let's change <code>diffuse</code> to 0.3 and <code>ambient</code> to 0.3. 
+</p>
+
+<p>
+  The sphere now looks almost flat. This is because we have specified a fairly high degree of ambient light and only 
+ a low amount of the light coming from the light source is diffusely reflected towards the camera. The default values 
+ of <code> ambient</code> and <code>diffuse</code> are pretty good averages and a good starting point. In most cases, 
+ an ambient value of 0.1 ... 0.2 is sufficient and a diffuse value of 0.5 ... 0.7 will usually do the job. There are a 
+ couple of exceptions. If we have a completely transparent surface with high refractive and/or reflective values, low 
+ values of both ambient and diffuse may be best. Here is an example: 
+</p>
+
+<pre>
+sphere {
+   &lt;0,0,0&gt;, 1
+   pigment { White filter 1 }
+   finish {
+      ambient 0
+      diffuse 0
+      reflection .25
+      specular 1
+      roughness .001
+   }
+   interior { ior 1.33 }
+}
+</pre>
+
+<p>
+  This is glass, obviously. Glass is a material that takes nearly all of its appearance from its surroundings. Very 
+ little of the surface is seen because it transmits or reflects practically all of the light that shines on it. See <code>glass.inc</code> 
+ for some other examples. 
+</p>
+
+<p>
+  If we ever need an object to be completely illuminated independently of the lighting situation in a given scene we 
+ can do this artificially by specifying an <code>ambient</code> value of 1 and a <code>diffuse</code> value of 0. This 
+ will eliminate all shading and simply give the object its fullest and brightest color value at all points. This is 
+ good for simulating objects that emit light like light bulbs and for skies in scenes where the sky may not be 
+ adequately lit by any other means. 
+</p>
+
+<p>
+  Let's try this with our sphere now. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { White }
+     finish {
+        ambient 1
+        diffuse 0
+     }
+  }
+</pre>
+
+<p>
+  Rendering this we get a blinding white sphere with no visible highlights or shaded parts. It would make a pretty 
+ good street light. 
+</p>
+
+<h5><a name="s02_03_04_03_02">2.3.4.3.2 </a>Using Surface Highlights</h5>
+<a name="s02_03_04_03_02_i1"><a name="s02_03_04_03_02_i2"><a name="s02_03_04_03_02_i3">
+<p>
+  In the glass example above, we noticed that there were bright little <em> hotspots</em> on the surface. This gave 
+ the sphere a hard, shiny appearance. POV-Ray gives us two ways to specify surface specular highlights. The first is 
+ called <em>Phong highlighting.</em> Usually, Phong highlights are described using two keywords: <code><a href="s_117.html#s03_05_03_03_01">phong</a></code> 
+ and <code><a href="s_117.html#s03_05_03_03_01">phong_size</a></code>. The float that follows <code>phong</code> 
+ determines the brightness of the highlight while the float following <code>phong_size</code> determines its size. 
+ Let's try this. 
+</p>
+
+<pre>
+  sphere {
+    &lt;0,0,0&gt;, 1
+    pigment { Gray50 }
+    finish {
+      ambient .2
+      diffuse .6
+      phong .75
+      phong_size 25
+    }
+  }
+</pre>
+
+<p>
+  Rendering this we see a fairly broad, soft highlight that gives the sphere a kind of plastic appearance. Now let's 
+ change <code> phong_size</code> to 150. This makes a much smaller highlight which gives the sphere the appearance of 
+ being much harder and shinier. 
+</p>
+
+<p>
+  There is another kind of highlight that is calculated by a different means called <em>specular highlighting</em>. 
+ It is specified using the keyword <code><a href="s_117.html#s03_05_03_03_02">specular</a></code> and operates in 
+ conjunction with another keyword called <code><a href="s_117.html#s03_05_03_03_02">roughness</a></code>. These two 
+ keywords work together in much the same way as <code>phong</code> and <code>phong_size</code> to create highlights 
+ that alter the apparent shininess of the surface. Let's try using specular in our sphere. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { Gray50 }
+     finish {
+        ambient .2
+        diffuse .6
+        specular .75
+        roughness .1
+    }
+  }
+</pre>
+
+<p>
+  Looking at the result we see a broad, soft highlight similar to what we had when we used <code>phong_size</code> of 
+ 25. Change <code>roughness</code> to .001 and render again. Now we see a small, tight highlight similar to what we had 
+ when we used <code>phong_size</code> of 150. Generally speaking, specular is slightly more accurate and therefore 
+ slightly more realistic than phong but you should try both methods when designing a texture. There are even times when 
+ both phong and specular may be used on a finish. 
+</p>
+
+<h5><a name="s02_03_04_03_03">2.3.4.3.3 </a>Using Reflection, Metallic and Metallic</h5>
+<a name="s02_03_04_03_03_i1"><a name="s02_03_04_03_03_i2">
+<p>
+  There is another surface parameter that goes hand in hand with highlights, <code><a href="s_117.html#s03_05_03_04">reflection</a></code>. 
+ Surfaces that are very shiny usually have a degree of reflection to them. Let's take a look at an example. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { Gray50 }
+     finish {
+        ambient .2
+        diffuse .6
+        specular .75
+        roughness .001
+        reflection {
+           .5
+        }
+     }
+  }
+</pre>
+
+<p>
+  We see that our sphere now reflects the green and white checkered plane and the black background but the gray color 
+ of the sphere seems out of place. This is another time when a lower diffuse value is needed. Generally, the higher <code>reflection</code> 
+ is the lower <code>diffuse</code> should be. We lower the diffuse value to 0.3 and the ambient value to 0.1 and render 
+ again. That is much better. Let's make our sphere as shiny as a polished gold ball bearing. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { BrightGold }
+     finish {
+        ambient .1
+        diffuse .1
+        specular 1
+        roughness .001
+        reflection {
+           .75
+        }
+     }
+   }
+</pre>
+
+<p>
+  That is close but there is something wrong, the colour of the reflection and the highlight. To make the surface 
+ appear more like metal the keyword <code><a href="s_117.html#s03_05_03_03_03">metallic</a></code> is used. We add it 
+ now to see the difference. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { BrightGold }
+     finish {
+        ambient .1
+        diffuse .1
+        specular 1
+        roughness .001
+        reflection {
+          .75
+          metallic
+        }
+     }
+  }
+</pre>
+
+<p>
+  The reflection has now more of the gold color than the color of its environment. Last detail, the highlight. We add 
+ another metallic statement, now to the finish and not inside the reflection block. 
+</p>
+
+<pre>
+  sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { BrightGold }
+     finish {
+        ambient .1
+        diffuse .1
+        specular 1
+        roughness .001
+        metallic
+        reflection {
+          .75
+          metallic
+        }
+     }
+  }
+</pre>
+
+<p>
+  We see that the highlight has taken on the color of the surface rather than the light source. This gives the 
+ surface a more metallic appearance. 
+</p>
+
+<h5><a name="s02_03_04_03_04">2.3.4.3.4 </a>Using Iridescence</h5>
+<a name="s02_03_04_03_04_i1"><a name="s02_03_04_03_04_i2"><a name="s02_03_04_03_04_i3">
+<p>
+  <em>Iridescence</em> is what we see on the surface of an oil slick when the sun shines on it. The rainbow effect is 
+ created by something called <em>thin-film interference</em> (read section &quot;<a href="s_117.html#s03_05_03_06">Iridescence</a>&quot; 
+ for details). For now let's just try using it. Iridescence is specified by the <code><a href="s_117.html#s03_05_03_06">irid</a></code> 
+ statement and three values: amount, <code>thickness</code> and <code>turbulence</code>. The amount is the contribution 
+ to the overall surface color. Usually 0.1 to 0.5 is sufficient here. The thickness affects the &quot;busyness&quot; of 
+ the effect. Keep this between 0.25 and 1 for best results. The turbulence is a little different from pigment or normal 
+ turbulence. We cannot set <code>octaves</code>, <code>lambda</code> or <code>omega</code> but we can specify an amount 
+ which will affect the thickness in a slightly different way from the thickness value. Values between 0.25 and 1 work 
+ best here too. Finally, iridescence will respond to the surface normal since it depends on the angle of incidence of 
+ the light rays striking the surface. With all of this in mind, let's add some iridescence to our glass sphere. 
+</p>
+
+<pre>
+sphere {
+     &lt;0,0,0&gt;, 1
+     pigment { White filter 1 }
+     finish {
+        ambient .1
+        diffuse .1
+        reflection .2
+        specular 1
+        roughness .001
+        irid {
+          0.35
+          thickness .5
+          turbulence .5
+        }
+     }
+     interior{
+        ior 1.5
+        fade_distance 5
+        fade_power 1
+        caustics 1
+     }
+}
+</pre>
+
+<p>
+  We try to vary the values for amount, thickness and turbulence to see what changes they make. We also try to add a <code>normal</code> 
+ block to see what happens. 
+</p>
+
+<h4><a name="s02_03_04_04">2.3.4.4 </a>Working With Pigment Maps</h4>
+<a name="s02_03_04_04_i1">
+<p>
+  Let's look at the pigment map. We must not confuse this with a color map, as color maps can only take individual 
+ colors as entries in the map, while pigment maps can use entire other pigment patterns. To get a feel for these, let's 
+ begin by setting up a basic plane with a simple pigment map. Now, in the following example, we are going to declare 
+ each of the pigments we are going to use before we actually use them. This is not strictly necessary (we could put an 
+ entire pigment description in each entry of the map) but it just makes the whole thing more readable. 
+</p>
+
+<pre>
+  // simple Black on White checkerboard... it's a classic
+  #declare Pigment1 = pigment {
+    checker color Black color White
+    scale .1
+  }
+  // kind of a &quot;psychedelic rings&quot; effect
+  #declare Pigment2 = pigment {
+    wood
+    color_map {
+      [ 0.0 Red ]
+      [ 0.3 Yellow ]
+      [ 0.6 Green ]
+      [ 1.0 Blue ]
+    }
+  }
+  plane {
+    -z, 0
+    pigment {
+      gradient x
+      pigment_map {
+        [ 0.0 Pigment1 ]
+        [ 0.5 Pigment2 ]
+        [ 1.0 Pigment1 ]
+      }
+    }
+  }
+</pre>
+
+<p>
+  Okay, what we have done here is very simple, and probably quite recognizable if we have been working with color 
+ maps all along anyway. All we have done is substituted a pigment map where a color map would normally go, and as the 
+ entries in our map, we have referenced our declared pigments. When we render this example, we see a pattern which 
+ fades back and forth between the classic checkerboard, and those colorful rings. Because we fade from Pigment1 to 
+ Pigment2 and then back again, we see a clear blending of the two patterns at the transition points. We could just as 
+ easily get a sudden transition by amending the map to read. 
+</p>
+
+<pre>
+  pigment_map {
+    [ 0.0 Pigment1 ]
+    [ 0.5 Pigment1 ]
+    [ 0.5 Pigment2 ]
+    [ 1.0 Pigment2 ]
+  }
+</pre>
+
+<p>
+  Blending individual pigment patterns is just the beginning. 
+</p>
+
+<h4><a name="s02_03_04_05">2.3.4.5 </a>Working With Normal Maps</h4>
+<a name="s02_03_04_05_i1"><a name="s02_03_04_05_i2">
+<p>
+  For our next example, we replace the plane in the scene with this one. 
+</p>
+
+<pre>
+  plane {
+    -z, 0
+    pigment { White }
+    normal {
+      gradient x
+      normal_map {
+        [ 0.0 bumps 1 scale .1]
+        [ 1.0 ripples 1 scale .1]
+      }
+    }
+  }
+</pre>
+
+<p>
+  First of all, we have chosen a solid white color to show off all bumping to best effect. Secondly, we notice that 
+ our map blends smoothly from all bumps at 0.0 to all ripples at 1.0, but because this is a default gradient, it falls 
+ off abruptly back to bumps at the beginning of the next cycle. We Render this and see just enough sharp transitions to 
+ clearly see where one normal gives over to another, yet also an example of how two normal patterns look while they are 
+ smoothly blending into one another. 
+</p>
+
+<p>
+  The syntax is the same as we would expect. We just changed the type of map, moved it into the normal block and 
+ supplied appropriate bump types. It is important to remember that as of POV-Ray 3, all patterns that work with 
+ pigments work as normals as well (and vice versa, except for facets) so we could just as easily have blended from wood 
+ to granite, or any other pattern we like. We experiment a bit and get a feel for what the different patterns look 
+ like. 
+</p>
+
+<p>
+  After seeing how interesting the various normals look blended, we might like to see them completely blended all the 
+ way through rather than this business of fading from one to the next. Well, that is possible too, but we would be 
+ getting ahead of ourselves. That is called the <code> average</code> function, and we will return to it a little bit 
+ further down the page. 
+</p>
+
+<h4><a name="s02_03_04_06">2.3.4.6 </a>Working With Texture Maps</h4>
+<a name="s02_03_04_06_i1"><a name="s02_03_04_06_i2">
+<p>
+  We know how to blend colors, pigment patterns, and normals, and we are probably thinking what about finishes? What 
+ about whole textures? Both of these can be kind of covered under one topic. While there is no finish map per se, there 
+ are texture maps, and we can easily adapt these to serve as finish maps, simply by putting the same pigment and/or 
+ normal in each of the texture entries of the map. Here is an example. We eliminate the declared pigments we used 
+ before and the previous plane, and add the following. 
+</p>
+
+<pre>
+  #declare Texture1 = texture {
+    pigment { Grey }
+    finish { reflection 1 }
+  }
+  #declare Texture2 = texture {
+    pigment { Grey }
+    finish { reflection 0 }
+  }
+  cylinder {
+    &lt;-2, 5, -2&gt;, &lt;-2, -5, -2&gt;, 1
+    pigment { Blue }
+  }
+  plane {
+    -z, 0
+    rotate y * 30
+    texture {
+      gradient y
+      texture_map {
+        [ 0.0 Texture1 ]
+        [ 0.4 Texture1 ]
+        [ 0.6 Texture2 ]
+        [ 1.0 Texture2 ]
+      }
+      scale 2
+    }
+  }
+</pre>
+
+<p>
+  Now, what have we done here? The background plane alternates vertically between two textures, identical except for 
+ their finishes. When we render this, the cylinder has a reflection part of the way down the plane, and then stops 
+ reflecting, then begins and then stops again, in a gradient pattern down the surface of the plane. With a little 
+ adaptation, this could be used with any pattern, and in any number of creative ways, whether we just wanted to give 
+ various parts of an object different finishes, as we are doing here, or whole different textures altogether. 
+</p>
+
+<p>
+  One might ask: if there is a texture map, why do we need pigment and normal maps? Fair question. The answer: speed 
+ of calculation. If we use a texture map, for every in-between point, POV-Ray must make multiple calculations for each 
+ texture element, and then run a weighted average to produce the correct value for that point. Using just a pigment map 
+ (or just a normal map) decreases the overall number of calculations, and our texture renders a bit faster in the 
+ bargain. As a rule of thumb: we use pigment or normal maps where we can and only fall back on texture maps if we need 
+ the extra flexibility. 
+</p>
+
+<h4><a name="s02_03_04_07">2.3.4.7 </a>Working With List Textures</h4>
+<a name="s02_03_04_07_i1">
+<p>
+  If we have followed the corresponding tutorials on simple pigments, we know that there are three patterns called <em>color 
+ list</em> patterns, because rather than using a color map, these simple but useful patterns take a list of colors 
+ immediately following the pattern keyword. We are talking about checker, hexagon, the brick pattern and the object 
+ pattern. 
+</p>
+
+<p>
+  Naturally they also work with whole pigments, normals, and entire textures, just as the other patterns do above. 
+ The only difference is that we list entries in the pattern (as we would do with individual colors) rather than using a 
+ map of entries. Here is an example. We strike the plane and any declared pigments we had left over in our last 
+ example, and add the following to our basic file. 
+</p>
+
+<pre>
+  #declare Pigment1 = pigment {
+    hexagon
+    color Yellow color Green color Grey
+    scale .1
+  }
+  #declare Pigment2 = pigment {
+    checker
+    color Red color Blue
+    scale .1
+  }
+  #declare Pigment3 = pigment {
+    brick
+    color White color Black
+    rotate -90*x
+    scale .1
+  }
+  box {
+    -5, 5
+    pigment {
+      hexagon
+      pigment {Pigment1}
+      pigment {Pigment2}
+      pigment {Pigment3}
+      rotate 90*x
+    }
+  }
+</pre>
+
+<p>
+  We begin by declaring an example of each of the color list patterns as individual pigments. Then we use the hexagon 
+ pattern as a <em>pigment list</em> pattern, simply feeding it a list of pigments rather than colors as we did above. 
+ There are two rotate statements throughout this example, because bricks are aligned along the z-direction, while 
+ hexagons align along the y-direction, and we wanted everything to face toward the camera we originally declared out in 
+ the -z-direction so we can really see the patterns within patterns effect here. 
+</p>
+
+<p>
+  Of course color list patterns used to be only for pigments, but as of POV-Ray 3, everything that worked for 
+ pigments can now also be adapted for normals or entire textures. A couple of quick examples might look like 
+</p>
+
+<pre>
+  normal {
+    brick
+    normal { granite .1 }
+    normal { bumps 1 scale .1 }
+  }
+</pre>
+
+<p>
+  or... 
+</p>
+
+<pre>
+  texture {
+    checker
+    texture { Gold_Metal }
+    texture { Silver_Metal }
+  }
+</pre>
+
+<h4><a name="s02_03_04_08">2.3.4.8 </a>What About Tiles?</h4>
+<a name="s02_03_04_08_i1">
+<p>
+  In earlier versions of POV-Ray, there was a texture pattern called <code>tiles</code>. By simply using a checker 
+ texture pattern (as we just saw above), we can achieve the same thing as tiles used to do, so it is now obsolete. It 
+ is still supported by POV-Ray 3 for backwards compatibility with old scene files, but now is a good time to get in the 
+ habit of using a checker pattern instead. 
+</p>
+
+<h4><a name="s02_03_04_09">2.3.4.9 </a>Average Function</h4>
+<a name="s02_03_04_09_i1">
+<p>
+  Now things get interesting. Above, we began to see how pigments and normals can fade from one to the other when we 
+ used them in maps. But how about if we want a smooth blend of patterns all the way through? That is where a new 
+ feature called <code><a href="s_125.html#s03_05_11_02">average</a></code> can come in very handy. Average works with 
+ pigment, normal, and texture maps, although the syntax is a little bit different, and when we are not expecting it, 
+ the change can be confusing. Here is a simple example. We use our standard includes, camera and light source from 
+ above, and enter the following object. 
+</p>
+
+<pre>
+  plane { -z, 0
+    pigment { White }
+    normal {
+      average
+      normal_map {
+        [1, gradient x ]
+        [1, gradient y ]
+      }
+    }
+  }
+</pre>
+
+<p>
+  What we have done here is pretty self explanatory as soon as we render it. We have combined a vertical with a 
+ horizontal gradient bump pattern, creating crisscrossing gradients. Actually, the crisscrossing effect is a smooth 
+ blend of gradient x with gradient y all the way across our plane. Now, what about that syntax difference? 
+</p>
+
+<p>
+  We see how our normal map has changed from earlier examples. The floating point value to the left-hand side of each 
+ map entry has a different meaning now. It gives the weight factor per entry in the map. Try some different values for 
+ the 'gradient x' entry and see how the normal changes. 
+</p>
+
+<p>
+  The weight factor can be omitted, the result then will be the same as if each entry had a weight factor of 1. 
+</p>
+
+<h4><a name="s02_03_04_10">2.3.4.10 </a>Working With Layered Textures</h4>
+<a name="s02_03_04_10_i1">
+<p>
+  With the multitudinous colors, patterns, and options for creating complex textures in POV-Ray, we can easily become 
+ deeply engrossed in mixing and tweaking just the right textures to apply to our latest creations. But as we go, sooner 
+ or later there is going to come that <em>special</em> texture. That texture that is sort of like wood, only varnished, 
+ and with a kind of spotty yellow streaking, and some vertical gray flecks, that looks like someone started painting 
+ over it all, and then stopped, leaving part of the wood visible through the paint. 
+</p>
+
+<p>
+  Only... now what? How do we get all that into one texture? No pattern can do that many things. Before we panic and 
+ say image map there is at least one more option: <em>layered textures</em>. 
+</p>
+
+<p>
+  With layered textures, we only need to specify a series of textures, one after the other, all associated with the 
+ same object. Each texture we list will be applied one on top of the other, from bottom to top in the order they 
+ appear. 
+</p>
+
+<p>
+  It is very important to note that we must have some degree of transparency (filter or transmit) in the pigments of 
+ our upper textures, or the ones below will get lost underneath. We will not receive a warning or an error - 
+ technically it is legal to do this: it just does not make sense. It is like spending hours sketching an elaborate 
+ image on a bare wall, then slapping a solid white coat of latex paint over it. 
+</p>
+
+<p>
+  Let's design a very simple object with a layered texture, and look at how it works. We create a file called <code>LAYTEX.POV</code> 
+ and add the following lines. 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  #include &quot;textures.inc&quot;
+  camera {
+    location &lt;0, 5, -30&gt;
+    look_at &lt;0, 0, 0&gt;
+  }
+  light_source { &lt;-20, 30, -50&gt; color White }
+  plane { y, 0 pigment { checker color Green color Yellow  } }
+  background { rgb &lt;.7, .7, 1&gt; }
+  box {
+    &lt;-10, 0, -10&gt;, &lt;10, 10, 10&gt;
+    texture {
+      Silver_Metal // a metal object ...
+      normal {     // ... which has suffered a beating
+        dents 2
+        scale 1.5
+      }
+    } // (end of base texture)
+    texture { // ... has some flecks of rust ...
+      pigment {
+        granite
+        color_map {
+          [0.0 rgb &lt;.2, 0, 0&gt; ]
+          [0.2 color Brown ]
+          [0.2 rgbt &lt;1, 1, 1, 1&gt; ]
+          [1.0 rgbt &lt;1, 1, 1, 1&gt; ]
+        }
+        frequency 16
+      }
+    } // (end rust fleck texture)
+    texture { // ... and some sooty black marks
+      pigment {
+        bozo
+        color_map {
+          [0.0 color Black ]
+          [0.2 color rgbt &lt;0, 0, 0, .5&gt; ]
+          [0.4 color rgbt &lt;.5, .5, .5, .5&gt; ]
+          [0.5 color rgbt &lt;1, 1, 1, 1&gt; ]
+          [1.0 color rgbt &lt;1, 1, 1, 1&gt; ]
+        }
+        scale 3
+      }
+    } // (end of sooty mark texture)
+  } // (end of box declaration)
+</pre>
+
+<p>
+  Whew. This gets complicated, so to make it easier to read, we have included comments showing what we are doing and 
+ where various parts of the declaration end (so we do not get lost in all those closing brackets!). To begin, we 
+ created a simple box over the classic checkerboard floor, and give the background sky a pale blue color. Now for the 
+ fun part... 
+</p>
+
+<p>
+  To begin with we made the box use the <code>Silver_Metal</code> texture as declared in textures.inc (for bonus 
+ points, look up <code>textures.inc</code> and see how this standard texture was originally created sometime). To give 
+ it the start of its abused state, we added the dents normal pattern, which creates the illusion of some denting in the 
+ surface as if our mysterious metal box had been knocked around quite a bit. 
+</p>
+
+<p>
+  The flecks of rust are nothing but a fine grain granite pattern fading from dark red to brown which then abruptly 
+ drops to fully transparent for the majority of the color map. True, we could probably come up with a more realistic 
+ pattern of rust using pigment maps to cluster rusty spots, but pigment maps are a subject for another tutorial 
+ section, so let's skip that just now. 
+</p>
+
+<p>
+  Lastly, we have added a third texture to the pot. The randomly shifting <code>bozo</code> texture gradually fades 
+ from blackened centers to semi-transparent medium gray, and then ultimately to fully transparent for the latter half 
+ of its color map. This gives us a look of sooty burn marks further marring the surface of the metal box. The final 
+ result leaves our mysterious metal box looking truly abused, using multiple texture patterns, one on top of the other, 
+ to produce an effect that no single pattern could generate! 
+</p>
+
+<h5><a name="s02_03_04_10_01">2.3.4.10.1 </a>Declaring Layered Textures</h5>
+<a name="s02_03_04_10_01_i1">
+<p>
+  In the event we want to reuse a layered texture on several objects in our scene, it is perfectly legal to declare a 
+ layered texture. We will not repeat the whole texture from above, but the general format would be something like this: 
+</p>
+
+<pre>
+  #declare Abused_Metal =
+    texture { /* insert your base texture here... */ }
+    texture { /* and your rust flecks here... */ }
+    texture { /* and of course, your sooty burn marks here */ }
+</pre>
+
+<p>
+  POV-Ray has no problem spotting where the declaration ends, because the textures follow one after the other with no 
+ objects or directives in between. The layered texture to be declared will be assumed to continue until it finds 
+ something other than another texture, so any number of layers can be added in to a declaration in this fashion. 
+</p>
+
+<p>
+  One final word about layered textures: whatever layered texture we create, whether declared or not, we must not 
+ leave off the texture wrapper. In conventional single textures a common shorthand is to have just a pigment, or just a 
+ pigment and finish, or just a normal, or whatever, and leave them outside of a texture statement. This shorthand does 
+ not extend to layered textures. As far as POV-Ray is concerned we can layer entire textures, but not individual pieces 
+ of textures. For example 
+</p>
+
+<pre>
+  #declare Bad_Texture =
+    texture { /* insert your base texture here... */ }
+    pigment { Red filter .5 }
+    normal { bumps 1 }
+</pre>
+
+<p>
+  will not work. The pigment and the normal are just floating there without being part of any particular texture. 
+ Inside an object, with just a single texture, we can do this sort of thing, but with layered textures, we would just 
+ generate an error whether inside the object or in a declaration. 
+</p>
+
+<h5><a name="s02_03_04_10_02">2.3.4.10.2 </a>Another Layered Textures Example</h5>
+<a name="s02_03_04_10_02_i1">
+<p>
+  To further explain how layered textures work another example is described in detail. A tablecloth is created to be 
+ used in a picnic scene. Since a simple red and white checkered cloth looks entirely too new, too flat, and too much 
+ like a tiled floor, layered textures are used to stain the cloth. 
+</p>
+
+<p>
+  We are going to create a scene containing four boxes. The first box has that plain red and white texture we started 
+ with in our picnic scene, the second adds a layer meant to realistically fade the cloth, the third adds some wine 
+ stains, and the final box adds a few wrinkles (not another layer, but we must note when and where adding changes to 
+ the surface normal have an effect in layered textures). 
+</p>
+
+<p>
+  We start by placing a camera, some lights, and the first box. At this stage, the texture is plain tiling, not 
+ layered. See file <code> layered1.pov</code>. 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;0, 0, -6&gt;
+    look_at &lt;0, 0, 0&gt;
+  }
+  light_source { &lt;-20, 30, -100&gt; color White }
+  light_source { &lt;10, 30, -10&gt; color White }
+  light_source { &lt;0, 30, 10&gt; color White }
+  #declare PLAIN_TEXTURE =
+    // red/white check
+    texture {
+      pigment {
+        checker
+        color rgb&lt;1.000, 0.000, 0.000&gt;
+        color rgb&lt;1.000, 1.000, 1.000&gt;
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+  // plain red/white check box
+  box {
+    &lt;-1, -1, -1&gt;, &lt;1, 1, 1&gt;
+    texture {
+      PLAIN_TEXTURE
+    }
+    translate  &lt;-1.5, 1.2, 0&gt;
+  }
+</pre>
+
+<p>
+  We render this scene. It is not particularly interesting, is it? That is why we will use some layered textures to 
+ make it more interesting. 
+</p>
+
+<p>
+  First, we add a layer of two different, partially transparent grays. We tile them as we had tiled the red and white 
+ colors, but we add some turbulence to make the fading more realistic. We add the following box to the previous scene 
+ and re-render (see file <code>layered2.pov</code>). 
+</p>
+
+<pre>
+  #declare FADED_TEXTURE =
+    // red/white check texture
+    texture {
+      pigment {
+        checker
+        color rgb&lt;0.920, 0.000, 0.000&gt;
+        color rgb&lt;1.000, 1.000, 1.000&gt;
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+    // greys to fade red/white
+    texture {
+      pigment {
+        checker
+        color rgbf&lt;0.632, 0.612, 0.688, 0.698&gt;
+        color rgbf&lt;0.420, 0.459, 0.520, 0.953&gt;
+        turbulence 0.500
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+  // faded red/white check box
+  box {
+    &lt;-1, -1, -1&gt;, &lt;1, 1, 1&gt;
+    texture {
+      FADED_TEXTURE
+    }
+    translate  &lt;1.5, 1.2, 0&gt;
+  }
+</pre>
+
+<p>
+  Even though it is a subtle difference, the red and white checks no longer look quite so new. 
+</p>
+
+<p>
+  Since there is a bottle of wine in the picnic scene, we thought it might be a nice touch to add a stain or two. 
+ While this effect can almost be achieved by placing a flattened blob on the cloth, what we really end up with is a 
+ spill effect, not a stain. Thus it is time to add another layer. 
+</p>
+
+<p>
+  Again, we add another box to the scene we already have scripted and re-render (see file <code>layered3.pov</code>). 
+</p>
+
+<pre>
+  #declare STAINED_TEXTURE =
+    // red/white check
+    texture {
+      pigment {
+        checker
+        color rgb&lt;0.920, 0.000, 0.000&gt;
+        color rgb&lt;1.000, 1.000, 1.000&gt;
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+    // greys to fade check
+    texture {
+      pigment {
+        checker
+        color rgbf&lt;0.634, 0.612, 0.688, 0.698&gt;
+        color rgbf&lt;0.421, 0.463, 0.518, 0.953&gt;
+        turbulence 0.500
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+    // wine stain
+    texture {
+      pigment {
+        spotted
+        color_map {
+          [ 0.000  color rgb&lt;0.483, 0.165, 0.165&gt; ]
+          [ 0.329  color rgbf&lt;1.000, 1.000, 1.000, 1.000&gt; ]
+          [ 0.734  color rgbf&lt;1.000, 1.000, 1.000, 1.000&gt; ]
+          [ 1.000  color rgb&lt;0.483, 0.165, 0.165&gt; ]
+        }
+        turbulence 0.500
+        frequency 1.500
+      }
+    }
+  // stained box
+  box {
+    &lt;-1, -1, -1&gt;, &lt;1, 1, 1&gt;
+    texture {
+      STAINED_TEXTURE
+    }
+    translate  &lt;-1.5, -1.2, 0&gt;
+  }
+</pre>
+
+<p>
+  Now there is a tablecloth texture with personality. 
+</p>
+
+<p>
+  Another touch we want to add to the cloth are some wrinkles as if the cloth had been rumpled. This is not another 
+ texture layer, but when working with layered textures, we must keep in mind that changes to the surface normal must be 
+ included in the uppermost layer of the texture. Changes to lower layers have no effect on the final product (no matter 
+ how transparent the upper layers are). 
+</p>
+
+<p>
+  We add this final box to the script and re-render (see file <code> layered4.pov</code>) 
+</p>
+
+<pre>
+  #declare WRINKLED_TEXTURE =
+    // red and white check
+    texture {
+      pigment {
+        checker
+        color rgb&lt;0.920, 0.000, 0.000&gt;
+        color rgb&lt;1.000, 1.000, 1.000&gt;
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+    // greys to &quot;fade&quot; checks
+    texture {
+      pigment {
+        checker
+        color rgbf&lt;0.632, 0.612, 0.688, 0.698&gt;
+        color rgbf&lt;0.420, 0.459, 0.520, 0.953&gt;
+        turbulence 0.500
+        scale &lt;0.2500, 0.2500, 0.2500&gt;
+      }
+    }
+    // the wine stains
+    texture {
+      pigment {
+        spotted
+        color_map {
+          [ 0.000  color rgb&lt;0.483, 0.165, 0.165&gt; ]
+          [ 0.329  color rgbf&lt;1.000, 1.000, 1.000, 1.000&gt; ]
+          [ 0.734  color rgbf&lt;1.000, 1.000, 1.000, 1.000&gt; ]
+          [ 1.000  color rgb&lt;0.483, 0.165, 0.165&gt; ]
+        }
+        turbulence 0.500
+        frequency 1.500
+      }
+      normal {
+        wrinkles 5.0000
+      }
+    }
+  // wrinkled box
+  box {
+    &lt;-1, -1, -1&gt;, &lt;1, 1, 1&gt;
+    texture {
+      WRINKLED_TEXTURE
+    }
+    translate  &lt;1.5, -1.2, 0&gt;
+  }
+</pre>
+
+<p>
+  Well, this may not be the tablecloth we want at any picnic we are attending, but if we compare the final box to the 
+ first, we see just how much depth, dimension, and personality is possible just by the use of creative texturing. 
+</p>
+
+<p>
+  One final note: the comments concerning the surface normal do not hold true for finishes. If a <em>lower</em> layer 
+ contains a specular finish and an <em>upper</em> layer does not, any place where the upper layer is transparent, the 
+ specular will show through. 
+</p>
+
+<h4><a name="s02_03_04_11">2.3.4.11 </a>When All Else Fails: Material Maps</h4>
+<a name="s02_03_04_11_i1">
+<p>
+  We have some pretty powerful texturing tools at our disposal, but what if we want a more free form arrangement of 
+ complex textures? Well, just as image maps do for pigments, and bump maps do for normals, whole textures can be mapped 
+ using a material map, should the need arise. 
+</p>
+
+<p>
+  Just as with image maps and bump maps, we need a source image in bitmapped format which will be called by POV-Ray 
+ to serve as the map of where the individual textures will go, but this time, we need to specify what texture will be 
+ associated with which palette index. To make such an image, we can use a paint program which allows us to select 
+ colors by their palette index number (the actual color is irrelevant, since it is only a map to tell POV-Ray what 
+ texture will go at that location). Now, if we have the complete package that comes with POV-Ray, we have in our 
+ include files an image called <code>povmap.gif</code> which is a bitmapped image that uses only the first four palette 
+ indices to create a bordered square with the words &quot;Persistence of Vision&quot; in it. This will do just fine as 
+ a sample map for the following example. Using our same include files, the camera and light source, we enter the 
+ following object. 
+</p>
+
+<pre>
+  plane {
+    -z, 0
+    texture {
+      material_map {
+        gif &quot;povmap.gif&quot;
+        interpolate 2
+        once
+        texture { PinkAlabaster }          // the inner border
+        texture { pigment { DMFDarkOak } } // outer border
+        texture { Gold_Metal }             // lettering
+        texture { Chrome_Metal }           // the window panel
+      }
+      translate &lt;-0.5, -0.5, 0&gt;
+      scale 5
+    }
+  }
+</pre>
+
+<p>
+  The position of the light source and the lack of foreground objects to be reflected do not show these textures off 
+ to their best advantage. But at least we can see how the process works. The textures have simply been placed according 
+ to the location of pixels of a particular palette index. By using the <code><a href="s_126.html#s03_05_12_07_01">once</a></code> 
+ keyword (to keep it from tiling), and translating and scaling our map to match the camera we have been using, we get 
+ to see the whole thing laid out for us. 
+</p>
+
+<p>
+  Of course, that is just with palette mapped image formats, such as GIF and certain flavors of PNG. Material maps 
+ can also use non-paletted formats, such as the TGA files that POV-Ray itself outputs. That leads to an interesting 
+ consequence: We can use POV-Ray to produce source maps for POV-Ray! Before we wrap up with some of the limitations of 
+ special textures, let's do one more thing with material maps, to show how POV-Ray can make its own source maps. 
+</p>
+
+<p>
+  To begin with, if using a non-paletted image, POV-Ray looks at the 8 bit red component of the pixel's color (which 
+ will be a value from 0 to 255) to determine which texture from the list to use. So to create a source map, we need to 
+ control very precisely what the red value of a given pixel will be. We can do this by 
+</p>
+
+<ol>
+ 
+ <li>
+   Using an rgb statement to choose our color such as rgb &lt;N/255,0,0&gt;, where &quot;N&quot; is the red value we 
+  want to assign that pigment, and then... 
+ </li>
+
+ <li>
+   Use no light sources and apply a finish of <code>finish { ambient 1 }</code> to all objects, to ensure that 
+  highlighting and shadowing will not interfere. 
+ </li>
+
+</ol>
+
+<p>
+  Confused? Alright, here is an example, which will generate a map very much like <code>povmap.gif</code> which we 
+ used earlier, except in TGA file format. We notice that we have given the pigments blue and green components too. 
+ POV-Ray will ignore that in our final map, so this is really for us humans, whose unaided eyes cannot tell the 
+ difference between red variances of 0 to 4/255ths. Without those blue and green variances, our map would look to our 
+ eyes like a solid black screen. That may be a great way to send secret messages using POV-Ray (plug it into a material 
+ map to decode) but it is no use if we want to see what our source map looks like to make sure we have what we expected 
+ to. 
+</p>
+
+<p>
+  We create the following code, name it <code>povmap.pov</code>, then render it. This will create an output file 
+ called <code>povmap.tga</code> (<strong><code>povmap.bmp</code> on Windows systems</strong>). 
+</p>
+
+<pre>
+  camera {
+    orthographic
+    up &lt;0, 5, 0&gt;
+    right &lt;5, 0, 0&gt;
+    location &lt;0, 0, -25&gt;
+    look_at &lt;0, 0, 0&gt;
+  }
+  plane {
+    -z, 0
+    pigment { rgb &lt;1/255, 0, 0.5&gt; }
+    finish { ambient 1 }
+  }
+  box {
+    &lt;-2.3, -1.8, -0.2&gt;, &lt;2.3, 1.8, -0.2&gt;
+    pigment { rgb &lt;0/255, 0, 1&gt; }
+    finish { ambient 1 }
+  }
+  box {
+    &lt;-1.95, -1.3, -0.4&gt;, &lt;1.95, 1.3, -0.3&gt;
+    pigment { rgb &lt;2/255, 0.5, 0.5&gt; }
+    finish { ambient 1 }
+  }
+  text {
+    ttf &quot;crystal.ttf&quot;, &quot;The vision&quot;, 0.1, 0
+    scale &lt;0.7, 1, 1&gt;
+    translate &lt;-1.8, 0.25, -0.5&gt;
+    pigment { rgb &lt;3/255, 1, 1&gt; }
+    finish { ambient 1 }
+  }
+  text {
+    ttf &quot;crystal.ttf&quot;, &quot;Persists!&quot;, 0.1, 0
+    scale &lt;0.7, 1, 1&gt;
+    translate &lt;-1.5, -1, -0.5&gt;
+    pigment { rgb &lt;3/255, 1, 1&gt; }
+    finish { ambient 1 }
+  }
+</pre>
+
+<p>
+  All we have to do is modify our last material map example by changing the material map from GIF to TGA and 
+ modifying the filename. When we render using the new map, the result is extremely similar to the palette mapped GIF we 
+ used before, except that we did not have to use an external paint program to generate our source: POV-Ray did it all! 
+</p>
+
+<h4><a name="s02_03_04_12">2.3.4.12 </a>Limitations Of Special Textures</h4>
+<a name="s02_03_04_12_i1">
+<p>
+  There are a couple limitations to all of the special textures we have seen (from textures, pigment and normal maps 
+ through material maps). First, if we have used the default directive to set the default texture for all items in our 
+ scene, it will not accept any of the special textures discussed here. This is really quite minor, since we can always 
+ declare such a texture and apply it individually to all objects. It does not actually prevent us from doing anything 
+ we could not otherwise do. 
+</p>
+
+<p>
+  The other is more limiting, but as we will shortly see, can be worked around quite easily. If we have worked with 
+ layered textures, we have already seen how we can pile multiple texture patterns on top of one another (as long as one 
+ texture has transparency in it). This very useful technique has a problem incorporating the special textures we have 
+ just seen as a layer. But there is an answer! 
+</p>
+
+<p>
+  For example, say we have a layered texture called <code> Speckled_Metal</code>, which produces a silver metallic 
+ surface, and then puts tiny specks of rust all over it. Then we decide, for a really rusty look, we want to create 
+ patches of concentrated rust, randomly over the surface. The obvious approach is to create a special texture pattern, 
+ with transparency to use as the top layer. But of course, as we have seen, we would not be able to use that texture 
+ pattern as a layer. We would just generate an error message. The solution is to turn the problem inside out, and make 
+ our layered texture part of the texture pattern instead, like this 
+</p>
+
+<pre>
+  // This part declares a pigment for use
+  // in the rust patch texture pattern
+  #declare Rusty = pigment {
+    granite
+    color_map {
+      [ 0 rgb &lt;0.2, 0, 0&gt; ]
+      [ 1 Brown ]
+    }
+    frequency 20
+  }
+  // And this part applies it
+  // Notice that our original layered texture
+  // &quot;Speckled_Metal&quot; is now part of the map
+  #declare Rust_Patches = texture {
+    bozo
+    texture_map {
+      [ 0.0  pigment {Rusty} ]
+      [ 0.75 Speckled_Metal ]
+      [ 1.0  Speckled_Metal ]
+    }
+  }
+</pre>
+
+<p>
+  And the ultimate effect is the same as if we had layered the rust patches on to the speckled metal anyway. 
+</p>
+
+<p>
+  With the full array of patterns, pigments, normals, finishes, layered and special textures, there is now 
+ practically nothing we cannot create in the way of amazing textures. An almost infinite number of new possibilities 
+ are just waiting to be created! 
+</p>
+
+<p>
+ <a name="l30">
+<small><strong>More about &quot;pigment&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_115.html#s03_05_01">3.5.1 Pigment</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_04">3.8.10.4 Pigment</a> in 3.8.10 Texture
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l31">
+<small><strong>More about &quot;object&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_104.html#s03_04">3.4 Objects</a> in 3 POV-Ray Reference
+  </small>
+
+  <li><small>
+   <a href="s_125.html#s03_05_11_23">3.5.11.23 Object Pattern</a> in 3.5.11 Patterns
+  </small>
+
+  <li><small>
+   <a href="s_160.html#s03_08_08">3.8.8 Objects</a> in 3.8 Quick Reference
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l32">
+<small><strong>More about &quot;gradient&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_125.html#s03_05_11_17">3.5.11.17 Gradient</a> in 3.5.11 Patterns
+  </small>
+
+  <li><small>
+   <a href="s_140.html#s03_07_09_03">3.7.9.3 Vector Analysis</a> in 3.7.9 math.inc
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l33">
+<small><strong>More about &quot;wood&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_125.html#s03_05_11_36">3.5.11.36 Wood</a> in 3.5.11 Patterns
+  </small>
+
+  <li><small>
+   <a href="s_148.html#s03_07_17_03">3.7.17.3 Woods</a> in 3.7.17 textures.inc
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l34">
+<small><strong>More about &quot;turbulence&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_126.html#s03_05_12">3.5.12 Pattern Modifiers</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_126.html#s03_05_12_05">3.5.12.5 Turbulence</a> in 3.5.12 Pattern Modifiers
+  </small>
+
+  <li><small>
+   <a href="s_97.html#s03_02_01_04_05">3.2.1.4.5 Functions</a> in 3.2.1.4 Vector Expressions
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l35">
+<small><strong>More about &quot;finish&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_117.html#s03_05_03">3.5.3 Finish</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_06">3.8.10.6 Finish</a> in 3.8.10 Texture
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l36">
+<small><strong>More about &quot;ambient&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_117.html#s03_05_03">3.5.3 Finish</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_117.html#s03_05_03_01">3.5.3.1 Ambient</a> in 3.5.3 Finish
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_68.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_68.html">2.3.3 Other Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.3.4 Advanced Texture Options</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_70.html">2.3.5 Using Atmospheric Effects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_70.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

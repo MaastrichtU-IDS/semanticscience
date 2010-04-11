@@ -1,0 +1,601 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.2.2 Basic Shapes</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_57.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_57.html">2.2.1 Our First Image</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.2.2 
+   Basic Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_59.html">2.2.3 CSG Objects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_59.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_02_02">2.2.2 </a>Basic Shapes</h3>
+<a name="s02_02_02_i1">
+<p>
+  So far we have just used the sphere shape. There are many other types of shapes that can be rendered by POV-Ray. 
+ The following sections will describe how to use some of the more simple objects as a replacement for the sphere used 
+ above. 
+</p>
+
+<h4><a name="s02_02_02_01">2.2.2.1 </a>Box Object</h4>
+<a name="s02_02_02_01_i1">
+<p>
+  The <code>box</code> is one of the most common objects used. We try this example in place of the sphere: 
+</p>
+
+<pre>
+  box {
+    &lt;-1, 0,   -1&gt;,  // Near lower left corner
+    &lt; 1, 0.5,  3&gt;   // Far upper right corner
+    texture {
+      T_Stone25     // Pre-defined from stones.inc
+      scale 4       // Scale by the same amount in all
+                    // directions
+    }
+    rotate y*20     // Equivalent to &quot;rotate &lt;0,20,0&gt;&quot;
+  }
+</pre>
+
+<p>
+  In the example we can see that a box is defined by specifying the 3D coordinates of its opposite corners. The first 
+ vector is generally the minimum x-, y- and z-coordinates and the 2nd vector should be the maximum x-, y- and z-values 
+ however any two opposite corners may be used. Box objects can only be defined parallel to the axes of the world 
+ coordinate system. We can later rotate them to any angle. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> we can perform simple math on values and vectors. In the rotate parameter we 
+ multiplied the vector identifier <code>y</code> by 20. This is the same as &lt;0,1,0&gt;*20 or &lt;0,20,0&gt;. 
+</p>
+
+<h4><a name="s02_02_02_02">2.2.2.2 </a>Cone Object</h4>
+<a name="s02_02_02_02_i1">
+<p>
+  Here is another example showing how to use a <code>cone</code>: 
+</p>
+
+<pre>
+  cone {
+    &lt;0, 1, 0&gt;, 0.3    // Center and radius of one end
+    &lt;1, 2, 3&gt;, 1.0    // Center and radius of other end
+    texture { T_Stone25 scale 4 }
+  }
+</pre>
+
+<p>
+  The cone shape is defined by the center and radius of each end. In this example one end is at location 
+ &lt;0,1,0&gt; and has a radius of 0.3 while the other end is centered at &lt;1,2,3&gt; with a radius of 1. If we want 
+ the cone to come to a sharp point we must use radius=0. The solid end caps are parallel to each other and 
+ perpendicular to the cone axis. If we want an open cone with no end caps we have to add the keyword <code>open</code> 
+ after the 2nd radius like this: 
+</p>
+
+<pre>
+  cone {
+    &lt;0, 1, 0&gt;, 0.3    // Center and radius of one end
+    &lt;1, 2, 3&gt;, 1.0    // Center and radius of other end
+    open              // Removes end caps
+    texture { T_Stone25 scale 4 }
+  }
+</pre>
+
+<h4><a name="s02_02_02_03">2.2.2.3 </a>Cylinder Object</h4>
+<a name="s02_02_02_03_i1">
+<p>
+  We may also define a <code>cylinder</code> like this: 
+</p>
+
+<pre>
+  cylinder {
+    &lt;0, 1, 0&gt;,     // Center of one end
+    &lt;1, 2, 3&gt;,     // Center of other end
+    0.5            // Radius
+    open           // Remove end caps
+    texture { T_Stone25 scale 4 }
+  }
+</pre>
+
+<h4><a name="s02_02_02_04">2.2.2.4 </a>Plane Object</h4>
+<a name="s02_02_02_04_i1">
+<p>
+  Let's try out a computer graphics standard <em>&quot;The Checkered Floor&quot;.</em> We add the following object to 
+ the first version of the <code>demo.pov</code> file, the one including the sphere. 
+</p>
+
+<pre>
+  plane { &lt;0, 1, 0&gt;, -1
+    pigment {
+      checker color Red, color Blue
+    }
+  }
+</pre>
+
+<p>
+  The object defined here is an infinite plane. The vector &lt;0,1,0&gt; is the surface normal of the plane (i.e. if 
+ we were standing on the surface, the normal points straight up). The number afterward is the distance that the plane 
+ is displaced along the normal from the origin -- in this case, the floor is placed at y=-1 so that the sphere at y=1, 
+ radius=2, is resting on it. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> even though there is no <code>texture</code> statement there is an implied 
+ texture here. We might find that continually typing statements that are nested like <code>texture {pigment</code>} can 
+ get to be tiresome so POV-Ray let's us leave out the <code> texture</code> statement under many circumstances. In 
+ general we only need the texture block surrounding a texture identifier (like the <code> T_Stone25</code> example 
+ above), or when creating layered textures (which are covered later). 
+</p>
+
+<p>
+  This pigment uses the checker color pattern and specifies that the two colors red and blue should be used. 
+</p>
+
+<p>
+  Because the vectors &lt;1,0,0&gt;, &lt;0,1,0&gt; and &lt;0,0,1&gt; are used frequently, POV-Ray has three built-in 
+ vector identifiers <code> x</code>, <code> y</code> and <code>z</code> respectively that can be used as a shorthand. 
+ Thus the plane could be defined as: 
+</p>
+
+<pre>
+  plane { y, -1
+    pigment { ... }
+  }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> that we do not use angle brackets around vector identifiers. 
+</p>
+
+<p>
+  Looking at the floor, we notice that the ball casts a shadow on the floor. Shadows are calculated very accurately 
+ by the ray-tracer, which creates precise, sharp shadows. In the real world, penumbral or &quot;soft&quot; shadows are 
+ often seen. Later we will learn how to use <a href="s_111.html#s03_04_07">extended light sources</a> to soften the 
+ shadows. 
+</p>
+
+<h4><a name="s02_02_02_05">2.2.2.5 </a>Torus Object</h4>
+<a name="s02_02_02_05_i1">
+<p>
+  A <code>torus</code> can be thought of as a donut or an inner-tube. It is a shape that is vastly useful in many 
+ kinds of CSG so POV-Ray has adopted this 4th order quartic polynomial as a primitive shape. The syntax for a torus is 
+ so simple that it makes it a very easy shape to work with once we learn what the two float values mean. Instead of a 
+ lecture on the subject, let's create one and do some experiments with it. 
+</p>
+
+<p>
+  We create a file called <code>tordemo.pov</code> and edit it as follows: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;0, .1, -25&gt;
+    look_at 0
+    angle 30
+  }
+  background { color Gray50 } // to make the torus easy to see
+  light_source { &lt;300, 300, -1000&gt; White }
+  torus {
+    4, 1              // major and minor radius
+    rotate -90*x      // so we can see it from the top
+    pigment { Green }
+  }
+</pre>
+
+<p>
+  We trace the scene. Well, it is a donut alright. Let's try changing the major and minor radius values and see what 
+ happens. We change them as follows: 
+</p>
+
+<pre>
+  torus { 5, .25      // major and minor radius
+</pre>
+
+<p>
+  That looks more like a hula-hoop! Let's try this: 
+</p>
+
+<pre>
+  torus { 3.5, 2.5    // major and minor radius
+</pre>
+
+<p>
+  Whoa! A donut with a serious weight problem! 
+</p>
+
+<p>
+  With such a simple syntax, there is not much else we can do to a torus besides change its texture... or is there? 
+ Let's see... 
+</p>
+
+<p>
+  Tori are very useful objects in CSG. Let's try a little experiment. We make a difference of a torus and a box: 
+</p>
+
+<pre>
+  difference {
+    torus {
+      4, 1
+      rotate x*-90  // so we can see it from the top
+    }
+    box { &lt;-5, -5, -1&gt;, &lt;5, 0, 1&gt; }
+    pigment { Green }
+  }
+</pre>
+
+<p>
+  Interesting... a half-torus. Now we add another one flipped the other way. Only, let's declare the original 
+ half-torus and the necessary transformations so we can use them again: 
+</p>
+
+<pre>
+  #declare Half_Torus = difference {
+    torus {
+      4, 1
+      rotate -90*x  // so we can see it from the top
+    }
+    box { &lt;-5, -5, -1&gt;, &lt;5, 0, 1&gt; }
+    pigment { Green }
+  }
+  #declare Flip_It_Over = 180*x;
+  #declare Torus_Translate = 8;  // twice the major radius
+</pre>
+
+<p>
+  Now we create a union of two <code>Half_Torus</code> objects: 
+</p>
+
+<pre>
+  union {
+    object { Half_Torus }
+    object { Half_Torus
+      rotate Flip_It_Over
+      translate Torus_Translate*x
+    }
+  }
+</pre>
+
+<p>
+  This makes an S-shaped object, but we cannot see the whole thing from our present camera. Let's add a few more 
+ links, three in each direction, move the object along the +z-direction and rotate it about the +y-axis so we can see 
+ more of it. We also notice that there appears to be a small gap where the half Tori meet. This is due to the fact that 
+ we are viewing this scene from directly on the x-z-plane. We will change the camera's y-coordinate from 0 to 0.1 to 
+ eliminate this. 
+</p>
+
+<pre>
+  union {
+    object { Half_Torus }
+    object { Half_Torus
+      rotate Flip_It_Over
+      translate x*Torus_Translate
+    }
+    object { Half_Torus
+      translate x*Torus_Translate*2
+    }
+    object { Half_Torus
+      rotate Flip_It_Over
+      translate x*Torus_Translate*3
+    }
+    object { Half_Torus
+      rotate Flip_It_Over
+      translate -x*Torus_Translate
+    }
+    object { Half_Torus
+      translate -x*Torus_Translate*2
+    }
+    object { Half_Torus
+      rotate Flip_It_Over
+      translate -x*Torus_Translate*3
+    }
+    object { Half_Torus
+      translate -x*Torus_Translate*4
+    }
+    rotate y*45
+    translate z*20
+  }
+</pre>
+
+<p>
+  Rendering this we see a cool, undulating, snake-like something-or-other. Neato. But we want to model something 
+ useful, something that we might see in real life. How about a chain? 
+</p>
+
+<p>
+  Thinking about it for a moment, we realize that a single link of a chain can be easily modeled using two half tori 
+ and two cylinders. We create a new file. We can use the same camera, background, light source and declared objects and 
+ transformations as we used in <code> tordemo.pov</code>: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;0, .1, -25&gt;
+    look_at 0
+    angle 30
+  }
+  background { color Gray50 }
+  light_source{ &lt;300, 300, -1000&gt; White }
+  #declare Half_Torus = difference {
+    torus {
+      4,1
+      sturm
+      rotate x*-90  // so we can see it from the top
+    }
+    box { &lt;-5, -5, -1&gt;, &lt;5, 0, 1&gt; }
+    pigment { Green }
+  }
+  #declare Flip_It_Over = x*180;
+  #declare Torus_Translate = 8;
+</pre>
+
+<p>
+  Now, we make a complete torus of two half tori: 
+</p>
+
+<pre>
+  union {
+    object { Half_Torus }
+    object { Half_Torus rotate Flip_It_Over }
+  }
+</pre>
+
+<p>
+  This may seem like a wasteful way to make a complete torus, but we are really going to move each half apart to make 
+ room for the cylinders. First, we add the declared cylinder before the union: 
+</p>
+
+<pre>
+  #declare Chain_Segment = cylinder {
+    &lt;0, 4, 0&gt;, &lt;0, -4, 0&gt;, 1
+    pigment { Green }
+  }
+</pre>
+
+<p>
+  We then add two <code>Chain_Segments</code> to the union and translate them so that they line up with the minor 
+ radius of the torus on each side: 
+</p>
+
+<pre>
+  union {
+    object { Half_Torus }
+    object { Half_Torus rotate Flip_It_Over }
+    object { Chain_Segment translate  x*Torus_Translate/2 }
+    object { Chain_Segment translate -x*Torus_Translate/2 }
+  }
+</pre>
+
+<p>
+  Now we translate the two half tori +y and -y so that the clipped ends meet the ends of the cylinders. This distance 
+ is equal to half of the previously declared <code>Torus_Translate</code>: 
+</p>
+
+<pre>
+  union {
+    object {
+      Half_Torus
+      translate y*Torus_Translate/2
+    }
+    object {
+      Half_Torus
+      rotate Flip_It_Over
+      translate -y*Torus_Translate/2
+    }
+    object {
+      Chain_Segment
+      translate x*Torus_Translate/2
+    }
+    object {
+      Chain_Segment
+      translate -x*Torus_Translate/2
+    }
+  }
+</pre>
+
+<p>
+  We render this and voila! A single link of a chain. But we are not done yet! Whoever heard of a green chain? We 
+ would rather use a nice metallic color instead. First, we remove any pigment blocks in the declared tori and 
+ cylinders. Then we add a declaration for a golden texture just before the union that creates the link. Finally, we add 
+ the texture to the union and declare it as a single link: 
+</p>
+
+<pre>
+  #declare Half_Torus = difference {
+    torus {
+      4,1
+      sturm
+      rotate x*-90  // so we can see it from the top
+    }
+    box { &lt;-5, -5, -1&gt;, &lt;5, 0, 1&gt; }
+  }
+    
+  #declare Chain_Segment = cylinder {
+    &lt;0, 4, 0&gt;, &lt;0, -4, 0&gt;, 1
+  }
+
+  #declare Chain_Gold = texture {
+    pigment { BrightGold }
+    finish {
+      ambient .1
+      diffuse .4
+      reflection .25
+      specular 1
+      metallic
+    }
+  }
+
+  #declare Link = union {
+    object {
+      Half_Torus
+      translate y*Torus_Translate/2
+    }
+    object {
+      Half_Torus
+      rotate Flip_It_Over
+      translate -y*Torus_Translate/2
+    }
+    object {
+      Chain_Segment
+      translate x*Torus_Translate/2
+    }
+    object {
+      Chain_Segment
+      translate -x*Torus_Translate/2
+    }    texture { Chain_Gold }
+  }  
+  </pre>
+
+<p>
+  Now we make a union of two links. The second one will have to be translated +y so that its inner wall just meets 
+ the inner wall of the other link, just like the links of a chain. This distance turns out to be double the previously 
+ declared <code>Torus_Translate</code> minus 2 (twice the minor radius). This can be described by the expression: 
+</p>
+
+<pre>
+  Torus_Translate*2-2*y
+</pre>
+
+<p>
+  We declare this expression as follows: 
+</p>
+
+<pre>
+  #declare Link_Translate = Torus_Translate*2-2*y;
+</pre>
+
+<p>
+  In the object block, we will use this declared value so that we can multiply it to create other links. Now, we 
+ rotate the second link <code> 90*y</code> so that it is perpendicular to the first, just like links of a chain. 
+ Finally, we scale the union by 1/4 so that we can see the whole thing: 
+</p>
+
+<pre>
+  union {
+    object { Link }
+    object { Link translate y*Link_Translate rotate y*90 }
+    scale .25
+  }
+</pre>
+
+<p>
+  We render this and we will see a very realistic pair of links. If we want to make an entire chain, we must declare 
+ the above union and then create another union of this declared object. We must be sure to remove the scaling from the 
+ declared object: 
+</p>
+
+<pre>
+  #declare Link_Pair =
+  union {
+    object { Link }
+    object { Link translate y*Link_Translate rotate y*90 }
+  }
+</pre>
+
+<p>
+  Now we declare our chain: 
+</p>
+
+<pre>
+  #declare Chain = union {
+    object { Link_Pair}
+    object { Link_Pair translate  y*Link_Translate*2 }
+    object { Link_Pair translate  y*Link_Translate*4 }
+    object { Link_Pair translate  y*Link_Translate*6 }
+    object { Link_Pair translate -y*Link_Translate*2 }
+    object { Link_Pair translate -y*Link_Translate*4 }
+    object { Link_Pair translate -y*Link_Translate*6 }
+  }
+</pre>
+
+<p>
+  And finally we create our chain with a couple of transformations to make it easier to see. These include scaling it 
+ down by a factor of 1/10, and rotating it so that we can clearly see each link: 
+</p>
+
+<pre>
+  object { Chain scale .1 rotate &lt;0, 45, -45&gt; }
+</pre>
+<img alt="The torus object can be used to create chains." src="images/tutorial/torchain.png">
+<p>
+  We render this and we should see a very realistic gold chain stretched diagonally across the screen. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_57.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_57.html">2.2.1 Our First Image</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.2.2 Basic Shapes</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_59.html">2.2.3 CSG Objects</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_59.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

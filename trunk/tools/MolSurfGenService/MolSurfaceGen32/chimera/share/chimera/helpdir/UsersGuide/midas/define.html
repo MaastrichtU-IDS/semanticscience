@@ -1,0 +1,152 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>define</title>
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+<a name="top"></a>
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>define</b> &nbsp;<i>object</i> &nbsp;<i>options</i>
+&nbsp;<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></h3>
+<a name="top"></a>
+<h3><a href="usageconventions.html">Usage</a>:
+<BR><b>~define</b>
+[&nbsp;<i>ID-list</i>&nbsp;|&nbsp;<b>axes</b>&nbsp;|&nbsp;<b>planes</b>&nbsp;]</h3>
+<p>
+The <b>define</b> command calculates and displays geometric objects based on
+atomic coordinates. It is the command-line implementation of
+<a href="../../ContributedSoftware/structuremeas/structuremeas.html#axes"><b>Axes/Planes</b></a>.
+The <i>object</i> can be:
+<ul>
+<li><a href="#axis"><b>axis</b></a>
+<li><a href="#plane"><b>plane</b></a>
+</ul>
+The objects are listed in the
+<a href="../../ContributedSoftware/structuremeas/structuremeas.html#objectlist"><b>Axes/Planes</b>
+table</a> and can be used in distance and angle measurements.
+See also:
+<a href="distance.html"><b>distance</b></a>,
+<a href="angle.html"><b>angle</b></a>,
+<a href="measure.html#inertia"><b>measure inertia</b></a>,
+<a href="shape.html"><b>shape</b></a>,
+<a href="../../ContributedSoftware/structuremeas/structuremeas.html"><b>Structure Measurements</b></a>,
+<a href="../../ContributedSoftware/pipesandplanks/pipesandplanks.html"><b>PipesAndPlanks</b></a>
+</p><p>
+The <b>~define</b> command removes objects, either those specified as a 
+space-separated list of IDs (for example, <b>p1</b> <b>a3</b>), or
+all <b>axes</b>, all <b>planes</b>, or all of the preceding
+if <b>~define</b> is given without arguments.
+</p><p>
+Some options of <b>define</b> are specific to a given type of object, 
+while others are <a href="#options">general</i></a>.
+Keywords and their sub-keywords can be truncated
+to unique strings, and their case does not matter.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+A vertical bar "|" designates mutually exclusive options,
+and default settings are indicated with <b>bold</b>.
+</p>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="axis"><b>define axis</b></a>
+[&nbsp;<b>helicalCorrection</b>&nbsp;<b>true</b>&nbsp;|&nbsp;false&nbsp;] 
+[&nbsp;<b>massWeighting</b>&nbsp;true&nbsp;|&nbsp;<b>false</b>&nbsp;] 
+[&nbsp;<b>perHelix</b>&nbsp;true&nbsp;|&nbsp;<b>false</b>&nbsp;] 
+<a href="#options"><i>general-options</i></a>
+&nbsp;<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+<blockquote>
+Define an axis for the 
+<a href="frameatom_spec.html" target="_top">specified</a> atoms.
+Axes are displayed as rods. 
+An axis is anchored at the the geometric center (centroid) of the atomic
+coordinates and is initially aligned with the principal component of
+the coordinates.  Helical correction (on by default)
+adjusts the orientation to reduce the spread of atom-axis distances. 
+Mass-weighting (off by default) should not be combined with helical correction
+or the <b>perHelix</b> option.
+<p>
+Setting <b>perHelix</b> to <b>true</b> indicates defining an axis for each
+peptide/protein helix in the entire molecule model(s)
+containing the <a href="frameatom_spec.html" target="_top">specified</a> atoms,
+even if only parts were specified.  Peptide/protein helix assignments
+are taken from the input structure file or generated with
+<a href="ksdssp.html"><b>ksdssp</b></a>.
+Only the backbone atoms N, CA, C are used to define the axes.
+Sometimes two helices are adjacent in sequence (not separated by any
+other residues), and the integer-valued residue attribute <b>ssId</b> is
+used to distinguish them.  Although such cases are detected automatically,
+<b>ssId</b> can also be set manually with
+<a href="setattr.html"><b>setattr</b></a>.
+</p>
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="plane"><b>define plane</b></a>
+[&nbsp;<b>thickness</b>&nbsp;<i>d</i>&nbsp;]
+[&nbsp;<b>padding</b>&nbsp;<i>offset</i>&nbsp;]
+<a href="#options"><i>general-options</i></a>
+&nbsp;<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+<blockquote>
+Define a plane for the 
+<a href="frameatom_spec.html" target="_top">specified</a> atoms.
+Planes are displayed as disks.  
+The default <b>thickness</b> is <b>0.1</b> &Aring;.
+The disk center is the non-mass-weighted centroid of the atoms; disk radius
+can be set to a fixed value as described <a href="#radius">below</a> 
+or set automatically to enclose the projections of the atoms (default). 
+An extra margin (<b>padding</b>, default <b>0.0</b> &Aring;) 
+can be added to the automatically determined radius, 
+but is ignored if a fixed radius is supplied.  
+</blockquote>
+
+<a name="options">
+<h3>General Options</h3></a>
+
+<blockquote>
+  <b>color</b> <i>colorname</i>
+  <br>Set the object color to <i>colorname</i>, which can be any
+  <a href="color.html#colorname">color name</a> that specifies a single color,
+  or <b>none</b> (default), meaning to match the structure as much as possible.
+</blockquote>
+<blockquote>
+  <a name="radius"><b>radius</b> <i>r</i></a>
+  <br>Set object radius to a fixed value <i>r</i>. If this option is not used, 
+  radius will be set automatically:
+  <ul>
+  <li>for axes, to the average axis-atom distance
+  <li>for planes, to enclose the projections of the atoms
+  (an additional margin can be specified with the 
+  <a href="#plane"><b>padding</b></a> option)
+  </ul>
+</blockquote>
+<blockquote>
+  <a name="name"><b>name</b> <i>name</i></a>
+  <br>Assign the object a name 
+  (default <b>axis</b> for an axis, <b>plane</b> for a plane).
+</blockquote>
+<blockquote>
+  <a name="number"><b>number</b> <i>N</i></a>
+  <br>Assign the object the integer part of its ID.  The ID will be
+  a<i>N</i> for an axis, p<i>N</i> for a plane.
+  The default is the lowest unused number for that type of object.
+  If the ID is already in use, the new object will replace the pre-existing
+  object.
+</blockquote>
+
+</body></html>

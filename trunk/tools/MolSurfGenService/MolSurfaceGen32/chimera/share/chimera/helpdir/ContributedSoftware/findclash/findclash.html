@@ -1,0 +1,196 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Find Clashes/Contacts</TITLE>
+</head>
+<body>
+<h3>Find Clashes/Contacts
+<img src="findclashicon.png" alt="Find Clashes/Contacts icon"></h3>
+<p>
+<img src="clashes.png" alt="Find Clashes example" align="right">
+<b>Find Clashes/Contacts</b> identifies interatomic clashes and contacts
+based on <a href="../../UsersGuide/midas/vdwrad.html">VDW radii</a> and
+user-specified <a href="#criteria">criteria</a>.  
+<a name="terminology">Terminology</a>:
+<ul>
+<li><b><i>clashes</b></i> 
+- unfavorable interactions where atoms are too close together; close contacts
+<li><b><i>contacts</b></i> 
+- all kinds of direct interactions:
+polar and nonpolar, favorable and unfavorable (including clashes)
+</ul>
+During continuous monitoring, such interactions can be shown with 
+<a href="../../UsersGuide/selection.html">selection</a>, coloring,
+and <a href="../../UsersGuide/pbpanel.html#pbdef">pseudobonds</a>.
+Discontinuous monitoring additionally allows writing out information 
+and assigning the largest <a href="#overlap-def">overlap</a> per atom
+as an <a href="../defineattrib/defineattrib.html#attribdef">attribute</a>
+named <b>overlap</b>.
+See also: <a href="../findhbond/findhbond.html"><b>FindHBond</b></a>,
+<a href="../intersurf/intersurf.html"><b>Intersurf</b></a>,
+<a href="../rotamers/framerot.html" target="_top"><b>Rotamers</b></a>,
+<a href="../crystalcontacts/crystalcontacts.html"><b>Crystal Contacts</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Find Clashes/Contacts</b>, a tool in the <b>Structure Analysis</b>
+and <b>Surface/Binding Analysis</b> categories.
+It is also implemented as the command 
+<a href="../../UsersGuide/midas/findclash.html"><b>findclash</b></a>.
+</p><p>
+<b>Atoms to Check</b> are specified by
+<a href="../../UsersGuide/selection.html">selecting</a> atoms, 
+clicking <b>Designate</b>, and indicating which interactions should be found:
+<ul>
+<li><b>themselves</b> - interactions among the designated atoms
+<li><b>all other atoms</b> (default) - interactions between the designated
+atoms and all other atoms
+<li><b>other atoms in same model</b> - intra-model interactions between
+the designated atoms and all other atoms
+<li><b>second set of designated atoms</b> - interactions between 
+the designated atoms and a second designated set (specified by
+<a href="../../UsersGuide/selection.html">selecting</a> atoms and 
+clicking <b>Designate selection as second set</b>)
+</ul>
+Interactions between atoms in different submodels of the same model are 
+ignored (note the 
+<a href="../../UsersGuide/midas/findclash.html"><b>findclash</b></a> command
+has an option to include such interactions, however).
+Changing the <a href="../../UsersGuide/selection.html">selection</a> 
+will not automatically change any designated sets.
+</p><p>
+<a name="criteria">
+The <b>Clash/Contact Parameters</b></a> 
+control what will be considered a clash or contact.
+The <a name="overlap-def"><b><i>overlap</i></b></a>
+between two atoms is defined as the sum of their 
+<a href="../../UsersGuide/midas/vdwrad.html">VDW radii</a> minus the 
+distance between them and minus an <a href="#allowance">allowance</a>
+for potentially hydrogen-bonded pairs:
+  <blockquote>
+  <i>overlap<sub>ij</sub></i> = 
+  r<sub>VDW<i>i</i></sub> + r<sub>VDW<i>j</i></sub> 
+  &ndash; d<sub>ij</sub> &ndash; <i>allowance<sub>ij</sub></i>
+  </blockquote>
+<ul>
+<li><b>Find atoms with VDW overlap >=[ <i>cutoff</i> ] angstroms</b>
+- pairs of atoms with <i>overlap</i></a> &ge; <i>cutoff</i> 
+will be identified.
+A larger positive <i>cutoff</i> restricts the results to more severe 
+clashes, whereas a negative <i>cutoff</i> can also identify 
+favorable contacts.
+<li><a name="allowance"><b>Subtract [ <i>allowance</i> ] 
+from overlap for potentially H-bonding pairs</b>
+- an <i>allowance</i> &gt; 0
+reflects the observation that atoms sharing a hydrogen bond can come
+closer to each other than would be expected from their 
+<a href="../../UsersGuide/midas/vdwrad.html">VDW radii</a>.
+The <i>allowance</i> is only subtracted for pairs
+comprised of a donor (or donor-borne hydrogen) and an acceptor. 
+This is equivalent to using smaller radii to characterize hydrogen-bonding
+interactions (for example, see
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/9672047" target="_blank">Li
+and Nussinov</a>, <i>Proteins</i> <b>32</b>:111 (1998)).
+As in <a href="../findhbond/findhbond.html"><b>FindHBond</b></a>,
+possible donor groups are hydrogen-bearing nitrogen, oxygen, and sulfur atoms,
+and possible acceptor groups are nitrogen, oxygen, and sulfur atoms with a 
+lone pair.
+<p><a name="reasonable"></a>
+For detecting <a href="#terminology"><b><i>clashes</i></b></a>,
+<i>cutoff</i> values of 0.4-1.0 &Aring; 
+and <i>allowance</i> values of 0.2-0.6 &Aring; are 
+generally reasonable
+(default <b>clash</b> criteria <b>0.6</b> and <b>0.4</b> &Aring;, respectively).
+</p><p>
+<p>For detecting <a href="#terminology"><b><i>contacts</i></b></a>, negative
+<i>cutoff</i> values of 0.0-(&ndash;1.0) &Aring; 
+with an <i>allowance</i> of 0.0 &Aring; are generally reasonable
+(default <b>contact</b> criteria 
+<b>&ndash;0.4</b> and <b>0.0</b> &Aring;, respectively).
+</p>
+<li><b>Ignore contacts of pairs [ <i>N</i> ] or fewer bonds apart</b>
+(<i>N</i>=<b>4</b> by default)
+<li><b>Ignore intra-residue contacts</b> (on by default)
+</ul>
+<a name="outputs">
+Options for the <b>Treatment of Clash/Contact Atoms</b>:
+<ul>
+<li> <b>Select</b> - whether to
+<a href="../../UsersGuide/selection.html">select</a>
+atoms meeting the clash/contact <a href="#criteria">criteria</a>
+(and deselect all other atoms)
+<li> <b>Color</b>
+[ <a href="../../UsersGuide/coloring.html#colorwell">color well</a> ]
+<b>(and color all other atoms</b>
+[ <a href="../../UsersGuide/coloring.html#colorwell">color well</a> ]<b>)</b>
+- whether to color atoms meeting and not meeting the clash/contact 
+<a href="#criteria">criteria</a> (the default colors are
+<b>red</b> and <b>No color</b>, respectively; using <b>No color</b>
+reveals <a href="../../UsersGuide/hierarchy.html">model-level colors</a>)
+<li> <b>Draw pseudobonds of color</b>
+[ <a href="../../UsersGuide/coloring.html#colorwell">color well</a> ]
+<b>and width</b> [ <i>linewidth</i> ]
+- whether to draw <a href="../../UsersGuide/pbpanel.html#pbdef">pseudobonds</a>
+of the specified color (default <b>yellow</b>) and linewidth 
+(default <b>2.0</b>) between pairs meeting the clash/contact 
+<a href="#criteria">criteria</a>. 
+These pseudobonds can be removed with the command
+<a href="../../UsersGuide/midas/findclash.html"><b>~findclash</b></a>.
+The <a href="../../UsersGuide/pbpanel.html"><b>PseudoBond Panel</b></a>
+can also be used to close the pseudobond group
+(named <b>contacts</b>) or alter its display.
+<p>
+The following are only available for discontinuous checking
+(<a href="#frequency"><b>when OK/Apply clicked</b></a>):
+</p>
+<li> <b>Assign 'overlap' attribute</b>
+- whether to assign the largest <a href="#overlap-def">overlap</a> per atom 
+as an <a href="../defineattrib/defineattrib.html#attribdef">attribute</a>
+named <b>overlap</b> and open the <a href="../render/render.html"><b>Render by
+Attribute</b></a> tool
+<li> <b>Write information to file</b> - whether to write clash/contact
+information to a text file.
+The <a href="../../UsersGuide/opensave.html">dialog</a> for saving the file
+includes a <b>Naming style</b> option to control 
+<a href="../../UsersGuide/preferences.html#namingstyle">how atoms 
+will be specified</a> in the file.
+<li> <b>Write information to reply log</b> - whether to write clash/contact
+information to the <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+<b>Atomspec display style</b> in the
+<a href="../../UsersGuide/preferences.html#General"><b>General</b> 
+preferences</a> controls
+<a href="../../UsersGuide/preferences.html#namingstyle">how atoms
+will be specified</a>.
+</ul>
+Options for the
+<a name="frequency"><b>Frequency of Checking</b></a>:
+<ul>
+<li> <b>when OK/Apply clicked</b> (default)
+- this option is compatible with all <a href="#outputs">treatment options</a>,
+including attribute assignment and writing out clash/contact information.
+Clicking <b>OK</b> runs the calculation and dismisses the dialog,
+whereas clicking <b>Apply</b> runs the calculation without dismissing 
+the dialog.
+<li> <b>after relative motions (until dialog closed)</b> 
+- whenever relative motions are paused; only selection and display 
+<a href="#outputs">treatments</a> are available.  Relative motions
+include <a href="../structuremeas/structuremeas.html#adjust">bond rotations</a>
+and translations/rotations of one model relative to another,
+as opposed to translations/rotations of all models collectively.
+<li> <b>continuously (until dialog closed)</b> 
+- during motions; only selection and display
+<a href="#outputs">treatments</a> are available
+</ul>
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / December 2009</address>
+</body></html>

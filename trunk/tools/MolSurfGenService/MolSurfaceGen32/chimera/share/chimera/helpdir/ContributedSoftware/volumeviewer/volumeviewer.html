@@ -1,0 +1,1466 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2001-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Volume Viewer</TITLE>
+
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head>
+
+<body>
+<h3>Volume Viewer <img src="vv.png" alt="Volume Viewer icon"></h3>
+<p>
+<b>Volume Viewer</b> is a tool for visualizing 
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a>,
+3D numerical data sets such as electron density maps.
+The data can be shown as solid or mesh isosurfaces (contour surfaces) 
+or as partially transparent solids:
+</p>
+<table>
+<tr><td>
+<img src="esp.png" alt="ESP Contours">
+</td><td>
+<img src="dens.png" alt="Electron Density Map">
+</td><td>
+<img src="esp2.png" alt="ESP Volumes">
+</td></tr>
+<tr><td align="center">
+electrostatic potential 
+<br>(surface)
+</td><td align="center">
+electron density map
+<br>(mesh)
+</td><td align="center">
+electrostatic potential 
+<br>(solid)
+</td><tr>
+</table>
+<p>
+The state of <b>Volume Viewer</b> is included in saved 
+<a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+Many of its features are also implemented as the command
+<a href="../../UsersGuide/midas/volume.html"><b>volume</b></a>,
+and several related tools can be accessed from the 
+<b>Volume Viewer</b> <a href="#toolsmenu"><b>Tools</b> menu</a>.
+</p><p>
+See also: <a href="../../UsersGuide/midas/vop.html"><b>vop</b></a>,
+<a href="../../UsersGuide/midas/mask.html"><b>mask</b></a>,
+<a href="../../UsersGuide/midas/molmap.html"><b>molmap</b></a>,
+<a href="../accelerators/accelerators.html"><b>Keyboard Shortcuts</b></a>,
+<a href="imod.html">IMOD files</a>, the
+<a href="../../UsersGuide/tutorials/density.html">Density Display</a> image
+tutorial, and on the Chimera Web site, the
+<a href="http://www.cgl.ucsf.edu/chimera/ImageGallery/"
+target="_blank">Image Gallery</a> and
+<a href="http://www.cgl.ucsf.edu/chimera/tutorials/volumetour/volumetour.html"
+target="_blank">Guide to Volume Display</a>
+</p><p>
+<b>Volume Viewer</b> and some associated tools are described in:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/16963278" target="_blank">
+Visualizing density maps with UCSF Chimera.</a>
+Goddard TD, Huang CC, Ferrin TE.
+<i>J Struct Biol.</i> 2007 Jan;157(1):281-7.
+</blockquote>
+<b>Volume Viewer</b> is under development,
+and some <a href="#limitations">limitations</a>
+may be addressed in future versions.
+</p>
+
+<a name="open">
+<h4>
+STARTUP AND INPUT
+</h4>
+</a>
+<p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Volume Viewer</b>, a tool in the <b>Volume Data</b> category.
+Starting <b>Volume Viewer</b> without a data file opens an "empty" interface.
+Choosing <a href="#filemenu"><b>File... Open map</b></a>
+from the interface will then bring up a
+<a href="../../UsersGuide/opensave.html">dialog</a> for 
+opening any of the registered
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> types,
+including
+<a href="../../UsersGuide/filetypes.html#esp">electrostatic potential</a>.
+Alternatively, simply <a href="../../UsersGuide/filetypes.html">opening</a> 
+a file of <a href="../../UsersGuide/filetypes.html#volume">volume data</a>
+(other than <a href="../../UsersGuide/filetypes.html#esp">electrostatic
+potential</a>) will automatically start <b>Volume Viewer</b>.
+Additional file types can be <a href="#newformats">defined</a>.
+See also: <a href="../../UsersGuide/fetch.html">fetching</a> EDS files
+</p>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><th>Volume Viewer
+(default <a href="#features">Features</a>)</th></tr>
+<tr><td><img src="withdata.png"></td></tr>
+</table>
+<p>
+Data are read when needed for display or a calculation, usually right when a file is opened.
+However, if only a <a href="#subsampledef">subsample</a> is shown initially,
+only those values are read, and if there is no display, only the file header is read.
+During loading of a large data set, the Chimera
+<a href="../../UsersGuide/chimerawindow.html#statusline">status line</a>
+reports progress and allows the read to be canceled.
+</p><p>
+By default, <a href="../../UsersGuide/filetypes.html#volume">volume data</a>
+other than <a href="../../UsersGuide/filetypes.html#esp">electrostatic
+potential</a> will be displayed automatically if it does not 
+exceed a certain size
+(see <a href="#showsmall"><b>Show data when opened...</b></a> in the
+<a href="#disp-options"><b>Data display options</b></a>).
+Otherwise, a data set can be displayed by clicking the eye icon
+to the right of the <b>step</b> menu.
+In the figure, no histogram is shown for <b>default.phi</b>
+because the data has not been read. Clicking its eye icon 
+will trigger reading and then displaying the data.
+</p><p>
+Data sets can be opened, closed (deleted), duplicated, and saved 
+using the <b>Volume Viewer</b> <a href="#filemenu"><b>File</b> menu</a>.
+Multiple data sets can be open at the same time
+and more than one <a href="#subregiondef">subregion</a> or 
+<a href="#subsampledef">subsample</a>
+from the same or different sets can be displayed.
+</p><p>
+<a name="currentset">
+Settings in <b>Volume Viewer</b> refer to the currently active data set, or
+<b><i>current set</i></b>.</a>
+The name of the current set is highlighted;
+clicking a data set's name, dimensions, or histogram makes it the current set,
+as does choosing its name from the <a href="#datamenu"><b>Data</b> menu</a>
+or <a href="#dataset"><b>Data set list</b></a>.
+The <a name="currentdisp"><b><i>current display region</i></b></a>
+may correspond to part (a <a href="#subregiondef">subregion</a>)
+or all of the current set.
+</p><p>
+<a name="multicomp">
+A Priism or NetCDF file may contain more than one 3D array of values
+(more than one <b><i>component</i></b>)</a>, for example
+corresponding to the different wavelengths used to image a specimen.
+When multicomponent data is read, each component is treated as if it
+were a separate data set.
+</p>
+
+
+<a name="organization">
+<h4>
+VOLUME VIEWER MENUS AND BUTTONS
+</h4>
+</a><p>
+<b>Volume Viewer</b> includes many <a href="#features">features</a>, and it is
+not practical to show them all at once.  
+The basic dialog includes menus across the top
+(<a href="#filemenu"><b>File</b></a>, 
+<a href="#featuresmenu"><b>Features</b></a>,
+<a href="#datamenu"><b>Data</b></a>, and
+<a href="#toolsmenu"><b>Tools</b></a>)
+and <a href="#buttons">buttons</a> across the bottom.
+</p><p>
+The <a name="filemenu"><b>File</b> menu</a>
+includes operations associated with data files:
+<ul>
+<li><b>Open map...</b> brings up a 
+<a href="../../UsersGuide/opensave.html">dialog</a>
+for opening <a href="../../UsersGuide/filetypes#volume">volume data</a> files.
+<li><b>Save map as...</b> brings up a 
+<a href="../../UsersGuide/opensave.html">dialog</a>
+for saving the data in the
+<a href="#currentdisp">current display region</a> 
+as a file in <a href="#mrcout">MRC</a>, NetCDF, Chimera map, or BRIX format.
+The file header will include information 
+(as shown in the <a href="#coordinates"><b>Coordinates</b> section</a>)
+for converting between grid indices and Cartesian coordinates.
+When <a href="#zone">zoning</a> is in effect, data will be written
+out for a region enclosing the zone, with values outside
+the zone set to zero. 
+<li><b>Duplicate</b> makes a copy of the
+<a href="#currentset">current set</a> so that opening the
+same file multiple times is not required for simultaneously displaying
+different <a href="#subregiondef">subregions</a>
+or different representations of the data.
+<li><b>Remove surface</b> deletes any 
+<b>surface</b> or <b>mesh</b> <a href="#display">display</a>
+of the <a href="#currentset">current set</a>.
+<li><b>Close map</b> removes the
+<a href="#currentset">current set</a> and all of its displays;
+this can also be done by clicking a data set's
+<a href="#threshcolor">minus-sign button</a>
+or closing the model with the same name as the
+<a href="#currentset">current set</a> using the
+<a href="../../UsersGuide/modelpanel.html"><b>Model Panel</b></a>.
+</ul>
+<a name="featuresmenu"></a>
+The <a href="#features"><b>Features</b> menu</a>
+lists potential sections of the <b>Volume Viewer</b> dialog.
+</p><p>
+Choosing a data set from the <a name="datamenu"><b>Data</b> menu</a>
+makes it the <a href="#currentset">current set</a>.
+</p><p>
+The <a name="toolsmenu"><b>Tools</b> menu</a> provides access to several
+related tools:
+<ul>
+<li><a href="../fitmaps/fitmaps.html"><b>Fit in Map</b></a>
+- fit atoms into a map (volume data) or one map into another
+<li><a href="../surfcolor/surfcolor.html"><b>Surface Color</b></a>
+- color surfaces by volume data values
+<li><a href="../colorzone/colorzone.html"><b>Color Zone</b></a>
+- color surfaces to match atoms, split volume data by the resulting color zones
+<li><a href="../morphmap/morphmap.html"><b>Morph Map</b></a>
+- morph between two related sets of volume data
+<li><a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a> 
+- place markers within volume data and connect them with smoothed paths
+<li><a href="gaussian.html"><b>Volume Filter</b></a>
+- smooth or transform volume data
+<li><a href="hidedust.html"><b>Hide Dust</b></a>
+- hide small disconnected bits of a surface
+<li><a href="../voleraser/voleraser.html"><b>Volume Eraser</b></a>
+- interactively zero out parts of volume data
+<li><a href="../measurevol/measurevol.html"><b>Measure Volume and Area</b></a>
+- measure surface areas and surface-enclosed volumes
+<li><a href="../pickblobs/pickblobs.html"><b>Measure and Color Blobs</b></a>
+- color and measure disconnected parts of a contour surface
+<li><a href="volstats.html"><b>Volume Mean, SD, RMS</b></a>
+- calculate statistics for volume data
+<li><a href="../density/density.html"><b>Values at Atom Positions</b></a>
+- map volume data to atom positions and assign the values as an atom
+<a href="../defineattrib/defineattrib.html#attribdef">attribute</a>
+<li><a href="../volseries/volseries.html"><b>Volume Series</b></a>
+- display a series of volume data
+<li><a name="topmenu"><b>Volume Menu on Menubar</b></a>
+- replicate the <b>Tools... Volume Data</b> menu as a top-level 
+<b>Volume</b> menu in Chimera and store the behavior in the
+<a href="../../UsersGuide/preferences.html#preffile"><b>preferences</b> file</a>
+(choosing this item again removes the top-level <b>Volume</b> menu)
+</ul>
+The <a name="buttons">buttons across the bottom</a> are always present:
+<ul>
+<li><b>Center</b> scales and centers the view
+and adjusts the clipping planes to contain the
+<a href="#currentdisp">current display region</a>.
+<li><b>Orient</b> reorients all open models
+so that the axes of the <a href="#currentset">current set</a> are
+pointing in the standard directions:  X horizontal in the plane
+of the screen increasing rightward, Y vertical in the plane of the screen
+increasing upward, and Z perpendicular to the screen increasing outward
+from the screen.
+<li><b>Close</b> dismisses <b>Volume Viewer</b>.
+If the panel is closed accidentally, it can be reopened in
+the same state by restarting <b>Volume Viewer</b>.
+<li><b>Help</b> opens this manual page in a browser window.
+</ul>
+
+<a name="features">
+<h4>FEATURES</h4>
+</a>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><th>Features menu<br>(factory defaults)</th></tr>
+<tr><td><img src="defaultfeatures.png"></td></tr>
+</table>
+<p>
+The <b>Features</b> menu lists potential sections in the
+<b>Volume Viewer</b> dialog, with checkboxes controlling which 
+sections are shown.
+Clicking the adjacent checkbox expands the <b>Volume Viewer</b>
+interface to show the corresponding section.
+A section can be closed by 
+unchecking its entry in the <b>Features</b> menu,
+unchecking its <a href="#fbuttons">feature button</a>, or
+clicking its close button (<img src="x.png">), if present.
+</p><p>
+The figure shows the <a href="../../UsersGuide/menu.html#tear-off">torn-off</a>
+<b>Features</b> menu with factory default settings.
+<ul>
+<li><a href="#atombox"><b>Atom box</b></a>
+<li><a href="#brightness"><b>Brightness and Transparency</b></a>
+<li><a href="#coordinates"><b>Coordinates</b></a>
+<li><a href="#disp-options"><b>Data display options</b></a>
+<li><a href="#dataset"><b>Data set list</b></a>
+<li><a href="#display"><b>Display style</b></a>
+<li><a href="#fbuttons"><b>Feature buttons</b></a>
+<li><a href="#named"><b>Named regions</b></a>
+<li><a href="#planes"><b>Planes</b></a>
+<li><a href="#precomputed"><b>Precomputed subsamples</b></a>
+<li><a href="#bounds"><b>Region bounds</b></a>
+<li><a href="#solid-options"><b>Solid rendering options</b></a>
+<li><a href="#mouseselect"><b>Subregion selection</b></a>
+<li><a href="#surf-options"><b>Surface and Mesh options</b></a>
+<li><a href="#threshcolor"><b>Threshold and Color</b></a>
+<li><a href="#zone"><b>Zone</b></a>
+</ul>
+<ul>
+<li><b>Show only default panels</b> restores the previously 
+<a href="#save">saved</a> state of the <b>Features</b> menu (and
+thus which sections are present in the <b>Volume Viewer</b> dialog)
+<li><a name="save"><b>Save default panels</b></a>
+saves the state of the <b>Features</b> menu (and
+thus which sections are present in the <b>Volume Viewer</b> dialog)
+in the Chimera <a href="../../UsersGuide/preferences.html#preffile">
+<b>preferences</b> file</a>
+<li><a name="save2"><b>Save default dialog settings</b></a>
+saves many current <b>Volume Viewer</b> settings other than the
+state of the <b>Features</b> menu in the
+<a href="../../UsersGuide/preferences.html#preffile">
+<b>preferences</b> file</a>. 
+Settings that are specific to a particular volume data set
+are not saved in this way, but can be saved along with an entire
+<a href="../../UsersGuide/sessions.html#sesdef">Chimera session</a>
+in which <b>Volume Viewer</b> is being used.
+<li><b>Use factory default settings</b> resets the 
+<b>Features</b> menu and other <b>Volume Viewer</b> settings 
+to the factory defaults without changing the
+<a href="../../UsersGuide/preferences.html#preffile">
+<b>preferences</b> file</a>
+</ul>
+</p>
+
+<p>
+<a href="#features" class="nounder"><b>&larr;</b></a>
+<font size="+1">
+<a name="fbuttons">
+<b>Feature buttons</b></a></font>
+<p>
+This section contains a row of small, unlabeled buttons 
+representing the <i>other</i> possible sections of
+the <b>Volume Viewer</b> dialog. Checking a feature
+button has the same effect as checking a box in the 
+<a href="#features"><b>Features</b> menu</a>.
+Although arranged horizontally, the buttons are in the same order as the 
+menu entries. Placing the cursor over a feature button
+shows its section name.
+</p>
+
+<a href="#features" class="nounder"><b>&larr;</b></a>
+<font size="+1">
+<a name="coordinates">
+<b>Coordinates</b></a></font>
+<p>
+Values in the <b>Coordinates</b> section are used to convert between 
+the grid indices of the <a href="#currentset">current set</a>
+and Cartesian coordinates.  They are included in the header when
+a data set is <a href="#filemenu">saved</a> to a file.
+The values can be edited; 
+changes take effect when the Enter (return) key is pressed.
+<b>Origin index</b> refers to the grid indices of the XYZ origin;
+<b>center</b> moves the XYZ origin to the center of the grid.
+Fractional and negative values are allowed, as the origin is not required
+to coincide with a grid point or even to fall within the grid.
+<b>Voxel size</b> refers to the data point spacing (resolution).
+Although only one number will be shown if the size is the same along
+the three axes, three different numbers separated by spaces can be entered.
+A negative size along one axis can be used to flip the handedness of the map.
+After any changes, the origin index and voxel size can be <b>reset</b> 
+to their initial values.
+<b>Cell angles</b> are the angles in degrees
+between the crystallographic axes.
+The <b>Rotation axis</b> and <b>angle</b> describe a transformation.
+When a data set is created by <a href="#resampling">resampling</a>
+(see <a href="#mouseselect"><b>Subregion selection</b></a>),
+these fields show its transformation relative to the original data set.
+</p>
+
+<a href="#features" class="nounder"><b>&larr;</b></a>
+<font size="+1">
+<a name="dataset">
+<b>Data set list</b></a></font>
+<p>
+Clicking the name of a data set in the <b>Data Sets</b> list
+makes it the <a href="#currentset">current set</a>.
+</p>
+
+<a name="display">
+<b>DISPLAY</b>
+</a>
+<table>
+<tr><td><img src="hmodes.png"></td></tr>
+</table>
+<p>
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<b>Display style</b></font>
+</p><p>
+The <b>Style</b> or <b><i>rendering mode</i></b>
+to use for the <a href="#currentset">current set</a>
+can be <b>surface</b>, <b>mesh</b>, or <b>solid</b>.
+The <b>surface</b> and <b>mesh</b> modes depict isosurfaces (contour surfaces)
+consisting of a large collection of triangles.  In the <b>surface</b> mode,
+each triangle is drawn as a plane of color.  In the <b>mesh</b> mode,
+just the triangle edges are displayed.  In the <b>solid</b> mode,
+the data is shown as a semitransparent solid.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="threshcolor"><b>Threshold and Color</b></a></font>
+<p>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="region.png"></td></tr>
+</table>
+A histogram of values is shown for each data set
+(up to the <a href="#maxhist">maximum number</a> specified
+in the <a href="#disp-options"><b>Data display options</b></a>).
+The name of the data set, dimensions in grid units of the display region,
+and <b>step</b> size(s) are shown above each histogram.
+A data set can be displayed/undisplayed by clicking its <b>eye icon</b>
+and closed (deleted) by clicking the <b>minus-sign button</b> on the far right.
+</p><p>
+The name of the <a href="#currentset">current set</a> is highlighted. 
+Clicking the name, dimensions, or histogram of a data set makes it the
+<a href="#currentset">current set</a>, as does 
+choosing a different <b>step</b> setting or turning on its display.
+</p><p>
+<a name="datastep">The <b>step</b> setting controls sampling density</a>;
+a value  of <b>1</b> means all the data points are used 
+to generate the display, while <b>2</b>
+means every other data point is taken along each axis,
+reducing the number of points used by a factor of eight.
+Step sizes can be different in the X, Y, and Z directions, 
+in which case three numbers are shown.
+Different step sizes can be entered in the
+<a href="#bounds"><b>Region bounds</b> section</a>, also shown in the figure.
+Changing a step value will change the data size limit 
+for automatic step adjustment
+(see <a href="#adjuststep"><b>Adjust step...</b></a>
+in the <a href="#disp-options"><b>Data display options</b></a>).
+</p><p>
+Histogram bar heights are on a logarithmic scale.  
+The <b>Range</b> of values in the <a href="#currentset">current set</a> 
+and its threshold controls are shown below all of the histograms.
+Thresholds control how data values are mapped 
+to the <a href="#display">display</a>: 
+<ul>
+<li><a href="#dispsurf"><b>surface</b> or <b>mesh</b></a>
+<li><a href="#dispsolid"><b>solid</b></a>
+</ul>
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="disp-options">
+<b>Data display options</b></a></font>
+<p>
+<a name="box">
+<b>Show outline box using color</b>
+[<a href="../../UsersGuide/coloring.html#colorwell">color well</a>]
+<b>linewidth</b> (<b>1</b> by default)
+</a>
+shows the bounding box of the 
+<a href="#currentdisp">current display region</a> using the specified color
+and linewidth. The color can be changed by clicking the
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>.
+Outline box display is <b>off</b> by default.
+</p>
+
+<p>
+<a name="maxhist">
+<b>Maximum number of histograms shown</b>
+</a>
+(<b>3</b> by default)
+sets how many data set histograms can be shown in the
+<a href="#threshcolor"><b>Threshold and Color</b> section</a>.
+The <a href="#currentset">current set</a> is always included, and specifying 
+a data set for which the histogram is not shown as the current set
+will "bump" one of the others out of the section.
+</p>
+
+<p>
+<a name="colors">
+<b>Initial colors</b>
+</a>
+[a series of <a href="../../UsersGuide/coloring.html#colorwell">color wells</a>]
+are the colors to be used for successively opened sets of data.  Clicking a 
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>
+allows the color to be changed.
+</p>
+
+<p>
+<a name="update">
+<b>Update display automatically</b>
+</a>
+(<b>on</b> by default)
+causes automatic display updates upon changes in
+<a href="#display">rendering mode</a>,
+<a href="#threshcolor"><b>Threshold and Color</b></a> settings,
+ or rendering options 
+(<a href="#surf-options"><b>Surface and Mesh options</b></a>,
+<a href="#solid-options"><b>Solid rendering options</b></a>).
+Otherwise, it is necessary to click the 
+<a href="#threshcolor">eye icon</a>
+to update the display after such changes.  
+This option does not apply to display after:
+ <ul>
+ <li>a file is first opened
+ <li>changes in <b>min</b>, <b>max</b>, or <b>step</b> values
+ (<a href="#bounds"><b>Region bounds</b></a>)
+ <li><a href="#mouseselect">subregion selection with the mouse</a> (but see 
+ <a href="#showimmediately"><b>auto</b> subregion display</a>)
+ </ul>
+</p>
+
+<p>
+<a name="showsmall">
+<b>Show data when opened if smaller than [<i>size</i>] Mvoxels</b>
+</a>
+(<b>on</b> by default, with <i>size</i>=<b>256</b>)
+enables automatic initial display of data sets smaller than a specified size. 
+(Regardless of this setting, however,
+<a href="../../UsersGuide/filetypes.html#esp">electrostatic potential</a>
+is not displayed initially.)
+The default limit of 256 Mvoxels is equivalent to a 512 x 512 x 1024 data set.
+<b><i>Size</i></b> does not have to be an integer; 
+for example, 0.25 could be used. 
+When the option is on, a newly opened data set that exceeds
+the size limit will not be displayed until its
+<a href="#threshcolor">eye icon</a>
+is clicked.  When the option is off, the icon
+must always be clicked to generate an initial display.
+Turning the option on or off or changing the <b><i>size</i></b>
+will not affect the display of any data that has already been opened.
+If a <a href="#precomputed">precomputed subsample</a> is being read,
+the <b><i>size</i></b> is compared to that of the subsampled data.
+</p>
+
+<p>
+<a name="showplane">
+<b>Show plane when data larger than [<i>size</i>] Mvoxels</b>
+</a>
+(<b>on</b> by default, with <i>size</i>=<b>256</b>)
+specifies that a single plane normal to the Z axis should be displayed
+when a newly opened data set exceeds the specified size. 
+(See also <a href="#planes"><b>Planes</b></a>.)
+</p>
+
+<p>
+<a name="adjuststep">
+<b>Adjust step to show at most [<i>size</i>] Mvoxels</b>
+</a>
+(<b>on</b> by default, with <i>size</i>=<b>1</b>)
+allows limiting the display to a reasonable amount of data.
+Different values of <b><i>size</i></b> can be used for different data sets.
+The default limit of 1 Mvoxel (2<font size="-1"><sup>20</sup></font>
+or 1,048,576 voxels) is equivalent to a 128 x 128 x 64 data set.
+<b><i>Size</i></b> does not have to be an integer; 
+for example, 0.25 could be used.  
+When this option is on, <a href="#datastep"><b>step</b></a>
+is automatically adjusted by powers of 2 to comply with the Mvoxel limit
+(increased when the extents are increased, if necessary,
+and decreased when the overall region size is
+small enough for finer sampling).
+Changing a step value in the
+<a href="#threshcolor"><b>Threshold and Color</b> section</a> or 
+the <a href="#bounds"><b>Region bounds</b> section</a> will change the
+Mvoxel <i>size</i> limit to what is then shown.
+</p>
+
+<p>
+<b>Data cache size (Mb)</b> (<b>512</b> by default)
+controls whether volume data is kept in memory when it is not being displayed.
+A cache can improve performance, since accessing
+data in the cache is faster than reading it from disk.  It is necessary
+to press Enter (return) after changing the cache size.  Undisplayed
+data is purged from the cache to maintain the size, but if the
+displayed data alone requires more space, it will not be purged.
+The least recently displayed data is purged.  The data cache only accounts
+for part of the memory used by <b>Volume Viewer</b>.  Because
+a significant amount of additional memory is occupied by surfaces
+and color arrays used in rendering, the cache size
+should be set to about 1/3 or 1/2 of the desired total memory usage by
+<b>Volume Viewer</b>.  Clicking <b>Current use</b> opens a dialog
+showing how much memory is occupied by volume data (not including 
+the surfaces, <i>etc.</i> mentioned above).
+</p>
+
+<p>
+<a name="zoomcenter">
+<b>Zoom and center camera when region changes</b>
+</a>
+(<b>off</b> by default)
+automatically readjusts the view when the bounds of the
+<a href="#currentdisp">current display region</a> change.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="brightness">
+<b>Brightness and Transparency</b></a></font>
+<p>
+<b>Brightness</b> 
+scales the intensity of the color of the 
+<a href="#display">volume display</a>. 
+Values range from 0.01 to 10, where <b>1</b> (the default)
+produces no change relative to the color defined in the
+<a href="#threshcolor"><b>Threshold and Color</b> section</a>. 
+</p><p>
+For <b>surface</b> and <b>mesh</b> <a href="#display">displays</a>:
+the <b>Transparency</b> 
+is the fraction of light transmitted from behind the surface or a
+line of mesh.  Values range from 0 to 1, where <b>0</b> (the default)
+corresponds to no transparency.
+(See also <a href="#dim"><b>Dim transparent surface/mesh</b></a>
+in the <a href="#surf-options"><b>Surface and Mesh options</b></a>.)
+</p><p>
+For <b>solid</b> <a href="#display">displays</a>:
+the <b>Transparency</b> setting modulates transparency values
+<a href="#transferfunction">from the histogram</a>
+in a way that compensates for the thickness of the display
+(<a href="#soliddetails">details</a>).  
+Values range from 0 to 1, default <b>0.5</b>.
+By default, more transparent voxels are made dimmer
+(<a href="#dimvox"><b>Dim transparent voxels</b></a>
+in the <a href="#solid-options"><b>Solid rendering options</b></a>).
+</p>
+
+<a name="dispsurf">
+<b>SURFACE OR MESH DISPLAY</b>
+</a>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="dispsurf.png"></td></tr>
+</table>
+<p>
+For <b>surface</b> and <b>mesh</b> <a href="#display">displays</a>,
+each threshold is shown as a vertical bar.
+Initial thresholds are set automatically.  
+For unsigned data types, an initial threshold is set so that 1% of voxels
+(1% of the volume encompassed by the data region) lie above it;
+for signed data types, positive and negative thresholds are placed 
+symmetrically about zero.
+</p><p>
+In the figure,
+the histogram of the <a href="#currentset">current set</a> is on top.
+The <b>Range</b> of values in the <a href="#currentset">current set</a> 
+and its threshold controls are shown below both of the histograms.
+</p><p>
+Any number of thresholds (contour levels) can be added by
+Ctrl-clicking with the left mouse button on the histogram.
+Ctrl-clicking on an existing threshold deletes it.
+Of course, different
+thresholds can have different settings for <b>Level</b> and <b>Color</b>;
+the settings shown apply to the
+threshold most recently moved or clicked, the <b><i>current threshold</b></i>.
+A threshold can be moved
+by changing the <b>Level</b> and then pressing Enter (return)
+or by dragging it horizontally with the left mouse button.
+Holding the Shift
+key down reduces the speed (mouse sensitivity) of threshold
+dragging tenfold, allowing finer control.
+Setting a contour level very low can generate a surface with many triangles
+that takes a long time to display.
+</p><p>
+Each threshold is shown in the same color as its display.
+The <b>Color</b> can be changed by clicking the
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>.
+<a href="#brightness"><b>Brightness and Transparency</b></a>
+can be adjusted.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="surf-options">
+<b>Surface and Mesh options</b></a></font>
+<p>
+
+<a name="smoothit">
+<b>Surface smoothing iterations [<i>i</i>] factor [<i>f</i>]</b>
+</a>
+(<b>off</b> by default, with <i>i</i>=<b>2</b> and <i>f</i>=<b>0.3</b>) 
+smooths <b>surface</b> and <b>mesh</b>
+<a href="#display">displays</a> by moving each vertex toward
+the average position of its neighboring vertices
+(those connected by triangle edges).  A vertex is moved a fraction
+<b><i>f</i></b> (ranging from 0 to 1) of the way toward the average
+position of its neighbors, and each vertex is moved once per iteration.
+<b><i>i</i></b> iterations are performed, where <b><i>i</i></b> is a 
+positive integer.
+When <a href="#subdiv"><b>Subdivide surface...</b></a> is on, it may be
+necessary to use more smoothing iterations and/or a higher factor to achieve 
+a smoothness similar to that of the unsubdivided surface.
+</p>
+
+<p>
+<a name="subdiv">
+<b>Subdivide surface [<i>j</i>] times</b>
+</a>
+(<b>off</b> by default, with <i>j</i>=<b>1</b>)
+increases the number of triangles used in <b>surface</b> and <b>mesh</b> 
+<a href="#display">displays</a>.
+Subdivision can help to produce smoother surfaces when combined with
+the <a href="#smoothit"><b>Surface smoothing...</b></a> option.
+During a single round of subdivision, each triangle is divided into
+four smaller triangles by connecting the midpoints of the triangle edges.
+Thus, the number of triangles is increased by a factor of 
+4<sup><b><i>j</i></b></sup>, 
+where <b><i>j</i></b> is a positive integer. 
+</p>
+
+<p>
+<a name="smoothmesh">
+<b>Smooth mesh lines</b>
+</a>
+(<b>off</b> by default) turns on anti-aliasing
+to smooth lines in <b>mesh</b> <a href="#display">displays</a>.
+Mesh lines with <a href="#brightness">transparency</a> &gt; 0 can
+only be smoothed when <a href="#dim"><b>Dim transparent surface/mesh</b></a>
+is on.  OpenGL can render smooth lines using anti-aliasing, but
+the method has a side effect:  dense meshes look brighter from some
+viewpoints and darker from others, depending on the
+order in which the lines were drawn.
+</p>
+
+<p>
+<b>Square mesh</b> (<b>on</b> by default) displays a subset of the
+lines in the triangular mesh.  Lines in the square mesh show the 
+intersection of the XY, YZ, and XZ grid planes with the contour surface. 
+Regardless of this setting, triangles will still be drawn in
+the planar surfaces at box faces shown with the
+<a href="#caphigh"><b>Cap high values...</b></a> option.
+</p>
+
+<p>
+<a name="meshwidth">
+<b>Mesh line thickness [<i>k</i>] pixels</b></a>
+(<i>k</i>=<b>1</b> by default) is the pixel line width used in <b>mesh</b> 
+<a href="#display">displays</a>; it must be a positive integer.
+</p>
+
+<p>
+<a name="dim">
+<b>Dim transparent surface/mesh</b></a>
+(<b>on</b> by default)
+decreases the brightness of <b>surface</b> and <b>mesh</b> 
+<a href="#display">displays</a> as their 
+<a href="#brightness"><b>Transparency</b></a> is increased.  
+Specular highlights are also dimmed.
+Otherwise, increasing the transparency of 
+a color (without changing its brightness) allows more light
+to shine through, resulting in an increase in the overall brightness.
+When dimming is on, OpenGL (alpha,1&ndash;alpha)
+blending is used instead of (1,1&ndash;alpha) blending.
+</p>
+
+<p>
+<a name="onelayer">
+<b>One transparent layer</b></a>
+(<b>off</b> by default)
+simplifies a transparent <b>surface</b> or <b>mesh</b>
+<a href="#display">display</a> to only its topmost layer;
+otherwise, additional layers will be drawn, 
+emphasizing any surface convolutions.
+</p>
+
+<p>
+<a name="meshlight">
+<b>Mesh lighting</b>
+</a>
+(<b>on</b> by default) makes the inside of a contour volume shown in the
+<b>mesh</b> <a href="#display">rendering mode</a> dimmer than the outside.
+With mesh lighting on, the brightness varies according to the angle
+between each surface point normal and the line of sight;
+brightness is maximal when the outward-facing normal
+is parallel to the line of sight and pointing at the user
+(see more on the definition of "outward" under <a href="#flip">
+<b>Light flip side...</b></a>).
+With mesh lighting off, the brightness is uniform regardless of
+the angle between the normal and the line of sight.
+</p>
+
+<p>
+<a name="two-sided">
+<b>Two-sided surface lighting</b>
+</a>
+(<b>on</b> by default) makes both the inside and outside of a contour
+volume shown in the <b>surface</b> <a href="#display">rendering mode</a> 
+bright.  Otherwise, only the outside is lit
+(see more on the definition of "outside" under <a href="#flip">
+<b>Light flip side...</b></a>).
+The brightness of each lit side varies according to the angle between a
+surface point normal and the line of sight;
+brightness is maximal when the normal is parallel to the line of sight.
+</p>
+
+<p>
+<a name="flip">
+<b>Light flip side for thresholds < 0</b>
+</a>
+affects <b>surface</b> and <b>mesh</b>
+<a href="#display">displays</a>.  The <b>surface</b> mode is affected
+only when lit from a single side (when <a href="#two-sided"><b>Two-sided
+surface lighting</b></a> is off). 
+The <b>mesh</b> mode is affected only when <a href="#meshlight"><b>Mesh
+lighting</b></a> is on.
+When <b>Light flip side...</b> is off,
+the side toward smaller or more negative data
+values is always treated as the outside of a contour volume.
+When <b>Light flip side...</b> is on,
+the side toward larger or more positive values is treated
+as the outside for any negative thresholds (contour levels),
+while the side toward smaller or more negative values
+is treated as the outside for any positive thresholds.
+Flip side lighting is appropriate when displaying data
+for which the sign is meaningful, such as electrostatic potential.
+In other cases, the data set is better described as a monotonic
+range of values, and where it lies relative to zero is not meaningful.
+</p>
+
+<p>
+<a name="caphigh">
+<b>Cap high values at box faces</b>
+</a>
+makes isosurfaces
+(<b>surface</b> and <b>mesh</b> <a href="#display">displays</a>)
+cover faces of the volume data box where high values would be exposed.
+This option should be turned off when the objects of interest are
+represented by lower or more negative data values.
+The default setting depends on
+<a href="../../UsersGuide/filetypes.html#volume">volume data type</a>:
+<b>on</b> for most formats, <b>off</b> for formats that are commonly
+inverted (Purdue image format) or used for signed data
+(<a href="../../UsersGuide/filetypes.html#esp">electrostatic potential</a>,
+molecular orbitals).
+</p>
+
+<a name="dispsolid">
+<b>SOLID DISPLAY</b>
+</a>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="dispsolid.png"></td></tr>
+</table>
+<p>
+For <b>solid</b> <a href="#display">displays</a>,
+each threshold is shown as a small square.
+Initial thresholds are set automatically.  
+For unsigned data types, initial thresholds are set to give zero intensity 
+for the 10% of voxels (in the data region) with the lowest values, 
+scaling up to 0.99 intensity for the 1% of voxels
+with the highest values;
+for signed data types, positive and negative thresholds are placed
+symmetrically about zero.
+</p><p>
+The figure shows three <a href="#multicomp">components</a>
+of light microscope data.  
+The <b>Range</b> of values in the <a href="#currentset">current set</a> 
+and its threshold controls are shown below all of the histograms.
+</p><p>
+Any number of thresholds can be added by Ctrl-clicking
+with the left mouse button on the histogram.  Ctrl-clicking on an
+existing threshold deletes it.  Of course, different thresholds can
+have different settings for <b>Level</b> and <b>Color</b>;
+the settings shown apply to the
+threshold most recently moved or clicked, the <b><i>current threshold</b></i>.
+A threshold can be moved by changing the <b>Level</b>
+and then pressing Enter (return)
+or by dragging it horizontally <i>and/or vertically</i>
+with the left mouse button.  Holding the Shift
+key down reduces the speed (mouse sensitivity) of threshold
+dragging tenfold, allowing finer control.
+The rightmost threshold does not have to be at the far right of the histogram,
+and a threshold at a lower data value can be higher (vertically)
+than a threshold at a higher data value.
+</p><p>
+Each threshold is shown in the same color as its display.
+Different thresholds for the same data set can be colored alike (as in
+the <a href="#dispsolid">figure</a>) or differently.
+The <b>Color</b> can be changed by clicking the
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>.
+<a href="#brightness"><b>Brightness and Transparency</b></a>
+can be adjusted.
+</p><p>
+The thresholds and connecting lines on each histogram
+define a <a name="transferfunction"><b><i>transfer function</i></b></a>
+that maps data values to colors and intensities.
+For each voxel, the data value is compared to the thresholds on the
+histogram.  The colors and intensities of the closest threshold
+at a lower data value (to the left) and the closest threshold
+at a higher data value (to the right) are linearly interpolated.
+Voxels with data values greater than the rightmost threshold
+or less than the leftmost threshold are colorless and
+completely transparent.
+Color is defined by red, green, blue and opacity components.
+The intensity at a threshold is further scaled by its vertical position,
+where 0 is the bottom of the histogram and 1 is the top.
+Rendering time does not depend on the positions of the thresholds,
+but increases with greater numbers of thresholds.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="solid-options">
+<b>Solid rendering options</b></a></font>
+
+<p>
+<b>Color mode</b> refers to color pixel format (OpenGL texture format).
+Memory usage can be tailored, potentially to allow faster updates
+and display of larger maps.
+<ul>
+<li><b>auto</b> (default) - set the mode according to whether
+multiple colors and transparency are being used
+<li>multi-color transparent - RGBA
+<li>multi-color opaque - RGB
+<li>single-color transparent - luminance + alpha
+<li>single-color opaque - luminance
+</ul>
+<ul>
+<li>4 bits
+<li><b>8 bits</b> (default)
+<li>12 bits
+<li>16 bits
+</ul>
+</p>
+
+<p>
+<a name="projectionmode">
+<b>Projection mode</b></a> allows memory-efficient display of large data sets
+such as tomograms.  Displaying just the planes perpendicular to one data axis 
+uses one-third the memory of the <b>x, y or z planes</b> option,
+which displays the planes along the data axis most perpendicular to the screen
+at a given data orientation. 
+The <b>perpendicular to view</b> option 
+uses planes that may not be aligned with any data axis (3D texture mapping).
+If this option is chosen but not supported by the computer hardware, 
+an empty red outline box will be shown; if it is supported 
+but the texture is too large, an empty yellow outline box will be shown.  
+<ul>
+<li><b>auto</b> (default)
+- use <b>z planes</b> for volumes with X or Y dimensions 
+at least 4 times greater than Z, otherwise <b>x, y or z planes</b>
+<li>x, y or z planes</b>
+<li>x planes
+<li>y planes
+<li>z planes
+<li>perpendicular to view
+</ul>
+</p>
+
+<p>
+<b>Maximum intensity projection</b> (<b>off</b> by default) 
+shows, at each pixel, the the most intense color value underlying the pixel
+along the line of sight.
+The maximum intensities of the red, green, and blue color components are
+determined separately.  Transparency is not used; that is, the
+<a href="#brightness"><b>Transparency</b></a>
+and the vertical positions of the thresholds are
+ignored when this setting is on.  Maximum intensity projection
+can be useful for enhancing detail.  Unphysical effects
+can result, but are usually not very noticeable; examples include
+the disappearance of a dim spot when it passes in front of a brighter spot
+and the simulation of a single spot when the maximal values of different
+color components under the same pixel actually come from different spots.
+</p>
+
+<p>
+<a name="dimvox">
+<b>Dim transparent voxels</b>
+</a>
+(<b>on</b> by default)
+scales voxel <a href="#brightness">brightness</a>
+in <b>solid</b> <a href="#display">displays</a>
+by a factor of (1&ndash;<a href="#brightness">transparency</a>).
+Otherwise, increasing the transparency also makes a volume 
+appear brighter, because less light is blocked.
+</p>
+
+<p>
+<a name="brightcorr">
+<b>Solid brightness correction</b></a>
+(<b>off</b> by default)
+Without this correction, the apparent
+<a href="#brightness">brightness and transparency</a>
+of <b>solid</b> <a href="#display">displays</a>
+(in <a href="#projectionmode">projection modes</a>
+other than <b>perpendicular to view</b>)
+depend on the viewing angle relative to the XYZ data axes.  
+For a cube-shaped volume with equal resolution in the X, Y, and Z
+dimensions,
+the brightness drops and the transparency increases by a factor of
+3<sup>1/2</sup> (approximately 1.7)  as the viewing angle is changed 
+from along any axis to along the cube diagonal.
+The brightness correction remedies this, but doubles rendering time.
+</p>
+
+<p>
+<a name="minmem">
+<b>Minimize texture memory use</b></a>
+(<b>off</b> by default)
+causes <b>solid</b> <a href="#display">displays</a>
+(in <a href="#projectionmode">projection modes</a>
+other than <b>perpendicular to view</b>)
+to reuse a single 2D texture instead of allocating
+separate textures for every plane of the data volume.  This is useful
+for viewing large data sets that would otherwise fail to display,
+but it can degrade performance (increase the lag time)
+when the display is rotated and during remote display.
+</p>
+
+<p>
+<a name="linear">
+<b>Solid linear interpolation</b></a>
+(<b>on</b> by default)
+refers to linear interpolation of the
+<a href="#brightness">brightness and transparency</a>
+between voxels in <b>solid</b> <a href="#display">displays</a>.
+Turning interpolation off may yield a pixelated appearance,
+but may decrease the rendering time, depending on the graphics hardware.
+</p>
+
+<a name="region">
+<h4>REGIONS AND SUBSAMPLES</h4>
+</a><p>
+The default settings will often suffice for displaying the
+data without performance problems.  If there are problems,
+however, the first issue to address is the size of the data set:  whether
+the information can be handled and displayed in a reasonable amount of time.
+Typically, an isosurface for a 64 x 64 x 64 data set can be displayed
+in a few seconds on a late-1990's machine.
+The Chimera Web site includes a
+<a href="http://plato.cgl.ucsf.edu/trac/chimera/wiki/benchmarks"
+target="_blank">
+benchmark table</a> listing the volume data sizes that can be handled
+at 10 frames per second on various computer systems.
+With <b>solid</b> <a href="#display">displays</a>, performance is
+optimal when region dimensions are powers of two.
+A status line near the bottom of the panel reports on the progress of
+a calculation.
+Some experimentation may be required to balance appearance and performance
+for a given data set.  The size of a 3D data set is essentially the
+total number of values, X x Y x Z.  It is related to both the
+physical dimensions (for example, &Aring; along each axis)
+and the resolution (spacing) between data points.
+</p><p>
+To decrease size, one can focus on a 
+<a name="subregiondef">smaller physical region (<b><i>subregion</i></b>)</a>
+and/or use a
+<a name="subsampledef">sparser grid of points (<b><i>subsample</i></b>)</a>
+from the original data set.  
+<a href="#datastep"><b>Step</b></a> values &gt; 1 indicate subsampling.
+Subsamples can be <a href="#precomputed">precomputed</a>.
+</p><p>
+<a href="#filemenu"><b>File... Duplicate</b></a> makes a copy of the
+<a href="#currentset">current set</a> so that it is not necessary to
+open the same file multiple times to simultaneously display
+different <a href="#subregiondef">subregions</a>
+or representations of the same data.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="bounds">
+<b>Region bounds</b></a></font>
+<p>
+The physical extents of the displayed data
+can be decreased by increasing the <b>min</b>
+grid indices and/or decreasing the <b>max</b> grid indices.
+The <b>step</b> values control the level of sampling; for example,
+a step of 2 means that every other grid point is
+used to calculate the display.  Because they refer to grid indices,
+the <b>min</b>, <b>max</b>, and <b>step</b> values must be integers.
+Pressing Enter (return) after entering new values or
+clicking the <a href="#threshcolor">eye icon</a>
+will update the display.
+Changing a step value will change the data size limit 
+for automatic step adjustment
+(<a href="#adjuststep"><b>Adjust step...</b></a>
+in the <a href="#disp-options"><b>Data display options</b></a>).
+The original full data set can be restored
+by changing the <b>min</b>, <b>max</b>, and <b>step</b> values
+back to their original settings or by clicking <b>Full</b> in the 
+<a href="#mouseselect"><b>Subregion selection</b> section</a>.
+Clicking <b>Full Plane</b> in the <a href="#planes"><b>Planes</b> section</a>
+restores the full extents normal to the plane axis.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="mouseselect">
+<b>Subregion selection</b></a></font>
+<p>
+<b>Select subregions using [<i>button</i>]</b> allows 
+<a href="#subregiondef">subregions</a>
+of the <a href="#currentset">current set</a> to be defined with the mouse.
+The indicated mouse button (which can be changed using the pulldown menu)
+is reassigned from its existing function
+to volume selection in the graphics window.
+</p><p>
+In the following description of selection boxes,
+"clicking" and "dragging" refer to operations with
+whichever mouse button has been assigned to subregion selection.
+When there is no pre-existing selection box:
+<ul>
+<li>Dragging sweeps out a box aligned with the volume data axes,
+the smallest possible box containing all voxels under
+the initial and final cursor positions.
+Depending on the viewing angle, however, the box may be surprisingly large.
+It may be helpful to <a href="#buttons"><b>Orient</b></a>
+the volume beforehand.
+<li>Clicking outside the <a href="#currentdisp">current display region</a>
+creates a selection box the same size as
+the <a href="#currentdisp">current display region</a>.
+</ul>
+After a selection box has been created, it can be erased or further adjusted.
+Clicking erases the selection box and starts over.
+Dragging from a point over the box moves
+the frontmost face; also holding down Shift moves the
+the rearmost face instead of the frontmost.
+Dragging from a point not over the box translates the whole box in X and Y;
+Shift-dragging translates the box in the Z dimension.
+</p><p>
+The <a name="showimmediately"><b>auto</b> display option</a>
+(<b>off</b> by default) automatically updates
+the <a href="#currentdisp">current display region</a> after the
+subregion selection box is changed.  Otherwise, it is
+necessary to click <b>Crop</b> to apply the new boundaries.
+Clicking <b>Full</b> restores the original extents of the data set.
+</p><p>
+<b>Rotate selection box</b> deactivates other models so that only the
+selection box is rotated by the mouse.
+<a name="resampling">
+After box reorientation, clicking <b>Resample</b> interpolates</a>
+from the data to generate a new set of data bounded by the box,
+with points spaced according to the <b>Resampling voxel size</b>.
+Resampling (interpolation) is required to generate values 
+along axes that differ from the original data axes; 
+a voxel size no larger than that of the original set
+(see <a href="#coordinates"><b>Coordinates</b></a>)
+is recommended to limit loss of resolution.
+</p><p>
+After various <a href="#subregiondef">subregions</a>
+of the <a href="#currentset">current set</a> have been used as the 
+<a href="#currentdisp">current display region</a> during a session,
+it is possible to go <b>Back</b> and <b>Forward</b> among them.
+The subregion farthest <b>Back</b> is the earliest created within the session.
+Up to 32 subregions can be stored and traversed.
+Changes in <b>min</b> and <b>max</b> values but not <b>step</b> sizes
+(in <a href="#bounds"><b>Region bounds</b></a>) are retained in this history.
+Note that <a href="#resampling">resampling</a> creates a separate data set 
+with its own history; the resampled data set is not included in the 
+history of the set from which it was derived.
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="named">
+<b>Named regions</b></a></font>
+<p>
+<a href="#subregiondef">Subregions</a>
+can be named and then restored by name.
+<b>Add</b> adds the name entered in the name field to
+the list of named regions, <b>Delete</b> deletes the region with the name
+shown in the name field from the list of named regions, and <b>Show</b>
+allows restoration (from a pulldown menu) of any of the named regions
+on the list.  When <b>Add</b> is clicked, the <b>min</b> and <b>max</b>
+values (see <a href="#bounds"><b>Region bounds</b></a>)
+of the <a href="#currentdisp">current display region</a>
+are saved.  A named region can be restored by typing its name in the 
+<b>Named region</b> field and pressing Enter (return).
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="zone"><b>Zone</b></a></font>
+<p>
+Clicking <b>Zone</b> limits the display to areas within
+a specified distance (<b>Radius</b>) of the currently
+<a href="../../UsersGuide/selection.html">selected</a> atoms, if any
+(works for <b>surface</b> and <b>mesh</b> but not <b>solid</b>
+<a href="#display">displays</a>; see <a href="#limitations">limitations</a>).
+The <a href="#currentdisp">current display region</a> is actually
+larger than the zone, but areas outside the zone are masked. 
+By default, a zone is based only on distances to any
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+(and <a href="../volumepathtracer/framevolpath.html" target="_top"><b>Volume
+Tracer</b></a> markers);
+the <a href="../../UsersGuide/midas/bondzone.html"><b>bondzone</b></a>
+command indicates that points along any
+<a href="../../UsersGuide/selection.html">selected</a> bonds
+(and <a href="../volumepathtracer/framevolpath.html" target="_top"><b>Volume
+Tracer</b></a> links) should also be used.
+</p><p>
+The <b>Radius</b> can be adjusted by moving the slider or by typing in a 
+new value.  Values larger than what is attainable by moving the slider
+all the way to the right can be typed.
+When zoning is in effect, recontouring affects only the block of data 
+enclosing the zone (the <a href="#currentdisp">current display region</a>)
+rather than the entire <a href="#currentset">current set</a> of data.
+If the set of selected atoms is changed, 
+<b>Zone</b> must be clicked again to move the zone accordingly.
+Otherwise, the zone will remain centered on the formerly selected atoms.
+Clicking <b>Zone</b> will not update the display when no atoms are selected.
+Multiple isosurfaces of a given data set will be zoned simultaneously.  
+However, the data set can be <a href="#filemenu">duplicated</a>
+to allow differential zoning of different isosurfaces.
+<b>No Zone</b> turns off zoning and restores the original extents of the data.
+Zoning should be turned off during the use of 
+<a href="#mouseselect"><b>Subregion selection</b></a> buttons.
+(See also <a href="#atombox"><b>Atom box</b></a>.)
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="atombox">
+<b>Atom box</b></a></font>
+<p>
+Clicking the <b>Box around selected atoms...</b> button limits the
+<a href="#currentdisp">current display region</a> 
+to a box with X,Y,Z dimensions enclosing the currently
+<a href="../../UsersGuide/selection.html">selected</a> atoms, if any.
+The <b>padding</b> value increases the box size in every direction
+from the minimum needed to enclose the atoms.
+(See also <a href="#zone"><b>Zone</b></a>.)
+</p>
+
+<a href="#features" class="nounder">&larr;</a>
+<font size="+1">
+<a name="precomputed">
+<b>Precomputed subsamples</b></a></font>
+<p>
+Precomputed <a href="#subsampledef">subsamples</a>
+are especially useful when the data set is large; they
+facilitate switching between larger regions at low resolution and
+smaller regions at high resolution.
+Precomputed subsample files decrease memory usage and time
+spent reading data.  After a data file is opened, its contents
+are not read into memory until the data is displayed 
+(by clicking the <a href="#threshcolor">eye icon</a>,
+or automatically as specified with
+<a href="#showsmall"><b>Show data when opened...</b></a> in the
+<a href="#disp-options"><b>Data display options</b></a>).
+If <a href="#datastep"><b>step</b></a> sizes are set greater than
+1 before the data is displayed, only a smaller precomputed subsample 
+(if the appropriate one is available) will be read into memory.  
+Subsamples of the original data can be created with the program
+<a href="#downsizeprogram">downsize.py</a>.
+Besides the more efficient use of memory, another
+reason to use precomputed subsamplings instead of generating
+them on the fly is that <a href="#downsizeprogram">downsize.py</a>
+offers a variety of methods for determining the subsample values.
+The subsample files must be associated with the correct full data file
+when they are opened.  This is done by opening the full data file,
+making sure it is the <a href="#currentset">current set</a>,
+and then using the <b>Open...</b> button in the 
+<b>Precomputed subsamples</b> section to open the subsample files.
+Along with the full data, the subsamples are listed in the pulldown 
+<b>Precomputed subsamplings</b> menu according to the <b>step</b> sizes
+<a href="subsample.html">inferred</a> to have been used to generate them
+from the full data file.  When the <a href="#threshcolor">eye icon</a>
+is clicked, the <a href="subsample.html">appropriate subsample</a>
+(based on <b>step</b> values) is used.
+</p><p>
+It is also possible to open and work with precomputed subsample files
+in the "normal" way (without associating them with the full data file).
+However, this does not allow for easy switching among
+different subsamples of the same full data set.
+</p>
+
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="planes.png"></td></tr>
+</table>
+<a href="#features" class="nounder"><b>&larr;</b></a>
+<font size="+1">
+<a name="planes">
+<b>Planes</b></a></font>
+<p>
+The <b>Planes</b> section allows display of a slab of the data,
+<b>Depth</b> planes thick and normal to the specified axis
+(default <b>Z axis</b>).  The <b>Plane</b> value is the grid index of
+the first displayed plane along the axis.
+(See also <a href="#showplane"><b>Show plane...</b></a> in the
+<a href="#disp-options"><b>Data display options</b></a>.)
+</p><p>
+Clicking <b>One</b> displays a single plane of data
+and switches the <a href="#display">display style</a> to <b>solid</b>.  
+The other styles can still be used, however, 
+to show <a href="#2Dcontours">2D contours</a>.
+Slab thickness can be changed by editing the <b>Depth</b> value,
+and the location of the slab along the axis can be changed 
+by editing the <b>Plane</b> value or by moving the slider.  
+Only planes that are multiples of the 
+<a href="#datastep">step</a> size will be shown, and <b>Depth</b>
+refers to the number of planes shown rather than a grid index range.
+Clicking <b>All</b> shows the full thickness of the data 
+along the axis, whereas clicking
+<b>Full Plane</b> restores the full extents of the slab normal to the
+axis (when a <a href="#subregiondef">subregion</a> had been shown).
+</p><p>
+<b>Cycle through [<i>N</i>] planes at speed [<i>M</i>]</b> slides the
+<b>Plane</b> display back and forth along the specified axis
+over a grid index range of <i>N</i> (default <b>20</b>)
+centered at the starting <b>Plane</b> value, at a rate of
+up to <i>M</i> frames per second (default <b>30</b>).  
+The rate may be slower as limited by the system.  Clicking <b>Preload</b> 
+loads data into memory beforehand to allow faster cycling through 
+different planes.  Since <i>N</i> is a grid index range,
+the cycle will include fewer than <i>N</i> different displays 
+when the <a href="#datastep">step</a> size is greater than 1.
+Turning on <b>Cycle</b> when the <b>Depth</b> is 1
+switches the <a href="#display">display style</a> to <b>solid</b>.
+</p><p>
+<a name="2Dcontours">
+Single planes of data can be shown as contour lines or spots.</a>
+Using the <b>surface</b> or <b>mesh</b> <a href="#display">style</a>
+and turning off <a href="#caphigh"><b>Cap high values at box faces</b></a>
+shows contour lines of the specified <a href="#meshwidth">width</a>,
+whereas using the <b>surface</b> <a href="#display">style</a> 
+with capping on shows filled spots.
+</p><p>
+Values in a single plane of data
+can be plotted as surface heights with the command 
+<a href="../../UsersGuide/midas/topography.html"><b>topography</b></a>.
+</p>
+
+<a name="newformats">
+<h4>ADDING A FILE TYPE</h4>
+</a>
+<p>
+A new file format can be added using Python code. The code must read
+the desired file type into a NumPy Python array and specify how to
+map data indices into Chimera XYZ positions by giving an XYZ origin
+(position for index 0,0,0) and XYZ step size (spacing between grid
+points). In the chimera/share/VolumeData directory, look at griddata.py
+to see the base class for volume data; this file contains useful
+comments.  The base class defines the interface to the volume data
+used by <b>Volume Viewer</b>.  For an example file reader, look at
+xplor_format.py and xplor_grid.py in the xplor directory.  For
+<a href="#multicomp">multiple-component data</a> 
+(<i>i.e.</i>, data with more than one value at each grid point),
+look at priism_format.py and priism_grid.py in the priism
+directory. The *_format.py file is the file reader, and *_grid.py
+wraps the data in a grid object suitable for use by <b>Volume Viewer</b>. 
+The last step is to add an entry to the list of known file types in
+fileformats.py.
+</p>
+
+<a name="limitations">
+<h4>LIMITATIONS</h4>
+</a>
+
+<p><a name="solidzone"><b>Zoning does not work for solid displays</b></a>.
+Restricting the display with <a href="#zone"><b>Zone</b></a> works in the
+<b>surface</b> and <b>mesh</b> modes, but not in the <b>solid</b> mode.
+</p>
+
+<p><a name="superimposing"><b>Superimposing transparent models</b></a>.
+A superposition of two models with transparency
+will not be shown correctly.  The models will be rendered separately, and
+the one rendered second will not take account of the opacity of the first
+model.  A superposition of one transparent model with one or more opaque
+models will be displayed correctly, however.
+</p>
+
+<p><b>Data size limit for surface calculations</b>.
+Contour surfaces cannot be calculated for volume data sets 
+with more than 2<sup>32</sup> voxels (4 Gvoxel)
+because 32-bit integer variables are used to index the volume data values.
+This limit applies even to 64-bit machines.
+</p>
+
+<p><a name="transfer"><b>Transfer function limitations</b></a>.
+The conversion of data values to intensities 
+(which occurs in the <b>solid</b> mode) only allows linear interpolation.
+</p>
+
+<p><a name="edgevoxels"><b>Transparent solid edge voxels</b></a>.
+<b>Solid</b> displays are missing a half-voxel on all sides.
+This is due to problems in OpenGL with linear interpolation
+near the boundary of a texture.
+</p>
+
+<p><b>Slow remote display</b>.
+Remote display is particularly slow with <a href="#brightness">transparent</a>
+<b>surface</b> and <b>mesh</b> displays, since the whole surface
+must be sent to the displaying machine every time the orientation is changed.
+The <b>solid</b> mode does not require every change in orientation to be
+transmitted, but remote display is still significantly
+slower than direct display.
+</p>
+
+<a name="misc">
+<h4>TECHNICAL NOTES</h4>
+</a>
+
+<p><a name="soliddetails"><b>Solid transparency details</b></a>.
+For <a href="#dispsolid"><b>solid</b></a> displays,
+the <a href="#transferfunction">transfer function</a> maps a
+voxel's data value to a vertical position (ranging from 0 to 1)
+on the histogram:
+<blockquote>
+<b>T<sub>histo</sub></b> = (1 &ndash; vertical position)
+</blockquote>
+If the <a href="#brightness"><b>Transparency</b> setting</a> is zero
+(<b>T<sub>set</sub></b> = 0), the voxel will be completely opaque:
+<blockquote>
+<b>T<sub>final</sub></b> = 0
+</blockquote>
+Otherwise, the transparency value from the histogram
+is modulated by <b>T<sub>set</sub></b>
+in a way that depends on the number of data planes displayed:
+<blockquote>
+<b>T<sub>final</sub></b> = <b>T<sub>histo</sub></b><sup>(<b>T<sub>histo</sub></b>* <b>T<sub>set</sub></b>* thickness) <sup>&ndash;1</sup></sup>
+<br><br>
+thickness = min(<b>N<sub>x</sub></b>,<b>N<sub>y</sub></b>,<b>N<sub>z</sub></b>)
+</blockquote>
+where <b>N<sub>x</sub></b>, <b>N<sub>y</sub></b>, and <b>N<sub>z</sub></b>
+are the number of X, Y, and Z data planes displayed, respectively.
+Increasing the <a href="#brightness"><b>Transparency</b> setting</a>
+and/or the thickness of the displayed data will make the exponent smaller and 
+(because <b>T<sub>histo</sub></b> &le; 1) individual voxels more transparent.
+</p>
+
+<p><a name="phifiles"><b>Electrostatic potential file types</b></a>.
+DelPhi and GRASP *.phi files are both accepted as input; the file
+reader automatically recognizes the phi file type and reads the
+data accordingly.
+</p>
+
+<p><a name="mrcout"><b>Output MRC files</b></a>.
+MRC files written out with <a href="#filemenu"><b>File... Save map as</b></a>
+are in the MRC 2000 format.  Older MRC-reading programs or 
+programs expecting CCP4 format will read such files successfully
+but may not align the data correctly with other data sets.
+</p>
+
+<p><a name="byteorder"><b>Byte order</b></a>.
+Different computers store the bytes of a single numeric value in
+different orders.  PowerPC processors use one order
+(called big-endian), while Intel/AMD x86 family processors use the
+opposite order (called little-endian).
+If a binary data file is created on one machine and read on
+another having the opposite byte order, byte-swapping is required
+to get the correct numeric values.
+The DSN6 file reader assumes that the file was written in big-endian byte
+order.  DSN6 files can be read on big- or little-endian machines.
+All of the other file readers detect file byte order and machine byte order,
+then perform byte-swapping if necessary.
+</p>
+
+<p><a name="rendercode"><b>Rendering code</b></a>.
+<b>Surface</b> and <b>mesh</b> displays are of class
+<a href="../../UsersGuide/surfattrib.html#surfmodels">SurfaceModel</a>,
+implemented in the Chimera _surface module;
+<b>solid</b> displays are of class Volume_Model,
+implemented in the Chimera _volume module.
+</p>
+
+<p><b>Memory usage varies by file type</b>.
+For the DSN6, Delphi, and XPLOR formats, the whole file is read in
+order to extract a <a href="#subregiondef">subregion</a>;
+thus, specifying a subregion will speed up
+rendering and display but will not conserve memory.  By contrast,
+only the specified subregions are read from MRC, NetCDF, and Priism files.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / October 2009</address>
+</body></html>

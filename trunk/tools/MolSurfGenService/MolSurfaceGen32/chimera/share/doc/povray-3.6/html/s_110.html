@@ -1,0 +1,371 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.4.6 Constructive Solid Geometry</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_109.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_109.html">3.4.5 Parametric Object</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.4.6 
+   Constructive Solid Geometry</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_111.html">3.4.7 Light Sources</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_111.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_04_06">3.4.6 </a>Constructive Solid Geometry</h3>
+<a name="s03_04_06_i1"><a name="CSG"></a>
+<p>
+  In addition to all of the primitive shapes POV-Ray supports, you can also combine multiple simple shapes into 
+ complex shapes using <em> Constructive Solid Geometry</em> (CSG). There are four basic types of CSG operations: union, 
+ intersection, difference, and merge. CSG objects can be composed of primitives or other CSG objects to create more, 
+ and more complex shapes. 
+</p>
+
+<h4><a name="s03_04_06_01">3.4.6.1 </a>Inside and Outside</h4>
+
+<p>
+  Most shape primitives, like spheres, boxes and blobs divide the world into two regions. One region is inside the 
+ object and one is outside. Given any point in space you can say it is either inside or outside any particular 
+ primitive object. Well, it could be exactly on the surface but this case is rather hard to determine due to numerical 
+ problems. 
+</p>
+
+<p>
+  Even planes have an inside and an outside. By definition, the surface normal of the plane points towards the 
+ outside of the plane. You should note that triangles cannot be used as solid objects in CSG since they have no well 
+ defined inside and outside. Triangle-based shapes (<code>mesh, mesh2</code>) can only be used in CSG when they are 
+ closed objects and have an inside vector specified. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong>: Although triangles, bicubic_patches and some other shapes have no well defined 
+ inside and outside, they have a front- and backside which makes it possible to use a texture on the front side and an 
+ interior_texture on the back side. 
+</p>
+
+<p>
+  CSG uses the concepts of inside and outside to combine shapes together as explained in the following sections. 
+</p>
+
+<p>
+  Imagine you have two objects that partially overlap like shown in the figure below. Four different areas of points 
+ can be distinguished: points that are neither in object <code>A</code> nor in object <code>B</code>, points that are 
+ in object <code>A</code> but not in object <code>B</code>, points that are not in object <code>A</code> but in object <code>B</code> 
+ and last not least points that are in object <code> A</code> and object <code>B</code>. 
+</p>
+
+<p>
+  <br><center><img alt="Two overlapping objects." src="images/reference/objoverl.png"></center> 
+</p>
+
+<p>
+  Keeping this in mind it will be quite easy to understand how the CSG operations work. 
+</p>
+
+<p>
+  When using CSG it is often useful to invert an object so that it will be inside-out. The appearance of the object 
+ is not changed, just the way that POV-Ray perceives it. When the <code>inverse</code> keyword is used the <em> inside</em> 
+ of the shape is flipped to become the <em> outside</em> and vice versa. 
+</p>
+
+<p>
+  The inside/outside distinction is not important for a <code>union</code>, but is important for <code> intersection</code>, 
+ <code>difference</code>, and <code> merge</code>.Therefore any objects may be combined using <code> union</code> but 
+ only solid objects, i.e. objects that have a well-defined interior can be used in the other kinds of CSG. The objects 
+ described in &quot;Finite Patch Primitives&quot; have no well defined inside/outside. All objects described in the 
+ sections &quot;Finite Solid Primitives&quot; and &quot;Infinite Solid Primitives&quot;. 
+</p>
+
+<h4><a name="s03_04_06_02">3.4.6.2 </a>Union</h4>
+<a name="s03_04_06_02_i1"><a name="s03_04_06_02_i2"><a name="union"></a><a name="s03_04_06_02_i3"><a name="union, keyword"></a><a name="s03_04_06_02_i4">
+<p>
+  <br><center><img alt="The union of two objects." src="images/reference/unionobj.png"></center> 
+</p>
+
+<p>
+  The simplest kind of CSG is the <code>union</code>. The syntax is: 
+</p>
+
+<pre>
+UNION:
+    union
+    {
+        OBJECTS...
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  Unions are simply glue used to bind two or more shapes into a single entity that can be manipulated as a single 
+ object. The image above shows the union of <code>A</code> and <code>B</code>. The new object created by the union 
+ operation can be scaled, translated and rotated as a single shape. The entire union can share a single texture but 
+ each object contained in the union may also have its own texture, which will override any texture statements in the 
+ parent object. 
+</p>
+
+<p>
+  You should be aware that the surfaces inside the union will not be removed. As you can see from the figure this may 
+ be a problem for transparent unions. If you want those surfaces to be removed you will have to use the <code> merge</code> 
+ operations explained in a later section. 
+</p>
+
+<p>
+  The following union will contain a box and a sphere. 
+</p>
+
+<pre>
+  union {
+    box { &lt;-1.5, -1, -1&gt;, &lt;0.5, 1, 1&gt; }
+    cylinder { &lt;0.5, 0, -1&gt;, &lt;0.5, 0, 1&gt;, 1 }
+  }
+</pre>
+<a name="s03_04_06_02_i5"><a name="composite"></a>
+<p>
+  Earlier versions of POV-Ray placed restrictions on unions so you often had to combine objects with <code>composite</code> 
+ statements. Those earlier restrictions have been lifted so <code>composite</code> is no longer needed. It is still 
+ supported for backwards compatibility. 
+</p>
+
+<h5><a name="s03_04_06_02_01">3.4.6.2.1 </a>Split_Union</h5>
+<a name="s03_04_06_02_01_i1"><a name="split_union, union"></a><a name="s03_04_06_02_01_i2">
+<p>
+  <code>split_union</code> is a boolean keyword that can be added to a union. It has two states <code>on</code>/<code>off</code>, 
+ its default is <code>on</code>. 
+</p>
+
+<p>
+  <code>split_union</code> is used when <a href="s_130.html#s03_06_03_02_02">photons</a> are shot at the CSG-object. 
+ The object is split up in its compound parts, photons are shot at each part separately. This is to prevent photons 
+ from being shot at 'empty spaces' in the object, for example the holes in a grid. With compact objects, without 'empty 
+ spaces' <code>split_union off</code> can improve photon gathering. 
+</p>
+
+<pre>
+  union {
+    object {...}
+    object {...}
+    split_union off
+  }
+</pre>
+
+<h4><a name="s03_04_06_03">3.4.6.3 </a>Intersection</h4>
+<a name="s03_04_06_03_i1"><a name="s03_04_06_03_i2"><a name="intersection"></a><a name="s03_04_06_03_i3"><a name="intersection, keyword"></a><a name="s03_04_06_03_i4">
+<p>
+  The <code>intersection</code> object creates a shape containing only those areas where all components overlap. A 
+ point is part of an intersection if it is inside both objects, <code>A</code> and <code>B</code>, as show in the 
+ figure below. 
+</p>
+
+<p>
+  <br><center><img alt="The intersection of two objects." src="images/reference/isectobj.png"></center> 
+</p>
+
+<p>
+  The syntax is: 
+</p>
+
+<pre>
+INTERSECTION:
+    intersection
+    {
+        SOLID_OBJECTS...
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  The component objects must have well defined inside/outside properties. Patch objects are not allowed. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> if all components do not overlap, the intersection object disappears. 
+</p>
+
+<p>
+  Here is an example that overlaps: 
+</p>
+
+<pre>
+  intersection {
+    box { &lt;-1.5, -1, -1&gt;, &lt;0.5, 1, 1&gt; }
+    cylinder { &lt;0.5, 0, -1&gt;, &lt;0.5, 0, 1&gt;, 1 }
+  }
+</pre>
+
+<h4><a name="s03_04_06_04">3.4.6.4 </a>Difference</h4>
+<a name="s03_04_06_04_i1"><a name="s03_04_06_04_i2"><a name="difference"></a><a name="s03_04_06_04_i3"><a name="difference, keyword"></a><a name="s03_04_06_04_i4">
+<p>
+  The CSG <code>difference</code> operation takes the intersection between the first object and the inverse of all 
+ subsequent objects. Thus only points inside object <code>A</code> and outside object <code>B</code> belong to the 
+ difference of both objects. 
+</p>
+
+<p>
+  The result is a subtraction of the 2nd shape from the first shape as shown in the figure below. 
+</p>
+
+<p>
+  <br><center><img alt="The difference between two objects." src="images/reference/diffobj.png"></center> 
+</p>
+
+<p>
+  The syntax is: 
+</p>
+
+<pre>
+DIFFERENCE:
+    difference
+    {
+        SOLID_OBJECTS...
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  The component objects must have well defined inside/outside properties. Patch objects are not allowed. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> if the first object is entirely inside the subtracted objects, the difference 
+ object disappears. 
+</p>
+
+<p>
+  Here is an example of a properly formed difference: 
+</p>
+
+<pre>
+  difference {
+    box { &lt;-1.5, -1, -1&gt;, &lt;0.5, 1, 1&gt; }
+    cylinder { &lt;0.5, 0, -1&gt;, &lt;0.5, 0, 1&gt;, 1 }
+  }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> internally, POV-Ray simply adds the <code>inverse</code> keyword to the second 
+ (and subsequent) objects and then performs an intersection. 
+</p>
+
+<p>
+  The example above is equivalent to: 
+</p>
+
+<pre>
+  intersection {
+    box { &lt;-1.5, -1, -1&gt;, &lt;0.5, 1, 1&gt; }
+    cylinder { &lt;0.5, 0, -1&gt;, &lt;0.5, 0, 1&gt;, 1 inverse }
+  }
+</pre>
+
+<h4><a name="s03_04_06_05">3.4.6.5 </a>Merge</h4>
+<a name="s03_04_06_05_i1"><a name="s03_04_06_05_i2"><a name="merge"></a><a name="s03_04_06_05_i3"><a name="merge, keyword"></a><a name="s03_04_06_05_i4">
+<p>
+  The <code>union</code> operation just glues objects together, it does not remove the objects' surfaces inside the <code>union</code>. 
+ Under most circumstances this does not matter. However if a transparent <code> union</code> is used, those interior 
+ surfaces will be visible. The <code> merge</code> operations can be used to avoid this problem. It works just like <code>union</code> 
+ but it eliminates the inner surfaces like shown in the figure below. 
+</p>
+
+<p>
+  <br><center><img alt="Merge removes inner surfaces." src="images/reference/mergeobj.png"></center> 
+</p>
+
+<p>
+  The syntax is: 
+</p>
+
+<pre>
+MERGE:
+    merge
+    {
+        SOLID_OBJECTS...
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  The component objects must have well defined inside/outside properties. Patch objects are not allowed. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> that in general <code>merge</code> is slower rendering than <code>union</code> 
+ when used with non transparent objects. A small test may be needed to determine what is the optimal solution regarding 
+ speed and visual result. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_109.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_109.html">3.4.5 Parametric Object</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.4.6 Constructive Solid Geometry</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_111.html">3.4.7 Light Sources</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_111.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

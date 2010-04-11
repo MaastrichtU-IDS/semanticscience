@@ -1,0 +1,235 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Minimize Structure</TITLE>
+</head>
+<body>
+<h3>Minimize Structure <img src="minicon.png"</h3>
+<p>
+<b>Minimize Structure</b> energy-minimizes molecule models, optionally
+holding some atoms fixed. Minimization routines are provided by 
+<a href="http://dirac.cnrs-orleans.fr/MMTK/" target="_blank">MMTK</a>,
+which is included with Chimera.
+<a href="http://ambermd.org/index.html" target="_blank"><b>Amber</b></a>
+parameters are used for standard residues, and Amber's
+<a href="http://ambermd.org/antechamber/antechamber.html"
+target="_blank"><b>Antechamber</b></a> module (also included with Chimera)
+is used to assign parameters to nonstandard residues.
+</p><p>
+<b>Minimize Structure</b> is in early development and
+has several <a href="#limitations">limitations</a>.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Minimize Structure</b>, a tool in the <b>Structure Editing</b> category.
+It is also implemented as the command
+<a href="../../UsersGuide/midas/minimize.html"><b>minimize</b></a>.
+</p><p>
+Models to minimize
+can be chosen from the list with the left mouse button.
+Ctrl-click toggles the status of an individual model.
+To choose a block of models without dragging,
+click on the first (or last) and then Shift-click 
+on the last (or first) in the desired block.
+All chosen models are treated as a single system for energy calculations;
+other models are ignored.
+</p><p>
+Currently, only 
+<a href="http://dirac.cnrs-orleans.fr/Manuals/MMTK/MMTK_3.html#energy_minimization" 
+target="_blank">steepest descent minimization</a> is performed.
+<ul>
+<li><b>Steps</b> (default <b>100</b>)
+- maximum number of minimization steps
+<li><b>Step size (A)</b> (default <b>0.02</b> &Aring;) - initial step length
+<li><b>Update interval</b> (default <b>10</b>)
+- how frequently to update the display, in terms of minimization steps
+<li><a name="fixed"><b>Fixed atoms</b></a>
+- atoms to hold in place during minimization:
+  <ul>
+  <li><b>none</b> (default) - all atoms will be allowed to move
+  <li><b>selected</b> - any 
+<a href="../../UsersGuide/selection.html">selected</a> atoms 
+should be held fixed, all other atoms allowed to move
+  <li><b>unselected</b> - any
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+should be allowed to move, all other atoms held fixed
+  </ul>
+</ul>
+Clicking <b>Minimize</b> dismisses the dialog
+(unless the option to <b>Keep dialog up after Minimize</b> is checked)
+and may call <a href="../dockprep/dockprep.html"><b>Dock Prep</b></a> to
+perform <a href="../dockprep/dockprep.html#tasks">several tasks</a>
+to prepare the system for energy calculations.
+In turn, <a href="../dockprep/dockprep.html"><b>Dock Prep</b></a> 
+may call additional tools:
+<ul>
+<li><a href="../addh/addh.html"><b>AddH</b></a> to add hydrogens.
+If <b>Minimize</b> has already been clicked,
+the <a href="../../UsersGuide/selection.html">selection</a> 
+will be adjusted prior to minimization to include any newly attached atoms
+in the <a href="#fixed">fixed</a> and movable sets.
+Note that any other models in the vicinity will influence hydrogen 
+placement even if hydrogens are not being added to those other models.  
+If such interactions are not desired, the other models should
+be closed beforehand.  
+<br><br>
+<li><a href="../addcharge/addcharge.html"><b>Add Charge</b></a>
+to associate atoms with partial charges and other
+<a href="#parameters">force field parameters</a>.
+Required even when
+<a href="#user-specified">alternative charges</a> will be used.
+</ul>
+It is sometimes useful to run
+<a href="../dockprep/dockprep.html"><b>Dock Prep</b></a> independent of
+<b>Minimize Structure</b> beforehand, then skip all tasks when it reappears
+after <b>Minimize</b> is clicked:
+<ul>
+<li>adding hydrogens separately beforehand allows them
+to be deleted or repositioned as needed prior to minimization
+<li>adding charges separately beforehand allows 
+<a href="#user-specified">alternative charges</a> 
+to be specified prior to minimization
+</ul>
+<b>Close</b> dismisses the <b>Minimize Structure</b> dialog.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="parameters">
+<h3>Force Field Parameters</h3></a>
+<p>
+Different procedures are used to assign parameters to
+<a href="#standard">standard residues</a>,
+<a href="#monatomic">monatomic ions</a>, and
+<a href="#nonstandard">nonstandard residues</a>.
+</p><p>
+<a name="standard">
+<b><i>Standard residues</i></b></a> include water, standard amino acids,
+standard nucleic acids, and a few common variants and capping groups.
+<ol>
+<li><a href="../addcharge/addcharge.html"><b>Add Charge</b></a>
+recognizes standard residues based on their atom and residue names 
+and assigns Amber residue names.
+<li><a href="../addcharge/addcharge.html"><b>Add Charge</b></a>
+assigns Amber ff99 atomic partial charges
+(<a href="../addcharge/addcharge.html#standard">details</a>).
+<li><b>Minimize Structure</b> uses the Amber residue names to associate 
+standard residues with Amber ff99 parameters other than charges.
+</ol>
+<a name="monatomic">
+<b><i>Monatomic ions</i></b></a> are assigned user-specified net charges and 
+Amber ff99 VDW parameters.  Only the ions in ff99 are handled:
+<!-- 
+Grrr... parm99 includes Li+ yet the MMTK implementation doesn't handle it.
+Li<sup>+</sup>, 
+-->
+Na<sup>+</sup>, K<sup>+</sup>, Rb<sup>+</sup>, Cs<sup>+</sup>, 
+Mg<sup>2+</sup>, Ca<sup>2+</sup>, Zn<sup>2+</sup>,
+and Cl<sup>&ndash;</sup>.
+</p><p>
+<a name="nonstandard">
+<b><i>Nonstandard residues</i></b></a> are all residues not recognized as
+<a href="#standard">standard residues</a> or 
+<a href="#monatomic">monatomic ions</a>.
+<ol>
+<li><a href="../addcharge/addcharge.html"><b>Add Charge</b></a> uses
+Amber's <a href="http://ambermd.org/antechamber/antechamber.html" 
+target="_blank"><b>Antechamber</b></a> module (included with Chimera)
+to assign <a href="#gafftypes">GAFF types</a> and calculate atomic
+partial charges within each nonstandard residue.
+It is necessary to specify the formal charge of each nonstandard residue
+and which <a href="../addcharge/addcharge.html#antechamber-method">charge
+calculation method</a> should be used.
+Publications involving
+<a href="http://ambermd.org/antechamber/antechamber.html" 
+target="_blank"><b>Antechamber</b></a> use should cite:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/16458552" target="_blank">
+Automatic atom type and bond type perception in molecular mechanical 
+calculations.</a>
+Wang J, Wang W, Kollman PA, Case DA.
+<i>J Mol Graph Model.</i> 2006 Oct;25(2):247-60. 
+</blockquote>
+<a name="gafftypes">
+<li><b>Minimize Structure</b> uses the GAFF types to associate 
+nonstandard residues with parameters other than charges.
+The GAFF atom types and associated parameters are described 
+<a href="http://ambermd.org/antechamber/gaff.html" target="_blank">online</a>
+and in:
+</a>
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/15116359" target="_blank">
+Development and testing of a general amber force field.</a>
+Wang J, Wolf RM, Caldwell JW, Kollman PA, Case DA.
+<i>J Comput Chem.</i> 2004 Jul 15;25(9):1157-74.
+</blockquote>
+</ol>
+</p>
+
+<a name="user-specified">
+<h3>User-Specified Partial Charges</h3></a>
+<p>
+For <a href="#nonstandard">nonstandard residues</a>,
+arbitrary partial charges (such as obtained from the literature
+or <a href="../addcharge/addcharge.html#sources">parameter databases</a>)
+can be specified. To do so:
+<ol>
+<li> run <a href="../dockprep/dockprep.html"><b>Dock Prep</b></a> independent
+of <b>Minimize Structure</b> to perform any necessary tasks
+including charge addition (thus running
+<a href="../addcharge/addcharge.html"><b>Add Charge</b></a>)
+<li> reassign the <b>charge</b> attribute of the atoms
+to the desired values (using
+<a href="../defineattrib/defineattrib.html"><b>Define Attribute</b></a>,
+<a href="../../UsersGuide/midas/defattr.html"><b>defattr</b></a>,
+or <a href="../../UsersGuide/midas/setattr.html"><b>setattr</b></a>)
+<li> run <b>Minimize Structure</b> and turn off all options in the ensuing
+<a href="../dockprep/dockprep.html"><b>Dock Prep</b></a> dialog, as
+the necessary tasks have already been performed
+</ol>
+This procedure will not work for atoms in
+<a href="#standard">standard residues</a>, because 
+<b>Minimize Structure</b> will always associate those atoms
+with the standard parameters, including charges.
+</p>
+
+<a name="limitations">
+<h3>Limitations</h3></a>
+<p>
+<b>Lack of access to many settings</b>. 
+There is no way to specify several MMTK settings, including
+<a href="http://dirac.cnrs-orleans.fr/Manuals/MMTK/MMTK_3.html#energy_minimization" 
+target="_blank">minimization algorithm</a> and
+<a href="http://dirac.cnrs-orleans.fr/Manuals/MMTK_reference/MMTK.ForceFields.Amber.AmberForceField-module.html"
+target="_blank">force field options</a> such as distance cutoffs.
+MMTK defaults are used.
+</p><p>
+<b>No choice of force field</b>.
+The only force fields in MMTK suitable for biomolecular simulations are
+Amber ff94 and ff99.  <b>Minimize Structure</b> uses ff99 for 
+<a href="#standard">standard residues</a> and GAFF
+for <a href="#nonstandard">nonstandard residues</a>.
+</p><p>
+<b>Limited ability to use arbitrary parameters</b>.
+It is difficult to change or add parameters.
+For <a href="#nonstandard">nonstandard residues</a> only,
+arbitrary partial charges can be <a href="#user-specified">specified</a>.
+<!--
+Other parameters of <a href="#standard">standard residues</a>
+and <a href="#monatomic">monatomic ions</a> can be adjusted by editing
+<b>lib/python*/site-packages/MMTK/ForceFields/Amber/amber_parm99</b>,
+where * is a python version number.
+-->
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / June 2009</address>
+</body>
+</html>

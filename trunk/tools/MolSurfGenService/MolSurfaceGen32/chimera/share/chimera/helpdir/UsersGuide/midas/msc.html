@@ -1,0 +1,81 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>msc</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>msc</b> <i>multiscale-surf-id</i>
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+<i>distance</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>~msc</b> <i>multiscale-surf-id</i></h3>
+<p>
+<b>Msc</b> colors surfaces from
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a> to match nearby atoms.  
+It acts similarly to
+<a href="../../ContributedSoftware/colorzone/colorzone.html"><b>Color 
+Zone</b></a>, except that <b>msc</b> will infer symmetry-related 
+atom positions for which coordinates have not been loaded.
+</p><p>
+The <i>multiscale-surf-id</i> is the ID number 
+(shown in the <a href="../modelpanel.html"><b>Model Panel</b></a>)
+of the surface model created by 
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a>.
+Surface vertices within the cutoff <i>distance</i> of an atom in
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> or of
+any of its inferred copies will be assigned the same color as the atom.
+When multiple atoms are within the cutoff,
+a vertex will be colored to match the closest one. 
+Each surface triangle is colored by linearly interpolating its vertex colors. 
+Colors are defined by red, green, blue and opacity/transparency components.
+</p><p>
+For example, atoms could be colored by B-factor using
+<a href="rangecolor.html"><b>rangecolor</b></a> or
+<a href="../../ContributedSoftware/render/render.html"><b>Render 
+by Attribute</b></a>. All of the chain surfaces in
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a> could then be colored to match,
+using a command something like:
+<blockquote><tt>
+<b>msc #1 #0 5.0</b>
+</tt></blockquote>
+By contrast,
+<a href="../../ContributedSoftware/colorzone/colorzone.html"><b>Color 
+Zone</b></a> would only color surfaces near the chain copies
+with loaded coordinates.
+</p><p>
+The command <b>~msc</b> restores the colors assigned in the 
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a> dialog.
+Note that changing surface parameters in
+<a href="../../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a> will also
+revert the coloring.
+</p><p>
+See also:
+<a href="color.html"><b>color</b></a>,
+<a href="rangecolor.html"><b>rangecolor</b></a>,
+<a href="rainbow.html"><b>rainbow</b></a>,
+<a href="scolor.html"><b>scolor</b></a>,
+<b><A href="mcopy.html">mcopy</A></b>,
+<a href="../../ContributedSoftware/render/render.html"><b>Render 
+by Attribute</b></a>,
+<a href="../../ContributedSoftware/colorzone/colorzone.html"><b>Color 
+Zone</b></a>
+</p>
+</body></html>

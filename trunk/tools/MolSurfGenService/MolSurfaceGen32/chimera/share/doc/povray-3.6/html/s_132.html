@@ -1,0 +1,208 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.7.1 arrays.inc</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_131.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_131.html">3.7 Include Files</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.7.1 
+   arrays.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_133.html">3.7.2 chars.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_133.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_07_01">3.7.1 </a>arrays.inc</h3>
+
+<p>
+  This file contains macros for manipulating arrays.<a name="s03_07_01_i1"><a name="Rand_Array_Item"></a> 
+</p>
+
+<p>
+  <code>Rand_Array_Item(Array, Stream)</code>. Randomly Picks an item from a 1D array.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array from which to choose the item. 
+ </li>
+
+ <li>
+   <code>Stream</code> = A random number stream. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i2"><a name="Resize_Array"></a>
+<p>
+  <code>Resize_Array(Array, NewSize)</code>. Resize a 1D array, retaining its contents.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array to be resized. 
+ </li>
+
+ <li>
+   <code>NewSize</code> = The desired new size of the array. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i3"><a name="Reverse_Array"></a>
+<p>
+  <code>Reverse_Array(Array)</code>. Reverses the order of items in a 1D array.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array to be reversed. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i4"><a name="Sort_Compare"></a>
+<p>
+  <code>Sort_Compare(Array, IdxA, IdxB)</code>. This macro is used by the <code>Sort_Array()</code> and <code>Sort_Partial_Array()</code> 
+ macros. The given macro works for 1D arrays of floats, but you can redefine it in your scene file for more complex 
+ situations, arrays of vectors or multidimensional arrays for example. Just make sure your macro returns true if the 
+ item at IdxA &lt; the item at IdxB, and otherwise returns false.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array containing the data being sorted. 
+ </li>
+
+ <li>
+   <code>IdxA, IdxB</code> = The array offsets of the data elements being compared. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i5"><a name="Sort_Swap_Data"></a>
+<p>
+  <code>Sort_Swap_Data(Array, IdxA, IdxB)</code>. This macro is used by the <code>Sort_Array()</code> and <code>Sort_Partial_Array()</code> 
+ macros. The given macro works for 1D arrays only, but you can redefine it in your scene file to handle 
+ multidimensional arrays if needed. The only requirement is that your macro swaps the data at IdxA with that at IdxB.<br> 
+ Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array containing the data being sorted. 
+ </li>
+
+ <li>
+   <code>IdxA, IdxB</code> = The array offsets of the data elements being swapped. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i6"><a name="Sort_Array"></a>
+<p>
+  <code>Sort_Array(Array)</code>. This macro sorts a 1D array of floats, though you can redefine the <code>Sort_Compare()</code> 
+ and <code>Sort_Swap_Data()</code> macros to handle multidimensional arrays and other data types.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array to be sorted. 
+ </li>
+
+</ul>
+<a name="s03_07_01_i7"><a name="Sort_Partial_Array"></a>
+<p>
+  <code>Sort_Partial_Array(Array, FirstInd, LastInd)</code>. This macro is like <code>Sort_Array()</code>, but sorts 
+ a specific range of an array instead of the whole array.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Array</code> = The array to be sorted. 
+ </li>
+
+ <li>
+   <code>FirstInd, LastInd</code> = The start and end indices of the range being sorted. 
+ </li>
+
+</ul>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_131.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_131.html">3.7 Include Files</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.7.1 arrays.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_133.html">3.7.2 chars.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_133.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

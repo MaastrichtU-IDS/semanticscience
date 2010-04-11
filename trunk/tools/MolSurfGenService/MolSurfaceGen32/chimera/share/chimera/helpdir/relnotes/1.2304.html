@@ -1,0 +1,309 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2006 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 2304 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 2304 Release Notes (16 October 2006)</h2>
+
+    <h3>
+      Changes since the <a href="1.2199.html">previous production release (1.0 build 2199)</a>:
+    </h3>
+
+    <blockquote>
+
+      <h4>General:</h4>
+      <ul>
+
+	<li>smaller session files, faster session save/restore 
+
+	<li>CIF/mmCIF files can be read (local or fetched by ID from the PDB)
+
+	<li>electron density maps can be fetched by PDB ID
+	from the Electron Density Server
+
+	<li>Virus Particle Explorer (VIPER) files can be fetched by ID
+
+	<li>VIPER input automatically starts Multiscale Models,
+	constructs viral capsid 
+
+	<li>Save File dialog adjusted to clarify
+	how to save untransformed coordinates
+
+	<li>smaller default ribbon height/width (ribbon scaling)
+
+	<li>can color <code>by heteroatom</code>
+	(same as <code>by element</code> except carbons not affected)
+
+	<li>in the command line,
+	<code>:30-40</code> (for example) now specifies those residues in
+	any/all chains,
+	whereas <code>:20-30.</code> specifies those residues in blank-ID chains
+
+	<li>locations of files opened by command files and python scripts now
+	specified relative to the location of the command file/script,
+	or with absolute pathnames
+
+	<li>rules defining <i>solvent</i> and <i>ions</i> adjusted slightly,
+	so that small coordination complexes, such as cobalt hexammine,
+	are classified as <i>ions</i>
+
+	<li>VRML export works for all scene data, not just surfaces
+
+	<li>can switch to sequential stereo mid-session without having used
+	--stereo at startup (except on certain Windows systems)
+
+	<li>stereo images can be saved
+
+	<li>red-cyan (anaglyph) stereo option added
+
+	<li>faster methodology used for displaying labels 
+
+	<li>improved silhouette edge rendering
+
+	<li>on the Mac, starting Chimera starts X11 automatically,
+	and after Chimera has been started,
+	clicking the Chimera icon in the dock will bring the 
+	Chimera window to the front
+
+      </ul>
+
+      <h4>New Tools:</h4>
+      <ul>
+
+	<li><b>Add Charge</b> (Structure Editing) &mdash;
+	<ul>
+	  <li>assigns partial charges to atoms
+	  <li>Amber (Cornell et al. 1995) charges used for standard residues,
+	  Amber's Antechamber module (now included with Chimera) used to 
+	  calculate charges for nonstandard residues
+	</ul>
+
+	<li><b>Build Structure</b> (Structure Editing) &mdash;
+	perform simple structure-building
+	operations (in early development, may change significantly)
+
+	<li><b>Find Clashes/Contacts</b>
+	(Structure Analysis, Surface/Binding Analysis) &mdash;
+	identify clashes and/or contacts (see also command findclash)
+
+	<li><b>Minimize Structure</b> (Structure Editing) &mdash;
+	energy-minimize structures
+	(in early development, likely to change)
+
+	<li><b>Model Loops</b> (Structure Editing) &mdash;
+	interface to Modeller (obtained separately)
+	for generating alternative conformations of peptide
+	segments already present in a structure
+	(in early development, likely to change)
+
+	<li><b>Morph Conformations</b> (Structure Comparison) &mdash;
+	create a trajectory 
+	that morphs between two or more conformations of a structure
+
+	<li><b>ReadStdin</b> (Utilities) &mdash;
+	allows communication with Chimera through standard input/output
+      </ul>
+
+      <h4>Tool Changes:</h4>
+      <ul>
+
+	<li><b>AddH</b> (Structure Editing) &mdash;
+	new options including how to treat histidines
+
+	<li><b>Adjust Torsions</b> (Structure Editing) &mdash;
+	<ul>
+	  <li>interface reorganized to show atoms
+	  defining a torsion in order 1-2-3-4
+	  <li>options added to control decimal places
+	  and show degree symbol in angle labels
+	</ul>
+
+	<li><b>Dock Prep</b> (moved to Structure Editing) &mdash;
+	<ul>
+	  <li>option added to delete alternate locations of atoms
+	  <li> hydrogen addition and charge addition details split
+	  off into separate tools called from <b>Dock Prep</b>
+	  (<b>AddH</b> and <b>Add Charge</b>, respectively)
+	</ul>
+
+	<li><b>Effects</b> (Viewing Controls) &mdash;
+	background transparency option added 
+	(previously only available as --bgopacity startup option)
+
+	<li><b>Icosahedron Surface</b> (Higher-Order Structure) &mdash;
+	more Orientation options
+
+	<li><b>Measure Volume and Area</b>
+	(Surface/Binding Analysis, Volume Data) &mdash;
+	<ul>
+	  <li>now measures surface area
+	  (formerly just volume and was named <b>Measure Volume</b>)
+	  <li>made faster by moving calculations from Python to C++
+	</ul>
+
+	<li><b>Minrms Plot</b> (Structure Comparison) &mdash;
+	Show Alignment option added
+
+	<li><b>Model Panel</b> (General Controls) &mdash;
+	shows model colors with mini color wells 
+
+	<li><b>Movie Recorder</b> (Utilities) &mdash;
+	<ul>
+	  <li>new output format, <code>AVI MSMPEG-4v2</code>; 
+	  <li>constant bit rate encoding is now available and is the default 
+	  (the old default was variable bit rate,
+	  which some players did not handle well,
+	  resulting in uneven playback)
+	  <li>see also the command <b>movie</b>
+	</ul>
+
+	<li><b>MPOSE</b> extension removed (Structure Comparison)
+
+	<li><b>Multalign Viewer</b> (Structure Comparison) &mdash;
+	<ul>
+	  <li><code>*.ali</code> interpreted as PIR format
+	  <li><code>*.pfam</code> no longer indicates Stockholm format,
+	  instead indicates Pfam format
+	  (<i>Plain Pfam format</i> at the Sanger Institute Pfam site)
+	  <li>darker yellow used in Clustal X coloring
+	  <li>changed default colors of regions showing secondary structure
+	  <li>improved editing response time
+	  <li>editing no longer pushes residues
+	  that are not in the active region
+	  <li>added control over whether a region includes gaps
+	  <li>option to associate a structure
+	  chain with the best-matching sequence in the alignment
+	  (when criteria for automatic association are not met)
+	  <li>new Edit menu allowing sequence reordering,
+	  addition (with alignment to existing sequences), 
+	  and deletion, gap column addition and deletion
+	  <li>can expand a selection to include all other residues
+	  associated with the same column(s) of the alignment
+      </ul>
+
+	<li><b>Volume Path Tracer</b> (Volume Data) &mdash;
+	interface reorganized significantly
+
+	<li><b>Volume Viewer</b> (Volume Data) &mdash;
+	added <i>Square mesh</i> option
+      </ul>
+
+      <h4>New Commands:</h4>
+      <ul>
+
+	<li><b>addcharge</b> &mdash;
+	assign partial charges to atoms
+	(command-line implementation of new tool <b>Add Charge</b>)
+
+	<li><b>findclash</b> &mdash;
+	identify clashes and/or contacts
+	(command-line implementation of new tool <b>Find Clashes/Contacts</b>)
+
+	<li><b>intersurf</b> &mdash;
+	generate and display interface surfaces
+	(command-line implementation of <b>Intersurf</b>)
+
+	<li><b>minimize</b> &mdash;
+	energy-minimize structures
+	(command-line implementation of new tool <b>Minimize Structure</b>)
+
+	<li><b>setattr</b> &mdash;
+	set a new or existing attribute to a specified value
+
+	<li><b>start</b> &mdash;
+	start a given tool
+
+	<li><b>surftransparency</b> &mdash;
+	adjust molecular surface transparency
+      </ul>
+
+      <h4>Command Changes:</h4>
+      <ul>
+
+	<li><b>close</b> &mdash;
+	new keyword <b>session</b> to close alignments and 2D labels
+	in addition to all the models with model numbers
+
+	<li><b>hbonds</b> &mdash;
+	new keyword <b>log</b> to write info to the Reply Log
+
+	<li><b>longbond</b> &mdash;
+	now used to hide/show <i>missing segments</i> pseudobonds
+	rather than to break bonds 
+	(also, behavior reversed:
+	now <b>~longbond</b> hides, <b>longbond</b> shows)
+
+	<li><b>movie</b> &mdash;
+	<ul>
+	  <li>new <code>AVI MSMPEG-4v2</code> format
+	  <li>defaults to constant bit rate encoding
+	  <li>new <b>encode</b> keywords <b>bitrate</b>, <b>buffersize</b>
+	</ul>
+
+	<li><b>reset</b> &mdash;
+	can interpolate between positions over a specified number of frames
+
+	<li><b>ribbonjr</b> removed
+
+	<li><b>vdwdefine</b> &mdash;
+	syntax simplified (no longer necessary to supply atom/res names)
+	and <b>~vdwdefine</b> added to restore default VDW radii
+      </ul>
+
+      <h4>Tutorials:</h4>
+      <ul>
+
+	<li>new Alignments tutorial, covers MatchMaker and Match-&gt;Align
+
+	<li>figures added to Getting Started, Sequences and Structures, 
+	and ViewDock tutorials
+
+	<li>part 1 of Attributes tutorial changed significantly, now includes 
+	assignment of partial charges
+      </ul>
+
+      <h4>Major Bugs Fixed:</h4>
+      <ul>
+	<li>dashed lines are no longer compressed in saved images
+	<li>when objects are clipped by the hither clip plane, insides are lit
+	<li>a bug where the graphics would stop being redrawn is fixed
+	<li>graphics doesn't drift if then same command script is rerun
+	<li>some PDB files with incomplete ribbon information weren't drawn
+	<li>translucent ribbons work again
+	<li>POV-ray output fixed
+	<li>fixed unreadable initial label problem on Macs
+      </ul>
+
+      <h4>Known Bugs:</h4>
+      <ul>
+	<li>surfaces fail for some structures
+	<li>bond rotations in large molecules are slow 
+	<li>cross-eye stereo parallax is wrong
+      </ul>
+
+    </blockquote>
+
+  </body>
+</html>

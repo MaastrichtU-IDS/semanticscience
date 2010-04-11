@@ -1,0 +1,142 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>mask</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>mask</b> <i>volume-model</i> <i>surf-models</i>
+<a href="#options"><i>options</i></a></h3>
+<p>
+The <b>mask</b> command extracts a 
+<a href="../filetypes.html#volume">volume data</a>
+subregion bounded by surfaces (<a href="#algorithm">details...</a>).
+All kinds of <a href="../surfattrib.html#surfmodels">surface models</a>
+can be used, but not surfaces in <a href="../vrmlattrib.html">VRML models</a>.
+The new data set can be saved to a file using 
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>
+or the command <a href="volume.html"><b>volume</b></a>.
+See also:
+<a href="vop.html"><b>vop</b></a>,
+<a href="../../ContributedSoftware/icosahedron/icosahedron.html">
+<b>Icosahedron Surface</b></a>,
+<a href="../../ContributedSoftware/volumepathtracer/framevolpath.html"
+target="_top"><b>Volume Tracer</b></a>
+</p><p>
+<i>Volume-model</i> is the model number (preceded by #)
+of the starting volume data set.
+A new data set will be generated and opened as a different model.
+</p><p>
+<i>Surf-models</i> specifies the bounding surface(s) 
+and can be one or more comma-separated model numbers (preceded by #) 
+or the word <b>sel</b> to indicate the currently
+<a href="../selection.html">selected</a> surfaces or 
+<a href="../surfattrib.html#surfpiecedef">surface pieces</a>.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a>
+Option keywords for <b>mask</b>
+can be truncated to unique strings, and their case does not matter.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+A vertical bar "|" designates mutually exclusive options, and
+default settings are indicated with <b>bold</b>.
+<blockquote>
+  <a name="axis">
+  <tt><b>axis</b> <i>x,y,z</i></tt></a>
+  <br>Projection axis vector (default is along the data Y axis: <b>0,1,0</b>).
+  This is relevant when the surfaces have holes.
+  The region between surface layers is computed along the specified axis 
+  (see <a href="#algorithm">algorithm</a>).  Vector coordinates 
+  <i>x,y,z</i> are relative to the untransformed data. 
+  The vector can point in any direction 
+  (need not be parallel to the X, Y, or Z axis) 
+  and need not be of unit length.
+</blockquote>
+<blockquote>
+  <a name="fullmap">
+  <tt><b>fullmap</b> true|<b>false</b></tt></a>
+  <br>
+  Make the masked volume data set have the same dimensions as the original 
+  volume data set.  Otherwise, the bounds will be set as small as possible
+  to enclose the surfaces, and the masked volume may be smaller.
+</blockquote>
+<blockquote>
+  <tt><b>pad</b> <i>distance</i></tt>
+  <br>Before computing the masked volume, move the surface by the specified
+  <i>distance</i> along the surface normals.  This allows extracting a larger 
+  or smaller region than is enclosed by the original surface.
+  Positive or negative values can be used, and the units of length
+  are the same as for the data (generally &Aring; or nm).
+</blockquote>
+<blockquote>
+  <a name="slab">
+  <tt><b>slab</b> <i>width</i>|<i>d1</i>,<i>d2</i></tt></a>
+  <br>Extract a slab of data around a surface layer.  Two additional
+  surfaces, displaced as specified from the existing surface and joined at 
+  their edges (if any), are computed but not displayed.  Data for voxels
+  between the computed surfaces are retained.  If a single value
+  (<i>width</i>) is supplied, the two computed surfaces are offset
+  along the normals of the original surface by &plusmn;&frac12;(<i>width</i>).
+  Alternatively, two values separated by a comma but no spaces can be used
+  to specify the offsets of the two surfaces independently.
+  Positive or negative values can be used, and the units of length
+  are the same as for the data (generally &Aring; or nm).
+  The basic <a href="#algorithm">algorithm</a> applies, except that
+  the original surface is replaced by the pair of computed surfaces.
+</blockquote>
+<blockquote>
+  <a name="sandwich">
+  <tt><b>sandwich</b> <b>true</b>|false</tt></a>
+  <br>Include only volume voxels lying between two surface layers. Otherwise,
+  the volume projected along the axis beyond a single surface layer will also
+  be included (see <a href="#algorithm">algorithm</a>).
+</blockquote>
+<blockquote>
+  <a name="invertMask">
+  <tt><b>invertMask</b> true|<b>false</b></tt></a>
+  <br>Include the opposite data, the spatial complement of what would
+  otherwise be included.
+</blockquote>
+
+<a name="algorithm">
+<h4>
+Mask Algorithm
+</h4></a>
+<p>
+The masked volume is computed by looking at intercepts of lines 
+parallel to the <a href="#axis">projection axis</a> with the surfaces.  
+For a given line, the volume data between the 1st and 2nd,
+3rd and 4th, 5th and 6th, ... intercepts are included in the masked volume,
+while those between the 2nd and 3rd, 4th and 5th, ... are excluded.  The
+intercepts are computed for lines through points on a rectangular grid
+normal to the projection axis with spacing equal to the minimum
+grid plane spacing of the volume data set.  For each volume voxel, the
+intercepts of the closest grid line are used to determine inclusion in the
+masked volume.  If there is an odd number of intercept points, then
+points beyond the final intercept are included in the masked volume unless
+the <a href="#sandwich"><b>sandwich</b></a> option is used.  
+In the new data set, values outside the masked region are set to zero
+and those inside are set to the original volume values.
+The grid points of the calculated volume align exactly with those of
+the original volume.
+The bounds are set to minimally enclose the surfaces
+unless the <a href="#fullmap"><b>fullmap</b></a> option is used.
+The full size of the original volume data set is used
+even if only a subregion is being displayed.
+</p>
+</body></html>

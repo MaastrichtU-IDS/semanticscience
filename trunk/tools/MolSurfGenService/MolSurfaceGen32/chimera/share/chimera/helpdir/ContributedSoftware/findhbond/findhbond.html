@@ -1,0 +1,191 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2006 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>FindHBond</TITLE>
+</head>
+<body>
+<h3>FindHBond
+<img src="findhbond.png" alt="FindHBond icon"></h3>
+<p>
+<b>FindHBond</b> uses <a href="../../UsersGuide/idatm.html">atom types</a>
+and <a href="#criteria">geometric criteria</a> to identify possible
+hydrogen bonds (H-bonds).  It is not necessary for hydrogen atoms 
+to be present.  All potential H-bonding interactions fulfilling the 
+criteria are shown.  For example, even if it is not possible for
+a particular hydroxyl group to donate a hydrogen bond to two particular
+acceptors <i>simultaneously</i>, both possibilities will be displayed if the
+hydroxyl lacks an explicit hydrogen atom.
+If the hydroxyl group has an explicit hydrogen atom,
+however, only H-bonds compatible with the position
+of the hydrogen will be found.
+See also:
+<a href="../addh/addh.html"><b>AddH</b></a>,
+<a href="../findclash/findclash.html"><b>Find Clashes/Contacts</b></a>,
+<a href="../intersurf/intersurf.html"><b>Intersurf</b></a>,
+<a href="../rotamers/framerot.html" target="_top"><b>Rotamers</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>FindHBond</b>, a tool in the <b>Structure Analysis</b>
+and <b>Surface/Binding Analysis</b> categories.
+<b>FindHBond</b> is also implemented as the command 
+<a href="../../UsersGuide/midas/hbonds.html"><b>hbonds</b></a>
+(or <a href="../../UsersGuide/midas/findhbond.html"><b>findhbond</b></a>).
+</p><p>
+<img src="hbond.png" alt="H-Bond parameter panel" align="right">
+The <a href="#scope">scope</a> and <a href="#parameters">other parameters</a>
+of the <b>FindHBond</b> calculation can be controlled with
+the <b>H-Bond Parameters</b> panel.
+</p><p>
+<b>OK</b> starts the calculation and dismisses the panel,
+while <b>Apply</b> starts the calculation without dismissing the panel.
+The calculation may take several seconds; progress is reported in the
+<a href="../../UsersGuide/chimerawindow.html#statusline">status line</a>.
+<b>Close</b> dismisses the panel without performing any calculation.
+<b>Help</b> brings up this manual page in a browser window.
+</p><p>
+<a name="scope">
+The scope of the calculation</a> is controlled under
+<b>Find these bonds:</b>
+<ul>
+<li><b>inter-model</b> - between models only
+<li><b>intra-model</b> - within models only 
+<li><b>both</b> (default)
+</ul>
+Regardless of the scope, the calculation will not include interactions between 
+different <a href="../../UsersGuide/modelpanel.html#multimodel">submodels</a>
+of the same model (although this can be done with the
+<a href="../../UsersGuide/midas/hbonds.html"><b>hbonds</b></a> command).
+The calculation can be further restricted with the options:
+<ul>
+<li><b>Restrict to models...</b>
+show a list of molecule models from which one or more can be chosen.
+Individual models or blocks of models can be chosen with the left mouse
+button.  Ctrl-click toggles the status of an individual model.
+To choose a block of models without dragging,
+click on the first (or last) and then Shift-click 
+on the last (or first) in the desired block.
+<li><b>Only find H-bonds with
+[at least one end / exactly one end / both ends] selected</b> - 
+report only H-bonds with donor and/or acceptor heavy atoms
+within the current <a href="../../UsersGuide/selection.html">selection</a>
+</ul>
+<a name="parameters">
+The H-bonds found will be displayed</a> as 
+<a href="../../UsersGuide/pbpanel.html#pbdef">pseudobonds</a>
+of the specified <b>H-bond color</b> and <b>Line width</b>
+connecting the donor and acceptor atoms.
+Color settings can be changed by clicking the adjacent
+<a href="../../UsersGuide/coloring.html#colorwell">color wells</a>.
+If the donor and acceptor atoms are subsequently moved relative to each
+other, the pseudobonds will "stretch" rather than disappearing, even
+if the atoms no longer meet the criteria for hydrogen bonding. 
+The pseudobonds representing H-bonds can be removed with the command 
+<a href="../../UsersGuide/midas/hbonds.html"><b>~hbonds</b></a>.
+The <a href="../../UsersGuide/pbpanel.html"><b>PseudoBond Panel</b></a>
+can also be used to close the pseudobond group
+(named <b>hydrogen bonds</b>) or alter its display.
+</p><p>
+<a name="tolerances">
+<b>Relax H-bond constraints</b></a> indicates that tolerances to
+<b>Relax constraints by</b> should be applied to the precise
+<a href="#criteria">geometric criteria</a>. 
+These criteria come from a survey of high-resolution small molecule structures; 
+empirically, tolerances of <b>0.4 angstroms</b> and <b>20.0 degrees</b>
+work well for most macromolecular structures.
+H-bonds within the tolerances but that do not meet the
+precise criteria can be colored differently than the H-bonds
+that meet the precise criteria.
+</p><p>
+Additional options:
+<ul>
+<li><b>If endpoint atom hidden, show endpoint residue</b> -
+turn on the display of residues containing an
+H-bonding atom if that atom is not displayed initially
+(By default, if the atom on either end of a
+<a href="../../UsersGuide/pbpanel.html#pbdef">pseudobond</a> representing
+an H-bond is not shown, the pseudobond itself is not shown, although
+it still exists; displaying the atom allows the H-bond to be shown.)
+<li><b>Retain currently displayed H-bonds</b> -
+retain a previously determined set of H-bonds through
+a subsequent round of H-bond detection
+<li><b>Write information to file</b>
+- write H-bond information (atom specifications and distances) to a file.
+The <a href="../../UsersGuide/opensave.html">dialog</a> for saving the file
+includes a <b>Naming style</b> option to control 
+<a href="../../UsersGuide/preferences.html#namingstyle">how atoms 
+will be specified</a>.
+<li><b>Write information to reply log</b> 
+- write H-bond information (atom specifications and distances)
+to the <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>. 
+<b>Atomspec display style</b> in the
+<a href="../../UsersGuide/preferences.html#General"><b>General</b> 
+preferences</a> controls
+<a href="../../UsersGuide/preferences.html#namingstyle">how atoms 
+will be specified</a>.
+</ul>
+</p>
+
+<a name="criteria">
+<h4>METHOD AND CRITERIA</h4></a>
+<p>
+The geometric criteria are based on a survey of small molecule
+crystal structures, as described in
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/9007693" target="_blank">
+Three-dimensional hydrogen-bond geometry and probability information 
+from a crystal survey.</a>
+Mills JE, Dean PM.
+<i>J Comput Aided Mol Des.</i> 1996 Dec;10(6):607-22.
+</blockquote>
+There are many different sets of geometric
+criteria, corresponding to the many different donor-acceptor combinations
+(see Tables 5-8 in the reference).
+There is an upper bound on distance and one or more
+angular range criteria for each category of H-bond.
+It is generally useful to relax the criteria since most structures
+are not as high-resolution as those used in the survey.
+User-specified <a href="#tolerances">tolerances</a> 
+are added to each criterion's upper bound and/or subtracted from
+its lower bound (depending on the particular criterion).
+</p><p>
+Chimera uses atom and residue names, or if these are not "standard,"
+the coordinates of atoms, to determine connectivity and
+<a href="../../UsersGuide/idatm.html">atom types</a>,
+which in turn determine which geometric criteria are appropriate for
+detecting a hydrogen bond between specific atoms.
+Possible donor groups are hydrogen-bearing nitrogen, oxygen, and sulfur atoms,
+and possible acceptor groups are nitrogen, oxygen, and sulfur atoms
+with a lone pair.  H-bonds involving other types of atoms are not considered.
+Not all of the possible donor-acceptor combinations were listed
+in the Mills and Dean parameter tables; some categories of sulfur
+were not surveyed, and several combinations of the surveyed types
+were not observed frequently enough to collect good statistics on their
+geometries.  In such cases, <b>FindHbond</b>
+applies estimated H-bond criteria.
+</p><p>
+When there are no explicit hydrogens on a potential donor atom, 
+<b>FindHBond</b> will use the donor 
+<a href="../../UsersGuide/idatm.html">atom type</a>
+to infer their presence.
+For functional groups where the hydrogen
+positions are well-determined by the positions of the nonhydrogen atoms,
+the H-bonds detected in the presence and absence of explicit hydrogen
+atoms should be virtually identical.  For functional groups where the
+hydrogen position is not well-determined (such as rotatable hydroxyls),
+the presence of an explicit hydrogen atom will limit the detected
+H-bonds to those appropriate for the observed position, instead of
+all of its possible positions.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / December 2009</address>
+</body></html>

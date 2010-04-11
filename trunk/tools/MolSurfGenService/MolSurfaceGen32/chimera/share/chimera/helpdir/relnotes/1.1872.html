@@ -1,0 +1,181 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 1872 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 1872 Release Notes (27 October 2003)</h2>
+
+    <h3>
+      Changes from the <a href="1.1700.html">previous release</a>:
+    </h3>
+    <ul>
+
+      <li>Chimera is now officially "UCSF Chimera" to distinguish it more
+      from all of the other chimeras</li>
+
+      <li>New tools:
+      <ul>
+	<li><b>Multiscale Models</b> (Multiscale)<ul><li>view macromolecular
+	  assemblages at high and low resolution</li></ul></li>
+	<li><b>Match -&gt; Align</b> (Homology)<ul><li>generate a sequence
+	  alignment from a structural superposition</li></ul></li>
+	<li><b>MatchMaker</b> (Homology)<ul><li>superimpose structures with similar sequences</li></ul></li>
+	<li><b>Unit Cell</b> (Utilities)<ul><li>generate crystallographic unit cell contents</li></ul></li>
+	<li><b>ConstrainedMove</b> (Utilities)<ul><li>perform rotations and translations about specified axes</li></ul></li>
+	<li><b>Undo/Redo Move</b> (Utilities)<ul><li>go back and forth in the history of model positions</li></ul></li>
+	<li><b>Per-Model Clipping</b> (Viewing Parameters)<ul><li>clip models individually with a plane at any angle</li></ul></li>
+	<li><b>Read MS/DMS</b> (Docking)<ul><li>open a dot molecular surface in MS/DMS format</li></ul></li>
+      </ul></li>
+
+      <li>ribbons can be selected</li>
+      <li>gzipped files are shown in <b>Open</b> panels and can be read</li>
+      <li>atoms can be deleted (<b>Actions... Atoms/Bonds... delete</b>)</li>
+      <li>surface transparency can be manipulated independently of color
+      (<b>Actions... Surfaces... transparency</b>)</li>
+      <li><b>Page Setup</b> preferences have been replaced by <b>Image Setup</b> preferences,
+      including image supersampling (to avoid jagged straight lines) and
+      user-specified dots per unit.  Printer parameters are used to calculate
+      a suggested optimal resolution for printing purposes.</li>
+      <li>structure data are now saved in session files</li>
+      <li>new command line option, <b>--bgopacity</b>, to allow for opacity in the background to be saved in image files (good for image compositing).</li>
+      <li>increased reserved stack size on Windows and Mac OS X to allow for more complicated surfaces.</li>
+      <li>brought back full-window antialiasing on Mac OS X.</li>
+      <li>molecule's "stick diameter" and "ball size" attributes are now
+      "stick scale" and "ball scale" respectively</li>
+      <li>can redraw 30 frames per second in more cases</li>
+      <li>support case-sensitive chain IDs for new PDB files with more than
+      26 chains</li>
+      <li>revise msms surface library to throw an exception rather than exit
+      when a fatal condition is found</li>
+
+      <li>Tool changes:
+      <ul>
+	<li>attributes panels and <b>Selection Inspector</b> rearranged and standardized</li>
+
+	<li>the <b>Collaboratory Start Session</b> GUI includes options previously available
+	only via the command line (password and naming service specification)</li>
+	<li>sequence segments to search for in open models can be specified with
+	PROSITE patterns as well as exact strings (<b>Select... Sequence</b> or 
+	<b>Model Panel</b> "sequence...")</li>
+
+	<li><b>Model Panel</b>
+	<ul>
+	  <li>can show model-level color</li>
+	  <li>"write PDB" function can save multiple models at a time,
+	  into a single file or multiple files</li>
+	  <li>"compute SS" and "rainbow" functions</li>
+	</ul>
+
+	<li><b>Movie</b>
+	<ul>
+	  <li>can read trajectory subsegments</li>
+	  <li>playback speed can be adjusted with a slider</li>
+	</ul>
+	<li><b>Multalign Viewer</b>
+	<ul>
+	  <li>has Analysis Preferences, which control
+	how consensus and conservation are determined and displayed</li>
+	  <li>can read SCF/seqsel information from JEvTrace</li>
+	  <li>can read/write Stockholm sequence alignment format</li>
+	</ul>
+
+	<li><b>ViewDock</b> can read files from additional versions of DOCK (previously
+	only version 4; now also version 3 and the Northwestern University variant)</li>
+
+	<li><b>Volume Viewer</b>
+	<ul>
+	  <li>can read BRIX (Xray crystallographic density map),
+	SPIDER (electron microscope density map), DOCK grid (bump *.bmp, contact
+	*.cnt, energy *.nrg) formats</li>
+	  <li>various format nomenclature/suffix changes</li>
+	  <li>isosurfaces for volume data are computed faster (3X for 128<sup>3</sup> test volume)</li>
+	  <li>isosurface mesh rendering is 3X faster on NVidia GeForce 4 graphics cards</li>
+	  <li>control of mesh linewidth</li>
+	  <li>incorporated <b>DOCKGrid</b> functionality</li>
+	</ul>
+	<li><b>FindHBond</b> allows you to restrict the request to the current selection</li>
+      </ul></li>
+
+      <li>Command changes:
+      <ul>
+	<li><b>Select</b> menu items can be used as command-line atom specifications
+	(entries under <b>Chemistry... IDATM type, element, functional group</b>,
+	and submenus; <b>Residue... amino acid category</b>; <b>Structure</b> and submenus)</li>
+	<li>"+" in the command line will be substituted by the atom-specification string
+	of the next picked atom</li>
+	<li>"sel" (selected, picked) can be used as the argument to match and angle</li>
+	<li><b>set bg_color</b> and <b>set dc_color</b> (shading color for depth cueing) implemented
+	(also added background and depth cue to <b>Actions... Color</b> target list)</li>
+	<li><b>rainbow</b> command allows specification of colors defining the color range and
+	whether to increment by residue or by chain; default is to rainbow-color by
+	residue from blue to red (previously from red to blue)</li>
+	<li><b>delete</b> command added (analogous to <b>Actions... Atoms/Bonds... delete</b>)</li>
+	<li><b>stereo</b> command implemented</li>
+	<li>Chimera command file is a registered type (one can use standard opening
+	mechanisms to execute such files, not just the commands "read" and "source")</li>
+	<li>handle space-embedded filenames better</li>
+	<li>support ~ and ~user in <b>open</b> command.
+      </ul></li>
+
+    </ul>
+
+<h2>
+Known bugs:
+</h2>
+
+<p>
+<b>Wire bonds disappear on large PDB models on Mac.</b>
+Bonds in wire display mode appear correctly when a large model (<i>e.g.</i>, 1aon)
+is first opened, but then many of them disappear when the model is moved.
+This is an OpenGL driver bug in Mac OS 10.2.6 that has been reported to
+Apple.
+</p>
+
+<p>
+<b>Copy command makes strange image.</b>
+Use of the copy command when widgets are in front of the graphics window results in strange images.
+</p>
+
+<p>
+<b>Saving <small>JPEG</small>-format images unreliable.</b>
+Saving an image to <small>JPEG</small> format often fails.
+Try using <small>PNG</small> format instead (it has built-in compression).
+ If you have a repeatable test case, please send it in.
+</p>
+
+<p>
+<b>Cross-eye stereo parallax is wrong.</b>
+</p>
+
+<p>
+<b>Bond rotations in large molecules are slow.</b>
+</p>
+
+<p>
+<b>Collaboratory hangs on multiprocessor IRIX.</b>
+</p>
+
+  </body>
+</html>

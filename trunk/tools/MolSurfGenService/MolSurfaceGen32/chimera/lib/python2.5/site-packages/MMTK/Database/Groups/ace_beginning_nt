@@ -1,0 +1,24 @@
+name = 'ace_beginning'
+symbol = 'ACE'
+
+CH3 = Atom('C')
+HH31 = Atom('H')
+HH32 = Atom('H')
+HH33 = Atom('H')
+CBond = Atom('C')
+O = Atom('O')
+
+bonds = [Bond(CH3, HH31), Bond(CH3, HH32), Bond(CH3, HH33),
+	 Bond(CH3, CBond), Bond(CBond, O)]
+
+chain_links = [None, CBond]
+
+amber_atom_type = {CH3: 'CT', HH31: 'HC', HH32: 'HC', HH33: 'HC',
+		   CBond: 'C', O: 'O'}
+
+amber_charge = {CH3: -0.3662, HH31: 0.1123, HH32: 0.1123, HH33: 0.1123,
+		CBond: 0.5972, O: -0.5679}
+
+pdbmap = [('ACE', {'CH3': CH3, '1HH3': HH31, '2HH3': HH32, '3HH3': HH33,
+		   'C': CBond, 'O': O})]
+pdb_alternative = {'HH31': '1HH3', 'HH32': '2HH3', 'HH33': '3HH3'}

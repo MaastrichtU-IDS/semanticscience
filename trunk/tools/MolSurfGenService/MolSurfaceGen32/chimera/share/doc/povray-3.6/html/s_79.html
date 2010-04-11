@@ -1,0 +1,462 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.4.3 Language related things</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_78.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_78.html">2.4.2 Language Things that don't work as one expects</a> 
+   
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.4.3 
+   Language related things</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_80.html">2.4.4 File Formats</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_80.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_04_03">2.4.3 </a>Language related things</h3>
+
+<h4><a name="s02_04_03_01">2.4.3.1 </a>How do I turn animation on?</h4>
+
+<p>
+  <em>&quot;How do I turn animation on? I have used the <code>clock</code>-variable in my scene, but POV-Ray still 
+ only calculates one frame.&quot;</em> 
+</p>
+
+<p>
+  The easiest way is to just specify the appropriate command line parameter on the command line or in the command 
+ line field in the rendering settings menu (in the Windows version). For example, if you want to create 20 frames, type 
+ this: <code>+kff20</code> 
+</p>
+
+<p>
+  This will create 20 frames with the <code>clock</code> variable going from 0 to 1. The other command line 
+ parameters are found in the POV-Ray documentation. 
+</p>
+
+<p>
+  Ken Tyler has also another good solution for this: 
+</p>
+
+<p>
+  In the directory that you installed POV-Ray into you will find a subdirectory called scenes and another inside that 
+ called animate. You will find several example files showing you how to write your scene to use the clock variable. You 
+ will still need to activate POV-Ray's animation feature by using an <code>.ini</code> file with the correct info or 
+ with command line switches. I personaly like to use the ini file method. If you try this open the master <code>povray.ini</code> 
+ file from the tools menu and add the following lines: 
+</p>
+
+<pre>
+;clock=1
+;Initial_Frame=1
+;Final_Frame=20
+;Cyclic_Animation = on
+;Subset_Start_Frame=6
+;Subset_End_Frame=9
+</pre>
+
+<p>
+  Save the file and close it. When you need to use the animation feature simply go in and edit the <code>povray.ini</code> 
+ file and uncomment out the functions you want to use. At a minimum you will need to use the <code>initial_frame</code> 
+ and <code>final_frame</code> option to make it work. Once you have stopped rendering your series of frames be sure to 
+ comment out the clock variables in the ini file. After you have rendered a series of individual frames you will still 
+ need to compile them into the animation format that you wish to use such as AVI or MPEG. See our <a href="http://povray.org/links/3D_Animation_Utilities/" target="new">links 
+ collection on our website</a> for programs that can help you do this. POV-Ray has no internal ability to do this for 
+ you except on the Macintosh platform of the program. 
+</p>
+
+<p>
+  The Mac version normally does not use <code>.ini</code> files and lacks any command line, but uses a completely 
+ graphical interface instead. To activate animation, choose the render settings item from the Edit menu (right under 
+ &quot;Preferences&quot;, it will be titled &quot;FILENAME Settings&quot;, where FILENAME is the name of your file), 
+ click on the Animation tab, and enter the needed information in the text boxes. 
+</p>
+
+<h4><a name="s02_04_03_02">2.4.3.2 </a>Can POV-Ray use multiple processors?</h4>
+
+<p>
+  Short answer: The only way to run POV-Ray on multiple processors is to run several copies of POV-Ray. 
+</p>
+
+<p>
+  Long answer: 
+</p>
+
+<p>
+  Making a program use multiple threads is not as trivial as it may sound. Here are some reasons why it is quite 
+ difficult to make with POV-Ray: 
+</p>
+
+<ul>
+ 
+ <li>
+   You cannot do it with standard C (nor C++), and POV-Ray is intended to be very portable. This is not just an 
+  issue of philosophy or purism, POV-Ray is really used on a large variety of different platforms. 
+ </li>
+
+ <li>
+   Multithreading is a very complex issue and it is much more difficult to make a bugless multithreaded program than 
+  a single-threaded (there are several things in multithreading, like mutual exclusion problems, which make the 
+  multithreaded program very non-deterministic). It is not impossible, though, since it has been done (there are 
+  patched versions of POV-Ray with multithreading support). However, it is far from trivial. 
+ </li>
+
+ <li>
+   Raytracing is usually thought as an easily threaded problem. You just calculate one pixel and draw it on screen, 
+  independent of the other pixels. However, with advanced techniques, like antialiasing and specially stochastic global 
+  illumination calculation (referred as &quot;radiosity&quot; in POV-Ray's documentation and syntax) this is not true 
+  anymore. 
+  <ul>
+   
+   <li>
+     To speed up antialiasing, a threshold value is used between pixels. If the difference in color between two 
+    pixels is higher than the threshold, then antialiasing is calculated. Of course we need info from the nearby pixels 
+    for this. 
+   </li>
+
+   <li>
+     In global illumination calculations lighting values are stored in a spatial tree structure. The following 
+    pixels may use the information stored in this tree for their illumination. This means that the pixel calculation at 
+    the upper left corner may affect on the color of the pixel in the lower right corner. This is the reason why 
+    calculating a radiosity image in parts does not work very well. 
+   </li>
+
+  </ul>
+   Both problems can probably be solved in some way, but as said, it is far from trivial. 
+ </li>
+
+</ul>
+
+<p>
+  An excellent article about the issue can be found on the <a href="http://www.acm.org/tog/resources/RTNews/html/rtnv12n2.html#art3" target="new"> 
+ Ray Tracing News web page</a>. 
+</p>
+
+<p>
+  Here is an answer from John M. Dlugosz with useful tips: 
+</p>
+
+<p>
+  The POV-Ray rendering engine is a single thread of execution, so when run on a dual Pentium Pro (running NT4) the 
+ CPU indicator only goes up to about 50%. POV does not use more than half the available power on the machine. 
+</p>
+
+<p>
+  That is the basic issue, though to quibble a bit it is not exactly true: the rendering engine soaks up one whole 
+ CPU, but the editor runs on its own thread, and operating system functions (writing to the file, updating the display, 
+ network activity, system background tasks) run on different threads. This gives a little bit of a bonus, and the 
+ system uses as much as 54% of available MIPS when watching it. More importantly, the machine is still highly 
+ responsive, and editing or other applications continue on without being sluggish. 
+</p>
+
+<p>
+  But for a long render, it is annoying to have one CPU be mostly idle. What can be done to cut rendering time in 
+ half (from 20 hours down to 10, for example)? 
+</p>
+
+<p>
+  The simplest thing is to run two copies of POV on the machine. Have one copy render the top half, and the other 
+ render the bottom half. Then paste the halves together in your picture editor. 
+</p>
+
+<p>
+  One thing to watch out for: do not just fire up two copies and point them at the same INI file and image file. They 
+ will overwrite each other's output and make a big mess. Instead, you must make sure each is writing to a different 
+ file. 
+</p>
+
+<p>
+  For moderate renders, you might let one copy chug away on the long render, and use a second copy interactivly to 
+ continue development in POV. 
+</p>
+
+<h4><a name="s02_04_03_03">2.4.3.3 </a>Can I get a wireframe render of my scene?</h4>
+
+<p>
+  <em>&quot;Is there a way to generate a wireframe output image from a POV scene file?&quot;</em> 
+</p>
+
+<p>
+  Short answer: No. 
+</p>
+
+<p>
+  Long answer: 
+</p>
+
+<p>
+  You have to understand the difference between a modeller like 3D-Studio and POV-Ray in the way they handle objects. 
+ Those modellers always use triangle meshes (and some modellers use also NURBS which can be very easily converted into 
+ triangles). Triangle meshes are extremely simple to represent in a wireframe format: Just draw a line for each 
+ triangle side. 
+</p>
+
+<p>
+  However, POV-Ray handles most of the objects as mathematical entities, not triangle meshes. When you tell POV-Ray 
+ to create a sphere, POV-Ray only handles it as a point and a radius, nothing else (besides the possible matrix 
+ transform applied to it). POV-Ray only has a notion of the shape of the object as a mathematical formula (it can 
+ calculate the intersection of a line and the sphere). 
+</p>
+
+<p>
+  For wireframe output there should be a way to convert that mathematical representation of the object into actual 
+ triangles. This is called tesselation. 
+</p>
+
+<p>
+  For some mathematical objects, like the sphere, the box, etc, tesselation is quite trivial. For other entities, 
+ like CSG difference, intersection, etc, it is more difficult (although not impossible). For other entities it is 
+ completely impossible: infinite non-flat surfaces like paraboloids and hyperboloids (well, actually it is possible if 
+ you limit the size of the surface to a finite shape; still the amount of triangles that needs to be created would be 
+ extremely high). 
+</p>
+
+<p>
+  There have been lots of discussions about incorporating tesselation into POV-Ray. But since POV-Ray is just a 
+ renderer, not a modeller, it does not seem to be worth the efforts (adding tesselation to all the primitives and CSG 
+ would be a <strong>huge</strong> job). 
+</p>
+
+<p>
+  (Of course tesselation could give some other advantages, like the ability to fake non-uniform transformations to 
+ objects like most triangle mesh modellers do...) 
+</p>
+
+<p>
+  If you just want fast previews of the image, you can try to use the quality parameter of POV-Ray. For example 
+ setting quality to 0 (+q0) can give a very fast render. See also <a href="s_82.html#s02_04_06">the rendering speed 
+ question</a>. 
+</p>
+
+<h4><a name="s02_04_03_04">2.4.3.4 </a>Can I specify variable IOR for an object?</h4>
+<a name="s02_04_03_04_i1"><a name="variable ior"></a>
+<p>
+  <em>&quot;Can I specify variable IOR for an object? Is there any patch that can do this? Is it possible?&quot;</em> 
+</p>
+
+<p>
+  Short answer: No. 
+</p>
+
+<p>
+  Long answer: 
+</p>
+
+<p>
+  There are basically two ways of defining variable IOR for an object: IOR changing on the surface of the object and 
+ IOR changing throughout inside the object. 
+</p>
+
+<p>
+  The first one is physically incorrect. For uniform IOR it simulates physical IOR quite correctly since for objects 
+ with uniform density the light bends at the surface of the object and nowhere else. However if the density of the 
+ object is not uniform but changes throughout its volume, the light will bend inside the object, while travelling 
+ through it, not only on the surface of the object. 
+</p>
+
+<p>
+  This is why variable IOR on the surface of the object is incorrect and the possibility of making this was removed 
+ in POV-Ray 3.1. 
+</p>
+
+<p>
+  From this we can deduce that a constant IOR is kind of property of the surface of the object while variable IOR is 
+ a property of the interior of the object (like media in POV-Ray). Of course the physically correct interpretation of 
+ this phenomenon is that IOR is always a property of the whole object (ie. its interior), not only its surface (and 
+ this is why IOR is now a property of the interior of the object in POV-Ray); however, the effect of a constant IOR has 
+ effect only at the surface of the object and this is what POV-Ray does when bending the rays. 
+</p>
+
+<p>
+  The correct simulation for variable IOR, thus, would be to bend the ray inside the object depending on the density 
+ of the interior of the object at each point. 
+</p>
+
+<p>
+  This is much harder to do than one may think. The reasons are similar to why non-uniform transformations are too 
+ difficult to calculate reasonably (as far as I know there exists no renderer that calculates true non-uniform 
+ transformations; mesh modellers just move the vertices, they do not actually transform the object; a true non-uniform 
+ transformation would bend the triangles). Moreover: Non-uniform transformations can be faked if the object is made of 
+ many polygons (you can move the vertices as most mesh modellers do), but you cannot fake a variable IOR in this way. 
+</p>
+
+<p>
+  Variable IOR is (mostly) impossible to calculate analytically (ie. in a mathematically exact way) at least in a 
+ reasonable time. The only way would be to calculate it numerically (usually by super-sampling). 
+</p>
+
+<p>
+  Media in POV-Ray works in this way. It does not even try to analytically solve the color of the media, but 
+ supersamples the media along the ray and averages the result. This can be pretty inaccurate as we can see with the 
+ media method 1 (the only one which was supported in POV-Ray 3.1). However some tricks can be used to make the result 
+ more accurate without having to spend too much time, for example antialiasing (which is used by the media method 3). 
+ This is a quite easy calculation because the ray is straight, POV-Ray knows the start and end points of the ray and it 
+ knows that it does not intersect with anything along the ray (so it does not have to make ray-object intersection 
+ calculations while supersampling). 
+</p>
+
+<p>
+  Variable IOR is, however, a completely different story. Here the program would have to shoot a LOT of rays along 
+ the path of the bending light ray. For each ray it would have to make all the regular ray-object intersection 
+ calculations. It is like having hundreds or thousands of transparent objects one inside another (with max_trace_level 
+ set so high that the ray will go through all of them). You can easily test how slow this is. It is <strong>very</strong> 
+ slow. 
+</p>
+
+<p>
+  One could think that &quot;hey, why not just shoot a few tens of rays and then use some kind of antialiasing to get 
+ the fine details, like in media method 3&quot;. 
+</p>
+
+<p>
+  Well, it might work (I have never seen it tested), but I do not think it will help much. The problem is the 
+ inaccuracy of the supersampling (even when using antialiasing). In media it is not a big problem; if a very small 
+ shadowed area in the media is not detected by the supersampling process, the result will not differ very much from the 
+ correct one (since the shadowed area was so small it would have diminished the brightness of that ray just a bit but 
+ no more) and it will probably still look good. 
+</p>
+
+<p>
+  With IOR this is not anymore true. With IOR even very, very small areas may have very strong effect in the end 
+ result, since IOR can drastically change the direction of the ray thus making the result completely different (even 
+ very small changes can have great effect if the object behind the current refracting object is far away). 
+</p>
+
+<p>
+  This can have disastrous effects. The ior may change drastically from pixel to pixel almost at random, not to talk 
+ from frame to frame in an animation.<br> To get a more or less accurate result lots of rays would be needed; just a 
+ few rays is not enough. And shooting lots of rays is an extremely slow process. 
+</p>
+
+<h4><a name="s02_04_03_05">2.4.3.5 </a>What is Photon Mapping?</h4>
+
+<p>
+  Photon mapping uses forward raytracing (ie. sending rays from light sources) calculate reflecting and refracting 
+ light (aka. caustics). 
+</p>
+
+<p>
+  The following is from the homepage of the developer (Nathan Kopp): 
+</p>
+
+<p>
+  &quot;My latest fun addition to POV is the photon map. The basic goal of this implementation of the photon map is 
+ to render true reflective and refractive caustics. The photon map was first introduced by Henrik Wann Jensen. It is a 
+ way to store light information gathered from a backwards ray-tracing [sic] step in a data structure independent from 
+ the geometry of a scene.&quot; 
+</p>
+
+<p>
+  It is surprisingly fast and efficient. How is this possible when forward raytracing is so inefficient? For several 
+ reasons: 
+</p>
+
+<ol>
+ 
+ <li>
+   Photon mapping is only used to calculate illumination, ie. lighting values, not to render the actual scene. 
+  Lighting values do not have to be as accurate as the actual rendering (it does not matter if your reflected light 
+  &quot;bleeds&quot; a bit out of range; actually this kind of &quot;bleeding&quot; happens in reality as well (due to 
+  light diffusing from air), so the result is not unrealistic at all). 
+ </li>
+
+ <li>
+   Photon mapping is calculated only for those (user-specified) objects that need it (ie. objects that have 
+  reflection and/or refraction). 
+ </li>
+
+ <li>
+   The rays are not shot to all directions, towards the entire scene, but only towards those specified objects. Many 
+  rays are indeed shot in vain, without them affecting the final image in any way, but since the total amountof rays 
+  shot is relatively small, the rendering time does not get inacceptably longer. 
+ </li>
+
+ <li>
+   The final image itself is rendered with regular backwards raytracing (the photon mapping is a precalculation step 
+  done before the actual rendering). The raytracer does not need to use forward raytracing in this process (it just 
+  uses the precalculated lighting values which are stored in space). 
+ </li>
+
+</ol>
+
+<p>
+  As you have seen, for the photon mapping to work in an acceptable way, you have to tell the program which objects 
+ you want to reflect/refract light and which you do not. This way you can optimize a lot the photon mapping step. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_78.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_78.html">2.4.2 Language Things that don't work as one expects</a> 
+   
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.4.3 Language related things</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_80.html">2.4.4 File Formats</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_80.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

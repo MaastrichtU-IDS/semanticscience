@@ -1,0 +1,162 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2005-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>2dlabels</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>2dlabels</b> <i>action</i> <i>label-name</i>
+<a href="#options"><i>options</i></a></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+<br><b>2dlabels write</b> <i>filename</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+<br><b>2dlabels read</b> <i>filename</i></h3>
+<p>
+<b>2dlabels</b> is the command-line implementation of
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html">
+<b>2D Labels</b></a>, which allows arbitrary text labels
+to be created and placed in two dimensions (2D).
+The labels appear in front of any graphics displays
+and will not move when models are moved.  Such labels are mainly useful
+in <a href="../print.html">images</a> and <a href="movie.html">movies</a>.
+</p><p>
+2D label information is saved in
+<a href="../sessions.html#sesdef">sessions</a>.
+2D labels can also be saved (collectively) to a separate
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html#labelfile">label 
+file</a> with the <b>write</b> keyword or imported from such a file 
+with <b>read</b>.  These keywords cannot be truncated.
+</p><p>
+The <b><i>action</i></b> can be one of the following:
+<ul>
+<li><a name="create"><b>create</b></a>
+- create a 2D label named <b><i>label-name</i></b>
+(<a href="#create-options">options</a>)
+<li><a name="change"><b>change</b></a>
+- change the 2D label named <b><i>label-name</i></b>
+(<a href="#change-options">options</a>) 
+<li><b>delete</b> - delete the 2D label named <b><i>label-name</i></b>
+</ul>
+The action keyword cannot be truncated. 
+Actions may have further <a href="#options">options</a>.
+Note that <b><i>label-name</i></b> is a label identifier,
+not its text.  The text of a label can be specified with the <b>text</b>
+option of <b>create</b> or <b>change</b>.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+All specifications are optional, and the order of specification
+is not important. Option keywords can be truncated, and their case is 
+not important.  Default values are indicated with <b>bold</b>.
+A vertical bar "|" designates mutually exclusive values.
+</p><p>
+<a name="create-options">Options</a> for <a href="#create"><b>create</b></a>:
+<blockquote>
+  <b>text</b> <i>label-contents</i>
+  <br>The <i>label-contents</i> 
+  can include letters, numbers, and various symbols present on the keyboard; 
+  the default is nothing (no characters).
+  Spaces and quote marks can be included by enclosing the 
+  entire <i>label-contents</i> in single or double quote marks.
+  Carriage returns are indicated with <b>\n</b>. 
+</blockquote><blockquote>
+  <b>color</b> <i>label-color</i> 
+  <br>The <i>label-color</i> can be 
+  any <a href="color.html#colorname">color name</a> 
+  that specifies a single color (default <b>white</b>). 
+  Any transparency in the color will be ignored.
+</blockquote><blockquote>
+  <b>size</b> <i>font-size</i>
+  <br>The <i>font-size</i> must be an integer greater than zero 
+  (default <b>24</b>).
+</blockquote><blockquote>
+  <b>style</b> <i>font-style</i>
+  <br>The <i>font-style</i> can be <b>normal</b> (default), <b>bold</b>,
+  <b>italic</b>, or <b>bold italic</b>, where the latter should be enclosed
+  in single or double quotation marks.
+</blockquote><blockquote>
+  <b>typeface</b> <i>font-typeface</i>
+  <br>The <i>font-typeface</i> can be <b>serif</b>, <b>fixed</b>, 
+  or <b>sans serif</b> (default),
+  where the latter should be enclosed in single or double quotation marks.
+</blockquote><blockquote>
+  <b>xpos</b> <i>x-position</i><br>
+  <b>ypos</b> <i>y-position</i>
+  <br><i>X-position</i> and <i>y-position</i> are the x and y
+  coordinates of the lower lefthand corner of the label 
+  (defaults are <b>0.5</b> and <b>0.5</b>).  The x axis is 
+  horizontal and the y axis is vertical, and both range from
+  0 to 1 in the visible portion of the window.  It is possible to place
+  a label partially or completely outside the visible area, however.
+</blockquote><blockquote>
+  <b>visibility</b> hide|<b>show</b>
+  <br>Whether the label should be displayed.
+</blockquote>
+</p><p>
+<a name="change-options">Options</a> for <a href="#change"><b>change</b></a>:
+<blockquote>
+  <b>text</b> <i>new-contents</i>
+  <br>The <i>new-contents</i> 
+  can include letters, numbers, and various symbols present on the keyboard.
+  Spaces and quote marks can be included by enclosing the 
+  entire <i>label-contents</i> in single or double quote marks.
+  Carriage returns are indicated with <b>\n</b>. 
+</blockquote><blockquote>
+  <b>color</b> <i>new-color</i> 
+  <br>The <i>new-color</i> can be
+  any <a href="color.html#colorname">color name</a> 
+  that specifies a single color.
+  Any transparency in the color will be ignored.
+</blockquote><blockquote>
+  <b>size</b> <i>new-size</i>
+  <br>The <i>new-size</i> must be an integer greater than zero.
+</blockquote><blockquote>
+  <b>style</b> <i>new-style</i>
+  <br>The <i>new-style</i> can be <b>normal</b>, <b>bold</b>,
+  <b>italic</b>, or <b>bold italic</b>, where the latter should be enclosed
+  in single or double quotation marks.
+</blockquote><blockquote>
+  <b>typeface</b> <i>new-typeface</i>
+  <br>The <i>new-typeface</i> can be <b>serif</b>, <b>fixed</b>, 
+  or <b>sans serif</b>,
+  where the latter should be enclosed in single or double quotation marks.
+</blockquote><blockquote>
+  <b>xpos</b> <i>new-x</i><br>
+  <b>ypos</b> <i>new-y</i>
+  <br><i>New-x</i> and <i>new-y</i> are the new x and y
+  coordinates of the lower lefthand corner of the label.  The
+  x axis is horizontal and the y axis is vertical, and both range from
+  0 to 1 in the visible portion of the window.  It is possible to place
+  a label partially or completely outside the visible area, however.
+</blockquote><blockquote>
+  <b>visibility</b> hide|<b>show</b> [<b>frames</b> <i>N</i>]
+  <br>Whether the label should be displayed.  If the label was
+  undisplayed and will now be displayed (or <i>vice versa</i>),
+  the appearance (or disappearance) can be spread over a specified
+  number <i>N</i> of image update frames.
+</blockquote>
+</p>
+See also:
+<A href="../../ContributedSoftware/2dlabels/2dlabels.html">
+<b>2D Labels</b></a>,
+<a href="label.html"><b>label</b></a>,
+<a href="labelopt.html"><b>labelopt</b></a>,
+<a href="rlabel.html"><b>rlabel</b></a>,
+<a href="windowsize.html"><b>windowsize</b></a>,
+<a href="../movies.html#moviecommands">movie-related commands</a>
+</p>
+</body></html>

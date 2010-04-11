@@ -1,0 +1,442 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Image Tutorial: Similar Binding Sites</title>
+</head><body>
+<font size="-1">
+<a href="../frametut.html" target="_top">Chimera Tutorials Index</a>
+</font>
+
+<h2>Image Tutorial: Similar Binding Sites</h2>
+
+<a name="figures">
+<table border align="right" style="margin:8px 8px 8px 8px" 
+cellpadding="0" cellspacing="0">
+<tr>
+<td>&nbsp;<b>A:</b>&nbsp;</td>
+<td colspan="3"><a href="converg1.png" title="click for full-sized image...">
+<img src="converg1.png" width="360" height="236"></a></td>
+</tr><tr>
+<td><b>&nbsp;B:&nbsp;</b></td>
+<td colspan="3"><a href="converg2.png" title="click for full-sized image...">
+<img src="converg2.png" width="360" height="236"></a></td>
+</tr><tr>
+<td><b>&nbsp;C:&nbsp;</b></td>
+<td align="center"><img src="converg_th.png"></td>
+<td valign="center" align="center"><b>Residues:</b></td>
+<td><table align="center">
+<tr><th align="center">1exp</th><th align="center">1cel</th></tr>
+<tr><td>W84</td><td>W367</td></tr>
+<tr><td>N126</td><td>N141</td></tr>
+<tr><td>E233</td><td>E217</td></tr>
+<tr><td>Y171</td><td>Y145</td></tr>
+<tr><td>H205</td><td>H228</td></tr>
+</table></td>
+</tr>
+</table>
+</a>
+
+<h3>Background</h3>
+<p>
+&beta;-1,4-glycanase (gold, Protein Data Bank entry
+<a href="http://www.rcsb.org/pdb/cgi/explore.cgi?pdbId=1EXP"
+target="_blank">1exp</a>)
+and cellobiohydrolase I (cyan, Protein Data Bank entry
+<a href="http://www.rcsb.org/pdb/cgi/explore.cgi?pdbId=1CEL"
+target="_blank">1cel</a>) have different folds but
+a similar pattern of amino acids near a glucose residue.
+This possible example of convergent evolution was identifed in Table 5 of:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/9642096" target="_blank">
+Detection of protein three-dimensional side-chain patterns: 
+new examples of convergent evolution.</a>
+Russell RB.
+<i>J Mol Biol.</i> 1998 Jun 26;279(5):1211-27.
+</blockquote>
+</p>
+
+<h3>Image How-To</h3>
+<p>
+The recipe here is just an example; there are usually many routes 
+to the same or similar results.  
+Not all of the steps can be done with commands &ndash; for example,
+there is no substitute for interactively finding the best views &ndash;
+but commands for much of the setup below are collected into the 
+Chimera command file 
+<a href="convergent.com" type="text/plain">convergent.com</a>.
+</p><p>
+See also:
+<a href="../menu.html#menupresets">presets</a>,
+<a href="../print.html#tips">tips on preparing images</a>
+</p><p>
+The images show (A) the two proteins side by side, 
+(B) a closeup of the superimposed sites without glucose, and 
+(C) a thumbnail of the superimposed sites.  
+Often it is best to create a set of views
+that, while different, are consistent or related to each other by only 
+simple transformations.  We will generate the view shown in B first 
+and then base the others upon it.
+</p><p>
+<a href="../startup.html">Start Chimera</a> and enlarge the window as desired.
+Show the <a href="../chimerawindow.html#emulator"><b>Command Line</b></a>
+(for example, with <b>Favorites... Command Line</b>).
+Fetch <b>1exp</b> and then <b>1cel</b>
+from the <a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/open.html">open</a> 1exp</b>
+<br>
+<i>Command</i>: <b><a href="../midas/open.html">open</a> 1cel</b>
+<br>
+<i>Command</i>: <b><a href="../midas/focus.html">focus</a></b>
+</blockquote>
+Move and scale the structures
+<a href="../mouse.html">using the mouse</a> and the
+<a href="../sideview.html#sideview"><b>Side View</b></a>
+as you wish throughout the tutorial.
+</p><p>
+<b>1cel</b> includes two copies of the protein, chains A and B;
+one copy can be deleted: 
+<blockquote>
+<i>Command</i>: <b><a href="../midas/delete.html">delete</a> :.b</b>
+<br>
+<i>Command</i>: <b><a href="../midas/focus.html">focus</a></b>
+</blockquote>
+Use the ribbons preset, and for now, hide all atoms and bonds:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/preset.html">preset</a> apply int 1</b>
+<br>
+<i>Command</i>: <b><a href="../midas/display.html">~disp</a></b>
+</blockquote>
+Set up the basic coloring scheme and white background:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/color.html">color</a> gold #0</b>
+<br>
+<i>Command</i>: <b><a href="../midas/color.html">color</a> cyan #1</b>
+<br>
+<i>Command</i>: <b><a href="../midas/set.html">set</a> bg_color white</b>
+</blockquote>
+Display the residues identified by Russell and use them to superimpose
+the structures:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/alias.html">alias</a> site1
+#0:84,126,233,171,205</b>
+<br>
+<i>Command</i>: <b><a href="../midas/alias.html">alias</a> site2
+#1:367,141,217,145,228</b>
+<br>
+<i>Command</i>: <b><a href="../midas/alias.html">alias</a> both 
+site1 | site2</b>
+<br>
+<i>Command</i>: <b><a href="../midas/display.html">disp</a> both</b>
+<br>
+<i>Command</i>: <b><a href="../midas/match.html">match</a> iterate 2.0
+site2 site1</b>
+<br>
+<i>Command</i>: <b><a href="../midas/focus.html">focus</a> both</b>
+<br>
+<i>Command</i>: <b><a href="../midas/color.html">color</a> byhet</b>
+</blockquote>
+The aliases in the above
+<a href="../midas/match.html"><b>match</b></a> command specify entire residues.
+The match command requires equal numbers of atoms from the two structures,
+specified in the same order.  In this case, the residues are of
+the same types (thus containing the same numbers of atoms) and the
+atoms of each residue
+will be in the same order because they are automatically sorted by name.
+</p><p>
+The displayed sidechains are somewhat obscured by other parts of the proteins.  
+Rotate, translate, and scale the structures, and in the
+<a href="../sideview.html#sideview"><b>Side View</b></a>, adjust the 
+front and back clipping planes to simplify the view.
+You may also want to adjust the window dimensions.
+<a name="savepos">
+After generating a good view of the set of displayed residues,
+save the position:</a>
+<blockquote>
+<i>Command</i>: <b><a href="../midas/savepos.html">savepos</a> closeup</b>
+</blockquote>
+It does not have to be perfect; the same command can be used again later
+to re-save the position after further adjustments.
+You may also wish to <a href="../sessions.html#savesess">save the session</a>
+(see the <b>File</b> menu) at this stage and whenever you are pleased with
+your previous work and want to ensure it will not be lost.
+</p><p>
+Make the sticks and ribbons smoother by increasing subdivision quality:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/set.html">set</a> subdivision 10</b>
+</blockquote>
+</p><p>
+Make everything shinier:  
+open the <a href="../sideview.html#shininess"><b>Shininess</b></a>
+dialog (under <b>Tools... Viewing Controls</b>) and move the 
+<b>shininess</b> and <b>brightness</b> sliders to the far right.
+<b>Close</b> the dialog or click the tab to go to the
+<a href="../sideview.html#sideview"><b>Side View</b></a>.
+</p>
+
+<a name="ribbons">
+<h3>De-Emphasizing the Ribbons</h3></a>
+<p>
+The display is still quite "busy," in part because the two proteins
+have different folds.  We will de-emphasize the ribbons 
+by making them transparent and slimmer.
+</p><p>
+Create transparent versions of gold and cyan 
+and use them to color the ribbons:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/colordef.html">colordef</a> tgold 1 .843 0 .2</b>
+<br>
+<i>Command</i>: <b><a href="../midas/colordef.html">colordef</a> tcyan 0 1 1 .15</b>
+<br>
+<i>Command</i>: <b><a href="../midas/color.html">color</a> tgold,r #0</b>
+<br>
+<i>Command</i>: <b><a href="../midas/color.html">color</a> tcyan,r #1</b>
+</blockquote>
+The <a href="../midas/colordef.html"><b>colordef</b></a> command takes
+a name for the new color, followed by red, green, blue, and opacity (RGBA)
+values, each in the range of 0.0 to 1.0 (transparency = 1 &ndash; opacity).
+RGB values for the 
+<a href="../colortables.html#allcolors">existing colors</a> 
+<b>gold</b> and <b>cyan</b> were looked up by entering
+their names into the <a href="../colortool.html"><b>Color Editor</b></a>
+(under <b>Tools... Utilities</b>).
+With <a href="../midas/colordef.html"><b>colordef</b></a>,
+different opacities were tried along with these RGB values 
+until the desired level of transparency was achieved.
+</p><p>
+Start <a href="../../ContributedSoftware/ribbonstyle/ribbonstyle.html"><b>Ribbon
+Style Editor</b></a> (under <b>Tools... Depiction</b>) and adjust
+the <b>Ribbon Scaling</b> values:
+<table border style="margin:8px 8px 8px 8px" cellpadding="3" cellspacing="0">
+<tr><td align="center">2&deg; Structure</td><th>Width</th><th>Height</th></tr>
+<tr><td align="center"><b>Turn</b></td><td>0.20</td><td>0.20</td></tr>
+<tr><td align="center"><b>Helix</b></td><td>0.60</td><td>0.20</td></tr>
+<tr><td align="center"><b>Sheet</b></td><td>0.60</td><td>0.20</td></tr>
+<tr><td align="center"><b>Arrow (base)</b></td><td>1.0</td><td>0.20</td></tr>
+<tr><td align="center"><b>Arrow (tip)</b></td><td>0.20</td><td>0.20</td></tr>
+</table>
+The <b>Nucleic</b> values only pertain to DNA and RNA.  Click <b>Apply</b>
+to adjust the ribbon scaling (secondary-structure-specific dimensions).  
+Click <b>Save As...</b> to name and save the scaling for later use.
+For example, if the scaling is named <b>slim</b>, 
+it could also be applied with:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/ribscale.html">ribscale</a> slim</b>
+</blockquote>
+</p>
+
+<a name="positions">
+<h3>Generating Positions (Views)</h3></a>
+<p>
+The position for <a href="#figures">figure B</a>, <b>closeup</b>,
+was saved <a href="#savepos">above</a>. If you have since improved it, 
+be sure to save it again.
+Next, generate and save positions for the other two figures.  The
+intent is to preserve the orientations in the <b>closeup</b> position while
+possibly translating up/down and left/right and changing the scale.
+<ol>
+<li>position for <a href="#figures">figure C</a>, 
+closeup with glucose molecules:
+  <blockquote>
+  Display the glucose residues, both named BGC 
+  (<b>Note</b>: older versions of these PDB entries used the name GLC instead):
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/display.html">disp</a> :bgc</b>
+    </blockquote>
+  If you have changed the view from the <b>closeup</b> position, restore it:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> closeup</b>
+    </blockquote>
+  Scale and translate everything (avoiding rotation) so that the glucose 
+  molecules are visible, optionally adjust the clipping planes in the
+  <a href="../sideview.html#sideview"><b>Side View</b></a>, and
+  then save another position:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/savepos.html">savepos</a> closeup2</b>
+    </blockquote>
+  Scaling can be done <a href="../mouse.html">with the mouse</a>, 
+  or with the command
+  <a href="../midas/scale.html"><b>scale</b></a>, or by moving the small
+  square in the <a href="../sideview.html#sideview"><b>Side View</b></a>.
+  Translations (up/down, left/right) can be performed
+  <a href="../mouse.html">with the mouse</a> or with the command
+  <a href="../midas/move.html"><b>move</b></a>.
+  If you make a mistake, you can simply revert to the <b>closeup</b> position 
+  and start over.
+  </blockquote>
+<li>position for <a href="#figures">figure A</a>, the two proteins side by side:
+  <blockquote>
+  Again we wish to leave the orientation of the structures the same as in the
+  <b>closeup</b> position, but
+  separate them and zoom out so that all parts are visible.  
+  Restore the <b>closeup</b> position:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> closeup</b>
+    </blockquote>
+  Zoom out (scale down) and turn off clipping by unchecking the <b>Clip</b>
+  option in the <a href="../sideview.html#sideview"><b>Side View</b></a>.
+  Scale and vertically translate the structures as needed to leave room for a 
+  title at the top and other text at the bottom.
+  The proteins are still superimposed, in the middle of the window.  Translate
+  one structure to the left and the other to the right:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/move.html">move</a> x -25 models #0</b>
+    <br>
+    <i>Command</i>: <b><a href="../midas/move.html">move</a> x 30 models #1</b>
+    </blockquote>
+  The exact translation distances needed will differ according to your
+  starting position.  When a satisfactory side-by-side view has
+  been achieved, save the position:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/savepos.html">savepos</a> sidebyside</b>
+    </blockquote>
+  </blockquote>
+</ol>
+</p>
+
+<a name="labels">
+<h3>Adding Labels</h3></a>
+<p>
+Use
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+(under <b>Tools... Utilities</b>) to add a title and other text.
+<ol>
+<li>labels for <a href="#figures">figure B</a>:
+  <blockquote>
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> closeup</b>
+    </blockquote>
+  and then use
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  to label the residues.  Click to start a label and type to enter
+  its contents.  Click the <a href="../coloring.html#colorwell">color well</a>
+  to set label color, in this case <b>black</b>.
+  The appropriate font size depends on the size of the window; 
+  use what you think looks best.  Each label can be repositioned by dragging.
+  When done creating the labels for this view, hide them
+  using the <b>Shown</b> checkboxes in the
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  dialog.
+  </blockquote>
+<li>labels for <a href="#figures">figure A</a>:
+  <blockquote>
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> sidebyside</b>
+    </blockquote>
+  and then use
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  to add a <b>black</b> title above the structures and color-coded descriptions 
+  below them.
+  The label color for the gold structure was first set to gold (by clicking 
+  the <a href="../coloring.html#colorwell">color well</a> and entering the name
+  <b>gold</b> into the <a href="../colortool.html"><b>Color Editor</b></a>)
+  and then darkened until suitably visible on the white background.
+  The label color for the cyan structure was similarly derived from <b>cyan</b>.
+  Greek letters can be cut (for example, from the provided
+  <a href="../../ContributedSoftware/2dlabels/symbols.html">tables</a>)
+  and pasted into the <b>Text</b> area of the
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  dialog.
+  </blockquote>
+</ol>
+Now all of the work other than saving the images is done.  You should
+definitely <a href="../sessions.html#savesess">save the session</a>
+(see the <b>File</b> menu) at this point; 
+it will include the labels and saved positions.
+The images can be saved now or later, after quitting from Chimera, restarting
+Chimera, and <a href="../sessions.html#restartsess">restoring the session</a>.
+</p>
+
+<a name="saving-images">
+<h3>Saving the Images</h3></a>
+<ul>
+<li><a href="#figures">figure A</a>:
+  <ol>
+  <li>as needed, <a href="../startup.html">start Chimera</a> and
+  <a href="../sessions.html#restartsess">restore the session</a> (for example,
+  using <b>File... Restore Session</b>)
+  <li>reset to the appropriate position:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> sidebyside</b>
+    </blockquote>
+  <li>use the <b>Shown</b> checkboxes in
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  to show only the labels that go with this view
+  (the title across the top and the colored text across the bottom)
+  <li>choose <b>File... Save Image</b>, adjust size as desired 
+  (<b>width</b> 1200 was used)
+  and click <b>Save As</b>; after the image has been redrawn,
+  another dialog will appear for specifying the file format (<b>PNG</b>
+  was used), file name, and location.  
+  </ol><br>
+<li><a href="#figures">figure B</a>:
+  <ol>
+  <li>as needed, <a href="../startup.html">start Chimera</a> and
+  <a href="../sessions.html#restartsess">restore the session</a> (for example,
+  using <b>File... Restore Session</b>)
+  <li>reset to the appropriate position and undisplay the glucose molecules:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> closeup</b>
+    <br>
+    <i>Command</i>: <b><a href="../midas/display.html">~disp</a> :bgc</b>
+    </blockquote>
+  <li>use the <b>Shown</b> checkboxes in
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  to show only the labels that go with this view
+  (the individual residue labels)
+  <li>choose <b>File... Save Image</b>, adjust size as desired 
+  (<b>width</b> 1200 was used)
+  and click <b>Save As</b>; after the image has been redrawn,
+  another dialog will appear for specifying the file format (<b>PNG</b>
+  was used), file name, and location.
+  </ol><br>
+<li><a href="#figures">figure C</a>:
+  <ol>
+  <li>as needed, <a href="../startup.html">start Chimera</a> and
+  <a href="../sessions.html#restartsess">restore the session</a> (for example,
+  using <b>File... Restore Session</b>)
+  <li>reset to the appropriate position:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/reset.html">reset</a> closeup2</b>
+    </blockquote>
+  <li>display the glucose again if you had undisplayed it earlier:
+    <blockquote>
+    <i>Command</i>: <b><a href="../midas/display.html">disp</a> :bgc</b>
+    </blockquote>
+  <li>use the <b>Shown</b> checkboxes in
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>
+  to hide all of the labels
+  <li>it was decided that this thumbnail image for the
+<a href="http://www.cgl.ucsf.edu/chimera/ImageGallery" target="_blank">Chimera
+Image Gallery</a> should be 110 by 87 pixels,
+a different aspect ratio than the window in the session.  Resize the window to
+the planned thumbnail size, then scale as needed:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/windowsize.html">windowsize</a> 110 87</b>
+<br>
+<i>Command</i>: <b><a href="../midas/scale.html">scale</a> 1.22</b>
+</blockquote>
+Of course, the scaling could have been done interactively with the mouse, 
+but instead a scale factor was determined empirically (by resetting
+and trying different values) and written down so that the thumbnail could 
+also be reproduced exactly from the session that had already been saved.
+  <li>choose <b>File... Save Image</b> (the current dimensions should
+  be shown) and click <b>Save As</b>; after the image has been redrawn,
+  another dialog will appear for specifying the file format (<b>PNG</b>
+  was used), file name, and location.
+  </ol>
+</ul>
+
+<hr>
+<address>meng-at-cgl.ucsf.edu / October 2009</address>
+</body>
+</html>

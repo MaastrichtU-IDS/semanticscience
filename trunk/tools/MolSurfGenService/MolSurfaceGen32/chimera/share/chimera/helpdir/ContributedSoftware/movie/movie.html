@@ -1,0 +1,789 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>MD Movie</TITLE>
+</head>
+<body>
+<h3>MD Movie <img src="movie.png" alt="MD Movie icon"></h3>
+
+<p>
+<b>MD Movie</b> is a tool for trajectory (or ensemble) viewing and analysis.
+For examples of use, see the
+<a href="../../UsersGuide/tutorials/ensembles2.html">Trajectory and 
+Ensemble Analysis tutorial</a>.  See also:
+<a href="../morph/morph.html"><b>Morph Conformations</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>MD Movie</b>, a tool in the <b>MD/Ensemble Analysis</b> category.
+</p><p>
+<a name="movieinput">
+Several formats are supported</a>:
+</p>
+<table border cellspacing="0" cellpadding="4" style="margin:8px 8px 8px 8px">
+<tr><th align="center">Format</th>
+<th align="center">Required Inputs</th></tr>
+<tr><td align="center"><a href="http://ambermd.org/index.html" 
+target="_blank"><b>Amber</b></a></td>
+<td>
+<ul>
+<li>prmtop (parameter/topology) file, either the
+<a href="http://ambermd.org/formats.html#topology" target="_blank">
+older</a> or the newer format (see Appendix E of the
+<a href="http://ambermd.org/doc7/amber7.pdf" target="_blank">Amber 7 Manual</a>)
+<li>trajectory (coordinates), either
+<a href="http://ambermd.org/formats.html#trajectory" target="_blank">
+formatted</a> or 
+<a href="http://ambermd.org/netcdf/nctraj.html" target="_blank">
+binary NetCDF</a>.  Multiple trajectory files can be specified, 
+to be concatenated in the order given.  Additional trajectory files 
+can be <a href="#loadmore">loaded</a> at a later stage.
+</ul>
+Amber residue names are remapped to standard PDB residue names where possible. 
+Amber NetCDF support is courtesy of Mingfeng Yang.
+</td></tr>
+<tr><td align="center">
+<a href="http://yuri.harvard.edu/index.html" target="_blank"><b>CHARMM</b></a>,
+<a href="http://www.ks.uiuc.edu/Research/namd/index.html"
+target="_blank"><b>NAMD</b></a>, or 
+<a href="http://www.csb.yale.edu/userguides/datamanip/xplor/xplorman/htmlman.html"
+target="_blank"><b>X-PLOR</b></a></td>
+<td>
+<ul>
+<li>PSF (protein structure file; X-PLOR-style topology)
+<li>DCD (binary trajectory)
+</ul>
+PSF/DCD support is courtesy of 
+<a href="http://www.ks.uiuc.edu/~jim/mdtools/index.html" 
+target="_blank">MDTools</a>.
+</td></tr>
+<tr><td align="center">
+<a href="http://www.gromacs.org/index.php" target="_blank">
+<b>GROMACS</b></a></td>
+<td>
+<ul>
+<li>portable binary "run input" file with topology, starting coordinates, 
+and simulation parameters
+(.tpr)
+<li>portable binary trajectory 
+(.trr)
+</ul>
+</td></tr>
+<tr><td align="center">
+<a href="http://www.igc.ethz.ch/GROMOS/index" target="_blank">
+<b>GROMOS</b></a></td>
+<td>
+<ul>
+<li>topology
+<li>coordinates (trajectory)
+<li>PROMD (PROMD input file used to generate the trajectory)
+<li>a scale factor to convert the coordinates to angstroms (usually 10.0)
+</ul>
+</td></tr>
+<tr><td align="center">
+<a href="http://dirac.cnrs-orleans.fr/MMTK/" target="_blank"><b>MMTK</b></a>
+</td>
+<td><ul>
+<li><a href="http://www.unidata.ucar.edu/software/netcdf/"
+target="_blank">NetCDF</a> trajectory
+</ul>
+</td></tr>
+<tr><td align="center">
+<b>PDB</b>, <b>multiple files</b> 
+<br>(one file per frame)</td>
+<td>Starting and ending file names must be supplied.  
+The file names must include frame numbers, and
+files for all intermediate frames must also be present.
+The files must not contain END records.
+</td></tr>
+<tr><td align="center">
+<b>PDB</b>, <b>single file</b> 
+<br>(coordinates for each frame bracketed 
+by MODEL and ENDMDL records)</td>
+<td>The name of the file must be supplied.
+The MODEL numbers are interpreted as frame numbers 
+and should start with 1 or 0 and increment by 1.
+</td></tr>
+<tr><td align="center">
+<a href="../../UsersGuide/xyz.html"><b>XYZ</b></a>
+<br>(multiple files, one per frame)</td>
+<td>Starting and ending file names must be supplied.  
+The file names must include frame numbers, and
+files for all intermediate frames must also be present.
+</td></tr>
+</table>
+<p>
+These input files can be gzipped.
+</p><p>
+The PDB options generally require coordinates for the same set of atoms to be 
+supplied for each frame.  However, if the coordinates supplied for a 
+frame represent only a subset of the atoms in the preceding frame, 
+it will be inferred that the remaining atoms are present but have the
+same coordinates as in the preceding frame.  Changes are cumulated
+in the forward direction and based on all frames, even when frames
+are skipped during playback (<a href="#step">step size</a> &gt; 1).
+<p>
+All or a contiguous subsegment of a trajectory can be loaded.
+<a name="pipe">
+If <b>pipe</b> is entered as the ending frame number</a>, 
+the input trajectory will be read until it runs out, 
+as long as no other input specifies a smaller ending frame number.  
+For example, for a GROMOS trajectory,
+the NSTLIM variable in the PROMD file should also be increased to at least
+the total number of frames expected.  When a pipe has been specified,
+there will be an attempt to load the entire trajectory up front.
+</p><p>
+A further option is a <a name="metafile"><b>metafile</b></a>, 
+simply a text file that specifies the input files/parameters.
+The first line designates trajectory type 
+(such as <b>amber</b> or <b>gromos</b>, where case is unimportant)
+and optionally,
+starting and ending frame numbers of the range to be loaded.
+A pipe can be specified as described <a href="#pipe">above</a>.
+If no frame numbers are supplied, the entire trajectory will be loaded;
+however, if "?" is given for both the starting and ending frame numbers,
+a dialog for entering this information will appear.  
+The remaining lines specify input files and
+parameters in the same order as in the dialog.  For example:
+<blockquote><pre>
+amber 500 1000
+dna.prmtop
+dna.mdcrd
+</pre></blockquote>
+or:
+<blockquote><pre>
+pdb
+single
+108d.pdb
+</pre></blockquote>
+If input files are not in the same directory as the metafile,
+their pathnames relative to the location of the metafile should be supplied.
+A metafile can be opened directly from the 
+<a href="../../UsersGuide/chimerawindow.html#emulator"><b>Command Line</b></a>
+(or the system command line upon <a href="../../UsersGuide/startup.html">
+startup</a>) using the prefix <b>md:</b> or <b>movie:</b>.  This will
+start <b>MD Movie</b> and open the trajectory data.
+</p>
+
+<a name="viewing">
+<h4>VIEWING FRAMES</h4>
+</a>
+<p>
+After input files and parameters have been specified,
+the first set of coordinates will be displayed and 
+the <a name="controller"><b>MD Movie</b> controller</a> will appear:
+</p>
+<table align="right"><tr><td>
+<img src="movie2.png" alt="MD Movie controller">
+</td></tr></table>
+<p>
+If a subsegment was specified, a message about the
+restricted frame range will be displayed temporarily. 
+The total number of frames in the trajectory (whether loaded or not)
+will continue to be reported.  
+<a name="framesread">
+For all <a href="#movieinput">input formats</a> except PDB,
+the coordinates for a given frame are not read in
+until that frame is viewed or used for analysis.
+</a>
+</p><p>
+From left to right, the buttons mean: play backward continuously;
+go back one <a href="#step">step</a>; stop; 
+go forward one <a href="#step">step</a>; 
+and play forward continuously.  When the <b>Loop</b>
+option is on, forward play can wrap from the end to the beginning
+of the loaded trajectory and reverse play can wrap from the beginning
+to the end.  
+<a name="delay">The rate of continuous play can be adjusted</a> 
+with the <b>Playback speed</b> slider; up to a 1-second delay
+can be added between frame advances.
+The <b>Frame</b> number is reported and can also be entered
+directly to view a specific frame.  The <a name="step"><b>Step size</b></a>
+controls the level of sampling for viewing purposes. For example, 
+a step size of 3 indicates that only every third frame will be viewed;
+however, when forward play loops from end to beginning, the movie will
+start at the first frame loaded, and when reverse play loops from beginning 
+to end, the movie will start at the last frame loaded.
+Frame number and step size changes take effect when
+return (<b>Enter</b>) is pressed.
+</p><p>
+Protein secondary structure assignments are not recomputed automatically 
+over the course of a trajectory.  If displaying protein as a
+<a href="../../UsersGuide/representation.html#ribbon">ribbon</a>,
+see the <a href="#ssnote">note</a> below.
+</p><p>
+The current frame or all frames that have been viewed
+can be saved as a PDB file with
+<a href="#moviefile"><b>File... Save PDB</b></a>.
+The view can be <a href="#steady">held steady</a> on
+<a href="../../UsersGuide/selection.html">selected</a> atoms.
+One can define <a href="#per-frame">scripts</a>
+to be executed at each frame update.
+A complete menu listing with short descriptions is included 
+<a href="#moviemenu">below</a>.
+</p><p>
+<b>Hide</b> closes the interface without exiting from <b>MD Movie</b>;
+the interface can be reopened using the <b>Tools</b> menu entry 
+for the <a href="../../UsersGuide/instances.html">instance</a> 
+of <b>MD Movie</b>.  <b>Quit</b> exits from <b>MD Movie</b> and
+removes the structure from the Chimera window.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="recording">
+<h4>RECORDING A MOVIE</h4>
+</a>
+<p>
+Images can be captured during 
+trajectory playback and automatically assembled into a movie file.
+Manipulations in Chimera can be performed and 
+<a href="#per-frame">per-frame scripts</a> executed
+during the playback/image-saving process.  
+See also: 
+<a href="../../UsersGuide/midas/coordset.html"><b>coordset</b></a>,
+<a href="../../UsersGuide/movies.html">making movies</a>
+<ul>
+Important notes:
+<a name="ssnote">
+<li>Protein secondary structure assignments are not recomputed automatically 
+over the course of a trajectory.</a>
+If a protein or peptide is displayed as a
+<a href="../../UsersGuide/representation.html#ribbon">ribbon</a> 
+and significant conformational changes are occurring, users may want to
+reassign secondary structure at each frame.   
+This can be done with a <a href="#per-frame">per-frame script</a>
+that includes the Chimera command 
+<a href="../../UsersGuide/midas/ksdssp.html"><b>ksdssp</b></a>.
+<li>For a one-to-one relationship between trajectory frames and 
+recorded image frames, the <a href="#delay"><b>Playback speed</b></a> slider
+should be moved to the far right.  Otherwise, identical image frames 
+will be inserted between the unique data frames to slow playback.
+The frame number parameters described below refer only
+to the unique data frames.
+<li>On certain platforms, other windows should not overlap
+the Chimera graphics window during recording 
+(<a href="../../UsersGuide/print.html#exception">details...</a>).
+This is not an issue when <a href="#raytrace">raytracing</a> is used.
+</ul>
+<a href="#moviefile"><b>File... Record movie</b></a>
+opens an interface for specifying image capture and movie assembly
+parameters:  
+<ul>
+<li><b>File name</b> - name for the resulting movie file
+<li><b>File type</b> (movie format) choices:
+  <ul>
+  <li> MPEG-1 [.mpg]
+  <li> MPEG-2 [.mpg]
+  <li> MPEG-4 [.mp4]
+  <li> AVI MSMPEG-4v2 [.avi]
+  <li> Quicktime [.mov]
+  </ul>
+<li><b>Starting frame</b> (first frame loaded, by default) 
+- number of the first frame at which to save an image
+<li><a name="moviesamp"><b>Step size [<i>n</i>]</b></a>
+- level of sampling within the indicated range 
+ (every <i>n</i><sup>th</sup> frame will be used)
+<li><b>Ending frame</b> (last frame loaded, by default) 
+- number of the last frame to possibly include (if not skipped by sampling);
+must be within the range originally loaded
+<li><b>Encode forward then backward ("roundtrip")</b> (true/<b>false</b>)
+- whether to include the frames in reverse order as the second half
+  of the movie
+<li><a name="supersample"><b>Frame quality</b></a> (screen/<b>supersampled</b>)
+- whether to increase the image quality over what is displayed on the screen.
+  The <b>supersampled</b> option 
+  (even with 1x1 <a href="#samples">sampling</a>) allows the
+  <a href="../../UsersGuide/sideview.html#subqual">subdivision quality</a> to 
+  be <a href="../../UsersGuide/sideview.html#subup">adjusted automatically</a>.
+<li><a name="samples"><b>Samples</b></a> (1x1/2x2/<b>3x3</b>/4x4/5x5/6x6)
+- When <a href="#supersample">supersampling</a>, how many pixels 
+  to sample in the X and Y dimensions for each pixel in the final saved image.
+  Supersampling at levels greater than 1x1  entails generating initial images
+  larger than the window and sampling them down to the final size.
+  Higher values increase smoothness but also calculation time.
+<li><a name="raytrace"><b>Raytrace with POV-Ray</b></a> (true/<b>false</b>)
+- whether to <a href="../../UsersGuide/raytracing.html">raytrace with
+POV-Ray</a> rather than saving the contents of the Chimera graphics window.
+Raytraced images include fancier effects like shadows,
+but take longer to compute.  The <b>POV-Ray Options</b> button opens
+the <a href="../../UsersGuide/preferences.html#POV-Ray Options">
+<b>POV-Ray Options</b> preferences</a>
+(see <a href="../../UsersGuide/raytracing.html#speedup">balancing
+time requirements and results</a>).
+<li><b>Additional recording options</b>
+- options are the same as for the command
+<a href="../../UsersGuide/midas/movie.html#record-options"><b>movie
+record</b></a>; if this field is left blank, image frames will be saved 
+in the PPM format with default names in a default location 
+(but normally deleted upon movie creation, 
+depending on the <a href="#encoding">encoding options</a>)
+<li><b><a name="encoding">Additional encoding options</a></b> 
+- options are the same as for the command
+<a href="../../UsersGuide/midas/movie.html#encode-options"><b>movie
+encode</b></a>; if this field is left blank, 
+the movie will be encoded to play at 25 frames per second 
+with a default constant bit rate and buffer size, and image frames
+will be deleted after the movie has been encoded
+</ul>
+Clicking <b>Record</b> plays the trajectory and saves image frames
+according to the specified starting and ending points and step values.
+The resulting set of images will be converted to a movie file.
+Stopping playback with the 
+<a href="#controller"><b>MD Movie</b> controller</a> in the middle of the 
+playback/image-saving process will abort recording without 
+generating a movie file.
+</p><p>
+<b>Close</b> closes the dialog without initiating recording.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="per-frame">
+<h4>PER-FRAME SCRIPTS</h4>
+</a>
+<p>
+<a href="#movieperframe"><b>Per-Frame... Define script</b></a> allows
+specification of a script to be executed at each trajectory frame.
+Scripts can be written in <a href="../../UsersGuide/framecommand.html"
+target="_top">Chimera commands</a> or Python code, and can
+incorporate trajectory frame numbers.
+Python scripts can also access the molecule model instance.  
+<p><p>
+Examples:
+<ul>
+<li>the following Chimera command script 
+(<a href="eachFrame.com" type="text/plain">eachFrame.com</a>)
+identifies hydrogen bonds at each frame and shows only the residues involved:
+<pre>
+<a href="../../UsersGuide/midas/chain.html">chain</a> @ca
+<a href="../../UsersGuide/midas/display.html">~disp</a> solvent
+<a href="../../UsersGuide/midas/hbonds.html">hb</a> line 2 color yellow reveal true
+</pre>
+Commands to be executed only at a specific frame can be indicated 
+with a leading #<i>frame_num</i>: (for example, <b>#50:</b>) 
+that will be stripped before the command is executed.
+<br><br>
+<li>the following Python script
+(<a href="specificFrames.py" type="text/plain">specificFrames.py</a>)
+initiates events at specific frames:
+<pre>
+from chimera import runCommand
+frame = mdInfo['frame']
+if frame == mdInfo['startFrame']:
+        runCommand("<a href="../../UsersGuide/midas/roll.html">roll</a> y 3 40")
+elif frame == 10:
+        runCommand("<a href="../../UsersGuide/midas/color.html">color</a> green")
+elif frame == 50:
+        runCommand("<a href="../../UsersGuide/midas/color.html">color</a> orange")
+        runCommand("<a href="../../UsersGuide/midas/rlabel.html">rl</a> :ala; <a href="../../UsersGuide/midas/color.html">color</a> dodger blue :ala; <a href="../../UsersGuide/midas/represent.html">rep</a> stick :ala")
+elif frame == 90:
+        runCommand("<a href="../../UsersGuide/midas/rlabel.html">~rl</a>; <a href="../../UsersGuide/midas/represent.html">rep</a> wire :ala")
+else:
+        runCommand("<a href="../../UsersGuide/midas/color.html">color</a> byhet")
+</pre>
+</ul>
+For Python scripts, the chimera module is automatically imported.
+</p><p>
+<b>Note</b>:
+Frame arguments in commands such as 
+<a href="../../UsersGuide/midas/roll.html"><b>roll</b></a> refer to 
+<b><i>image frames</i></b> rather than to unique data (trajectory) frames.
+For a one-to-one correspondence between image and trajectory frames,
+the <a href="#delay"><b>Playback speed</b></a> slider must be positioned 
+all the way to the right and the viewing step size set to 1.
+Whereas an <b>MD Movie</b> per-frame script executes at each trajectory frame, 
+commands to be executed at each image frame (independent of any trajectory)
+can be specified with the
+<a href="../../UsersGuide/midas/perframe.html"><b>perframe</b></a> command.
+<p><p>
+<b>Insert text file</b> allows browsing to a text file and placing its contents
+in the script area. <b>Save to file</b> saves the current contents of
+the script area to a text file. 
+</p><p>
+<b>OK</b> and <b>Apply</b> execute the script with and without
+closing the dialog, respectively.  If the movie is playing, the
+script will continue to be executed for each trajectory frame until
+<a href="#movieperframe"><b>Stop running script</b></a> is chosen;
+if the movie is halted on a single frame, the script will be executed
+for that frame and will not be executed again until a different frame is shown.
+<b>Clear</b> deletes the contents of the script area.  <b>Close</b>
+closes the dialog without executing the script, and <b>Help</b> opens
+this manual page in a browser window.
+</p>
+
+<a name="occupancy">
+<h4>OCCUPANCY ANALYSIS</h4>
+</a>
+<p>
+It may be interesting to see which regions of space are highly populated 
+by certain atoms relative to others in the trajectory or ensemble.
+For example, cations or water hydrogens may tend to occupy space
+around a negatively charged solute group.  
+Occupancies can be represented as a three-dimensional grid of values,
+or <b><i>volume data</i></b>.
+<a href="#movieanal"><b>Analysis... Calculate occupancy</b></a> 
+can be used to generate such data and display it with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a>. 
+The occupancy map can be <a href="#saveocc">saved to a file</a> and later
+reopened in Chimera.
+</p><p>
+Usually, one should first define a reference set of atoms
+to hold steady (the trajectory frames will be transformed to keep
+these atoms in the same place and orientation, as much as possible).
+This is accomplished by 
+<a href="../../UsersGuide/selection.html">selecting</a> 
+the desired reference atoms and then choosing 
+<a href="#movieactions"><b>Actions... Hold selection steady</b></a>.  
+When the <a href="../../UsersGuide/selection.html">selection</a> 
+is later changed, the "hold steady" atoms will not change unless 
+<a href="#movieactions"><b>Actions... Hold selection steady</b></a>
+is used again.
+</p><p>
+Next, one should <a href="../../UsersGuide/selection.html">select</a>
+the atoms for which occupancy data will be collected.  The
+atoms in the <a href="../../UsersGuide/selection.html">selection</a>
+can be combined into a single set of occupancy data, or 
+<a href="#separate">segregated</a>
+by <a href="../../UsersGuide/idatm.html">atom type</a>.
+<ul>
+<li><b>Starting frame</b> (first frame loaded, by default) 
+- number of the first frame to include in occupancy calculations; 
+must be within the range originally loaded
+<li><a name="occsamp"><b>Step size [<i>n</i>]</b></a>
+- level of sampling within the indicated range 
+ (every <i>n</i><sup>th</sup> frame will be used)
+<li><b>Ending frame</b> (last frame loaded, by default) 
+- number of the last frame to possibly include (if not skipped by sampling);
+must be within the range originally loaded
+<li><a name="limit"><b>Limit data collection to within cutoff distance of 
+any "held steady" atoms</b></a> (<b>true</b>/false)
+- whether data should be collected only
+within the <a href="#cutoff">cutoff</a> distance of any atom in the prior
+<a href="#steady">hold steady</a> specification.  This option is ignored
+if there was no <a href="#steady">hold steady</a> specification.
+<li><a name="cutoff"><b>Cutoff distance</b></a>
+(<b>10.0</b> by default) - angstrom distance used
+to <a href="#limit">limit the volume data region</a>
+to a zone around atoms in a prior
+<a href="#steady">hold steady</a> specification
+<li><b>Volume grid spacing</b> (<b>1.0</b> by default) - angstrom resolution
+of the resulting volume data grid
+<li><b>Volume data name</b> - name to use for
+ the resulting volume data set(s); the name(s) will be listed in the
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a> interface.  
+For <a href="#separate">separate data sets</a> collected for different 
+<a href="../../UsersGuide/idatm.html">atom types</a>,
+the atom type symbol is enclosed in brackets and appended to the name.
+<li><a name="separate"><b>Collect data separately for each atom type 
+in selection</b></a> (<b>true</b>/false) 
+- whether to make a separate set of volume data
+for each <a href="../../UsersGuide/idatm.html">atom type</a> in the
+<a href="../../UsersGuide/selection.html">selection</a>
+</ul>
+<b>OK</b> collects occupancy data for the 
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+according to the specified starting and ending points and step values,
+with trajectory frames transformed according to a prior
+<a href="#steady">hold steady</a> specification, if any.
+The resulting data grid(s) are displayed with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a>. 
+The dimensions of an occupancy grid will be the smallest
+needed to enclose any nonzero values (which could be smaller than the 
+<a href="#limit">region of data collection</a>).
+<a name="saveocc">
+The occupancy map can be saved to a file</a> using
+<a href="../volumeviewer/volumeviewer.html#organization"><b>File... 
+Save map as</b></a> in the 
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a> menu.
+</p><p>
+<b>Close</b> closes the dialog without initiating the calculation.
+<b>Help</b> opens this manual page in a browser window.
+</p>
+
+<a name="rmsd">
+<h4>RMSD ANALYSIS</h4>
+</a>
+<a href="#movieanal"><b>Analysis... RMSD map</b></a>
+can be used to generate a map of all-by-all pairwise
+root-mean-square deviations (RMSDs) among specified frames.
+See also:
+<a href="../ensemblematch/ensemblematch.html"><b>Ensemble Match</b></a>,
+<a href="../ensemblecluster/ensemblecluster.html"><b>Ensemble Cluster</b></a>
+  <ul>
+  <li><b>Starting frame</b> (first frame loaded, by default) 
+  - number of the first frame to include
+  in RMSD calculations; must be within the range originally loaded
+  <li><a name="rmsdsamp"><b>Step size [<i>n</i>]</b></a>
+  - level of sampling within the indicated range 
+   (every <i>n</i><sup>th</sup> frame will be used)
+  <li><b>Ending frame</b> (last frame loaded, by default) 
+  - number of the last frame to possibly include (if not skipped by sampling);
+  must be within the range originally loaded
+  <a name="thresholds">
+  <li><b>Lower RMSD threshold (white)</b> (<b>0.5</b> by default)
+  - initial lower RMSD threshold for coloring, in angstroms; 
+  white will be used for this value and lower.
+  If <a href="#recolor">auto-recoloring</a> is turned on,
+  the threshold may change after all of the values have been computed.
+  <li><b>Upper RMSD threshold (black)</b> (<b>3.0</b> by default)
+  - initial upper RMSD threshold for coloring, in angstroms; 
+  black will be used for this value and higher.
+  RMSD values between the thresholds will be mapped to grayscale.
+  If <a href="#recolor">auto-recoloring</a> is turned on,
+  the threshold may change after all of the values have been computed.
+  </a>
+  <li><a name="rmsdsel"><b>Restrict map to current selection, if any</b></a>
+  (<b>true</b>/false) - whether to use only the
+  <a href="../../UsersGuide/selection.html">selected</a> atoms, when a
+  <a href="../../UsersGuide/selection.html">selection</a> exists
+  <li><a name="rmsdomit"><b>Ignore solvent/ions</b></a> (<b>true</b>/false)
+  - whether to omit atoms 
+  <a href="../../UsersGuide/midas/surface.html#surfcats">classified</a> 
+  as <b>solvent</b> and <b>ions</b> from the calculations 
+  <li><a name="rmsdomitH"><b>Ignore hydrogens</b></a> (<b>true</b>/false)
+  - whether to omit hydrogen atoms from the calculations
+  <li><a name="recolor"><b>Auto-recolor for contrast</b></a>
+  (<b>true</b>/false) - whether the RMSD map should be recolored automatically
+  after all values have been computed, using <a href="#thresholds">
+  thresholds</a> that enclose the middle third of values (<i>i.e.</i>,
+  the lowest third of values will be white, the middle third in grayscale,
+  the highest third black)
+  </ul>
+<p>
+For each frame-to-frame comparison, the least-squares-fit RMSD between
+the indicated sets of atoms will be calculated, without applying any
+transformation.
+</p><p>
+<b>OK</b> and <b>Apply</b> initiate the RMSD calculations with and without
+closing the dialog, respectively.  
+<b>Close</b> closes the dialog without initiating the calculation.
+<b>Help</b> opens this manual page in a browser window.
+</p><p>
+The calculations may require
+additional frames to be read (frames within the loaded range
+are not actually read until viewed or otherwise used)
+and may take several minutes, depending on the size of the system
+and the number of frames.  The <b>Abort</b> button on the RMSD map dialog
+allows termination of a calculation in progress.
+</p><p>
+The following approaches are recommended for examining long trajectories
+or long trajectory segments:
+<ul>
+<li>using sparser <a href="#rmsdsamp">sampling</a>
+<li>limiting the calculation to fewer atoms, such as the backbone only;
+the calculation can be limited by 
+<a href="#rmsdsel">including only selected atoms</a>,
+<a href="#rmsdomit">omitting solvent/ions</a>, and/or
+<a href="#rmsdomitH">omitting hydrogens</a>
+</ul>
+</p><p>
+Multiple RMSD maps can be open at the same time.
+However, <a name="changethresh">a given map can be recolored</a>
+(without recalculation of RMSD values) using the map's menu option 
+<b>RMSD...  Change thresholds...</b> to adjust the white/black
+<a href="#thresholds">threshold settings</a>.
+When the cursor is placed over a map,
+the corresponding frame numbers and RMSD value are given near the
+bottom of the dialog.  Clicking on a map places the corresponding 
+frame numbers in the <b>Frame</b> fields.  Clicking <b>Go</b> changes
+the graphics display to the corresponding frame.
+</p><p>
+Alternatively, the
+<a href="../ensemblematch/ensemblematch.html"><b>Ensemble Match</b></a> tool
+can be used to calculate all-by-all pairwise RMSD values for an ensemble
+read from a single PDB file.  The file would need to be
+<a href="../../UsersGuide/filetypes.html">opened in a standard way</a>
+rather than with <b>MD Movie</b>.  Unlike <b>MD Movie</b>,
+<a href="../ensemblematch/ensemblematch.html"><b>Ensemble Match</b></a> 
+can perform the corresponding pairwise superpositions (<i>i.e.</i>
+match one structure to another), but its use is impractical for
+ensembles with very many members.
+</p>
+
+<a name="moviemenu">
+<h4>MD MOVIE MENU</h4>
+</a>
+
+<a name="moviefile">
+<h4>File</h4></a>
+<ul>
+<li><b>Save PDB...</b> open a
+<a href="../../UsersGuide/modelpanel.html#writepdb">dialog</a>
+to save the current frame or all frames that have been viewed
+as a PDB file
+<li><b>Record movie...</b> set parameters for saving
+image frames and encoding them as a movie file
+<li><a name="loadmore"><b>Load Additional Frames...</b></a>
+(only available for Amber <a href="#movieinput">format</a>)
+read an additional trajectory file and append its frames to the end of 
+the current trajectory 
+</ul>
+
+<a name="movieactions">
+<h4>Actions</h4></a>
+<ul>
+<li><a name="steady"><b>Hold selection steady</b></a>
+- transform subsequent trajectory frames to keep
+the <a href="../../UsersGuide/selection.html">selected</a> atoms
+in the same place and orientation, as much as possible (since the
+atoms may move relative to one another).  For best results,
+the selection should include at least three atoms, not linearly arranged,
+to define a frame of reference.
+If the selection is changed, <b>Hold selection steady</b> must be chosen
+again to start using the new selection.
+<br><br>
+<li><b>Stop holding steady</b>
+- return to the default behavior of only
+transforming the coordinates according to user manipulations and commands
+</ul>
+
+<a name="movieperframe">
+<h4>Per-Frame</h4></a>
+<ul>
+<li><b>Define script...</b> open a dialog for
+entering a <a href="#per-frame">script</a>
+(written in <a href="../../UsersGuide/framecommand.html"
+target="_top"><b>Chimera commands</b></a> or <b>Python</b> code)
+to be executed after each trajectory frame update.
+<b>OK</b> and <b>Apply</b> execute the script with and without
+closing the dialog, respectively.  If the movie is playing, the
+script will continue to be executed for each trajectory frame until
+<b>Stop running script</b> is chosen.
+<li><b>Stop running script</b>
+- do not run the script after subsequent trajectory frame updates
+</ul>
+
+<a name="movieanal">
+<h4>Analysis</h4></a>
+<ul>
+<li><b>Calculate occupancy...</b> collect and display (with
+<a href="../volumeviewer/framevolumeviewer.html" target="_top"><b>Volume
+Viewer</b></a>) occupancy data for the
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+over a specified set of frames
+<li><b>RMSD map...</b>
+calculate a two-dimensional RMSD map containing 
+all-by-all comparisons among specified frames
+</ul>
+
+<a name="newformats">
+<h4>ADDING A FORMAT</h4>
+</a>
+<p>
+<b>MD Movie</b> uses the Trajectory module to read the various formats
+(<b><i>chimera</i>/share/Trajectory</b>, where <b><i>chimera</i></b>
+is the Chimera installation location). <b>Trajectory</b>
+contains a subdirectory, <b>formats</b>, which in turn contains 
+subdirectories that each correspond to the Python module for a 
+supported format. By convention, the module (and directory)
+name for each format is the name of the format with the first letter of 
+each word capitalized and all other letters lowercase.  For example,
+the MMTK module's name is <b>Mmtk</b>.
+</p><p>
+A format's module is typically structured so that the code that 
+interfaces with Trajectory's generic format handling is in
+<a href="#initfile"><b>__init__.py</b></a>, 
+and the code specific to reading a particular format is in
+<a href="#specificfile">another python file</a>,
+usually named after the format itself (for example, <b>Gromos.py</b>).
+</p><p>
+<a name="initfile"><b>__init__.py</b></a> must support the following:
+<ul>
+<li>If the format name displayed to the user should be different
+from the module name (usually it should, due to capitalization), then 
+there must be a global variable named <var>formatName</var> that is 
+initialized to the display name of the format.
+
+<li>A class named <var>ParamGUI</var> must be defined 
+to handle presenting the file-loading interface to the user.
+It must have two methods:
+ <ul>
+   <li><var>__init__</var>, which receives a <var>Tkinter.Frame</var>
+instance argument.  The <var>__init__</var> method should populate the frame
+with widgets for gathering the input information for the format from the user.
+
+   <li><var>loadEnsemble</var>, which takes as arguments 
+a starting frame number, ending frame number, and callback function.
+<var>loadEnsemble</var> needs to compose a list of the arguments 
+that were provided by the user to the widgets defined in 
+<var>__init__</var>, and then call this module's 
+global <var>loadEnsemble</var> function (see below) with that list as the first 
+argument and the start/end frame number and callback as the remaining 
+three arguments.
+  </ul>
+<li> A global <var>loadEnsemble</var> 
+function that generates an <var>ensemble</var> instance 
+(discussed later).  This function is not only called by the 
+<var>ParamGUI.loadEnsemble</var> method, but also when
+a <a href="#metafile">metafile</a> is used to specify the input parameters.  
+This function takes four arguments:  
+a format-specific list of input parameters, a starting frame number, 
+an ending frame number, and a callback function to start the <b>MD Movie</b> 
+interface.  The global <var>loadEnsemble</var> function
+should call the interface with the generated ensemble 
+as an argument, and should remember the provided 
+format-specific values as preferred defaults for 
+future uses of the format.
+</ul>
+<b>__init__.py</b> files are very similar from format to format.
+The simplest way to generate a new <b>__init__.py</b> file
+is to copy and modify another format's.
+Gromos format provides a good example, as it
+involves multiple input files and a non-file parameter.
+</p><p>
+The <a name="specificfile"><b>format-specific .py file</b></a>
+defines an <var>ensemble</var> class that gets instantiated from 
+<b>__init__.py</b>'s <var>loadEnsemble</var> function.  
+The <var>ensemble</var> class must support the following methods:
+<ul>
+<li> An <var>__init__</var> method that takes the format's input parameters and 
+start/end frames as arguments.  The <var>__init__</var> method may read input 
+files or do whatever is necessary to support the other instance methods 
+(such as call into a C/C++ module to read the files, as is done for
+Amber format).
+
+<li> A <var>GetDict</var> method that takes a string argument.  The string 
+specifies what data should be returned.  The possible string values are:
+  <ul>
+  <li> <var>atomnames</var> - return a list of the atom names; a residue's 
+atoms must be consecutive
+  <li> <var>elements</var> - return a list of the atom elements.  These should 
+be instances of <var>chimera.Element</var> 
+(which can be initialized with a string such as "Fe" or a number).
+Trajectory's <var>determineElementFromMass</var>
+function may be useful if the format does not specify the atomic 
+number directly or it cannot be determined easily from the atom name.
+  <li> <var>resnames</var> - return a list of the residue names
+  <li> <var>bonds</var> - return a list of bonds (2-tuples of indices into 
+the <var>atomnames</var> list)
+  <li> <var>ipres</var> - a list of the first atom of each residue (indices 
+into <var>atomnames</var>, but unlike previous indices these are 
+1-based, so the first element of <var>ipres</var> will always be 1)
+  </ul>
+<li> A <var>__getitem__</var> method taking a frame-number argument 
+(starting with 1):  return a list of 3-tuples corresponding to the 
+xyz coordinates of the atoms in that frame 
+(in the same order as <var>atomnames</var>).  
+The coordinates should be in angstroms.
+
+<li> A <var>__len__</var> method that returns the total number of 
+frames in the trajectory (not just the number of frames between the 
+user-specified start/end frames).
+</ul>
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2009</address>
+</body>
+</html>

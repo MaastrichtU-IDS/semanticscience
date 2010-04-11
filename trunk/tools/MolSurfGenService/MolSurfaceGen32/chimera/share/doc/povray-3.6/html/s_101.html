@@ -1,0 +1,545 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.3.2 Atmospheric Effects</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_100.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_100.html">3.3.1 Camera</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.3.2 
+   Atmospheric Effects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_102.html">3.3.3 Global Settings</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_102.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_03_02">3.3.2 </a>Atmospheric Effects</h3>
+
+<p>
+  Atmospheric effects are a loosely-knit group of features that affect the background and/or the atmosphere enclosing 
+ the scene. POV-Ray includes the ability to render a number of atmospheric effects, such as fog, haze, mist, rainbows 
+ and skies. 
+</p>
+
+<h4><a name="s03_03_02_01">3.3.2.1 </a>Atmospheric Media</h4>
+<a name="s03_03_02_01_i1">
+<p>
+  Atmospheric effects such as fog, dust, haze, or visible gas may be simulated by a <code>media</code> statement 
+ specified in the scene but not attached to any object. All areas not inside a non-hollow object in the entire scene. A 
+ very simple approach to add fog to a scene is explained in section &quot;<a href="#l123">Fog</a>&quot; however this 
+ kind of fog does not interact with any light sources like <code><a href="#l124">media</a></code> does. It will not 
+ show light beams or other effects and is therefore not very realistic. 
+</p>
+
+<p>
+  The atmosphere media effect overcomes some of the fog's limitations by calculating the interaction between light 
+ and the particles in the atmosphere using volume sampling. Thus shafts of light beams will become visible and objects 
+ will cast shadows onto smoke or fog. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> POV-Ray cannot sample media along an infinitely long ray. The ray must be 
+ finite in order to be possible to sample. This means that sampling media is only possible for rays that hit an object. 
+ So no atmospheric media will show up against <code>background</code> or <code>sky_sphere</code>. <br>Another way of 
+ being able to sample media is using spotlights because also in this case the ray is not infinite (it is sampled only 
+ inside the spotlight cone). 
+</p>
+
+<p>
+  With <a href="s_111.html#s03_04_07_02">spotlights</a> you will be able to create the best results because their 
+ cone of light will become visible. Pointlights can be used to create effects like street lights in fog. Lights can be 
+ made to not interact with the atmosphere by adding <code>media_interaction off</code> to the light source. They can be 
+ used to increase the overall light level of the scene to make it look more realistic. 
+</p>
+
+<p>
+  Complete details on <code>media</code> are given in the section &quot;<a href="#l125">Media</a>&quot;. Earlier 
+ versions of POV-Ray used an <code>atmosphere</code> statement for atmospheric effects but that system was incompatible 
+ with the old object <code>halo</code> system. So <code> atmosphere</code> has been eliminated and replaced with a 
+ simpler and more powerful media feature. The user now only has to learn one <code> media</code> system for either 
+ atmospheric or object use. 
+</p>
+
+<p>
+  If you only want media effects in a particular area, you should use object media rather than only relying upon the 
+ media pattern. In general it will be faster and more accurate because it only calculates inside the constraining 
+ object. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the atmosphere feature will not work if the camera is inside a non-hollow 
+ object (see section &quot;<a href="s_128.html#s03_06_01_02">Empty and Solid Objects</a>&quot; for a detailed 
+ explanation). 
+</p>
+
+<h4><a name="s03_03_02_02">3.3.2.2 </a>Background</h4>
+<a name="s03_03_02_02_i1"><a name="background"></a><a name="s03_03_02_02_i2"><a name="background, keyword"></a><a name="s03_03_02_02_i3">
+<p>
+  A background color can be specified if desired. Any ray that does not hit an object will be colored with this 
+ color. The default background is black. The syntax for <code>background</code> is: 
+</p>
+
+<pre>
+  BACKGROUND: 
+       background {COLOR}
+  </pre>
+
+<h4><a name="s03_03_02_03">3.3.2.3 </a>Fog</h4>
+<a name="s03_03_02_03_i1"><a name="fog"></a><a name="s03_03_02_03_i2"><a name="fog, keyword"></a><a name="s03_03_02_03_i3"><a name="s03_03_02_03_i4"><a name="fog_type, fog"></a><a name="s03_03_02_03_i5"><a name="s03_03_02_03_i6"><a name="distance, fog"></a><a name="s03_03_02_03_i7"><a name="s03_03_02_03_i8"><a name="turbulence, fog"></a><a name="s03_03_02_03_i9"><a name="s03_03_02_03_i10"><a name="turb_depth, fog"></a><a name="s03_03_02_03_i11"><a name="s03_03_02_03_i12"><a name="omega, fog"></a><a name="s03_03_02_03_i13"><a name="s03_03_02_03_i14"><a name="lambda, fog"></a><a name="s03_03_02_03_i15"><a name="s03_03_02_03_i16"><a name="octaves, fog"></a><a name="s03_03_02_03_i17"><a name="s03_03_02_03_i18"><a name="fog_offset, fog"></a><a name="s03_03_02_03_i19"><a name="s03_03_02_03_i20"><a name="fog_alt, fog"></a><a name="s03_03_02_03_i21"><a name="s03_03_02_03_i22"><a name="up, fog"></a><a name="s03_03_02_03_i23">
+<p>
+  If it is not necessary for light beams to interact with atmospheric media, then <code>fog</code> may be a faster 
+ way to simulate haze or fog. This feature artificially adds color to every pixel based on the distance the ray has 
+ traveled. The syntax for fog is: 
+</p>
+
+<pre>
+FOG:
+    fog { [FOG_IDENTIFIER] [FOG_ITEMS...] }
+FOG_ITEMS:
+    fog_type Fog_Type | distance Distance | COLOR | 
+    turbulence &lt;Turbulence&gt; | turb_depth Turb_Depth |
+    omega Omega | lambda Lambda | octaves Octaves |
+    fog_offset Fog_Offset | fog_alt Fog_Alt | 
+    up &lt;Fog_Up&gt; | TRANSFORMATION
+</pre>
+
+<p>
+  Fog default values: <a name="s03_03_02_03_i24"> 
+</p>
+
+<pre>
+lambda     : 2.0
+fog_type   : 1
+fog_offset : 0.0
+fog_alt    : 0.0
+octaves    : 6
+omega      : 0.5 
+turbulence : &lt;0,0,0&gt;
+turb_depth : 0.5
+up         : &lt;0,1,0&gt;
+</pre>
+<a name="s03_03_02_03_i25"><a name="fog_type"></a><a name="s03_03_02_03_i26"><a name="ground fog"></a><a name="s03_03_02_03_i27"><a name="constant fog"></a>
+<p>
+  Currently there are two fog types, the default <code>fog_type 1</code> is a constant fog and <code>fog_type 2</code> 
+ is ground fog. The constant fog has a constant density everywhere while the ground fog has a constant density for all 
+ heights below a given point on the up axis and thins out along this axis. 
+</p>
+
+<p>
+  The color of a pixel with an intersection depth <em>d</em> is calculated by 
+</p>
+
+<p>
+  <em> PIXEL_COLOR = exp(-d/D) * OBJECT_COLOR + (1-exp(-d/D)) * FOG_COLOR</em> 
+</p>
+
+<p>
+  <a name="s03_03_02_03_i28"><a name="distance"></a> <a name="s03_03_02_03_i29"> where <em>D</em> is the specified 
+ value of the required fog <code>distance</code> keyword. At depth 0 the final color is the object's color. If the 
+ intersection depth equals the fog distance the final color consists of 64% of the object's color and 36% of the fog's 
+ color. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> for this equation, a distance of zero is undefined. In practice, povray will 
+ treat this value as &quot;fog is off&quot;. To use an extremely thick fog, use a small nonzero number such as 1e-6 or 
+ 1e-10. 
+</p>
+
+<p>
+  <a name="s03_03_02_03_i30"><a name="fog_offset"></a><a name="s03_03_02_03_i31"><a name="fog_alt"></a> For ground 
+ fog, the height below which the fog has constant density is specified by the <code>fog_offset</code> keyword. The <code>fog_alt</code> 
+ keyword is used to specify the rate by which the fog fades away. The default values for both are 0.0 so be sure to 
+ specify them if ground fog is used. At an altitude of <em><code> Fog_Offset+Fog_Alt</code></em> the fog has a density 
+ of 25%. The density of the fog at height less than or equal to <em>Fog_Offset</em> is 1.0 and for height larger than 
+ than <em>Fog_Offset</em> is calculated by: 
+</p>
+
+<p>
+  <em> <code> 1/(1 + (y - Fog_Offset) / Fog_Alt) ^2</code></em> 
+</p>
+
+<p>
+  The total density along a ray is calculated by integrating from the height of the starting point to the height of 
+ the end point. 
+</p>
+
+<p>
+  The optional <code>up</code> vector specifies a direction pointing up, generally the same as the camera's up 
+ vector. All calculations done during the ground fog evaluation are done relative to this up vector, i. e. the actual 
+ heights are calculated along this vector. The up vector can also be modified using any of the known transformations 
+ described in &quot;<a href="#l126">Transformations</a>&quot;. Though it may not be a good idea to scale the up vector 
+ - the results are hardly predictable - it is quite useful to be able to rotate it. You should also note that 
+ translations do not affect the up direction (and thus do not affect the fog). 
+</p>
+
+<p>
+  The required fog color has three purposes. First it defines the color to be used in blending the fog and the 
+ background. Second it is used to specify a translucency threshold. By using a transmittance larger than zero one can 
+ make sure that at least that amount of light will be seen through the fog. With a transmittance of 0.3 you will see at 
+ least 30% of the background. Third it can be used to make a filtering fog. With a filter value larger than zero the 
+ amount of background light given by the filter value will be multiplied with the fog color. A filter value of 0.7 will 
+ lead to a fog that filters 70% of the background light and leaves 30% unfiltered. 
+</p>
+
+<p>
+  Fogs may be layered. That is, you can apply as many layers of fog as you like. Generally this is most effective if 
+ each layer is a ground fog of different color, altitude and with different turbulence values. To use multiple layers 
+ of fogs, just add all of them to the scene. 
+</p>
+
+<p>
+  <a name="s03_03_02_03_i32"> You may optionally stir up the fog by adding turbulence. The <code>turbulence</code> 
+ keyword may be followed by a float or vector to specify an amount of turbulence to be used. The <code>omega</code>, <code>lambda</code> 
+ and <code> octaves</code> turbulence parameters may also be specified. See section &quot;<a href="#l127">Pattern 
+ Modifiers</a>&quot; for details on all of these turbulence parameters. 
+</p>
+
+<p>
+  <a name="s03_03_02_03_i33"><a name="turb_depth"></a> Additionally the fog turbulence may be scaled along the 
+ direction of the viewing ray using the <code>turb_depth</code> amount. Typical values are from 0.0 to 1.0 or more. The 
+ default value is 0.5 but any float value may be used. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the fog feature will not work if the camera is inside a non-hollow object (see 
+ section &quot;<a href="s_128.html#s03_06_01_02">Empty and Solid Objects</a>&quot; for a detailed explanation). 
+</p>
+
+<h4><a name="s03_03_02_04">3.3.2.4 </a>Sky Sphere</h4>
+<a name="s03_03_02_04_i1"><a name="sky_sphere"></a><a name="s03_03_02_04_i2"><a name="sky_sphere, keyword"></a><a name="s03_03_02_04_i3">
+<p>
+  The sky sphere is used create a realistic sky background without the need of an additional sphere to simulate the 
+ sky. Its syntax is: 
+</p>
+
+<pre>
+SKY_SPHERE:
+    sky_sphere { [SKY_SPHERE_IDENTIFIER] [SKY_SPHERE_ITEMS...] }
+SKY_SPHERE_ITEM:
+    PIGMENT | TRANSFORMATION
+</pre>
+
+<p>
+  The sky sphere can contain several pigment layers with the last pigment being at the top, i. e. it is evaluated 
+ last, and the first pigment being at the bottom, i. e. it is evaluated first. If the upper layers contain filtering 
+ and/or transmitting components lower layers will shine through. If not lower layers will be invisible. 
+</p>
+
+<p>
+  The sky sphere is calculated by using the direction vector as the parameter for evaluating the pigment patterns. 
+ This leads to results independent from the view point which pretty good models a real sky where the distance to the 
+ sky is much larger than the distances between visible objects. 
+</p>
+
+<p>
+  If you want to add a nice color blend to your background you can easily do this by using the following example. 
+</p>
+
+<pre>
+  sky_sphere {
+    pigment {
+      gradient y
+      color_map {
+        [ 0.5  color CornflowerBlue ]
+        [ 1.0  color MidnightBlue ]
+      }
+      scale 2
+      translate -1
+    }
+  }
+</pre>
+
+<p>
+  This gives a soft blend from <code>CornflowerBlue</code> at the horizon to <code>MidnightBlue</code> at the zenith. 
+ The scale and translate operations are used to map the direction vector values, which lie in the range from &lt;-1, 
+ -1, -1&gt; to &lt;1, 1, 1&gt;, onto the range from &lt;0, 0, 0&gt; to &lt;1, 1, 1&gt;. Thus a repetition of the color 
+ blend is avoided for parts of the sky below the horizon. 
+</p>
+
+<p>
+  In order to easily animate a sky sphere you can transform it using the usual transformations described in &quot;<a href="#l126">Transformations</a>&quot;. 
+ Though it may not be a good idea to translate or scale a sky sphere - the results are hardly predictable - it is quite 
+ useful to be able to rotate it. In an animation the color blendings of the sky can be made to follow the rising sun 
+ for example. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> only one sky sphere can be used in any scene. It also will not work as you 
+ might expect if you use camera types like the <a href="s_100.html#s03_03_01_02_02">orthographic</a> or <a href="s_125.html#s03_05_11_10">cylindrical</a> 
+ camera. The orthographic camera uses parallel rays and thus you will only see a very small part of the sky sphere (you 
+ will get one color skies in most cases). Reflections in curved surface will work though, e. g. you will clearly see 
+ the sky in a mirrored ball. 
+</p>
+
+<h4><a name="s03_03_02_05">3.3.2.5 </a>Rainbow</h4>
+<a name="s03_03_02_05_i1"><a name="rainbow"></a><a name="s03_03_02_05_i2"><a name="rainbow, keyword"></a><a name="s03_03_02_05_i3"><a name="s03_03_02_05_i4"><a name="direction, rainbow"></a><a name="s03_03_02_05_i5"><a name="s03_03_02_05_i6"><a name="angle, rainbow"></a><a name="s03_03_02_05_i7"><a name="s03_03_02_05_i8"><a name="width, rainbow"></a><a name="s03_03_02_05_i9"><a name="s03_03_02_05_i10"><a name="distance, rainbow"></a><a name="s03_03_02_05_i11"><a name="s03_03_02_05_i12"><a name="jitter, rainbow"></a><a name="s03_03_02_05_i13"><a name="s03_03_02_05_i14"><a name="up, rainbow"></a><a name="s03_03_02_05_i15"><a name="s03_03_02_05_i16"><a name="arc_angle, rainbow"></a><a name="s03_03_02_05_i17"><a name="s03_03_02_05_i18"><a name="falloff_angle, rainbow"></a><a name="s03_03_02_05_i19">
+<p>
+  Rainbows are implemented using fog-like, circular arcs. Their syntax is: 
+</p>
+
+<pre>
+RAINBOW:
+    rainbow { [RAINBOW_IDENTIFIER] [RAINBOW_ITEMS...] }
+RAINBOW_ITEM:
+    direction &lt;Dir&gt; | angle Angle | width Width |
+    distance Distance | COLOR_MAP | jitter Jitter | up &lt;Up&gt; |
+    arc_angle Arc_Angle | falloff_angle Falloff_Angle
+</pre>
+
+<p>
+  Rainbow default values: <a name="s03_03_02_05_i20"> 
+</p>
+
+<pre>
+arc_angle     : 180.0
+falloff_angle : 180.0
+jitter        : 0.0
+up            : y
+</pre>
+<a name="s03_03_02_05_i21"><a name="width"></a><a name="s03_03_02_05_i22"><a name="arc_angle"></a><a name="s03_03_02_05_i23"><a name="falloff_angle"></a><a name="s03_03_02_05_i24"><a name="s03_03_02_05_i25"><a name="s03_03_02_05_i26">
+<p>
+  The required <code>direction</code> vector determines the direction of the (virtual) light that is responsible for 
+ the rainbow. Ideally this is an infinitely far away light source like the sun that emits parallel light rays. The 
+ position and size of the rainbow are specified by the required <code>angle</code> and <code>width</code> keywords. To 
+ understand how they work you should first know how the rainbow is calculated. 
+</p>
+
+<p>
+  For each ray the angle between the rainbow's direction vector and the ray's direction vector is calculated. If this 
+ angle lies in the interval from <em><code> Angle-Width/2</code></em> to <em><code> Angle+Width/2</code></em> the 
+ rainbow is hit by the ray. The color is then determined by using the angle as an index into the rainbow's color_map. 
+ After the color has been determined it will be mixed with the background color in the same way like it is done for 
+ fogs. 
+</p>
+
+<p>
+  <a name="s03_03_02_05_i27"> Thus the angle and width parameters determine the angles under which the rainbow will 
+ be seen. The optional <code> jitter</code> keyword can be used to add random noise to the index. This adds some 
+ irregularity to the rainbow that makes it look more realistic. 
+</p>
+
+<p>
+  <a name="s03_03_02_05_i28"> The required <code>distance</code> keyword is the same like the one used with fogs. 
+ Since the rainbow is a fog-like effect it is possible that the rainbow is noticeable on objects. If this effect is not 
+ wanted it can be avoided by using a large distance value. By default a sufficiently large value is used to make sure 
+ that this effect does not occur. 
+</p>
+
+<p>
+  <a name="s03_03_02_05_i29"> The <code>color_map</code> statement is used to assign a color map that will be mapped 
+ onto the rainbow. To be able to create realistic rainbows it is important to know that the index into the color map 
+ increases with the angle between the ray's and rainbow's direction vector. The index is zero at the innermost ring and 
+ one at the outermost ring. The filter and transmittance values of the colors in the color map have the same meaning as 
+ the ones used with fogs (see section &quot;<a href="#l123">Fog</a>&quot;). 
+</p>
+
+<p>
+  The default rainbow is a 360 degree arc that looks like a circle. This is no problem as long as you have a ground 
+ plane that hides the lower, non-visible part of the rainbow. If this is not the case or if you do not want the full 
+ arc to be visible you can use the optional keywords <code>up</code>, <code> arc_angle</code> and <code>falloff_angle</code> 
+ to specify a smaller arc. 
+</p>
+
+<p>
+  <a name="s03_03_02_05_i30"> <a name="s03_03_02_05_i31"> The <code>arc_angle</code> keyword determines the size of 
+ the arc in degrees (from 0 to 360 degrees). A value smaller than 360 degrees results in an arc that abruptly vanishes. 
+ Since this does not look nice you can use the <code>falloff_angle</code> keyword to specify a region in which the 
+ rainbow will smoothly blend into the background making it vanish softly. The falloff angle has to be smaller or equal 
+ to the arc angle. 
+</p>
+
+<p>
+  <a name="s03_03_02_05_i32"> The <code> up</code> keyword determines were the zero angle position is. By changing 
+ this vector you can rotate the rainbow about its direction. You should note that the arc goes from <em>-Arc_Angle/2</em> 
+ to <em> +Arc_Angle/2</em>. The soft regions go from <em>-Arc_Angle/2</em> to <em> -Falloff_Angle/2</em> and from <em>+Falloff_Angle/2</em> 
+ to <em> +Arc_Angle/2</em>. 
+</p>
+
+<p>
+  The following example generates a 120 degrees rainbow arc that has a falloff region of 30 degrees at both ends: 
+</p>
+
+<pre>
+  rainbow {
+    direction &lt;0, 0, 1&gt;
+    angle 42.5
+    width 5
+    distance 1000
+    jitter 0.01
+    color_map { Rainbow_Color_Map }
+    up &lt;0, 1, 0&gt;
+    arc_angle 120
+    falloff_angle 30
+  }
+</pre>
+
+<p>
+  It is possible to use any number of rainbows and to combine them with other atmospheric effects. 
+</p>
+
+<p>
+ <a name="l123">
+<small><strong>More about &quot;Fog&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_101.html#s03_03_02_03">3.3.2.3 Fog</a> in 3.3.2 Atmospheric Effects
+  </small>
+
+  <li><small>
+   <a href="s_164.html#s03_08_12_02">3.8.12.2 Fog</a> in 3.8.12 Atmospheric Effects
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l124">
+<small><strong>More about &quot;media&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_129.html#s03_06_02">3.6.2 Media</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_163.html#s03_08_11">3.8.11 Media</a> in 3.8 Quick Reference
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l125">
+<small><strong>More about &quot;Media&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_129.html#s03_06_02">3.6.2 Media</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_163.html#s03_08_11">3.8.11 Media</a> in 3.8 Quick Reference
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l126">
+<small><strong>More about &quot;Transformations&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_157.html#s03_08_05">3.8.5 Transformations</a> in 3.8 Quick Reference
+  </small>
+
+  <li><small>
+   <a href="s_63.html#s02_02_07_01">2.2.7.1 Transformations</a> in 2.2.7 POV-Ray Coordinate System
+  </small>
+
+ </ul>
+
+</p>
+
+<p>
+ <a name="l127">
+<small><strong>More about &quot;Pattern Modifiers&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_126.html#s03_05_12">3.5.12 Pattern Modifiers</a> in 3.5 Textures
+  </small>
+
+  <li><small>
+   <a href="s_162.html#s03_08_10_08">3.8.10.8 Pattern Modifiers</a> in 3.8.10 Texture
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_100.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_100.html">3.3.1 Camera</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.3.2 Atmospheric Effects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_102.html">3.3.3 Global Settings</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_102.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

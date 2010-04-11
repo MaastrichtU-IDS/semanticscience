@@ -1,0 +1,91 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000, 2002 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>msms, surfcat/surfrepr</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <br>( <b>surfrepr</b> | <b>msms repr</b> ) <i>style</i>
+<i>model_number(s)</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br>( <b>surfcat</b> | <b>msms cat</b> ) <i>category_name</i>
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></h3>
+<p>
+<b>Surfrepr</b> (<b>msms repr</b>) changes the 
+<a href="../representation.html#surfaces">surface representation</a>
+of the specified models to the specified <i>style</i>.
+The <i>model_number(s)</i> should be preceded by #, as in a normal
+<a href="atom_spec.html#basic">atom specification</a>.
+If no model numbers are given, all surface models will be affected.
+Possible values for <i>style</i> are:
+    <ul>
+    <li><b>filled</b> or <b>solid</b> (solid surface)
+    <li><b>mesh</b> (the surface polygon edges only are shown)
+    <li><b>dot</b> (the surface polygon vertices only are shown)
+    </ul>
+</p><p>
+<b>Surfcat</b> (<b>msms cat</b>) is used to create groupings
+of atoms for subsequent surface calculations.
+The atoms in
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+are assigned to a category named <i>category_name</i>.
+A category's surface can then be displayed with the command
+<A href="surface.html"><b>surface</b></A>.
+</p><p>
+In many cases, the 
+<a href="surface.html#surfcats">automatic categories</a> suffice and
+<b>surfcat</b> is not required.  Categories are mutually exclusive,
+that is, an atom can only be in one category at a time. 
+When atoms are placed in a new category, they are subtracted from the 
+category they occupied previously.
+</p><p>
+<a name="example">
+In the following example, the sidechains and backbone of a peptide
+are placed in separate categories, and a surface is shown for the 
+sidechain portion.
+<blockquote><tt><b>
+open 1gcn
+<br>surfcat schain #0
+<br>surfcat bbone @n,ca,c,o
+<br>surface schain
+</b></tt></blockquote>
+</p><p>
+In the next example, the structure has two DNA chains (E and F)
+and three protein chains (A-C).
+<a href="surface.html#surfcats">Automatic categorization</a> would put
+all of these chains in category <b>main</b> and enclose them in a single
+surface:  
+<blockquote><tt><b>
+open 1tup; rainbow chain
+<br>surface
+</b></tt></blockquote>
+To separately enclose the DNA and the protein: 
+<blockquote><tt><b>
+surfcat dna nucleic acid
+<br>surf dna 
+</b></tt></blockquote>
+To further enclose each protein chain separately:
+<blockquote><tt><b>
+surfcat one :.a
+<br>surfcat two :.b
+<br>surfcat three :.c
+<br>surf one | two | three
+</b></tt></blockquote>
+</p><p>
+See also: <b><A href="surface.html">surface</A></b>,
+<b><A href="surftransparency.html">surftransparency</A></b>,
+the <A href="../menu.html#menuactions"><b>Actions</b> menu</a>
+</p>
+</body></html>

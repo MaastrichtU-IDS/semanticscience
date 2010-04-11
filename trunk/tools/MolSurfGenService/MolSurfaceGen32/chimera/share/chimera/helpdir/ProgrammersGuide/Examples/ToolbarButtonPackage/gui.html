@@ -1,0 +1,35 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonPackage/gui.py"><i>ToolbarButtonPackage/gui.py</i></a></h2>
+<p>
+The contents of <a href="ToolbarButtonPackage/gui.py">ToolbarButtonPackage/gui.py</a> is similar to
+the last section of code in <a href="ToolbarButton.html">Toolbar Buttons</a>, with the
+exception that the <code>mainchain</code> function is now referenced as
+<code>ToolbarButtonPackage.mainchain</code>. The reason for the change is
+that <code>gui.py</code> is a submodule, while the <code>mainchain</code> function is in
+the main package.  Since a submodule cannot directly access items
+defined in the main package, <code>gui.py</code> must first import the package
+<code>import ToolbarButtonPackage</code> and refer to the function by prepending
+the package name (<code>ToolbarButtonPackage.mainchain</code> in the call to
+<code>chimera.tkgui.app.toolbar.add</code>).<br>
+<spacer type="vertical" size=5>
+<code>
+<br>
+<font color="red">import os<br></font>
+<br>
+<font color="red">import chimera<br></font>
+<br>
+<font color="red">import ToolbarButtonPackage<br></font>
+<br>
+<font color="red">dir, file = os.path.split(__file__)<br></font>
+<font color="red">icon = os.path.join(dir, 'ToolbarButton.tiff')<br></font>
+<font color="red">chimera.tkgui.app.toolbar.add(icon, ToolbarButtonPackage.mainchain, 'Show Main Chain', None)<br></font>
+</code>

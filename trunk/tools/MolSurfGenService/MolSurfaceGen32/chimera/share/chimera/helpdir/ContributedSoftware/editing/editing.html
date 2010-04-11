@@ -1,0 +1,336 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Build Structure</TITLE>
+</head>
+<body>
+<a name="build">
+<h3>Build Structure</a> 
+<img src="buildicon.png" alt="Build Structure icon"></h3>
+<p>
+<b>Build Structure</b> can generate atomic structures "from scratch" or
+modify existing molecules.  It is under development.  See also:
+<a href="../../UsersGuide/midas/addaa.html"><b>addaa</b></a>,
+<a href="../../UsersGuide/midas/swapaa.html"><b>swapaa</b></a>,
+<a href="../../UsersGuide/midas/swapna.html"><b>swapna</b></a>,
+<a href="../../UsersGuide/midas/combine.html"><b>combine</b></a>,
+<a href="../addh/addh.html"><b>AddH</b></a>,
+<a href="../rotamers/rotamers.html"><b>Rotamers</b></a>,
+<a href="../minimize/minimize.html"><b>Minimize Structure</b></a>,
+<a href="../../UsersGuide/idatm.html">atom types</a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Build Structure</b>, a tool in the <b>Structure Editing</b> category.
+It includes four sections shown as index cards:
+<ul>
+<li><a href="#addatom"><b>Add Atoms</b></a> 
+- create an atom, fragment, or molecule not bonded to existing atoms
+<li><a href="#changeatom"><b>Modify Atom</b></a> 
+- change existing atoms (element, valence, geometry),
+appending hydrogens as needed
+<li><a href="#addbond"><b>Add/Delete Bonds</b></a>
+<li><a href="#changebond"><b>Set Bond Length</b></a>
+</ul>
+Only one card is shown at a time, and clicking the tab for another
+brings it to the front.
+<b>Close</b> dismisses the <b>Build Structure</b> tool; <b>Help</b> opens
+this manual page in a browser window.
+</p><p>
+Chimera does not include an "undo" function for building. 
+<a name="deletion">Atoms can be removed</a>:
+<ul>
+<li>with the command 
+<a href="../../UsersGuide/midas/delete.html"><b>delete</b></a>
+<li>by <a href="../../UsersGuide/selection.html">selecting</a> 
+them and using the menu item
+<a href="../../UsersGuide/menu.html#actdisplay"><b>Actions... 
+Atoms/Bonds... delete</b></a>
+</ul>
+</p>
+
+<h3><a name="addatom">Add Atoms</a> </h3>
+<p>
+The <b>Add Atoms</b> section of
+<a href="#build"><b>Build Structure</b></a> creates atoms, fragments, 
+and molecules independent of any existing atoms.
+</p><p>
+Clicking <b>Add</b> generates the specified structure:
+<ul>
+<li> <b>atom</b> - place a single helium atom in the center of view.
+Helium is used essentially as a dummy type that is not bonded to other atoms.
+<b>Select placed atom</b> indicates the new atom should be 
+<a href="../../UsersGuide/selection.html">selected</a>.
+The <a href="#changeatom"><b>Modify Atom</b></a> section can then be used 
+to specify the <a href="../../UsersGuide/selection.html">selected</a>
+atom's element, valence, and geometry, and to append further atoms. 
+<li><b>fragment</b> - place the specified fragment in the center of view.
+Several planar ring systems are available; a small diagram of the
+chosen <b>Fragment</b> is displayed.
+<li><b>SMILES string</b> - generate the specified structure.
+<a href="http://www.daylight.com/dayhtml/doc/theory/theory.smiles.html" 
+target="_blank">SMILES</a> strings are converted to 3D structures using the
+<a href="http://cheminfo.wikispaces.com/smi23d" target="_blank">smi23d</a>
+service provided by the <a href="http://www.chembiogrid.org/index.html"
+target="_blank">Chemical Informatics and Cyberinfrastructure Collaboratory
+(CICC)</a> at Indiana University.  This service deploys the same procedure 
+used to populate the <b>Pub3D</b> database (below).
+Hydrogens are included, although it
+may be necessary to <a href="../addh/addh.html">add</a> or 
+<a href="#deletion">delete</a> hydrogens 
+to generate the desired protonation state.
+<li><b>PubChem CID</b> - fetch the modeled structure specified by 
+<a href="http://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem</a>
+compound ID from the <b>Pub3D</b> database provided by the 
+<a href="http://www.chembiogrid.org/index.html"
+target="_blank">Chemical Informatics and Cyberinfrastructure Collaboratory
+(CICC)</a> at Indiana University.  This database is described in 
+<a href="http://www.biomedcentral.com/1471-2105/8/487" 
+target="_blank">Willighagen <i>et al.</i></a>, <i>BMC Bioinformatics</i> 
+<b>8</b>:487 (2007).
+Hydrogens are included, although it
+may be necessary to <a href="../addh/addh.html">add</a> or 
+<a href="#deletion">delete</a> hydrogens 
+to generate the desired protonation state.
+</ul>
+Atoms added with any of the above options
+are placed in a residue with the specified
+<b>Residue name</b> (normally three characters long in 
+<a href="../../UsersGuide/tutorials/pdbintro.html#coords">PDB format</a>).
+<ul>
+<li><b>peptide sequence</b> - generate the peptide specified by
+one-letter amino acid codes (capitalization does not matter).
+<p>
+<a name="peptide-angles">
+Clicking <b>Add</b> brings up another dialog for specifying backbone
+&phi; (phi) and &psi; (psi) angles and other parameters.</a>
+One or more rows can be <a href="#chosen">chosen</a>
+with the mouse and <b>Set</b> to values either entered manually 
+or supplied for various types of secondary structure:
+<table border style="margin:8px 8px 8px 8px">
+<tr><th align="center">description</th>
+<th align="center">&phi; (&deg;)</th><th align="center">&psi; (&deg;)</th>
+</tr><tr>
+<tr><td align="center">&alpha; helix</td>
+<td align="center">-57</td><td align="center">-47</td>
+</tr><tr>
+<td align="center">antiparallel &beta; strand</td>
+<td align="center">-139</td><td align="center">135</td>
+</tr><tr>
+<td align="center">parallel &beta; strand </td>
+<td align="center">-119</td><td align="center">113</td>
+</tr><tr>
+<tr><td align="center">3<sub>10</sub> helix</td>
+<td align="center">-49</td><td align="center">-26</td>
+</tr><tr>
+<tr><td align="center">&pi; helix</td>
+<td align="center">-57</td><td align="center">-70</td>
+</tr>
+</table>
+<a name="chosen">
+Rows in the dialog can be chosen with the left mouse button.</a>
+<b>Ctrl</b>-click toggles the state (chosen or not) of single line.
+A block can be chosen by dragging, or by
+clicking on the first (or last) line in the desired block
+and then <b>Shift</b>-clicking on its last (or first) line.
+</p><p>
+Sidechain conformations will be taken from the specified <b>Rotamer library</b>:
+<ul>
+  <li><b>Dunbrack</b> - <a href="http://dunbrack.fccc.edu/bbdep/"
+target="_blank">Dunbrack backbone-dependent rotamer library</a>
+ <li><b>Richardson (common-atom)</b> - common-atom values (author-recommended)
+from the <a href="http://kinemage.biochem.duke.edu/databases/rotamer.php#PRL"
+target="_blank">Richardson backbone-independent rotamer library</a>
+ <li><b>Richardson (mode)</b> - mode values from the
+<a href="http://kinemage.biochem.duke.edu/databases/rotamer.php#PRL"
+target="_blank">Richardson backbone-independent rotamer library</a>
+</ul>
+</p><p>
+The rotamer at each position will be chosen as described for the command
+<a href="../../UsersGuide/midas/swapaa.html"><b>swapaa</b></a> with the
+<a href="../../UsersGuide/midas/swapaa.html#criteria">criteria</a>
+<b>cp</b>: by fewest number of clashes, and if a tie, then the
+highest probability according to the rotamer library.  The residues are
+added in N&rarr;C order, so only clashes with more N-terminal
+residues are evaluated.  
+The peptide will be assigned the specified <b>chain ID</b>.
+</p><p>
+Clicking <b>Apply</b> (or <b>OK</b>, which also dismisses the dialog)
+creates the peptide.  Hydrogen atoms are not included.
+Backbone bond lengths and angles are taken from the
+<a href="http://ambermd.org/index.html" target="_blank"><b>Amber</b></a>
+ff99 parameters. Sidechain bond lengths and angles are taken from the
+<a href="http://ambermd.org/index.html" target="_blank"><b>Amber</b></a>
+parameter files <b>all*94.lib</b>.
+</p>
+</ul>
+The new atoms are placed in either an existing molecule model 
+or a <b>new model</b> with a specified name.  
+A new model will be assigned the lowest available model number.
+The new atoms are shown in the ball-and-stick 
+<a href="../../UsersGuide/representation.html">representation</a>
+and can be <a href="../../UsersGuide/colortables.html#byelement">colored
+by element</a>.  
+</p>
+
+<h3><a name="changeatom">Modify Atom</a></h3>
+<p>
+The <b>Modify Atom</b> section of <a href="#build"><b>Build Structure</b></a> 
+can be used to change the element, valence (number of bonds), and/or
+geometry of one or more
+<a href="../../UsersGuide/selection.html">selected</a> atoms; 
+hydrogens are appended as needed to fill the valence.
+The <b>Modify Atom</b> dialog can be opened directly 
+by double-<a href="../../UsersGuide/selection.html#pickselect">picking</a>
+an atom (doubleclicking it with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>)
+and choosing <b>Modify Atom</b> from the context menu that appears.
+</p><p>
+Clicking <b>Change</b> adjusts the
+<a href="../../UsersGuide/selection.html">selected</a> atoms as specified:
+<ul>
+<li><b>Element</b> - desired element
+<li><b>Bonds</b> - desired total number of substituents on the atom
+(0-4 allowed).
+Hydrogens will be added to the atom to generate the indicated total 
+number of <b>Bonds</b>.  Pre-existing atoms are not removed.
+If the atom is already bonded to one (and only one) other atom, the bond
+will be adjusted to an <b><i>approximate</i></b> length depending
+on the elements involved.
+The positions of any other atoms already present will not be changed.  
+New hydrogens will be placed to form the <a href="#targetgeom">target 
+(idealized) bond angles</a>, or if the atom already has two or more 
+substituents, to maximally avoid those substituents.
+Bond lengths for X-H (X = C/N/O/S) are taken from the
+<a href="http://ambermd.org/index.html" target="_blank"><b>Amber</b></a>
+parm99 parameters (see <a href="../addh/addh.html#bondlengths">table</a>).
+Bond lengths can be adjusted to specific values using
+<a href="#changebond"><b>Set Bond Length</b></a>, or 
+allowed to change along with other degrees of freedom during
+<a href="../minimize/minimize.html">energy minimization</a>.
+<li><a name="targetgeom">
+<b>Geometry</b> - target arrangement of bonds around the atom</a>
+   <ul>
+   <li><b>linear</b> - allowed for 2 bonds, target bond angle 180&deg;
+   <li><b>trigonal</b> - allowed for 2-3 bonds, 
+   target bond angle(s) 120&deg; in a plane
+   <li><b>tetrahedral</b> - allowed for 2-4 bonds, 
+   target bond angle(s) 109.5&deg; 
+   </ul>
+<p>
+In <a href="../../UsersGuide/tutorials/pdbintro.html#coords">PDB format</a>,
+<b>atom names</b> can be up to four characters long and should be unique 
+within a residue.  An atom name normally starts with the element symbol.
+If any element assignment would be changed, a new atom name
+or sequentially numbered range of names must be specified.
+When only atoms matching the specified element are
+<a href="../../UsersGuide/selection.html">selected</a>, however,
+it is possible to retain their current names.
+</p>
+<li><b>Connect to pre-existing atoms if appropriate</b>
+- if a newly added hydrogen would be very close to 
+an existing atom in the same model as the 
+<a href="../../UsersGuide/selection.html">selected</a> atom, discard
+the hydrogen and form a bond to the existing atom instead
+<li><b>Focus view on modified residue</b> -
+<a href="../../UsersGuide/menu.html#actfocus">focus</a> the view on the
+the residue containing the modified atom
+<li><b>Color new atoms by element</b> - color the modified atom and any
+newly added hydrogens
+<a href="../../UsersGuide/colortables.html#byelement">by element</a>
+</ul><ul>
+<li><b>Residue Name</b>
+  <ul>
+  <li><b>Leave unchanged</b>
+  <li><b>Change modified residue's name to [<i>resname</i>]</b>
+- change the residue name to <b><i>resname</i></b>
+for all atoms in the residue, not just the modified atom
+(appropriate when a standard residue is modified; for example,
+a methylated lysine should no longer be named LYS)
+  <li><b>Put just changed atoms in new residue named [<i>resname</i>]
+in chain [<i>chainID</i>]</b>
+- put the modified atom and any new hydrogens
+in a new residue named <b><i>resname</i></b> in chain <b><i>chainID</i></b>;
+otherwise, they will be included in the atom's current residue
+  </ul>
+<p>
+In <a href="../../UsersGuide/tutorials/pdbintro.html#coords">PDB format</a>,
+residue names are normally three characters long and chain identifiers a
+single character (or blank).  
+However, Chimera will tolerate four-character residue names, 
+and the chain identifier can be specified as <b>het</b> or <b>water</b> 
+(in <a href="../../UsersGuide/savemodel.html#pdb">PDB output</a>,
+these translate to use of HETATM records with a blank chain identifier).
+Otherwise, <a href="../../UsersGuide/savemodel.html#pdb">PDB output</a>
+will contain ATOM records for standard residues,
+HETATM records for nonstandard residues, 
+and the specified chain identifier(s).
+</p>
+</ul>
+</p><p>
+To build out further, <a href="../../UsersGuide/selection.html">select</a> 
+one of the new hydrogens and use <b>Modify Atom</b> again.
+</p>
+
+<h3><a name="addbond">Add/Delete Bonds</a> </h3>
+<p>
+The <b>Add/Delete Bonds</b> section of 
+<a href="#build"><b>Build Structure</b></a> allows bond creation and deletion.
+Clicking <b>Delete</b> deletes any
+<a href="../../UsersGuide/selection.html">selected</a> bonds.
+Clicking <b>Add</b> adds bonds to a 
+<a href="../../UsersGuide/selection.html">selected</a> set of atoms:
+<ul>
+<li> <b>reasonable</b> (default) -
+bond each pair in the set for which the interatomic distance is no greater
+than the sum of their <a href="covrad.html">covalent bond radii</a>
+plus a tolerance of 0.4 &Aring;
+<li> <b>all possible</b> - bond all pairs in the set, regardless of whether
+the bonds are reasonable
+</ul>
+Bonds can also be created and deleted with the command
+<a href="../../UsersGuide/midas/bond.html"><b>bond</b></a>.
+</p>
+
+<h3><a name="changebond">Set Bond Length</a></h3>
+<p>
+The <b>Set Bond Length</b> section of
+<a href="#build"><b>Build Structure</b></a> allows the lengths of one or more 
+<a href="../../UsersGuide/selection.html">selected</a> bonds 
+to be set arbitrarily. 
+This section can be opened directly by choosing 
+<b>Set Bond Length</b> from the context menu
+that appears when an bond is
+double-<a href="../../UsersGuide/selection.html#pickselect">picked</a>
+(doubleclicked with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>).
+<ul>
+<li> <b>Set length of selected bonds to [<i>b</i>]</b> - <i>b</i>
+is the desired bond length in angstroms; the 
+<a href="../../UsersGuide/selection.html">selected</a> bonds
+will be adjusted sequentially to this length after Enter (return) is pressed
+<li> <b>Move atoms on</b> 
+  <ul>
+  <li> <b>smaller side</b> (default)
+  <li> <b>larger side</b>
+  </ul>
+- which set of atoms should be translated when the bond length is adjusted;
+if the bond is in a ring, only the flanking atoms are moved,
+by equal distances in opposite directions
+</ul>
+The order of bond adjustment may affect the final position of the 
+structure (but not the structure itself) and cannot be controlled.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / September 2009</address>
+</body>
+</html>

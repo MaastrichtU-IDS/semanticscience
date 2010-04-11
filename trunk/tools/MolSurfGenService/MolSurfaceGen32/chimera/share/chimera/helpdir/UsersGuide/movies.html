@@ -1,0 +1,274 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Making Movies</TITLE>
+</head>
+<body>
+<h2>Making Movies</h2>
+<p>
+Chimera includes the following approaches for
+capturing image frames and assembling them into a movie file:
+<ul>
+<li> <a href="../ContributedSoftware/recorder/recorder.html"><b>Movie 
+Recorder</b></a> is a graphical interface with buttons to start recording,
+stop recording, and encode the saved images as a movie file.
+Several parameters can be adjusted.
+<li> The command <a href="midas/movie.html"><b>movie</b></a> provides
+access to the same features, but with keywords and arguments.   
+This allows integration of movie recording and <a href="#content">content</a>
+within a single <a href="indexcommand.html#cmdfile">command file</a>.
+<li><a href="../ContributedSoftware/movie/framemovie.html" 
+target="_top"><b>MD Movie</b></a> provides an interface for 
+<a href="../ContributedSoftware/movie/movie.html#recording">recording
+trajectories</a>, with the same adjustable parameters as
+the other approaches.
+<a href="../ContributedSoftware/morph/morph.html"><b>Morph
+Conformations</b></a> results are shown in
+<a href="../ContributedSoftware/movie/framemovie.html" 
+target="_top"><b>MD Movie</b></a> and can be recorded from that tool.
+<li><a href="../ContributedSoftware/morphmap/morphmap.html"><b>Morph 
+Map</b></a> creates an interpolated progression
+between two sets of <a href="filetypes.html#volume">volume data</a> and
+provides an interface for recording the progression as a movie.
+<li>Additional tools step through different 
+<a href="filetypes.html#volume">volume data</a> displays over time 
+and can be used together with
+<a href="../ContributedSoftware/recorder/recorder.html"><b>Movie 
+Recorder</b></a> or the <a href="midas/movie.html"><b>movie</b></a> command:
+  <ul>
+  <li><a href="../ContributedSoftware/volseries/volseries.html"><b>Volume 
+  Series</b></a> displays an ordered sequence 
+  of data sets
+  <li>the <a href="../ContributedSoftware/volumeviewer/volumeviewer.html#planes">planes</a>
+  feature in 
+  <a href="../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+  target="_top"><b>Volume Viewer</b></a> displays sequential planes 
+  or slabs of data
+  <li>the <a href="midas/volume.html"><b>volume</b></a> command with the
+  <a href="midas/volume.html#planes">planes</a> keyword displays sequential
+  planes or slabs of data
+  </ul>
+</ul>
+The image frames can be rendered directly by Chimera
+or created by <a href="raytracing.html">raytracing with POV-Ray</a>.
+Available output movie formats are MPEG-1, MPEG-2 MPEG-4, AVI MSMPEG-4v2, 
+and Quicktime.
+See below for information on developing <a href="#content">movie content</a> 
+and troubleshooting <a href="#powerpoint">problems in PowerPoint</a>.
+</p>
+
+<h3><a name="content">Movie Content</a></h3>
+<p>
+The Chimera window should be adjusted to the desired dimensions
+before recording, for example with the command
+<A href="midas/windowsize.html"><b>windowsize</b></A>.
+Using a small and standard frame size (320 x 240, 640 x 480, or 
+800 x 600 pixels) may solve some <a href="#powerpoint">playback problems</a>.
+On certain platforms, other windows should not overlap
+the Chimera graphics window during recording
+(<a href="print.html#exception">details...</a>).
+This is not an issue when raytracing is used.
+</p><p>
+Since a movie is fundamentally a series of images, many of the
+<a href="print.html#tips">tips on preparing images</a> also pertain to movies.
+</p><p>
+During recording, structures can be manipulated interactively and
+<a href="framecommand.html" target="_top">commands</a> typed.
+However, for reproducibility and smoother results, often a
+<a href="indexcommand.html#cmdfile">command file</a> will be used instead
+(see <a href="#examples">examples</a>).
+</p><p>
+<a name="moviecommands">
+Certain commands are especially useful for scripting continuous motion</a>
+and/or specifying movie content:
+</p><p>
+<A href="midas/2dlabels.html">2dlabels</A>
+- display 2D labels, which can be faded
+in or out over a specified number of frames
+<br>
+<A href="midas/clip.html">clip</A>
+- move <a href="sideview.html#sideview">global clipping planes</a>
+<br>
+<A href="midas/cofr.html">cofr</A>
+- change the center of rotation
+<br>
+<A href="midas/coordset.html">coordset</A>
+- play through frames of a trajectory
+<br>
+<A href="midas/fly.html">fly</A>
+- smoothly traverse a series of positions previously saved with
+<A href="midas/savepos.html">savepos</A>
+<br>
+<A href="midas/freeze.html">freeze</A>
+- stop all motion
+<br>
+<A href="midas/mclip.html">mclip</A>
+- control <a href="../ContributedSoftware/per-model/per-model.html">per-model 
+clipping</a>
+<br>
+<A href="midas/move.html">move</A>
+- translate models
+<br>
+<A href="midas/movie.html">movie</A>
+- capture image frames and assemble them into a movie file
+<br>
+<A href="midas/perframe.html">perframe</A>
+- specify an alias to be executed at each display frame 
+<br>
+<A href="midas/reset.html">reset</A>
+- interpolate from the current position to one previously saved with
+<A href="midas/savepos.html">savepos</A>
+<br>
+<A href="midas/rock.html">rock</A>
+- rotate models back and forth (oscillate)
+<br>
+<A href="midas/roll.html">roll</A>
+- rotate models
+<br>
+<A href="midas/savepos.html">savepos</A>
+- save and name a "position" (model transformations, scale, <i>etc.</i>)
+<br>
+<A href="midas/scale.html">scale</A>
+- scale the view
+<br>
+<A href="midas/section.html">section</A>
+- move the clipping planes in parallel
+<br>
+<A href="midas/select.html#older">select</A> - 
+<a href="mouse.html#activedef">activate/deactivate</a> models for motion
+<br>
+<A href="midas/set.html">set</A>
+- set background color and visual effects, make models rotate
+about individual centers
+<br>
+<A href="midas/surftransparency.html">surftransparency</A>
+- adjust surface transparency
+<br>
+<A href="midas/thickness.html">thickness</A>
+- move the clipping planes in opposite directions
+<br>
+<A href="midas/turn.html">turn</A>
+- rotate models
+<br>
+<A href="midas/wait.html">wait</A>
+- suspend command processing for a specified number of frames
+or until motion has stopped
+<br>
+<A href="midas/windowsize.html">windowsize</A>
+- set the dimensions of the graphics window
+</p><p>
+In addition, the commands 
+<A href="midas/sleep.html">sleep</A> and <A href="midas/pause.html">pause</A>
+are useful for introducing pauses during live script execution, 
+but not in movies, as no new frames are drawn during such pauses.
+</p><p>
+Command script execution can be aborted by pressing the <b>Esc</b> (escape) key,
+or paused/resumed (again, with no new frames being drawn during the pause)
+by pressing <b>Shift</b>-<b>Esc</b>.
+</p><p>
+The frame rate in Chimera is nominally 30/s,
+but is performance-limited (may be slower depending on what is displayed
+and what hardware is being used).  Saving frames will slow the process 
+further, but this slowing will not affect the playback rate 
+of the resulting movie (default 25 fps).
+Thus, movie playback may be faster or slower than the original process 
+in Chimera. 
+</p>
+
+<h3><a name="examples">Movie Command File Examples</a></h3>
+<p>
+Simply <a href="filetypes.html">opening</a> 
+a <a href="indexcommand.html#cmdfile">command file</a>
+in Chimera will execute its contents.
+Opening either of the following example files in Chimera
+will show the content but not create a movie, as the
+movie-recording commands have been commented out with <b>##</b>.
+<ul>
+<li> <a href="../ContributedSoftware/recorder/1gfl.com" 
+type="text/plain">1gfl.com</a> - fairly simple; 
+rotates green fluorescent protein, changes display styles.  Data:
+  <ul>
+  <li> <b>1gfl</b> (fetched from the
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>) 
+  </ul>
+<li> <a href="../ContributedSoftware/recorder/3hhr-scan.com" 
+type="text/plain">3hhr-scan.com</a>  - more elaborate; see the resulting
+movie <b>Combinatorial scanning of human growth hormone</b> in the
+<a href="http://www.cgl.ucsf.edu/chimera/animations/animations.html"
+target="_blank">Chimera Animation Gallery</a>.  Data:
+  <ul>
+  <li> <b>3hhr</b> (fetched from the
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>) 
+  <li> <a href="../ContributedSoftware/recorder/3hhr-scan.txt" type="text/plain">3hhr-scan.txt</a> 
+(an <a href="../ContributedSoftware/defineattrib/defineattrib.html#attrfile">
+attribute assignment</a> 
+file, to be placed in the same directory as the command file)
+  </ul>
+</ul>
+The online
+<a href="http://www.cgl.ucsf.edu/chimera/tutorials/movies09/moviemaking.html" 
+target="_blank">movie-making tutorial</a> contains several additional examples.
+</p>
+
+<h3><a name="powerpoint">Problems in PowerPoint</a></h3>
+<p>
+On <b>Windows</b>,
+some Chimera-generated movies cannot be inserted into PowerPoint 
+presentations, or can be inserted but will not play.  
+</p><p>
+Using a small and standard frame size 
+(320 x 240, 640 x 480, or 800 x 600 pixels)
+may solve some playback problems.  
+Before recording, the Chimera window can be
+set to specific dimensions using the command
+<A href="midas/windowsize.html"><b>windowsize</b></A>.
+</p><p>
+In PowerPoint 2000, only the Chimera <b>MPEG-1</b> format works, 
+but the quality is very low.  Using PowerPoint 2003 or newer is recommended.  
+With PowerPoint 2003 on Windows,
+the Chimera <b>AVI MSMPEG-4v2</b> format is recommended.
+Although a movie in this format can be inserted into a presentation, 
+it may play as a black rectangle.
+To remedy this, try reducing the video acceleration in Windows Media Player
+(instructions are for Media Player 10.0, but should be similar for other
+versions):
+<ol>
+<li>start Windows Media Player (for example,
+by right-clicking a movie icon and choosing <b>Play with Media Player</b>)
+<li>right-click the top bar of the Windows Media Player window
+and choose menu entry  <b>Tools / Options...</b> 
+<li>click the <b>Performance</b> tab in the <b>Options</b> dialog
+<li>click the <b>Advanced...</b> button in the <b>Video Acceleration</b> panel
+<li>turn off <b>Use video mixing renderer</b>
+</ol>
+After PowerPoint 2003 has been restarted, 
+the movie should play correctly within the presentation.  
+We have not tested movie playing in PowerPoint 2007.
+A more drastic alternative to the last two steps above is to move the
+slider in the <b>Video Acceleration</b> panel in the <b>Performance</b>
+tab to <b>None</b>.
+</p><p>
+Video acceleration in Media Player is not the only potential source of trouble.
+If the problem persists, see the following information from Microsoft:
+<ul>
+<li><a href="http://support.microsoft.com/kb/905167" 
+target="_blank">Troubleshooting movies in PowerPoint</a>
+<li><a href="http://office.microsoft.com/en-us/powerpoint/HA100777161033.aspx"
+target="_blank">PowerPoint 2007 movie checklist</a>
+</ul>
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / May 2009</address>
+</body>
+</html>

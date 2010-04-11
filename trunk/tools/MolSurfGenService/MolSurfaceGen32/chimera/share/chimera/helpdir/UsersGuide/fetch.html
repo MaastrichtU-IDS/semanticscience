@@ -1,0 +1,149 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Fetch by ID</title>
+</head><body>
+<h2>Fetch by ID</h2>
+<p>
+Files can be retrieved from various databases and opened in Chimera
+with <b>File... Fetch by ID</b>.
+Internet connectivity is required to fetch files over the Web.
+The command <a href="midas/open.html"><b>open</b></a> 
+can also fetch files by ID.
+</p><p>
+A database and corresponding identifier (ID code) must be indicated:
+<ul>
+<li><b>NDB</b> - a 
+<a href="http://ndbserver.rutgers.edu/index.html" target="_blank">
+Nucleic Acid Database</a> identifier
+will be translated into a PDB ID and used to fetch a PDB-format file 
+from the <a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>
+<li><b>PDB</b> - a 4-character
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> will be used to fetch a PDB-format file from the
+  <a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>:
+  <ol>
+  <li> Chimera will first attempt to find the file within a 
+  <a name="local">local installation</a> of the Protein Data Bank.
+  The default places to look for a local installation
+  are <b>/usr/mol/pdb/</b> and then <b>/mol/pdb/</b>
+  &mdash; these can be changed by editing the Python file
+  <b>share/chimera/pdbDir</b> within a Chimera installation.
+  <li> If the file is not found locally, Chimera will try to retrieve it 
+  from the 
+  <a href="http://www.rcsb.org" target="_blank">Protein Data Bank web site</a>
+  (by default; this can be turned off in the
+  <a href="preferences.html#PDB"><b>PDB</b> preferences</a>).
+  </ol>
+<li><b>PDB (mmCIF)</b> - a 4-character 
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> will be used to fetch an mmCIF-format file from the 
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>
+<li><b>SCOP</b> - a 7-character <a href="scop.html">SCOP domain</a> 
+identifier will be used to fetch a PDB-format domain file from the
+<a href="http://astral.berkeley.edu/index.html" target="_blank">
+ASTRAL Compendium</a>
+<li><b>PubChem</b> - a <a href="http://pubchem.ncbi.nlm.nih.gov/" 
+target="_blank">PubChem</a> compound identifier (CID) will be used to fetch 
+a modeled 3D structure (SDF) from the <b>Pub3D</b> database provided by the 
+<a href="http://www.chembiogrid.org/index.html"
+target="_blank">Chemical Informatics and Cyberinfrastructure Collaboratory
+(CICC)</a> at Indiana University.  This database is described in 
+<a href="http://www.biomedcentral.com/1471-2105/8/487" 
+target="_blank">Willighagen <i>et al.</i></a>, <i>BMC Bioinformatics</i> 
+<b>8</b>:487 (2007).
+<li><b>CASTp</b> - a 4-character
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> 
+(with chain ID optionally appended, for example <b>2gsh.A</b>)
+will be used to fetch a structure and its
+precomputed pocket measurements from the 
+<a href="http://sts-fw.bioengr.uic.edu/castp/index.php" target="_blank">
+Computed Atlas of Surface Topography of proteins</a>
+(does not include results for all PDB entries; measurements
+will be displayed in a <a href="castp.html">pocket list</a>)
+<li><b>EDS (2fo-fc)</b> - a 4-character
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> 
+will be used to fetch an electron density map from the
+<a href="http://eds.bmc.uu.se/eds/index.html" target="_blank">Electron 
+Density Server</a> (not all PDB entries have maps available)
+<li><b>EDS (fo-fc)</b> - a 4-character
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> will be used to fetch an electron density  
+difference map from the
+<a href="http://eds.bmc.uu.se/eds/index.html" target="_blank">Electron
+Density Server</a> (not all PDB entries have maps available)
+<li><b>EMDB</b> - a numerical identifier will be used to fetch an
+electron density map from the
+<a href="http://www.ebi.ac.uk/pdbe/emdb/" target="_blank">Electron 
+Microscopy Data Bank</a>
+(see also <a href="#search">keyword search</a>)
+<li><b>EMDB & fit PDBs</b> - a numerical identifier will be used to fetch an
+electron density map from the
+<a href="http://www.ebi.ac.uk/pdbe/emdb/" target="_blank">Electron 
+Microscopy Data Bank</a>, along with any corresponding PDB entries,
+which may or may not be in the fit positions relative to the map
+(see also <a href="#search">keyword search</a>)
+<li><b>PQS</b> - a 4-character
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> will be used to fetch the predicted biological unit
+from the <a href="http://pqs.ebi.ac.uk/pqs-doc.shtml" target="_blank">Protein
+Quaternary Structure server</a>
+(predictions are not available for all PDB entries; some entries have
+multiple predictions, and for those, multiple files will be retrieved)
+<li><b>ModBase</b> - a SwissProt, TrEMBL, GenPept or PIR accession code 
+will be used to fetch comparative models in PDB format from
+<a href="http://modbase.compbio.ucsf.edu/modbase-cgi/index.cgi"
+target="_blank">ModBase</a> (associated information will be shown in a
+<a href="modbase.html">model list</a>)
+<li><b>VIPERdb</b> - an identifier in the
+<a href="http://viperdb.scripps.edu/" target="_blank">Virus
+Particle Explorer database</a> of icosahedral virus capsid structures
+will be used to fetch a PDB-format file from that database
+(the capsid will be constructed automatically with
+<a href="../ContributedSoftware/multiscale/framemulti.html"
+target="_top"><b>Multiscale Models</b></a>)
+</ul>
+Clicking <b>Fetch</b> retrieves the indicated data
+and dismisses the dialog (although there is a checkbox option to
+<b>Keep dialog up after Fetch</b>).
+Clicking <b>Web Page</b> opens the home page of the chosen database
+if no ID code has been entered, or the specific page for the entry if
+a valid ID code has been entered.
+</p><p>
+Clicking <b>Set download directory</b> opens the
+<a href="preferences.html#Fetch"><b>Fetch</b> preferences</a> for
+specifying a local directory in which to save fetched files.
+</p><p>
+<b>Close</b> dismisses the dialog without retrieving the data.
+<b>Help</b> brings up this manual page in a browser window.
+</p>
+
+<a name="search">
+<h3>Keyword Search</h3></a>
+<p>
+Currently keyword searching is only available for the <b>EMDB</b>.
+The reference title, reference authors, and ID number fields are searched.
+</p><p>
+Typing a word or phrase into the search field and pressing return (Enter) 
+or clicking <b>Search</b> initiates a case-independent search.
+If multiple words are supplied, only entries with the words present
+as a contiguous phrase (together and in the order given) will be found.
+Matching entries will be listed in a separate dialog,
+from which they can be retrieved by choosing the line(s) of interest 
+and clicking <b>Fetch Map</b> or <b>Fetch Map and PDBs</b>.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / May 2009</address>
+</body></html>

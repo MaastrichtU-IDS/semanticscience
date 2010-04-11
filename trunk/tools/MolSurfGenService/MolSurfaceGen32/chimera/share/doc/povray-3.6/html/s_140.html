@@ -1,0 +1,849 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.7.9 math.inc</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_139.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_139.html">3.7.8 glass.inc, glass_old.inc</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.7.9 
+   math.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_141.html">3.7.10 metals.inc, golds.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_141.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_07_09">3.7.9 </a>math.inc</h3>
+
+<p>
+  This file contains many general math functions and macros. 
+</p>
+
+<h4><a name="s03_07_09_01">3.7.9.1 </a>Float functions and macros</h4>
+<a name="s03_07_09_01_i1"><a name="even"></a>
+<p>
+  <code>even(N)</code>. A function to test whether N is even, returns 1 when true, 0 when false.<br> Parameters 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>N</code> = Input value 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i2"><a name="odd"></a>
+<p>
+  <code>odd(N)</code>. A function to test whether N is odd, returns 1 when true, 0 when false.<br> Parameters 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>N</code> = Input value 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i3"><a name="Interpolate, macro"></a>
+<p>
+  <code>Interpolate(GC, GS, GE, TS, TE, Method)</code>. Interpolation macro, interpolates between the float values <code>TS</code> 
+ and <code>TE</code>. The method of interpolation is cosine, linear or exponential. The position where to evaluate the 
+ interpolation is determined by the position of <code>GC</code> in the range <code>GS</code> - <code>GE</code>. See 
+ example.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>GC</code> = global current, float value within the range GS - GE 
+ </li>
+
+ <li>
+   <code>GS</code> = global start 
+ </li>
+
+ <li>
+   <code>GE</code> = global end 
+ </li>
+
+ <li>
+   <code>TS</code> = target start 
+ </li>
+
+ <li>
+   <code>TE</code> = target end 
+ </li>
+
+ <li>
+   <code>Method</code> = interpolation method, float value: 
+  <ul>
+   
+   <li>
+     <code>Method</code> &lt; 0 : exponential, using the value of Method as exponent. 
+   </li>
+
+   <li>
+     <code>Method</code> = 0 : cosine interpolation. 
+   </li>
+
+   <li>
+     <code>Method</code> &gt; 0 : exponential, using the value of Method as exponent. 
+    <ul>
+     
+     <li>
+       <code>Method</code> = 1 : linear interpolation, 
+     </li>
+
+    </ul>
+     
+   </li>
+
+  </ul>
+   
+ </li>
+
+</ul>
+
+<p>
+  Example: 
+</p>
+
+<pre>
+  #declare A = Interpolate(0.5, 0, 1, 0, 10, 1);
+  #debug str(A,0,2)
+  // result A = 5.00
+
+  #declare A = Interpolate(0.0,-2, 2, 0, 10, 1);
+  #debug str(A,0,2)
+  // result A = 5.00
+
+  #declare A = Interpolate(0.5, 0, 1, 0, 10, 2);
+  #debug str(A,0,2)  
+  // result A = 2.50
+</pre>
+<a name="s03_07_09_01_i4"><a name="Mean"></a>
+<p>
+  <code>Mean(A)</code>. A macro to compute the average of an array of values.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>A</code> = An array of float or vector values. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i5"><a name="Std_Dev"></a>
+<p>
+  <code>Std_Dev(A, M)</code>. A macro to compute the standard deviation.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>A</code> = An array of float values. 
+ </li>
+
+ <li>
+   <code>M</code> = Mean of the floats in the array. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i6"><a name="GetStats"></a>
+<p>
+  <code>GetStats(ValArr)</code>. This macro declares a global array named &quot;<code>StatisticsArray</code>&quot; 
+ containing: N, Mean, Min, Max, and Standard Deviation<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>A</code> = An array of float values. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i7"><a name="Histogram"></a>
+<p>
+  <code>Histogram(ValArr, Intervals)</code>. This macro declares a global, 2D array named &quot;<code>HistogramArray</code>&quot;. 
+ The first value in the array is the center of the interval/bin, the second the number of values in that interval.<br> 
+ Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>ValArr</code> = An array with values. 
+ </li>
+
+ <li>
+   <code>Intervals</code> = The desired number of intervals/bins. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i8"><a name="sind"></a><a name="s03_07_09_01_i9"><a name="cosd"></a><a name="s03_07_09_01_i10"><a name="tand"></a><a name="s03_07_09_01_i11"><a name="asind"></a><a name="s03_07_09_01_i12"><a name="acosd"></a><a name="s03_07_09_01_i13"><a name="atan2d"></a>
+<p>
+  <code>sind(v), cosd(v), tand(v), asind(v), acosd(v), atan2d(a, b)</code>. These functions are versions of the 
+ trigonometric functions using degrees, instead of radians, as the angle unit.<br> Parameters:<br> The same as for the 
+ analogous built-in trig function. <a name="s03_07_09_01_i14"><a name="max3"></a> 
+</p>
+
+<p>
+  <code>max3(a, b, c)</code>. A function to find the largest of three numbers.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>a, b, c</code> = Input values. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i15"><a name="min3"></a>
+<p>
+  <code>min3(a, b, c)</code>. A function to find the smallest of three numbers.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>a, b, c</code> = Input values. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i16"><a name="f_sqr"></a>
+<p>
+  <code>f_sqr(v)</code>. A function to square a number.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>v</code> = Input value. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i17"><a name="sgn"></a>
+<p>
+  <code>sgn(v)</code>. A function to show the sign of the number. Returns -1 or 1 depending on the sign of v.<br> 
+ Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>v</code> = Input value. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i18"><a name="clip"></a>
+<p>
+  <code>clip(V, Min, Max)</code>. A function that limits a value to a specific range, if it goes outside that range 
+ it is &quot;clipped&quot;. Input values larger than <code>Max</code> will return <code>Max</code>, those less than <code>Min</code> 
+ will return <code>Min</code>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input value. 
+ </li>
+
+ <li>
+   <code>Min</code> = Minimum of output range. 
+ </li>
+
+ <li>
+   <code>Max</code> = Maximum of output range. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i19"><a name="clamp"></a>
+<p>
+  <code>clamp(V, Min, Max)</code>. A function that limits a value to a specific range, if it goes outside that range 
+ it is &quot;clamped&quot; to this range, wrapping around. As the input increases or decreases outside the given range, 
+ the output will repeatedly sweep through that range, making a &quot;sawtooth&quot; waveform.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input value. 
+ </li>
+
+ <li>
+   <code>Min</code> = Minimum of output range. 
+ </li>
+
+ <li>
+   <code>Max</code> = Maximum of output range. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i20"><a name="adj_range"></a>
+<p>
+  <code>adj_range(V, Min, Max)</code>. A function that adjusts input values in the range [0, 1] to a given range. An 
+ input value of 0 will return <code>Min</code>, 1 will return <code>Max</code>, and values outside the [0, 1] range 
+ will be linearly extrapolated (the graph will continue in a straight line).<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input value. 
+ </li>
+
+ <li>
+   <code>Min</code> = Minimum of output range. 
+ </li>
+
+ <li>
+   <code>Max</code> = Maximum of output range. 
+ </li>
+
+</ul>
+<a name="s03_07_09_01_i21"><a name="adj_range2"></a>
+<p>
+  <code>adj_range2(V, InMin, InMax, OutMin, OutMax)</code>. Like <code>f_range()</code>, but adjusts input values in 
+ the range <code>[InMin, InMax]</code> to the range <code>[OutMin, OutMax]</code>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input value. 
+ </li>
+
+ <li>
+   <code>InMin</code> = Minimum of input range. 
+ </li>
+
+ <li>
+   <code>InMax</code> = Maximum of input range. 
+ </li>
+
+ <li>
+   <code>OutMin</code> = Minimum of output range. 
+ </li>
+
+ <li>
+   <code>OutMax</code> = Maximum of output range. 
+ </li>
+
+</ul>
+
+<h4><a name="s03_07_09_02">3.7.9.2 </a>Vector functions and macros</h4>
+
+<p>
+  These are all macros in the current version because functions can not take vector parameters, but this may change 
+ in the future.<a name="s03_07_09_02_i1"><a name="VSqr"></a> 
+</p>
+
+<p>
+  <code>VSqr(V)</code>. Square each individual component of a vector, equivalent to <code>V*V</code>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Vector to be squared. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i2"><a name="VPow"></a><a name="s03_07_09_02_i3"><a name="VPow5D"></a>
+<p>
+  <code>VPow(V, P), VPow5D(V, P)</code>. Raise each individual component of a vector to a given power.<br> 
+ Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+ <li>
+   <code>P</code> = Power. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i4"><a name="VEq"></a>
+<p>
+  <code>VEq(V1, V2)</code>. Tests for equal vectors, returns true if all three components of <code>V1</code>equal the 
+ respective components of <code>V2</code>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = The vectors to be compared. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i5"><a name="VEq5D"></a>
+<p>
+  <code>VEq5D(V1, V2)</code>. A 5D version of <code>VEq()</code>. Tests for equal vectors, returns true if all 5 
+ components of <code>V1 </code>equal the respective components of <code>V2</code>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = The vectors to be compared. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i6"><a name="VZero"></a>
+<p>
+  <code>VZero(V)</code>. Tests for a &lt; 0, 0, 0&gt; vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i7"><a name="VZero5D"></a>
+<p>
+  <code>VZero5D(V)</code>. Tests for a &lt; 0, 0, 0, 0, 0&gt; vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i8"><a name="VLength5D"></a>
+<p>
+  <code>VLength5D(V)</code>. Computes the length of a 5D vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i9"><a name="VNormalize5D"></a>
+<p>
+  <code>VNormalize5D(V)</code>. Normalizes a 5D vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i10"><a name="VDot5D"></a>
+<p>
+  <code>VDot5D(V1, V2)</code>. Computes the dot product of two 5D vectors. See vdot() for more information on dot 
+ products.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i11"><a name="VCos_Angle"></a>
+<p>
+  <code>VCos_Angle(V1, V2)</code>. Compute the cosine of the angle between two vectors.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i12"><a name="VAngle"></a>
+<p>
+  <code>VAngle(V1, V2), VAngleD(V1, V2)</code>. Compute the angle between two vectors. <code>VAngle()</code> returns 
+ the angle in radians, <code>VAngleD()</code> in degrees.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i13"><a name="VRotation"></a>
+<p>
+  <code>VRotation(V1, V2, Axis), VRotationD(V1, V2, Axis)</code>.Compute the rotation angle from V1 to V2 around 
+ Axis. Axis should be perpendicular to both V1 and V2. The output will be in the range between -pi and pi radians or 
+ between -180 degrees and 180 degrees if you are using the degree version. However, if Axis is set to &lt;0,0,0&gt; the 
+ output will always be positive or zero, the same result you will get with the VAngle() macros.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i14"><a name="VDist"></a>
+<p>
+  <code>VDist(V1, V2)</code>. Compute the distance between two points.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i15"><a name="VPerp_To_Vector"></a>
+<p>
+  <code>VPerp_To_Vector(V)</code>. Find a vector perpendicular to the given vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i16"><a name="VPerp_To_Plane"></a>
+<p>
+  <code>VPerp_To_Plane(V1, V2)</code>. Find a vector perpendicular to both given vectors. In other words, 
+ perpendicular to the plane defined by the two input vectors<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, V2</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i17"><a name="VPerp_Adjust"></a>
+<p>
+  <code>VPerp_Adjust(V1, Axis)</code>. Find a vector perpendicular to Axis and in the plane of V1 and Axis. In other 
+ words, the new vector is a version of V1 adjusted to be perpendicular to Axis.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, Axis</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i18"><a name="VProject_Plane"></a>
+<p>
+  <code>VProject_Plane(V1, Axis)</code>. Project vector V1 onto the plane defined by Axis.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1</code> = Input vectors. 
+ </li>
+
+ <li>
+   <code>Axis</code> = Normal of the plane. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i19"><a name="VProject_Axis"></a>
+<p>
+  <code>VProject_Axis(V1, Axis)</code>. Project vector V1 onto the axis defined by Axis.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V1, Axis</code> = Input vectors. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i20"><a name="VMin"></a>
+<p>
+  <code>VMin(V), VMax(V)</code>. Find the smallest or largest component of a vector.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Input vector. 
+ </li>
+
+</ul>
+<a name="s03_07_09_02_i21"><a name="VWith_Len"></a>
+<p>
+  <code>VWith_Len(V, Len)</code>. Create a vector parallel to a given vector but with a given length.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = Direction vector. 
+ </li>
+
+ <li>
+   <code>Len</code> = Length of desired vector. 
+ </li>
+
+</ul>
+
+<h4><a name="s03_07_09_03">3.7.9.3 </a>Vector Analysis</h4>
+<a name="s03_07_09_03_i1"><a name="SetGradientAccuracy"></a>
+<p>
+  <code>SetGradientAccuracy(Value)</code>: all below macros make use of a constant named '__Gradient_Fn_Accuracy_' 
+ for numerical approximation of the derivatives. This constant can be changed with the macro, the default value is 
+ 0.001.<a name="s03_07_09_03_i2"><a name="fn_Gradient"></a> 
+</p>
+
+<p>
+  <code>fn_Gradient(Fn)</code>: macro calculating the gradient of a function as a function. <br>Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fn</code> = function to calculate the gradient from. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the length of the gradient as a function. <a name="s03_07_09_03_i3"><a name="fn_Gradient_Directional"></a> 
+</p>
+
+<p>
+  <code>fn_Gradient_Directional(Fn, Dir)</code>: macro calculating the gradient of a function in one direction as a 
+ function. <br>Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fn</code> = function to calculate the gradient from. 
+ </li>
+
+ <li>
+   <code>Dir</code> = direction to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the gradient in that direction as a function. <a name="s03_07_09_03_i4"><a name="fn_Divergence"></a> 
+</p>
+
+<p>
+  <code>fn_Divergence(Fnx, Fny, Fnz)</code>: macro calculating the divergence of a (vector) function as a function. <br>Parameters: 
+ 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fnx, Fny, Fnz</code>= x, y and z components of a vector function. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the divergence as a function. <a name="s03_07_09_03_i5"><a name="vGradient"></a> 
+</p>
+
+<p>
+  <code>vGradient(Fn, p0)</code>: macro calculating the gradient of a function as a vector expression. <br>Parameters: 
+ 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fn</code> = function to calculate the gradient from. 
+ </li>
+
+ <li>
+   <code>p0</code> = point where to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the gradient as a vector expression. <a name="s03_07_09_03_i6"><a name="vCurl"></a> 
+</p>
+
+<p>
+  <code>vCurl(Fnx, Fny, Fnz, p0)</code>: macro calculating the curl of a (vector) function as a vector expression <br>Parameters: 
+ 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fnx, Fny, Fnz</code> = x, y and z components of a vector function. 
+ </li>
+
+ <li>
+   <code>p0</code> = point where to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the curl as a vector expression <a name="s03_07_09_03_i7"><a name="Divergence"></a> 
+</p>
+
+<p>
+  <code>Divergence(Fnx, Fny, Fnz, p0)</code>: macro calculating the divergence of a (vector) function as a float 
+ expression <br>Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fnx, Fny, Fnz</code> = x, y and z components of a vector function. 
+ </li>
+
+ <li>
+   <code>p0</code> = point where to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the divergence as a float expression. <a name="s03_07_09_03_i8"><a name="Gradient_Length"></a> 
+</p>
+
+<p>
+  <code>Gradient_Length(Fn, p0)</code>: macro calculating the length of the gradient of a function as a float 
+ expression. <br>Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fn</code> = function to calculate the gradient from. 
+ </li>
+
+ <li>
+   <code>p0</code> = point where to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the length of the gradient as a float expression. <a name="s03_07_09_03_i9"><a name="Gradient_Directional"></a> 
+ 
+</p>
+
+<p>
+  <code>Gradient_Directional(Fn, p0, Dir)</code>: macro calculating the gradient of a function in one direction as a 
+ float expression. <br>Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>Fn</code> = function to calculate the gradient from. 
+ </li>
+
+ <li>
+   <code>p0</code> = point where to calculate the gradient. 
+ </li>
+
+ <li>
+   <code>Dir</code> = direction to calculate the gradient. 
+ </li>
+
+</ul>
+
+<p>
+  Output: the gradient in that direction as a float expression 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_139.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_139.html">3.7.8 glass.inc, glass_old.inc</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.7.9 math.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_141.html">3.7.10 metals.inc, golds.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_141.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

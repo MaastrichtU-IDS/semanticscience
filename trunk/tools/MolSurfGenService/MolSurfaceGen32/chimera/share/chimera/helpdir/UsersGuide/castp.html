@@ -1,0 +1,155 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>CASTp Data</title>
+</head><body>
+<h2>CASTp Data</h2>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="pockets.png" alt="1ovh pockets"></td></tr>
+</table>
+<p>
+A structure and its precalculated pocket measurements can be retrieved by
+<a href="http://www.rcsb.org/robohelp_f/search_database/pdb_identifier.htm"
+target="_blank">PDB ID</a> from the
+<a href="http://sts-fw.bioengr.uic.edu/castp/index.php"
+target="_blank">Computed Atlas of Surface Topography of proteins (CASTp)
+database</a> using <a href="fetch.html"><b>Fetch by ID</b></a> or the
+command <a href="midas/open.html"><b>open</b></a> 
+(with prefix <b>castp:</b>).
+The database does not contain all PDB entries, and structures
+may be older versions of the current PDB entries.  
+</p><p>
+Results for a structure not in the CASTp database can be shown in Chimera
+by requesting a calculation at the
+<a href="http://sts-fw.bioengr.uic.edu/castp/calculation.php" target="_blank">
+CASTp server</a> and opting for results to be returned by e-mail.  
+After the results have been received and unzipped, opening the
+file named <b>*.poc</b> in Chimera automatically also reads files with the
+same name/location except the suffixes <b>.pdb</b>, <b>.pocInfo</b>, 
+<b>.mouth</b>, and <b>.mouthInfo</b>.
+</p><p>
+CASTp information includes:
+<ul>
+<li>which atoms form pockets and pocket mouths
+<li>pocket volume and surface area
+<li>mouth opening area and circumference
+</ul>
+based on Delaunay triangulation, alpha shape, and discrete flow calculations
+[<a href="http://sts-fw.bioengr.uic.edu/castp/background.php"
+target="_blank">details</a> at the CASTp site].  References:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/12824325" target="_blank">
+CASTp: Computed Atlas of Surface Topography of proteins.</a>
+Binkowski TA, Naghibzadeh S, Liang J.
+<i>Nucleic Acids Res.</i> 2003 Jul 1;31(13):3352-5.
+<br><br>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/16844972" target="_blank">
+CASTp: computed atlas of surface topography of proteins with structural 
+and topographical mapping of functionally annotated residues.</a>
+Dundas J, Ouyang Z, Tseng J, Binkowski A, Turpaz Y, Liang J.
+<i>Nucleic Acids Res.</i> 2006 Jul 1;34(Web Server issue):W116-8.
+</blockquote>
+Retrieving/opening CASTp results in Chimera shows the structure 
+in the main graphics window and associated data in a dialog, 
+or <b>Pocket List</b>. 
+</p>
+
+<a name="pocketlist">
+<h3>CASTp Pocket List</h3></a>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="castp.png" alt="1ovh pocket list"></td></tr>
+</table>
+<p>
+Each row in the dialog describes a <b><i>pocket</i></b>, which could
+be an internal cavity completely enclosed by atoms or a indentation with
+one or more openings to the external surface.  Measurements are with
+respect to the <b><i>molecular surface</i></b> (solvent-excluded surface;
+probe contact + reentrant) or the <b><i>solvent-accessible surface</i></b> 
+(that traced by the probe center).  
+</p><p>
+Each type of measurement can be shown or hidden using the <b>Columns</b> menu:
+<ul>
+<li><b>ID</b> - pocket identifier
+<li><b>MS volume</b> - pocket volume based on the molecular surface
+<li><b>SA volume</b> - pocket volume based on the solvent-accessible surface
+<li><b>pocket MS area</b> - pocket molecular surface area
+<li><b>pocket SA area</b> - pocket solvent-accessible surface area
+<li><b># openings</b> - number of <b><i>mouths</i></b>, or
+openings to the external molecular surface
+<li><b>mouth MS area</b> - total area of mouth opening(s) 
+based on the molecular surface
+<li><b>mouth SA area</b> - total area of mouth opening(s) 
+based on the solvent-accessible surface
+<li><b>MS circumference sum</b> - total circumference of mouth opening(s)
+based on the molecular surface
+<li><b>SA circumference sum</b> - total circumference of mouth opening(s)
+based on the solvent-accessible surface
+<li><b>sum arc length</b> - total length of arcs formed 
+where two pocket atoms meet
+<li><b># corner points</b> - number of corner points formed 
+where three pocket atoms meet
+<li><b># triangles</b> - total number of Delaunay triangles of mouth opening(s)
+</ul>
+Column display settings are saved in the
+<a href="preferences.html#preffile"><b>preferences</b> file</a>
+and used for subsequently retrieved CASTp data.
+If the pocket list is hidden or obscured by other windows,
+it can be raised using its <a href="instances.html">instance</a> 
+in the <b>Tools</b> menu.
+</p><p>
+The pocket list can be sorted by the values in any displayed column by
+clicking the column header.  Clicking the header once sorts the entries
+in order of increasing value and places an up arrowhead (triangle)
+in the header.  Clicking again sorts the entries in decreasing
+order and places a down arrowhead (inverted triangle) in the header.
+</p><p>
+<a name="chosen">
+A pocket can be <b><i>chosen</i></b> by clicking on its line,</a>
+and multiple pockets can be chosen at once.  
+Chosen lines are highlighted in the dialog.
+<b>Ctrl</b>-click toggles the status of a line, while clicking on the first 
+(or last) line of a contiguous block and then <b>Shift</b>-clicking 
+on the last (or first) chooses all of the lines in the block.
+</p><p>
+Options for the <b>Treatment of Chosen Pocket Atoms</b>:
+<ul>
+<li><b>Select</b> - <a href="selection.html">select</a> the atoms for further 
+<a href="menu.html#menuactions">actions</a> 
+<li><b>Color</b> [ <a href="coloring.html#colorwell">color well</a> ]
+<b>(and color all other atoms</b>
+[ <a href="coloring.html#colorwell">color well</a> ]<b>)</b>
+(factory defaults are <b>orange</b> and <b>No color</b>, respectively; 
+using <b>No color</b>
+reveals <a href="hierarchy.html">model-level colors</a>)
+<li><b>Surface</b> - show
+<a href="representation.html#surfaces">molecular surface</a>
+contributed by the atoms; 
+the first time surface is shown for a given structure,
+there may be a lag of several seconds as the surface is calculated
+<li><b>Zoom in on</b> - <a href="midas/focus.html">focus</a> on the atoms
+and adjust view orientation
+<li><b>Exclude mouth atoms</b> 
+- whether to omit pocket mouth atoms, if any, from the specified treatments
+</ul>
+Option settings are saved in the
+<a href="preferences.html#preffile"><b>preferences</b> file</a>
+and used for subsequently retrieved CASTp data.
+</p><p>
+<b>Hide</b> hides the dialog without removing it;
+<b>Quit</b> removes the dialog and the structure.
+<b>Help</b> brings up this manual page in a browser window.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2008</address>
+</body></html>

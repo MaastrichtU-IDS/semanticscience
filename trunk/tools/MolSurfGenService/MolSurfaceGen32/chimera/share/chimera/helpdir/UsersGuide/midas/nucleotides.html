@@ -1,0 +1,224 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>linewidth</title>
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+<a name="top"></a>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>nucleotides</b>  <b>sidechain</b> <i>representation</i> 
+[ <a href="#sidechain-options"><i>sidechain-options</i></a> ]
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> </h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>nucleotides</b>  <b>ndbcolor</b>
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a> </h3>
+<p>
+The <b>nucleotides</b> command generates special representations of
+nucleotide bases and sugars; it is the command-line implementation of the
+<a href="../../ContributedSoftware/nucleotides/nucleotides.html"><b>Nucleotides</b></a>
+tool.  The <b>nucleotides</b> command does not control ribbon display,
+as that can be done separately (for example, with the command
+<b><A href="ribbon.html">ribbon</A></b>).  See also: 
+<b><A href="aromatic.html">aromatic</A></b>,
+<b><A href="fillring.html">fillring</A></b>,
+<b><A href="represent.html">represent</A></b>
+</p><p>
+The command keywords and their sub-keywords can be truncated to unique strings, 
+and their case does not matter.
+A vertical bar "|" designates mutually exclusive options, and
+default settings are indicated with <b>bold</b>.
+</p><p>
+The <b>sidechain</b> keyword indicates the base/sugar <i>representation</i>
+(for which there may be <a href="#sidechain-options">further options</a>):
+<ul>
+<li><a href="#atoms"><b>atoms</b></a>
+- include all currently displayed nucleic acid sidechain atoms
+<li><a href="#fill-fill"><b>fill/fill</b></a>
+- show the sugar (ribose) and base moieties as filled rings
+<li><a href="#fill-slab"><b>fill/slab</b></a>
+- fill sugar rings, show bases as slabs
+<li><a href="#tube-slab"><b>tube/slab</b></a> 
+- show sugars as tubes connecting the bases to the backbone, 
+show bases as slabs
+<li><a href="#ladder"><b>ladder</b></a> 
+- show H-bonded residue pairs as rods or ladder rungs
+</ul>
+The <b>ndbcolor</b> keyword specifies coloring
+residues by the convention used in the
+<a href="http://ndbserver.rutgers.edu/atlas/index.html"
+target="_blank">Nucleic Acid Database (NDB) Atlas</a>:
+A red, T blue, C yellow, G green, and U cyan.
+</p>
+
+<a name="sidechain-options">
+<h3>Sidechain Representations and Sub-Options</h3></a>
+
+<a href="#top" class="nounder">&bull;</a> 
+  <a name="atoms"><b>atoms</b></a> 
+<blockquote>
+Include all currently displayed nucleic acid sidechain atoms/bonds.
+Atom/bond representations can be controlled separately (for example, 
+with the command <b><A href="represent.html">represent</A></b>).
+</blockquote>
+<a href="#top" class="nounder">&bull;</a> 
+  <a name="fill-fill"><b>fill/fill</b></a> 
+  [&nbsp;<b>orient</b>&nbsp;<b>true</b>|false&nbsp;]
+<blockquote>
+Show the sugar (ribose) and base moieties as filled rings.  
+The <b>orient</b> option controls whether the 
+positive faces of bases are shown with bumps.  
+The <a name="positive"><b><i>positive faces</i></b></a> 
+point towards the 3' end of a
+strand in right-handed A- and B-DNA (the positive Z direction in the 
+<a href="../../ContributedSoftware/nucleotides/nucleotides.html#reference">standard reference frame</a>).
+By default, ring fill thickness will track the thickness of the 
+surrounding bonds: only a thin layer for a ring in the wire 
+<a href="../representation.html">representation</a>,
+but thick when surrounded by stick bonds
+(like what is obtained with <a href="fillring.html"><b>fillring thick</b></a>).
+Regardless of the <b>orient</b> setting, 
+orientation bumps will not be shown where the fill is thin.
+</blockquote>
+<a href="#top" class="nounder">&bull;</a> 
+  <a name="fill-slab"><b>fill/slab</b></a> 
+  [&nbsp;<b>shape</b>&nbsp;<b>box</b>&nbsp;|&nbsp;tube&nbsp;|&nbsp;ellipsoid&nbsp;]
+  [&nbsp;<b>style</b>&nbsp;big&nbsp;|&nbsp;fat&nbsp;|&nbsp;<b>long</b>&nbsp;|&nbsp;skinny&nbsp;|&nbsp;<i>custom-style</i>&nbsp;]
+  [&nbsp;<b>thickness</b>&nbsp;<i>d</i>&nbsp;]
+  [&nbsp;<b>hide</b>&nbsp;<b>true</b>|false&nbsp;]
+  [&nbsp;<b>orient</b>&nbsp;<b>true</b>|false&nbsp;]
+<blockquote>
+Fill sugar rings and show bases as slabs of the specified <b>shape</b>
+(box, elliptical tube, or ellipsoid) and <b>style</b>. 
+<a href="#custom">Custom styles</a> can be used.
+The default slab <b>thickness</b> is <b>0.5</b> &Aring;.
+The <b>hide</b> option indicates whether to hide base atoms/bonds.
+The <b>orient</b> option controls whether the 
+<a href="#positive">positive faces</a> of bases are shown with bumps.  
+</blockquote>
+<a href="#top" class="nounder">&bull;</a> 
+  <a name="tube-slab"><b>tube/slab</b></a> 
+  [&nbsp;<b>shape</b>&nbsp;<b>box</b>&nbsp;|&nbsp;tube&nbsp;|&nbsp;ellipsoid&nbsp;]
+  [&nbsp;<b>style</b>&nbsp;big&nbsp;|&nbsp;fat&nbsp;|&nbsp;<b>long</b>&nbsp;|&nbsp;skinny&nbsp;|&nbsp;<i>custom-style</i>&nbsp;]
+  [&nbsp;<b>thickness</b>&nbsp;<i>d</i>&nbsp;]
+  [&nbsp;<b>hide</b>&nbsp;<b>true</b>|false&nbsp;]
+  [&nbsp;<b>orient</b>&nbsp;<b>true</b>|false&nbsp;]
+  [&nbsp;<b>glycosidic</b>&nbsp;true|<b>false</b>&nbsp;]
+<blockquote>
+Show sugars as tubes connecting the bases to the backbone, 
+and show bases as slabs of the specified <b>shape</b>
+(box, elliptical tube, or ellipsoid) and <b>style</b>.
+<a href="#custom">Custom styles</a> can be used.
+The default slab <b>thickness</b> is <b>0.5</b> &Aring;.
+The <b>hide</b> option indicates whether to hide base atoms/bonds.
+The <b>orient</b> option controls whether the 
+<a href="#positive">positive faces</a> of bases are shown with bumps.  
+The <b>glycosidic</b> option 
+applies only to base-anchored slab styles (long, skinny) and
+controls whether the sugar tubes should each
+consist of a single straight segment (default)
+or two segments, one along the glycosidic (sugar-base) bond.
+</blockquote>
+<a href="#top" class="nounder">&bull;</a> 
+  <a name="ladder"><b>ladder</b></a> 
+  [&nbsp;<b>ignore</b>&nbsp;true|<b>false</b>&nbsp;]
+  [&nbsp;<b>stubs</b>&nbsp;<b>true</b>|false&nbsp;]
+  [&nbsp;<b>radius</b>&nbsp;<i>r</i>&nbsp;]
+<blockquote>
+Show H-bonded residue pairs as rods or ladder rungs.
+The <b>ignore</b> option indicates whether to ignore non-base atoms
+when identifying H-bonds;
+otherwise, all nucleic acid atoms will be considered (default).
+The <b>stubs</b> option sets whether to show bases without H-bonds to other
+bases as half-rungs (default) or not at all.  The <b>radius</b> (default 
+<b>0.45</b> &Aring;) is used for ladder rungs showing H-bonds between bases,
+and for stubs representing bases that lack H-bonds to other bases.  When
+<b>ignore</b> is <b>true</b>, any H-bonds involving non-base atoms
+(on either or both ends) will be shown with a smaller radius corresponding
+to the smallest ribbon dimension, or if the backbone is not shown as a ribbon,
+the model stick size.
+</blockquote>
+
+<a name="custom"><h3>Custom Slab Styles</h3></a>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>nucleotides</b>  <b>add</b> <i>custom-style</i>
+  <b>anchor</b> sugar|base
+  <b>purine</b>&nbsp;<i>x1&nbsp;y1&nbsp;x2&nbsp;y2</i>
+  <b>pyrimidine</b>&nbsp;<i>x1&nbsp;y1&nbsp;x2&nbsp;y2</i>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <br><b>nucleotides</b>  <b>delete</b> <i>custom-style</i> </h3>
+
+<p>
+A <b><i>slab style</i></b> refers to the slab dimensions and location 
+relative to the atoms in purine and pyrimidine bases.  
+The settings define a virtual rectangle in the plane of the base, 
+as shown in the schematic diagrams in the <b>Slab Style</b> section of the
+<a href="../../ContributedSoftware/nucleotides/nucleotides.html"><b>Nucleotides</b></a> 
+dialog.  Ellipsoid slab shapes are drawn to enclose the the virtual rectangle.
+<p></p>
+The <b>add</b> keyword of the <b>nucleotides</b> command
+allows defining a new custom slab style or modifying one that already
+exists, where <i>custom-style</i> is the name of the style.  
+Custom slab styles are saved in the Chimera
+<a href="../../UsersGuide/preferences.html#preffile"><b>preferences</b>
+file</a>.  
+The <b>delete</b> keyword allows removing a style from the
+<a href="../../UsersGuide/preferences.html#preffile"><b>preferences</b>
+file</a>.  
+All arguments are mandatory for adding or modifying a style,
+but <b>anchor</b>, <b>purine</b>, and <b>pyrimidine</b> 
+can be given in any order.  Example: 
+<blockquote>
+<b>nuc add square pur 0 -3.5 3.5 0 pyr 0 -2.5 2.5 0 anchor base</b>
+<br>
+<b>nuc side tube/slab style square orient false</b>
+</blockquote>
+Details:
+<blockquote>
+  <b>anchor</b> sugar&nbsp;|&nbsp;base
+  <br>
+Indicate whether the point of reference for the virtual rectangle
+should be at the sugar end of the glycosidic bond (atom C1') or at the
+base end.
+</blockquote>
+<blockquote>
+  <b>purine</b>&nbsp;<i>x1&nbsp;y1&nbsp;x2&nbsp;y2</i>
+  <br>
+For purine bases, indicate virtual rectangle position
+(<i>x1</i> and <i>y1</i> specify the lower-left corner,
+<i>x2</i> and <i>y2</i> specify the upper right corner)
+in &Aring; from the anchor;
+positive values are rightward along the X-axis and upward along the Y-axis
+in the
+<a href="../../ContributedSoftware/nucleotides/nucleotides.html#reference">standard reference frame</a>.
+</blockquote>
+<blockquote>
+  <b>pyrimidine</b>&nbsp;<i>x1&nbsp;y1&nbsp;x2&nbsp;y2</i>
+  <br>
+For pyrimidine and pseudopyrimidine bases, indicate virtual rectangle position 
+(<i>x1</i> and <i>y1</i> specify the lower-left corner,
+<i>x2</i> and <i>y2</i> specify the upper right corner)
+in &Aring; from the anchor;
+positive values are rightward along the X-axis and upward along the Y-axis
+in the
+<a href="../../ContributedSoftware/nucleotides/nucleotides.html#reference">standard reference frame</a>.
+</blockquote>
+</body></html>

@@ -1,0 +1,320 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Sequences and Structures Tutorial</title>
+</head><body>
+<font size="-1">
+<a href="../frametut.html" target="_top">Chimera Tutorials Index</a>
+</font>
+
+<h2>Sequences and Structures Tutorial</h2>
+<p>
+This tutorial is an introduction to working with sequence alignments 
+and associated structures using
+<a href="../../ContributedSoftware/multalignviewer/framemav.html"
+target="_top"><b>Multalign Viewer</b></a>.
+Data are taken from the enolase superfamily:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/8987982" target="_blank">
+The enolase superfamily: a general strategy for enzyme-catalyzed 
+abstraction of the alpha-protons of carboxylic acids.</a>
+Babbitt PC, Hasson MS, Wedekind JE, Palmer DR, Barrett WC, Reed GH, Rayment I, Ringe D, Kenyon GL, Gerlt JA.
+<i>Biochemistry.</i> 1996 Dec 24;35(51):16489-501.
+</blockquote>
+To follow along,
+first <a href="download.html">download</a> the sequence alignment file
+<a href="super8.msf">super8.msf</a> to a convenient location.  This sequence 
+alignment contains the barrel domains of eight enolase superfamily members.
+</p><p>
+On <b>Windows</b>/<b>Mac</b>, click the <b>chimera</b> icon;
+on <b>UNIX</b>, start Chimera from the system prompt:
+<blockquote><tt>
+<i>unix</i>: <b>chimera</b>
+</tt></blockquote>
+A splash screen will appear, to be replaced in a few seconds
+by the main Chimera window.  Choose <b>File... Open</b>, then locate and open 
+<a href="super8.msf">super8.msf</a>.  Opening a 
+<a href="../filetypes.html#alignment">sequence alignment file</a>
+automatically starts <b>Multalign Viewer</b> and uses it to display
+the alignment.
+</p><p>
+<b>Multalign Viewer</b> has its own set of preferences, 
+including several that control display. From the alignment window menu, choose
+<b>Preferences... Appearance</b> and adjust the line-wrapping behavior, font,
+and color scheme for <b>Multiple alignments</b> as desired.  <b>Close</b>
+the preferences dialog.
+</p><p>
+Size and place the sequence window and main Chimera window so that both
+are visible.  If the sequence window becomes obscured at any point,
+it can be raised from the Chimera <b>Tools</b> menu (<b>Tools... 
+MAV - super8.msf... Raise</b>).
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">Multalign Viewer sequence window</th></tr>
+<tr><td><img src="super8.png"></td></tr>
+</table>
+<p>
+Sequence names are shown on the left, and a
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#consensus">
+<b>Consensus</b> sequence</a> and
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#conservation">
+<b>Conservation</b> histogram</a> are shown above the sequences.
+Red capital letters in the consensus sequence indicate a few
+positions in which all of the sequences have the same type of residue.
+</p><p>
+The first sequence in the alignment, named <b>mr</b>,
+corresponds to the barrel domain of mandelate racemase from <i>Pseudomonas
+putida</i>.  The next-to-the last sequence in the alignment,
+named <b>enolyeast</b>, corresponds to the barrel domain of enolase
+from <i>Saccharomyces cerevisiae</i>.
+There are multiple structures in the Protein Data Bank for each of these
+sequences; <b>2mnr</b> (mandelate racemase) and <b>4enl</b> (enolase)
+are used in this tutorial.
+</p><p>
+If you have internet connectivity, structures can be obtained directly from the
+<a href="http://www.rcsb.org" target="_blank">Protein Data Bank</a>.
+Choose <b>File... <a href="../fetch.html">Fetch by ID</a></b>
+from the Chimera menu.  In the resulting dialog,
+check the <b>PDB</b> option (if it is not already checked)
+and the option to <b>Keep dialog up after Fetch</b>.
+Fetch <b>2mnr</b>, then <b>4enl</b>, and then <b>Close</b> the dialog.  
+If you do not have internet connectivity, instead
+<a href="download.html">download</a> the files
+<a href="2mnr.pdb">2mnr.pdb</a> and
+<a href="4enl.pdb">4enl.pdb</a> included with this tutorial
+and open them in that order with <b>File... Open</b>.
+</p><p>
+The view is initially centered on a protein colored white,
+the mandelate racemase structure.  Off to the side and possibly out of view
+is the enolase structure, which is colored magenta.
+Use the menu to bring everything within view:
+<blockquote>
+<b>Actions... Focus</b>
+</blockquote>
+Apply the ribbons <a href="../menu.html#menupresets">preset</a>
+(which may or may not change the appearance, depending on your 
+preference settings):
+<blockquote>
+<b>Presets... Interactive 1 (ribbons)</b>
+</blockquote>
+<a href="../mouse.html">Move and scale</a> the structures
+as desired throughout the tutorial.
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">sequence window after structure association</th></tr>
+<tr><td><img src="super8assoc.png"></td></tr>
+</table>
+<p>
+Notice that in the sequence window, the sequence names <b>mr</b> and
+<b>enolyeast</b> are now shown in bold within boxes colored white and magenta,
+respectively.  Each structure was
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#association">
+automatically associated</a> with its best-matching sequence, 
+and the colors indicate the pairing.  
+</p><p>
+Association enables several types of crosstalk, which will be explored
+in more detail below:
+<ul>
+<li>selecting in the sequence window selects residues in the structure(s) 
+and <i>vice versa</i>
+<li>information from the sequences can be shown on the structures 
+and <i>vice versa</i>
+<li>the structures can be superimposed using the sequence alignment
+</ul>
+Association tolerates some mismatches, which is important for working 
+with mutants, close homologs, and partial sequences and/or structures.
+</p><p>
+First, we will use the sequence alignment to guide a structural match.
+From the <b>Multalign Viewer</b> menu, choose <b>Structure... Match</b>
+and click <b>Apply</b> without checking any boxes.  
+This superimposes the structures using the alpha-carbons of all pairs
+of residues aligned in the sequence alignment.
+Readjust the view to focus on the structures:
+<blockquote>
+<b>Actions... Focus</b>
+</blockquote>
+Match statistics are reported briefly in the
+<a href="../chimerawindow.html#statusline">status line</a> and are
+written to the <a href="../reply.html"><b>Reply Log</b></a>
+(<b>Tools... Utilities... Reply Log</b>).
+The match is fairly rough, giving an RMSD of 8.4 &Aring;.
+Apparently, not all 175 pairs of residues in the same columns of
+the sequence alignment superimpose well in space.
+Try the structure matching again, but this time, turn on the option to
+<b>Iterate by pruning...</b> and edit the angstrom value to <b>1.0</b>
+before clicking <b>OK</b>.  
+This improves the superposition of the most similar parts of the structures 
+by omitting other parts from the fit.
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">active sites</th></tr>
+<tr><td><img src="activesite.png"></td></tr>
+</table>
+<p>
+The structures have N-terminal and barrel domains, but
+only the barrel domains are included in the sequence alignment.
+With the mouse, drag a box to highlight the entire sequence alignment.  
+That will <a href="../selection.html">select</a> the corresponding parts of the
+proteins.  Invert the selection to the parts of the proteins <i>not</i>
+included in the sequence alignment, then hide the ribbon for those parts: 
+<blockquote>
+<b>Select... Invert (all models)</b>
+<br><b>Actions... Ribbon... hide</b>
+<br><b>Select... Clear Selection</b>
+</blockquote>
+Boxes drawn on the alignment are called 
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#regions"><b><i>regions</i></b></a>.
+A single region may consist of several disconnected boxes.
+The active region is shown with a dashed outline.  
+Delete the active region by clicking in some blank area of the sequence window 
+(not on the sequences) to make sure this window has the mouse focus,
+then pressing the keyboard <b>delete</b> key.  
+If the region is not active (the border is not dashed), 
+first click on the region to activate it, then press <b>delete</b>.
+</p><p>
+Communication also goes in the opposite direction:
+a <a href="../selection.html">selection</a> in the structures 
+is shown on the sequence alignment as a region.
+For example, select all aromatic residues in the structures:
+<blockquote>
+<b>Select... Residue... amino acid category... aromatic</b>
+</blockquote>
+The selection region is green.
+Clear the selection by Ctrl-clicking in an empty part of the graphics window.
+</p><p>
+Placing the cursor over any structure-associated residue in the sequence
+alignment shows the corresponding structure residue number near the
+bottom of the sequence window.  For example, clicking into the sequence
+window and then placing the cursor over the 
+first residue in the <b>mr</b> sequence shows that it is associated with
+Val 134 in chain A of model #0 (<b>2mnr</b>, mandelate racemase).
+</p><p>
+Next, see where some of the conserved residues are within the structures.  
+In the sequence window, find the first completely conserved residue 
+in the alignment. It is an aspartic acid, D, at alignment position 99.
+Drag with the mouse to create a region
+containing just that column of the alignment.  The corresponding
+structure residues will be <a href="../selection.html">selected</a>.
+</p><p>
+These aspartic acid residues are already displayed because the
+ribbons <a href="../menu.html#menupresets">preset</a> 
+(used above) shows not just ribbons, 
+but also bound molecules, ions, and nearby sidechains. 
+Several of the highly conserved residues ligate a catalytically important
+metal ion. Clicking into the graphics window and then
+hovering the cursor over the ions shows that they are 
+manganese and zinc, respectively.
+</p><p>
+At alignment position 150, there is a completely conserved proline (P).
+Create another region for this column
+(this time, press <b>Ctrl</b> along with the 
+mouse button to start a <i>new</i> region instead of replacing the first).
+Only ribbons are shown for these residues; display the sidechain atoms too:
+<blockquote>
+<b>Actions... Atoms/Bonds... show</b>
+</blockquote>
+Alignment regions can also be created automatically.  From the
+<b>Multalign Viewer</b>
+menu, choose <b>Structure... Secondary Structure... show actual</b>.
+This creates regions in the structure-associated sequences
+named <b>structure helices</b> (light yellow with gold outline)
+and <b>structure strands</b> (light green with green outline).
+</p><p>
+The region names are listed in the
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#regionbrowser"><b>Region Browser</b></a>
+(<b>Tools... Region Browser</b> in the <b>Multalign Viewer</b> menu).
+Clicking the <b>Active</b> checkbox for a region will
+<a href="../selection.html">select</a>
+the corresponding residues in any associated structures.
+Only one region can be active at a time, but the <b>Region Browser</b> 
+allows recoloring or deleting one or more regions simultaneously.
+<b>Close</b> the <b>Region Browser</b>.
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">conservation shown with color</th></tr>
+<tr><td><img src="rendermav.png"></td></tr>
+</table>
+<p>
+Choose <b>Tools... General Controls... Command Line</b> from the
+main Chimera menu and 
+use a command to close the enolase structure:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/close.html">close</a> 1</b>
+</blockquote>
+Clear the selection (if any) 
+by Ctrl-clicking in an empty part of the graphics window.
+</p><p>
+A structure can be colored according to the conservation in an 
+associated sequence alignment.  
+Choose <b>Structure... Render by Conservation</b> from the 
+<b>Multalign Viewer</b> menu.  The resulting
+<a href="../../ContributedSoftware/render/render.html"><b>Render 
+by Attribute</b></a> tool shows a histogram of the 
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#mavAttributes">residue attribute</a>
+named <b>mavConservation</b>.  The "mav" part of the name is shorthand for
+<b>Multalign Viewer</b>, and "Conservation" indicates the values
+correspond to what is shown in the <b>Conservation</b> line of the
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#seqwindow">sequence window</a>.
+By default, the value for a column is the fraction of sequences with
+the most common residue type at that position, for example: 
+1.0 where all 8 sequences have the same type of residue, 
+and 2/8 = 0.25 where only 2 (but any 2) share a type.
+</p><p>
+The <b>Render by Attribute</b> histogram contains vertical bars (or
+<a href="../../ContributedSoftware/render/render.html#thresh">thresholds</a>)
+for mapping the attribute values to colors or other visual cues.
+Use the <b>Colors</b> section.
+You can define your own color mapping by moving thresholds
+along the histogram and/or changing their colors.
+The <b>Value</b> and <b>Color</b> are shown for the
+most recently clicked or moved threshold.  The <b>Value</b> changes
+when the threshold is moved, or the position can be changed by
+entering a value and pressing return. The <b>Color</b> can be changed
+by clicking the square <a href="../coloring.html#colorwell">color well</a>
+and using the <a href="../colortool.html"><b>Color Editor</b></a>.
+Thresholds can be added or deleted by Ctrl-clicking on the histogram.
+Adjust the color mapping as desired before clicking <b>Apply</b>.
+Coloring the structure shows 
+the high conservation of the metal-binding residues and 
+the low conservation of most residues around the outside of the barrel.
+</p><p>
+Attributes can also be used in the command line.  For example, 
+show only the residues with <b>mavConservation</b> values greater than 0.7:
+<blockquote>
+<i>Command</i>: 
+<b><a href="../midas/show.html">show</a> :/mavConservation>.7</b>
+</blockquote>
+Several different methods for calculating conservation are available.
+The <b>Multalign Viewer</b>
+<a href="../../ContributedSoftware/multalignviewer/multalignviewer.html#mavpref-analysis"><b>Headers</b> preferences</a> 
+(<b>Preferences... Headers</b>) control which method is used.
+If you wish, change the <b>Conservation style</b> to <b>AL2CO</b> and 
+see how the <b>Conservation</b> histogram in the sequence window changes
+as any of the AL2CO parameters are varied.
+In <b>Render by Attribute</b>, it is necessary to update the values with
+<b>Refresh... Values</b> before recoloring the structure.
+</p><p>
+<a href="../../ContributedSoftware/multalignviewer/framemav.html"
+target="_top"><b>Multalign Viewer</b></a> includes many features,
+only a few of which are sampled here.  
+Users are encouraged to explore the menus and
+<a href="../../ContributedSoftware/multalignviewer/framemav.html"
+target="_top">documentation</a> for more information.
+</p><p>
+End the Chimera session:
+<blockquote>
+<i>Command</i>: <b><a href="../midas/stop.html">stop now</a></b>
+</blockquote>
+</p>
+<hr>
+<address>meng-at-cgl.ucsf.edu / August 2009</address>
+</body></html>

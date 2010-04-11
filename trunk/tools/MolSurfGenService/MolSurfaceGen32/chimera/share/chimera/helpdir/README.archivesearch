@@ -1,0 +1,59 @@
+This document will describe the implementation of the 'search chimera-dev archive' 
+and 'search chimera-user archive' search boxes on the Chimera documentation's 
+feedback page.
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+As the popularity of Chimera increases, and the traffic on the chimera-users and
+chimera-dev mailing lists increases, it becomes ever more important to be able to 
+refer back to all the questions and answers that have been posted on these lists - 
+both for our users, s.t. they can see if there question has already been answered,
+and for us, s.t. we don't have to waste time answering the same question twice
+(we can just say 'refer to this post for an explanation...') Currently, the only
+way to access information in these archives is to look at the titles of the messages 
+for each month, one month at a time. We use software called Mailman to manage these
+mailing lists; Mailman takes care of all the archiving and generates web pages that
+have all the archived posts for each month sorted by Thread, Subject, Author, Date, etc.
+
+To this end, the Chimera feedback page (CHIMERA/docs/feedback.html in the distribution
+and http://www.cgl.ucsf.edu/chimera/docs/feedback.html on the web) now has a search
+box for each mailing list archive we maintain - chimera-users and chimera-dev.
+
+The actual search is handled by doing a Google site-specific search. Google lets you
+restrict your search to a certain domain name by using the 'site' keyword in the search
+box. I.e. , if i wanted to do a search for "chimera" on the cgl web site, i'd do:
+
+  chimera site:www.cgl.ucsf.edu
+
+ It just so happens that all of the Mailman archives for the chimera-dev and chimera-users
+mailing lists are located under the url 
+  www.cgl.ucsf.edu/pipermail/chimera-xxx
+(where xxx is either 'dev' or 'users'), and that doing a google site specific search using
+this as the url returns you the relevant mailing list posts as the search results. 
+
+So instead of requiring our users to go to www.google.com to perform this site specific search,
+we put a google search box on the Chimera feedback page. No magic here. Just using an html form
+to render a text box who's action attribute is "http://www.google.com/search" . 
+
+A bit of JavaScript is used in order to add the site-specificity. Each html form can also have
+an attribute called 'onsubmit' which is a bit of javascript code that is executed when the
+user clicks the submit button. The 'onsubmit' code for each of these search boxes takes the
+users query, and appends the text:
+  
+  site:www.cgl.ucsf.edu/pipermail/chimera-users
+
+and then submits the doctored text to the google web search. So if i typed in the query:
+  
+  chimera multalign viewer
+
+into the chimera-users search box, the text that actually gets submitted to google is
+  
+  chimera multalign viewer site:www.cgl.ucsf.edu/pipermail/chimera-users
+
+which will search for those terms only on the chimera-users mailing list archive site.
+
+
+
+See the source code for the page CHIMERA/docs/feedback.html to see what the javascript
+looks like ....

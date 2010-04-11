@@ -1,0 +1,93 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>alias</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>alias</b> [ [^]<i>name</i> [<i> wordlist</i>... ] ]</h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>~alias</b> [^]<i>name</i></h3>
+<p>
+<b>Alias</b> assigns to <i>name</i> the specified <i>wordlist</i>.
+Subsequent occurrences of <i>name</i> (space- and/or semicolon-delimited)
+in commands will be replaced with <i>wordlist</i>. Using
+<b>^</b><i>name</i> indicates that only occurrences
+at the beginning of a line should be replaced.
+This is useful for aliasing a long command to a short name
+without having to worry about that same name appearing
+(and being expanded) in the middle of some other command. 
+</p><p>
+Aliases defined with <b>^</b><i>name</i> are saved in the
+<a href="../preferences.html#preffile"><b>preferences</b> file</a> and
+listed in a top-level 
+<a href="../menu.html#menualiases"><b>Aliases</b> menu</a>.
+Choosing an entry in the <b>Aliases</b> menu</a> executes the alias.
+Other (non-start-of-line) aliases can be set up automatically 
+by placing <b>alias</b> commands in a
+startup <a href="../indexcommand.html#cmdfile">command file</a>
+(see the <a href="../preferences.html#Command Line"><b>Command 
+Line</b> preferences</a>).  
+Aliases of both types are saved in <a href="../sessions.html">sessions</a>.
+</p><p>
+The <b>alias</b> command without any arguments shows the definitions of
+all current aliases in the <a href="../reply.html"><b>Reply Log</b></a>.
+The definition of a specific alias can be shown with <b>alias</b> <i>name</i>, 
+and the alias can be deleted with <b>~alias</b> <i>name</i>
+(<b>^</b><i>name</i> should be used instead of <i>name</i>
+if the alias was defined that way). 
+</p><p>
+Within <i>wordlist</i>, <b>$1</b>, <b>$2</b>, <b>$3</b> ... 
+may be used to indicate the first, second, third ... arguments of
+<i>name</i>.  To have a string with spaces in it handled as a single 
+argument, replace each space with an underscore.  Any underscores
+will be replaced with spaces before the command is executed.
+For example,
+<blockquote>
+<b>alias colorsrf <a href="color.html">color</a> $1,s #0$2.a</b>
+<br>
+<b>alias helix5 :200-228</b>
+<br>
+<b>colorsrf light_sea_green helix5</b>
+</blockquote>
+is equivalent to
+<blockquote>
+<b><a href="color.html">color</a> light sea green,s #0:200-228.a</b>
+</blockquote>
+which colors the molecular surface of the specified residues light sea green.
+</p><p>
+Note that <i>wordlist</i>
+may contain multiple commands separated by semicolons, for example:
+<blockquote>
+<b>alias inspect 
+<a href="color.html">~color</a>; <a href="rlabel.html">~rl</a>; 
+<a href="focus.html">focus</a> $1; 
+<a href="color.html">color</a> byatom $1; <a href="rlabel.html">rl</a> $1</b>
+<br>
+<b>inspect :26</b>
+</blockquote>
+Avoid embedding semicolons in an alias by accident.  
+For example, the following will not color anything red
+because the entire line is interpreted as merely creating an alias:
+<blockquote>
+<b>alias others ligand | ions | solvent; <a href="color.html">color</a>
+red others</b>
+</blockquote>
+In this case, the aliasing and coloring commands should be on separate lines.
+</p><p>
+See also:
+<b><A href="namesel.html">namesel</A></b>
+</p>
+</body></html> 

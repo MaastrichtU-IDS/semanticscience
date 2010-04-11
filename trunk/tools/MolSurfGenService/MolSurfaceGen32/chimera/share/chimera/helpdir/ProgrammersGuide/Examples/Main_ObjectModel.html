@@ -1,0 +1,689 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../../chimera16.png" type="image/png">
+    <title>Chimera's Object Model</title>
+  </head>
+
+  <body>
+  <h1>Chimera's Object Model</h1>
+  <p>
+
+  <h2>Purpose</h2>
+      <p>Provide an introduction to the Chimera's object model.</p>
+
+  <h2>Introduction</h2>
+  <p>The first step to programming in the Chimera environment is to understand its <i>object model</i>. Chimera uses a hierarchy
+     of objects to represent actual chemical components - atoms, bonds, residues, and so on. Most of Chimera is written in 
+     <a href="http://www.python.org">Python</a>, an easy-to-learn, strongly object-oriented scripting language. The use of Python (for 
+     flexibility) in combination with C++ (for speed) has led to a highly structured, yet easily navigable, object model that simulates
+     all the chemical components necessitated by a full-featured, intelligent molecular modeling system.
+     <br>
+     This example will provide a foundation for some of the more complicated programming examples by explaining both the 
+     makeup of Chimera's objects and their relationship to one another. </p>
+	
+ <img src="molPOV.jpeg" align="right" width="525" height="294" hspace="20">
+
+      <p>The accompanying image illustrates the general relationship between some of Chimera's fundamental objects - <code>Atoms</code>, 
+	<code>Bonds</code>, <code>Residues</code>, and <code>Molecules</code>. While this diagram shows several attributes for each
+        object, some attributes have been left out for the sake of simplicity. Only the attributes that are discussed in this
+        tutorial (the basics, and therefore, in some sense the most important) have been shown.  You can always do a 
+        <br><br>
+<code>&nbsp;&nbsp;&gt;&gt;&gt;help(object)</code>
+       <br><br>    
+ in Chimera's <a href="http://www.cgl.ucsf.edu/chimera/docs/ContributedSoftware/idle/idle.html">IDLE</a> window (essentially
+ a Python interpreter built in to Chimera) to see documentation for <b>all</b> the contents of any Chimera object.
+
+
+The attributes associated with these objects can be divided into roughly two categories: those that contain 
+chemical/structural information (e.g. <code>Molecule.atoms</code> or <code>Atom.idAtmType</code>) and those
+that control the visual representation of the data (e.g. <code>Molecule.color</code> and <code>Atom.drawMode</code>).
+The following example will demonstrate the use of attributes in the first category.
+
+A discussion of those in the second category is saved for another <a href="#display">example</a>. 
+<p>
+<table>
+<tr><td bgcolor="#CFCFCF">
+<font SIZE="-1">		
+	 <i>Note on semantics for the following examples:</i> 
+	<ul>
+	<li>
+	 In general, anything written in <code>this font</code> (fixed width) is referring 
+	specifically to some element of code.
+	</li>
+
+
+	<li>There is sometimes a need to talk specifically about 
+	either an <i>instance</i> of an object, or its <i>class</i>.
+	To distinguish between these two situations, lowercase is used to refer to 
+	an instance ("<code>atom</code>") and uppercase is used to refer to the class ("<code>Atom</code>"). 
+	If the reference to an object is <i>not</i> written in <code>this font</code>, then the implication is obvious enough
+	and/or there is no need to make this distinction.
+	</li>
+
+	<li>
+	When discussing the color of a component, 
+	there can be some confusion differentiating between the color an object appears to be 
+	(how it appears on the screen), and what is assigned to that object's <code>color</code> attribute (on the programmatic level). 
+	"color" will
+	be used when referring to the former, and "<code>color</code>" will be used in dealing with the latter. Example:
+	"Due to Chimera's color hierarchy, the color of an atom (the color it appears to be) may not always reflect its 
+	<code>color</code> attribute (the color assigned to that atom in the code)"
+	</li>
+
+	
+	<li>Unlike <code>Atoms</code> and <code>Bonds</code>, 
+        <code>Residues</code> are not actually visible in and of themselves. It is only when they are drawn as ribbons that
+         they are visible in a model. Thus, when residue color or display is mentioned in the following discussion, it is actually referring
+         to the color/display of the ribbon portion which represents that residue. 
+	</li>
+	
+        </ul>
+	</font>
+</td></tr>
+</table>
+
+<br><br>
+
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="writeMol2.py"><i>writeMol2.py</i></a></h2>
+<p>
+Import Chimera modules used in this example.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera<br></font>
+</code>
+<p>
+First, we'll open up a model to work with. This molecule (4fun) is very small,
+comprised of just a couple residues, but it is perfect for illustrating
+some important components of Chimera's object model.
+For more information on how to open/close models in Chimera, see the
+&quot;Basic Model Manipulation&quot; Example in the Programmer's Guide (coming soon). For now,
+just understand that this code opens up any molecules stored in the file
+<a href="4fun.pdb">4fun.pdb</a> and returns a list of references to opened models.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">opened = chimera.openModels.open('4fun.pdb')<br></font>
+</code>
+<p>
+Because only one molecule was opened, <code>opened</code> is a list with just one element.
+Get a reference to that element (which is a <code>Molecule</code>
+instance) and store it in <code>mol</code><br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">mol = opened[0]<br></font>
+</code>
+<p>
+Now that we have a molecule to work with, an excellent way of examining its data structures is to flatten it out and write
+it to a file. We'll write this file in the <code>mol2</code> format, a free-format ascii file that describes molecular structure.
+It is not necessary to have any prior knowledge of the <code>mol2</code> format to understand this example, just a basic
+comprehension of file formats that use coordinate data. Check out the <a href="4fun.mol2">finished product</a>.
+It should serve as a good reference while you're going through the example.
+Get a reference to a file to write to:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f = open("4fun.mol2", 'w')<br></font>
+</code>
+<p>
+mol2 uses a series of Record Type Indicators (RTI), that indicate the type of structure that will be described in
+the following lines.
+An RTI is simply an ASCII string which starts with an asterisk (<code>@</code>), followed by a string of characters,
+and is terminated by a new line.
+Here, we define some RTI's that we will use througout the file to describe the various parts of our model:<br>
+<spacer type="vertical" size=5>
+<code>
+<br>
+<font color="red">MOLECULE_HEADER = "@<TRIPOS>MOLECULE"<br></font>
+<font color="red">ATOM_HEADER     = "@<TRIPOS>ATOM"<br></font>
+<font color="red">BOND_HEADER     = "@<TRIPOS>BOND"<br></font>
+<font color="red">SUBSTR_HEADER   = "@<TRIPOS>SUBSTRUCTURE"<br></font>
+</code>
+<p>
+The <code>chimera2sybyl</code> dictionary is used to map Chimera atom types
+to Sybyl atom types.  See section below on writing out per-atom
+information.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">chimera2sybyl = {<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">'C3'  : 'C.3',     'C2'  : 'C.2',     'Car' : 'C.ar',    'Cac' : 'C.2',<br></font>
+<font color="red">'C1'  : 'C.1',     'N3+' : 'N.4',     'N3'  : 'N.3',     'N2'  : 'N.2',<br></font>
+<font color="red">'Npl' : 'N.pl3',   'Ng+' : 'N.pl3',   'Ntr' : 'N.2',     'Nox' : 'N.4',<br></font>
+<font color="red">'N1+' : 'N.1',     'N1'  : 'N.1',     'O3'  : 'O.3',     'O2'  : 'O.2',<br></font>
+<font color="red">'Oar' : 'O.2',     'O3-' : 'O.co2',   'O2-' : 'O.co2',   'S3+' : 'S.3',<br></font>
+<font color="red">'S3'  : 'S.3',     'S2'  : 'S.2',     'Sac' : 'S.O2',    'Son' : 'S.O2',<br></font>
+<font color="red">'Sxd' : 'S.O',     'Pac' : 'P.3',     'Pox' : 'P.3',     'P3+' : 'P.3',<br></font>
+<font color="red">'HC'  : 'H',       'H'   : 'H',       'DC'  : 'H',       'D'   : 'H',<br></font>
+<font color="red">'P'   : 'P.3',     'S'   : 'S.3',     'Sar' : 'S.2',     'N2+' : 'N.2'<br></font>
+</code>
+</dl>
+<code>
+<font color="red">}<br></font>
+</code>
+<h3>Writing Out per-Molecule Information</h3><p>
+The &quot;&lt;TRIPOS&gt;MOLECULE&quot; RTI indicates that the next couple of lines will contain information relevant
+to the molecule as a whole. First, write out the Record Type Indicator (RTI):<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s\n" % MOLECULE_HEADER)<br></font>
+</code>
+<p>
+The next line contains the name of the molecule. This can be accessed through the <code>mol.name</code> attribute.
+(Remember, <code>mol</code> is a reference to the molecule we opened). If the model you open came from a pdb file, <code>name</code> will most
+often be the name of the file (without the <code>.pdb</code> extension).  For this example, <code>mol.name</code> is &quot;4fun&quot;.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s\n" % mol.name)<br></font>
+</code>
+<p>
+Next, we need to write out the number of atoms, number of bonds, and number of substructures in the model (substructures
+can be several different things; for the sake of simplicity, the only substructures we'll worry about here are residues).
+This data is accessible through attributes of a molecule object: <code>mol.atoms</code>, <code>mol.bonds</code>, and <code>mol.residues</code> all contain
+lists of their respective components. We can determine how many atoms, bonds, or residues this
+molecule has by taking the <code>len</code> of the appropriate list.
+save the list of references to all the atoms in <code>mol</code>:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">ATOM_LIST = mol.atoms<br></font>
+</code>
+<p>
+save the list of references to all the bonds in <code>mol</code>:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">BOND_LIST = mol.bonds<br></font>
+</code>
+<p>
+save the list of references to all the residues in <code>mol</code>:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">RES_LIST  = mol.residues<br></font>
+<br>
+<font color="red">f.write("%d %d %d\n" % ( len(ATOM_LIST), len(BOND_LIST), len(RES_LIST)) )<br></font>
+</code>
+<p>
+type of molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("PROTEIN\n")<br></font>
+</code>
+<p>
+indicate that no charge-related information is available<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("NO_CHARGES\n")<br></font>
+<br>
+<font color="red">f.write("\n\n")<br></font>
+</code>
+<h3>Writing Out per-Atom Information</h3><p>
+Next, write out atom-related information. In order to indicate this, we must first write out the
+atom RTI:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s\n" % ATOM_HEADER)<br></font>
+</code>
+<p>
+Each line under the <code>ATOM</code> RTI consists of information pertaining to a single atom. The following information about each
+atom is required: an arbitrary atom id number, atom name, x coordinate, y coordinate, z coordinate, atom type, id of the
+substructure to which the atom belongs , name of the substructure to which the atom belongs.<br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<p>
+You can look at each atom in the molecule by looping through its <code>atoms</code> attribute.
+Remember, <code>ATOM_LIST</code> is the list of atoms stored in <code>mol.atoms.</code> It's more efficient
+to get the list once, and assign it to a variable, then to repeatedly ask for <code>mol.atoms</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for atom in ATOM_LIST:<br></font>
+</code>
+<dl><dd>
+<p>
+Now that we have a reference to an atom, we can write out all the necessary information to the file.
+The first field is an arbitrary id number. We'll just use that atom's index within the <code>mol.atoms</code> list.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%d " % ATOM_LIST.index(atom) )<br></font>
+</code>
+<p>
+Next, we need the name of the atom, which is accessible via the <code>name</code> attribute.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s " % atom.name)<br></font>
+</code>
+<p>
+Now for the x, y, and z coordinate data.
+Get the atom's <code>xformCoord</code> object. This is essentially a wrapper that holds information about the
+coordinate position (x,y,z) of that atom. <code>xformCoord.x</code>, <code>xformCoord.y</code>, and <code>xformCoord.z</code> store the x, y,
+and z coordinates,
+respectively, as floating point integers. This information comes from the coordinates given for each atom
+specification in the input file<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">coord = atom.xformCoord()<br></font>
+<font color="red">f.write("%g %g %g " % (coord.x, coord.y, coord.z) )<br></font>
+</code>
+<p>
+The next field in this atom entry is the atom type. This is a string which stores information about the
+chemical properties of the atom. It is accessible through the <code>idatmType</code> attribute of an atom object.
+Because Chimera uses slightly different atom types than SYBYL (the modeling program for which .mol2 is the primary
+input format), use a dictionary called chimera2sybyl (defined above) that converts Chimera's atom types to
+the corresponding SYBYL version of the atom's type.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s " % chimera2sybyl[atom.idatmType])<br></font>
+</code>
+<p>
+The last two fields in an atom entry pertain to any substructures to which the atom may belong.
+As previously noted, we are only interested in residues for this example.
+Every atom object has a <code>residue</code> attribute, which is a reference to the residue to which that atom belongs.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">res   = atom.residue<br></font>
+</code>
+<p>
+Here, we'll use <code>res.id</code> for the substructure id field. <code>res.id</code> is a string which represents a unique id
+for that residue (a string representation of a number, i.e. &quot;1&quot; , which are sequential, for all the
+residues in a molecule).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s " % res.id)<br></font>
+</code>
+<p>
+The last field to write is substructure name. Here, we'll use the <code>type</code> attribute of <code>res</code>. the <code>type</code> attribute contains
+a string representation of the residue type (e.g. &quot;HIS&quot;, &quot;PHE&quot;, &quot;SER&quot;...).  Concatenate onto this the residue's <code>id</code>
+to make a unique name for this substructure (because it is possible, and probable, to have more than one
+&quot;HIS&quot; residue in a molecule. This way, the substructure name will be &quot;HIS6&quot; or &quot;HIS28&quot;)<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s%s\n" % (res.type, res.id) )<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">f.write("\n\n")<br></font>
+</code>
+<h3>Writing Out per-Bond Information</h3><p>
+Now for the bonds. The bond RTI says that the following lines will contain information about bonds.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s\n" % BOND_HEADER)<br></font>
+</code>
+<p>
+Each line after the bond RTI contains information about one bond in the molecule.
+As noted earlier, you can access all the bonds in a molecule through the <code>bonds</code> attribute,
+which contains a list of bonds.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for bond in BOND_LIST:<br></font>
+</code>
+<dl><dd>
+<p>
+each bond object has an <code>atoms</code> attribute, which is list of length 2, where each item in the list is
+a reference to one of the atoms to which the bond connects.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">a1, a2 = bond.atoms<br></font>
+</code>
+<p>
+The first field in a mol2 bond entry is an arbitrary bond id. Once again, we'll just use that
+bond's  index in the <code>mol.bonds</code> list<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%d " % BOND_LIST.index(bond) )<br></font>
+</code>
+<p>
+The next two fields are the ids of the atoms which the bond connects. Since we have a reference to both these
+atoms (stored in <code>a1</code> and <code>a2</code>), we can just get the index of those objects in the <code>mol.atoms</code> list:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s %s " % (ATOM_LIST.index(a1), ATOM_LIST.index(a2)) )<br></font>
+</code>
+<p>
+The last field in this bond entry is the bond order. Chimera doesn't currently calcuate bond orders,
+but for our educational purposes here, this won't be a problem.
+The mol2 format expects bond order as a string: &quot;1&quot; (first-order), &quot;2&quot; (second-order), etc.,  so
+just write out &quot;1&quot; here (even though this may not be correct).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("1\n")<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">f.write("\n\n")<br></font>
+</code>
+<h3>Writing Out per-Residue Information</h3><p>
+Almost done!!! The last section contains information about the substructures (i.e. residues for this example)
+You know the drill:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s\n" % SUBSTR_HEADER)<br></font>
+</code>
+<p>
+We've already covered some of these items (see above):<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for res in RES_LIST:<br></font>
+</code>
+<dl><dd>
+<p>
+residue id field<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s " % res.id )<br></font>
+</code>
+<p>
+residue name field<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%s%s " % (res.type, res.id) )<br></font>
+</code>
+<p>
+the next field specifies the id of the root atom of the substructure. For the case of residues,
+we'll use the alpha-carbon as the root.
+Each residue has an <code>atomsMap</code> attribute which is a dictionary. The keys in this dictionary are
+atom names (e.g. <code>C</code>, <code>N</code>, <code>CA</code>), and the values are lists of references to atoms in the residue that have that
+name. So, to get the alpha-carbon of this residue:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">alpha_carbon = res.atomsMap['CA'][0]<br></font>
+</code>
+<p>
+and get the id of <code>alpha_carbon</code> from the <code>mol.atoms</code> list<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("%d " % ATOM_LIST.index(alpha_carbon) )<br></font>
+</code>
+<p>
+The final field of this substructure entry is a string which specifies what type of substructure it is:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">f.write("RESIDUE\n")<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">f.write("\n\n")<br></font>
+<font color="red">f.close()<br></font>
+</code>
+<p>
+And that's it! Don't worry if you didn't quite understand all the ins and outs of the mol2 file format.
+The purpose of this exercise was to familiarize yourself with Chimera's object model; writing out a mol2 file
+was just a convenient way to do that. The important thing was to gain an understanding of how Chimera's atoms,
+bonds, residues, and molecules all fit together.<br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+
+<br>
+<hr width="60%">
+<br>
+
+<a name="display">
+<h2>Display Properties</h2>
+<p>The goal of any molecular modeling system is to enable researchers to visualize their data. 
+Equally important as the attributes that describe chemical structure, are those that control how 
+the structures are actually represented on-screen. In fact, an extensive object model is worthless unless the 
+objects can be represented in a suitable manner! The display of Chimera's core objects is governed by 
+a few key concepts:
+</p>
+
+
+	<h3>Color Hierarchy</h3>
+	
+	<p>Chimera uses a hierarchical
+	system to color fundamental chemical components. This hierarchy is composed of two levels: 1) individual 
+	atoms/bonds/residues and 2) the model as a whole. 
+        The <code>color</code> assigned to an individual atom/bond/residue will
+	be visible over the <code>color</code> assigned to the model as a whole. 
+	When a model is initially opened, each atom/bond/residue <code>color</code> 
+	is set to None, and the model-level <code>color</code>
+	is determined by a 
+	<a href="http://www.cgl.ucsf.edu/chimera/docs/UsersGuide/preferences.html#New%20Molecules">configurable preference</a>
+	(by default, Chimera automatically assigns a unique model-level <code>color</code> to each new molecule that is opened). 
+	Because all the components' (atoms/bonds/residues) <code>color</code> attributes are 
+	initially set to <code>None</code>, they (visually) inherit their color from the model-level <code>color</code>.	
+
+	However, setting any particular atom's <code>color</code>, 
+	or issuing a command
+	such as 'color blue' (which is the same as setting each individual atom's <code>color</code> to blue) will result in the 
+	model appearing blue (because either of those actions affect an individual atoms' <code>color</code>, 
+	which takes visual precedence over the model-level <code>color</code>).
+	See <a href="http://www.cgl.ucsf.edu/chimera/docs/UsersGuide/hierarchy.html">here</a> for more information.
+
+
+	<h3>Display Hierarchy</h3>
+	<p>Each of Chimera's objects has an attribute which determines if it is displayed (visible) or not. For atoms,  
+	bonds,  and molecules this is called <code>display</code>, 
+	while residues have a <code>ribbonDisplay</code>
+	attribute (residues are represented visually as ribbons). A value of <code>True</code> means that the component is displayed, while <code>False</code> means it is not displayed. 
+	An atom/bond/residue will only be displayed if the model to which it belongs is displayed. This means that 
+	even if an atom/bond/residue's respective display attribute is set to <code>True</code>, if the molecule to which 
+	that atom belongs is undisplayed 
+	(i.e. the molecule's <code>display</code> is set to <code>False</code>), then that atom/bond/residue will still not be visible.
+	See <a href="http://www.cgl.ucsf.edu/chimera/docs/UsersGuide/hierarchy.html#displevels">here</a> for more information. 	
+
+	 
+      </p>
+     
+<h3>Draw Modes</h3>
+Each Chimera object can be drawn in one of several representations ('draw modes'), specific to that object. 
+atoms and bonds
+each have an attribute named <code>drawMode</code> that controls this characteristic, while residues' 
+(because they are represented as ribbons) corresponding attribute is
+called <code>ribbonDrawMode</code>. The value of this attribute is a constant which corresponds to a certain type of
+representation specific to that object. 
+For example, <code>chimera.Atom.Dot, chimera.Atom.Sphere, chimera.Atom.EndCap</code>
+and <code>chimera.Atom.Ball</code> are constants that each define a different draw mode for atoms. 
+There is a different set of constants that define draw modes for bonds and residues (see below for more information).
+
+<br>
+
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="displayProp.py"><i>displayProp.py</i></a></h2>
+<code>
+<font color="red">import chimera<br></font>
+</code>
+<p>
+open up a molecule to work with:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">opened = chimera.openModels.open('3fx2', type="PDB")<br></font>
+<font color="red">mol    = opened[0]<br></font>
+</code>
+<h3>Molecule Display Properties</h3><p>
+the <code>color</code> attribute represents the model-level color.
+This color can be controlled by the midas command <code>modelcolor</code>.
+The <code>color</code> assigned to a newly opened model is determined by a configurable preference (see discussion above).
+Programmatically, the model
+color can be changed by simply assigning a <code>MaterialColor</code> to <code>molecule.color</code>. Molecules also have a
+<code>display</code> attribute, where a value of <code>True</code> corresponds to being displayed, and a value of <code>False</code>
+means the molecule is not displayed.
+So to make sure the molecule is shown (it is by default when first opened):<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">mol.display = True<br></font>
+</code>
+<p>
+To color the molecule red,
+get a reference to Chimera's notion of the color red (returns a <code>MaterialColor</code> object)<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from chimera.colorTable import getColorByName<br></font>
+<font color="red">red = getColorByName('red')<br></font>
+</code>
+<p>
+and assign it to <code>mol.color</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">mol.color = red<br></font>
+</code>
+<p>
+Note that the model will appear red at this point because all the atoms/bonds/residues
+<code>color</code> attributes are set to <code>None</code><br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<h3>Atom Display Properties</h3><p>
+Each atom in a molecule has its own individual color,
+accessible by the <code>color</code> attribute. Upon opening a molecule, each atom's <code>color</code> is set to <code>None</code>;
+it can be changed by assigning a new <code>MaterialColor</code> to <code>atom.color</code>.
+So, if we wanted to color all the alpha-carbon atoms blue, and all the rest yellow,
+get references to the colors:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">blue    = getColorByName('blue')<br></font>
+<font color="red">yellow  = getColorByName('yellow')<br></font>
+</code>
+<p>
+get a list of all the atoms in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">ATOMS = mol.atoms<br></font>
+<font color="red">for at in ATOMS:<br></font>
+</code>
+<dl><dd>
+<p>
+check to see if this atom is an alpha-carbon<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if at.name == 'CA':<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.color = yellow<br></font>
+</code>
+</dl>
+<code>
+<font color="red">else:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.color = blue<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Now, even though <code>mol.color</code> is set to red, the molecule will appear to be blue and yellow. This is because each individual
+atom's <code>color</code> is visible over <code>mol.color</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<p>
+Like molecules, atoms also have a <code>display</code> attribute that controls whether or not the atom is shown.
+While <code>atom.display</code> controls whether the atom can be seen at all, <code>atom.drawMode</code> controls its visual representation.
+The value of <code>drawMode</code> can be one of four constants, defined in the <code>Atom</code> class.
+Acceptable values for <code>drawMode</code>
+are <code>chimera.Atom.Dot</code> (dot representation), <code>chimera.Atom.Sphere</code> (sphere representation),
+<code>chimera.Atom.EndCap</code> (endcap representation), or <code>chimera.Atom.Ball</code> (ball representation).
+So, to represent all the atoms in the molecule as &quot;balls&quot;:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for at in ATOMS:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.drawMode = chimera.Atom.Ball<br></font>
+</code>
+</dl>
+<h3>Bond Display Properties</h3><p>
+Bonds also contain <code>color</code>, and <code>drawMode</code> attributes. They serve the same purposes here as they do
+in atoms (<code>color</code> is the color specific to that bond, and <code>drawMode</code> dictates
+how the bond is represented). <code>drawMode</code> for bonds can be either <code>chimera.Bond.Wire</code> (wire representation)
+or <code>chimera.Bond.Stick</code> (stick representation).
+The <code>bond.display</code> attribute accepts slightly different values than that of other objects.
+While other objects' <code>display</code> can be set to either <code>False</code> (not displayed)
+or <code>True</code> (displayed), <code>bond.display</code> can be assigned a value of <code>chimera.Bond.Never</code> (same as <code>False</code> - bond is not
+displayed), <code>chimera.Bond.Always</code> (same as <code>True</code> - bond is displayed), or <code>chimera.Bond.Smart</code> which means that the
+bond will only be
+displayed if both the atoms it connects to are displayed. If not, the bond will not be displayed.
+The heuristic that determines bond color is also a little more complicated than for atoms.
+Bonds have an attribute called <code>halfbond</code>
+that determines the source of the bond's color. If <code>halfbond</code> is set to <code>True</code>, then the
+bond derives its color from the atoms which
+it connects, and ignores whatever <code>bond.color</code> is. If both those atoms are the same color (blue, for instance),
+then the bond will appear blue. If the bonds atoms are different colors, then each half of the bond will correspond to the color
+of the atom on that side. However, if <code>bond.halfbond</code> is set to <code>False</code>, then that bond's color
+will be be derived from its <code>color</code> attribute, regardless of the <code>color</code>s of the atoms which it connects (except in the case
+<code>bond.color</code> is <code>None</code>, the bond will derive its color from one of the atoms to which it connects).
+To set each bond's display mode to &quot;smart&quot;, represent it as a stick, and turn halfbond mode on,
+get a list of all bonds in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">BONDS = mol.bonds<br></font>
+<font color="red">for b in BONDS:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">b.display  = chimera.Bond.Smart<br></font>
+<font color="red">b.drawMode = chimera.Bond.Stick<br></font>
+<font color="red">b.halfbond = True<br></font>
+</code>
+</dl>
+<h3>Residue Display Properties</h3><p>
+Residues are not &quot;displayed&quot; in the same manner that atoms and bonds are. When residues are displayed, they are
+in the form of ribbons, and the attributes that control the visual details of the residues are named accordingly:
+<code>ribbonDisplay</code>, <code>ribbonColor</code>, <code>ribbonDrawMode</code>. The values for <code>ribbonDrawMode</code> can be <code>chimera.Residue.Ribbon_2D</code> (flat ribbon),
+<code>chimera.Residue.Ribbon_Edged</code> (sharp ribbon), or <code>chimera.Residue.Ribbon_Round</code> (round/smooth ribbon).
+If a residue's <code>ribbonDisplay</code> value is set to <code>False</code>, it doesn't matter what <code>ribbonDrawMode</code>
+is - the ribbon still won't be displayed!
+Residues have three attributes that control how the ribbon is drawn. <code>isTurn</code>, <code>isHelix</code>, and  <code>isSheet</code> (same as <code>isStrand</code>) are
+set to either <code>True</code> or <code>False</code> based on secondary structure information contained in the source file (if available).
+For any residue, only one of these can be set to <code>True</code>.
+So, to display only the residues which are part of an alpha-helix, as a smooth ribbon,
+get a list of all the residues in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">RESIDUES = mol.residues<br></font>
+<font color="red">for r in RESIDUES:<br></font>
+</code>
+<dl><dd>
+<p>
+only for residues that are part of an alpha-helix<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if r.isHelix:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">r.ribbonDisplay  = True<br></font>
+<font color="red">r.ribbonDrawMode = chimera.Residue.Ribbon_Round<br></font>
+</code>
+</dl>
+</dl>
+
+This leaves us with a very colorful (if a little scientifically useless) model!! 
+<img src="useless.png" align="left" vspace="15">

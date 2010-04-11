@@ -1,0 +1,304 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2005 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 2180 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 2180 Release Notes (12 Oct 2005)</h2>
+
+    <h3>
+      Changes since the <a href="1.2065.html">previous production release (1.0 build 2065)</a>:
+    </h3>
+
+    <blockquote>
+
+      <h4>For Developers:</h4>
+      <ul>
+	<li>There have been some API changes &mdash; details can be found in the
+	<a href="http://www.cgl.ucsf.edu/chimera/docs/feedback.html#developers">
+	  Chimera developers mailing list</a>.</li>
+      </ul>
+
+      <h4>General:</h4>
+      <ul>
+	<li>Chimera is 10-20% faster depending on what you're doing</li>
+	<li>selections can be inverted (using the the <b>Select</b> menu, the command select, or arrow key shortcuts)</li>
+
+	<li>new arrow key operations:
+	<table border='1'>
+	  <tr><td>left arrow </td><td>undo selection</td></tr>
+	  <tr><td>shift-left arrow </td><td>clear selection</td></tr>
+	  <tr><td>right arrow </td><td>invert selection
+	  (only in models containing selections)</td></tr>
+	  <tr><td>shift-right arrow </td><td>invert selection (all models)</td></tr>
+	</table></li>
+
+	<li>PDB file writing can be restricted to only selected and/or displayed atoms
+	(<b>File... Save PDB</b>, <b>Actions... Write PDB</b>,
+	"write PDB" in the <b>Model Panel</b>,
+	"Write PDB" button on the <b>Selection Inspector</b>,
+	the command write)</li>
+
+	<li>the Chimera scene can be exported with <b>File... Export Scene</b>
+	(formats:
+	<a href="http://www.web3d.org/x3d/">X3D</a>,
+	<a href="http://www.povray.org">POV-Ray</a>,
+	<a href="http://www.renderman.org">RenderMan</a>,
+	and <a href="http://www.web3d.org/x3d/vrml/">VRML</a>,
+	with the latter only including surfaces)</li>
+
+	<li>in the <b>Select</b> menu,
+	residue names are directly under <b>Residue</b> and
+	are segregated into standard and nonstandard categories</li>
+
+	<li><b>Select... Save Selection</b> renamed <b>Name Selection</b></li>
+
+	<li><b>Actions</b> and <b>Help</b> menus reorganized</li>
+
+	<li><b>Actions... Set Pivot</b> added;
+	sets rotation center without zooming</li>
+
+	<li><b>Help... Search Documentation</b> added
+	for searching local documentation</li>
+
+	<li><b>Tools</b> menu reorganized; new category names, removal of a few
+	obsolete entries
+	(<b>MSF Viewer</b> superseded by <b>Multalign Viewer</b>,
+	<b>AlignPlot</b> superseded by <b>Minrms Plot</b>,
+	<b>DelPhiViewer</b> superseded by <b>Surface Color</b>)</li>
+
+	<li>balloon help over bonds/pseudobonds includes length</li>
+
+	<li>residue labels are now positioned at the centroid of the displayed
+	atoms, including backbone atoms when they are hidden by ribbon</li>
+
+	<li>new residue attribute isHet (whether the residue is in
+	HETATM records in the input PDB file)</li>
+
+	<li>nucleic acid ambiguity codes (R = A/G, Y = C/T/U, N = A/C/G/T/U)
+	can be used in subsequence searching (<b>Select...Sequence...</b>
+	and <b>Sequence Panel</b>)</li>
+
+	<li>N1 atom type (sp-hybridized N) split into N1+
+	(bonded to two other atoms) and N1 (bonded to one other atom)</li>
+
+	<li>additional amino acid hydrophobicity scales (available as 
+	<b>Define Attribute</b> files)</li>
+
+	<li>Switched to Python 2.4</li>
+
+      </ul>
+
+      <h4>New Tools:</h4>
+      <ul>
+
+	<li><b>Attribute Calculator</b> (Structure Analysis) &mdash;
+	generate new numerical attributes 
+	from existing ones; calculate totals or averages of a given 
+	numerical attribute</li>
+
+	<li><b>Color Zone</b> (Volume Data) &mdash; color surface patches near
+	selected atoms,
+	using the colors of those atoms (works for GRASP surfaces
+	and surfaces from <b>Volume Viewer</b> and <b>Multiscale Models</b>,
+	but not standard molecular surfaces)</li>
+
+	<li><b>Demo Editor</b> (Demos) &mdash; graphical interface for creating
+	demos</li>
+
+	<li><b>Movie Recorder</b> (Utilities) &mdash; capture image frames from
+	Chimera and assemble them into a movie file </li>
+
+	<li><b>Surface Capping</b> (Depiction) &mdash; cap surfaces where they
+	intersect a clipping plane</li>
+
+	<li><b>Surface Color</b> (Volume Data, Surface/Binding Analysis)
+	&mdash; color surfaces according to volume data or geometry
+	(distance from a point, axis, or plane)</li>
+
+	<li><b>Surface Zone</b> (Surface/Binding Analysis) &mdash;
+	restrict GRASP or <b>Multiscale Models</b> surface display
+	to a zone around selected atoms</li>
+
+	<li><b>Values at Atom Positions</b> (Volume Data) &mdash;
+	map volume data to atom positions and assign values as an attribute</li>
+
+	<li><b>2D Labels</b> (Utilities) &mdash;
+	create arbitrary text labels and place them in 2D</li>
+
+      </ul>
+
+      <h4>Tool Changes:</h4>
+      <ul>
+	<li><b>Benchmark</b> (Utilities) &mdash;
+	molecule benchmarks added (previously only volume displays)</li>
+
+	<li><b>Demos</b> (Demos) &mdash; changes in demo dialog buttons/menu;
+	demo source file format changed to XML (see new <b>Demo Editor</b>);
+	older format can still be played;
+	new Hormone-Receptor Complex Demo</li>
+
+	<li><b>FindHBond</b> (Structure Analysis) &mdash;
+	see changes in "hbonds" command (below)</li>
+
+	<li><b>Lighting</b> (Viewing Controls) &mdash;
+	new simplified interface with just brightness,
+	key-to-fill ratio (contrast), and light positions</li>
+
+	<li><b>MatchMaker</b> (Structure Comparison) &mdash;
+	can include a secondary structure
+	term in the alignment score; can automatically iterate the fit</li>
+
+	<li><b>MD Movie</b> (formerly Movie; Utilities) &mdash;
+	new "md:" prefix for metafiles;
+	added step size option for replay; 
+	RMSD map calculation speeded up; 
+	can automatically recolor RMSD maps for contrast; 
+	"Analysis... Calculate occupancy" added to collect occupancy data 
+	and display it with <b>Volume Viewer</b>;
+	"File... Record movie" added to facilitate image capture and assembly
+	into a movie file</li>
+
+	<li><b>Multalign Viewer</b> (Structure Comparison) &mdash;
+	Region Browser acts upon chosen region(s)
+	(not necessarily the active region)
+	and includes checkboxes to control which is active
+	and which are shown in the sequence window; 
+	all-gap positions can be omitted from saved files;
+	all headers (Consensus <i>etc.</i>) available as residue attributes in 
+	associated structures; 
+	more sophisticated measures of Conservation available (calculated 
+	with the program AL2CO); 
+	conservation values can be saved to a file (File... Save Conservation);
+	associations can be saved to a file (File... Save Association Info);
+	information to be shown as a header line (such as Conservation) can be 
+	read from an external "header definition file"</li>
+
+	<li><b>Multiscale Models</b> (Higher-Order Structure) &mdash;
+	separate surfacing threshold for CA-only chains</li>
+
+	<li><b>Nucleotides</b> (Depiction) &mdash; now assigns a pucker
+	value to all sugar atoms
+	(one of <i>plane</i>, <i>envelope</i>, <i>endo</i>, or <i>exo</i>)</li>
+
+	<li><b>Per-Model Clipping</b> (Depiction) &mdash;
+	new slab mode to show just a slice of a model</li>
+
+	<li><b>ViewDock</b> (Surface/Binding Analysis) &mdash;
+	status saved in sessions;
+	H-bond statistics can be included in the columns of ligand descriptors</li>
+
+	<li><b>Volume Viewer</b> (Volume Data) &mdash;
+	major interface reorganization; 
+	support added for UHBD electrostatic potential (binary only), 
+	gOpenMol, and PROFEC grid formats; support added for
+	non-orthogonal crystal data</li>
+
+      </ul>
+
+      <h4>New Commands:</h4>
+      <ul>
+
+	<li><b>2dlabels</b> &mdash; create arbitrary text labels
+	and place them in 2D; command-line implementation of <b>2D Labels</b></li>
+
+	<li><b>movie</b> &mdash; capture image frames and assemble them
+	into a movie file; 
+	command-line implementation of <b>Movie Recorder</b> tool</li>
+
+	<li><b>writesel</b> &mdash; write a readable text file
+	containing specifications of the 
+	currently selected (or unselected) items; command-line implementation
+	of <b>Actions... Write</b></li>
+
+      </ul>
+
+      <h4>Command Changes:</h4>
+      <ul>
+
+	<li><b>color</b> &mdash; now colors ribbons, although they can be
+	specified independently from atoms, <i>etc.</i></li>
+
+	<li>British spellings added:
+	<i>grey</i> can be substituted for <i>gray</i>,
+	<i>colour</i> for <i>color</i>, and <i>centre</i> for <i>center</i></li>
+
+	<li><b>hbonds</b> &mdash; new keywords "namingStyle" to control style
+	of atom specification
+	when H-bond information is written to a file, "reveal" to display
+	residues when H-bond participants are undisplayed (corresponding
+	options added to FindHBond)</li>
+
+	<li><b>match</b> &mdash; new "iterate" keyword to prune atom pairs
+	farther than a specified distance apart from the least-squares fit</li>
+
+	<li><b>matchmaker</b> (mmaker) &mdash; new "iterate" keyword to prune
+	residue pairs from the fit;
+	new keywords to control secondary structure scoring</li>
+
+	<li><b>select</b> &mdash; new keywords for inverting selections</li>
+
+	<li><b>stop</b> &mdash; now adheres to "confirm exit" preference</li>
+
+	<li><b>write</b> &mdash; new keywords to restrict coordinate
+	writing to selected and/or displayed atoms</li>
+      </ul>
+
+      <h4>Tutorial Changes:</h4>
+
+      <ul>
+
+	<li>New <b>Attributes</b> tutorial &mdash;
+	includes use of <b>Render by Attribute</b>, <b>Surface Area/Volume</b>,
+	and <b>Attribute Calculator</b>,
+	plus some advanced command-line usage</li>
+
+	<li>other tutorials updated</li>
+      </ul>
+
+      <h4>Major Bugs Fixed:</h4>
+      <ul>
+	<li>no longer hangs fetching PDB file if RCSB web site is down</li>
+	<li>neon works on Windows</li>
+	<li>deleting atoms that are part of a bond rotation no longer
+	crashes chimera</li>
+	<li>X3D output works for ribbons and VRML as well.</li>
+	<li>a deleted residue used to break user interfaces that associate
+	structure with sequence
+	(<i>e.g.</i>, <b>Multalign Viewer</b> and <b>Sequence</b> panel)</li>
+	<li>fixed bug reading MRC files containing symmetry operators</li>
+      </ul>
+
+      <h4>Known Bugs:</h4>
+      <ul>
+	<li>bond rotations in large molecules are slow</li>
+	<li>volume rendering doesn't work correctly on Mac OS X before 10.3</li>
+	<li>ribbon transparency doesn't work correctly on all platforms</li>
+	<li>cross-eye stereo parallax is wrong</li>
+      </ul>
+
+    </blockquote>
+
+  </body>
+</html>

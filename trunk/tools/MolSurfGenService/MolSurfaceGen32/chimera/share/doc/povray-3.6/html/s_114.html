@@ -1,0 +1,542 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.5 Textures</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_113.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_113.html">3.4.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.5 
+   Textures</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_115.html">3.5.1 Pigment</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_115.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h2><a name="s03_05">3.5 </a>Textures</h2>
+<a name="s03_05_i1"><a name="texture"></a><a name="s03_05_i2"><a name="texture, keyword"></a><a name="s03_05_i3"><a name="s03_05_i4"><a name="material_map, texture"></a><a name="s03_05_i5"><a name="s03_05_i6"><a name="texture_map, texture"></a><a name="s03_05_i7">
+<p>
+  The <code>texture</code> statement is an object modifier which describes what the surface of an object looks like, 
+ i.e. its material. Textures are combinations of pigments, normals, and finishes. Pigment is the color or pattern of 
+ colors inherent in the material. Normal is a method of simulating various patterns of bumps, dents, ripples or waves 
+ by modifying the surface normal vector. Finish describes the reflective properties of a material. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> that in previous versions of POV-Ray, the texture also contained information 
+ about the interior of an object. This information has been moved to a separate object modifier called <code>interior</code>. 
+ See &quot;<a href="#l141">Interior</a>&quot; for details. 
+</p>
+
+<p>
+  There are three basic kinds of textures: plain, patterned, and layered. A <em>plain texture</em> consists of a 
+ single pigment, an optional normal, and a single finish. A <em>patterned texture</em> combines two or more textures 
+ using a block pattern or blending function pattern. Patterned textures may be made quite complex by nesting patterns 
+ within patterns. At the innermost levels however, they are made up from plain textures. A <em>layered texture</em> 
+ consists of two or more semi-transparent textures layered on top of one another. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> although we call a plain texture <em>plain</em> it may be a very complex 
+ texture with patterned pigments and normals. The term <em>plain</em> only means that it has a single pigment, normal, 
+ and finish. 
+</p>
+
+<p>
+  The syntax for <code>texture</code> is as follows: 
+</p>
+
+<pre>
+TEXTURE:
+    PLAIN_TEXTURE | PATTERNED_TEXTURE | LAYERED_TEXTURE
+PLAIN_TEXTURE:
+    texture
+    {
+        [TEXTURE_IDENTIFIER]
+        [PNF_IDENTIFIER...]
+        [PNF_ITEMS...]
+    }
+PNF_IDENTIFIER:
+    PIGMENT_IDENTIFIER | NORMAL_IDENTIFIER | FINISH_IDENTIFIER
+PNF_ITEMS:
+    PIGMENT | NORMAL | FINISH | TRANSFORMATION
+LAYERED_TEXTURE:
+    NON_PATTERNED_TEXTURE...
+PATTERNED_TEXTURE:
+    texture
+    {
+        [PATTERNED_TEXTURE_ID]
+        [TRANSFORMATIONS...]
+    } |
+    texture
+    {
+        PATTERN_TYPE
+        [TEXTURE_PATTERN_MODIFIERS...]
+    } |
+    texture
+    {
+        tiles TEXTURE tile2 TEXTURE
+        [TRANSFORMATIONS...]
+    } |
+    texture
+    {
+        material_map
+        {
+            BITMAP_TYPE &quot;bitmap.ext&quot;
+            [MATERIAL_MODS...] TEXTURE... [TRANSFORMATIONS...]
+        }
+    }
+TEXTURE_PATTERN_MODIFIER:
+    PATTERN_MODIFIER | TEXTURE_LIST |
+    texture_map { TEXTURE_MAP_BODY }
+</pre>
+
+<p>
+  In the <em>PLAIN_TEXTURE</em>, each of the items are optional but if they are present the <em>TEXTURE_IDENTIFIER</em> 
+ must be first. If no texture identifier is given, then POV-Ray creates a copy of the default texture. See &quot;The 
+ #default Directive&quot; for details. 
+</p>
+
+<p>
+  Next are optional pigment, normal, and/or finish identifiers which fully override any pigment, normal and finish 
+ already specified in the previous texture identifier or default texture. Typically this is used for backward 
+ compatibility to allow things like: <code>texture { MyPigment }</code> where <code>MyPigment</code> is a pigment 
+ identifier. 
+</p>
+
+<p>
+  Finally we have optional <code>pigment</code>, <code>normal</code> or <code>finish</code> statements which modify 
+ any pigment, normal and finish already specified in the identifier. If no texture identifier is specified the <code> 
+ pigment</code>, <code>normal</code> and <code>finish</code> statements modify the current default values. This is the 
+ typical plain texture: 
+</p>
+
+<pre>
+  texture {
+    pigment { MyPigment }
+    normal { MyNormal }
+    finish { MyFinish }
+    scale SoBig
+    rotate SoMuch
+    translate SoFar
+}
+</pre>
+
+<p>
+  The <em>TRANSFORMATIONS</em> may be interspersed between the pigment, normal and finish statements but are 
+ generally specified last. If they are interspersed, then they modify only those parts of the texture already 
+ specified. For example: 
+</p>
+
+<pre>
+  texture {
+    pigment { MyPigment }
+    scale SoBig      //affects pigment only
+    normal { MyNormal }
+    rotate SoMuch    //affects pigment and normal
+    finish { MyFinish }
+    translate SoFar  //finish is never transformable no matter what.
+                     //Therefore affects pigment and normal only
+}
+</pre>
+
+<p>
+  Texture identifiers may be declared to make scene files more readable and to parameterize scenes so that changing a 
+ single declaration changes many values. An identifier is declared as follows. 
+</p>
+
+<pre>
+TEXTURE_DECLARATION:
+    #declare IDENTIFIER = TEXTURE |
+    #local IDENTIFIER = TEXTURE
+</pre>
+
+<p>
+  Where <em>IDENTIFIER</em> is the name of the identifier up to 40 characters long and <em>TEXTURE</em> is any valid <code>texture</code> 
+ statement. See &quot;<a href="s_98.html#s03_02_02_02_02">#declare vs. #local</a>&quot; for information on identifier 
+ scope. 
+</p>
+
+<p>
+  The sections below describe all of the options available in &quot;Pigment&quot;, &quot;Normal&quot;, and 
+ &quot;Finish&quot; which are the main part of plain textures.. There are also separate sections for &quot;<a href="s_119.html#s03_05_05">Patterned 
+ Textures</a>&quot; and &quot;<a href="s_120.html#s03_05_06">Layered Textures</a>&quot; which are made up of plain 
+ textures. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> the <code><a href="s_119.html#s03_05_05_02">tiles</a></code> and <code><a href="s_119.html#s03_05_05_03">material_map</a></code> 
+ versions of patterned textures are obsolete and are only supported for backwards compatibility. 
+</p>
+
+<p><strong>
+ Section Contents
+</strong>
+
+<ul>
+ 
+ <li>
+  <a href="s_115.html#s03_05_01">3.5.1 Pigment</a>
+  <ul>
+   
+   <li>
+    <a href="s_115.html#s03_05_01_01">3.5.1.1 Solid Color Pigments</a>
+   <li>
+    <a href="s_115.html#s03_05_01_02">3.5.1.2 Color List Pigments</a>
+   <li>
+    <a href="s_115.html#s03_05_01_03">3.5.1.3 Color Maps</a>
+   <li>
+    <a href="s_115.html#s03_05_01_04">3.5.1.4 Pigment Maps and Pigment Lists</a>
+   <li>
+    <a href="s_115.html#s03_05_01_05">3.5.1.5 Image Maps</a>
+    <ul>
+     
+     <li>
+      <a href="s_115.html#s03_05_01_05_01">3.5.1.5.1 Specifying an Image Map</a>
+     <li>
+      <a href="s_115.html#s03_05_01_05_02">3.5.1.5.2 The Filter and Transmit Bitmap Modifiers</a>
+     <li>
+      <a href="s_115.html#s03_05_01_05_03">3.5.1.5.3 Using the Alpha Channel</a>
+    </ul>
+
+   <li>
+    <a href="s_115.html#s03_05_01_06">3.5.1.6 Quick Color</a>
+  </ul>
+
+ <li>
+  <a href="s_116.html#s03_05_02">3.5.2 Normal</a>
+  <ul>
+   
+   <li>
+    <a href="s_116.html#s03_05_02_01">3.5.2.1 Slope Maps</a>
+    <ul>
+     
+     <li>
+      <a href="s_116.html#s03_05_02_01_01">3.5.2.1.1 Normals, Accuracy</a>
+    </ul>
+
+   <li>
+    <a href="s_116.html#s03_05_02_02">3.5.2.2 Normal Maps and Normal Lists</a>
+   <li>
+    <a href="s_116.html#s03_05_02_03">3.5.2.3 Bump Maps</a>
+    <ul>
+     
+     <li>
+      <a href="s_116.html#s03_05_02_03_01">3.5.2.3.1 Specifying a Bump Map</a>
+     <li>
+      <a href="s_116.html#s03_05_02_03_02">3.5.2.3.2 Bump_Size</a>
+     <li>
+      <a href="s_116.html#s03_05_02_03_03">3.5.2.3.3 Use_Index and Use_Color</a>
+    </ul>
+
+   <li>
+    <a href="s_116.html#s03_05_02_04">3.5.2.4 Scaling normals</a>
+  </ul>
+
+ <li>
+  <a href="s_117.html#s03_05_03">3.5.3 Finish</a>
+  <ul>
+   
+   <li>
+    <a href="s_117.html#s03_05_03_01">3.5.3.1 Ambient</a>
+   <li>
+    <a href="s_117.html#s03_05_03_02">3.5.3.2 Diffuse Reflection Items</a>
+    <ul>
+     
+     <li>
+      <a href="s_117.html#s03_05_03_02_01">3.5.3.2.1 Diffuse</a>
+     <li>
+      <a href="s_117.html#s03_05_03_02_02">3.5.3.2.2 Brilliance</a>
+     <li>
+      <a href="s_117.html#s03_05_03_02_03">3.5.3.2.3 Crand Graininess</a>
+    </ul>
+
+   <li>
+    <a href="s_117.html#s03_05_03_03">3.5.3.3 Highlights</a>
+    <ul>
+     
+     <li>
+      <a href="s_117.html#s03_05_03_03_01">3.5.3.3.1 Phong Highlights</a>
+     <li>
+      <a href="s_117.html#s03_05_03_03_02">3.5.3.3.2 Specular Highlight</a>
+     <li>
+      <a href="s_117.html#s03_05_03_03_03">3.5.3.3.3 Metallic Highlight Modifier</a>
+    </ul>
+
+   <li>
+    <a href="s_117.html#s03_05_03_04">3.5.3.4 Specular Reflection</a>
+   <li>
+    <a href="s_117.html#s03_05_03_05">3.5.3.5 Conserve Energy for Reflection</a>
+   <li>
+    <a href="s_117.html#s03_05_03_06">3.5.3.6 Iridescence</a>
+  </ul>
+
+ <li>
+  <a href="s_118.html#s03_05_04">3.5.4 Halo</a>
+ <li>
+  <a href="s_119.html#s03_05_05">3.5.5 Patterned Textures</a>
+  <ul>
+   
+   <li>
+    <a href="s_119.html#s03_05_05_01">3.5.5.1 Texture Maps</a>
+   <li>
+    <a href="s_119.html#s03_05_05_02">3.5.5.2 Tiles</a>
+   <li>
+    <a href="s_119.html#s03_05_05_03">3.5.5.3 Material Maps</a>
+    <ul>
+     
+     <li>
+      <a href="s_119.html#s03_05_05_03_01">3.5.5.3.1 Specifying a Material Map</a>
+    </ul>
+
+  </ul>
+
+ <li>
+  <a href="s_120.html#s03_05_06">3.5.6 Layered Textures</a>
+ <li>
+  <a href="s_121.html#s03_05_07">3.5.7 UV Mapping</a>
+  <ul>
+   
+   <li>
+    <a href="s_121.html#s03_05_07_01">3.5.7.1 Supported Objects</a>
+   <li>
+    <a href="s_121.html#s03_05_07_02">3.5.7.2 UV Vectors</a>
+  </ul>
+
+ <li>
+  <a href="s_122.html#s03_05_08">3.5.8 Triangle Texture Interpolation</a>
+ <li>
+  <a href="s_123.html#s03_05_09">3.5.9 Interior Texture</a>
+ <li>
+  <a href="s_124.html#s03_05_10">3.5.10 Cutaway Textures</a>
+ <li>
+  <a href="s_125.html#s03_05_11">3.5.11 Patterns</a>
+  <ul>
+   
+   <li>
+    <a href="s_125.html#s03_05_11_01">3.5.11.1 Agate</a>
+   <li>
+    <a href="s_125.html#s03_05_11_02">3.5.11.2 Average</a>
+   <li>
+    <a href="s_125.html#s03_05_11_03">3.5.11.3 Boxed</a>
+   <li>
+    <a href="s_125.html#s03_05_11_04">3.5.11.4 Bozo</a>
+   <li>
+    <a href="s_125.html#s03_05_11_05">3.5.11.5 Brick</a>
+   <li>
+    <a href="s_125.html#s03_05_11_06">3.5.11.6 Bumps</a>
+   <li>
+    <a href="s_125.html#s03_05_11_07">3.5.11.7 Cells</a>
+   <li>
+    <a href="s_125.html#s03_05_11_08">3.5.11.8 Checker</a>
+   <li>
+    <a href="s_125.html#s03_05_11_09">3.5.11.9 Crackle Patterns</a>
+   <li>
+    <a href="s_125.html#s03_05_11_10">3.5.11.10 Cylindrical</a>
+   <li>
+    <a href="s_125.html#s03_05_11_11">3.5.11.11 Density_File</a>
+    <ul>
+     
+     <li>
+      <a href="s_125.html#s03_05_11_11_01">3.5.11.11.1 df3 file format</a>
+    </ul>
+
+   <li>
+    <a href="s_125.html#s03_05_11_12">3.5.11.12 Dents</a>
+   <li>
+    <a href="s_125.html#s03_05_11_13">3.5.11.13 Facets</a>
+   <li>
+    <a href="s_125.html#s03_05_11_14">3.5.11.14 Fractal Patterns</a>
+   <li>
+    <a href="s_125.html#s03_05_11_15">3.5.11.15 Function as pattern</a>
+    <ul>
+     
+     <li>
+      <a href="s_125.html#s03_05_11_15_01">3.5.11.15.1 What can be used</a>
+    </ul>
+
+   <li>
+    <a href="s_125.html#s03_05_11_16">3.5.11.16 Function Image</a>
+   <li>
+    <a href="s_125.html#s03_05_11_17">3.5.11.17 Gradient</a>
+   <li>
+    <a href="s_125.html#s03_05_11_18">3.5.11.18 Granite</a>
+   <li>
+    <a href="s_125.html#s03_05_11_19">3.5.11.19 Hexagon</a>
+   <li>
+    <a href="s_125.html#s03_05_11_20">3.5.11.20 Image Pattern</a>
+   <li>
+    <a href="s_125.html#s03_05_11_21">3.5.11.21 Leopard</a>
+   <li>
+    <a href="s_125.html#s03_05_11_22">3.5.11.22 Marble</a>
+   <li>
+    <a href="s_125.html#s03_05_11_23">3.5.11.23 Object Pattern</a>
+   <li>
+    <a href="s_125.html#s03_05_11_24">3.5.11.24 Onion</a>
+   <li>
+    <a href="s_125.html#s03_05_11_25">3.5.11.25 Pigment Pattern</a>
+   <li>
+    <a href="s_125.html#s03_05_11_26">3.5.11.26 Planar</a>
+   <li>
+    <a href="s_125.html#s03_05_11_27">3.5.11.27 Quilted</a>
+   <li>
+    <a href="s_125.html#s03_05_11_28">3.5.11.28 Radial</a>
+   <li>
+    <a href="s_125.html#s03_05_11_29">3.5.11.29 Ripples</a>
+   <li>
+    <a href="s_125.html#s03_05_11_30">3.5.11.30 Slope</a>
+   <li>
+    <a href="s_125.html#s03_05_11_31">3.5.11.31 Spherical</a>
+   <li>
+    <a href="s_125.html#s03_05_11_32">3.5.11.32 Spiral1</a>
+   <li>
+    <a href="s_125.html#s03_05_11_33">3.5.11.33 Spiral2</a>
+   <li>
+    <a href="s_125.html#s03_05_11_34">3.5.11.34 Spotted</a>
+   <li>
+    <a href="s_125.html#s03_05_11_35">3.5.11.35 Waves</a>
+   <li>
+    <a href="s_125.html#s03_05_11_36">3.5.11.36 Wood</a>
+   <li>
+    <a href="s_125.html#s03_05_11_37">3.5.11.37 Wrinkles</a>
+  </ul>
+
+ <li>
+  <a href="s_126.html#s03_05_12">3.5.12 Pattern Modifiers</a>
+  <ul>
+   
+   <li>
+    <a href="s_126.html#s03_05_12_01">3.5.12.1 Transforming Patterns</a>
+   <li>
+    <a href="s_126.html#s03_05_12_02">3.5.12.2 Frequency and Phase</a>
+   <li>
+    <a href="s_126.html#s03_05_12_03">3.5.12.3 Waveforms</a>
+   <li>
+    <a href="s_126.html#s03_05_12_04">3.5.12.4 Noise Generators</a>
+   <li>
+    <a href="s_126.html#s03_05_12_05">3.5.12.5 Turbulence</a>
+   <li>
+    <a href="s_126.html#s03_05_12_06">3.5.12.6 Warps</a>
+    <ul>
+     
+     <li>
+      <a href="s_126.html#s03_05_12_06_01">3.5.12.6.1 Black Hole Warp</a>
+     <li>
+      <a href="s_126.html#s03_05_12_06_02">3.5.12.6.2 Repeat Warp</a>
+     <li>
+      <a href="s_126.html#s03_05_12_06_03">3.5.12.6.3 Turbulence versus Turbulence Warp</a>
+     <li>
+      <a href="s_126.html#s03_05_12_06_04">3.5.12.6.4 Turbulence Warp</a>
+     <li>
+      <a href="s_126.html#s03_05_12_06_05">3.5.12.6.5 Mapping using warps</a>
+    </ul>
+
+   <li>
+    <a href="s_126.html#s03_05_12_07">3.5.12.7 Bitmap Modifiers</a>
+    <ul>
+     
+     <li>
+      <a href="s_126.html#s03_05_12_07_01">3.5.12.7.1 The once Option</a>
+     <li>
+      <a href="s_126.html#s03_05_12_07_02">3.5.12.7.2 The map_type Option</a>
+     <li>
+      <a href="s_126.html#s03_05_12_07_03">3.5.12.7.3 The interpolate Option</a>
+    </ul>
+
+  </ul>
+
+</ul>
+
+<p>
+ <a name="l141">
+<small><strong>More about &quot;Interior&quot;</strong></small>
+</a>
+ <ul>
+  
+  <li><small>
+   <a href="s_128.html#s03_06_01">3.6.1 Interior</a> in 3.6 Interior &amp; Media &amp; Photons
+  </small>
+
+  <li><small>
+   <a href="s_161.html#s03_08_09_03">3.8.9.3 Interior</a> in 3.8.9 Object Modifiers
+  </small>
+
+ </ul>
+
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_113.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_113.html">3.4.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.5 Textures</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_115.html">3.5.1 Pigment</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_115.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

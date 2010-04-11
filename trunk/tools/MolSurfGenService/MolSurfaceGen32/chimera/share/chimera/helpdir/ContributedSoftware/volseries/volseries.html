@@ -1,0 +1,232 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Volume Series</TITLE>
+</head>
+<body>
+<h3>Volume Series <img src="volseriesicon.png" alt="Volume Series icon"></h3>
+
+<p>
+<b>Volume Series</b> displays an ordered sequence of
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> sets.
+A sequence could represent a time series or a comparison of states
+not necessarily ordered in time.  See also:
+<a href="../morphmap/morphmap.html"><b>Morph Map</b></a>,
+<a href="../../UsersGuide/movies.html">making movies</a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Volume Series</b>, a tool in the <b>Volume Data</b> category
+(including from the <a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a> <b>Tools</b> menu).
+</p><p>
+Clicking <b>Open...</b> raises a file browser for opening a volume series
+as either of the following:
+<ul>
+<li>multiple 
+<a href="../../UsersGuide/filetypes.html#volume">volume data</a> files
+sorted by name
+<li>a single
+<a href="../../UsersGuide/filetypes.html#volumetime">volume series</a>
+file in Priism time series format
+</ul>
+A Priism time series file can also be opened in
+<a href="../../UsersGuide/filetypes.html">other ways</a>, which will
+automatically start the <b>Volume Series</b> tool.
+Opening a volume series of any type also starts
+<a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>. 
+Each member of the series is treated as a separate set of data in
+in <a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>.
+</p><p>
+Multiple volume series may co-exist in Chimera.
+A volume series is named after the single file it was read from, or the
+first file if read from multiple files.
+Choosing the name of a volume series from the <b>Data</b> listing 
+switches the display to that series, and it can be closed with
+<b>Close Series</b>.  Similarly, choosing <b>All</b> allows simultaneous
+display or removal of all of the volume series in Chimera. 
+</p><p>
+<a name="time">
+The members of a series are indexed 0, 1, 2, ... and these indices
+are referred to as the <b>Time</b>.</a>
+Any numbers in the individual filenames are not used, except to sort the names.
+</p>
+
+<a name="playback">
+<h4>APPEARANCE AND PLAYBACK</h4></a>
+<p>
+The <b>Time</b> slider can be moved manually to show a particular set of data 
+and make it the 
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#currentset">
+current set</a> of data in
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a>.
+Settings in 
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> 
+(<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#display">display style</a>,
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#datastep">step size</a>,
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#threshcolor">threshold level/color</a>,
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#surf-options">
+surface smoothing</a>, 
+<i>etc.</i>) control its appearance and will be applied automatically 
+to other series members as they are displayed.
+For efficient playback, however, the 
+<a href="../../ContributedSoftware/volumeviewer/framevolumeviewer.html"
+target="_top"><b>Volume Viewer</b></a> dialog will not update to show
+current settings until the <a href="#time"><b>Time</b></a> value
+has not changed for 1 second.
+</p><p>
+<a name="normalize"><b>Normalize threshold levels</b></a> adjusts the
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#threshcolor">thresholds</a> 
+(contour levels) to keep the enclosed volume constant throughout the series.
+This is useful when the signal level in the data changes over time or
+between states.
+</p><p>
+Clicking <b>Play</b> cycles through the series in the specified manner:
+  <ul>
+  <li><b>forward</b> - in increasing order, then back to the first (01230123...)
+  <li><b>backward</b> - in decreasing order, then back to the last (32103210...)
+  <li><b>oscillate</b> - alternating increasing and decreasing order 
+(01232101...)
+  </ul>
+Clicking <b>Stop</b> halts playback.
+By default, playback is as fast as possible, which can be fairly slow
+for large data.  If playback is too fast, it can be slowed with the
+<b>Maximum playback speed</b> option.
+If playback is too slow, it may be helpful to:
+<ul>
+<li>reduce the size of the data by increasing its
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#datastep">step size</a>
+  and/or limiting the displayed
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#bounds">region</a>
+in <a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>
+<li>adjust caching parameters:
+  <ul>
+  <li><a name="datacache"><b>Data cache size (Mb) [<i>size</i>]</b></a> 
+(default as specified in the
+<a href="../volumeviewer/volumeviewer.html#disp-options">data display 
+options</a> of
+<a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>) 
+- how much memory to allot for volume data.  Increasing
+the value to retain more or all of the volume data can speed playback because  
+it decreases how much time is spent reading the data from disk.  
+However, it is important not to increase the value to exceed or come close to
+the computer's physical memory, as that will result in swapping
+of data to disk and poor performance.
+Clicking <b>Current use</b> shows how much of the data cache is being used
+in total and by each data set.
+<br><br>
+  <li><b>Cache [<i>N</i>] renderings</b> - store volume rendering
+(surface triangle or solid voxel) information for the <i>N</i> most recent 
+displays.  This can speed playback because less time is
+spent recalculating display information.  This information is
+stored separately from the data cache, but the data cache is used to
+store the <i>N</i> associated sets of volume data (even if that
+exceeds the specified <a href="#datacache">data cache size</a>).
+There is no hard limit to the memory used to cache rendering information.
+Surface renderings use memory proportional to the number of triangles 
+composing the surface. Solid renderings use memory proportional to the
+number of data voxels displayed: about 6 bytes per grid point with 
+<a href="../../ContributedSoftware/volumeviewer/volumeviewer.html#solid-options">colormapping</a>
+(on by default), 20 bytes without.  For 2-byte data values, this is up to 
+10 times more memory than the actual data set.  Thus, it is generally 
+only feasible to cache solid display information for small data sets.
+  </ul>
+</ul>
+</p>
+
+<a name="markers">
+<h4>MARKERS AND PATHS</h4></a>
+<p>
+<b>Show markers</b> enables using
+<a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a> to
+<a href="../volumepathtracer/volumepathtracer.html#creating">place</a>
+spherical markers on the data and to trace spatial and temporal paths.
+Each marker is labeled
+with the <a href="#time">time</a> of the data set on which it was placed.  
+The labels are not shown.  They are used by <b>Volume Series</b> to display 
+only the markers for the currently displayed <a href="#time">time</a>.  
+Markers for specified numbers of earlier and 
+later time points can also be shown.
+</p><p>
+<b>Volume Series</b> controls the display of markers in the 
+<a href="../volumepathtracer/volumepathtracer.html#activeset">active set</a> 
+(current set) of markers in
+<a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a>.  
+Using <a href="../volumepathtracer/framevolpath.html" target="_top">
+<b>Volume Tracer</b></a>,
+<ul>
+<li>multiple marker sets can be created
+and any one chosen for display
+<li>the current marker set can be
+<a href="../volumepathtracer/volumepathtracer.html#filemenu">saved</a> to a 
+<a href="../volumepathtracer/volumepathtracer.html#markerfiles">file</a>
+for later use
+</ul>
+</p><p>
+The <b>Color zone around markers</b> option
+colors volume contour surfaces to match markers within
+a specified <b>range</b>.  All of the markers associated with the 
+current <a href="#time">time</a> are used to color the current surface.  
+The coloring does not apply to solid displays.
+</p>
+
+<a name="notes">
+<h4>NOTES</h4></a>
+
+<p>
+<b>No session support</b>.  The state of <b>Volume Series</b>
+is not included in <a href="../../UsersGuide/sessions.html">session</a> files.
+A saved and restored session will include the volume data sets in
+<a href="../volumeviewer/framevolumeviewer.html" 
+target="_top"><b>Volume Viewer</b></a>,
+but the data sets will not be associated with <b>Volume Series</b>,
+and there is no way to specify that they should be.
+However, <a href="#markers">markers and paths</a> can be saved for later use.
+</p>
+
+<p>
+<b>Slow playback when caching renderings</b>.  The second time a
+surface is displayed, a graphics optimization (building an OpenGL
+display list) is done to speed up future drawing of that same surface
+by putting it in graphics card memory.  That optimization is time-consuming.  
+The third time the surface is displayed will take
+much less time if the graphics card has sufficient memory.
+</p>
+
+<p>
+<b>Threshold normalization brightness glitches in solid mode</b>.
+Sometimes a data set will appear dimmer than the preceding or following 
+sets when solid rendering and <a href="#normalize">threshold normalization</a> 
+are used.  This can happen when only two nodes are used to specify 
+the transfer function on the 
+<a href="../volumeviewer/volumeviewer.html#dispsolid"><b>Volume
+Viewer</b> histogram</a>, with one of the nodes at the highest data value.
+If a particular data set has a maximum data value much
+higher than the adjacent sets, that will substantially lower the
+brightness at typical data values.  This can be remedied by adding a
+third node between the high and low nodes by Ctrl-clicking on the
+<a href="../volumeviewer/volumeviewer.html#dispsolid"><b>Volume
+Viewer</b> histogram</a>.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2008</address>
+</body>
+</html>

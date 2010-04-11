@@ -1,0 +1,521 @@
+REMARKS  *  AMBER Cornell et al. (parm94) force field conversion
+REMARKS  *  See: JACS (1995) 117, 5179-5197.  
+REMARKS  *  nucleic acid part converted by tec3, march 1997
+REMARKS  *  protein part converted by tec3, feb 1999
+REMARKS  *
+
+set echo=false end
+ 
+ 
+!
+!  This is a hand-conversion of the Cornell et. al. force field
+!  parm94.dat file (except for the torsion which were converted via
+!  a perl script).  All the atom type names are the same except where
+!  otherwise noted.
+!
+!  Any problems?  Let me know...
+!  cheatham@helix.nih.gov, cheatham@cgl.ucsf.edu
+!
+!  note: types N* remaned to NS
+!              C* renamed to CS
+!
+!  note: the HO and HW nonbonded parameters, although zero in 
+!  Cornell et al. should not have a 0.0 vdw radius in CHARMM 
+!  to avoid difficulties with the 0.0/0.0 in the FAST OFF 
+!  van der Waal code...
+!
+!  note: the default nonbonded options chosen here are to match AMBER.
+!  It is not recommended that users actually run with GROUP based 
+!  truncation and a switch unless really trying to match AMBER.  
+!  Better would be ATOM based FSHIFT VSHIFT, however note that this
+!  does modify the energies (and effectively the parameters).
+!
+
+BOND   OW   HW  553.0    0.9572    !  TIP3P water
+BOND   HW   HW  553.0    1.5136    !  TIP3P water
+BOND   C    CA  469.0    1.409     !  JCC,7,(1986),230; TYR
+BOND   C    CB  447.0    1.419     !  JCC,7,(1986),230; GUA
+BOND   C    CM  410.0    1.444     !  JCC,7,(1986),230; THY,URA
+BOND   C    CT  317.0    1.522     !  JCC,7,(1986),230; AA
+BOND   C    NS  424.0    1.383     !  JCC,7,(1986),230; CYT,URA
+BOND   C    NA  418.0    1.388     !  JCC,7,(1986),230; GUA.URA
+BOND   C    NC  457.0    1.358     !  JCC,7,(1986),230; CYT
+BOND   C    O   570.0    1.229     !  JCC,7,(1986),230; AA,CYT,GUA,THY,URA
+BOND   C    O2  656.0    1.250     !  JCC,7,(1986),230; GLU,ASP
+BOND   C    OH  450.0    1.364     !  JCC,7,(1986),230; TYR
+BOND   CA   CA  469.0    1.400     !  JCC,7,(1986),230; BENZENE,PHE,TRP,TYR
+BOND   CA   CB  469.0    1.404     !  JCC,7,(1986),230; ADE,TRP
+BOND   CA   CM  427.0    1.433     !  JCC,7,(1986),230; CYT
+BOND   CA   CT  317.0    1.510     !  JCC,7,(1986),230; PHE,TYR
+BOND   CA   HA  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; PHE,TRP,TYR
+BOND   CA   H4  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; no assigned
+BOND   CA   N2  481.0    1.340     !  JCC,7,(1986),230; ARG,CYT,GUA
+BOND   CA   NA  427.0    1.381     !  JCC,7,(1986),230; GUA
+BOND   CA   NC  483.0    1.339     !  JCC,7,(1986),230; ADE,CYT,GUA
+BOND   CB   CB  520.0    1.370     !  JCC,7,(1986),230; ADE,GUA
+BOND   CB   NS  436.0    1.374     !  JCC,7,(1986),230; ADE,GUA
+BOND   CB   NB  414.0    1.391     !  JCC,7,(1986),230; ADE,GUA
+BOND   CB   NC  461.0    1.354     !  JCC,7,(1986),230; ADE,GUA
+BOND   CK   H5  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; ADE,GUA
+BOND   CK   NS  440.0    1.371     !  JCC,7,(1986),230; ADE,GUA
+BOND   CK   NB  529.0    1.304     !  JCC,7,(1986),230; ADE,GUA
+BOND   CM   CM  549.0    1.350     !  JCC,7,(1986),230; CYT,THY,URA
+BOND   CM   CT  317.0    1.510     !  JCC,7,(1986),230; THY
+BOND   CM   HA  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; CYT,URA
+BOND   CM   H4  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; CYT,URA
+BOND   CM   H5  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; not assigned
+BOND   CM   NS  448.0    1.365     !  JCC,7,(1986),230; CYT,THY,URA
+BOND   CQ   H5  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; ADE
+BOND   CQ   NC  502.0    1.324     !  JCC,7,(1986),230; ADE
+BOND   CT   CT  310.0    1.526     !  JCC,7,(1986),230; AA, SUGARS
+BOND   CT   HC  340.0    1.090     !  changed from 331 bsd on NMA nmodes; AA, SUGARS
+BOND   CT   H1  340.0    1.090     !  changed from 331 bsd on NMA nmodes; AA, RIBOSE
+BOND   CT   H2  340.0    1.090     !  changed from 331 bsd on NMA nmodes; SUGARS
+BOND   CT   H3  340.0    1.090     !  changed from 331 bsd on NMA nmodes; not assigned
+BOND   CT   HP  340.0    1.090     !  changed from 331; AA   lysine, methyl ammonium cation
+BOND   CT   NS  337.0    1.475     !  JCC,7,(1986),230; ADE,CYT,GUA,THY,URA
+BOND   CT   N2  337.0    1.463     !  JCC,7,(1986),230; ARG
+BOND   CT   OH  320.0    1.410     !  JCC,7,(1986),230; SUGARS
+BOND   CT   OS  320.0    1.410     !  JCC,7,(1986),230; NUCLEIC ACIDS
+BOND   H    N2  434.0    1.010     !  JCC,7,(1986),230; ADE,CYT,GUA,ARG
+BOND   H    NS  434.0    1.010     !  for plain unmethylated bases ADE,CYT,GUA,ARG
+BOND   H    NA  434.0    1.010     !  JCC,7,(1986),230; GUA,URA,HIS
+BOND   HO   OH  553.0    0.960     !  JCC,7,(1986),230; SUGARS,SER,TYR
+BOND   HO   OS  553.0    0.960     !  JCC,7,(1986),230; NUCLEOTIDE ENDS
+BOND   O2   P   525.0    1.480     !  JCC,7,(1986),230; NA PHOSPHATES
+BOND   OH   P   230.0    1.610     !  JCC,7,(1986),230; NA PHOSPHATES
+BOND   OS   P   230.0    1.610     !  JCC,7,(1986),230; NA PHOSPHATES
+BOND   CS   HC  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes, not needed AA
+BOND   C    N   490.0    1.335     !  JCC,7,(1986),230; AA
+BOND   CS   CB  388.0    1.459     !  JCC,7,(1986),230; TRP
+BOND   CS   CT  317.0    1.495     !  JCC,7,(1986),230; TRP
+BOND   CS   CW  546.0    1.352     !  JCC,7,(1986),230; TRP
+BOND   CA   CN  469.0    1.400     !  JCC,7,(1986),230; TRP
+BOND   CB   CN  447.0    1.419     !  JCC,7,(1986),230; TRP
+BOND   CC   CT  317.0    1.504     !  JCC,7,(1986),230; HIS
+BOND   CC   CV  512.0    1.375     !  JCC,7,(1986),230; HIS(delta)
+BOND   CC   CW  518.0    1.371     !  JCC,7,(1986),230; HIS(epsilon)
+BOND   CC   NA  422.0    1.385     !  JCC,7,(1986),230; HIS
+BOND   CC   NB  410.0    1.394     !  JCC,7,(1986),230; HIS
+BOND   CN   NA  428.0    1.380     !  JCC,7,(1986),230; TRP
+BOND   CR   H5  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes;HIS
+BOND   CR   NA  477.0    1.343     !  JCC,7,(1986),230; HIS
+BOND   CR   NB  488.0    1.335     !  JCC,7,(1986),230; HIS
+BOND   CT   N   337.0    1.449     !  JCC,7,(1986),230; AA
+BOND   CT   N3  367.0    1.471     !  JCC,7,(1986),230; LYS
+BOND   CT   S   227.0    1.810     !  changed from 222.0 based on dimethylS nmodes
+BOND   CT   SH  237.0    1.810     !  changed from 222.0 based on methanethiol nmodes
+BOND   CV   H4  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes; HIS
+BOND   CV   NB  410.0    1.394     !  JCC,7,(1986),230; HIS
+BOND   CW   H4  367.0    1.080     !  changed from 340. bsd on C6H6 nmodes;HIS(epsilon,+)
+BOND   CW   NA  427.0    1.381     !  JCC,7,(1986),230; HIS,TRP
+BOND   H    N   434.0    1.010     !  JCC,7,(1986),230; AA
+BOND   H    N3  434.0    1.010     !  JCC,7,(1986),230; LYS    
+BOND   HS   SH  274.0    1.336     !  JCC,7,(1986),230; CYS
+BOND   S    S   166.0    2.038     !  JCC,7,(1986),230; CYX   (SCHERAGA)
+BOND   CT   F   367.0    1.380     !  JCC,13,(1992),963;CF4; R0=1.332 FOR CHF3
+
+ANGLE   HW   OW   HW    100.      104.52  !  TIP3P water
+ANGLE   HW   HW   OW      0.      127.74  !  (found in crystallographic water with 3 bonds)
+ANGLE   CB   C    NA    70.0      111.30  !  NA
+ANGLE   CB   C    O     80.0      128.80  !
+ANGLE   CM   C    NA    70.0      114.10  !
+ANGLE   CM   C    O     80.0      125.30  !
+ANGLE   CT   C    O     80.0      120.40  !
+ANGLE   CT   C    O2    70.0      117.00  !
+ANGLE   CT   C    OH    70.0      117.00  !
+ANGLE   NS   C    NA    70.0      115.40  !
+ANGLE   NS   C    NC    70.0      118.60  !
+ANGLE   NS   C    O     80.0      120.90  !
+ANGLE   NA   C    O     80.0      120.60  !
+ANGLE   NC   C    O     80.0      122.50  !
+ANGLE   CT   C    N     70.0      116.60  !  AA general
+ANGLE   N    C    O     80.0      122.90  !  AA general
+ANGLE   O    C    O     80.0      126.00  !  AA COO    terminal residues
+ANGLE   O2   C    O2    80.0      126.00  !  AA GLU            (SCH JPC 79,2379)
+ANGLE   O    C    OH    80.0      126.00  !
+ANGLE   CA   C    CA    63.0      120.00  !  changed from 85.0  bsd on C6H6 nmodes; AA tyr
+ANGLE   CA   C    OH    70.0      120.00  !  AA tyr
+ANGLE   C    CA   CA    63.0      120.00  !  changed from 85.0  bsd on C6H6 nmodes
+ANGLE   CA   CA   CA    63.0      120.00  !  changed from 85.0  bsd on C6H6 nmodes
+ANGLE   CA   CA   CB    63.0      120.00  !  changed from 85.0  bsd on C6H6 nmodes
+ANGLE   CA   CA   CT    70.0      120.00  !
+ANGLE   CA   CA   HA    35.0      120.00  !
+ANGLE   CA   CA   H4    35.0      120.00  !
+ANGLE   CB   CA   HA    35.0      120.00  !
+ANGLE   CB   CA   H4    35.0      120.00  !
+ANGLE   CB   CA   N2    70.0      123.50  !
+ANGLE   CB   CA   NC    70.0      117.30  !
+ANGLE   CM   CA   N2    70.0      120.10  !
+ANGLE   CM   CA   NC    70.0      121.50  !
+ANGLE   N2   CA   NA    70.0      116.00  !
+ANGLE   N2   CA   NC    70.0      119.30  !
+ANGLE   NA   CA   NC    70.0      123.30  !
+ANGLE   C    CA   HA    35.0      120.00  !  AA tyr
+ANGLE   N2   CA   N2    70.0      120.00  !  AA arg
+ANGLE   CN   CA   HA    35.0      120.00  !  AA trp
+ANGLE   CA   CA   CN    63.0      120.00  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   C    CB   CB    63.0      119.20  !  changed from 85.0  bsd on C6H6 nmodes; NA gua
+ANGLE   C    CB   NB    70.0      130.00  !
+ANGLE   CA   CB   CB    63.0      117.30  !  changed from 85.0  bsd on C6H6 nmodes; NA ade
+ANGLE   CA   CB   NB    70.0      132.40  !  
+ANGLE   CB   CB   NS    70.0      106.20  !
+ANGLE   CB   CB   NB    70.0      110.40  !
+ANGLE   CB   CB   NC    70.0      127.70  !
+ANGLE   NS   CB   NC    70.0      126.20  !
+ANGLE   CS   CB   CA    63.0      134.90  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   CS   CB   CN    63.0      108.80  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   CA   CB   CN    63.0      116.20  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   H5   CK   NS    35.0      123.05  !
+ANGLE   H5   CK   NB    35.0      123.05  !
+ANGLE   NS   CK   NB    70.0      113.90  !
+ANGLE   C    CM   CM    63.0      120.70  !  changed from 85.0  bsd on C6H6 nmodes; NA thy
+ANGLE   C    CM   CT    70.0      119.70  !
+ANGLE   C    CM   HA    35.0      119.70  !
+ANGLE   C    CM   H4    35.0      119.70  !
+ANGLE   CA   CM   CM    63.0      117.00  !  changed from 85.0  bsd on C6H6 nmodes; NA cyt
+ANGLE   CA   CM   HA    35.0      123.30  !
+ANGLE   CA   CM   H4    35.0      123.30  !
+ANGLE   CM   CM   CT    70.0      119.70  !
+ANGLE   CM   CM   HA    35.0      119.70  !
+ANGLE   CM   CM   H4    35.0      119.70  !
+ANGLE   CM   CM   NS    70.0      121.20  !
+ANGLE   H4   CM   NS    35.0      119.10  !
+ANGLE   H5   CQ   NC    35.0      115.45  !
+ANGLE   NC   CQ   NC    70.0      129.10  !
+ANGLE   CM   CT   HC    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   CT   CT   CT    40.0      109.50  !
+ANGLE   CT   CT   HC    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   CT   CT   H1    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   CT   CT   H2    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   CT   CT   HP    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   CT   CT   NS    50.0      109.50  !
+ANGLE   CT   CT   OH    50.0      109.50  !
+ANGLE   CT   CT   OS    50.0      109.50  !
+ANGLE   HC   CT   HC    35.0      109.50  !
+ANGLE   H1   CT   H1    35.0      109.50  !
+ANGLE   HP   CT   HP    35.0      109.50  !  AA lys, ch3nh4+
+ANGLE   H2   CT   NS    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   H1   CT   NS    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   H1   CT   OH    50.0      109.50  !  changed based on NMA nmodes 
+ANGLE   H1   CT   OS    50.0      109.50  !  changed based on NMA nmodes 
+ANGLE   H2   CT   OS    50.0      109.50  !  changed based on NMA nmodes
+ANGLE   NS   CT   OS    50.0      109.50  !
+ANGLE   H1   CT   N     50.0      109.50  !  AA general  changed based on NMA nmodes
+ANGLE   C    CT   H1    50.0      109.50  !  AA general  changed based on NMA nmodes
+ANGLE   C    CT   HP    50.0      109.50  !  AA zwitterion  changed based on NMA nmodes
+ANGLE   H1   CT   S     50.0      109.50  !  AA cys     changed based on NMA nmodes
+ANGLE   H1   CT   SH    50.0      109.50  !  AA cyx     changed based on NMA nmodes
+ANGLE   CT   CT   S     50.0      114.70  !  AA cyx            (SCHERAGA  JPC 79,1428)
+ANGLE   CT   CT   SH    50.0      108.60  !  AA cys
+ANGLE   H2   CT   H2    35.0      109.50  !  AA lys
+ANGLE   H1   CT   N2    50.0      109.50  !  AA arg     changed based on NMA nmodes
+ANGLE   HP   CT   N3    50.0      109.50  !  AA lys, ch3nh3+, changed based on NMA nmodes
+ANGLE   CA   CT   CT    63.0      114.00  !  AA phe tyr          (SCH JPC  79,2379)
+ANGLE   C    CT   HC    50.0      109.50  !  AA gln      changed based on NMA nmodes
+ANGLE   C    CT   N     63.0      110.10  !  AA general
+ANGLE   CT   CT   N2    80.0      111.20  !  AA arg             (JCP 76, 1439)
+ANGLE   CT   CT   N     80.0      109.70  !  AA ala, general    (JACS 94, 2657)
+ANGLE   C    CT   CT    63.0      111.10  !  AA general
+ANGLE   CA   CT   HC    50.0      109.50  !  AA tyr     changed based on NMA nmodes
+ANGLE   CT   CT   N3    80.0      111.20  !  AA lys             (JCP 76, 1439)
+ANGLE   CC   CT   CT    63.0      113.10  !  AA his
+ANGLE   CC   CT   HC    50.0      109.50  !  AA his     changed based on NMA nmodes
+ANGLE   C    CT   N3    80.0      111.20  !  AA amino terminal residues
+ANGLE   CS   CT   CT    63.0      115.60  !  AA trp
+ANGLE   CS   CT   HC    50.0      109.50  !  AA trp    changed based on NMA nmodes
+ANGLE   CT   CC   NA    70.0      120.00  !  AA his
+ANGLE   CT   CC   CV    70.0      120.00  !  AA his
+ANGLE   CT   CC   NB    70.0      120.00  !  AA his
+ANGLE   CV   CC   NA    70.0      120.00  !  AA his
+ANGLE   CW   CC   NA    70.0      120.00  !  AA his
+ANGLE   CW   CC   NB    70.0      120.00  !  AA his
+ANGLE   CT   CC   CW    70.0      120.00  !  AA his
+ANGLE   H5   CR   NA    35.0      120.00  !  AA his
+ANGLE   H5   CR   NB    35.0      120.00  !  AA his
+ANGLE   NA   CR   NA    70.0      120.00  !  AA his
+ANGLE   NA   CR   NB    70.0      120.00  !  AA his
+ANGLE   CC   CV   H4    35.0      120.00  !  AA his
+ANGLE   CC   CV   NB    70.0      120.00  !  AA his
+ANGLE   H4   CV   NB    35.0      120.00  !  AA his
+ANGLE   CC   CW   H4    35.0      120.00  !  AA his
+ANGLE   CC   CW   NA    70.0      120.00  !  AA his
+ANGLE   H4   CW   NA    35.0      120.00  !  AA his
+ANGLE   CS   CW   H4    35.0      120.00  !  AA trp
+ANGLE   CS   CW   NA    70.0      108.70  !  AA trp
+ANGLE   CT   CS   CW    70.0      125.00  !  AA trp
+ANGLE   CB   CS   CT    70.0      128.60  !  AA trp
+ANGLE   CB   CS   CW    63.0      106.40  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   CA   CN   NA    70.0      132.80  !  AA trp
+ANGLE   CB   CN   NA    70.0      104.40  !  AA trp
+ANGLE   CA   CN   CB    63.0      122.70  !  changed from 85.0  bsd on C6H6 nmodes; AA trp
+ANGLE   C    N    CT    50.0      121.90  !  AA general
+ANGLE   C    N    H     30.0      120.00  !  AA general, gln, asn,changed based on NMA nmodes
+ANGLE   CT   N    H     30.0      118.04  !  AA general,     changed based on NMA nmodes
+ANGLE   CT   N    CT    50.0      118.00  !  AA pro             (DETAR JACS 99,1232)
+ANGLE   H    N    H     35.0      120.00  !  ade,cyt,gua,gln,asn     **
+ANGLE   C    NS   CM    70.0      121.60  !
+ANGLE   C    NS   CT    70.0      117.60  !
+ANGLE   C    NS   H     30.0      119.20  !  changed based on NMA nmodes
+ANGLE   CB   NS   CK    70.0      105.40  !
+ANGLE   CB   NS   CT    70.0      125.80  !
+ANGLE   CB   NS   H     30.0      125.80  !  for unmethylated n.a. bases,chngd bsd NMA nmodes
+ANGLE   CK   NS   CT    70.0      128.80  !
+ANGLE   CK   NS   H     30.0      128.80  !  for unmethylated n.a. bases,chngd bsd NMA nmodes
+ANGLE   CM   NS   CT    70.0      121.20  !
+ANGLE   CM   NS   H     30.0      121.20  !  for unmethylated n.a. bases,chngd bsd NMA nmodes
+ANGLE   CA   N2   H     35.0      120.00  !  
+ANGLE   H    N2   H     35.0      120.00  !  
+ANGLE   CT   N2   H     35.0      118.40  !  AA arg
+ANGLE   CA   N2   CT    50.0      123.20  !  AA arg
+ANGLE   CT   N3   H     50.0      109.50  !  AA lys,     changed based on NMA nmodes
+ANGLE   CT   N3   CT    50.0      109.50  !  AA pro/nt
+ANGLE   H    N3   H     35.0      109.50  !  AA lys, AA(end)
+ANGLE   C    NA   C     70.0      126.40  !
+ANGLE   C    NA   CA    70.0      125.20  !
+ANGLE   C    NA   H     30.0      116.80  !  changed based on NMA nmodes
+ANGLE   CA   NA   H     30.0      118.00  !  changed based on NMA nmodes
+ANGLE   CC   NA   CR    70.0      120.00  !  AA his
+ANGLE   CC   NA   H     30.0      120.00  !  AA his,    changed based on NMA nmodes
+ANGLE   CR   NA   CW    70.0      120.00  !  AA his
+ANGLE   CR   NA   H     30.0      120.00  !  AA his,    changed based on NMA nmodes
+ANGLE   CW   NA   H     30.0      120.00  !  AA his,    changed based on NMA nmodes
+ANGLE   CN   NA   CW    70.0      111.60  !  AA trp
+ANGLE   CN   NA   H     30.0      123.10  !  AA trp,    changed based on NMA nmodes
+ANGLE   CB   NB   CK    70.0      103.80  !
+ANGLE   CC   NB   CR    70.0      117.00  !  AA his
+ANGLE   CR   NB   CV    70.0      117.00  !  AA his
+ANGLE   C    NC   CA    70.0      120.50  !
+ANGLE   CA   NC   CB    70.0      112.20  !
+ANGLE   CA   NC   CQ    70.0      118.60  !
+ANGLE   CB   NC   CQ    70.0      111.00  !
+ANGLE   C    OH   HO    35.0      113.00  !
+ANGLE   CT   OH   HO    55.0      108.50  !
+ANGLE   HO   OH   P     45.0      108.50  !
+ANGLE   CT   OS   CT    60.0      109.50  !
+ANGLE   CT   OS   P    100.0      120.50  !
+ANGLE   P    OS   P    100.0      120.50  !
+ANGLE   O2   P    OH    45.0      108.23  !
+ANGLE   O2   P    O2   140.0      119.90  !
+ANGLE   O2   P    OS   100.0      108.23  !
+ANGLE   OH   P    OS    45.0      102.60  !
+ANGLE   OS   P    OS    45.0      102.60  !
+ANGLE   CT   S    CT    62.0       98.90  !  AA met
+ANGLE   CT   S    S     68.0      103.70  !  AA cyx             (SCHERAGA  JPC 79,1428)
+ANGLE   CT   SH   HS    43.0       96.00  !  changed from 44.0 based on methanethiol nmodes
+ANGLE   HS   SH   HS    35.0       92.07  !  AA cys
+ANGLE   F    CT   F     77.0      109.10  !  JCC,13,(1992),963;
+ANGLE   F    CT   H1    35.0      109.50  !  JCC,13,(1992),963;
+
+DIHEDRAL   X   C   CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   N   X    2.50000000     2   180.0  !  AA|check Wendy?&NMA
+DIHEDRAL   X   CT  N   X    0.00000000     2     0.0  !  JCC,7,(1986),230
+
+DIHEDRAL   C   N   CT  C    0.20000000     2   180.0  !  
+ 
+DIHEDRAL   N   CT  C   N   MULTIPLE= 3  0.40000000     4   180.0  !  
+                                        1.35000000     2   180.0  !  
+                                        0.75000000     1   180.0  ! 
+ 
+DIHEDRAL   CT  CT  N   C   MULTIPLE= 3   0.50000000     4   180.0  !  
+                                         0.15000000     3   180.0  !  
+                                         0.53000000     1     0.0  ! 
+ 
+DIHEDRAL   CT  CT  C   N    MULTIPLE= 2  0.10000000     4     0.0  !  
+                                         0.07000000     2     0.0  !  
+
+DIHEDRAL   H   N   C   O    MULTIPLE= 2  2.50000000     2   180.0  !  JCC,7,(1986),230
+                                         2.00000000     1     0.0  !  J.C.cistrans-NMA DE
+
+DIHEDRAL   CT  S   S   CT   MULTIPLE= 2  3.50000000     2     0.0  !  JCC,7,(1986),230
+                                         0.60000000     3     0.0  !  JCC,7,(1986),230
+
+DIHEDRAL   CT  CT  OS  CT   0.38300000     3     0.0  !  
+DIHEDRAL   CT  CT  OS  CT   0.10000000     2   180.0  ! 
+DIHEDRAL   OS  CT  CT  OS   0.14400000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   OS  CT  CT  OS   1.00000000     2     0.0  !  pucker anal (93')
+DIHEDRAL   OS  CT  CT  OH   0.14400000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   OS  CT  CT  OH   1.00000000     2     0.0  !  pucker anal (93')
+DIHEDRAL   OH  CT  CT  OH   0.14400000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   OH  CT  CT  OH   1.00000000     2     0.0  !  check glicolWC? puc
+DIHEDRAL   OH  P   OS  CT   0.25000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   OH  P   OS  CT   1.20000000     2     0.0  !  gg&gt ene.631g*/mp2
+DIHEDRAL   OS  P   OS  CT   0.25000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   OS  P   OS  CT   1.20000000     2     0.0  !  gg&gt ene.631g*/mp2
+DIHEDRAL   OS  CT  NS  CK   0.50000000     2   180.0  !  sugar frag calc (PC)
+DIHEDRAL   OS  CT  NS  CK   2.50000000     1     0.0  !  sugar frag calc (PC)
+DIHEDRAL   OS  CT  NS  CM   0.50000000     2   180.0  !  sugar frag calc (PC)
+DIHEDRAL   OS  CT  NS  CM   2.50000000     1     0.0  !  sugar frag calc (PC)
+
+DIHEDRAL   X   C   CA  X    3.62500000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   C   CB  X    3.00000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   C   CM  X    2.17500000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   C   NS  X    1.45000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   NA  X    1.35000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   NC  X    4.00000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   OH  X    0.90000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CA  CA  X    3.62500000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CA  CB  X    3.50000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CA  CM  X    2.55000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CA  CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CA  N2  X    2.40000000     2   180.0  !  reinterpolated 93'
+DIHEDRAL   X   CA  NA  X    1.50000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CA  NC  X    4.80000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CB  CB  X    5.45000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CB  NS  X    1.65000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CB  NB  X    2.55000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CB  NC  X    4.15000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CK  NS  X    1.70000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CK  NB  X   10.00000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CM  CM  X    6.65000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CM  CT  X    0.00000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CM  NS  X    1.85000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CQ  NC  X    6.80000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  CT  X    0.15555556     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  N   X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  NS  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  N2  X    0.00000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  OH  X    0.16666667     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  OS  X    0.38333333     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   OH  P   X    0.25000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   OS  P   X    0.25000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   N   X    2.50000000     2   180.0  !  AA|check Wendy?&NMA
+DIHEDRAL   X   CT  N3  X    0.15555556     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  S   X    0.33333333     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CT  SH  X    0.25000000     3     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CS  CB  X    1.67500000     2   180.0  !  intrpol.bsd.onC6H6aa
+DIHEDRAL   X   CS  CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CS  CW  X    6.52500000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CA  CN  X    3.62500000     2   180.0  !  reinterpolated 93'
+DIHEDRAL   X   CB  CN  X    3.00000000     2   180.0  !  reinterpolated 93'
+DIHEDRAL   X   CC  CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CC  CV  X    5.15000000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CC  CW  X    5.37500000     2   180.0  !  intrpol.bsd.on C6H6
+DIHEDRAL   X   CC  NA  X    1.40000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CC  NB  X    2.40000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CN  NA  X    1.52500000     2   180.0  !  reinterpolated 93'
+DIHEDRAL   X   CR  NA  X    2.32500000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CR  NB  X    5.00000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CV  NB  X    2.40000000     2   180.0  !  JCC,7,(1986),230
+DIHEDRAL   X   CW  NA  X    1.50000000     2   180.0  !  JCC,7,(1986),230
+
+DIHEDRAL   X   C   CT  X    0.00000000     2     0.0  !  JCC,7,(1986),230
+DIHEDRAL   X   C   N   X    2.50000000     2   180.0  !  AA|check Wendy?&NMA
+DIHEDRAL   X   CT  N   X    0.00000000     2     0.0  !  JCC,7,(1986),230
+
+
+IMPROPER   CK  CB  NS  CT   1.00000000     2   180.0  !  
+IMPROPER   CM  C   NS  CT   1.00000000     2   180.0  !  dac guess, 9/94
+IMPROPER   CM  C   CM  CT   1.10000000     2   180.0  !  
+IMPROPER   CT  O   C   OH  10.50000000     2   180.0  !  
+IMPROPER   NA  CV  CC  CT   1.10000000     2   180.0  !  
+IMPROPER   NB  CW  CC  CT   1.10000000     2   180.0  !  
+IMPROPER   NA  CW  CC  CT   1.10000000     2   180.0  !  
+IMPROPER   CW  CB  CS  CT   1.10000000     2   180.0  !  
+IMPROPER   CA  CA  CA  CT   1.10000000     2   180.0  !  
+IMPROPER   C   CM  CM  CT   1.10000000     2   180.0  !  dac guess, 9/94
+IMPROPER   NC  CM  CA  N2   1.10000000     2   180.0  !  dac guess, 9/94
+IMPROPER   CB  NC  CA  N2   1.10000000     2   180.0  !  dac, 10/94
+IMPROPER   NA  NC  CA  N2   1.10000000     2   180.0  !  dac, 10/94
+IMPROPER   CA  CA  C   OH   1.10000000     2   180.0  !  
+
+IMPROPER   X   X   C   O   10.50000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   O2  C   O2  10.50000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   X   N   H    1.00000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   X   N2  H    1.00000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   X   NA  H    1.00000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   N2  CA  N2  10.50000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   CT  N   CT   1.00000000     2   180.0  !  JCC,7,(1986),230
+IMPROPER   X   X   CA  HA   1.10000000     2   180.0  !  bsd.on C6H6 nmodes
+IMPROPER   X   X   CW  H4   1.10000000     2   180.0  !  
+IMPROPER   X   X   CR  H5   1.10000000     2   180.0  !  
+IMPROPER   X   X   CV  H4   1.10000000     2   180.0  !  
+IMPROPER   X   X   CQ  H5   1.10000000     2   180.0  !  
+IMPROPER   X   X   CK  H5   1.10000000     2   180.0  !  
+IMPROPER   X   X   CM  H4   1.10000000     2   180.0  !  
+IMPROPER   X   X   CM  HA   1.10000000     2   180.0  !  
+IMPROPER   X   X   CA  H4   1.10000000     2   180.0  !  bsd.on C6H6 nmodes 
+IMPROPER   X   X   CA  H5   1.10000000     2   180.0  !  bsd.on C6H6 nmodes
+
+!
+!  Note: the HO and HW parameters, although zero in Cornell et al.
+!  should not have a 0.0 vdw radius in CHARMM to avoid difficulties
+!  with the 0.0/0.0 in the FAST OFF van der Waal code...
+!
+!  NOTE: the defaults chosen here are to match AMBER.  It is not
+!  recommended that users actually run with GROUP based truncation
+!  and a switch.  Better would be ATOM based FSHIFT VSHIFT
+
+{* nonbonding parameter section *}
+{* ============================ *}
+nbonds
+      atom cdie shift eps=1.0  e14fac=0.4   tolerance=0.5
+      cutnb=9.0 ctonnb=7.5 ctofnb=8.0
+      nbxmod=5 vswitch wmin 1.0
+end
+
+!                   Emin       sigma    Emin/2     sigma 
+!                (kcal/mol)     (A)       (for 1-4's)
+
+NONBonded  H       0.015700     1.069078    0.007850    1.069078   1.2  0.9435
+NONBonded  HO      0.000000     1.069078    0.000000    1.069078   0.8  0.6035
+NONBonded  HS      0.015700     1.069078    0.007850    1.069078   0.8  0.6035
+NONBonded  HC      0.015700     2.649532    0.007850    2.649532   1.3  1.0285
+NONBonded  H1      0.015700     2.471352    0.007850    2.471352   1.3  1.0285
+NONBonded  H2      0.015700     2.293173    0.007850    2.293173   1.3  1.0285
+NONBonded  H3      0.015700     2.114993    0.007850    2.114993   1.3  1.0285
+NONBonded  HP      0.015700     1.959977    0.007850    1.959977   1.3  1.0285
+NONBonded  HA      0.015000     2.599642    0.007500    2.599642   1.3  1.0285
+NONBonded  H4      0.015000     2.510552    0.007500    2.510552   1.3  1.0285
+NONBonded  H5      0.015000     2.421462    0.007500    2.421462   1.3  1.0285
+NONBonded  HW      0.000000     1.069078    0.000000    1.069078   0.8  0.6035
+NONBonded  O       0.210000     2.959921    0.105000    2.959921   1.5  1.1985
+NONBonded  O2      0.210000     2.959921    0.105000    2.959921   1.5  1.1985
+NONBonded  OW      0.152000     3.150752    0.076000    3.150752   1.5  1.1985
+NONBonded  OH      0.210400     3.066473    0.105200    3.066473   1.5  1.1985
+NONBonded  OS      0.170000     3.000012    0.085000    3.000012   1.5  1.1985
+NONBonded  CT      0.109400     3.399669    0.054700    3.399669   1.7  1.1592
+NONBonded  CA      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  C       0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CM      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CS      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CB      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CC      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CN      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CK      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CQ      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CW      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CV      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CR      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CX      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CY      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  CD      0.086000     3.399669    0.043000    3.399669   1.7  1.1592
+NONBonded  N*      0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  N       0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  N2      0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  N3      0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  NA      0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  NB      0.170000     3.249998    0.085000    3.249998   1.55 1.1534
+NONBonded  S       0.250000     3.563594    0.125000    3.563594   1.8  1.6416
+NONBonded  SH      0.250000     3.563594    0.125000    3.563594   1.8  1.6416
+NONBonded  P       0.200000     3.741774    0.100000    3.741774   1.85 1.5136
+NONBonded  IM      0.100000     4.401039    0.050000    4.401039   1.   1. ! Cl- Smith, JCP 1994,100:5,3757
+NONBonded  Li      0.018300     2.025903    0.009150    2.025903   1.   1. ! Li+ Aqvist JPC 1990,94,8021. (adapted)
+NONBonded  IP      0.002770     3.328397    0.001385    3.328397   1.   1. ! Na+ Aqvist JPC 1990,94,8021. (adapted)
+NONBonded  K       0.000328     4.736016    0.000164    4.736016   1.   1. ! K+  Aqvist JPC 1990,94,8021. (adapted)
+NONBonded  Rb      0.000170     5.266992    0.000085    5.266992   1.   1. ! Rb+ Aqvist JPC 1990,94,8021. (adapted)
+NONBonded  I       0.400000     4.187223    0.200000    4.187223   1.   1. ! JCC,7,(1986),230;  
+NONBonded  F       0.061000     3.118145    0.030500    3.118145   1.47 1.2144 ! Gough JCC 13,(1992),963.
+NONBonded  IB      0.100000     8.908985    0.050000    8.908985   1.   1. ! solvated ion, vacuum apprx
+
+
+
+set echo=true end
+
+
+
+
+
+
+

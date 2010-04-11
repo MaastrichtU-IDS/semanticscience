@@ -1,0 +1,63 @@
+<!-- This is the Python Session in XML DTD, version 0.1 -->
+
+<!ELEMENT pysession
+	(none|string|int|long|float|list|tuple|dict|
+	instance|typeinst|reference)+ >
+<!ATTLIST pysession
+	app CDATA #REQUIRED
+	root CDATA #REQUIRED >
+
+<!ELEMENT none EMPTY >
+<!ATTLIST none
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT string (#PCDATA) >
+<!ATTLIST string
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT int (#PCDATA) >
+<!ATTLIST int
+	uniqId CDATA #REQUIRED
+	value CDATA #REQUIRED >
+
+<!ELEMENT long (#PCDATA) >
+<!ATTLIST long
+	uniqId CDATA #REQUIRED
+	value CDATA #REQUIRED >
+
+<!ELEMENT float (#PCDATA) >
+<!ATTLIST float
+	uniqId CDATA #REQUIRED
+	value CDATA #REQUIRED >
+
+<!ELEMENT list (reference*) >
+<!ATTLIST list
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT tuple (reference*) >
+<!ATTLIST tuple
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT dict (reference*) >
+<!ATTLIST dict
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT reference EMPTY >
+<!ATTLIST reference
+	uniqId CDATA #REQUIRED >
+
+<!ELEMENT instance (instdata*) >
+<!ATTLIST instance
+	uniqId CDATA #REQUIRED
+	name CDATA #REQUIRED
+	module CDATA #REQUIRED >
+
+<!ELEMENT typeinst (instdata*) >
+<!ATTLIST typeinst
+	uniqId CDATA #REQUIRED
+	name CDATA #REQUIRED >
+
+<!ELEMENT instdata EMPTY >
+<!ATTLIST instdata
+	name CDATA #REQUIRED
+	ref CDATA #REQUIRED >

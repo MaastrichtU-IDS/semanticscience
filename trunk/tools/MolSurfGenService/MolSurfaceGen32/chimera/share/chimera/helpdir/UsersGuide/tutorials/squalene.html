@@ -1,0 +1,639 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2008-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Structure Analysis and Comparison Tutorial</title>
+
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head><body>
+
+<font size="-1">
+<a href="../frametut.html" target="_top">Chimera Tutorials Index</a>
+</font>
+
+<a name="top"></a>
+<h2>Structure Analysis and Comparison Tutorial</h2>
+<p>
+This tutorial includes binding site analysis and comparison of related
+structures by superposition and morphing.  Internet connectivity is required 
+to fetch the structures <b>2zcp</b> and <b>2zco</b>.
+<ul>
+<li><a href="#setup">Background and Setup</a>
+<li><a href="#dists">Distances, H-Bonds, Contacts</a>
+<li><a href="#angles">Angles, Rotamers, Clashes</a>
+<li><a href="#surfaces">Surfaces and Attributes</a>
+<li><a href="#comparison">Superposition and Morphing</a>
+</ul>
+</p>
+
+<h3><a href="#top" class="nounder"><b>&larr;</b></a>
+<a name="setup">Background and Setup</a></h3>
+<p>
+The pathogenic organism <i>Staphylococcus aureus</i> makes a
+pigment called staphyloxanthin.  The pigment imparts a golden color 
+(hence <i>aureus</i>), but more importantly, contributes to virulence 
+by protecting the bacteria from killing by the host immune system.
+The <i>S. aureus</i> enzyme CrtM may be a good drug target 
+because it catalyzes a key step in staphyloxanthin synthesis:
+<blockquote>
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/18276850" target="_blank">
+A cholesterol biosynthesis inhibitor blocks <i>Staphylococcus aureus</i>
+virulence.</a>
+Liu CI, Liu GY, Song Y, Yin F, Hensler ME, Jeng WY, Nizet V, 
+Wang AH, Oldfield E.
+<i>Science.</i> 2008 Mar 7;319(5868):1391-4.
+</blockquote>
+We will view and compare different structures of this enzyme.
+</p><p>
+On <b>Windows</b>/<b>Mac</b>, click the <b>chimera</b> icon;
+on <b>UNIX</b>, start Chimera from the system prompt:
+<blockquote><tt>
+<i>unix</i>: <b>chimera</b>
+</tt></blockquote>
+A basic Chimera window should appear after a few seconds; resize it as desired.
+Open the <a href="../chimerawindow.html#emulator"><b>Command Line</b></a>
+(<b>Tools... General Controls... Command Line</b>).
+</p><p>
+Choose <b>Favorites... Add to Favorites/Toolbar</b> to place some
+icons on the toolbar.  This opens the <b>Preferences</b>, set to
+<b>Category</b>: <a href="../preferences.html#Tools"><b>Tools</b></a>.
+In the <b>On Toolbar</b> column, check the boxes for:
+<a name="toolicons"></a>
+<table align="center" style="margin:8px 8px 8px 8px">
+<tr><td valign="center">
+<ul>
+<li> <a href="../sideview.html#sideview"><b>Side View</b></a> 
+(under Viewing Controls)
+<li> <a href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a> (Structure Analysis)
+<li> <a href="../../ContributedSoftware/findclash/findclash.html"><b>Find
+Clashes/Contacts</b></a> (Structure Analysis)
+<li> <a href="../../ContributedSoftware/rotamers/rotamers.html">
+<b>Rotamers</b></a> (Structure Editing)
+<li> <a href="../reply.html"><b>Reply Log</b></a> 
+(Utilities, the last section)
+</ul>
+</td>
+<td valign="top"><img src="../svicon.png"></td>
+<td valign="top">
+<img src="../../ContributedSoftware/findhbond/findhbond.png"></td>
+<td valign="top">
+<img src="../../ContributedSoftware/findclash/findclashicon.png"></td>
+<td valign="top">
+<img src="../../ContributedSoftware/rotamers/rotamers-icon.png"></td>
+<td valign="top">
+<img src="../replyicon.png"></td>
+</tr>
+</table>
+If you want these icons to appear in later uses of Chimera, click
+<b>Save</b> before closing the preferences.
+</p><p>
+Fetch a structure from the <a href="http://www.rcsb.org" 
+target="_blank">Protein Data Bank</a> and use the ribbons 
+<a href="../menu.html#menupresets">preset</a>:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/open.html">open</a>&nbsp;2zcp</b>
+<br>
+<i>Menu</i>:&nbsp;<b>Presets... Interactive 1 (ribbons)</b>
+</blockquote>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">
+<a name="fig1">2zcp active site</a></th></tr>
+<tr><td><img src="2zcp-actsite.png"></td></tr>
+</table>
+This preset displays the two protein chains (A and B) as red and blue ribbons;
+bound molecules and nearby sidechains are shown as sticks.
+The two chains are two copies of the enzyme.  Delete chain B:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/delete.html">delete</a>&nbsp;:.b</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/focus.html">focus</a></b>
+</blockquote>
+Move and scale structures 
+<a href="../mouse.html">using the mouse</a> and
+<a href="../sideview.html#sideview"><b>Side View</b></a> 
+as desired throughout the tutorial.
+The front and back clipping planes can be adjusted in the
+<a href="../sideview.html#sideview"><b>Side View</b></a>.
+</p><p>
+The enzyme combines two 15-carbon molecules of farnesyl pyrophosphate
+to form a 30-carbon lipid.  This structure contains 
+farnesyl <b><i>thio</i></b>pyrophosphate, 
+which differs from the substrate by having a sulfur in the place of one
+oxygen.  Sulfur atoms are yellow, phosphorus orange, oxygen red, and
+nitrogen blue.  Label the ligand residues:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/rlabel.html">rlabel</a>&nbsp;ligand</b>
+</blockquote>
+In this structure, the farnesyl thiopyrophosphate molecules are named FPS and
+are residues 657 and 658 of chain A.
+Three metal ions help to offset the negative charges on the phosphates.
+These are shown as greenish spheres; hovering the mouse cursor 
+over each reveals (assuming default 
+<a href="../preferences.html#General">balloon preferences</a>)
+that they are Mg ions.
+Metal coordination bonds from FPS, water, and the protein 
+are shown with dashed purple lines.
+Lines drawn to indicate interactions other than
+covalent bonds are called <b><i>pseudobonds</i></b>.
+Hovering the cursor over a pseudobond or bond shows balloon information 
+about its end atoms and length.
+</p><p>
+Delete the water and label residues with displayed atoms:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/delete.html">del</a>&nbsp;solvent</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/rlabel.html">rlab</a>&nbsp;@/display</b>
+</blockquote>
+Water could be included in the various analyses, 
+but is removed here to simplify the tutorial.
+</p>
+
+<h3><a href="#top" class="nounder"><b>&larr;</b></a>
+<a name="dists">Distances, H-Bonds, Contacts</a></h3>
+<p>
+It looks like several sidechains could be donating hydrogen bonds
+to ligand phosphate oxygens.  (Although the structure does not include
+hydrogens, we know they are there!)  
+</p><p>
+One of the displayed residues is Ser 21.  To measure a distance:
+<ol>
+<li>Ctrl-click to pick the sidechain oxygen of Ser 21
+<li>Shift-Ctrl-doubleclick on the nearest phosphate oxygen
+<li>click <b>Show Distance</b> in the resulting menu
+</ol>
+Similarly, measure the distance between the sidechain oxygen of Tyr 248
+and the same phosphate oxygen. 
+</p><p>
+The distances seem consistent with hydrogen bonds.  
+However, rather than measuring many distances and trying to remember the
+appropriate hydrogen-bonding distances for different types of atoms,
+just use <a href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a>.  We will limit the search to H-bonds involving
+the FPS residues:
+<ol>
+<li>Select the FPS residues (for example, with <b>Select... Residue... FPS</b>
+in the menu).
+<li>Start <a href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a> by clicking its <a href="#toolicons">icon</a>.
+<li>In that dialog, turn on the options:
+  <ul>
+  <li><b>Only find H-bonds with at least one end selected</b> 
+  <li><b>Write information to reply log</b>
+  </ul>
+<li>Set <b>Line width</b> to 3. 
+<li>Click <b>OK</b>.
+</ol>
+The H-bonds are shown as pseudobonds of the specified color and line width.
+Both measured distances were found to be consistent with hydrogen bonding.
+Details can be viewed in the <b>Reply Log</b>, which can be opened by
+clicking its <a href="#toolicons">icon</a>.
+(In your own work, you may prefer to write the information to a file instead.)
+Remove the "hydrogen bond" pseudobonds:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/hbonds.html">~hbond</a></b>
+</blockquote>
+<a href="../../ContributedSoftware/findclash/findclash.html"><b>Find
+Clashes/Contacts</b></a> has some similarities to <b>FindHBond</b>,
+but it can also identify nonpolar interactions:
+<ul>
+<li><b><i>clashes</b></i> 
+- unfavorable interactions where atoms are too close together; close contacts
+<li><b><i>contacts</b></i> 
+- all kinds of direct interactions:
+polar and nonpolar, favorable and unfavorable (including clashes)
+</ul>
+We will identify contacts of the FPS residues:
+<ol>
+<li>Start <a href="../../ContributedSoftware/findclash/findclash.html"><b>Find 
+Clashes/Contacts</b></a> by clicking its <a href="#toolicons">icon</a>.
+<li>With the FPS residues still selected, click <b>Designate</b>.
+48 atoms should be designated for checking against <b>all other atoms</b>.
+<li>Set the <b>Clash/Contact Parameters</b> to the default <b>contact</b> 
+criteria (by clicking the button marked <b>contact</b>).
+<li>Set the <b>Treatment of Clash/Contact Atoms</b> to:
+ <ul>
+ <li><b>Select</b> 
+ <li><b>Write information to reply log</b>
+ <li>(turn off any other treatment options)
+ </ul>
+<li>Click <b>Apply</b>.
+</ol>
+In the <b>Reply Log</b>, the atom-atom contacts are listed in order of
+decreasing VDW overlap.
+</p><p>
+Even though all of the contacting atoms have been selected,
+not all of them are displayed.  Click into the
+graphics window, press the keyboard up arrow key to promote the selection
+from atoms to whole residues, and then display the selection (<b>Actions...
+Atoms/Bonds... show</b>). 
+</p><p>
+One might simply want a list of the interacting residues rather than 
+the details of each atomic contact.  A list of the selected residues
+can be saved.  First, deselect the ligand residues and ions, 
+leaving the protein residues selected:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/select.html#newer">~sel</a>&nbsp;ligand&nbsp;|&nbsp;ions</b>
+</blockquote>
+Open the <a href="../inspection.html"><b>Selection Inspector</b></a> 
+by choosing <b>Actions... Inspect</b> from the menu or
+by clicking the magnifying glass icon <img src="../inspecticon.png">
+near the bottom right corner of the main window.
+It reports that 26 residues are selected.
+Click its <b>Write List...</b> button or
+choose <b>Actions... Write List</b> from the main menu.
+In the resulting dialog, indicate that <b>selected residues</b> 
+should be written.  Click <b>Log</b> to write the list to the 
+<b>Reply Log</b> instead of to a file.
+</p>
+
+<h3><a href="#top" class="nounder"><b>&larr;</b></a>
+<a name="angles">Angles, Rotamers, Clashes</a></h3>
+<p>
+Amino acid torsion angle values can be viewed in the
+<a href="../inspection.html"><b>Selection Inspector</b></a>.
+Focus on Tyr 248:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/focus.html">focus</a>&nbsp;:248</b>
+</blockquote>
+Ctrl-click to pick any atom or bond in Tyr 248.  
+This will replace (clear) any pre-existing selection.
+Open the <a href="../inspection.html"><b>Selection Inspector</b></a>
+again if it is not already open.
+Inspecting <b>Residue</b> (instead of <b>Atom</b>)
+shows that the sidechain angles chi1 and chi2 in this residue 
+are approximately &ndash;107&deg; and &ndash;142&deg;, respectively.
+The phi and psi backbone angles are also given.
+When multiple residues with different angle values are selected, 
+the dialog will report ranges.
+</p>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">
+<a name="fig2">clash checking</a></th></tr>
+<tr><td><img src="2zcp-clash.png"></td></tr>
+</table>
+<p>
+We will set up clash checking and rotate the sidechain interactively.
+<ol>
+<li>Display additional residues within 4 &Aring; of Tyr 248:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/display.html">disp</a>&nbsp;:248&nbsp;z<4</b>
+</blockquote>
+<li>Click into the main graphics window, then press the up arrow
+key on the keyboard to promote the atom or bond selection 
+within Tyr 248 to the whole residue.
+<li>Start <a href="../../ContributedSoftware/findclash/findclash.html"><b>Find 
+Clashes/Contacts</b></a> by clicking its <a href="#toolicons">icon</a>. 
+<li>In that dialog, click <b>Designate</b>.
+The 12 atoms of Tyr 248
+should be designated for checking against <b>all other atoms</b>.
+<li>Set the <b>Clash/Contact Parameters</b> to the default <b>clash</b> 
+criteria (by clicking the button marked <b>clash</b>).
+<li>Set the <b>Treatment of Clash/Contact
+Atoms</b> to <b>Draw pseudobonds</b>; turn off any other treatment options. 
+<li>Set the <b>Frequency of Checking</b> to <b>after relative motions</b>.
+</ol>
+No clashes are found in the current position. 
+To rotate the sidechain of Tyr 248 interactively:
+<ol>
+<li>Ctrl-doubleclick its CA-CB bond (the stick segment right next to the ribbon)
+<li>click <b>Rotate Bond</b> in the resulting menu
+</ol>
+The rotatable bond will be listed in the
+<a href="../../ContributedSoftware/structuremeas/structuremeas.html#adjust">
+<b>Adjust Torsions</b></a> dialog.  In that dialog, if you change the 
+<b>Near</b> atom to <b>N</b>, the value reported is the chi1 angle.
+There are several ways to rotate a bond, including dragging the pointer 
+on the dial, clicking the black arrowheads, and
+editing the angle value directly.  
+</p><p>
+Use whichever method you prefer to rotate the bond.
+As the sidechain moves, yellow pseudobonds show any clashes and the
+distance monitor updates automatically.
+The sidechain is fairly constrained; only chi1 angles of approximately 
+&ndash;(100-120)&deg; avoid clashes if only that bond is rotated.
+The sidechain can be frozen in a new position, but for tutorial purposes,
+simply restore it to its original position: in the <b>Adjust Torsions</b>
+dialog, click the entry under <b>Bond</b> to show a menu. 
+In that menu, choose <b>Revert</b> (move back to original position) 
+and then <b>Deactivate</b> (make the bond no longer rotatable).
+<b>Close</b> the torsion dialog.  
+</p><p>
+Click the <b>Find Clashes/Contacts</b> <a href="#toolicons">icon</a> to 
+bring the dialog to the front and <b>Close</b> it to halt clash checking.
+</p><p>
+Next, we will compare the conformation of Tyr 248 in the structure
+to tyrosine rotamers from a library.  This will indicate whether
+the sidechain is in a frequently observed conformation
+and whether other conformations might also fit into the structure.  
+</p><p>
+With part of Tyr 248 still selected (if not, Ctrl-click to
+to select any of its atoms or bonds), start 
+<a href="../../ContributedSoftware/rotamers/rotamers.html">
+<b>Rotamers</b></a> by clicking its
+<a href="#toolicons">icon</a>.  Click <b>OK</b> to show <b>TYR</b>
+rotamers from the <a href="http://dunbrack.fccc.edu/bbdep/" 
+target="_blank"><b>Dunbrack</b> backbone-dependent library</a>.
+The rotamers are shown in the wire representation and listed in another dialog.
+</p><p>
+Clicking a line in the rotamer dialog displays just that rotamer.
+Clicking the lines one by one shows that none of the rotamers
+match the conformation in the structure.
+</p><p>
+The rotamer dialog reports chi1 and chi2 angles and probabilities
+from the library based on the residue's backbone conformation.
+Other than the backbone angles, 
+the probabilities do not take into account any interactions
+specific to this structure.  However, the rotamer dialog is integrated
+with clash and H-bond detection.  Choose <b>Columns... Add... Clashes</b> 
+and click <b>OK</b> to use the default settings; repeat with
+<b>Columns... Add... H-Bonds</b>.
+</p><p>
+The new columns show that each
+rotamer forms several clashes but no hydrogen bonds.  
+We showed above that Tyr 248 H-bonds with the ligand and avoids clashes, 
+which may compensate for its nonrotameric (presumably strained) conformation.
+</p><p>
+A sidechain can be replaced with a chosen rotamer.
+With a single rotamer shown, either click <b>OK</b> in the rotamer dialog
+to replace the sidechain with that rotamer and remove the others, 
+or simply <b>Close</b> the dialog 
+to remove the rotamers without replacing the sidechain.
+Although not done in this case, rotamers can be shown for a 
+different amino acid type than in the structure, allowing
+for virtual mutations.  
+</p><p>
+Unlike Tyr 248, Tyr 41 closely resembles the highest-probability tyrosine
+rotamer given its backbone angles.  If you like, focus on Tyr 41, 
+select one of its atoms or bonds, 
+and use <a href="../../ContributedSoftware/rotamers/rotamers.html">
+<b>Rotamers</b></a> to show and evaluate rotamers of tyrosine 
+or some other amino acid at that position.
+</p><p>
+Remove the distance pseudobonds, unlabel the residues, clear the selection,
+and zoom back out:
+</p>
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/distance.html">~dist</a></b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/rlabel.html">~rlab</a></b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/select.html#newer">~sel</a></b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/focus.html">focus</a></b>
+</blockquote>
+
+<h3><a href="#top" class="nounder"><b>&larr;</b></a>
+<a name="surfaces">Surfaces and Attributes</a></h3>
+<p>
+FPS and the natural substrate both have a highly polar/charged "head"
+and a long hydrocarbon tail.  The enzyme pocket is very large and deep,
+as needed to accommodate two of these molecules.  
+</p><p>
+A surface representation is best for showing the shape of the pocket.  
+First, choose <b>Favorites... Preferences</b> from the menu,
+change to <b>Category</b>: <a href="../preferences.html#New Surfaces"><b>New 
+Surfaces</b></a>, and set <b>show disjoint
+surfaces</b> to <b>false</b>.  This will make the surface simpler by
+ignoring small enclosed pockets inside the protein.
+<b>Close</b> the preferences.
+</p>
+<table align="left" style="margin:8px 8px 8px 8px">
+<tr><th align="center">
+<a name="fig3">2zcp pocket surface</a></th></tr>
+<tr><td><img src="2zcp-pocketsurf.png"></td></tr>
+</table>
+<p>
+Choose <b>Presets... Interactive 3 (hydrophobicity surface)</b> from the menu 
+to display a molecular surface color-coded by amino acid hydrophobicity.
+This <a href="../menu.html#menupresets">preset</a> colors the surface
+ranging from dodger blue for the most polar residues to white
+to orange red for the most hydrophobic residues.  
+</p><p>
+As one might expect, the mouth of the pocket near the phosphates and ions is 
+mostly polar, while the rest of the pocket is largely hydrophobic.  
+However, the pocket is so deep that it is hard to see when the whole surface 
+is shown.  Restricting the surface display to the pocket region allows it 
+to be viewed from the outside, as shown in the <a href="#fig3">figure</a>.
+</p><p>
+Hide the surface, the ribbon, and the protein atoms:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/surface.html">~surf</a></b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/ribbon.html">~ribbon</a></b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/display.html">~disp</a> protein</b>
+</blockquote>
+Surface display can be limited to a zone in a couple of different ways:
+<ul>
+<li>Command-line <a href="../midas/atom_spec.html#zones">zone specifications</a>
+use atom-atom distances.  For example, the following displays the surface
+patches of protein atoms within 6.5 &Aring; of ligand atoms:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/surface.html">surf</a>&nbsp;protein&nbsp;&&nbsp;ligand&nbsp;za<6.5</b>
+</blockquote>
+A fairly large cutoff is needed to avoid holes in the pocket surface.
+Apparently, this pocket includes some "wiggle room."
+<br><br>
+<li>The second way is with
+<a href="../../ContributedSoftware/surfzone/surfzone.html"><b>Surface 
+Zone</b></a>.  Display the whole surface and 
+<a href="../selection.html">select</a> the atoms of interest, for example:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/surface.html">surf</a> protein</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/select.html#newer">sel</a> ligand</b>
+</blockquote>
+Start <a href="../../ContributedSoftware/surfzone/surfzone.html"><b>Surface 
+Zone</b></a> (under <b>Tools... Surface/Binding Analysis</b>) and click
+the <b>Zone</b> button.
+This tool measures distances to surface vertices, and it
+allows the cutoff to be adjusted interactively with a slider.
+The <a href="#fig3">figure</a> shows results for a cutoff of 4.7 &Aring;.
+If you use this method, clear the selection afterward by 
+Ctrl-clicking in an empty area of the graphics window.
+</ul>
+Amino acid hydrophobicity is one example of an <b><i>attribute</i></b>.
+Another attribute commonly used in structure analysis is atomic
+B-factor.  B-factor values indicate which parts of the structure
+are more or less flexible or disordered.  Display all atoms by choosing
+<b>Presets... Interactive 2 (all atoms)</b> from the menu.   
+</p><p>
+The <a href="../../ContributedSoftware/render/render.html#render"><b>Render
+by Attribute</b></a> tool shows attribute values with colors 
+and other visual cues.  Choose <b>Tools... Depiction...
+Render by Attribute</b> from the menu to start this tool.
+The dialog is set to <b>atoms</b> when it appears.  Choose
+<b>bfactor</b> from the attribute menu.  The B-factor values are shown in a
+histogram, and the vertical bars on the histogram define a color mapping.
+These bars or <b><i>thresholds</i></b> can be added, deleted,
+moved, and/or their colors changed.  Clicking the square
+<a href="../coloring.html#colorwell">color well</a> allows changing
+the color of the threshold that was most recently clicked or moved.
+If any sidechain was replaced with a rotamer, the new atoms will not have 
+B-factor values, but they can be assigned a <b>No-value color</b>.
+Adjust the color mapping as desired, then <b>Apply</b> it to the structure.
+The lowest B-factors are in the protein core, the highest in a loop over
+the active site and the C-terminus on the opposite side.
+</p><p>
+In the <b>Render</b> dialog, switch from <b>atoms</b> to
+<b>residues</b> and show the histogram for the attribute
+<b>kdHydrophobicity</b>, the
+<a href="../midas/hydrophob.html">Kyte-Doolittle hydrophobicity</a>.  
+This is the same attribute used by the surface preset, 
+but this tool allows different color schemes to be applied.
+Higher numbers correspond to more hydrophobic (less polar) amino acids.
+The <b>No-value color</b> pertains to residues without Kyte-Doolittle
+hydrophobicity values, namely any that are not amino acids.
+<b>Apply</b> coloring by hydrophobicity if you like, 
+then <b>Close</b> the dialog.
+</p>
+
+<h3><a href="#top" class="nounder"><b>&larr;</b></a>
+<a name="comparison">Superposition and Morphing</a></h3>
+<p>
+Comparing different structures of a protein is another way to evaluate
+flexibility.  We have been viewing a structure bound to substrate analogs,
+<b>2zcp</b>.  A structure of the same enzyme without ligands is also available.
+</p><p>
+Fetch the "empty" structure and apply the ribbons preset:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/open.html">open</a>&nbsp;2zco</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/preset.html">preset</a>&nbsp;apply&nbsp;int&nbsp;1</b>
+</blockquote>
+Now the first structure is white and the new structure is magenta, as shown in 
+the <a href="../modelpanel.html"><b>Model Panel</b></a> 
+(<b>Tools... General Controls... Model Panel</b>).  
+</p><p>
+The structures are in completely different positions, 
+so the next step is to superimpose them.  This is easily accomplished with
+<a href="../../ContributedSoftware/matchmaker/matchmaker.html"><b>MatchMaker</b></a>
+or its <a href="../midas/mmaker.html">command equivalent</a>:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/mmaker.html">mm</a>&nbsp;#0&nbsp;#1</b>
+</blockquote>
+<b>MatchMaker</b> generates a sequence alignment using residue types and 
+secondary structure (tries to align helix with helix and strand with strand)
+and then fits CA-CA pairs in the same columns of the sequence alignment.
+By default, it iterates the fit so that far-apart pairs are not 
+included in the final match.  Match statistics are reported in the <b>Reply
+Log</b>.  The sequence alignment is not shown by default, but can be displayed
+by adding <b>show true</b> to the above command.
+</p><p>
+Alternatively, the following produces exactly the same superposition:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/match.html">match</a>&nbsp;iterate&nbsp;2.0&nbsp;#1@ca&nbsp;#0@ca</b>
+</blockquote>
+<table align="right" style="margin:8px 8px 8px 8px">
+<tr><th align="center">
+<a name="fig4">different loop conformations</a></th></tr>
+<tr><td><img src="2zcp-loopdiff.png"></td></tr>
+</table>
+This command works because the structures have equal numbers of CA atoms, and
+the first CA atom in one structure correctly pairs with the first in the 
+other, the second with the second, and so on.
+The <a href="../midas/match.html"><b>match</b></a> command does not generate
+a sequence alignment, so it is faster than <b>MatchMaker</b>.  
+Another potential advantage is that it can use any atoms, not just CA.  
+Its main disadvantage is that in most cases, 
+one must figure out and specify which residues 
+in one structure should pair with which residues in the other.
+While not used by default, iteration can be turned on, as shown above.
+</p><p>
+Either way, iteration is recommended so that similar parts will superimpose
+well and dissimilar parts will stand out better.  These two structures are
+very similar except for the loop at approximately residues 51-56
+(you can see residue numbers by hovering the cursor over the ribbon):
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/display.html">disp</a>&nbsp;:51-56</b>
+</blockquote>
+Morphing involves calculating a series of intermediate, interpolated
+structures between the original input structures.  In Chimera, the
+series of structures is treated as a trajectory that can be replayed,
+saved to a coordinate file, or saved as a movie using
+<a href="../../ContributedSoftware/movie/framemovie.html"
+target="_top"><b>MD Movie</b></a>.
+</p><p>
+Start the <a href="../../ContributedSoftware/morph/morph.html">morphing
+tool</a>:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/start.html">start</a>&nbsp;Morph&nbsp;Conformations</b>
+</blockquote>
+Click <b>Add...</b> and in the resulting list of models, doubleclick
+to choose #0, #1, and #0 again, corresponding to a morph trajectory from the 
+ligand-bound structure to the empty structure and back.
+<b>Close</b> the model list.
+In the main <b>Morph Conformations</b> dialog, set the <b>Action on Create</b>
+to <b>hide Conformations</b>, and then click <b>Create</b>.
+</p><p>
+The progress of the calculation is reported in the
+<a href="../chimerawindow.html#statusline">status line</a>.  
+When all the intermediate structures have been calculated, the input 
+structures are hidden, the trajectory is opened as a third model (#2), and the
+<a href="../../ContributedSoftware/movie/framemovie.html"
+target="_top"><b>MD Movie</b></a>
+tool appears.  The trajectory can be played continuously or one step
+at a time by clicking buttons on the tool, 
+or a frame number can be entered directly.
+</p><p>
+The initial display style of the trajectory and which atoms are shown/hidden
+mimic the input structures, but in fact all atoms that are present in both
+input structures are also present in the trajectory.  The coloring and
+display can be controlled just as in any other structure.
+For example, to show only aromatic amino acids along with the ribbon:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/show.html">show</a>&nbsp;#2&nbsp;&&nbsp;aromatic</b>
+</blockquote>
+Ligand residues were only present in one of the structures, so they are
+not included in the morph trajectory.  
+However, part or all of the original structures can be displayed 
+along with the trajectory.  Display of the other models can be re-enabled by
+checking the <b>S</b>(hown) boxes in the
+<a href="../modelpanel.html"><b>Model Panel</b></a> (<b>Tools... 
+General Controls... Model Panel</b>) or with a command, for example:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/modeldisplay.html">modeldisp</a>&nbsp;#0</b>
+</blockquote>
+Then, to show only the ligand residues in that model:
+<blockquote>
+<i>Command</i>:&nbsp;<b><a href="../midas/ribbon.html">~ribbon</a>&nbsp;#0</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/display.html">~disp</a>&nbsp;#0</b>
+<br>
+<i>Command</i>:&nbsp;<b><a href="../midas/display.html">disp</a>&nbsp;:fps</b>
+</blockquote>
+In this case, the secondary structure does not change much between the input 
+structures. When conformational differences are larger and ribbons
+will be displayed, one may want to re-evaluate the secondary structure 
+at each step of the trajectory.  That can be done by putting the command
+<a href="../midas/ksdssp.html"><b>ksdssp</b></a> in a
+<a href="../../ContributedSoftware/movie/movie.html#per-frame">per-frame
+Chimera script</a> in
+<a href="../../ContributedSoftware/movie/framemovie.html"
+target="_top"><b>MD Movie</b></a>.
+</p><p>
+The <a href="../../ContributedSoftware/morph/morph.html"><b>Morph 
+Conformations</b></a> page lists a few additional
+<a href="../../ContributedSoftware/morph/morph.html#examples">example
+systems</a>.
+</p><p>
+When finished enjoying the morph trajectory,
+choose <b>File... Quit</b> from the menu to exit from Chimera.
+</p>
+<hr>
+<address>meng-at-cgl.ucsf.edu / August 2009</address>
+</body></html>

@@ -1,0 +1,530 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2002-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Structure Measurements</TITLE>
+</head>
+<body>
+<a name="structuremeas">
+<h3>Structure Measurements</h3>
+</a><p>
+The <b>Structure Measurements</b> panel has four sections:
+<ul>
+<li><a href="#distances"><b>Distances</b></a> - monitor distances
+<li><a href="#angles"><b>Angles/Torsions</b></a> 
+- monitor angles and torsions
+<li><a href="#adjust"><b>Adjust Torsions</b></a> - rotate bonds
+<li><a href="#axes"><b>Axes/Planes</b></a> - show axes and planes based
+on sets of atoms, perform related measurements
+</ul>
+Only one section is shown at a time, and clicking the tab for another
+brings it to the front.  Each section is listed as a tool
+in the <b>Structure Analysis</b> category.  Tools can be started in
+<a href="../../UsersGuide/extension.html">several ways</a>.
+See also:
+<a href="../../UsersGuide/midas/measure.html"><b>measure</b></a>
+</p><p>
+<b>Atomspec display style</b> in the
+<a href="../../UsersGuide/preferences.html#General">
+<b>General</b> preferences</a> controls 
+<a href="../../UsersGuide/preferences.html#namingstyle">how atoms are listed</a>
+in the <b>Structure Measurements</b> dialog.  
+The <a href="#listsimple"><b>Distances</b> figure</a>
+shows the simple style (residue name, residue specifier, and atom name),
+while the <a href="#listspec"><b>Adjust Torsions</b> figure</a> shows         
+<a href="../../UsersGuide/midas/atom_spec.html#basic">command-line 
+specifiers</a>.
+</p><p>
+<b>Save</b> saves measurements to a file.
+<b>Close</b> closes the measurements panel, and <b>Help</b> opens
+this manual page in a browser window.
+</p>
+
+<h3><a name="distances">Distances</a>
+<img src="disticon.png" alt="icon"></h3>
+<p>
+The <b>Distances</b> section of
+<a href="#structuremeas"><b>Structure Measurements</b></a>
+is a table of distance monitors 
+(measurements that update if there are changes).
+Distance monitors are
+saved in <a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+See also:
+<a href="../../UsersGuide/midas/distance.html"><b>distance</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Distances</b>, a tool in the <b>Structure Analysis</b> category.
+Distance monitors can be created in three ways:
+<ul>
+<li> The <b>Create</b> button
+creates a distance monitor between two atoms that have been
+<a href="../../UsersGuide/selection.html">selected</a> 
+(exactly two atoms must be selected).
+<li> <a href="../../UsersGuide/selection.html#pickselect">Picking</a> one
+atom and
+Shift-double-<a href="../../UsersGuide/selection.html#pickselect">picking</a>
+the second atom (that is, doubleclicking it with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>)
+elicits a button marked <b>Show Distance</b>.
+Clicking it creates the distance monitor
+and leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+Clicking elsewhere removes the button without creating a distance monitor
+but leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+<li> The command <a href="../../UsersGuide/midas/distance.html">
+<b>distance</b></a> can also be used.
+</ul>
+<table border="1" align="left" style="margin:8px 8px 8px 8px">
+<tr><th>Distances - <a name="listsimple">simple atom listings</a>
+</th></tr>
+<tr><td><img src="distpanel.png" alt="Distances"></td></tr>
+</table>
+The distance list can be sorted by the values in any column by
+clicking the header.  Clicking the header once sorts the entries
+in order of increasing value and places an up arrowhead (triangle)
+in the header.  Clicking again sorts the entries in decreasing
+order and places a down arrowhead (inverted triangle) in the header.
+</p><p>
+A distance monitor can be <b><i>chosen</i></b> by clicking on its line,
+and more than one can be chosen at a time.
+Chosen lines are highlighted in the dialog.
+<b>Ctrl</b>-click toggles the status of a line, while clicking on the first 
+(or last) line of a contiguous block and then <b>Shift</b>-clicking 
+on the last (or first) chooses all of the lines in the block.
+</p><p>
+Choosing a distance listing
+<a href="../../UsersGuide/selection.html">selects</a> the corresponding 
+distance <a href="../../UsersGuide/pbpanel.html#pbdef">pseudobond</a>.
+The <b>Choosing in table...</b> option allows additionally
+<a href="../../UsersGuide/selection.html">selecting</a> 
+the corresponding atoms.
+<b>Remove</b> deletes the chosen distance monitors.
+If there is only one, it is not necessary to choose it
+before using <b>Remove</b>.
+</p><p>
+The <b>Labels</b> setting applies to all distance
+monitors and can be switched among:
+<ul>
+<li><b>None</b> - no label
+<li><b>ID</b> - distance monitor ID number (the first column in the listing)
+<li><b>Distance</b> - the distance in angstroms
+</ul>
+The <b>Decimal places</b> and <b>Show Angstrom symbol</b> settings 
+control how distances are reported in the table and 
+(when <b>Labels</b> is set to <b>Distance</b>) in labels.
+The <b>Decimal places</b> can be changed by clicking or holding down 
+one of the arrows on either side of the value.
+Of course, decimal places beyond those present in the input
+coordinates are not very meaningful.
+</p><p>
+The lines drawn to represent distance monitors are
+<a href="../../UsersGuide/pbpanel.html#pbdef">
+pseudobonds</a> in a group named <b>distance monitor</b>.  
+Clicking <b>Display options...</b> brings up a list of
+<a href="../../UsersGuide/pbattrib.html#group">pseudobond attributes</a>
+for this group, allowing changes in properties
+such as color, linewidth, and whether the lines are dashed. 
+When an individual 
+<a href="../../UsersGuide/pbpanel.html#pbdef">pseudobond</a>
+is <a href="../../UsersGuide/selection.html">selected</a>,
+its attributes
+can be altered with the <a href="../../UsersGuide/inspection.html">
+<b>Selection Inspector</b></a>.
+</p>
+
+<h3><a name="angles">Angles/Torsions</a>
+<img src="angicon.png" alt="icon"></h3>
+<p>
+The <b>Angles/Torsions</b> section of
+<a href="#structuremeas"><b>Structure Measurements</b></a>
+is a table of angle monitors (measurements that update if there are changes).
+A "bond angle" is measured for three atoms and a "torsion angle" 
+for four atoms; however, it is not necessary for
+the atoms to be contiguous or even bonded to one another.
+Angle monitors are
+saved in <a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+</p><p>
+<b>Angles/Torsions</b> reports changes but cannot be used to change the angles.
+To modify torsions, use <a href="#adjust"><b>Adjust Torsions</b></a> instead.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Angles/Torsions</b>, a tool in the <b>Structure Analysis</b> category.
+Angle monitors can be created in various ways:
+<ul>
+<li> The <b>Create</b> button
+creates an angle monitor for atoms that have been
+<a href="../../UsersGuide/selection.html">selected</a> (exactly
+three or four atoms must be selected; a bond angle is measured when
+three atoms are selected, a torsion angle when four atoms are selected).
+<li> <a href="../../UsersGuide/selection.html#pickselect">Picking</a>
+two atoms and then
+Shift-double-<a href="../../UsersGuide/selection.html#pickselect">picking</a>
+the third (that is, doubleclicking it with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>)
+elicits a button marked <b>Measure Angle</b>.
+Clicking it creates a bond angle monitor and leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+Clicking elsewhere removes the button without creating a monitor
+but leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+<li> <a href="../../UsersGuide/selection.html#pickselect">Picking</a>
+three atoms and then
+Shift-double-<a href="../../UsersGuide/selection.html#pickselect">picking</a>
+the fourth (that is, doubleclicking it with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>)
+elicits a button marked <b>Measure Torsion</b>.
+Clicking it creates a torsion angle monitor and leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+Clicking elsewhere removes the button without creating a monitor
+but leaves the atoms in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+</ul>
+The angles/torsions list can be sorted by the values in any column by
+clicking the header.  Clicking the header once sorts the entries
+in order of increasing value and places an up arrowhead (triangle)
+in the header.  Clicking again sorts the entries in decreasing
+order and places a down arrowhead (inverted triangle) in the header.
+</p><p>
+A measurement in the list can be <b><i>chosen</i></b> by clicking on its line,
+and more than one can be chosen at a time.
+Chosen lines are highlighted in the dialog.
+<b>Ctrl</b>-click toggles the status of a line, while clicking on the first 
+(or last) line of a contiguous block and then <b>Shift</b>-clicking 
+on the last (or first) chooses all of the lines in the block.
+</p><p>
+Choosing an angle monitor also
+<a href="../../UsersGuide/selection.html">selects</a> the corresponding atoms 
+and bonds when the <b>Choosing in table...</b> option is on.
+<b>Remove</b> deletes the chosen measurement(s).
+If there is only one measurement, it is not necessary to choose it
+before clicking <b>Remove</b>.
+</p><p>
+The <b>Decimal places</b> setting controls how angles are reported
+in the table; the number of digits shown after the decimal 
+can be changed by clicking or holding down one of the arrows on 
+either side of the value. 
+</p><p>
+The command <a href="../../UsersGuide/midas/angle.html"><b>angle</b></a>
+can also be used to measure bond angles and torsions; however, it yields
+a static measurement rather than a continuously updating monitor.
+</p>
+
+<h3><a name="adjust">Adjust Torsions</a>
+<img src="torsicon.png" alt="icon"></h3>
+<p>
+The <b>Adjust Torsions</b> section of
+<a href="#structuremeas"><b>Structure Measurements</b></a>
+is a table of active (rotatable) torsions.
+Active torsions are
+saved in <a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+See also: <a href="../rotamers/framerot.html" 
+target="_top"><b>Rotamers</b></a>,
+<a href="../../UsersGuide/midas/rotation.html"><b>rotation</b></a>,
+<a href="../../UsersGuide/midas/swapaa.html"><b>swapaa</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Adjust Torsions</b>, a tool in the <b>Structure Editing</b> category.
+Torsions can be activated in several different ways:
+<ul>
+<li> The <b>Activate</b> button
+activates a rotation around a bond that has been
+<a href="../../UsersGuide/selection.html#pickselect">picked</a>
+in the graphics window.
+<li>Double-<a href="../../UsersGuide/selection.html#pickselect">picking</a>
+a bond (that is, doubleclicking it with the button
+assigned to <a href="../../UsersGuide/selection.html#pickselect">picking</a>)
+elicits a menu with the option <b>Rotate Bond</b>.
+Choosing this option activates the torsion,
+opens <b>Adjust Torsions</b> (if it is not already open),
+and leaves the bond in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+Clicking elsewhere removes the menu
+without activating a torsion but leaves the bond in a
+<a href="../../UsersGuide/selection.html">selected</a> state.
+<li> The command <a href="../../UsersGuide/midas/rotation.html">
+<b>rotation</b></a> can also be used.
+</ul>
+<table border="1" align="left" style="margin:8px 8px 8px 8px">
+<tr><th>Adjust Torsions - <a name="listspec">command-line 
+specifiers</a></th></tr>
+<tr><td><img src="rotpanel.png" alt="Adjust Torsions"></td></tr>
+</table>
+An error message will appear
+if an attempt is made to activate a bond that is
+terminal (no additional atoms attached to one or both ends),
+within a ring, or already rotatable.
+</p><p>
+If the four atoms defining a torsion are called 1-2-3-4,
+1 is the <b>Near</b> atom and 4 is the <b>Far</b> atom,
+which will move when the bond is rotated.
+The angle in degrees as defined by the current <b>Near</b> and <b>Far</b>
+atoms is shown in the <b>Torsion</b> column.
+<a name="anglemode">
+<b>Torsion</b> can be toggled to <b>Delta</b>;
+</a>
+the reported value is then
+the angle in degrees relative to the starting angle,
+and there are no <b>Near</b> and <b>Far</b> columns.
+</p><p>
+<img src="5a.png" alt="bond rotation example" align="right">
+A bond can be rotated by entering a new angle value (and pressing return),
+clicking the arrows flanking the angle value,
+or manipulating the dial.  The <b>Dial size</b> can be set to 
+<b>small</b>, <b>medium</b>, or <b>large</b>.  Further, torsions
+can be manipulated in the graphics window with the mouse.
+This can be done by checking
+<a name="withmouse"><b>Rotate [<i>torsion</i>] using [<i>button</i>]</b></a>
+and choosing the desired torsion and mouse button from the pulldown menus.
+</p><p>
+The <b>Bond</b> column contains a pulldown menu for each active rotation,
+labeled with identifiers for atoms 2->3 (those flanking the rotatable bond):
+<ul>
+<li><b>Revert</b> - restore the original torsion angle
+<li><b>Reverse</b> - change which side of the torsion moves when the bond
+is rotated (change the torsion definition from A-B-C-D to D-C-B-A)
+<li><b>Deactivate</b>
+ - deactivate the bond rotation and remove it from the table.
+Note that the torsion will not automatically revert to its original value when
+deactivated; <b>Revert</b> should be used before <b>Deactivate</b> to retain
+the original torsional angle.  Even if the same rotation is reactivated later,
+<b>Revert</b> will not work to restore the angle, since the original value
+has not been saved.
+<li><b>Select</b> - <a href="../../UsersGuide/selection.html">select</a>
+the rotatable bond and deselect any others;
+when in the <a href="#anglemode"><b>Torsion</b> mode</a>, also
+<a href="../../UsersGuide/selection.html">select</a>
+the two flanking bonds (to show all four atoms defining the torsion).
+</ul>
+</p><p>
+When atom 2 is bonded to more than two atoms, there is more than one
+possible <b>Near</b> atom, and alternatives (if any) are available
+in a pulldown menu from the current <b>Near</b> atom name.  Likewise,
+when atom 3 is bonded to more than two atoms, there is more than one
+possible <b>Far</b> atom, and alternatives (if any) are available
+in a pulldown menu from the current <b>Far</b> atom name.
+For the first torsion in the example (figures above), there are two choices 
+for the <b>Near</b> atom, <b>C8</b> and <b>C4</b>, and two choices for
+the <b>Far</b> atom, <b>O4'</b> and <b>C2'</b>.  For the second torsion,
+there are two choices for the <b>Near</b> atom, <b>O4'</b> and <b>C3'</b>,
+and only one possible <b>Far</b> atom, <b>O5'</b>.  Of course, if
+<b>Reverse</b> is used, the <b>Near</b> and <b>Far</b> choices are
+interchanged, and in the <a href="#anglemode"><b>Delta</b> mode</a>,
+there are no <b>Near</b> and <b>Far</b> columns.
+</p><p>
+The <b>Labels</b> setting applies to all active torsions
+and can be switched among:
+<ul>
+<li><b>None</b> - no label
+<li><b>ID</b> - torsion ID number (the first column in the listing)
+<li><b>Name</b> - identifiers for atoms 2->3 
+(as shown in the <b>Bond</b> column)
+<li><b>Angle</b> - the angle in degrees
+</ul>
+The <b>Decimal places</b> and <b>Show degree symbol</b> settings 
+control how angle values are displayed 
+when <b>Labels</b> is set to <b>Angle</b>.
+The <b>Decimal places</b> can be changed by clicking or holding down 
+one of the arrows on either side of the value.
+</p>
+
+<h3><a name="axes">Axes/Planes</a>
+<img src="axesicon.png" alt="icon"></h3>
+<p>
+The <b>Axes/Planes</b> section of
+<a href="#structuremeas"><b>Structure Measurements</b></a>
+allows defining geometric objects (axes, planes) based on sets of atoms
+and performing measurements involving the objects.
+Axes are displayed as rods, planes as disks.  
+Objects to be listed in the <a href="#objectlist"><b>Axes/Planes</b> table</a>
+can also be created with the command
+<a href="../../UsersGuide/midas/define.html"><b>define</b></a>.
+<b>Axes/Planes</b> displays and information are
+saved in <a href="../../UsersGuide/sessions.html#sesdef">sessions</a>.
+See also:
+<a href="../../UsersGuide/midas/distance.html"><b>distance</b></a>,
+<a href="../../UsersGuide/midas/angle.html"><b>angle</b></a>,
+<a href="../pipesandplanks/pipesandplanks.html"><b>PipesAndPlanks</b></a>,
+<a href="../../UsersGuide/midas/measure.html#inertia"><b>measure inertia</b></a>
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Axes/Planes</b>, a tool in the <b>Structure Analysis</b> category.
+</p><p>
+<a name="define-axes">
+Clicking <b>Define axes...</b> opens a dialog for specifying atom sets and
+other axis parameters</a>:
+<ul>
+<li><b>Each helix in</b> [<i>models</i>]
+- define an axis for each peptide/protein helix in the molecule model(s)
+chosen in the list.  Peptide/protein helix assignments 
+are taken from the input structure file or generated with 
+<a href="../../UsersGuide/midas/ksdssp.html"><b>ksdssp</b></a>.
+Only the backbone atoms N, CA, C are used to define the axes.
+Sometimes two helices are adjacent in sequence (not separated by any
+other residues), and the integer-valued residue attribute <b>ssId</b> is 
+used to distinguish them.  Although such cases are detected automatically,
+<b>ssId</b> can also be set manually with
+<a href="../../UsersGuide/midas/setattr.html"><b>setattr</b></a>.
+<br><br>
+<li><b>Selected atoms (axis name [<i>name</i>])</b>
+- define a single axis named <i>name</i> using all
+<a href="../../UsersGuide/selection.html">selected</a> atoms
+<br><br>
+<li><b>Axis Parameters</b>:
+  <ul>
+  <li><b>Mass weighting</b> (only available for the <b>Selected atoms</b>
+  option) - calculate inertial axis by mass-weighting the atoms;
+  cannot be combined with <b>helical correction</b>
+  <li><b>Use helical correction</b> - adjust axis orientation 
+  to reduce the spread of atom-axis distances; cannot be combined with 
+  <b>mass weighting</b>.
+An axis is anchored at the the geometric center (centroid) of the defining
+atomic coordinates and is initially aligned with the principal component of 
+the coordinates.  While usually small,
+helical correction improves results for short helices.
+  <li><a name="replace"><b>Replace existing axes</b></a>
+  - whether to remove any/all pre-existing axis displays when creating new ones
+  <li><b>Color</b> (a
+  <a href="../../UsersGuide/coloring.html#colorwell">color well</a>,
+  default <b>No Color</b>, meaning to match the structure as much as possible)
+  <li><b>Radius</b>
+    <ul>
+    <li> <b>average axis-atom distance</b> (default)
+    <li> <b>angstroms</b> (a constant value, default <b>1.0</b> &Aring;)
+    </ul>
+  </ul>
+</ul>
+Only one <a href="../../UsersGuide/coloring.html#colorwell">color well</a>
+setting and one constant radius value can be specified at a time.
+However, the color of an axis can be changed later by clicking its
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>
+in the <a href="#objectlist">table of objects</a> and using the
+<a href="../../UsersGuide/colortool.html"><b>Color Editor</b></a>, and
+axes with different specified colors and radii can be created in 
+successive stages when
+<a href="#replace"><b>Replace existing axes</b></a> is turned off.
+Clicking <b>Apply</b> (or <b>OK</b>, which also closes the
+dialog) calculates the axes, adds them to the <a href="#objectlist">table</a>, 
+and generates the corresponding displays.
+</p><p>
+<a name="define-plane">
+Clicking <b>Define plane...</b> opens a dialog for defining a plane</a> 
+based on the <a href="../../UsersGuide/selection.html">selected</a> atoms:
+<ul>
+<li><b>Plane name</b>
+<li><a name="replaceplane"><b>Replace existing planes</b></a>
+- whether to remove any/all pre-existing plane displays when creating new ones
+<li><b>Color</b> (a
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>,
+default <b>No Color</b>, meaning to match the source atoms as much as possible)
+<li><b>Set disk size to enclose atom projections</b>
+(<b>true</b>/false) - whether the disk radius should be set
+to span the projections of the defining atoms back onto the plane.
+If true, an <b>Extra radius (padding)</b> can be specified
+(default <b>0.0</b> &Aring;).  If false, 
+a <b>Fixed radius</b> can be specified (default <b>10.0</b> &Aring;).
+The disk center is the non-mass-weighted centroid of the atoms.
+<li><b>Disk thickness</b> (default <b>0.1</b> &Aring;)
+</ul>
+Clicking <b>Apply</b> (or <b>OK</b>, which also closes the
+dialog) calculates a plane
+based on the <a href="../../UsersGuide/selection.html">selected</a> atoms,
+adds it to the <a href="#objectlist">table</a>, 
+and generates the corresponding display.
+</p>
+<table border="1" align="right" style="margin:8px 8px 8px 8px">
+<tr><td><img src="objectlist.png" alt="Axes/Planes table"></td></tr>
+</table>
+<p>
+<a name="objectlist">
+Columns in the <b>Axes/Planes</b> table of objects:</a>
+<ul>
+<li><b>Name</b> 
+<li>color (a <a href="../../UsersGuide/coloring.html#colorwell">color well</a>)
+<li><b>ID</b> - object identifier, aN for axes, pN for planes
+<li><b>Shown</b> - whether the object is displayed
+<li><b>Length</b> - axis length,
+end-to-end distance needed to span the projections of 
+the defining atoms back onto the axis
+<li><b>Radius</b> - axis or plane radius
+</ul>
+The table can be sorted by a column by clicking the column header.
+</p><p>
+An object can be <b><i>chosen</i></b> by clicking on its line,
+and more than one can be chosen at a time.
+Chosen lines are highlighted in the dialog.
+<b>Ctrl</b>-click toggles the status of a line, while clicking on the first 
+(or last) line of a contiguous block and then <b>Shift</b>-clicking 
+on the last (or first) chooses all of the lines in the block.
+</p><p>
+Choosing any two objects reports their applicable geometric relationships
+below the table and in the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+For angle measurements, axes and planes are treated as infinite.
+For distance measurements, axes are treated as finite line segments, while
+planes are treated as infinite.
+Optionally, choosing objects also: 
+<ul>
+<li><b>selects object</b> - <a href="../../UsersGuide/selection.html">selects</a>
+each object (currently nothing can be done to such a selection, but the objects
+are highlighted in the graphics window)
+<li><b>selects atoms</b> - <a href="../../UsersGuide/selection.html">selects</a>
+the atoms used to define each object
+</ul>
+Conversely, <a href="../../UsersGuide/selection.html#pickselect">picking</a>
+an object from the screen will choose it in the table.
+</p><p>
+Clicking <b>Delete</b> removes the chosen objects.  
+In addition, closing a molecule model or deleting atoms 
+removes any objects defined using those atoms.
+<b>Rename</b> allows changing the names of the chosen objects; 
+this will change their order in the table if sorting is currently by name.
+<b>Report distance</b> measures distances between the chosen objects
+and <a href="../../UsersGuide/selection.html">selected</a> atoms;
+results are sent to the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>.
+If a single atom is selected, the distance to each chosen object is reported;
+if multiple atoms are selected, the minimum, maximum, and mean distances
+are reported.
+</p><p>
+Axis/plane information written out with <b>Save</b> includes name
+and <i>untransformed</i> center coordinates 
+(<i>x<sub>c</sub>,y<sub>c</sub>,z<sub>c</sub></i>).
+Axis information also includes length
+and orientation expressed as a unit vector
+(<i>x<sub>u</sub>,y<sub>u</sub>,z<sub>u</sub></i>).
+Axis endpoint coordinates (<i>x<sub>1</sub>,y<sub>1</sub>,z<sub>1</sub></i>) 
+(<i>x<sub>2</sub>,y<sub>2</sub>,z<sub>2</sub></i>)
+can be generated as follows:
+</p>
+<table align="center" width="80%">
+<tr><td align="left">
+<i>x<sub>1</sub></i>&nbsp;=&nbsp;<i>x<sub>c</sub></i>&nbsp;&ndash;&nbsp;0.5(<i>length</i>)(<i>x<sub>u</sub></i>)
+<br>
+<i>y<sub>1</sub></i>&nbsp;=&nbsp;<i>y<sub>c</sub></i>&nbsp;&ndash;&nbsp;0.5(<i>length</i>)(<i>y<sub>u</sub></i>)
+<br>
+<i>z<sub>1</sub></i>&nbsp;=&nbsp;<i>z<sub>c</sub></i>&nbsp;&ndash;&nbsp;0.5(<i>length</i>)(<i>z<sub>u</sub></i>)
+</td><td align="left">
+<i>x<sub>2</sub></i>&nbsp;=&nbsp;<i>x<sub>c</sub></i>&nbsp;+&nbsp;0.5(<i>length</i>)(<i>x<sub>u</sub></i>)
+<br>
+<i>y<sub>2</sub></i>&nbsp;=&nbsp;<i>y<sub>c</sub></i>&nbsp;+&nbsp;0.5(<i>length</i>)(<i>y<sub>u</sub></i>)
+<br>
+<i>z<sub>2</sub></i>&nbsp;=&nbsp;<i>z<sub>c</sub></i>&nbsp;+&nbsp;0.5(<i>length</i>)(<i>z<sub>u</sub></i>)
+</td></tr>
+</table>
+<p>
+Plane information also includes radius
+and orientation expressed as a normal unit vector.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2009</address>
+</body></html>

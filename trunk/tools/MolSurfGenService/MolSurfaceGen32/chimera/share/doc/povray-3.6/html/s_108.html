@@ -1,0 +1,276 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.4.4 Isosurface Object</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_107.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_107.html">3.4.3 Infinite Solid Primitives</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.4.4 
+   Isosurface Object</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_109.html">3.4.5 Parametric Object</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_109.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_04_04">3.4.4 </a>Isosurface Object</h3>
+<a name="s03_04_04_i1"><a name="isosurface"></a><a name="s03_04_04_i2"><a name="isosurface, keyword"></a><a name="s03_04_04_i3"><a name="s03_04_04_i4"><a name="function, isosurface"></a><a name="s03_04_04_i5"><a name="s03_04_04_i6"><a name="contained_by, isosurface"></a><a name="s03_04_04_i7"><a name="s03_04_04_i8"><a name="threshold, isosurface"></a><a name="s03_04_04_i9"><a name="s03_04_04_i10"><a name="accuracy, isosurface"></a><a name="s03_04_04_i11"><a name="s03_04_04_i12"><a name="max_gradient, isosurface"></a><a name="s03_04_04_i13"><a name="s03_04_04_i14"><a name="evaluate, isosurface"></a><a name="s03_04_04_i15"><a name="s03_04_04_i16"><a name="open, isosurface"></a><a name="s03_04_04_i17"><a name="s03_04_04_i18"><a name="max_trace, isosurface"></a><a name="s03_04_04_i19"><a name="s03_04_04_i20"><a name="all_intersections, isosurface"></a><a name="s03_04_04_i21">
+<p>
+  Details about many of the things that can be done with the isosurface object are discussed in the isosurface 
+ tutorial section. Below you will only find the syntax basics: 
+</p>
+
+<pre>
+isosurface {
+  function { FUNCTION_ITEMS }
+  [contained_by { SPHERE | BOX }]
+  [threshold FLOAT_VALUE]
+  [accuracy FLOAT_VALUE]
+  [max_gradient FLOAT_VALUE]
+  [evaluate P0, P1, P2]
+  [open]
+  [max_trace INTEGER] | [all_intersections]
+  [OBJECT_MODIFIERS...]
+}
+</pre>
+
+<p>
+  Isosurface default values:<a name="s03_04_04_i22"><a name="s03_04_04_i23"> 
+</p>
+
+<pre>
+contained_by : box{-1,1}
+threshold    : 0.0
+accuracy     : 0.001
+max_gradient : 1.1
+</pre>
+
+<p>
+  <code>function { ... }</code> This must be specified and be the first item of the <code>isosurface</code> 
+ statement. Here you place all the mathematical functions that will describe the surface.<a name="s03_04_04_i24"><a name="contained_by"></a><a name="s03_04_04_i25"> 
+ 
+</p>
+
+<p>
+  <code>contained_by { ... }</code> The <code>contained_by</code> 'object' limits the area where POV-Ray samples for 
+ the surface of the function. This container can either be a sphere or a box, both of which use the standard POV-Ray 
+ syntax. If not specified a <code>box {&lt;-1,-1,-1&gt;, &lt;1,1,1&gt;}</code> will be used as default. 
+</p>
+
+<pre>
+contained_by { sphere { CENTER, RADIUS } }
+contained_by { box { CORNER1, CORNER2 } }
+</pre>
+<a name="s03_04_04_i26">
+<p>
+  <code>threshold</code> This specifies how much strength, or substance to give the <code>isosurface</code>. The 
+ surface appears where the <code>function</code> value equals the <code>threshold</code> value. The default threshold 
+ is 0. 
+</p>
+
+<pre>function = threshold</pre>
+<a name="s03_04_04_i27"><a name="accuracy"></a>
+<p>
+  <code>accuracy</code> The isosurface finding method is a recursive subdivision method. This subdivision goes on 
+ until the length of the interval where POV-Ray finds a surface point is less than the specified <code>accuracy</code>. 
+ The default value is 0.001. <br>Smaller values produces more accurate surfaces, but it takes longer to render.<a name="s03_04_04_i28"><a name="max_gradient"></a><a name="s03_04_04_i29"> 
+ 
+</p>
+
+<p>
+  <code>max_gradient</code> POV-Ray can find the first intersecting point between a ray and the <code>isosurface</code> 
+ of any continuous function if the maximum gradient of the function is known. Therefore you can specify a <code>max_gradient</code> 
+ for the function. The default value is 1.1. When the <code>max_gradient</code> used to find the intersecting point is 
+ too high, the render slows down considerably. When it is too low, artefacts or holes may appear on the isosurface. 
+ When it is way too low, the surface does not show at all. While rendering the isosurface POV-Ray records the found 
+ gradient values and prints a warning if these values are higher or much lower than the specified <code>max_gradient</code>: 
+ 
+</p>
+
+<pre>
+Warning: The maximum gradient found was 5.257, but max_gradient of
+the isosurface was set to 5.000. The isosurface may contain holes!
+Adjust max_gradient to get a proper rendering of the isosurface.
+</pre>
+
+<pre>
+Warning: The maximum gradient found was 5.257, but max_gradient of
+the isosurface was set to 7.000. Adjust max_gradient to
+get a faster rendering of the isosurface.
+</pre>
+
+<p>
+  For best performance you should specify a value close to the real maximum gradient.<a name="s03_04_04_i30"><a name="evaluate"></a><a name="s03_04_04_i31"> 
+ 
+</p>
+
+<p>
+  <code>evaluate</code> POV-Ray can also dynamically adapt the used max_gradient. To activate this technique you have 
+ to specify the <code>evaluate</code> keyword followed by three parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   &nbsp;&nbsp;P0: the minimum max_gradient in the estimation process, 
+ </li>
+
+ <li>
+   &nbsp;&nbsp;P1: an over-estimating factor. This means that the max_gradient is multiplied by the P1 parameter. 
+ </li>
+
+ <li>
+   &nbsp;&nbsp;P2: an attenuation parameter (1 or less) 
+ </li>
+
+</ul>
+
+<p>
+  In this case POV-Ray starts with the <code>max_gradient</code> value <code>P0</code> and dynamically changes it 
+ during the render using <code>P1</code> and <code>P2</code>. In the evaluation process, the P1 and P2 parameters are 
+ used in quadratic functions. This means that over-estimation increases more rapidly with higher values and attenuation 
+ more rapidly with lower values. Also with dynamic <code>max_gradient</code>, there can be artefacts and holes. 
+</p>
+
+<p>
+  If you are unsure what values to use, start a render without <code>evaluate</code> to get a value for <code>max_gradient</code>. 
+ Now you can use it with <code>evaluate</code> like this: 
+</p>
+
+<ul>
+ 
+ <li>
+   P0 : found max_gradient * min_factor<br> 'min_factor' being a float between 0 and 1 to reduce the <code>max_gradient</code> 
+  to a 'minimum max_gradient'. The ideal value for P0 would be the average of the found max_gradients, but we do not 
+  have access to that information.<br> A good starting point is 0.6 for the min_factor 
+ </li>
+
+ <li>
+   P1 : sqrt(found max_gradient/(found max_gradient * min_factor))<br> 'min_factor' being the same as used in P0 
+  this will give an over-estimation factor of more than 1, based on your minimum max_gradient and the found 
+  max_gradient. 
+ </li>
+
+ <li>
+   P2 : 1 or less<br> 0.7 is a good starting point. 
+ </li>
+
+</ul>
+
+<p>
+  When there are artifacts / holes in the isosurface, increase the min_factor and / or P2 a bit. Example: when the 
+ first run gives a found max_gradient of 356, start with 
+</p>
+
+<pre>
+  #declare Min_factor= 0.6;
+  isosurface {
+     ...
+     evaluate 356*Min_factor,  sqrt(356/(356*Min_factor)),  0.7
+     //evaluate 213.6, 1.29, 0.7
+     ...
+   }
+</pre>
+
+<p>
+  This method is only an approximation of what happens internally, but it gives faster rendering speeds with the 
+ majority of isosurfaces.<a name="s03_04_04_i32"> 
+</p>
+
+<p>
+  <code>open</code> When the isosurface is not fully contained within the contained_by object, there will be a cross 
+ section. Where this happens, you will see the surface of the container. With the <code>open</code> keyword, these 
+ cross section surfaces are removed. The inside of the isosurface becomes visible. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> that <code>open</code> slows down the render speed. Also, it is not recommended 
+ to use it with CSG operations.<a name="s03_04_04_i33"><a name="max_trace"></a><a name="s03_04_04_i34"><a name="all_intersections"></a> 
+ 
+</p>
+
+<p>
+  <code>max_trace</code> Isosurfaces can be used in CSG shapes since they are solid finite objects - if not finite by 
+ themselves, they are through the cross section with the container. <br>By default POV-Ray searches only for the first 
+ surface which the ray intersects. But when using an <code>isosurface</code> in CSG operations, the other surfaces must 
+ also be found. Therefore, the keyword <code>max_trace</code> must be added to the <code>isosurface</code> statement. 
+ It must be followed by an integer value. To check for all surfaces, use the keyword <code>all_intersections</code> 
+ instead. <br>With <code>all_intersections</code> POV-Ray keeps looking until all surfaces are found. With a <code>max_trace</code> 
+ it only checks until that number is reached. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_107.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_107.html">3.4.3 Infinite Solid Primitives</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.4.4 Isosurface Object</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_109.html">3.4.5 Parametric Object</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_109.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

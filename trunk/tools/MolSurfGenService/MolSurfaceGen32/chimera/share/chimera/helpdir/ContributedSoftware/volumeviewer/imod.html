@@ -1,0 +1,72 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>IMOD Segmentation Files</title>
+</head><body>
+<h2>IMOD Segmentation Files</h2>
+<p>
+<a href="http://bio3d.colorado.edu/imod/" target="_blank">IMOD</a> 
+is a suite of programs for processing and analyzing data 
+from electron microscopy and tomography.  
+<a href="http://bio3d.colorado.edu/imod/doc/binspec.html"
+target="_blank">IMOD binary files</a>
+contain segmentation mesh data and contour data.
+They can be opened in many ways, like other 
+<a href="../../UsersGuide/filetypes.html">registered file types</a>.  
+The IMOD file type can be indicated with a suffix 
+(<b>.imod</b> or <b>.mod</b>, part of the filename)
+or a prefix (<b>imod:</b>, not part of the filename).  
+</p><p>
+By default, only the <b><i>mesh data</i></b> are read and displayed.
+The <b><i>contour data</i></b> are not read by default
+because creating contours is slow, but reading such data can be
+enabled as described <a href="#enable">below</a>.
+Mesh data are displayed as models of the same type as created by
+<a href="framevolumeviewer.html" target="_top"><b>Volume Viewer</b></a>.
+The mesh for each object in the IMOD file becomes a separate 
+<a href="../../UsersGuide/surfattrib.html#surfpiecedef">surface piece</a> 
+in a single
+<a href="../../UsersGuide/surfattrib.html#surfmodels">surface model</a>
+and is colored as indicated in the IMOD file.
+IMOD surfaces are not saved in 
+<a href="../../UsersGuide/sessions.html">sessions</a>.
+</p><p>
+By default, hovering the mouse cursor over a segmented object (without
+clicking any buttons) will show the name of the  object.
+This <b>atomspec balloon</b> behavior can be turned off in the
+<a href="../../UsersGuide/preferences.html#General"><b>General</b> preferences</a>.
+</p><p>
+See also:
+<a href="../colorzone/colorzone.html"><b>Color Zone</b></a>,
+<a href="../pickblobs/pickblobs.html">
+<b>Measure and Color Blobs</b></a>,
+<a href="../surfcolor/surfcolor.html">
+<b>Surface Color</b></a>,
+<a href="../surfzone/surfzone.html"><b>Surface Zone</b></a>,
+<a href="../../UsersGuide/midas/mask.html"><b>mask</b></a>
+</p>
+
+<a name="enable">
+<h3>Contour Data</h3></a>
+<p>
+To enable reading contour data, it is necessary to modify the code:
+in the file <b>share/IMOD/ChimeraExtension.py</b>,
+change "contours = False" to "contours = True" and restart Chimera.
+IMOD contour lines and points will then be read and shown as
+<a href="../volumepathtracer/framevolpath.html"
+target="_top"><b>Volume Tracer</b></a> markers and links.
+A separate marker set will be generated for each IMOD object
+that has contours.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / August 2009</address>
+</body></html>

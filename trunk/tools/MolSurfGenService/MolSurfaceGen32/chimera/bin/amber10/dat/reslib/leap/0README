@@ -1,0 +1,79 @@
+---- leap/lib/0README
+
+This 0README is copied from the leap build tree to the user tree
+along with the residue database .lib files and the parm*.dat force 
+field files, so if you are reading it in the user area, be aware
+that some of the files referenced are back in the 'original' tree.
+
+-- LEaP scripts
+
+makelibs.cmd	Builds the residue libraries for the all-atom part 
+		of the '91 version of Weiner et al. and the '94 
+		Cornell et al. force fields.
+
+water.cmd	called by makelibs.cmd - makes single water molecule
+ions94.cmd	called by makelibs.cmd - makes monoatomic ions
+ions91.cmd	called by makelibs.cmd - makes monoatomic ions
+ff94.cmd	called by makelibs.cmd - converts prep.in files
+ff91.cmd	called by makelibs.cmd - converts prep.in files
+
+-- resulting libs
+
+water.lib	water molecule & WATBOX216 (built by utilConvertWaterBox)
+ions94.lib	monoatomic ions
+ions91.lib	monoatomic ions
+
+all_nucleic94.lib
+all_amino94.lib
+all_aminont94.lib
+all_aminoct94.lib
+		Cornell et al. residue libraries, for use with parm94.dat
+
+all_nucleic91.lib
+all_amino91.lib
+all_aminont91.lib
+all_aminoct91.lib
+		Weiner et al. '91 version residue libraries, for
+		use with parm91X.dat
+
+---
+
+This directory is used for building leap database .lib files
+(which are in the Object File Format discussed in the manual). 
+The files with .cmd suffix are leap scripts for building the 
+libs.  The leaprc in this directory has no initialization - it 
+is here to preclude a default leaprc loading stuff that may 
+interfere with proper lib builds.
+
+Two main sets of residue libs are built - the '91 version of 
+Weiner et al. all atom residues, and the all atom '94 Cornell 
+et al. residues. Each must be used with the appropriate
+parm.dat forcefield file. 
+
+Note that when residues are built, leap complains about non-
+integral charges; these messages are only relevant for 
+molecules which are built for simulations and which would 
+normally contain a mix of residues providing net integral 
+charges.
+
+The '91 libs have a special version of the force field file, 
+parm91X.dat, which _must_ be used to ensure correct improper 
+torsion potentials (it has no 'wild card' impropers that could 
+be misapplied by leap). parm91X.dat also has an additional angle, 
+HO-OS-CT, for nucleic residue HB, HE termini so that the user 
+will not have to manually adjust the terminal O type to OH.
+(These issues do not arise with the '94 residues because 1)
+the ff was adapted to leap at the outset, and 2) terminal
+nucleic acid residues are explicitly defined.)
+
+No united atom residues are used in leap because of unresolved 
+discrepancies in energies when comparing with prep/link/edit/parm 
+results. These occur because leap applies pattern matching to 
+atom types and topology when assigning improper torsion potentials,  
+while prep/link/edit/parm assign impropers via 'hard coding' in 
+the prep.in files. Possibly these problems could be resolved by 
+developing a parm.dat that provided correct matches to the improper 
+torsions, so scripts for building united atom and other untested 
+residues are put in the untested/ dir for future development.
+
+---

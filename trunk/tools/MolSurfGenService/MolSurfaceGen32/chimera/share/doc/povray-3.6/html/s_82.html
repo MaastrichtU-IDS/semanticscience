@@ -1,0 +1,468 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.4.6 Rendering speed</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_81.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_81.html">2.4.5 Utilities, models, etc.</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.4.6 
+   Rendering speed</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_83.html">2.4.7 Miscellaneous questions</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_83.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_04_06">2.4.6 </a>Rendering speed</h3>
+
+<h4><a name="s02_04_06_01">2.4.6.1 </a>Will POV-Ray render faster with a 3D card?</h4>
+
+<p>
+  <em>&quot;Will POV-Ray render faster if I buy the latest and fastest 3D videocard?&quot;</em> 
+</p>
+
+<p>
+  No. 
+</p>
+
+<p>
+  3D-cards are not designed for raytracing. They read polygon meshes and then scanline-render them. Scanline 
+ rendering has very little, if anything, to do with raytracing. 3D-cards cannot calculate typical features of 
+ raytracing as reflections etc. The algorithms used in 3D-cards have nothing to do with raytracing. 
+</p>
+
+<p>
+  This means that you cannot use a 3D-card to speed up raytracing (even if you wanted to do so). Raytracing makes 
+ lots of float number calculations, and this is very FPU-consuming. You will get much more speed with a very fast FPU 
+ than a 3D-card. 
+</p>
+
+<p>
+  What raytracing does is actually this: Calculate 1 pixel color and (optionally) put it on the screen. You will get 
+ little benefit from a fast videocard since only individual pixels are drawn on screen. 
+</p>
+
+<h4><a name="s02_04_06_02">2.4.6.2 </a>How do I increase rendering speed?</h4>
+
+<p>
+  This question can be divided into 2 questions: 
+</p>
+
+<p>
+  1) What kind of hardware should I use to increase rendering speed? 
+</p>
+
+<p>
+  (Answer by Ken Tyler) 
+</p>
+
+<p>
+  The truth is the computations needed for rendering images are both complex and time consuming. This is one of the 
+ few program types that will actualy put your processors FPU to maximum use. 
+</p>
+
+<p>
+  The things that will most improve speed, roughly in order of appearance, are: 
+</p>
+
+<ol>
+ 
+ <li>
+   CPU speed 
+ </li>
+
+ <li>
+   FPU speed 
+ </li>
+
+ <li>
+   Buss speed and level one and two memory cache - More is better. The faster the buss speed the faster the 
+  processor can swap out computations into its level 2 cache and then read them back in. Buss speed therefore can have 
+  a large impact on both FPU and CPU calculation times. The more cache memory you have available the faster the 
+  operation becomes because the CPU does not have to rely on the much slower system RAM to store information in. 
+ </li>
+
+ <li>
+   Memory amount, type, and speed. Faster and more is undoubtably better. Swapping out to the hard drive for 
+  increasing memory should be considered the last possible option for increasing system memory. The speed of the 
+  read/write to disk operation is like walking compared to driving a car. Here again is were buss speed is a major 
+  player in the fast rendering game. 
+ </li>
+
+ <li>
+   Your OS and number of applications open. Closing open applications, including background items like system 
+  monitor, task scheduler, internet connections, windows volume control, and all other applications people have hiding 
+  in the background, can greatly increase rendering time by stealing cpu cycles. Open task manager and see what you 
+  have open and then close everything but the absolute necessities. Other multi-tasking OS's have other methods of 
+  determining open application and should be used accordingly. 
+ </li>
+
+ <li>
+   And lastly your graphics card. This may seem unlikely to you but it is true. If you have a simple 16 bit graphics 
+  card your render times, compared to other systems with the same processor and memory but better CG cards, will be 
+  equal. No more no less. If you play a lot of games or watch a lot of mpeg movies on your system then by all means own 
+  a good CG card. If it is rendering and raytracing you want to do then invest in the best system speed and 
+  architecture your money can buy. The graphics cards with hardware acceleration are designed to support fast shading 
+  of simple polygons, prevalent in the gaming industry, and offer no support for the intense mathematical number 
+  crunching that goes on inside a rendering/raytracing program like Pov-Ray, Studio Max, and Lightwave. If your 
+  modeling program uses OpenGl shading methods then a CG card with support for OpenGL will help increase the speed of 
+  updating the shading window but when it comes time to render or raytrace the image its support dissapears. 
+ </li>
+
+</ol>
+
+<p>
+  2) How should I make the POV-Ray scenes so that they will render as fast as possible? 
+</p>
+
+<p>
+  These are some things which may speed up rendering without having to compromise the quality of the scene: 
+</p>
+
+<ul>
+ 
+ <li>
+   Bounding boxes: Sometimes POV-Ray's automatic bounding is not perfect and considerable speed may be achieved by 
+  bounding objects by hand. These kind of objects are, for example, CSG differences and intersections, blobs and poly 
+  objects. See also: <a href="s_82.html#s02_04_06_03">CSG speed</a>. 
+ </li>
+
+ <li>
+   Number of light sources: Each light source slows down the rendering. If your scene has many light sources, 
+  perhaps you should see if you can remove some of them without loosing much quality. Also replace point light sources 
+  with spotlights whenever possible. If a light source only lights a little part of the scene, a spotlight is better 
+  than a point light, since the point light is tested for each pixel while the spotlight is only tested when the pixel 
+  falls into the cone of the light. 
+ </li>
+
+ <li>
+   Area lights are very slow to calculate. If you have big media effects, they are <em>extremely</em> slow to 
+  calculate. Use as few area lights as possible. Always use adaptive area lights unless you need very high accuracy. 
+  Use spot area lights whenever possible. 
+ </li>
+
+ <li>
+   When you have many objects with the same texture, union them and apply the texture only once. This will decrease 
+  parse time and memory use. (Of course supposing that it does not matter if the texture does not move with the object 
+  anymore...) 
+ </li>
+
+ <li>
+   Things to do when doing fast test renderings: 
+  <ul>
+   
+   <li>
+     Use the quality command line parameter (ie. <code>+Q</code>). 
+   </li>
+
+   <li>
+     Comment out (or enclose with <code>#if</code>-statements) the majority of the light sources and leave only the 
+    necessary ones to see the scene. 
+   </li>
+
+   <li>
+     Replace (with <code>#if</code>-statements) slow objects (such as superellipsoids) with faster ones (such as 
+    boxes). 
+   </li>
+
+   <li>
+     Replace complex textures with simpler ones (like uniform colors). You can also use the <code>quick_color</code> 
+    statement to do this (it will work when you render with quality 5 or lower, ie. command line parameter <code>+Q5</code>). 
+    
+   </li>
+
+   <li>
+     Reflection and refraction: When an object reflects and refracts light (such as a glass object) it usually slows 
+    down the rendering considerably. For test renderings turning off one of them (reflection or refraction) or both 
+    should greatly increase rendering speed. For example, while testing glass objects it is usually enough to test the 
+    refraction only and add the reflection only to the final rendering. (The problem with both reflecting and 
+    refracting objects is that the rays will bounce inside the object until max_trace_level is reached, and this is 
+    very slow.) 
+   </li>
+
+   <li>
+     If you have reflection/refraction and a very high <code>max_trace_level</code>, try setting the adc_bailout 
+    value to something bigger than the default 1/256. 
+   </li>
+
+  </ul>
+   
+ </li>
+
+</ul>
+
+<h4><a name="s02_04_06_03">2.4.6.3 </a>CSG speed</h4>
+
+<p>
+  <em>&quot;How do the different kinds of CSG objects compare in speed? How can I speed them up?&quot;</em> 
+</p>
+
+<p>
+  There is a lot of misinformation about CSG speed out there. A very common allegation is that &quot;merge is always 
+ slower than union&quot;. This statement is not true. Merge is sometimes slower than union, but in some cases it is 
+ even faster. For example, consider the following code: 
+</p>
+
+<pre>
+global_settings { max_trace_level 40 }
+camera { location -z*8 look_at 0 angle 35 }
+light_source { &lt;100,100,-100&gt; 1 }
+merge
+{ #declare Ind=0;
+  #while(Ind&lt;20)
+    sphere { z*Ind,2 pigment { rgbt .9 } }
+    #declare Ind=Ind+1;
+  #end
+}
+</pre>
+
+<p>
+  There are 20 semitransparent merged spheres there. A test render took 64 seconds. Substituting 'merge' with 'union' 
+ took 352 seconds to render (5.5 times longer). The difference in speed is very notable. 
+</p>
+
+<p>
+  So why is 'merge' so much faster than 'union' in this case? Well, the answer is probably that the number of visible 
+ surfaces play a very important role in the rendering speed. When the spheres are unioned there are 18 inner surfaces, 
+ while when merged, those inner surfaces are gone. POV-Ray has to calculate lighting and shading for each one of those 
+ surfaces and that makes it so slow. When the spheres are merged, there is no need to perform lighting and shading 
+ calculations for those 18 surfaces. 
+</p>
+
+<p>
+  So is 'merge' always faster than 'union'? No. If you have completely non-transparent objects, then 'merge' is 
+ slightly slower than 'union', and in that case you should always use 'union' instead. It makes no sense using 'merge' 
+ with non-transparent objects. 
+</p>
+
+<p>
+  Another common allegation is &quot;difference is very slow; much slower than union&quot;. This can also be proven 
+ as a false statement. Consider the following example: 
+</p>
+
+<pre>
+camera { location -z*12 look_at 0 angle 35 }
+light_source { &lt;100,100,-100&gt; 1 }
+difference
+{ sphere { 0,2 }
+  sphere { &lt;-1,0,-1&gt;,2 }
+  sphere { &lt;1,0,-1&gt;,2 }
+  pigment { rgb &lt;1,0,0&gt; }
+}
+</pre>
+
+<p>
+  This scene took 42 seconds to render, while substituting the 'difference' with a 'union' took 59 seconds (1.4 times 
+ longer). 
+</p>
+
+<p>
+  The crucial thing here is the size of the surfaces on screen. The larger the size, the slower to render (because 
+ POV-Ray has to do more lighting and shading calculations). 
+</p>
+
+<p>
+  But the second statement is much closer to the truth than the first one: differences are usually slow to render, 
+ specially when the member objects of the difference are very much bigger than the resulting CSG object. This is 
+ because POV-Ray's automatic bounding is not perfect. A few words about bounding: 
+</p>
+
+<p>
+  Suppose you have hundreds of objects (like spheres or whatever) forming a bigger CSG object, but this object is 
+ rather small on screen (like a little house for example). It would be really slow to test ray-object intersection for 
+ each one of those objects for each pixel of the screen. This is speeded up by bounding the CSG object with a bounding 
+ shape (such as a box). Ray-object intersections are first tested for this bounding box, and it is tested for the 
+ objects inside the box only if it hits the box. This speeds rendering considerably since the tests are performed only 
+ in the area of the screen where the CSG object is located and nowhere else. 
+</p>
+
+<p>
+  Since it is rather easy to automatically calculate a proper bounding box for a given object, POV-Ray does this and 
+ thus you do not have to do it by yourself. 
+</p>
+
+<p>
+  But this automatic bounding is not perfect. There are situations where a perfect automatic bounding is very hard to 
+ calculate. One situation is the difference and the intersection CSG operations. POV-Ray does what it can, but 
+ sometimes it makes a pretty poor job. This can be specially seen when the resulting CSG object is very small compared 
+ to the CSG member objects. For example: 
+</p>
+
+<pre>
+intersection
+{ sphere { &lt;-1000,0,0&gt;,1001 }
+  sphere { &lt;1000,0,0&gt;,1001 }
+}
+</pre>
+
+<p>
+  (This is the same as making a difference with the second sphere inversed) 
+</p>
+
+<p>
+  In this example the member objects extend from &lt;-2001,-1001,-1001&gt; to &lt;2001,1001,1001&gt; although the 
+ resulting CSG object is a pretty small lens-shaped object which is only 2 units wide in the x direction and perhaps 10 
+ or 20 or something wide in the y and z directions. As you can see, it is very difficult to calculate the actual 
+ dimensions of the object (but not impossible). 
+</p>
+
+<p>
+  In this type of cases POV-Ray makes a huge bounding box which is useless. You should bound this kind of objects by 
+ hand (specially when the it has lots of member objects). This can be done with the bounded_by keyword. 
+</p>
+
+<p>
+  Here is an example: 
+</p>
+
+<pre>
+camera { location -z*80 look_at 0 angle 35 }
+light_source { &lt;100,200,-150&gt; 1 }
+#declare test =
+difference
+{ union
+  { cylinder {&lt;-2, -20, 0&gt;, &lt;-2, 20, 0&gt;, 1}
+    cylinder {&lt;2, -20, 0&gt;, &lt;2, 20, 0&gt;, 1}
+  }
+  box {&lt;-10, 1, -10&gt;, &lt;10, 30, 10&gt;}
+  box {&lt;-10, -1, -10&gt;, &lt;10, -30, 10&gt;}
+  pigment {rgb &lt;1, .5, .5&gt;}
+  bounded_by { box {&lt;-3.1, -1.1, -1.1&gt;, &lt;3.1, 1.1, 1.1&gt;} }
+}
+ 
+#declare copy = 0;
+#while (copy &lt; 40)
+  object {test translate -20*x translate copy*x}
+  #declare copy = copy + 3;
+#end
+</pre>
+
+<p>
+  This took 51 seconds to render. Commenting out the 'bounded_by' line increased the rendering time to 231 seconds 
+ (4.5 times slower). 
+</p>
+
+<h4><a name="s02_04_06_04">2.4.6.4 </a>Does POV-Ray support 3DNow?</h4>
+
+<p>
+  No, and most likely never will. 
+</p>
+
+<p>
+  There are several good reasons for this: 
+</p>
+
+<ul>
+ 
+ <li>
+   3DNow uses single precision numbers while POV-Ray needs (yes, it needs) double precision numbers. Single 
+  precision is not enough (this has been tested in practice).<br> (To better understand the difference between single 
+  and double precision numbers, imagine that you could represent values between 0 and 1000 with single precision 
+  numbers. With double precision numbers you do not get a scale from 0 to 2000 (as one might think), but from 0 to 
+  1000000. The difference is enormous and single precision is not precise enough for what POV-Ray does.) 
+ </li>
+
+ <li>
+   Adding support for 3DNow (or any other CPU-specific feature) to POV-Ray would make it platform-dependant and not 
+  portable. Of course one could make a separate binary for AMD supporting 3DNow, but there are only two ways of doing 
+  this: 
+  <ol>
+   
+   <li>
+     Compiling POV-Ray with a compiler which automatically can make 3DNow code from C. As far as I know, no such 
+    compiler exists which converts double precision math used in POV-Ray to single precision math needed by 3DNow. I do 
+    not event know if there is any compiler that supports 3DNow at all. 
+   </li>
+
+   <li>
+     Changing the source code by hand in order to use 3DNow instructions. This is a whole lot of work (specially 
+    because you will probably have to use inline assembler). The source code of POV-Ray is not very small. Would it be 
+    worth the efforts? 
+   </li>
+
+  </ol>
+   
+ </li>
+
+</ul>
+
+<p>
+  Note: There are a few things in POV-Ray that use single precision math (such as color handling). This is one field 
+ where some optimization might be possible without degrading the image quality. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_81.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_81.html">2.4.5 Utilities, models, etc.</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.4.6 Rendering speed</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_83.html">2.4.7 Miscellaneous questions</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_83.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

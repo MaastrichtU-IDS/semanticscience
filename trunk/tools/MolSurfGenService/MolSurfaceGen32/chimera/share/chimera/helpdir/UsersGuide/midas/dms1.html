@@ -1,0 +1,212 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<title>dms</title>
+</head>
+<body>
+
+<p>
+<b>Dms</b> is not included with Chimera, but is
+<a href="http://www.cgl.ucsf.edu/Overview/software.html#dms"
+target="_blank">available</a>
+(as open source C code) from the UCSF Computer Graphics Laboratory.  
+It was previously distributed with the older graphics program Midas.
+</p><p>
+Note: Chimera's <a href="../dms.html#writedms"><b>Write DMS</b></a> tool
+creates <a href="#dmsformat">DMS files</a> without this program.
+</p>
+
+<h4>NAME</h4>
+  <h3>dms - calculate a molecular surface</h3>
+
+<h4>SYNOPSIS</h4>
+<h3><b>dms</b> <i>pdbfile</i> [ -a ] [ -d <i>density</i>] [ -g <i>logfile</i> ]
+ [ -i <i>sitefile</i> ] [-n] [-w <i>radius</i> ] [-v] -o <i>outfile</i>
+</h3>
+
+<h4>DESCRIPTION</h4>
+<p>
+  <b>Dms</b> calculates the molecular surface of a molecule.
+  The molecular surface
+  resembles the van der Waals surface of a molecule, except that crevices
+  between atoms are smoothed over and interstices too small to accommodate
+  the probe are eliminated.  The surface includes cavities in the interior of
+  the molecule, even if they are not accessible to a solvent molecule coming
+  from the outside.
+</p><p>
+  The molecular surface calculated is that defined by Richards (see
+  the <a href="#ref">reference</a> below).
+  In particular, the calculated molecular surface is that traced out by
+  the surface of the probe sphere rather that the
+  probe sphere's center.  According to Richards' definition, the molecular
+  surface consists of two parts: contact surface and reentrant surface. The
+  contact surface is made up of "those parts of the molecular van der Waals
+  surface that can actually be in contact with the surface of the probe."
+  The reentrant surface is defined by "the interior-facing part of the probe
+  when it is simultaneously in contact with more than one atom."  <b>Dms</b>
+  reports the amounts of contact and reentrant surface area, and the combined
+  total surface area on the standard error output (see <a href="#gflag">
+  <b>-g</b></a>).
+</p><p>
+  <i>Pdbfile</i> is an input file of coordinates.
+  The input file must be in the Protein Data Bank format.
+  The first part of each atom
+  name is used to determine the element type.  By default, implicit hydrogens
+  are included for carbon, nitrogen and oxygen atoms; thus, aromatic carbons
+  and nitrogens will have van der Waals radii that are somewhat too big.
+  Note that only amino acid and nucleic acid residues will be included unless
+  <a href="#aflag"><b>-a</b></a> is also specified.
+</p>
+
+<h4>COMMAND-LINE ARGUMENTS</h4>
+
+<blockquote>
+<a name="aflag">
+  <tt><b>-a</b></tt>
+</a>
+<br>Include all atoms, not just those in amino acid and nucleic acid residues.
+</blockquote>
+
+<blockquote>
+  <tt><b>-d</b> <i>density</i></tt>
+<br>   <i>Density</i> is a factor affecting the density of points
+       on the surface; the default of <b>1.0</b>
+       produces about 5 points per square angstrom.  Only values between
+       <b>0.1</b> and <b>10.0</b> are permitted.
+       A density of <b>0.5</b> is recommended for large molecules.
+</blockquote>
+
+<blockquote>
+<a name="gflag">
+  <tt><b>-g</b> <i>logfile</i></tt>
+</a>
+<br>   Write all the informative messages to <i>logfile</i> instead of the
+       standard error output.  Genuine errors still go to the standard error
+       output.  New log information is appended to <i>logfile</i> rather than
+       overwriting it, and thus messages from several runs may be accumulated.
+</blockquote>
+
+<blockquote>
+<a name="iflag">
+  <tt><b>-i</b> <i>sitefile</i></tt>
+</a>
+<br>   Calculate the molecular surface only for those residues and atoms
+       specified in <i>sitefile</i>,
+       keeping the rest of the molecule for collision checks.
+       <i>Sitefile</i> consists of lines such as the following:
+<blockquote><tt>
+<table>
+<tr>
+<td>ASP</td> <td align="right">205</td> <td>CA</td>
+</tr><tr>
+<td>TYR</td> <td align="right">13</td> <td>*</td>
+</tr><tr>
+<td>GLY</td> <td align="right">116</td> <td>FRM</td>
+</tr><tr>
+<td>HIS</td> <td align="right">178</td> <td>TO</td>
+</tr>
+</table>
+</tt></blockquote>
+       The asterisk, <b>*</b>, means all atoms of the residue, and the 
+       "FRM" and "TO" lines mean all residues from 116 to 178 inclusive.
+       The sequence number may
+       contain letters, and if the PDB input file contains chain identifiers,
+       then those should be appended on the right of the sequence number.
+       Residue insertion codes (if any) should be placed between the sequence
+       number and any chain identifier.	 Residues contained in HETATM records
+       should have an asterisk appended to the end of the residue identifier.
+       The surface generated using <a href="#iflag"><b>-i</b></a>
+       is not always the same as the
+       surface generated by running the entire molecule and afterwards
+       selecting the desired atoms.  The first surface will not include
+       reentrant surface lying between an atom in <i>sitefile</i> and atoms not
+       in the file.
+</blockquote>
+
+<blockquote>
+<a name="nflag">
+  <tt><b>-n</b></tt>
+</a>
+<br>   Include the unit normals to the surface with each surface point record.
+</blockquote>
+
+<blockquote>
+  <tt><b>-w</b> <i>radius</i></tt>
+<br>   Change the "water" probe <i>radius</i> from the default of <b>1.4</b>
+       angstroms.  <i>Radius</i> must be between <b>1.0</b> and <b>201.0</b>.
+</blockquote>
+
+<blockquote>
+  <tt><b>-v</b></tt>
+<br>   Produce more verbose output.  <b>Dms</b>
+       will announce each computation phase
+       as it is entered as well as a count of the atom types in the molecule
+       and the number of computation requests handled by each host that
+       participated in the calculation.
+</blockquote>
+
+<blockquote>
+  <tt><b>-o</b> <i>outfile</i></tt>
+<br>   The output surface is written to <i>outfile</i>.
+       This flag is not optional.
+</blockquote>
+
+<p>
+<a name="dmsformat">DMS file format</a>:<br>
+  The output consists of a series of atom and surface point records, with the
+  same format for the first six fields.	 Each atom is followed by the surface
+  points (if any) which belong to it.  These first six fields are in the
+  following format: residue name, sequence number, atom name, x coordinate,
+  y coordinate, z coordinate.  For an atom record, the seventh field is "A."
+  For a surface point record, the seventh field begins with an "S,"
+  followed by a "C," "R," or "S" according to whether the point is part of
+  contact, reentrant, or saddle surface (saddle is a type of reentrant
+   surface where the probe is in contact with exactly two atoms).  This
+  is followed by a digit used for depicting different density levels.  The
+  eighth field is the molecular surface area associated with the point in
+  square angstroms.  If <a href="#nflag"><b>-n</b></a> is specified, the
+  next three fields are
+  the unit normal vector pointing outward from the surface.
+  Messages and errors are written to the standard error output
+  unless a separate log file has been
+  specified with <a href="#gflag"><b>-g</b></a>.
+</p><p>
+  <b>Dms</b> reads the elements and radii from a file named <b>radii</b>.
+  The default file is
+  /usr/local/chimera/share/dms/<a href="radii">radii</a>. 
+  If there is a file in the current
+  directory called <b>radii</b>, then <b>dms</b> will use that file instead.
+  To add uncommon elements or use different radii, one should copy the
+  <a href="radii">default file</a> and modify it.
+  The file format is documented in the file itself.
+</p>
+
+<h4>SEE ALSO</h4>
+<p>
+<a name="ref">
+ Richards, F.M.,</a>
+ "Areas, volumes, packing and protein structure,"
+   <i>Ann. Rev. Biophys. Bioeng.</i> <b>6</b>, 151-176 (1977).
+</p>
+
+<h4>AUTHOR</h4>
+  Conrad Huang
+  <br>University of California, San Francisco
+
+<h4>FILES</h4>
+  /usr/local/chimera/share/dms/<a href="radii">radii</a> - default atomic radii
+
+<h4>DIAGNOSTICS</h4>
+  Many and varied.  Be sure to examine the output messages (standard error
+  or <i>logfile</i>, if specified) before leaving a background job running.
+</body></html>

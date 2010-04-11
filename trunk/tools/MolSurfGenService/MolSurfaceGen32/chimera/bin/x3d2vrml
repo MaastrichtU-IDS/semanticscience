@@ -1,0 +1,113 @@
+#!/bin/sh
+#
+# --- UCSF Chimera Copyright ---
+# Copyright (c) 2000-2003 Regents of the University of California.
+# All rights reserved.  This software provided pursuant to a
+# license agreement containing restrictions on its disclosure,
+# duplication and use.  This notice must be embedded in or
+# attached to all copies, including partial copies, of the
+# software or any revisions or derivations thereof.
+# --- UCSF Chimera Copyright ---
+#
+# $Id: base.sh 26742 2009-01-14 21:28:50Z gregc $
+
+# set path so we get the versions of command we expect
+originalpath="$PATH"
+PATH=/bin:/usr/bin:"$PATH"
+
+# application name can be hardcoded by altering the next line
+app=`basename "$0"`
+
+# if CDPATH is set, then cd echos the directory as well
+unset CDPATH
+
+# canonicalize CHIMERA for consistency with Tcl/Tk (remove symbolic links)
+if test -n "$CHIMERA" -a -x "$CHIMERA/bin/chimera" -a -d "$CHIMERA/share/chimera"
+then
+	CHIMERA=`cd "$CHIMERA"; pwd -P`
+else
+	if test -n "$CHIMERA"
+	then
+		echo "Ignoring CHIMERA environment variable" 1>&2
+	fi
+	# Assume that the true location of $app is in CHIMERA/bin/ and
+	# deduce what CHIMERA should be even if there are symbolic links
+	bindir=`dirname "$0"`
+	if test ! -L "$0"
+	then
+		bindir=`cd "$bindir"; pwd -P`
+	else
+		if link=`readlink "$0"`
+		then :
+		else
+			# fallback if readlink doesn't exist
+			link=`ls -l "$0" | sed 's/.* -> //'`
+		fi
+		# $app was a (relative?) symbolic link
+		tmp=`dirname "$link"`
+		bindir=`cd "$bindir"; cd "$tmp"; pwd -P`
+	fi
+	CHIMERA=`dirname "$bindir"`
+fi
+export CHIMERA
+
+# system-dependent setup
+case "`uname -s`" in
+IRIX|IRIX64)
+	LD_LIBRARYN32_PATH="$CHIMERA/lib${LD_LIBRARYN32_PATH:+:$LD_LIBRARYN32_PATH}"
+	export LD_LIBRARYN32_PATH
+	;;
+OSF1)
+	LD_LIBRARY_PATH="$CHIMERA/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+	export LD_LIBRARY_PATH
+	;;
+Linux)
+	LD_LIBRARY_PATH="$CHIMERA/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+	export LD_LIBRARY_PATH
+	;;
+AIX*)
+	# untested
+	LIBPATH="$CHIMERA/lib${LIBPATH:+:$LIBPATH}"
+	export LIBPATH
+	;;
+Darwin*)
+	ver=`sw_vers -productVersion | awk -F. '{ print $1"."$2 }'`
+	case $ver in
+	10.[34])
+		FONTCONFIG_FILE=/etc/fonts/fonts.conf
+		;;
+	*)
+		FONTCONFIG_FILE=/usr/X11/lib/X11/fonts/fonts.conf
+		;;
+	esac
+	export FONTCONFIG_FILE
+	DYLD_LIBRARY_PATH="$CHIMERA/lib:$CHIMERA/lib/OSX-$ver${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+	export DYLD_LIBRARY_PATH
+	# Make the Tcl/Tk and Python frameworks accessible.
+	DYLD_FRAMEWORK_PATH="$CHIMERA/frameworks${DYLD_FRAMEWORK_PATH:+:$DYLD_FRAMEWORK_PATH}"
+	export DYLD_FRAMEWORK_PATH
+	# Chimera hangs on start-up on Mac OS 10.2 due to a semaphore lock
+	# in the run-time linker unless the following variable is set.
+	DYLD_BIND_AT_LAUNCH=1
+	export DYLD_BIND_AT_LAUNCH
+	;;
+HP-UX)
+	# untested
+	# Too hard to tell if 64-bit HP-UX which uses LD_LIBRARY_PATH
+	# or 32-bit HP-UX which uses SHLIB_PATH.  Since 64-bit HP-UX
+	# will use SHLIB_PATH as a last resort, use it.
+	SHLIB_PATH="$CHIMERA/lib${SHLIB_PATH:+:$SHLIB_PATH}"
+	export SHLIB_PATH
+	unset LD_LIBRARY_PATH
+	;;
+esac
+
+# $Id: app.sh 26655 2009-01-07 22:02:30Z gregc $
+# start up with given arguments
+PATH="$originalpath"
+if test $# -gt 0
+then
+	exec "$CHIMERA/bin/.x3d2vrml" "$@"
+else
+	exec "$CHIMERA/bin/.x3d2vrml"
+fi

@@ -1,0 +1,429 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>2.2.3 CSG Objects</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_58.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_58.html">2.2.2 Basic Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>2.2.3 
+   CSG Objects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_60.html">2.2.4 The Light Source</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_60.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s02_02_03">2.2.3 </a>CSG Objects</h3>
+<a name="s02_02_03_i1">
+<dl class="famousquote">
+ 
+ <dt>
+   <em>You know you have been raytracing too long when ...<br> ... Your friends are used to the fact that you will 
+  suddenly stop walking in order to look at objects and figure out how to do them as CSGs.</em> 
+ <dd>
+   <em>-- Jeff Lee</em> 
+</dl>
+
+<p>
+  Constructive Solid Geometry, or CSG, is a powerful tool to combine primitive objects to create more complex objects 
+ as shown in the following sections. 
+</p>
+
+<h4><a name="s02_02_03_01">2.2.3.1 </a>What is CSG?</h4>
+<a name="s02_02_03_01_i1">
+<p>
+  <em>CSG</em> stands for <em>Constructive Solid Geometry</em>. POV-Ray allows us to construct complex solids by 
+ combining primitive shapes in four different ways. In the <code><a href="s_110.html#s03_04_06_02">union</a></code> 
+ statement, two or more shapes are added together. With the <code><a href="s_110.html#s03_04_06_03">intersection</a></code> 
+ statement, two or more shapes are combined to make a new shape that consists of the area common to both shapes. The <code><a href="s_110.html#s03_04_06_04">difference</a></code> 
+ statement, an initial shape has all subsequent shapes subtracted from it. 
+</p>
+
+<p>
+  And last but not least <code><a href="s_110.html#s03_04_06_05">merge</a></code>, which is like a union where the 
+ surfaces inside the union are removed (useful in transparent CSG objects). We will deal with each of these in detail 
+ in the next few sections. 
+</p>
+
+<p>
+  CSG objects can be extremely complex. They can be deeply nested. In other words there can be unions of differences 
+ or intersections of merges or differences of intersections or even unions of intersections of differences of merges... 
+ ad infinitum. CSG objects are (almost always) finite objects and thus respond to auto-bounding and can be transformed 
+ like any other POV primitive shape. 
+</p>
+
+<h4><a name="s02_02_03_02">2.2.3.2 </a>CSG Union</h4>
+<a name="s02_02_03_02_i1"><a name="s02_02_03_02_i2">
+<p>
+  Let's try making a simple union. Create a file called <code> csgdemo.pov</code> and edit it as follows: 
+</p>
+
+<pre>
+  #include &quot;colors.inc&quot;
+  camera {
+    location &lt;0, 1, -10&gt;
+    look_at 0
+    angle 36
+  }
+  light_source { &lt;500, 500, -1000&gt; White }
+  plane { y, -1.5
+    pigment { checker Green White }
+  }
+</pre>
+
+<p>
+  Let's add two spheres each translated 0.5 units along the x-axis in each direction. We color one blue and the other 
+ red. 
+</p>
+
+<pre>
+  sphere { &lt;0, 0, 0&gt;, 1
+    pigment { Blue }
+    translate -0.5*x
+  }
+  sphere { &lt;0, 0, 0&gt;, 1
+    pigment { Red }
+    translate 0.5*x
+  }
+</pre>
+
+<p>
+  We trace this file and note the results. Now we place a union block around the two spheres. This will create a 
+ single CSG union out of the two objects. 
+</p>
+
+<pre>
+  union{
+    sphere { &lt;0, 0, 0&gt;, 1
+      pigment { Blue }
+      translate -0.5*x
+    }
+    sphere { &lt;0, 0, 0&gt;, 1
+      pigment { Red }
+      translate 0.5*x
+    }
+  }
+</pre>
+
+<p>
+  We trace the file again. The union will appear no different from what each sphere looked like on its own, but now 
+ we can give the entire union a single texture and transform it as a whole. Let's do that now. 
+</p>
+
+<pre>
+  union{
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate -0.5*x
+    }
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate 0.5*x
+    }
+    pigment { Red }
+    scale &lt;1, .25, 1&gt;
+    rotate &lt;30, 0, 45&gt;
+  }
+</pre>
+
+<p>
+  We trace the file again. As we can see, the object has changed dramatically. We experiment with different values of 
+ scale and rotate and try some different textures. 
+</p>
+
+<p>
+  There are many advantages of assigning only one texture to a CSG object instead of assigning the texture to each 
+ individual component. First, it is much easier to use one texture if our CSG object has a lot of components because 
+ changing the objects appearance involves changing only one single texture. Second, the file parses faster because the 
+ texture has to be parsed only once. This may be a great factor when doing large scenes or animations. Third, using 
+ only one texture saves memory because the texture is only stored once and referenced by all components of the CSG 
+ object. Assigning the texture to all n components means that it is stored n times. 
+</p>
+
+<h4><a name="s02_02_03_03">2.2.3.3 </a>CSG Intersection</h4>
+<a name="s02_02_03_03_i1"><a name="s02_02_03_03_i2">
+<p>
+  Now let's use these same spheres to illustrate the<code>intersection</code> CSG object. We change the word <code>union</code> 
+ to <code>intersection</code> and delete the <code>scale</code> and <code>rotate</code> statements: 
+</p>
+
+<pre>
+  intersection {
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate -0.5*x
+    }
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate 0.5*x
+    }
+    pigment { Red }
+  }
+</pre>
+
+<p>
+  We trace the file and will see a lens-shaped object instead of the two spheres. This is because an intersection 
+ consists of the area shared by both shapes, in this case the lens-shaped area where the two spheres overlap. We like 
+ this lens-shaped object so we will use it to demonstrate differences. 
+</p>
+
+<h4><a name="s02_02_03_04">2.2.3.4 </a>CSG Difference</h4>
+<a name="s02_02_03_04_i1"><a name="s02_02_03_04_i2">
+<p>
+  We rotate the lens-shaped intersection about the y-axis so that the broad side is facing the camera. 
+</p>
+
+<pre>
+  intersection{
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate -0.5*x
+    }
+    sphere { &lt;0, 0, 0&gt;, 1
+      translate 0.5*x
+    }
+    pigment { Red }
+    rotate 90*y
+  }
+</pre>
+
+<p>
+  Let's create a cylinder and stick it right in the middle of the lens. 
+</p>
+
+<pre>
+  cylinder { &lt;0, 0, -1&gt; &lt;0, 0, 1&gt;, .35
+    pigment { Blue }
+  }
+</pre>
+
+<p>
+  We render the scene to see the position of the cylinder. We will place a <code>difference</code> block around both 
+ the lens-shaped intersection and the cylinder like this: 
+</p>
+
+<pre>
+  difference {
+    intersection {
+      sphere { &lt;0, 0, 0&gt;, 1
+        translate -0.5*x
+      }
+      sphere { &lt;0, 0, 0&gt;, 1
+        translate 0.5*x
+      }
+      pigment { Red }
+      rotate 90*y
+    }
+    cylinder { &lt;0, 0, -1&gt; &lt;0, 0, 1&gt;, .35
+      pigment { Blue }
+    }
+  }
+</pre>
+
+<p>
+  We render the file again and see the lens-shaped intersection with a neat hole in the middle of it where the 
+ cylinder was. The cylinder has been <code>subtracted</code> from the intersection. Note that the pigment of the 
+ cylinder causes the surface of the hole to be colored blue. If we eliminate this pigment the surface of the hole will 
+ be black, as this is the default color if no color is specified. 
+</p>
+
+<p>
+  OK, let's get a little wilder now. Let's declare our perforated lens object to give it a name. Let's also eliminate 
+ all textures in the declared object because we will want them to be in the final union instead. 
+</p>
+
+<pre>
+  #declare Lens_With_Hole = difference {
+    intersection {
+      sphere { &lt;0, 0, 0&gt;, 1
+        translate -0.5*x
+      }
+      sphere { &lt;0, 0, 0&gt;, 1
+        translate 0.5*x
+      }
+      rotate 90*y
+    }
+    cylinder { &lt;0, 0, -1&gt; &lt;0, 0, 1&gt;, .35 }
+  }
+</pre>
+
+<p>
+  Let's use a union to build a complex shape composed of copies of this object. 
+</p>
+
+<pre>
+  union {
+    object { Lens_With_Hole translate &lt;-.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;-.65, -.65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, -.65, 0&gt; }
+    pigment { Red }
+  }
+</pre>
+
+<p>
+  We render the scene. An interesting object to be sure. But let's try something more. Let's make it a 
+ partially-transparent object by adding some filter to the pigment block. 
+</p>
+
+<pre>
+  union {
+    object { Lens_With_Hole translate &lt;-.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;-.65, -.65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, -.65, 0&gt; }
+    pigment { Red filter .5 }
+  }
+</pre>
+
+<p>
+  We render the file again. This looks pretty good... only... we can see parts of each of the lens objects inside the 
+ union! This is not good. 
+</p>
+
+<h4><a name="s02_02_03_05">2.2.3.5 </a>CSG Merge</h4>
+<a name="s02_02_03_05_i1"><a name="s02_02_03_05_i2">
+<p>
+  This brings us to the fourth kind of CSG object, the <code>merge</code>. Merges are the same as unions, but the 
+ geometry of the objects in the CSG that is inside the merge is not traced. This should eliminate the problem with our 
+ object. Let's try it. 
+</p>
+
+<pre>
+  merge {
+    object { Lens_With_Hole translate &lt;-.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, .65, 0&gt; }
+    object { Lens_With_Hole translate &lt;-.65, -.65, 0&gt; }
+    object { Lens_With_Hole translate &lt;.65, -.65, 0&gt; }
+    pigment { Red filter .5 }
+  }
+</pre>
+
+<p>
+  Sure enough, it does! 
+</p>
+
+<h4><a name="s02_02_03_06">2.2.3.6 </a>CSG Pitfalls</h4>
+<a name="s02_02_03_06_i1">
+<p>
+  There is a severe pitfall in the CSG code that we have to be aware of. 
+</p>
+
+<h5><a name="s02_02_03_06_01">2.2.3.6.1 </a>Co-incident Surfaces</h5>
+<a name="s02_02_03_06_01_i1">
+<p>
+  POV-Ray uses inside/outside tests to determine the points at which a ray intersects a CSG object. A problem arises 
+ when the surfaces of two different shapes coincide because there is no way (due to the computer's floating-point 
+ accuracy) to tell whether a point on the coincident surface belongs to one shape or the other. 
+</p>
+
+<p>
+  Look at the following example where a cylinder is used to cut a hole in a larger box. 
+</p>
+
+<pre>
+  difference {
+    box { -1, 1 pigment { Red } }
+    cylinder { -z, z, 0.5 pigment { Green } }
+  }
+</pre>
+
+<p class="Note">
+  <strong>Note:</strong> that the vectors -1 and 1 in the box definition expand to &lt;-1,-1,-1&gt; and 
+ &lt;1,1,1&gt; respectively. 
+</p>
+
+<p>
+  If we trace this object we see red speckles where the hole is supposed to be. This is caused by the coincident 
+ surfaces of the cylinder and the box. One time the cylinder's surface is hit first by a viewing ray, resulting in the 
+ correct rendering of the hole, and another time the box is hit first, leading to a wrong result where the hole 
+ vanishes and red speckles appear. This problem can be avoided by increasing the size of the cylinder to get rid of the 
+ coincidence surfaces. This is done by: 
+</p>
+
+<pre>
+  difference {
+    box { -1, 1 pigment { Red } }
+    cylinder { -1.001*z, 1.001*z, 0.5 pigment { Green } }
+  }
+</pre>
+
+<p>
+  In general we have to make the subtracted object a little bit larger in a CSG difference. We just have to look for 
+ coincident surfaces and increase the subtracted object appropriately to get rid of those surfaces. 
+</p>
+
+<p>
+  The same problem occurs in CSG intersections and is also avoided by scaling some of the involved objects. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_58.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_58.html">2.2.2 Basic Shapes</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>2.2.3 CSG Objects</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_60.html">2.2.4 The Light Source</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_60.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

@@ -1,0 +1,163 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2005 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 2199 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 2199 Release Notes (17 February 2006)</h2>
+
+    <h3>
+      Changes since the <a href="1.2184.html">previous production release (1.0 build 2184)</a>:
+    </h3>
+
+    <blockquote>
+
+      <h4>General:</h4>
+      <ul>
+
+	<li>uses new PDB web interface for fetching PDB files
+	(older chimera's will fail starting sometime after June 2006)
+
+	<li>can write out Mol2 files (File... Save Mol2)
+
+	<li>new input format, BILD: simple descriptions of lines, polygons,
+	and basic geometric forms are used to make a VRML model in Chimera
+	(was available earlier but mostly undocumented)
+
+	<li>new format for atomic coordinates: XYZ
+
+	<li>new volume formats: Gaussian cube grid, Purdue image format,
+	Situs map file
+
+      </ul>
+
+      <h4>New Tools:</h4>
+      <ul>
+
+	<li><b>Angles/Torsions</b> (Structure Analysis) &mdash;
+	table of angle monitors, analogous to the Distances panel
+
+	<li><b>Dock Prep</b> (Surface Binding/Analysis) &mdash;
+	perform several tasks to prepare structures for use with DOCK
+	(or other programs): delete solvent, add hydrogens, load charges,
+	write as Mol2
+
+	<li><b>Fit Models in Maps</b> (Volume Data) &mdash;
+	locally optimize the fit of a structure within a density map
+
+	<li><b>Icosahedron Surface</b> (Higher-Order Structure) &mdash;
+	create a hybrid icosahedron/sphere surface
+
+	<li><b>Intersurf</b> (Surface Binding/Analysis) &mdash;
+	generate and display interface surfaces
+	(was available earlier but undocumented)
+
+	<li><b>Measure Volume</b> (Volume Data) &mdash;
+	measure the volume enclosed in a surface
+
+	<li><b>Set Bond Length</b> (Structure Editing) &mdash;
+	set lengths of selected bonds arbitrarily
+
+	<li><b>Volume Eraser</b> (Volume Data) &mdash;
+	interactively zero out parts of volume data
+
+      </ul>
+
+      <h4>Tool Changes:</h4>
+      <ul>
+
+	<li><b>AddH</b> (moved to Structure Editing) &mdash;
+	deletes lone pairs and unidentifiable-element atoms;
+	uses Amber parm99 bond lengths for X-H (X=C/N/O/S)
+
+	<li><b>Adjust Torsions</b> also moved to Structure Editing category
+
+	<li><b>Color Zone</b> (Volume Data) &mdash;
+	colors to match the closest atom rather than any atom within the cutoff
+
+	<li><b>Effects</b> (Viewing Controls) &mdash;
+	silhouette edges can be drawn to highlight borders and discontinuities
+
+	<li><b>Match->Align</b> (Structure Comparison) &mdash;
+	default cutoff 5.0 angstroms
+
+	<li><b>MatchMaker</b> (Structure Comparison) &mdash;
+	default iteration cutoff 2.0 angstroms;
+	added option to calculate secondary structure assignments
+	prior to matching (on by default)
+
+	<li><b>Multalign Viewer</b> (Structure Comparison) &mdash;
+	Ctrl-arrow editing shifts the active region rather than the last-drawn;
+	gap columns can be added on the ends;
+	Copy/Rename buttons on Region Browser;
+	percent identity calculation (Tools... Percent Identity);
+	can load custom residue letter coloring schemes
+	(Tools... Load Color Scheme);
+	Structure Match default iteration cutoff 2.0 angstroms
+
+	<li><b>Multiscale Models</b> (Higher-Order Structure) &mdash;
+	setting Resolution to 0 triggers calculation of solvent-excluded
+	molecular surface instead of the usual low-resolution surface
+
+	<li><b>Surface Color</b> (Volume Data) &mdash;
+	can use up to 20 colors (previously 5);
+	can use preset rainbow, grayscale, and red-white-blue color patterns
+
+      </ul>
+
+      <h4>New Tutorial:</h4>
+
+      <ul>
+	<li>Trajectory and Ensemble Analysis
+	<li>other tutorials updated
+      </ul>
+
+      <h4>Major Bugs Fixed:</h4>
+      <ul>
+	<li>eliminated several memory leaks (some remain in third-party code)
+	<li>off-by-one MD Movie/recording fixed
+	<li>transforms in BILD format now work correctly
+      </ul>
+
+      <h4>Known Bugs:</h4>
+      <ul>
+	<li>POV-ray output is missing boxes and cones, so Nucleotide
+	representations are not visible.  The workaround is to use RenderMan
+	output and a RenderMan renderer, like the freely available one
+	from <a href="http://www.3delight.com/">3delight</a>.  This is fixed
+	in the next release.
+	<li>On Windows, the POV-ray and RenderMan exporters fail due to a
+	missing dll.  The fix is to copy CHIMERA/bin/zlib.dll
+	to CHIMERA/bin/zlib1.dll so that both exist.  This is also fixed in
+	the next release.
+	<li>bond rotations in large molecules are slow 
+	<li>ribbon transparency doesn't work correctly on all platforms
+	<li>cross-eye stereo parallax is wrong
+	<li>surfaces fail for some structures
+      </ul>
+
+    </blockquote>
+
+  </body>
+</html>

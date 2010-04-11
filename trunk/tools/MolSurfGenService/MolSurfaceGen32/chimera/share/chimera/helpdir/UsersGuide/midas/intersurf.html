@@ -1,0 +1,166 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>intersurf</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>intersurf</b>
+<a href="frameatom_spec.html" target="_top"><i>atom-spec1</i></a>
+<a href="frameatom_spec.html" target="_top"><i>atom-spec2</i></a>
+<a href="#options"><i>options</i></a></h3>
+<p>
+<b>Intersurf</b> is the command-line implementation of the
+<a href="../../ContributedSoftware/intersurf/intersurf.html"><b>Intersurf</b></a>
+tool, which creates and displays interface surfaces.  
+<b>Intersurf</b> with 
+<a href="frameatom_spec.html" target="_top">atom specification</a>
+arguments generates an interface surface.  
+The surface is colored to show the separation across the interface,
+by default red for smaller distances and blue for larger.
+Currently this distance-to-color mapping can only be adjusted
+in the graphical user interface (see <a href="#GUIcolor">below</a>).
+However, alternative color mappings not based on the separation across the
+interface can be applied with <b><A href="scolor.html">scolor</A></b>,
+or the surface can be colored to match nearby atoms using
+<a href="../../ContributedSoftware/colorzone/colorzone.html"><b>Color 
+Zone</b></a>.
+</p><p>
+An interface surface is opened as a separate model that can be:
+<ul>
+<li> hidden/shown with
+the <a href="../modelpanel.html"><b>Model Panel</b></a>
+or the command <a href="objdisplay.html"><b>objdisplay</b></a>
+<li> closed (deleted) with
+the <a href="../modelpanel.html"><b>Model Panel</b></a>
+or the command <a href="open.html"><b>close</b></a>
+</ul>
+<a name="GUIcolor">
+To adjust the color mapping</a>, use the
+<a href="../../ContributedSoftware/intersurf/intersurf.html">
+<b>Intersurf</b></a> tool.  
+After an interface surface has been generated,
+the tool will contain a histogram populated with the corresponding 
+atom-atom distances.  A new
+<a href="../../ContributedSoftware/intersurf/intersurf.html#coloring">color
+mapping</a> can be defined in the histogram and applied by
+reissuing the <b>intersurf</b> command.
+</p><p>
+<a name="examples">Examples</a>:
+<blockquote><tt>
+<b>intersurf #0:.a #1:.b pair chain prune 15 bias .2</b>
+</tt></blockquote>
+- generate an interface surface between chain A in model 0 and chain B
+in model 1, biasing the surface toward the former; disregard residues
+in each chain whose centroids are not within 15.0
+&Aring; of any residue centroid in the other chain
+<blockquote><tt>
+<b>intersurf main ligand pair atom solid false</b>
+</tt></blockquote>
+- generate a mesh interface surface between the sets of atoms
+<a href="surface.html#surfcats">classified</a> as main and ligand
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a>
+<p>
+The option keywords apply only to interface surface generation, not coloring.
+Option keywords for <b>intersurf</b> can be truncated to unique strings
+and their case does not matter.
+A vertical bar "|" designates mutually exclusive options, and default 
+values are indicated with <b>bold</b>.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p>
+<blockquote>
+  <tt><a name="pairing"><b>pairing</b> model|chain|atom</a></tt>
+   <ul>
+    <li><b>model</b> - calculate an interface surface between two models;
+   default when
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec1</i></a>
+   and
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec2</i></a>
+   specify atoms in two different models
+   <li><b>chain</b> - calculate an interface surface between two chains;
+   default when
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec1</i></a>
+   and
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec2</i></a>
+   specify atoms in the same model 
+   (of course, they should specify two different chains)
+   <li><b>atom</b> - calculate an interface surface between two 
+   sets of atoms that are not whole chains or models (cannot be done with the
+<a href="../../ContributedSoftware/intersurf/intersurf.html"><b>Intersurf</b></a> graphical interface);
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec1</i></a>
+   and
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec2</i></a>
+   should specify mutually exclusive sets of atoms
+    </ul>
+   It is necessary to use <b>pairing chain</b>
+   to specify an interface between chains in two different models
+   and <b>pairing atom</b>
+   to specify an interface between sets of atoms (other than whole chains
+   or whole models) in two different models.
+</blockquote>
+<blockquote>
+  <tt><b>solid</b> <b>true</b>|false</tt>
+  <br>Whether to generate a solid surface rather than the default mesh.
+</blockquote>
+<blockquote>
+  <tt><b>track</b> <b>true</b>|false</tt>
+  <br>Whether to overwrite any existing interface surface 
+  (otherwise, an additional surface model will be generated).
+</blockquote>
+<blockquote>
+  <tt><b>select</b> true|<b>false</b></tt>
+  <br>Whether to <a href="../selection.html">select</a> the atoms that
+  <a href="#defining">define</a> the interface.
+</blockquote>
+<blockquote>
+  <tt><b>prune</b> <i>distance</i></tt>
+    <br>Ignore residues in one set of atoms whose centroids are not within 
+    <i>distance</i> (default <b>30.0</b> &Aring;) of any residue centroid 
+    in the other set of atoms.  If this option is not specified, or if
+    <i>distance</i> is set to 0.0 &Aring;, pruning will not be performed.
+</blockquote>
+<blockquote>
+  <tt><b>bias</b> <i>fraction</i></tt>
+    <br>How to divide the space between the two sets of atoms.
+   <a name="defining">
+   Each vertex in the interface surface lies between two atoms,
+   one from each set.</a>
+   The <i>fraction</i> can range from 0 to 1, where <b>0.5</b> (default) 
+   places each interface surface point equidistant from the 
+   <a href="vdwrad.html">VDW surfaces</a> of the two corresponding atoms. 
+   A value of 0.0 places interface surface vertices at the VDW surface
+   of the set specified with
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec1</i></a>
+   and a value of 1.0 places them at the VDW surface of the set specified with
+   <a href="frameatom_spec.html" target="_top"><i>atom-spec2</i></a>.
+   Where the VDW surfaces of the two sets coincide, changes in the value
+   will have little effect on interface surface vertex placement.
+</blockquote>
+<p>
+See also:
+<b><A href="scolor.html">scolor</A></b>,
+<b><A href="measure.html#buriedArea">measure buriedarea</A></b>,
+<a href="../../ContributedSoftware/colorzone/colorzone.html"><b>Color 
+Zone</b></a>,
+<a href="../../ContributedSoftware/surfzone/surfzone.html"><b>Surface 
+Zone</b></a>,
+<a href="../../ContributedSoftware/measurevol/measurevol.html"><b>Measure 
+Volume</b></a>
+</p>
+</body></html>

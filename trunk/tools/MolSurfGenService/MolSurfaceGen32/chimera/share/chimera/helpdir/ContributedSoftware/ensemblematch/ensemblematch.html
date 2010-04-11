@@ -1,0 +1,120 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Ensemble Match</TITLE>
+</head>
+<body>
+<h3>Ensemble Match
+<img src="ensemblematch.png" alt="Ensemble Match icon"></h3>
+<p>
+An <b><i>ensemble</i></b> contains multiple sets of coordinates for
+exactly the same atoms, for example, snapshots along a simulation
+trajectory or different solutions of NMR data.
+</p><p>
+<b>Ensemble Match</b> calculates superpositions and RMSD values 
+for every pairwise comparison between two ensembles.
+Each ensemble must contain at least one structure (ensemble member), 
+and the members of the two ensembles must contain the same set of atoms.
+<b>Ensemble Match</b> can also be used to compare
+an ensemble to itself.  However, if the ensemble has many members,
+<a href="../movie/framemovie.html" target="_top"><b>MD Movie</b></a>
+may be more appropriate for obtaining all-by-all pairwise RMSD values
+(see <a href="../movie/movie.html#rmsd">RMSD analysis</a>).
+See also: 
+<a href="../ensemblecluster/ensemblecluster.html"><b>Ensemble Cluster</b></a>,
+<a href="../ensembletile/ensembletile.html"><b>Tile Structures</b></a>,
+<a href="../../UsersGuide/superposition.html">superimposing structures</a>
+</p><p>
+First, each ensemble should be opened in Chimera from a single PDB file
+(with <tt>MODEL</tt> and <tt>ENDMDL</tt> records delimiting individual
+members, if more than one).
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Ensemble Match</b>, a tool in the <b>Structure Comparison</b> and
+<b>MD/Ensemble Analysis</b> categories.
+</p><p>
+One ensemble should be designated as the <b>Reference</b> and the
+other as the <b>Alternative</b>.  In the resulting table of comparisons, 
+the reference structures will be listed vertically
+(the alternatives horizontally)
+and any matching operations will move the alternative structure onto the 
+reference.  <b>Parts to Match</b> are indicated with a command-line
+<a href="../../UsersGuide/midas/atom_spec.html#basic">atom specification</a>;
+if this field is left blank, all atoms will be used.
+The <a href="../../UsersGuide/midas/atom_spec.html#basic">
+atom specification</a> describes the atoms to be used in <i>each</i>
+structure.
+If atom names are given, they should specify equal numbers of atoms
+occurring in the same order in the different structures (if <b>@ca</b>
+is entered, the first CA in a structure is matched with the first CA in
+other structures, the second CA with the second in other structures,
+<i>etc.</i>). 
+</p><p>
+<b>OK</b> performs the calculation and dismisses the dialog,
+while <b>Apply</b> performs the calculation without dismissing the dialog.
+<b>Close</b> dismisses the dialog without performing any calculation.
+<b>Help</b> brings up this manual page in a browser window.
+</p><p>
+The resulting RMSD values are shown in a table.
+If the table is hidden (by clicking the <b>Hide</b> button) or
+becomes obscured by other windows, it
+can be resurrected using the <b>Raise</b> option for its
+<a href="../../UsersGuide/instances.html">instance in the
+<b>Tools</b> menu</a>.  <b>Quit</b> closes the table
+and exits from <b>Ensemble Match</b>.
+</p>
+<table border="1" align="right" style="margin:8px 8px 8px 12px">
+<tr><td>
+<img src="matchwin.png" alt="Ensemble Match window">
+</td></tr>
+</table>
+<p>
+The figure at right
+shows comparisons between a reference ensemble with three members
+(models 0.1, 0.2, and 0.3) and an alternative ensemble with three members 
+(models 1.1, 1.2, and 1.3).
+</p><p>
+Checking the box next to an RMSD value performs the corresponding 
+pairwise superposition.
+The number of atom pairs used to calculate the RMSD is reported in the
+<a href="../../UsersGuide/chimerawindow.html#statusline">status line</a>
+(the atoms to use were specified previously as the <b>Parts to Match</b>).
+More than one alternative structure may be
+matched to the same reference structure, but a particular alternative
+structure cannot be matched to more than one reference structure at a time.  
+It may be helpful to first use
+<a href="../ensembletile/ensembletile.html"><b>Tile Structures</b></a> 
+to spread out the members of the reference ensemble and 
+facilitate inspection of the matches.
+</p><p>
+Clicking an "A" box
+<a href="../../UsersGuide/mouse.html#activedef">
+activates/deactivates</a> a model for motion.
+A deactivated model will not move in response to 
+<a href="../../UsersGuide/mouse.html">mouse manipulations</a> in
+the main window or movement commands such as
+<a href="../../UsersGuide/midas/move.html"><b>move</b></a> and
+<a href="../../UsersGuide/midas/turn.html"><b>turn</b></a>.
+Clicking a "D" box hides/shows a model 
+(enables or disables display at the model level, see
+<a href="../../UsersGuide/hierarchy.html#displevels">display hierarchy</a>).
+Clicking an "x" button both deactivates and undisplays
+the corresponding alternative model.
+Clicking a "globe" button activates the corresponding
+reference model and all alternative models currently matched
+to it while deactivating all other models.  The "stick man"
+button does all the things the "globe" button does, <i>plus</i>
+zooms in on the corresponding reference model.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / January 2009</address>
+</body></html>

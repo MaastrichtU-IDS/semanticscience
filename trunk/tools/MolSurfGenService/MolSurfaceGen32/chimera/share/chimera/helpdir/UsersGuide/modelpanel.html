@@ -1,0 +1,293 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>The Model Panel</title>
+</head><body>
+<h2>The Model Panel <img src="modpanicon.png" alt="Model Panel icon"></h2>
+<p>
+The <b>Model Panel</b> lists the models in Chimera and conveniently enables
+<a href="#functions">many operations</a> upon them.
+There are <a href="extension.html">several ways to start</a>
+the <b>Model Panel</b>, a tool in the <b>General Controls</b> category.
+</p><p>
+Each file of coordinates opened in Chimera becomes a 
+<b><i>model</i></b> with an associated model ID number.
+Surfaces and other types of models also have ID numbers.
+</p><p>
+<a name="multimodel">
+Some files contain multiple structures or multiple sets of coordinates
+for the same structure.  In PDB files,
+these multiple structures are delimited with <tt>MODEL</tt> 
+and <tt>ENDMDL</tt> records</a>.
+Appending a <a href="midas/atom_spec.html#subcats">
+submodel number</a> to the primary model number allows atoms to be specified 
+uniquely even when multiple structures in the same file
+contain identical residue and atom names.
+Submodel numbers are assigned sequentially starting with 1
+(#0.1, #0.2, <i>etc.</i>).  
+</p><p>
+<b>The term "models" will be used to indicate submodels and/or models 
+not subdivided into submodels because they are operationally the same</b>:
+each is a separate entry in the <b>Model Panel</b> 
+and can be handled independently of the others.
+</p>
+<table border="1" align="right" style="margin:8px 8px 8px 8px"> 
+<tr><td><img src="modpan.png" alt="Model Panel"></td></tr>
+</table>
+<p>
+The figure shows the default <a href="#columns">columns</a>:
+<ul>
+<li><b>ID</b> number
+<li>model color (a <a href="coloring.html#colorwell">color well</a>)
+<li>whether <b>A</b>ctive (<a href="mouse.html#activedef">movable</a>)
+<li>whether <b>S</b>hown (display-enabled)
+<li><b>Name</b> (<a href="#rename">model name</a>)
+</ul>
+Which columns are shown can be <a href="#configuration">customized</a>.
+</p><p>
+<a name="chosen">
+Individual models or multiple models can be
+chosen with the left mouse button.</a>
+A block of models can be chosen by dragging, or by
+clicking on the first (or last) line in the desired block
+and then <b>Shift</b>-clicking on its last (or first) line.
+<b>Ctrl</b>-click toggles the state (chosen or not) of single line.
+In the figure, models <b>1</b> and <b>3.2</b> are chosen.
+</p><p>
+Once one or more models have been <a href="#chosen">chosen</a>
+within the left side of the <b>Model Panel</b>, any of several
+<a href="#functions">functions</a> represented by buttons on the
+right side of the panel can be executed.  Each
+function is classified as <b>frequently used</b>
+or <b>infrequently used</b>; the toggle button below the list
+controls which set is listed.
+</p><p>
+<a href="#configuration"><b>Configure...</b></a> allows
+customization of what is included in the left side of the panel,
+which <a href="#functions">functions</a> are considered <b>frequently used</b>,
+and
+which <a href="#functions">functions</a> are applied to double-clicked models.  
+<b>Close</b> dismisses the <b>Model Panel</b>.  <b>Help</b>
+opens this manual page in a browser window.
+</p><p>
+<a name="functions">
+The functions are:
+</a>
+<ul>
+<li><a name="activate"><b>activate</b></a>
+- <a href="mouse.html#activedef">activate for motion</a>;
+the opposite of <a href="#deactivate"><b>deactivate</b></a>
+<li><b>activate all</b> 
+- activate all models even if not chosen in the left side of the panel
+(the previous pattern of activities is saved and can be restored using
+the button's alternate function, <b>restore activities</b>)
+<li><b>activate only</b> 
+- activate the chosen model(s) and deactivate all the others
+<li><a name="note"><b>add/edit note...</b></a>
+add arbitrary text that can be shown as a <b>Note</b> column
+(see <a href="#configuration">configuration</a>)
+<li><a name="addh"><b>add hydrogens...</b></a>
+add hydrogens to the chosen model(s); equivalent to using
+<a href="../ContributedSoftware/addh/addh.html"><b>AddH</b></a>
+<li><a name="attributes"><b>attributes...</b></a>
+list <a href="modelattrib.html">model attributes</a> and allow changes
+<li><a name="clipping"><b>clipping...</b></a>
+open the <a href="../ContributedSoftware/per-model/per-model.html">
+<b>Per-Model Clipping</b></a> tool
+<li><a name="close"><b>close</b></a>
+- close (remove) the model(s)
+<li><b>color by SS...</b> color peptides/proteins by secondary structure
+with the <a href="../ContributedSoftware/colorss/colorss.html"><b>Color 
+Secondary Structure</b></a> tool
+<li><a name="computess"><b>compute SS</b></a>
+- define the secondary structure of peptides/proteins in the chosen model(s)
+using <a href="midas/ksdssp.html"><b>ksdssp</b></a> with the specified
+parameter values.  Hitting return (<b>Enter</b>) or clicking <b>OK</b> runs
+the calculation and dismisses the dialog, while clicking <b>Apply</b>
+runs the calculation without dismissing the dialog.  Clicking <b>Save as
+Defaults</b> saves the parameter settings in the
+<a href="preferences.html#preffile"><b>preferences</b> file</a>;
+subsequently, those settings will be used with 
+the <a href="midas/ksdssp.html"><b>ksdssp</b></a> algorithm
+when peptide/protein structures that lack secondary structure assignments are
+read in, when <a href="../ContributedSoftware/matchmaker/matchmaker.html">
+<b>MatchMaker</b></a> is used with the
+<b>Compute secondary structure assignments</b> option,
+or when <b>compute SS</b> is specifically invoked.
+<li><a name="combine"><b>copy/combine...</b></a>
+combine multiple molecule models into a single model or make a copy
+of a single molecule model
+(see also the command <a href="midas/combine.html"><b>combine</b></a>).  The 
+new model will be assigned the specified <b>ID</b> number and its <b>name</b>
+will appear in the <b>Model Panel</b> and other model lists.
+A <b>coordinate system</b> (reference model) must be specified.
+The reference model's untransformed coordinates (if part of the 
+combination) and current transformation will be carried over 
+into the new model.  The coordinates of any other model in the 
+combination will be transformed relative to the reference model.
+To ensure that residues in the new model will be uniquely specifiable, it is
+necessary to allow either renaming chains (changing chain IDs)
+or renumbering residues when the input models contain more than one chain 
+with the same ID.  The original or <b>source</b> model(s) can be closed.
+Clicking <b>OK</b> generates the new model and dismisses the dialog, 
+while clicking <b>Apply</b> generates the new model 
+without dismissing the dialog.  Changes in chain identifiers or residue 
+numbering are reported in the <a href="reply.html"><b>Reply Log</b></a>.
+<li><a name="deactivate"><b>deactivate</b></a>
+- <a href="mouse.html#activedef">deactivate for motion</a>;
+the opposite of <a href="#activate"><b>activate</b></a>
+<li><b>focus</b>
+- center the display on the chosen model(s)
+<li><a name="hide"><b>hide</b></a>
+- disable display of the chosen model(s) (see
+<a href="hierarchy.html#displevels">display hierarchy</a>);
+the opposite of <a href="#show"><b>show</b></a>
+<li><b>match...</b> open the
+<a href="../ContributedSoftware/matchmaker/matchmaker.html">
+<b>MatchMaker</b></a> tool to superimpose structures with similar sequences
+and folds;
+at least two molecule models must be chosen for this operation to be available
+<li><b>minimize...</b> energy-minimize the chosen molecule model(s), first
+adding hydrogens and assigning parameters as needed (see the
+command <a href="midas/minimize.html"><b>minimize</b></a>)
+<li><a name="rainbow"><b>rainbow...</b></a>
+color the chosen model(s) over a range with the
+<a href="../ContributedSoftware/rainbow/rainbow.html"><b>Rainbow</b></a> tool 
+(see also the command <a href="midas/rainbow.html"><b>rainbow</b></a>)
+<li><a name="rename"><b>rename...</b></a> change model name
+(initially based on input filename or assigned by Chimera when 
+creating the model; for multi-Mol2 files, see also the
+<a href="preferences.html#New Molecules"><b>New Molecules</b> preferences</a>)
+<li><a name="render"><b>render/sel by attr...</b></a>
+open the <a href="../ContributedSoftware/render/render.html">
+<b>Render/Select by Attribute</b></a> tool to depict (with color, <i>etc.</i>)
+or <a href="selection.html">select</a> atoms, residues, and molecule models
+by their <a href="../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attribute</a> values
+<li><b>select</b>
+- <a href="selection.html">select</a>
+the chosen model(s) for subsequent operations or commands
+<li><b>select chain(s)...</b>
+<a href="selection.html">select</a>
+subsequently specified chains in the chosen model(s)
+<li><b>sequence...</b>
+show chain sequences (start the
+<a href="../ContributedSoftware/multalignviewer/framemav.html" 
+target="_top"><b>Sequence</b></a> tool)
+<li><a name="show"><b>show</b></a>
+- enable display of the chosen model(s) (see
+<a href="hierarchy.html#displevels">display hierarchy</a>);
+the opposite of <a href="#hide"><b>hide</b></a> 
+<li><b>show all atoms</b>
+- show the chosen model(s) <i>and</i> display all atoms within them
+<li><b>show only</b>
+- show the chosen model(s) and hide all of the others
+<li><b>surface main</b>
+- for the chosen model(s), display the molecular surface of any atoms
+<a href="midas/surface.html#surfcats">categorized</a> as <b>main</b>
+<li><b>tile...</b> 
+open <a href="../ContributedSoftware/ensembletile/ensembletile.html"><b>Tile 
+Structures</b></a>
+to arrange the (two or more) chosen models in a plane
+<li><b>toggle active</b>
+- toggle the status of each chosen model between
+<a href="mouse.html#activedef">activated and deactivated for motion</a>
+(make the status of each its current opposite)
+<li><b>trace backbones</b>
+- in each chosen model,
+display only a simplified trace for bonded chains containing
+amino acid or nucleic acid residues, consisting of real backbone bonds
+(-[N-CA-C]<sub><i>n</i></sub>- in
+peptides and -[O5'-C5'-C4'-C3'-O3'-P]<sub><i>n</i></sub>- in nucleic acids)
+<li><b>trace chains</b>
+- in each chosen model,
+display only a simplified trace for bonded chains containing
+amino acid or nucleic acid residues, consisting of one atom per residue
+(connect the CA atoms in peptides, C4' atoms in nucleic acids)
+<li><a name="transform"><b>transform as...</b></a>
+transform each (initially) chosen model using the rotation/translation matrix
+of the single model chosen when the dialog's <b>OK</b> button is clicked
+<li><a name="writepdb"><b>write PDB</b></a>
+- bring up a dialog for
+<a href="savemodel.html#pdb">saving models as PDB files</a>
+</ul>
+</p>
+
+<a name="configuration">
+<h3>Model Panel Configuration</h3></a>
+<p>
+The <b>Configure...</b> button brings up another panel with three
+sections for customizing the <b>Model Panel</b>.  The three sections are
+organized like index cards with their names on tabs across the top:
+<b>Buttons</b>, <b>Columns</b>, and <b>Double Click</b>.  Clicking on
+a tab brings the corresponding card to the front.
+</p>
+<ul>
+<li>
+<a name="buttons">The <b>Buttons</b> section</a>
+shows all the <a href="#functions">functions</a>
+that can be listed on the right side of the <b>Model Panel</b>.
+If a checkbox is activated, the adjacent function
+will be included in the <b>frequently used</b> list; the remaining
+functions are included in the <b>infrequently used</b> list.
+The <b>frequently used/infrequently used</b> toggle button is
+below the function list on the right side of the <b>Model Panel</b>.
+</ul><ul>
+<li>
+<a name="columns">The <b>Columns</b> section</a>
+determines which model attributes will
+be shown in the left side of the <b>Model Panel</b>.
+The descriptions below are in the order in which the columns
+would be shown, from left to right.
+  <ul>
+  <li><b>ID</b> - model (and submodel, if applicable) number
+  <li><b>[color]</b> - for each molecule model,
+  a <a href="coloring.html#colorwell">color well</a>
+  showing the <a href="hierarchy.html">model-level color</a>;
+  blank for molecular surface models and 
+  <a href="vrmlattrib.html">other model types</a>.
+  Clicking a color well
+  opens the <a href="colortool.html"><b>Color Editor</b></a> and
+  allows the color to be changed.
+  <li><b>Active</b> - whether the model is 
+  <a href="mouse.html#activedef">activated for motion</a>;
+  see <a href="#activate"><b>activate</b></a>
+  and <a href="#deactivate"><b>deactivate</b></a>
+  <li><b>Shown</b> - whether the model is shown;
+  see <a href="#hide"><b>hide</b></a> and <a href="#show"><b>show</b></a>
+  <li><b>Name</b> - model name; see <a href="#rename"><b>rename</b></a>
+  <li><b>Note</b> - user-created text annotation; see
+  <a href="#note"><b>add/edit note</b></a>
+  <li><b>Input file</b> - for local files, a pathname (relative if the file 
+  is in a subdirectory of the working directory, otherwise full); for files 
+  <a href="fetch.html">fetched</a> from databases, 
+  an identifier or filename for that database entry
+  </ul>
+<b>Show model color behind model name</b> shows the
+<a href="hierarchy.html">model-level color</a> of each molecule model
+in the <b>Name</b> column, with the text of the name when the model is
+<a href="#chosen">chosen</a>, otherwise with a swatch of color behind the name.
+</ul><ul>
+<li><a name="doubleclick">The <b>Double Click</b> section</a>
+controls which
+<a href="#functions">functions</a>
+will be executed upon
+a model when the model is double-clicked in the left side of the <b>Model
+Panel</b>.  The default is <a href="#attributes"><b>attributes...</b></a>;
+however, there can be zero or many functions in the list for execution.
+Clicking an entry in the <b>Function menu</b>
+on the right causes it to appear in the <b>Execution list</b> on the left.
+Clicking an entry in the <b>Execution list</b> removes it from that list.
+The functions will be executed in the order listed.
+</ul>
+<hr>
+<address>UCSF Computer Graphics Laboratory / November 2009</address>
+</body></html>

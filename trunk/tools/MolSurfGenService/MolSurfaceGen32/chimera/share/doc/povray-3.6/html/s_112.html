@@ -1,0 +1,196 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.4.8 Light Groups</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_111.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_111.html">3.4.7 Light Sources</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.4.8 
+   Light Groups</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_113.html">3.4.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_113.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_04_08">3.4.8 </a>Light Groups</h3>
+<a name="s03_04_08_i1"><a name="global_lights"></a><a name="s03_04_08_i2"><a name="light_group"></a><a name="s03_04_08_i3"><a name="light_group, keyword"></a><a name="s03_04_08_i4"><a name="s03_04_08_i5"><a name="light_source, light_group"></a><a name="s03_04_08_i6"><a name="s03_04_08_i7"><a name="global_lights, light_group"></a><a name="s03_04_08_i8">
+<p>
+  Light groups make it possible to create a 'union' of light_sources and objects, where the objects in the group are 
+ illuminated by the lights in the group or, if desired, also by the global light_sources. The light_sources in the 
+ group can only illuminate the objects that are in the group. 
+</p>
+
+<p>
+  Light_groups are for example useful when creating scenes in which some objects turn out to be too dark but the 
+ average light is exactly how it should be, as the light_sources in the group do not contribute to the global lighting. 
+</p>
+
+<p>
+  Syntax : 
+</p>
+
+<pre>
+light_group {
+  LIGHT_GROUP LIGHT  |
+  LIGHT_GROUP OBJECT |
+  LIGHT_GROUP
+  [LIGHT_GROUP MODIFIER]
+}
+
+LIGHT_GROUP LIGHT:
+     light_source | light_source IDENTIFIER
+LIGHT_GROUP OBJECT: 
+     OBJECT | OBJECT IDENTIFIER
+LIGHT_GROUP MODIFIER: 
+     global_lights BOOL | TRANSFORMATION
+</pre>
+
+<p>
+  <code>global_lights</code>. Add this command to the light_group to have objects in the group also be illuminated by 
+ global light sources. 
+</p>
+
+<p>
+  Light groups may be nested. In this case light groups inherit the light sources of the light group they are 
+ contained by. 
+</p>
+
+<p>
+  Light groups can be seen as a 'union of an object with light_source' and can be used in CSG. 
+</p>
+
+<p>
+  Examples, simple light_group: 
+</p>
+
+<pre>
+#declare RedLight = light_source {
+  &lt;-500,500,-500&gt;
+  rgb &lt;1,0,0&gt;
+}
+
+light_group {
+  light_source {RedLight}
+  sphere {0,1 pigment {rgb 1}}
+  global_lights off
+}
+</pre>
+
+<p>
+  Nested light_group: 
+</p>
+
+<pre>
+#declare L1 = light_group {
+  light_source {&lt;10,10,0&gt;, rgb &lt;1,0,0&gt;}
+  light_source {&lt;0,0,-100&gt;, rgb &lt;0,0,1&gt;}
+  sphere {0,1 pigment {rgb 1}}
+}
+
+light_group {
+  light_source {&lt;0,100,0&gt;, rgb 0.5}
+  light_group {L1}
+}
+</pre>
+
+<p>
+  Light_groups in CSG: 
+</p>
+
+<pre>
+difference {
+  light_group {
+    sphere {0,1 pigment {rgb 1}}
+    light_source {&lt;-100,0,-100&gt; rgb &lt;1,0,0&gt;}
+    global_lights off
+  }
+  light_group {
+    sphere {&lt;0,1,0&gt;,1 pigment {rgb 1}}
+    light_source {&lt;100,100,0&gt; rgb &lt;0,0,1&gt;}
+    global_lights off
+  }
+  rotate &lt;-45,0,0&gt;
+}
+</pre>
+
+<p>
+  In the last example the result will be a sphere illuminated red, where the part that is differenced away is 
+ illuminated blue. In result comparable to the difference between two spheres with a different pigment. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_111.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_111.html">3.4.7 Light Sources</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.4.8 Light Groups</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_113.html">3.4.9 Object Modifiers</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_113.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

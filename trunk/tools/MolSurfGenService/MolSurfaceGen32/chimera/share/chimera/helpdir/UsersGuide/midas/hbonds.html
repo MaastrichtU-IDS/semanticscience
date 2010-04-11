@@ -1,0 +1,246 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>hbonds, findhbond</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR>( <b>hbonds</b> | <b>findhbond</b> )
+<a href="#options"><i>options</i></a></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR>( <b>~hbonds</b> | <b>~findhbond</b> )</h3>
+<p>
+<b>Hbonds</b> (or <b>findhbond</b>) is the command-line implementation of
+<a href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a>, which uses
+<a href="../../UsersGuide/idatm.html">atom types</a> and 
+<a href="../../ContributedSoftware/findhbond/findhbond.html#criteria">geometric 
+criteria</a> to identify possible
+hydrogen bonds (H-bonds).  It is not necessary for hydrogen atoms 
+to be present.  All potential H-bonding interactions fulfilling the 
+criteria are shown.  For example, even if it is not possible for
+a particular hydroxyl group to donate a hydrogen bond to two particular
+acceptors <i>simultaneously</i>, both possibilities will be displayed if the
+hydroxyl lacks an explicit hydrogen atom.
+If the hydroxyl group has an explicit hydrogen atom,
+however, only H-bonds compatible with the position
+of the hydrogen will be found.
+Consult the
+<a href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a> manual page
+for more information on the
+<a href="../../ContributedSoftware/findhbond/findhbond.html#criteria">method
+and criteria</a>.
+<p></p>
+By <a href="#makePseudobonds">default</a>, hydrogen bonds are shown as
+<a href="../pbpanel.html#pbdef">pseudobonds</a>.
+<b>~Hbonds</b> (or <b>~findhbond</b>) removes these pseudobonds.
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+Option keywords
+for <b>hbond</b> (<b>findhbond</b>) can be truncated to unique strings; 
+for example, <b>intra</b> but not <b>inter</b> would be acceptable, because
+both <b>intermodel</b> and <b>interSubmodel</b> start with <b>inter</b>.
+In addition, keyword case does not matter.
+</p><p>
+A vertical bar "|" designates mutually exclusive options, and
+default values are indicated with <b>bold</b>.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p>
+<blockquote>
+  <tt><b>spec</b>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></tt>
+    <br>Whether to restrict H-bond detection to a subset of
+    the open molecule models. The <i>entire model(s)</i> containing 
+    the specified atoms will be considered.    If
+    <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+    includes any spaces, it must be enclosed in single or double quote marks.
+</blockquote>
+<blockquote>
+  <tt><b>intramodel</b> <b>true</b>|false</tt>
+    <br>Whether to look for H-bonds within models.
+</blockquote>
+<blockquote>
+  <tt><b>intermodel</b> <b>true</b>|false</tt>
+    <br>Whether to look for H-bonds between models.
+</blockquote>
+<blockquote>
+  <tt><b>interSubmodel</b> true|<b>false</b></tt>
+    <br>Whether to look for H-bonds between 
+    <a href="../modelpanel.html#multimodel">submodels</a> of the same model.
+</blockquote>
+<blockquote>
+  <tt><a name="selRestrict"><b>selRestrict</b> <i>set</i></a></tt>
+    <br>Consider only H-bonds with atoms in the current 
+    <a href="../selection.html">selection</a> (this option is
+    <b>off</b> unless specified).  The <i>set</i> can be:
+      <ul>
+      <li><b>any</b> - H-bonds with at least one atom
+      <a href="../selection.html">selected</a>
+      <li><b>cross</b> - H-bonds with exactly one atom
+      <a href="../selection.html">selected</a>
+      <li><b>both</b> - H-bonds with both atoms
+      <a href="../selection.html">selected</a>
+      </ul>
+</blockquote>
+<blockquote>
+  <tt><a name="cacheDA"><b>cacheDA</b> true|false</a></tt>
+    <br>Whether to cache and reuse donor and acceptor information
+    rather than regenerating it each time the command is used; 
+    useful for calculations on different conformations of the same structure.
+    The default is <b>true</b> for a trajectory open in
+    <a href="../../ContributedSoftware/movie/framemovie.html" 
+    target="_top"><b>MD Movie</b></a>
+    (although a trajectory may not be recognized until more than one
+    set of coordinates has been read),
+    otherwise <b>false</b>.
+</blockquote>
+<blockquote>
+  <tt><a name="relax"><b>relax</b> <b>true</b>|false</a></tt>
+    <br>Whether to relax the
+    <a href="../../ContributedSoftware/findhbond/findhbond.html#criteria">
+    precise criteria</a> for hydrogen bonding. 
+</blockquote>
+<blockquote>
+  <tt><b>distSlop</b> <i>tolerance</i></tt>
+    <br>How much to relax the distance criteria if 
+    <a href="#relax"><b>relax</b></a> is <b>true</b>;
+    <i>tolerance</i> is <b>0.4</b> angstroms by default.
+</blockquote>
+<blockquote>
+  <tt><b>angleSlop</b> <i>tolerance</i></tt>
+    <br>How much to relax the angle criteria if
+    <a href="#relax"><b>relax</b></a> is <b>true</b>;
+    <i>tolerance</i> is <b>20.0</b> degrees by default.
+</blockquote>
+<blockquote>
+<tt><a name="makePseudobonds"><b>makePseudobonds</b> <b>true</b>|false</a></tt>
+    <br>Whether to create <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    depicting the H-bonds found.
+    These pseudobonds can be removed with the command <b>~hbonds</b> or
+    <b>~findhbond</b>.
+    The <a href="../pbpanel.html"><b>PseudoBond Panel</b></a>
+    can also be used to close the pseudobond group
+    (named <b>hydrogen bonds</b>) or alter its display.
+</blockquote>
+<blockquote>
+  <tt><b>lineWidth</b> <i>width</i></tt>
+    <br>Line width to use for <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    depicting H-bonds (when in the <b>wire</b> draw mode);
+    <i>width</i> is <b>1.0</b> pixels by default.
+</blockquote>
+<blockquote>
+  <tt><b>color</b> <i>colorname</i></tt>
+    <br>Color to use for <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    depicting H-bonds (but see also
+    <a href="#slopColor"><b>slopColor</b></a>).
+    The default color is similar to cyan.
+    <i>Colorname</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a>
+that specifies a single color.
+</blockquote>
+<blockquote>
+  <tt><a name="twoColors"><b>twoColors</b> true|<b>false</b></a></tt>
+    <br>Whether to use different colors for H-bonds meeting and not
+    meeting the precise criteria (<i>i.e.</i>, whether a different color 
+    should be used for H-bonds outside the precise criteria but within 
+    the tolerance values).
+</blockquote>
+<blockquote>
+  <tt><a name="slopColor"><b>slopColor</b> <i>colorname</i></a></tt>
+    <br>If <a href="#twoColors"><b>twoColors</b></a>
+    is <b>true</b>, the color to use for 
+    depicting H-bonds not meeting the precise criteria but within the
+    tolerance values.  The default color is similar to orange.
+    <i>Colorname</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a>
+that specifies a single color.
+</blockquote>
+<blockquote>
+<tt><b>reveal</b> true|<b>false</b></tt>
+    <br>Whether to turn on the display of residues containing an
+    H-bonding atom if that atom is not displayed initially.
+    (By default, if the atom on either end of a
+    <a href="../pbpanel.html#pbdef">pseudobond</a> representing
+    an H-bond is not shown, the pseudobond itself is not shown, although
+    it still exists; displaying the atom allows the H-bond to be shown.)
+</blockquote>
+<blockquote>
+  <tt><b>retainCurrent</b> true|<b>false</b></tt>
+    <br>Whether to keep the <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    depicting a previously determined set of H-bonds through a subsequent
+    round of detection (as opposed to replacing the old with the new).
+</blockquote>
+<blockquote>
+  <tt><a name="saveFile"><b>saveFile</b> <i>file</i></a></tt>
+    <br>Whether to save H-bond information to a file
+    (this option is <b>off</b> unless specified).   
+    The information includes donor and acceptor atom specifications
+    (see <a href="#namingStyle"><b>namingStyle</b></a>),
+    donor-acceptor distances, and when hydrogens are present,
+    hydrogen atom specifications and hydrogen-acceptor distances.
+    <i>File</i> is the output file name/pathname; if it includes spaces,
+    it must be enclosed in single or double quote marks.
+    If <i>file</i> is <b>browse</b> or <b>browser</b>, a 
+    <a href="../opensave.html">dialog</a> for saving the file will appear
+    (unless the word is enclosed in quotes, which would
+    generate an output file by that name).
+</blockquote>
+<blockquote>
+  <tt><a name="log"><b>log</b> true|<b>false</b></a></tt>
+    <br>Whether to write H-bond information (as described above for 
+    <a href="#saveFile"><b>saveFile</b></a>) to the
+    <a href="../reply.html"><b>Reply Log</b></a>.
+</blockquote>
+<blockquote>
+  <tt><a name="namingStyle"><b>namingStyle</b> simple|command|serial</a></tt>
+    <br>How to describe atoms in H-bond information
+    written to a <a href="#saveFile">file</a> or the <a href="#log">log</a>:
+    <ul>
+    <li><b>simple</b> - residue name, residue specifier, and atom name 
+    (for example, HIS 16.A ND1)
+    <li><b>command</b> or <b>command-line</b>
+    - <a href="atom_spec.html#basic">command-line specifier</a> 
+    (for example, :16.A@ND1)
+    <li><b>serial</b> or <b>serialnumber</b> - atom serial number
+    (for example, 126)
+    </ul>
+    Model number will be included when multiple models are present.
+    If <b>namingStyle</b> is not supplied, the
+    <b>Atomspec display style</b> specified in the
+    <a href="../preferences.html#General"><b>General</b>
+    preferences</a> will be used.
+</blockquote>
+<blockquote>
+  <tt><b>batch</b> true|<b>false</b></tt>
+    <br>Whether to suppress certain errors; useful for no-GUI 
+    batch processing.  Currently, the only error suppressed when
+    <b>batch</b> is <b>true</b> is that which arises if no atoms are 
+    <a href="../selection.html">selected</a>
+    when <a href="#selRestrict"><b>selRestrict</b></a> is specified.
+</blockquote>
+</p>
+See also:
+<a href="addh.html"><b>addh</b></a>,
+<a href="distance.html"><b>distance</b></a>,
+<a href="findclash.html"><b>findclash</b></a>,
+<A href="../../ContributedSoftware/findhbond/findhbond.html">
+<b>FindHBond</b></a>,
+the <A href="../pbpanel.html"><b>PseudoBond Panel</b></a>
+</p>
+</body></html>

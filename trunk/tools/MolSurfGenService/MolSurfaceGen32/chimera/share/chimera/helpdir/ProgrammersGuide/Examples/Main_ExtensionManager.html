@@ -1,0 +1,214 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" href="../../chimera16.png" type="image/png">
+<title>Working with the Chimera Extension Manager</title>
+</head>
+
+<body>
+<h1>Working with the Chimera Extension Manager</h1>
+<p>Chimera extensions typically can be divided into two parts:
+data manipulation and user interface.
+For example, the code in <a href="Main_ToolbarButton.html">Toolbar Buttons</a>
+defines a function which changes the display status of some atoms.
+This is the data manipulation part of that extension.
+The code also creates a toolbar button that invokes the function when pressed.
+This is the user interface part of the extension.</p>
+
+<p>Data manipulation code may often be reused when building a new extension,
+but user interface code typically is not.
+Separating the parts into multiple source files
+simplifies reusing the data manipulation code,
+but complicates managing the extension as a unit.
+Fortunately, Python supports the <em>package</em>
+concept for just this purpose.</p>
+
+<p>A Python package consists of a set of modules (<i>.py</i> files)
+stored in the same directory in the file system.
+One of the modules must be named <i>__init__.py</i>, 
+which is the initialization module that is automatically executed
+when the package is imported.
+By convention, Chimera extension packages implement the data manipulation 
+code in <i>__init__.py</i>.
+Implementors of new functionality can access the data manipulation code by:</p>
+<blockquote>
+  <p><code>import <i>extension</i></code></p>
+</blockquote>
+<p>where <code><i>extension</i></code> is the name of the package.
+
+<p>The package integrates its functionality into the Chimera extension
+manager by including a special module named <i>ChimeraExtension.py</i>
+in the package, and following a particular protocol within that module.
+Namely, for each separate function the package wants to offer through the
+extension manager, a class derived from <code>chimera.extension.EMO</code>
+(Extension Management Object)
+must be defined in the module
+and an instance registered with the extension manager.
+
+<p>The code in <a href="Main_ToolbarButton.html"> Toolbar Buttons</a> is organized in such a manner below:</p>
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonExtension/__init__.py"><i>ToolbarButtonExtension/__init__.py</i></a></h2>
+<p>
+The contents of <a href="ToolbarButtonExtension/__init__.py">ToolbarButtonExtension/__init__.py</a> is
+identical to the first section of code in <a href="ToolbarButton.html">Toolbar Buttons</a>,
+with the exception that module <code>os</code> is not imported.<br>
+<spacer type="vertical" size=5>
+<code>
+<br>
+<font color="red">import re<br></font>
+<br>
+<font color="red">import chimera<br></font>
+<br>
+<font color="red">def mainchain():<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">MAINCHAIN = re.compile("^(N|CA|C)$", re.I)<br></font>
+<font color="red">for m in chimera.openModels.list(modelTypes=[chimera.Molecule]):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">for a in m.atoms:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">a.display = MAINCHAIN.match(a.name) != None<br></font>
+</code>
+</dl>
+</dl>
+</dl>
+<p>&nbsp;
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonExtension/ChimeraExtension.py"><i>ToolbarButtonExtension/ChimeraExtension.py</i></a></h2>
+<p>
+<a href="ToolbarButtonExtension/ChimeraExtension.py">ChimeraExtension.py</a> derives a class from <code>chimera.extension.EMO</code>
+to define how functionality defined in <a href="ToolbarButtonExtension/__init__.py">__init__.py</a> may be invoked
+by the Chimera extension manager.<br>
+<spacer type="vertical" size=5>
+<code>
+<br>
+<font color="red">import chimera.extension<br></font>
+</code>
+<p>
+Class <code>MainChainEMO</code> is the derived class.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">class MainChainEMO(chimera.extension.EMO):<br></font>
+</code>
+<dl><dd>
+<p>
+Return the actual name of the extension.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def name(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'Backbone'<br></font>
+</code>
+</dl>
+<p>
+Return the short description that typically appears as
+balloon help or in the Tools preference category.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def description(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'display only protein backbone'<br></font>
+</code>
+</dl>
+<p>
+Return the categories in which this extension should appear.
+It is either a list or a dictionary.  If it is a dictionary
+then the keys are the category names and the values are
+category-specific descriptions (and the description() method
+above is ignored).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def categories(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return ['Utilities']<br></font>
+</code>
+</dl>
+<p>
+Return the name of a file containing an icon that may be used
+on the tool bar to provide a shortcut for launching the extension.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def icon(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return self.path('mainchain.tiff')<br></font>
+</code>
+</dl>
+<p>
+Invoke the extension.  Note that when this method is called,
+the content of &quot;__init__.py&quot; is not available.  To simplify
+calling functions, the <code>EMO</code> provides a <code>module</code> method that
+locates modules in the extension package by name; if no name
+is supplied, the &quot;__init__.py&quot; module is returned.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def activate(self):<br></font>
+</code>
+<dl><dd>
+<p>
+Call the <code>mainchain</code> function in the &quot;__init__.py&quot; module.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">self.module().mainchain()<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Register an instance of <code>MainChainEMO</code> with the Chimera
+extension manager.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">chimera.extension.manager.registerExtension(MainChainEMO(__file__))<br></font>
+</code>
+<h2>Running the Example</h2>
+<p>The example code files and <a href="ToolbarButtonExtension/ToolbarButton.tiff">ToolbarButton.tiff</a> 
+  must be saved in a directory named <code><i>ToolbarButtonExtension</i></code>. 
+  To run the example, start <i>chimera</i>, bring up the Tools preference category (via 
+  the <samp>Preferences</samp> entry in the <samp>Favorites</samp> menu;
+  then choosing the &quot;Tools&quot; preference category), use 
+  the <samp>Add</samp> button to add the directory above the 
+  <i> <code>ToolbarButtonExtension</code></i> directory. A <samp>MainChain</samp> 
+  entry should appear under the <samp>Utilities</samp> tools category.</p>
+</body>
+</html>

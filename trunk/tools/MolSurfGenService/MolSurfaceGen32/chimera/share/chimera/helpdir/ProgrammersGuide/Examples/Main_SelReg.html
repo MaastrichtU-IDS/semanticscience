@@ -1,0 +1,61 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" href="../../chimera16.png" type="image/png">
+<title>Registering Selectors</title>
+</head>
+
+<body>
+
+<h2>The Selection Manager</h2>
+
+<p>Some extensions may identify sets of Selectables that it would be
+useful for other extensions to be able to identify, or for the user to
+select from the Selection menu.  For example, the ChemGroup extension
+identifies chemical entities such as aromatic rings.  It is useful
+to allow other extensions (and the user) to also pick out these entities
+without replicating the ChemGroup code.
+This is accomplished by registering selections with the Chimera
+selection manager.
+
+<p>The Chimera selection manager is defined in
+<code>chimera.selection.manager</code>.
+Selections are registered with the selection manager
+as strings (either Python code or 
+<a href="footnotes/OSLsyntax.html">OSL strings</a>)
+and are made available
+in the Chimera Selection menu.
+Selections can (only) be retrieved from the selection manager en masse
+as a dictionary organized in the same fashion as the Selection
+menu.  The keys in the dictionary are the same as the menu
+labels, and the values are either a 2-tuple of the registered
+selection string and a help description, or a dictionary
+introducing a submenu which is organized the same as the main dictionary.
+The <code>selectionFromText</code> method of the selection manager
+converts a registered selection string into the appropriate
+Selection subclass.
+
+<p><code>chimera.selection.manager</code> also defines
+the <b>CodeItemizedSelection</b> class, which is similar
+to the <b>CodeSelection</b> class described above, except
+that the code is given an empty ItemizedSelection to fill in
+instead of functions to apply.
+
+<p>The Python strings registered with the selection manager are expected
+to be useable in conjunction with <b>CodeItemizedSelection</b>s.
+
+  <!--#include file="SelReg/__init__.html" --> 
+<p><i>This example is not yet finished. Sorry!</i>
+</body>
+</html>

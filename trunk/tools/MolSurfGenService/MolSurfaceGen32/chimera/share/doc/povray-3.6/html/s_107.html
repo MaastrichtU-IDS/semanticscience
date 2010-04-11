@@ -1,0 +1,2778 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.4.3 Infinite Solid Primitives</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_106.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_106.html">3.4.2 Finite Patch Primitives</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.4.3 
+   Infinite Solid Primitives</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_108.html">3.4.4 Isosurface Object</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_108.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_04_03">3.4.3 </a>Infinite Solid Primitives</h3>
+
+<p>
+  There are five polynomial primitive shapes that are possibly infinite and do not respond to automatic bounding. 
+ They are plane, cubic, poly, quadric and quartic. They do have a well defined inside and may be used in CSG and inside 
+ a <code>clipped_by</code> statement. As with all shapes they can be translated, rotated and scaled. 
+</p>
+
+<h4><a name="s03_04_03_01">3.4.3.1 </a>Plane</h4>
+<a name="s03_04_03_01_i1"><a name="plane"></a><a name="s03_04_03_01_i2"><a name="plane, keyword"></a><a name="s03_04_03_01_i3">
+<p>
+  The <code>plane</code> primitive is a simple way to define an infinite flat surface. The plane is not a thin 
+ boundary or can be compared to a sheet of paper. A plane is a solid object of infinite size that divides POV-space in 
+ two parts, inside and outside the plane. The plane is specified as follows: 
+</p>
+
+<pre>
+PLANE:
+    plane
+    {
+        &lt;Normal&gt;, Distance
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  The <em><code>&lt;Normal&gt;</code></em> vector defines the surface normal of the plane. A surface normal is a 
+ vector which points up from the surface at a 90 degree angle. This is followed by a float value that gives the 
+ distance along the normal that the plane is from the origin (that is only true if the normal vector has unit length; 
+ see below). For example: 
+</p>
+
+<pre>
+  plane { &lt;0, 1, 0&gt;, 4 }
+</pre>
+
+<p>
+  This is a plane where straight up is defined in the positive y-direction. The plane is 4 units in that direction 
+ away from the origin. Because most planes are defined with surface normals in the direction of an axis you will often 
+ see planes defined using the <code>x</code>, <code> y</code> or <code> z</code> built-in vector identifiers. The 
+ example above could be specified as: 
+</p>
+
+<pre>
+  plane { y, 4 }
+</pre>
+
+<p>
+  The plane extends infinitely in the x- and z-directions. It effectively divides the world into two pieces. By 
+ definition the normal vector points to the outside of the plane while any points away from the vector are defined as 
+ inside. This inside/outside distinction is important when using planes in CSG and <code>clipped_by</code>. It is also 
+ important when using fog or atmospheric media. If you place a camera on the &quot;inside&quot; half of the world, then 
+ the fog or media will not appear. Such issues arise in any solid object but it is more common with planes. Users 
+ typically know when they have accidentally placed a camera inside a sphere or box but &quot;inside a plane&quot; is an 
+ unusual concept. In general you can reverse the inside/outside properties of an object by adding the object modifier <code> 
+ inverse</code>. See &quot;<a href="s_113.html#s03_04_09_04">Inverse</a>&quot; and &quot;<a href="s_128.html#s03_06_01_02">Empty 
+ and Solid Objects</a>&quot; for details. 
+</p>
+
+<p>
+  A plane is called a <em>polynomial</em> shape because it is defined by a first order polynomial equation. Given a 
+ plane: 
+</p>
+
+<pre>
+  plane { &lt;A, B, C&gt;, D }
+</pre>
+
+<p>
+  it can be represented by the equation<em><code> A*x + B*y + C*z - D*sqrt(A^2 + B^2 + C^2) = 0</code></em>. 
+</p>
+
+<p>
+  Therefore our example <code> plane{y,4}</code> is actually the polynomial equation y=4. You can think of this as a 
+ set of all x, y, z points where all have y values equal to 4, regardless of the x or z values. 
+</p>
+
+<p>
+  This equation is a first order polynomial because each term contains only single powers of x, y or z. A second 
+ order equation has terms like x^2, y^2, z^2, xy, xz and yz. Another name for a 2nd order equation is a quadric 
+ equation. Third order polys are called cubics. A 4th order equation is a quartic. Such shapes are described in the 
+ sections below. 
+</p>
+
+<h4><a name="s03_04_03_02">3.4.3.2 </a>Poly, Cubic and Quartic</h4>
+<a name="s03_04_03_02_i1"><a name="poly"></a><a name="s03_04_03_02_i2"><a name="poly, keyword"></a><a name="s03_04_03_02_i3"><a name="s03_04_03_02_i4"><a name="sturm, poly"></a><a name="s03_04_03_02_i5">
+<p>
+  Higher order polynomial surfaces may be defined by the use of a <code> poly</code> shape. The syntax is 
+</p>
+
+<pre>
+POLY:
+    poly
+    {
+        Order, &lt;A1, A2, A3,... An&gt;
+        [POLY_MODIFIERS...]
+    }
+POLY_MODIFIERS:
+    sturm | OBJECT_MODIFIER
+</pre>
+
+<p>
+  Poly default values: <a name="s03_04_03_02_i6"> 
+</p>
+
+<pre>
+sturm : off
+</pre>
+
+<p>
+  where <em><code>Order</code></em> is an integer number from 2 to 15 inclusively that specifies the order of the 
+ equation. <em><code>A1, A2, ... An</code></em> are float values for the coefficients of the equation. There are <em><code>n</code></em> 
+ such terms where <em><code> n = ((Order+1)*(Order+2)*(Order+3))/6.</code></em><a name="s03_04_03_02_i7"><a name="cubic"></a><a name="s03_04_03_02_i8"><a name="cubic, keyword"></a><a name="s03_04_03_02_i9"> 
+ 
+</p>
+
+<p>
+  The <code>cubic</code> object is an alternate way to specify 3rd order polys. Its syntax is: 
+</p>
+
+<pre>
+CUBIC:
+    cubic
+    {
+        &lt;A1, A2, A3,... A20&gt;
+        [POLY_MODIFIERS...]
+    }
+</pre>
+<a name="s03_04_03_02_i10"><a name="quartic"></a><a name="s03_04_03_02_i11"><a name="quartic, keyword"></a><a name="s03_04_03_02_i12">
+<p>
+  Also 4th order equations may be specified with the <code>quartic</code> object. Its syntax is: 
+</p>
+
+<pre>
+QUARTIC:
+    quartic
+    {
+        &lt;A1, A2, A3,... A35&gt;
+        [POLY_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  The following table shows which polynomial terms correspond to which x,y,z factors for the orders 2 to 7. Remember <code>cubic</code> 
+ is actually a 3rd order polynomial and <code>quartic</code> is 4th order. 
+</p>
+
+<table summary="Cubic and quartic polynomial terms" width="100%">
+ 
+ <tr>
+  <th width="5%"> </th><th width="5%">2<sup>nd</sup></th><th width="6%">3<sup>rd</sup></th><th width="7%">4<sup>th</sup></th><th width="8%">5<sup>th</sup></th><th width="9%">6<sup>th</sup></th><th width="10%">7<sup>th</sup></th><th width="6%"> 
+  </th><th width="8%">5<sup>th</sup></th><th width="9%">6<sup>th</sup></th><th width="10%">7<sup>th</sup></th><th width="6%"> 
+  </th><th width="5%">6<sup>th</sup></th><th width="5%">7<sup>th</sup></th>
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>1</sub> 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>5</sup> 
+  </td>
+
+  <td>
+    x<sup>6</sup> 
+  </td>
+
+  <td>
+    x<sup>7</sup> 
+  </td>
+
+  <td>
+    A<sub>41</sub> 
+  </td>
+
+  <td>
+    y<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>81</sub> 
+  </td>
+
+  <td>
+    z<sup>3</sup> 
+  </td>
+
+  <td>
+    xz<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>2</sub> 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    x<sup>2</sup>y 
+  </td>
+
+  <td>
+    x<sup>3</sup>y 
+  </td>
+
+  <td>
+    x<sup>4</sup>y 
+  </td>
+
+  <td>
+    x<sup>5</sup>y 
+  </td>
+
+  <td>
+    x<sup>6</sup>y 
+  </td>
+
+  <td>
+    A<sub>42</sub> 
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>82</sub> 
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+  <td>
+    xz<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>3</sub> 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+  <td>
+    x<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>4</sup>z 
+  </td>
+
+  <td>
+    x<sup>5</sup>z 
+  </td>
+
+  <td>
+    x<sup>6</sup>z 
+  </td>
+
+  <td>
+    A<sub>43</sub> 
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>83</sub> 
+  </td>
+
+  <td>
+    z 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>4</sub> 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>5</sup> 
+  </td>
+
+  <td>
+    x<sup>6</sup> 
+  </td>
+
+  <td>
+    A<sub>44</sub> 
+  </td>
+
+  <td>
+    y<sup>2</sup>z 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    A<sub>84</sub> 
+  </td>
+
+  <td>
+    1 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>5</sub> 
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>5</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>45</sub> 
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>85</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>7</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>6</sub> 
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+  <td>
+    xyz 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz 
+  </td>
+
+  <td>
+    x<sup>4</sup>yz 
+  </td>
+
+  <td>
+    x<sup>5</sup>yz 
+  </td>
+
+  <td>
+    A<sub>46</sub> 
+  </td>
+
+  <td>
+    yz<sup>4</sup> 
+  </td>
+
+  <td>
+    xyz<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>86</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>6</sup>z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>7</sub> 
+  </td>
+
+  <td>
+    y 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    x<sup>2</sup>y 
+  </td>
+
+  <td>
+    x<sup>3</sup>y 
+  </td>
+
+  <td>
+    x<sup>4</sup>y 
+  </td>
+
+  <td>
+    x<sup>5</sup>y 
+  </td>
+
+  <td>
+    A<sub>47</sub> 
+  </td>
+
+  <td>
+    yz<sup>3</sup> 
+  </td>
+
+  <td>
+    xyz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>87</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>6</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>8</sub> 
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+  <td>
+    xz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>5</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>48</sub> 
+  </td>
+
+  <td>
+    yz<sup>2</sup> 
+  </td>
+
+  <td>
+    xyz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>88</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup>z<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>9</sub> 
+  </td>
+
+  <td>
+    z 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+  <td>
+    x<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>4</sup>z 
+  </td>
+
+  <td>
+    x<sup>5</sup>z 
+  </td>
+
+  <td>
+    A<sub>49</sub> 
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+  <td>
+    xyz 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz 
+  </td>
+
+  <td>
+    A<sub>89</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup>z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>10</sub> 
+  </td>
+
+  <td>
+    1 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>50</sub> 
+  </td>
+
+  <td>
+    y 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    x<sup>2</sup>y 
+  </td>
+
+  <td>
+    A<sub>90</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>11</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>51</sub> 
+  </td>
+
+  <td>
+    z<sup>5</sup> 
+  </td>
+
+  <td>
+    xz<sup>5</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>91</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>12</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>4</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    A<sub>52</sub> 
+  </td>
+
+  <td>
+    z<sup>4</sup> 
+  </td>
+
+  <td>
+    xz<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>92</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>13</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>53</sub> 
+  </td>
+
+  <td>
+    z<sup>3</sup> 
+  </td>
+
+  <td>
+    xz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>93</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>14</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>2</sup> 
+  </td>
+
+  <td>
+    xyz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>54</sub> 
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+  <td>
+    xz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>94</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>15</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+  <td>
+    xyz 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz 
+  </td>
+
+  <td>
+    x<sup>4</sup>yz 
+  </td>
+
+  <td>
+    A<sub>55</sub> 
+  </td>
+
+  <td>
+    z 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+  <td>
+    x<sup>2</sup>z 
+  </td>
+
+  <td>
+    A<sub>95</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>4</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>16</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    x<sup>2</sup>y 
+  </td>
+
+  <td>
+    x<sup>3</sup>y 
+  </td>
+
+  <td>
+    x<sup>4</sup>y 
+  </td>
+
+  <td>
+    A<sub>56</sub> 
+  </td>
+
+  <td>
+    1 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>96</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>17</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>3</sup> 
+  </td>
+
+  <td>
+    xz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>57</sub> 
+  </td>
+
+  <td>
+    &nbsp; 
+  </td>
+
+  <td>
+    y<sup>6</sup> 
+  </td>
+
+  <td>
+    xy<sup>6</sup> 
+  </td>
+
+  <td>
+    A<sub>97</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>18</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+  <td>
+    xz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>58</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup>z 
+  </td>
+
+  <td>
+    xy<sup>5</sup>z 
+  </td>
+
+  <td>
+    A<sub>98</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>19</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+  <td>
+    x<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>4</sup>z 
+  </td>
+
+  <td>
+    A<sub>59</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup> 
+  </td>
+
+  <td>
+    xy<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>99</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>20</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    1 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>60</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>4</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>100</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>5</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>21</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup> 
+  </td>
+
+  <td>
+    xy<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>61</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z 
+  </td>
+
+  <td>
+    xy<sup>4</sup>z 
+  </td>
+
+  <td>
+    A<sub>101</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>4</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>22</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>3</sup>z 
+  </td>
+
+  <td>
+    A<sub>62</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup> 
+  </td>
+
+  <td>
+    xy<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>102</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>23</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>63</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>103</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>24</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>64</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>104</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>25</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup>z 
+  </td>
+
+  <td>
+    A<sub>65</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z 
+  </td>
+
+  <td>
+    A<sub>105</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>26</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>y<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>66</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>106</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>6</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>27</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>3</sup> 
+  </td>
+
+  <td>
+    xyz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>67</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>4</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>107</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>5</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>28</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>2</sup> 
+  </td>
+
+  <td>
+    xyz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>68</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>108</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>4</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>29</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+  <td>
+    xyz 
+  </td>
+
+  <td>
+    x<sup>2</sup>yz 
+  </td>
+
+  <td>
+    x<sup>3</sup>yz 
+  </td>
+
+  <td>
+    A<sub>69</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>109</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>30</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    x<sup>2</sup>y 
+  </td>
+
+  <td>
+    x<sup>3</sup>y 
+  </td>
+
+  <td>
+    A<sub>70</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup>z 
+  </td>
+
+  <td>
+    xy<sup>2</sup>z 
+  </td>
+
+  <td>
+    A<sub>110</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>31</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>4</sup> 
+  </td>
+
+  <td>
+    xz<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>71</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>111</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>32</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>3</sup> 
+  </td>
+
+  <td>
+    xz<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>72</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>5</sup> 
+  </td>
+
+  <td>
+    xyz<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>112</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>33</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+  <td>
+    xz<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>73</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>4</sup> 
+  </td>
+
+  <td>
+    xyz<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>113</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>7</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>34</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z 
+  </td>
+
+  <td>
+    xz 
+  </td>
+
+  <td>
+    x<sup>2</sup>z 
+  </td>
+
+  <td>
+    x<sup>3</sup>z 
+  </td>
+
+  <td>
+    A<sub>74</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>3</sup> 
+  </td>
+
+  <td>
+    xyz<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>114</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>6</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>35</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    1 
+  </td>
+
+  <td>
+    x 
+  </td>
+
+  <td>
+    x<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>3</sup> 
+  </td>
+
+  <td>
+    A<sub>75</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz<sup>2</sup> 
+  </td>
+
+  <td>
+    xyz<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>115</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>5</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>36</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>5</sup> 
+  </td>
+
+  <td>
+    xy<sup>5</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>76</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    yz 
+  </td>
+
+  <td>
+    xyz 
+  </td>
+
+  <td>
+    A<sub>116</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>4</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>37</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup>z 
+  </td>
+
+  <td>
+    xy<sup>4</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>4</sup>z 
+  </td>
+
+  <td>
+    A<sub>77</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y 
+  </td>
+
+  <td>
+    xy 
+  </td>
+
+  <td>
+    A<sub>117</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>3</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>38</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>4</sup> 
+  </td>
+
+  <td>
+    xy<sup>4</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>78</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>6</sup> 
+  </td>
+
+  <td>
+    xz<sup>6</sup> 
+  </td>
+
+  <td>
+    A<sub>118</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>2</sup> 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>39</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup>z<sup>2</sup> 
+  </td>
+
+  <td>
+    A<sub>79</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>5</sup> 
+  </td>
+
+  <td>
+    xz<sup>5</sup> 
+  </td>
+
+  <td>
+    A<sub>119</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    A<sub>40</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    y<sup>3</sup>z 
+  </td>
+
+  <td>
+    xy<sup>3</sup>z 
+  </td>
+
+  <td>
+    x<sup>2</sup>y<sup>3</sup>z 
+  </td>
+
+  <td>
+    A<sub>80</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    z<sup>4</sup> 
+  </td>
+
+  <td>
+    xz<sup>4</sup> 
+  </td>
+
+  <td>
+    A<sub>120</sub> 
+  </td>
+
+  <td>
+    
+  </td>
+
+  <td>
+    1 
+  </td>
+
+ </tr>
+
+</table>
+
+<p>
+  Polynomial shapes can be used to describe a large class of shapes including the torus, the lemniscate, etc. For 
+ example, to declare a quartic surface requires that each of the coefficients (<em><code>A1 ... A35</code></em>) be 
+ placed in order into a single long vector of 35 terms. As an example let's define a torus the hard way. A Torus can be 
+ represented by the equation: <code>x<sup>4</sup> + y<sup>4</sup> + z<sup>4</sup> + 2 x<sup>2</sup> y<sup>2</sup> + 2 x<sup>2</sup> 
+ z<sup>2</sup> + 2 y<sup>2</sup> z<sup>2</sup> - 2 (r_02 + r_12) x<sup>2</sup> + 2 (r_02 - r_12) y<sup>2</sup> - 2 
+ (r_02 + r_12) z<sup>2</sup> + (r_02 - r_12)<sup>2</sup> = 0</code> 
+</p>
+
+<p>
+  Where r_0 is the major radius of the torus, the distance from the hole of the donut to the middle of the ring of 
+ the donut, and r_1 is the minor radius of the torus, the distance from the middle of the ring of the donut to the 
+ outer surface. The following object declaration is for a torus having major radius 6.3 minor radius 3.5 (Making the 
+ maximum width just under 20). 
+</p>
+
+<pre>
+  // Torus having major radius sqrt(40), minor radius sqrt(12)
+  quartic {
+    &lt; 1,   0,   0,   0,   2,   0,   0,   2,   0,
+   -104,   0,   0,   0,   0,   0,   0,   0,   0,
+      0,   0,   1,   0,   0,   2,   0,  56,   0,
+      0,   0,   0,   1,   0, -104,  0, 784 &gt;
+    sturm
+  }
+</pre>
+
+<p>
+  Poly, cubic and quartics are just like quadrics in that you do not have to understand one to use one. The file <code> 
+ shapesq.inc</code> has plenty of pre-defined quartics for you to play with. 
+</p>
+
+<p>
+  Polys use highly complex computations and will not always render perfectly. If the surface is not smooth, has 
+ dropouts, or extra random pixels, try using the optional keyword <code>sturm</code> in the definition. This will cause 
+ a slower but more accurate calculation method to be used. Usually, but not always, this will solve the problem. If 
+ sturm does not work, try rotating or translating the shape by some small amount. 
+</p>
+
+<p>
+  There are really so many different polynomial shapes, we cannot even begin to list or describe them all. We suggest 
+ you find a good reference or text book if you want to investigate the subject further. 
+</p>
+
+<h4><a name="s03_04_03_03">3.4.3.3 </a>Quadric</h4>
+<a name="s03_04_03_03_i1"><a name="quadric"></a><a name="s03_04_03_03_i2"><a name="quadric, keyword"></a><a name="s03_04_03_03_i3">
+<p>
+  The <code>quadric</code> object can produce shapes like paraboloids (dish shapes) and hyperboloids (saddle or 
+ hourglass shapes). It can also produce ellipsoids, spheres, cones, and cylinders but you should use the <code> sphere</code>, 
+ <code>cone</code>, and <code>cylinder</code> objects built into POV-Ray because they are faster than the quadric 
+ version. 
+</p>
+
+<p class="Note">
+  <strong>Note:</strong> do not confuse &quot;quaDRic&quot; with &quot;quaRTic&quot;. A quadric is a 2nd 
+ order polynomial while a quartic is 4th order. 
+</p>
+
+<p>
+  Quadrics render much faster and are less error-prone but produce less complex objects. The syntax is: 
+</p>
+
+<pre>
+QUADRIC:
+    quadric
+    {
+        &lt;A,B,C&gt;,&lt;D,E,F&gt;,&lt;G,H,I&gt;,J
+        [OBJECT_MODIFIERS...]
+    }
+</pre>
+
+<p>
+  Although the syntax actually will parse 3 vector expressions followed by a float, we traditionally have written the 
+ syntax as above where <em><code> A</code></em> through <em><code>J</code></em> are float expressions. These 10 float 
+ that define a surface of x, y, z points which satisfy the equation A x<sup>2</sup> + B y<sup>2</sup> + C z<sup>2</sup> 
+ + D xy + E xz + F yz + G x + H y + I z + J = 0 
+</p>
+
+<p>
+  Different values of <em><code>A, B, C, ... J</code></em> will give different shapes. If you take any three 
+ dimensional point and use its x, y and z coordinates in the above equation the answer will be 0 if the point is on the 
+ surface of the object. The answer will be negative if the point is inside the object and positive if the point is 
+ outside the object. Here are some examples: 
+</p>
+
+<table summary="Some quartic shapes" width="100%">
+ 
+ <tr>
+  
+  <td width="30%">
+    X<sup>2</sup> + Y<sup>2</sup> + Z<sup>2</sup> - 1 = 0 
+  </td>
+
+  <td width="70%">
+    Sphere 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    X<sup>2</sup> + Y<sup>2</sup> - 1 = 0 
+  </td>
+
+  <td>
+    Infinite cylinder along the Z axis 
+  </td>
+
+ </tr>
+
+ <tr>
+  
+  <td>
+    X<sup>2</sup> + Y<sup>2</sup> - Z<sup>2</sup> = 0 
+  </td>
+
+  <td>
+    Infinite cone along the Z axis 
+  </td>
+
+ </tr>
+
+</table>
+
+<p>
+  The easiest way to use these shapes is to include the standard file <code> shapes.inc</code> into your program. It 
+ contains several pre-defined quadrics and you can transform these pre-defined shapes (using translate, rotate and 
+ scale) into the ones you want. For a complete list, see the file <code> shapes.inc</code>. 
+</p>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_106.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_106.html">3.4.2 Finite Patch Primitives</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.4.3 Infinite Solid Primitives</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_108.html">3.4.4 Isosurface Object</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_108.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

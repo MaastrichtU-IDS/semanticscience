@@ -1,0 +1,85 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>PseudoBond Reader</TITLE>
+</head>
+<body>
+<h3>PseudoBond Reader <img src="pbreader.png" alt="PseudoBond Reader icon"></h3>
+<p>
+<a href="../../UsersGuide/pbpanel.html#pbdef">Pseudobonds</a>
+are lines drawn between atoms to signify connections other than standard bonds.
+<b>PseudoBond Reader</b> creates arbitrary pseudobonds by reading in a 
+text file that lists the pairs of atoms to be connected.
+Alternatively, if only a few pseudobonds need to be created, they can be
+added interactively as 
+<a href="../structuremeas/structuremeas.html#distances">distance
+monitors</a> (the distance labels can be turned off).
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>PseudoBond Reader</b>, a tool in the <b>Depiction</b> category.
+Starting <b>PseudoBond Reader</b> brings up a dialog for opening a
+user-created file of pseudobond information.
+Each line in the file describes one pseudobond and is of the form:
+<blockquote><tt>
+<i>atom1 atom2 [color [label_text]]</i>
+</tt></blockquote>
+where <i>atom1</i> and <i>atom2</i> are
+<a href="../../UsersGuide/midas/atom_spec.html#basic">atom specifications</a>
+narrow enough to identify single atoms.
+Square brackets enclose optional fields.
+Fields are separated by spaces, except that <i>label_text</i> can contain
+any number of spaces.  If a label is desired, a color must also be
+specified.  Colors can be specified by
+<a href="../../UsersGuide/colortables.html">name</a>
+or by <a href="../../UsersGuide/colortool.html#tkcode">Tk color code</a>.
+Examples of suitable lines of input:
+<pre>
+#0:1@ca #0:2@ca dodger blue this is "dodger blue"
+<br>:3@n #2:4@o #55ff88 a Tk code
+<br>#0:279.a@n #1:133.b@n red
+<br>:7@ca :8@ca
+</pre>
+The label for the first pseudobond in the example is
+<b>this is "dodger blue"</b>
+and the label for the second is <b>a Tk code</b>
+(the other two do not have labels).
+The label will be the same color as the corresponding pseudobond;
+label font and size can be set in the
+<a href="../../UsersGuide/preferences.html#Background"><b>Background</b>
+preferences</a>.
+</p><p>
+Pseudobonds generated with the same input file are placed into a single 
+<a href="../../UsersGuide/pbpanel.html#pbdef">group</a>.
+Pseudobond <b>group name</b>, <b>line width</b>,
+and default model numbers for the specified atoms can be supplied.
+If no group name is given, the pathname of the input file is used.
+A default model number is used only for lines of input in which
+it is not specified.
+Since groups can be treated collectively in terms of attributes,
+it may be convenient to generate different sets of pseudobonds
+with different input files (to yield distinct groups).
+If pseudobonds with the same group name already exist, the new pseudobonds
+can either be added to the group or used to replace its previous members
+(if <b>clear group...</b> is set to <b>true</b>).
+</p><p>
+Pseudobond group display and other attributes can be controlled with the
+<a href="../../UsersGuide/pbpanel.html"><b>PseudoBond Panel</b></a>.
+The attributes of an individual pseudobond can be changed by
+<a href="../../UsersGuide/selection.html">selecting</a> it and
+using the <a href="../../UsersGuide/inspection.html">
+<b>Selection Inspector</b></a>.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / May 2008</address>
+</body>
+</html>

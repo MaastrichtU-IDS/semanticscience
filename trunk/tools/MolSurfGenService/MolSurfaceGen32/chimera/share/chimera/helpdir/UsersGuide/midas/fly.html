@@ -1,0 +1,66 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>fly</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>fly</b>  [<i>master-frames</i>] &nbsp;<i>view1</i>&nbsp; 
+[[&nbsp;<i>frames1_2</i>]&nbsp;<i>view2</i>]
+[[&nbsp;<i>frames2_3</i>]&nbsp;<i>view3</i>] ... 
+[[&nbsp;<i>framesN-1_N</i>]&nbsp;<i>viewN</i>] </h3>
+<p>
+<b>Fly</b> uses cubic interpolation to smoothly traverse a series of positions 
+previously named and saved with <a href="savepos.html"><b>savepos</b></a>.
+The command <b><A href="reset.html">reset</A></b> can also interpolate
+between positions, but it only considers a pair of positions 
+(start and end) at a time, whereas
+<b>fly</b> can consider multiple positions and generate a path that 
+visits and leaves intermediate positions without discontinuities in motion.
+</p><p>
+A position includes model transformations, scale, and
+<a href="../clipping.html">clipping plane</a> positions.
+Saved positions are included in saved
+<a href="../sessions.html#sesdef">Chimera sessions</a>.
+</p><p>
+<b>Fly</b> starts abruptly at the first position, <i>view1</i>,
+then proceeds through the list of subsequent positions.
+The <i>master-frames</i> argument (default <b>1</b>) 
+is how many frames each "leg" of the journey (from one position to the next)
+should take, unless overridden by a frames argument specific to that leg.
+<a name="examples">Examples</a>:
+<blockquote><b>
+fly p1 p2 p3
+</b></blockquote>
+- go from p1 to p2 in 1 frame and then to p3 in 1 frame
+<blockquote><b>
+fly 50 p1 p2 p3
+</b></blockquote>
+- go from p1 to p2 in 50 frames and then to p3 in 50 frames
+<blockquote><b>
+fly p1 10 p2 25 p3
+</b></blockquote>
+- go from p1 to p2 in 10 frames and then to p3 in 25 frames
+<blockquote><b>
+fly 40 p1 100 p2 p3
+</b></blockquote>
+- go from p1 to p2 in 100 frames and then to p3 in 40 frames
+</p><p>
+See also:
+<b><A href="reset.html">reset</A></b>,
+<b><A href="savepos.html">savepos</A></b>,
+<a href="../movies.html#moviecommands">movie-related commands</a>
+</p>
+</body></html>

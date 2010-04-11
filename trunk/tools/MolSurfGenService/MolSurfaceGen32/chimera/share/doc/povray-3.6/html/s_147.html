@@ -1,0 +1,204 @@
+
+<!--  This file copyright Persistence of Vision Raytracer Pty. Ltd. 2003-2004  -->
+<html> 
+<head>
+  
+<!--  NOTE: In order to users to help find information about POV-Ray using  -->
+ 
+<!--  web search engines, we ask you to *not* let them index documentation  -->
+ 
+<!--  mirrors because effectively, when searching, users will get hundreds  -->
+ 
+<!--  of results containing the same information! For this reason, the two  -->
+ 
+<!--  meta tags below disable archiving and indexing of this page by all  -->
+ 
+<!--  search engines that support these meta tags.  -->
+ 
+ <meta content="noarchive" name="robots">
+   
+ <meta content="noindex" name="robots">
+   
+ <meta content="no-cache" http-equiv="Pragma">
+   
+ <meta content="0" http-equiv="expires">
+   
+<title>3.7.16 strings.inc</title>
+ <link href="povray35.css" rel="stylesheet" type="text/css"> 
+</head>
+ <body> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_146.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_146.html">3.7.15 stdinc.inc</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong class="NavBar">POV-Ray 3.6 for UNIX documentation</strong><br> <strong>3.7.16 
+   strings.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_148.html">3.7.17 textures.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_148.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ 
+<h3><a name="s03_07_16">3.7.16 </a>strings.inc</h3>
+
+<p>
+  This include contains macros for manipulating and generating text strings.<a name="s03_07_16_i1"><a name="CRGBStr"></a> 
+ 
+</p>
+
+<p>
+  <code>CRGBStr(C, MinLen, Padding)</code> and <code>CRGBFTStr(C, MinLen, Padding)</code><br> These macros convert a 
+ color to a string. The format of the output string is &quot;rgb &lt; R, G, B&gt;&quot; or &quot;rgbft &lt; R, G, B, F, 
+ T&gt;&quot;, depending on the macro being called.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>C</code> = The color to be turned into a string. 
+ </li>
+
+ <li>
+   <code>MinLen</code> = The minimum length of the individual components, analogous to the second parameter of 
+  str(). 
+ </li>
+
+ <li>
+   <code>Padding</code> = The padding to use for the components, see the third parameter of the str() function for 
+  details. 
+ </li>
+
+</ul>
+<a name="s03_07_16_i2"><a name="Str, strings.inc"></a>
+<p>
+  <code>Str(A)</code>. This macro creates a string containing a float with the systems default precision. It is a 
+ shortcut for using the str() function.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>A</code> = The float to be converted to a string. 
+ </li>
+
+</ul>
+<a name="s03_07_16_i3"><a name="Vstr, strings.inc"></a><a name="s03_07_16_i4"><a name="VStr2D, short form"></a>
+<p>
+  <code>VStr2D(V), VStr(V)</code>. These macros create strings containing vectors using POV syntax (&lt;X,Y,Z&gt;) 
+ with the default system precision. VStr2D() works with 2D vectors, VStr() with 3D vectors. They are shortcuts for 
+ using the <code>vstr()</code> function.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = The vector to be converted to a string. 
+ </li>
+
+</ul>
+<a name="s03_07_16_i5"><a name="Vstr2D, long form"></a>
+<p>
+  <code>Vstr2D(V,L,P), Vstr(V,L,P)</code>. These macros create strings containing vectors using POV syntax 
+ (&lt;X,Y,Z&gt;) with user specified precision. Vstr2D() works with 2D vectors, Vstr() with 3D vectors. They are 
+ shortcuts for using the vstr() function. The function of L and P is the same as in <code>vstr</code> specified in <a href="s_97.html#s03_02_01_07_03">String 
+ Functions</a>.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>V</code> = The vector to be converted to a string. 
+ </li>
+
+ <li>
+   <code>L</code> = Minimum length of the string and the type of left padding used if the string's representation is 
+  shorter than the minimum. 
+ </li>
+
+ <li>
+   <code>P</code> = Number of digits after the decimal point.&quot; 
+ </li>
+
+</ul>
+<a name="s03_07_16_i6"><a name="Triangle_Str"></a>
+<p>
+  <code>Triangle_Str(A, B, C)</code> and <code>Smooth_Triangle_Str(A, NA, B, NB, C, NC)</code><br> These macros take 
+ vertex and normal information and return a string representing a triangle in POV-Ray syntax. They are mainly useful 
+ for generating mesh files.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>A, B, C</code> = Triangle vertex points. 
+ </li>
+
+ <li>
+   <code>NA, NB, NC</code> = Triangle vertex normals (Smooth_Triangle_Str() only). 
+ </li>
+
+</ul>
+<a name="s03_07_16_i7"><a name="Parse_String"></a>
+<p>
+  <code>Parse_String(String)</code>. This macro takes a string, writes it to a file, and then includes that file. 
+ This has the effect of parsing that string: &quot;<code>Parse_String(&quot;MyColor&quot;)</code>&quot; will be seen by 
+ POV-Ray as &quot;<code>MyColor</code>&quot;.<br> Parameters: 
+</p>
+
+<ul>
+ 
+ <li>
+   <code>String</code> = The string to be parsed. 
+ </li>
+
+</ul>
+ <br> 
+<table class="NavBar" width="100%">
+  
+ <tr>
+   
+  <td align="left" nowrap="" valign="middle" width="32">
+    <a href="s_146.html"><img alt="previous" border="0" src="prev.png"></a> 
+   
+  </td>
+   
+  <td align="left" valign="middle" width="30%">
+    <a href="s_146.html">3.7.15 stdinc.inc</a> 
+  </td>
+   
+  <td align="center" valign="middle">
+    <strong>3.7.16 strings.inc</strong> 
+  </td>
+   
+  <td align="right" valign="middle" width="30%">
+    <a href="s_148.html">3.7.17 textures.inc</a> 
+  </td>
+   
+  <td align="right" nowrap="" valign="middle" width="32">
+    <a href="s_148.html"><img alt="next" border="0" src="next.png"></a> 
+   
+  </td>
+   
+ </tr>
+  
+</table>
+ </body> </html>

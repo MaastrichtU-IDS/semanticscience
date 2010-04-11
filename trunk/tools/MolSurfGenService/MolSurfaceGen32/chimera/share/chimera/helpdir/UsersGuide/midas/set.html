@@ -1,0 +1,193 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>set, unset</title>
+<style type="text/css">
+A.nounder:link {text-decoration: none}
+A.nounder:visited {text-decoration: none}
+A.nounder:active {text-decoration: none}
+A.nounder:hover {text-decoration: underline; color: red;}
+</style>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<a name="top"></a>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>set</b> <i>keyword</i> <i>value</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>set</b><i> keyword</i></h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <br>( <b>~set</b> | unset ) <i>keyword</i></h3>
+<p>
+There are two types of <b>set</b> options, 
+those which assign user-specified values
+and those which act as on/off toggles.
+<ul>
+<li>For value settings, <b>set</b> <i>keyword value</i> assigns the value.
+<!--
+   <ul>
+   <li><a href="#bgcolor"><b>bg_color</b></a>
+   <li><a href="#dccolor"><b>dc_color</b></a>
+   <li><a href="#dcstart"><b>dc_start</b></a>
+   <li><a href="#dcend"><b>dc_end</b></a>
+   <li><a href="#light_quality"><b>light_quality</b></a>
+   <li><a href="#projection"><b>projection</b></a>
+   <li><a href="#silhouettecolor"><b>silhouette_color</b></a>
+   <li><a href="#silhouettewidth"><b>silhouette_width</b></a>
+   <li><a href="#subdivision"><b>subdivision</b></a>
+   </ul>
+-->
+<li>For toggle settings, <b>set</b> <i>keyword</i> enables the option and
+<b>~set</b> <i>keyword</i> or <b>unset</b> <i>keyword</i> disables it.
+<!--
+   <ul>
+   <li><a href="#autocolor"><b>autocolor</b></a>
+   <li><a href="#depthcue"><b>depth_cue</b></a>
+   <li><a href="#independent"><b>independent</b></a>
+   <li><a href="#silhouette"><b>silhouette</b></a>
+   </ul>
+-->
+</ul>
+See also: <b><A href="preset.html">preset</A></b>,
+<a href="linewidth.html"><b>linewidth</b></a>,
+<a href="setattr.html"><b>setattr</b></a>,
+<a href="../sideview.html#effects"><b>Effects</b></a>,
+<a href="../print.html#tips">tips on preparing images</a>,
+<a href="../movies.html#moviecommands">movie-related commands</a>
+</p> 
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="autocolor"><b>set autocolor</b></a>
+<blockquote>
+Whether to give each newly opened model a different color; 
+same as <b>use new color...</b> in the
+<a href="../preferences.html#New Molecules"><b>New Molecules</b>
+preferences</a>.
+<br>
+See also: <b><A href="modelcolor.html">modelcolor</A></b>
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="bgcolor"><b>set bg_color</b></a> <i>color</i>
+<blockquote>
+Sets the <a href="../chimerawindow.html#bg_color">background color</a>; 
+<i>color</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a>
+that specifies a single color.  Any transparency in the color will be ignored.
+Example: <b>set bg_color white</b>
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="depthcue"><b>set depth_cue</b></a>
+<blockquote>
+Whether to use <a href="../sideview.html#dc">depth-cueing</a>,
+front-to-back shading of the scene.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="dccolor"><b>set dc_color</b></a> <i>color</i>
+<blockquote>
+Sets the depth-cueing color; <i>color</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a>
+that specifies a single color.  Any transparency in the color will be ignored.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="dcstart"><b>set dc_start</b></a> <i>start</i>
+<br>
+<a href="#top" class="nounder">&bull;</a>
+<a name="dcend"><b>set dc_end</b></a> <i>end</i>
+<blockquote>
+Set the position of the depth-cueing ramp.
+Depth-cueing shading increases linearly from <i>start</i> to <i>end</i>,
+each expressed as a position relative to the front (0.0) and 
+back (1.0) <a href="../clipping.html#global">global clipping planes</a>. 
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="independent"><b>set independent</b></a>
+<blockquote>
+Whether to rotate models about their individual centers or a single
+collective center; <b>set independent</b> changes the
+<a href="../sideview.html#rotation">center of rotation method</a> to
+<b>independent</b> while <b>~set independent</b> changes the
+<a href="../sideview.html#rotation">center of rotation method</a> to
+<b>front center</b>.
+<br>
+See also: <b><A href="cofr.html">cofr</A></b>,
+<b><A href="focus.html">focus</A></b>,
+<b><A href="tile.html">tile</A></b>,
+<a href="../sideview.html#rotation"><b>Rotation</b></a>
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="light_quality"><b>set light_quality</b></a> <i>mode</i>
+<blockquote>
+Which <i>mode</i> of <a href="../sideview.html#basiclight">lighting</a> 
+to use, <b>normal</b> or <b>glossy</b>.
+The glossy setting uses an Open GL shader to provide per-pixel lighting, 
+which gives a glossy appearance, and angle-dependent transparency.
+Glossy lighting may not be supported by the graphics driver;
+Mac users should be aware that on a given machine, glossy lighting
+may be available in the Aqua version of Chimera but not the X11 version.
+With normal lighting,
+specular highlights are only calculated at triangle vertices and
+linearly interpolated across triangles, and transparent triangles do
+not appear more opaque when viewed edge-on as compared to face-on.
+<br>
+See also:
+<a href="../sideview.html#lighting"><b>Lighting</b></a>,
+<a href="../sideview.html#shininess"><b>Shininess</b></a>
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="projection"><b>set projection</b></a> <i>mode</i>
+<blockquote>
+Which <i>mode</i> of 
+<a href="../sideview.html#projection">projection</a> to use:
+<b>perspective</b>, which makes farther-away objects smaller, 
+or <b>orthographic</b>, which does not.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="silhouette"><b>set silhouette</b></a>
+<blockquote>
+Whether to show <a href="../sideview.html#silhouette">silhouette
+edges</a>, outlines that emphasize borders and discontinuities.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="silhouettecolor"><b>set silhouette_color</b></a> <i>color</i>
+<blockquote>
+Sets the color of silhouette edges; <i>color</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a> that specifies a single color.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="silhouettewidth"><b>silhouette_width</b></a> <i>linewidth</i>
+<blockquote>
+Sets the linewidth of silhouette edges.
+</blockquote>
+
+<a href="#top" class="nounder">&bull;</a>
+<a name="subdivision"><b>set subdivision</b></a> <i>value</i>
+<blockquote>
+Sets <a href="../sideview.html#subqual">subdivision quality</a>, where
+a higher value increases the apparent smoothness of stick, ball-and-stick, 
+sphere, and ribbon 
+<a href="../representation.html">representations</a> by increasing
+how many planar facets are used to approximate them.
+</blockquote>
+
+</body></html>

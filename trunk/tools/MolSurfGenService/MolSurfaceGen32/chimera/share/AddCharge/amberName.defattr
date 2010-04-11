@@ -1,0 +1,356 @@
+attribute: amberName
+
+recipient: residues
+
+# start out by assigning most residues their own names as a default
+
+# ... standard amino acids
+
+	:ALA	ALA
+
+	:ARG	ARG
+
+	:ASN	ASN
+
+	:ASP	ASP
+
+	:CYS	CYS
+
+	:GLN	GLN
+
+	:GLU	GLU
+
+	:GLY	GLY
+
+	:HID	HID
+	:HIE	HIE
+	:HIP	HIP
+
+	:ILE	ILE
+
+	:LEU	LEU
+
+	:LYS	LYS
+
+	:MET	MET
+
+	:PHE	PHE
+
+	:PRO	PRO
+
+	:SER	SER
+
+	:THR	THR
+
+	:TRP	TRP
+
+	:TYR	TYR
+
+	:VAL	VAL
+
+# ... modified/non-standard amino acids
+
+	:NME	NME
+
+	:NHE	NHE
+
+	:ACE	ACE
+
+# ... nucleic acids, defaulting to DNA name, since it is easier to
+
+# select RNA later to override the name
+
+	:A	DA
+	:RA	RA
+	:RA3	RA3
+	:RA5	RA5
+	:DA3	DA3
+	:DA5	DA5
+
+	:C	DC
+	:RC	RC
+	:RC3	RC3
+	:RC5	RC5
+	:DC3	DC3
+	:DC5	DC5
+
+	:G	DG
+	:RG	RG
+	:RG3	RG3
+	:RG5	RG5
+	:DG3	DG3
+	:DG5	DG5
+
+	:T	DT
+	:DT	DT
+	:DT3	DT3
+	:DT5	DT5
+
+	:U	RU
+	:RU	RU
+	:RU3	RU3
+	:RU5	RU5
+
+	:DA	DA
+
+	:DC	DC
+
+	:DG	DG
+
+	:DT	DT
+
+# ... misc
+
+	:.water	HOH
+# some PDBs have waters with actual chain IDs; catch those
+	:HOH	HOH
+	:DOD	HOH
+
+# find RNA and override name
+
+	:A@o2'	RA
+
+	:C@o2'	RC
+
+	:G@o2'	RG
+
+# histidine protonation states
+
+	:HI?@hd1	HID
+	:HI?@dd1	HID
+	:HI?@td1	HID
+
+	:HI?@he2	HIE
+	:HI?@de2	HIE
+	:HI?@te2	HIE
+
+	:/amberName="HIE"@hd1	HIP
+	:/amberName="HIE"@dd1	HIP
+	:/amberName="HIE"@td1	HIP
+
+# di-sulfide CYS
+
+	:CY? & disulfide	CYX
+
+# negative CYS
+
+	:/amberName="CYS"	CYM
+
+	:CYS@hg	CYS
+
+# protonated aspartic/glutamic acid
+
+	:AS?@od? & @/idatmType=O3	ASH
+
+	:GL?@oe? & @/idatmType=O3	GLH
+
+# neutral lysine
+
+	:LY?@nz  & @/idatmType=N3	LYN
+
+# chain-terminal variants
+
+	:/amberName=ALA @oxt	CALA
+
+	:/amberName=ARG @oxt	CARG
+
+	:/amberName=ASH @oxt	CASH
+
+	:/amberName=ASN @oxt	CASN
+
+	:/amberName=ASP @oxt	CASP
+
+	:/amberName=CYM @oxt	CCYM
+
+	:/amberName=CYS @oxt	CCYS
+
+	:/amberName=CYX @oxt	CCYX
+
+	:/amberName=GLH @oxt	CGLH
+
+	:/amberName=GLN @oxt	CGLN
+
+	:/amberName=GLU @oxt	CGLU
+
+	:/amberName=GLY @oxt	CGLY
+
+	:/amberName=HID @oxt	CHID
+
+	:/amberName=HIE @oxt	CHIE
+
+	:/amberName=HIP @oxt	CHIP
+
+	:/amberName=ILE @oxt	CILE
+
+	:/amberName=LEU @oxt	CLEU
+
+	:/amberName=LYN @oxt	CLYN
+
+	:/amberName=LYS @oxt	CLYS
+
+	:/amberName=MET @oxt	CMET
+
+	:/amberName=PHE @oxt	CPHE
+
+	:/amberName=PRO @oxt	CPRO
+
+	:/amberName=SER @oxt	CSER
+
+	:/amberName=THR @oxt	CTHR
+
+	:/amberName=TRP @oxt	CTRP
+
+	:/amberName=TYR @oxt	CTYR
+
+	:/amberName=VAL @oxt	CVAL
+
+	:/amberName=ALA @N & @/idatmType=N3+	NALA
+
+	:/amberName=ARG @N & @/idatmType=N3+	NARG
+
+	:/amberName=ASH @N & @/idatmType=N3+	NASH
+
+	:/amberName=ASN @N & @/idatmType=N3+	NASN
+
+	:/amberName=ASP @N & @/idatmType=N3+	NASP
+
+	:/amberName=CYM @N & @/idatmType=N3+	NCYM
+
+	:/amberName=CYS @N & @/idatmType=N3+	NCYS
+
+	:/amberName=CYX @N & @/idatmType=N3+	NCYX
+
+	:/amberName=GLH @N & @/idatmType=N3+	NGLH
+
+	:/amberName=GLN @N & @/idatmType=N3+	NGLN
+
+	:/amberName=GLU @N & @/idatmType=N3+	NGLU
+
+	:/amberName=GLY @N & @/idatmType=N3+	NGLY
+
+	:/amberName=HID @N & @/idatmType=N3+	NHID
+
+	:/amberName=HIE @N & @/idatmType=N3+	NHIE
+
+	:/amberName=HIP @N & @/idatmType=N3+	NHIP
+
+	:/amberName=ILE @N & @/idatmType=N3+	NILE
+
+	:/amberName=LEU @N & @/idatmType=N3+	NLEU
+
+	:/amberName=LYN @N & @/idatmType=N3+	NLYN
+
+	:/amberName=LYS @N & @/idatmType=N3+	NLYS
+
+	:/amberName=MET @N & @/idatmType=N3+	NMET
+
+	:/amberName=PHE @N & @/idatmType=N3+	NPHE
+
+	:/amberName=PRO @N & @/idatmType=N3+	NPRO
+
+	:/amberName=SER @N & @/idatmType=N3+	NSER
+
+	:/amberName=THR @N & @/idatmType=N3+	NTHR
+
+	:/amberName=TRP @N & @/idatmType=N3+	NTRP
+
+	:/amberName=TYR @N & @/idatmType=N3+	NTYR
+
+	:/amberName=VAL @N & @/idatmType=N3+	NVAL
+
+	:/amberName="DA"@h3t	DA3
+
+	:/amberName="DC"@h3t	DC3
+
+	:/amberName="DG"@h3t	DG3
+
+	:/amberName="DT"@h3t	DT3
+
+	:/amberName="RA"@h3t	RA3
+
+	:/amberName="RC"@h3t	RC3
+
+	:/amberName="RG"@h3t	RG3
+
+	:/amberName="RU"@h3t	RU3
+
+	:/amberName="DA"@h5t	DA5
+
+	:/amberName="DC"@h5t	DC5
+
+	:/amberName="DG"@h5t	DG5
+
+	:/amberName="DT"@h5t	DT5
+
+	:/amberName="RA"@h5t	RA5
+
+	:/amberName="RC"@h5t	RC5
+
+	:/amberName="RG"@h5t	RG5
+
+	:/amberName="RU"@h5t	RU5
+
+	:/amberName="DA5"@h3t	DAN
+
+	:/amberName="DC5"@h3t	DCN
+
+	:/amberName="DG5"@h3t	DGN
+
+	:/amberName="DT5"@h3t	DTN
+
+	:/amberName="RA5"@h3t	RAN
+
+	:/amberName="RC5"@h3t	RCN
+
+	:/amberName="RG5"@h3t	RGN
+
+	:/amberName="RU5"@h3t	RUN
+
+	:/amberName="DA"@ho3'	DA3
+
+	:/amberName="DC"@ho3'	DC3
+
+	:/amberName="DG"@ho3'	DG3
+
+	:/amberName="DT"@ho3'	DT3
+
+	:/amberName="RA"@ho3'	RA3
+
+	:/amberName="RC"@ho3'	RC3
+
+	:/amberName="RG"@ho3'	RG3
+
+	:/amberName="RU"@ho3'	RU3
+
+	:/amberName="DA"@ho5'	DA5
+
+	:/amberName="DC"@ho5'	DC5
+
+	:/amberName="DG"@ho5'	DG5
+
+	:/amberName="DT"@ho5'	DT5
+
+	:/amberName="RA"@ho5'	RA5
+
+	:/amberName="RC"@ho5'	RC5
+
+	:/amberName="RG"@ho5'	RG5
+
+	:/amberName="RU"@ho5'	RU5
+
+	:/amberName="DA5"@ho3'	DAN
+
+	:/amberName="DC5"@ho3'	DCN
+
+	:/amberName="DG5"@ho3'	DGN
+
+	:/amberName="DT5"@ho3'	DTN
+
+	:/amberName="RA5"@ho3'	RAN
+
+	:/amberName="RC5"@ho3'	RCN
+
+	:/amberName="RG5"@ho3'	RGN
+
+	:/amberName="RU5"@ho3'	RUN
+

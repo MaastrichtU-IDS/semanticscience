@@ -1,0 +1,282 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2006-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>findclash</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>findclash</b>
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+ <a href="#options"><i>options</i></a></h3>
+<h3><a href="usageconventions.html">Usage</a>: <BR><b>~findclash</b></h3>
+<p>
+<b>Findclash</b> identifies interatomic clashes and contacts
+based on <a href="vdwrad.html">VDW radii</a> and user-specified criteria.
+It is the command-line implementation of
+<a href="../../ContributedSoftware/findclash/findclash.html">
+<b>Find Clashes/Contacts</b></a>.
+<a name="terminology">Terminology</a>:
+<ul>
+<li><b><i>clashes</b></i>
+- unfavorable interactions where atoms are too close together; close contacts
+<li><b><i>contacts</b></i>
+- all kinds of direct interactions:
+polar and nonpolar, favorable and unfavorable (including clashes)
+</ul>
+During <a href="#continuous">continuous monitoring</a>, 
+such interactions can be shown with 
+<a href="../selection.html">selection</a>, coloring,
+and <a href="../pbpanel.html#pbdef">pseudobonds</a>.
+Discontinuous monitoring additionally allows
+writing out results and assigning the largest 
+<a href="#overlap-def">overlap</a> per atom as an 
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attribute</a>
+named <b>overlap</b>.  The command <b>~findclash</b> removes any
+<a href="../pbpanel.html#pbdef">pseudobonds</a> that have
+been drawn to show the interactions and halts any continuous monitoring.
+</p><p>
+The <a name="overlap-def"><b><i>overlap</i></b></a>
+between two atoms is defined as the sum of their 
+<a href="vdwrad.html">VDW radii</a> minus the 
+distance between them and minus an <a href="#HBallowance">allowance</a>
+for potentially hydrogen-bonded pairs:
+  <blockquote>
+  <i>overlap<sub>ij</sub></i> = 
+  r<sub>VDW<i>i</i></sub> + r<sub>VDW<i>j</i></sub> 
+  &ndash; d<sub>ij</sub> &ndash; <i>allowance<sub>ij</sub></i>
+  </blockquote>
+</p>
+
+<a name="options">
+<h4>Options</h4>
+</a><p>
+Option keywords for <b>findclash</b> can be truncated to unique strings
+and their case does not matter.
+A vertical bar "|" designates mutually exclusive options, and
+default values are indicated with <b>bold</b>.
+Synonyms for true: True, 1.  Synonyms for false: False, 0.
+</p>
+<blockquote>
+  <tt><b>test</b> <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>|<b>other</b>|model|self</tt>
+  <br>Which interactions to find:
+  between the specified atoms and a second set of atoms (indicated by
+  <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>),
+  between the specified atoms and all other atoms 
+  (<b>other</b> or <b>others</b>, default), 
+  intra-model interactions between the specified atoms 
+  and all other atoms (<b>model</b>), 
+  or among the specified atoms (<b>self</b>).
+  If <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+  includes any spaces, it must be enclosed in single or double quote marks.
+</blockquote>
+<blockquote>
+  <tt><b>interSubmodel</b> true|<b>false</b></tt>
+  <br>Whether to look for interactions between
+  <a href="../modelpanel.html#multimodel">submodels</a> of the same model.
+</blockquote>
+<blockquote>
+  <tt><b>overlapCutoff</b> <i>cutoff</i></tt>
+    <br>
+Pairs of atoms with <a href="#overlap-def"><i>overlap</i></a>
+&ge; <i>cutoff</i> (default <b>0.6</b> &Aring;) will be identified.
+A larger positive <i>cutoff</i> restricts the results to more severe 
+clashes, whereas a negative <i>cutoff</i> can also identify 
+favorable contacts.
+<a name="recommended"></a>
+<ul>
+<li>For detecting <a href="#terminology"><b><i>clashes</i></b></a>, 
+a <i>cutoff</i> of 0.4-1.0 &Aring;
+and a hydrogen bond <a href="#HBallowance"><i>allowance</i></a>
+of 0.2-0.6 &Aring; are recommended.
+The <b>findclash</b> command defaults are the same as 
+the default clash criteria 
+in the <a href="../../ContributedSoftware/findclash/findclash.html">
+<b>Find Clashes/Contacts</b></a> graphical interface: 
+0.6 and 0.4 &Aring;, respectively.
+<br><br>
+<li>For detecting <a href="#terminology"><b><i>contacts</i></b></a>, negative
+<i>cutoff</i> values of 0.0-(&ndash;1.0) &Aring; are recommended
+along with a hydrogen bond <a href="#HBallowance"><i>allowance</i></a>
+of 0.0 &Aring;.  The default contact criteria in the
+<a href="../../ContributedSoftware/findclash/findclash.html">
+<b>Find Clashes/Contacts</b></a> graphical interface are
+&ndash;0.4 and 0.0 &Aring;, respectively.
+</ul>
+</blockquote>
+<blockquote>
+  <tt><a name="HBallowance"><b>hbondAllowance</b></a> <i>allowance</i></tt>
+  <br>
+An <i>allowance</i> &gt; 0 (default <b>0.4</b> &Aring)
+reflects the observation that atoms sharing a hydrogen bond can 
+favorably approach each other more closely than would be expected 
+from their <a href="vdwrad.html">VDW radii</a>.
+See <a href="#recommended">above</a> for suggested values.
+In the calculation of <a href="#overlap-def"><i>overlap</i></a>,
+the <i>allowance</i> is only subtracted for pairs comprised of
+a donor (or donor-borne hydrogen) and an acceptor.
+This is equivalent to using smaller radii to characterize hydrogen-bonding
+interactions (for example, see
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/9672047" target="_blank">Li 
+and Nussinov</a>, Proteins 32:111 (1998)).
+As in <a href="../../ContributedSoftware/findhbond/findhbond.html"><b>FindHBond</b></a>,
+possible donor groups are hydrogen-bearing nitrogen, oxygen, and sulfur atoms,
+and possible acceptor groups are nitrogen, oxygen, and sulfur atoms with a 
+lone pair.  
+</blockquote>
+<blockquote>
+  <tt><b>bondSeparation</b> <i>N</i></tt>
+  <br>Interactions between atoms that are &le; <i>N</i> bonds apart 
+  will be ignored (<i>N</i>=<b>4</b> by default).
+</blockquote>
+<blockquote>
+  <tt><b>ignoreIntraRes</b> <b>true</b>|false</tt>
+  <br>Whether to ignore interactions between atoms in the same residue.
+</blockquote>
+<blockquote>
+  <a name="continuous">
+  <tt><b>continuous</b> true|<b>false</b></tt></a>
+  <br>Whether to initiate continuous checking, which will continue until
+  the specified atoms are removed, or <b>~findclash</b> is used, or
+  <b>findclash</b> is used again without setting this option to <b>true</b>
+  (since <b>false</b> is the default).
+</blockquote>
+<blockquote>
+  <a name="select">
+  <tt><b>selectClashes</b> true|<b>false</b></tt></a>
+    <br>Whether to <a href="../selection.html">select</a>
+    the identified clash/contact atoms (and deselect all other atoms).
+</blockquote>
+<blockquote>
+  <a name="color">
+  <tt><b>colorClashes</b> true|<b>false</b></tt></a>
+    <br>Whether to color the identified clash/contact atoms
+    the <a href="#clashcolor"><b>clashColor</b></a> and the remaining atoms
+    the <a href="#nonclashcolor"><b>nonclashColor</b></a>.
+</blockquote>
+<blockquote>
+  <a name="clashcolor">
+  <tt><b>clashColor</b> <i>colorname</i></tt></a>
+    <br>Color to use for the identified clash/contact atoms 
+    when <a href="#color"><b>colorClashes</b></a> is <b>true</b>
+    (default <b>red</b>).  <i>Colorname</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a> 
+that specifies a single color.
+</blockquote>
+<blockquote>
+  <a name="nonclashcolor">
+  <tt><b>nonclashColor</b> <i>colorname</i></tt></a>
+    <br>Color to use for atoms other than the 
+    identified clash/contact atoms 
+    when <a href="#color"><b>colorClashes</b></a> is <b>true</b>
+    (default <b>none</b>, which removes per-atom
+    color assignments and reveals the
+    <a href="../hierarchy.html">model-level colors</a>).
+    <i>Colorname</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a> 
+that specifies a single color.
+</blockquote>
+<blockquote>
+  <a name="makepb">
+  <tt><b>makePseudobonds</b> <b>true</b>|false</tt></a>
+    <br>Whether to create <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    to show the identified interactions.
+    These pseudobonds can be removed with the command <b>~findclash</b>.
+    The <a href="../pbpanel.html"><b>PseudoBond Panel</b></a>
+    can also be used to close the pseudobond group
+    (named <b>contacts</b>) or alter its display.
+</blockquote>
+<blockquote>
+  <tt><b>pbColor</b> <i>colorname</i></tt>
+    <br>Color to use for the
+    <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    when <a href="#makepb"><b>makePseudobonds</b></a> is <b>true</b>
+    (default <b>yellow</b>).  <i>Colorname</i> can be <b>none</b> or
+any <a href="color.html#colorname">color name</a> 
+that specifies a single color.
+</blockquote>
+<blockquote>
+  <tt><b>lineWidth</b> <i>width</i></tt>
+    <br>Line width to use for the
+    <a href="../pbpanel.html#pbdef">pseudobonds</a>
+    when <a href="#makepb"><b>makePseudobonds</b></a> is <b>true</b>
+    (default <b>2.0</b> pixels).
+</blockquote>
+<blockquote>
+  <a name="setAttrs">
+  <tt><b>setAttrs</b> true|<b>false</b></tt></a>
+    <br>Whether to assign the largest <a href="#overlap-def">overlap</a>
+     per atom as an <a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attribute</a> named <b>overlap</b>.
+    Disallowed with <a href="#continuous">continuous monitoring</a>.
+</blockquote>
+<blockquote>
+  <tt><a name="saveFile"><b>saveFile</b> <i>file</i></a></tt>
+    <br>Whether to write contact/clash information to a file
+    (this option is <b>off</b> unless specified).
+    The information includes atom specifications
+    (see <a href="#namingStyle"><b>namingStyle</b></a>),
+    <a href="#overlap-def">overlaps</a>, 
+    and interatomic distances.
+    <i>File</i> is the output file name/pathname; if it includes spaces,
+    it must be enclosed in single or double quote marks.
+    If <i>file</i> is <b>browse</b> or <b>browser</b>, a 
+    <a href="../opensave.html">dialog</a> for saving the file will appear
+    (unless the word is enclosed in quotes, which would
+    generate an output file by that name).
+    Disallowed with <a href="#continuous">continuous monitoring</a>.
+</blockquote>
+<blockquote>
+  <tt><a name="log"><b>log</b> true|<b>false</b></a></tt>
+    <br>Whether to write contact/clash information (as described above for
+    <a href="#saveFile"><b>saveFile</b></a>) to the
+    <a href="../reply.html"><b>Reply Log</b></a>.
+    Disallowed with <a href="#continuous">continuous monitoring</a>.
+</blockquote>
+<blockquote>
+  <a name="namingStyle">
+  <tt><b>namingStyle</b> simple|command|serial</tt></a>
+    <br>How to describe atoms in contact/clash information written
+    to a <a href="#saveFile">file</a> or the <a href="#log">log</a>:
+    <ul>
+    <li><b>simple</b> - residue name, residue specifier, and atom name 
+    (for example, HIS 16.A ND1)
+    <li><b>command</b> or <b>command-line</b>
+    - <a href="atom_spec.html#basic">command-line specifier</a>
+   (for example, :16.A@ND1)
+    <li><b>serial</b> or <b>serialnumber</b> - atom serial number
+    (for example, 126)
+    </ul>
+    Model number will be included when multiple models are present.
+    If <b>namingStyle</b> is not supplied, the
+    <b>Atomspec display style</b> specified in the
+    <a href="../preferences.html#General"><b>General</b>
+    preferences</a> will be used.
+</blockquote>
+<blockquote>
+  <tt><a name="summary"><b>summary</b> <b>true</b>|false</a></tt>
+   <br>Whether to write the total number of interactions found to
+   the  <a href="../chimerawindow.html#statusline">status line</a> 
+   and <a href="../reply.html"><b>Reply Log</b></a>.
+</blockquote>
+See also:
+<a href="distance.html"><b>distance</b></a>,
+<a href="hbonds.html"><b>hbonds</b></a>,
+<a href="crystalcontacts.html"><b>crystalcontacts</b></a>,
+<a href="intersurf.html"><b>intersurf</b></a>,
+<a href="minimize.html"><b>minimize</b></a>,
+<A href="../../ContributedSoftware/findclash/findclash.html">
+<b>Find Clashes/Contacts</b></a>,
+the <A href="../pbpanel.html"><b>PseudoBond Panel</b></a>
+</p>
+</body></html>

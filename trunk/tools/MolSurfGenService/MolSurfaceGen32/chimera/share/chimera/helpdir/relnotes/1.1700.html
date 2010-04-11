@@ -1,0 +1,250 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<!-- vim:sw=2:
+>>> UCSF Chimera Copyright
+Copyright (c) 2000-2004 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+<<< UCSF Chimera Copyright
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" href="../chimera16.png" type="image/png">
+    <title>UCSF Chimera Version 1.0 Build 1700 Release Notes</title>
+  </head>
+
+  <body>
+    <p>
+    <img src="../titleChimera.png" width="370" height="55" alt="logo">
+    </p>
+
+<font size="-1">
+<a href="http://www.cgl.ucsf.edu/chimera/docs/relnotes.html">Release History</a>
+</font>
+
+    <h2>UCSF Chimera Version 1.0 Build 1700 Release Notes (27 March 2003)</h2>
+
+    <h3>
+      Changes from the <a href="1.1602.html">previous release</a>:
+    </h3>
+      <ul>
+	<li>Many menu changes, including:
+	<ul>
+	  <li><b>Select</b> menu: <b>Chain</b> and <b>Residue</b> added, <b>Draw Mode</b> removed.
+	  </li>
+	  <li><b>Actions</b> menu:
+	  <ul>
+	    <li><b>Atoms/Bonds</b>, <b>Ribbon</b>, and <b>Surface</b> each include hide/show and representation options.
+	    </li>
+	    <li><b>Color</b> targets made clearer and more apparent.
+	    </li>
+	    <li>New <b>Focus</b> action which adjusts the view and center of rotation to selection.
+	    </li>
+	  </ul>
+	  </li>
+	  <li>New <b>Tools</b> menu containing previous <b>Settings</b>, <b>Controllers</b>, and <b>Extensions</b>.
+	  </li>
+	  <li>New <b>Favorites</b> menu for frequently used tools.
+	  </li>
+	</ul>
+	</li>
+	<li>Exiting is faster.
+	</li>
+	<li><b>Tools Preferences</b> replaces the <b>Extension Manager</b>.
+	</li>
+	<li>New registered input type: SCOP domain file, automatically retrieved from the ASTRAL Compendium.
+	</li>
+	<li><b>Image Save</b> Panel (and the copy command) can write PNG and JPEG in addition to TIFF.
+	</li>
+	<li>Label font/size adjustable (<b>General Preferences</b>).
+	</li>
+	<li>Ribbon display changes:
+	<ul>
+	  <li>Ribbon display is distinct from ribbon representation.
+	  </li>
+	  <li>Sidechains are now connected to the ribbon representation (were previously often separated).
+	  </li>
+	</ul>
+	</li>
+	<li>Improve the opening of PDB files generated on a different platform.
+	</li>
+	<li>Tool changes:
+	<ul>
+	  <li><b>Camera</b> tool has new cross-eye, wall-eye, and VRex row stereo options.
+	  </li>
+	  <li><b>Model Panel</b> has "write PDB" function.
+	  </li>
+	  <li><b>Command Line</b> tool changes:
+	  <ul>
+	    <li>read command implemented.
+	    </li>
+	    <li>source scripts now update internal state correctly.
+	    </li>
+	    <li>New focus command acts like focus action.
+	    </li>
+	    <li>ribcolor command replaces rescolor.
+	    </li>
+	    <li>ribbon and ribrepr commands replace resrepr.
+	    </li>
+	  </ul>
+	  </li>
+	  <li><b>Multalign Viewer</b> new features:
+	  <ul>
+	    <li>Adjustable association criteria.
+	    </li>
+	    <li>Can write out RSF files.
+	    </li>
+	    <li>Can focus on structure residue(s).
+	    </li>
+	    <li>Settings changed to Preferences with Preference sections as separate menu entries.
+	    </li>
+	    <li>Save/restore with sessions.
+	    </li>
+	  </ul>
+	  </li>
+	  <li><b>Collaboratory Start Session</b> interface includes more information and options for control of the collaborative session and participants.
+	  </li>
+	  <li><code>collaboratoryHub -g</code> (GUI mode) works on Windows.
+	  </li>
+	  <li><b>Effects</b> tool:
+	  <ul>
+	    <li>Can now easily turn off depth cueing.
+	    </li>
+	    <li>Depth cue color defaults to black instead of background color.
+	    </li>
+	    <li>Can change subdivision quality for spheres and cylinders.
+	    </li>
+	  </ul>
+	  </li>
+	  <li><b>Volume Viewer</b> preferences can be saved (Save button in the <b>Options</b> panel).
+	  </li>
+	</ul>
+	</li>
+	<li><b>Open File</b> dialog should hang gracefully on slow/bad NFS directories.
+	</li>
+	<li>Fixed memory leak with Python wrapped C++ functions taking sequence arguments.
+	</li>
+	<li>Make work on SGIs when $CHIMERA is a symbolic link.
+	</li>
+	<li>Extensive documentation updates.
+	</li>
+      </ul>
+
+<h2>
+Known bugs:
+</h2>
+
+<p>
+<b>Wire bonds disappear on large PDB models on Mac.</b>
+Bonds in wire display mode appear correctly when a large model (eg 1aon)
+is first opened, but then many of them disappear when the model is moved.
+This is an OpenGL driver bug in Mac OS 10.2.6 that has been reported to
+Apple.
+</p>
+
+<p>
+<b>MSMS surface crashes on Mac.</b>
+MSMS molecular surfaces of large PDB models (eg 1lta, 6400 atoms) cause
+Chimera to crash on Mac OS.  The problem is caused by the default Mac
+stack size limit of 512 Kb.  This can be fixed by adding the line
+"ulimit -s 8192" to the Chimera.app/Contents/MacOS/chimera start-up
+script for the X11 Mac Chimera.  For the Aqua Chimera you can set
+a higher limit in a shell, and run Chimera from the shell instead
+of clicking on the icon.  The next Mac Chimera release increases the
+stack size on startup.
+</p>
+
+<p>
+<b>DelphiViewer data alignment error.</b>
+DelphiViewer displays potential data shifted by one voxel from the
+correct alignment.  This makes the coloring of MSMS or GRASP molecular
+surfaces using the potential incorrect.  VolumeViewer also displays the
+potential data (*.phi files) shifted by one voxel.  The DelphiViewer
+trilinear interpolation for surface coloring is also done incorrectly
+making colors correspond to positions as much as one voxel away.
+</p>
+
+<p>
+<b>Copy command makes strange image.</b>
+Use of the copy command when widgets are in front of the graphics window results in strange images.
+</p>
+
+<p>
+<b>Saving <small>JPEG</small>-format images unreliable.</b>
+Saving an image to <small>JPEG</small> format often fails.
+If you are saving to <small>JPEG</small> due to the large size
+of (uncompressed) <small>TIFF</small>-format images,
+try using <small>PNG</small> format instead [it has built-in compression].
+</p>
+
+<p>
+<b>Collaboratory hangs on multiprocessor IRIX.</b>
+</p>
+
+<p>
+<b>Mac OS 10.2.4 / Radeon 9000 system crash.</b>
+On Mac OS 10.2.4 with Radeon 9000 graphics Chimera sometimes
+causes a system crash when using the side view.  This is a graphics driver
+bug that has been fixed in Mac OS 10.2.5.
+The crash happens after opening PDB 1gcn with the side view up and
+switching to sphere representation.
+</p>
+
+<p>
+<b>Mac OS 10.2.4 / GeForce 4 Ti system crash.</b>
+On Mac OS 10.2.4 with GeForce 4 Ti graphics Chimera sometimes
+causes a system crash when showing large models.  This is a graphics driver
+bug that has been fixed in Mac OS 10.2.5.
+The crash happens after starting the Benchmark extension and making a standard
+surface model of size 200.
+</p>
+
+<p>
+<b>Partially displayed surfaces Linux / Nvidia.</b>
+On Linux with the nVidia 3123 driver MSMS surfaces and
+Volume Viewer isosurfaces are sometimes only partly displayed
+on GeForce 4 Ti and Quadro 4 graphics cards.  This is a bug in
+the nVidia 3123 driver.  The older 2880 driver and the newer
+4191 driver do not have this problem.  For volume isosurfaces,
+using a non-zero transparency works around the problem.
+</p>
+
+<p>
+<b>Missing selection outline with Mesa.</b>
+With Mesa 3.4.2 (softare OpenGL sometimes used on Linux and Mac)
+Chimera selections (atoms, bonds ...) do not show a green outline.
+The outline is black.  Also dragging a selection box with the
+mouse produces a black box instead of a green box.  This is a Mesa
+bug.  Setting Fill mode for selection highlighting in Preferences
+works around this problem.
+</p>
+
+<p>
+<b>Orphaned molecular surfaces.</b>
+A surface whose structure has been closed causes two problems:
+session saving fails; the model panel's attributes inspector
+for the surface will fail.
+</p>
+
+<p>
+<b>Command separator ";" bug</b>
+Multiple command-line commands separated by ';' may not work
+correctly (<i>e.g.</i> <code>open 1gcn; surface</code> 
+will not properly show a surface).
+</p>
+
+<p>
+<b>Bad atom types on Mac.</b>
+The mac distribution mistakenly includes an obsolete version of 
+the code that computes atom types.  In particular, it computes the
+atom type of carboxylate and nitro-group oxygens to be &quot;O-&quot;
+(an obsolete type)
+when they should be &quot;O2-&quot;.  This causes the FindHBond tool to
+fail to find hydrogen bonds involving carboxylates and nitro groups.
+</p>
+
+  </body>
+</html>

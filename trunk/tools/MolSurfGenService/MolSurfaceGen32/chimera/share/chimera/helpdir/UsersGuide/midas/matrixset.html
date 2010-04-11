@@ -1,0 +1,57 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2006 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>matrixget, matrixset</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>matrixget</b> [ <i>filename</i> ] </h3>
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>matrixset</b> [ <i>filename</i> ] </h3>
+<p>
+<b>Matrixget</b> writes the current transformation matrices
+to a file named <i>filename</i>.  
+<b>Matrixset</b> reads matrices from the file named <i>filename</i> 
+(in the format written by <b>matrixget</b>)
+and applies transformations accordingly.
+If <i>filename</i> is omitted, a <a href="../opensave.html">dialog</a>
+for specifying the name and location will appear.
+For <b>matrixget</b> only, if a single dash is used as the <i>filename</i>,
+the matrix information will be sent to the <a href="../reply.html"><b>Reply
+Log</b></a>.
+</p><p>
+Each matrix is of the form
+<pre>
+Model 0.0
+	0.688816 0.672651 -0.270321 -3.40168
+	0.327689 0.0437142 0.943774 1.87208
+	0.646647 -0.738668 -0.190309 11.6143
+</pre>
+where the first line indicates <i>model.submodel</i> number
+(with submodel number of zero for models not subdivided into 
+<a href="atom_spec.html#subcats">submodels</a>).
+The next three lines begin with tabs and contain a 3x3 rotation matrix
+and (in the fourth column) a translation vector.  Scale is not specified.
+</p><p>
+When multiple models are present, multiple matrices will be written to/read
+from the same file.  An error message will appear
+if there is no model present for one or more of the
+matrices read with <b>matrixset</b>.
+</p><p>
+See also:
+<b><A href="matrixcopy.html">matrixcopy</A></b>,
+<a href="measure.html#rotation"><b>measure rotation</b></a>,
+<b><A href="reset.html">reset</A></b></p>
+</body></html>

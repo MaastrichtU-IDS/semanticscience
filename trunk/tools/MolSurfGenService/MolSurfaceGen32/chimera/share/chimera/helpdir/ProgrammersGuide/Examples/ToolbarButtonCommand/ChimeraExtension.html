@@ -1,0 +1,147 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ToolbarButtonCommand/ChimeraExtension.py"><i>ToolbarButtonCommand/ChimeraExtension.py</i></a></h2>
+<p>
+The initial code is the same as for the ToolbarButtonExtension example<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera.extension<br></font>
+<br>
+<font color="red">class MainChainEMO(chimera.extension.EMO):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">def name(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'Backbone'<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def description(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return 'display only protein backbone'<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def categories(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return ['Utilities']<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def icon(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">return self.path('mainchain.tiff')<br></font>
+</code>
+</dl>
+<code>
+<br>
+<font color="red">def activate(self):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">self.module().mainchain()<br></font>
+</code>
+</dl>
+</dl>
+<code>
+<br>
+<font color="red">chimera.extension.manager.registerExtension(MainChainEMO(__file__))<br></font>
+</code>
+<p>
+Here we define two functions, one to handle the &quot;mainchain&quot; command,
+and one to handle the &quot;~mainchain&quot; command.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def mainchainCmd(cmdName, args):<br></font>
+</code>
+<dl><dd>
+<p>
+Import the module's workhorse function.
+It is imported inside the function definition so that
+it does not slow down Chimera startup with extra imports
+in the main scope.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from ToolbarButtonCommand import mainchain<br></font>
+</code>
+<p>
+Import and use the Midas.midas_text doExtensionFunc procedure
+to process typed arguments and call the mainchain() function
+appropriately.  For a simple function like mainchain(), which
+takes no arguments, using doExtensionFunc is probably overkill.
+One could instead use the approach applied in the revMainchainCmd
+function below and simply test for the presence of any
+arguments (raising MidasError if any are found) and directly calling
+the mainchain() function otherwise.  As implemented here, using
+doExtensionFunc, if the user does provide arguments then
+doExtensionFunc will raise an error complaining that there
+were unknown keyword arguments supplied.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from Midas.midas_text import doExtensionFunc<br></font>
+<font color="red">doExtensionFunc(mainchain, args)<br></font>
+</code>
+</dl>
+<p>
+The function for &quot;~mainchain&quot;<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def revMainchainCmd(cmdName, args):<br></font>
+</code>
+<dl><dd>
+<p>
+We are going to implement ~mainchain as a synonym for &quot;display&quot;,
+so we import runCommand which simplifies doing that.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from chimera import runCommand<br></font>
+<font color="red">from Midas import MidasError<br></font>
+<font color="red">if args:<br></font>
+</code>
+<dl><dd>
+<p>
+Raising MidasError will cause the error message
+to show up in the status line as red text<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">raise MidasError("~mainchain takes no arguments")<br></font>
+</code>
+</dl>
+<p>
+runCommand takes any legal command-line command and executes it.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">runCommand("display")<br></font>
+</code>
+</dl>
+<p>
+Now actually register the &quot;mainchain&quot; command with the command interpreter
+by using addCommand().  The first argument is the command name and the
+second is the callback function for doing the work.  The <code>revFunc</code> keyword
+specifies the function to implement &quot;~mainchain&quot;.  The <code>help</code> keyword has
+been omitted, therefore no help will be provided.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from Midas.midas_text import addCommand<br></font>
+<font color="red">addCommand("mainchain", mainchainCmd, revFunc=revMainchainCmd)<br></font>
+</code>

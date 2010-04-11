@@ -1,0 +1,165 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Area/Volume from Web</TITLE>
+</head>
+<body>
+<h3>Area/Volume from Web <img src="surfvolicon.png"
+alt="Area/Volume icon"></h3>
+<p>
+<b>Area/Volume from Web</b> uses the 
+<a href="http://helixweb.nih.gov/structbio/basic.html" target="_blank">
+<b>StrucTools</b> server</a> to calculate atomic
+surface areas and Voronoi volumes from molecular coordinates.
+The calculated values are assigned as atom
+<a href="../defineattrib/defineattrib.html#attribdef">attributes</a>.
+See also: 
+<a href="../../UsersGuide/midas/surface.html"><b>surface</b></a>,
+<a href="../measurevol/measurevol.html"><b>Measure Volume and Area</b></a>
+</p><p>
+Note that when a
+<a href="../../UsersGuide/representation.html#surfaces">molecular
+surface</a> is generated in Chimera, 
+the total analytical solvent-accessible and
+solvent-excluded areas are automatically reported in the
+<a href="../../UsersGuide/reply.html"><b>Reply Log</b></a>,
+and the values per atom and residue are assigned as
+<a href="../defineattrib/defineattrib.html#attribdef">attributes</a>
+named <b>areaSAS</b> and <b>areaSES</b>.
+These values correspond directly to the molecular surface in Chimera
+and depend on the same parameters
+(<a href="../../UsersGuide/midas/vdwrad.html">VDW radii</a> and various
+<a href="../../UsersGuide/preferences.html#New Surfaces">molecular surface
+settings</a>).
+By contrast, only the settings in the <b>Area/Volume from Web</b>
+dialog are sent to the 
+<a href="http://helixweb.nih.gov/structbio/basic.html" target="_blank">
+<b>StrucTools</b> server</a>, and other parameters such as VDW radii
+are determined solely by the process underlying the server.
+</p><p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Area/Volume from Web</b>, a tool in the 
+<b>Surface/Binding Analysis</b> category.  In the resulting dialog,
+<a name="chosen">one or more molecule models can be chosen from the
+<b>Molecules</b> list, or chains from the <b>Chains</b> list.</a>
+</p><p>
+Calculation options:
+<ul>
+<li><b>Accessible Surface (Gerstein)</b> 
+[<a href="http://helixweb.nih.gov/structbio/help.html#surfG" 
+target="_blank">details</a> at StrucTools]
+  <br><br>
+  <ul>
+  <li><b>Surface probe size</b> (1.3/<b>1.4</b>/1.5/1.6) 
+  <li><b>Atoms to use</b>
+  (No Hetatms/Atoms + Hetatms/<b>All atoms except waters</b>)
+  <br>*hydrogens are ignored
+  </ul>
+<br>
+generates atom attribute <b>accessibleSurface</b> (default name)
+  <br><br>
+<li><b>Surface Area (MSMS)</b>
+[<a href="http://helixweb.nih.gov/structbio/help.html#msms"
+target="_blank">details</a> at StrucTools]
+  <br><br>
+  <ul>
+  <li><b>Surface probe size</b> (1.3/1.4/<b>1.5</b>/1.6) 
+  <li><b>Atoms to use</b> 
+  (<b>No Hetatms</b>/Atoms + Hetatms/All atoms except waters)
+  </ul>
+<br>
+generates atom attributes with default names 
+<b>msmsArea_MS</b> (solvent-excluded surface area)
+and <b>msmsArea_SAS</b> (solvent-accessible surface area)
+  <br><br>
+<li><b>Voronoi Volume (Gerstein)</b>
+[<a href="http://helixweb.nih.gov/structbio/help.html#volG"
+target="_blank">details</a> at StrucTools]
+  <br><br>
+  <ul>
+  <li><b>Method</b> 
+  (Normal Voronoi/<b>Method B</b>/Radical Plane/Modified Method B)
+  <li><b>Radii</b> (<b>Chothia Radii</b>/Richards Radii)
+  <li><b>Atoms to use</b>
+  (<b>No Hetatms</b>/Atoms + Hetatms/All atoms except waters)
+  <br>*hydrogens are ignored
+  </ul>
+<br>
+generates atom attribute <b>voronoiVolume</b> (default name)
+</ul>
+Different attribute names can be specified, keeping in mind that
+an attribute name should be an alphanumeric string without spaces
+(although underscores are allowed),
+should not begin with a digit, underscore, or capital letter,
+and should not be the same as the name of a
+<a href="../../UsersGuide/midas/atom_spec.html#atprops">built-in attribute</a>.
+</p><p>
+Further options:
+<ul>
+<li> <b>Open Render/Select by Attribute</b>
+- whether to start
+<a href="../render/render.html"><b>Render/Select by Attribute</b></a>
+after assigning attribute values.  Even when this option is off,
+the attribute(s) will be available within the
+<A href="../render/render.html"><b>Render/Select
+by Attribute</b></a> tool if it is opened later in the session.
+This tool allows attributes to be displayed (with colors, for example) and
+saved to an <a href="../defineattrib/defineattrib.html#attrfile">assignment 
+file</a> for later use.
+<li> <b>Save server output to file</b> - whether to
+save the HTML output from the server as a file
+<li> <b>Show server output in browser</b> - whether to
+show the HTML output in a browser window
+</ul>
+<b>OK</b> initiates the calculation and dismisses the dialog, 
+whereas <b>Apply</b>
+initiates the calculation without dismissing the dialog.
+<b>Close</b> dismisses the dialog, and
+<b>Help</b> opens this manual page in a browser window. 
+</p><p>
+The transformed coordinates of atoms in the <a href="#chosen">chosen</a>
+model(s) or chain(s) are sent to the <b>StrucTools</b> server, where they  
+are handled collectively.  For example, if proteins in
+two different models are positioned to form a complex, the results obtained
+for each protein when both models are chosen
+will differ from the results obtained for each protein separately.
+The coordinates will include modifications made in Chimera, such as 
+<a href="../structuremeas/structuremeas.html#adjust">bond rotations</a>.
+However, other inputs such as atomic and probe radii 
+are determined only by the server and the settings in the 
+<b>Area/Volume from Web</b> dialog.  The 
+<a href="../../UsersGuide/midas/vdwrad.html">atomic radii</a> and
+<a href="../../UsersGuide/preferences.html#New Surfaces">molecular surface
+settings</a> in Chimera are not used.
+</p><p>
+For each attribute,
+the atoms are assigned the values calculated by the server (surface area 
+in &Aring;<sup>2</sup>, volume in &Aring;<sup>3</sup>).
+The number of atoms assigned values is reported in the
+Chimera <a href="../../UsersGuide/reply.html"><b>Reply Log</b></a> and 
+<a href="../../UsersGuide/chimerawindow.html#statusline">status line</a>.
+When the output contains data for fewer atoms than were sent to the server,
+a warning message will report the number of "missing" values.  
+This is quite common and rarely a cause for concern; 
+for example, if the <b>No Hetatms</b> option is chosen,
+there will be no output for such atoms.
+Atoms missing from the server output will not be 
+assigned attribute values, and atoms with uncalculatable Voronoi volumes 
+will not be assigned a volume value.
+The atom attribute values can be summed with
+<a href="../calculator/calculator.html"><b>Attribute Calculator</b></a>
+to produce the corresponding residue and molecule model attributes.
+</p>
+<hr>
+<address>UCSF Computer Graphics Laboratory / February 2009</address>
+</body></html>

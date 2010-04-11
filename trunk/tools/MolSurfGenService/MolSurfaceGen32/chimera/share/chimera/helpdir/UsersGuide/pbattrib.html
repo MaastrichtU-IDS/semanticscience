@@ -1,0 +1,142 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2008 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Pseudobond Group Attributes</title>
+</head><body>
+<h2>Pseudobond Group Attributes</h2>
+<p>
+Once a group of <a href="pbpanel.html#pbdef">pseudobonds</a>
+has been chosen in the left
+side of the <a href="pbpanel.html"><b>PseudoBond Panel</b></a>, clicking
+the <b>attributes...</b> button in the right side of the panel brings up
+a window that shows and allows changes in pseudobond attribute values.
+</p><p>
+The list includes the attributes of the
+<a href="#group">pseudobond group</a>
+and selected attributes of its component
+<a href="#individual">pseudobonds</a>.
+A <a href="menu.html#tracedef">chain trace</a>
+is a <a href="#trace">special case</a> of a pseudobond group.
+Descriptions in the dialog are not necessarily identical to the
+<a href="midas/atom_spec.html#attrnames">attribute names</a>
+(used in the code and in various 
+<a href="framecommand.html" target="_top">commands</a>).
+</p>
+
+<h3><a name="group">PseudoBondGroup Attributes</a></h3>
+<ul>
+<li><b>color</b>
+(a <a href="coloring.html#colorwell">color well</a>)
+ - color at the pseudobond group level; see
+ <a href="hierarchy.html">coloring hierarchy</a>
+<li><b>changing group color removes individual colors</b> - whether changing
+ the group-level color (above) will change all pseudobonds in the group
+ to that color and erase memory of any individually assigned colors
+ (individually assigned colors override the group-level color;
+ see <a href="hierarchy.html">coloring hierarchy</a>)
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>displayed</b> - whether display is enabled at the pseudobond group level
+(see <a href="hierarchy.html#displevels">display hierarchy</a>)
+ <ul>
+ <li><b>false</b>
+ <li><b>true</b>
+ </ul>
+<li><b>line style</b> 
+- how to show pseudobonds in the
+<b>wire</b> <a href="drawmode.html">draw mode</a>:
+ <ul>
+ <li><b>&ndash;&ndash;&ndash;</b>
+ <li><b>&ndash;&nbsp;&ndash;</b> 
+ <li><b>&middot;&nbsp;&nbsp;&middot;</b>
+ <li><b>&ndash;&nbsp;&middot;</b>
+ <li><b>&ndash;&nbsp;&middot;&middot;</b>
+ </ul>
+<li><b>line width</b> - pixel width of
+ pseudobonds in the <b>wire</b> <a href="drawmode.html">draw mode</a>
+<li><a name="stickscale"><b>stick scale</b></a>
+ - scale factor for pseudobonds in the <b>stick</b>
+ <a href="drawmode.html">draw mode</a>.
+ The <b>stick scale</b> is multiplied by individual pseudobond radii
+ (default <b>0.2</b> angstroms) to generate stick radii in angstroms.
+</ul>
+
+<h3><a name="trace">ChainTrace Attributes</a></h3>
+<p>
+A <a href="menu.html#tracedef">chain trace</a>
+is a special case of a pseudobond group; it has the same
+attributes (listed <a href="#group">above</a>) as a generic group, plus:
+</p>
+<ul>
+<li><b>track molecule</b> - whether the chain trace attributes should
+ change accordingly when certain <a href="moleculeattrib.html">
+ attributes of the associated molecule model</a>
+ are changed (dashed line enabling, dash characteristics,
+ line width, stick scale, component bond style and halfbond mode)
+  <ul>
+  <li><b>false</b>
+  <li><b>true</b>
+  </ul>
+</ul>
+
+<h3><a name="individual">Component PseudoBond Attributes</a></h3>
+<p>
+Attributes of individual pseudobonds within a pseudobond group can be
+set independently.  When different pseudobonds within the group have different
+attribute values, the value is reported to be <b>--&nbsp;multiple&nbsp;--</b>.
+If one of the other options is chosen,
+all pseudobonds in the group will be changed accordingly.
+</p>
+<ul>
+<li><b>bond style</b> - pseudobond <a href="drawmode.html">draw mode</a>
+ <ul>
+ <li><b>--&nbsp;multiple&nbsp;--</b>
+ <li><b>wire</b>
+ <li><b>stick</b>
+ </ul>
+<li><b>color</b> (a <a href="coloring.html#colorwell">color well</a>)
+ - color at the individual pseudobond level; see
+ <a href="hierarchy.html">coloring hierarchy</a>.
+ Note that the color assigned to the pseudobond will only be visible
+ when <b>halfbond mode</b> is off;
+ when <b>halfbond mode</b> is on, the color of each half of the pseudobond
+ matches the visible color of the flanking atom.
+<li><b>displayed</b> - whether display is enabled at the individual
+ pseudobond level
+(see <a href="hierarchy.html#displevels">display hierarchy</a>)
+ <ul>
+ <li><b>--&nbsp;multiple&nbsp;--</b>
+ <li><b>true</b>
+ <li><b>false</b>
+ <li><b>if atoms shown</b> (dependent on the display of the flanking atoms;
+  when <b>halfbond mode</b> is on, each half will be displayed if the
+  corresponding atom is displayed; when <b>halfbond mode</b> is off,
+  the pseudobond will be displayed only when both atoms are displayed)
+ </ul>
+<li><b>halfbond mode</b> - whether the two halves of a pseudobond are
+handled as separate entities; when <b>halfbond mode</b> is on,
+the color of each halfbond matches that of the attached atom.
+ <ul>
+ <li><b>--&nbsp;multiple&nbsp;--</b>
+ <li><b>on</b>
+ <li><b>off</b>
+ </ul>
+<li><b>label color</b> (a <a href="coloring.html#colorwell">color well</a>)
+ - if a label has no color of its own, it will inherit
+ the color of its associated pseudobond; see
+ <a href="hierarchy.html">coloring hierarchy</a>
+</ul>
+<hr>
+<address>UCSF Computer Graphics Laboratory / May 2008</address>
+</body></html>

@@ -1,0 +1,161 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2007 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html>
+<head>
+<TITLE>Flatten Icosahedron</TITLE>
+</head>
+<body>
+<h3>Flatten Icosahedron 
+<img src="flattenicon.png" alt="Flatten Icosahedron icon"></h3>
+<p>
+<b>Flatten Icosahedron</b> rearranges the faces of an icosahedral virus capsid 
+from <a href="../multiscale/framemulti.html" target="_top"><b>Multiscale 
+Models</b></a> into a plane.  This flat view can be 
+<a href="../../UsersGuide/print.html">saved as an image</a>,
+printed, and folded into a paper icosahedron model.
+</p>
+<table border="1" align="right" style="margin:8px 8px 8px 8px">
+<tr><td align=center><b>Dengue virus 1k4r</b></td>
+<td align=center><b>flattened</b><br>
+(<a href="1k4r_flat_large.png">larger version</a> suitable for printing)</td>
+<td align=center><b>folded paper model</b></td></tr>
+<tr><td><img src="1k4r.png"></td>
+<td><img src="1k4r_flat_mesh.png"></td>
+<td><img src="1k4r_paper.png"></td></tr>
+</table>
+<p>
+There are <a href="../../UsersGuide/extension.html">several ways to start</a>
+<b>Flatten Icosahedron</b>, a tool in the 
+<b>Higher-Order Structure</b> category.  
+</p><p>
+The capsid subunit coordinates should first be opened in Chimera 
+and the complete capsid generated with
+<a href="../multiscale/framemulti.html" target="_top"><b>Multiscale 
+Models</b></a> using 
+<b>Icosahedral symmetry, xyz 2-fold axes (VIPER)</b>.
+This is done automatically when a structure is
+<a href="../../UsersGuide/fetch.html">fetched</a> from the 
+<a href="http://viperdb.scripps.edu/" target="_blank">Virus
+Particle Explorer database</a> (VIPERdb) or a local
+<a href="../../UsersGuide/filetypes.html#viperdata">VIPER file</a> is read.
+This tool will not work on structures that are not multiscale models,
+even if they have the correct type of symmetry.
+All multiscale models present will be affected.
+</p><p>
+When <b>Flatten</b> is clicked, the twenty triangular faces
+of an icosahedral capsid are laid out in a plane.  The orientations 
+of the faces relative to the structure are assumed based on the
+<a href="#frame">known symmetry</a>. Each chain is associated with the
+triangular face whose center is closest to the geometric center of the chain.
+To generate the planar arrangement, a common rotation and translation are
+applied to all the chains of a given face.
+The chains and faces remain three-dimensional;
+each face is simply repositioned relative to the others.
+<b>Unflatten</b> reverses the process.  
+<b>Close</b> dismisses the <b>Flatten Icosahedron</b> dialog, 
+and <b>Help</b> opens this manual page in a browser window.
+<ul>
+<li>The <b>Radius</b> controls the spacing of faces in the plane.  
+If an ideal tetrahedron were flattened using a radius equal to that 
+of the smallest sphere it fits within, the triangular faces would exactly abut.
+Larger radii would generate triangles in the flattened state larger than
+the faces of the original ideal tetrahedron.
+If the <b>Radius</b> field is blank, the largest distance between 
+the capsid center and an atom in the capsid will be used.
+Changes in the value can be applied by clicking <b>Flatten</b>
+(it is not necessary to  unflatten before reflattening).
+<li><b>Show triangle mesh</b> indicates whether the triangles should be
+outlined in the flattened state.  The lines can be used as guides for
+cutting and folding to produce a paper model. The <b>color</b>
+of the lines can be specified by clicking the 
+<a href="../../UsersGuide/coloring.html#colorwell">color well</a>
+and using the
+<a href="../../UsersGuide/colortool.html"><b>Color Editor</b></a>.
+The lines can be moved in front of the plane (so that they are not obscured
+by parts of the structure) by entering a <b>z offset</b> value
+and pressing Enter (return).
+<li><b>Use orthographic camera mode</b> turns off perspective.  This is
+important for generating an undistorted image of the flattened tetrahedron. 
+The <a href="../../UsersGuide/sideview.html#projection">projection mode</a>
+(perspective or orthographic) can also be controlled with the 
+<a href="../../UsersGuide/sideview.html#camera"><b>Camera</b> tool</a>.
+Further, it is important to keep the plane of the flattened structure
+normal to the line of sight.  If the structure was rotated after flattening, 
+the correct orientation can be restored with the command
+<a href="../../UsersGuide/midas/reset.html"><b>reset</b></a>.
+</ul>
+Before <a href="../../UsersGuide/print.html">saving an image</a>,
+it may be desirable to adjust display parameters, in general (see the
+<a href="../../UsersGuide/print.html#tips">tips on preparing images</a>)
+and in
+<a href="../multiscale/framemulti.html" target="_top"><b>Multiscale 
+Models</b></a>.  For example, when a multiscale model is first created,
+the original chains may not be shown as surfaces like the rest of
+the chains.  To remedy this,
+<a href="../multiscale/multiscale.html#selecting">select</a>
+the chains with loaded atoms and change them to the
+<a href="../multiscale/multiscale.html#displaystyle">surface style</a>
+as well.
+</p>
+
+<a name="notes">
+<h4>NOTES</h4></a>
+
+<table border="1" align="right" style="margin:8px 8px 8px 8px">
+<tr><td align=center><b>1m1c flattened</b></td>
+<td align=center><b>1m1c flattened and tiled</b></td></tr>
+<tr><td><img src="1m1c-flat.png"></td>
+<td><img src="1m1c-flat-tiled.png"></td></tr>
+</table>
+<p>
+<b>Tiling</b>. 
+Cutting and folding to make a paper model chops away parts of proteins
+that straddle triangle boundaries.  Tiling the image allows parts of a 
+cut protein to appear on both sides of the cut lines when taped together.  
+Tiling is not necessary, but improves the appearance of the final model.
+Currently, Chimera cannot perform the tiling, so a separate image-editing
+program must be used.  GIMP was used in the example shown here. Steps:
+<ul>
+<li>Create a flat icosahedron image in Chimera with a transparent background.
+If system hardware permits, background transparency can be enabled in
+the <a href="../../UsersGuide/sideview.html#effects"><b>Effects</b> tool</a>.
+(Only high-end graphics cards support this feature; if not available,
+use the image-editing program to make the background transparent instead.)
+<li>In the image-processing program, make four copies of the image
+and place them around the border of the original image.  In GIMP, this is
+done using "duplicate layer" and the "move layer" mouse mode.
+The "stacking order" of the image copies may affect the appearance.  
+In this example, the four surrounding copies were placed below the 
+original image.  The resulting tiling is not perfect; ideally, along a
+border the copy should be above the original in some places
+and below it in others.
+</ul>
+</p>
+
+<p>
+<a name="frame"><b>Known icosahedral symmetry</b>.</a>
+This tool uses the icosahedral reference frame where 2-fold axes are 
+along the x, y and z axes, 
+called <b>Icosahedral symmetry, xyz 2-fold axes (VIPER)</b> in
+the <a href="../multiscale/framemulti.html" target="_top"><b>Multiscale 
+Models</b></a> dialog.  To use a different reference frame requires
+a small change to the Python code.  Specifically, you would
+change the '222' in file
+<b>share/FlattenIcosahedron/__init__.py</b> to '222r', or '2n5', or '2n3'.  
+Refer to file <b>share/Icosahedron/__init__.py</b> 
+for the definitions of these alternate reference frames.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / October 2007</address>
+</body>
+</html>

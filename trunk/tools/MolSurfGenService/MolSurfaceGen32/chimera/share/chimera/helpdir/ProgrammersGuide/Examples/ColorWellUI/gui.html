@@ -1,0 +1,258 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="ColorWellUI/gui.py"><i>ColorWellUI/gui.py</i></a></h2>
+<p>
+Import the standard Python modules used by the example code.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import os<br></font>
+<font color="red">import Tkinter<br></font>
+</code>
+<p>
+Import the additional modules and classes needed.
+The ColorOption class facilitates interoperation between Chimera
+colors and color wells (which use rgba colors).<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">import chimera<br></font>
+<font color="red">from chimera.baseDialog import ModelessDialog<br></font>
+<font color="red">from chimera.tkoptions import ColorOption<br></font>
+<font color="red">import ColorWellUI<br></font>
+<br>
+<font color="red">class ColorWellDialog(ModelessDialog):<br></font>
+</code>
+<dl><dd>
+<p>
+ColorWellDialog is a &quot;nameless&quot; dialog.  See the
+<a href="Main_ExtensionUI.html">Extension-Specific User Interface</a> example for a more detailed
+explanation of Chimera dialogs.<br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<p>
+Set the title bar of the dialog to display <code>Set Backbone Color</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">title = 'Set Backbone Color'<br></font>
+<br>
+<font color="red">def fillInUI(self, master):<br></font>
+</code>
+<dl><dd>
+<p>
+Create a ColorOption instance.  The ColorOption will contain
+a descriptive label and a color well.  The arguments to the
+ColorOption constructor are:<dl compact><dd>
+<dl compact>
+<dt>-<dd>
+master widget<dt>-<dd>
+row number to use when <code>grid</code>ing the ColorOption into the
+master widget.  The default column is 0.  The tkoptions
+module contains other options besides ColorOption (e.g.
+StringOption), which are generally intended to be put in
+vertical lists, and therefore a row number is specified in
+the constructor.  In this example we are only using one
+option however.<dt>-<dd>
+option label.  This will be positioned to the left of the
+color well and a &quot;:&quot; will be appended.<dt>-<dd>
+The default value for this option.<dt>-<dd>
+A callback function to call when the option is set by the
+user (e.g. a color dragged to the well, or the well color
+edited in the color editor)<dt>-<dd>
+An optional ballon-help message</dl>
+</dl>
+<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">coloropt = ColorOption(master, 0, 'Backbone Color', None, self._setBackboneColor, balloon='Protein backbone color')<br></font>
+</code>
+<p>
+Call <code>_updateBackboneColor</code> to make the color displayed
+in the color well reflect the current color of protein
+backbone atoms. While not strictly necessary, keeping the
+color in the well consistent with the color in the molecules
+enhances the extension usability.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">self._updateBackboneColor(coloropt)<br></font>
+</code>
+</dl>
+<p>
+Define <code>_updateBackboneColor</code>, which is used to make the color
+of a well reflect the color of protein backbone atoms.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def _updateBackboneColor(self, coloroption):<br></font>
+</code>
+<dl><dd>
+<p>
+Loop through all atoms in all molecules, looking for protein
+backbone atoms. When one is found, its color is compared
+against the last color seen, <code>theColor</code>. The first time this
+comparison is made, <code>theColor</code> does not exist yet and a
+NameError exception is raised; this exception is caught,
+and <code>theColor</code> is assigned the color of the atom.  All
+subsequent times, the comparison between atom color and
+<code>theColor</code> should work as expected. If the two colors are
+different, the color well is set to show that multiple colors
+are present and execution returns to the caller.  If the two
+colors are the same, the next atom is examined. If only one
+color is found among all protein backbone atoms (or zero if
+no molecules are present), then execution continues.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for m in chimera.openModels.list(modelTypes=[chimera.Molecule]):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">for a in m.atoms:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">if ColorWellUI.MAINCHAIN.match(a.name):<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">try:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">if a.color != theColor:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">coloroption.setMultiple()<br></font>
+<font color="red">return<br></font>
+</code>
+</dl>
+</dl>
+<code>
+<font color="red">except NameError:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">theColor = a.color<br></font>
+</code>
+</dl>
+</dl>
+</dl>
+</dl>
+<p>
+Set the color of the well to match <code>theColor</code>.  There are
+two possible cases:<dl compact><dd>
+<dl compact>
+<dt>1
+<dd>
+<code>theColor</code> is not set (because there are no molecules),<dt>2
+<dd>
+<code>theColor</code> is <code>None</code> or a color object.</dl>
+</dl>
+<p>
+The <code>set</code> function will not result in a callback to
+<code>_setBackboneColor</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">try:<br></font>
+</code>
+<dl><dd>
+<p>
+Handle case 2.  Set the color well to the proper color<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">coloroption.set(theColor)<br></font>
+</code>
+</dl>
+<code>
+<font color="red">except NameError:<br></font>
+</code>
+<dl><dd>
+<p>
+Handle case 1.  Set the color well to show that no color
+is present<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">coloroption.set(None)<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Define <code>_setBackboneColor</code>, which is invoked each time the
+color in the well changes.  When called by the ColorOption,
+<code>_setBackboneColor</code> receives a single argument <code>coloropt</code>,
+which is the ColorOption instance.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def _setBackboneColor(self, coloroption):<br></font>
+</code>
+<dl><dd>
+<p>
+Call the <code>mainchain</code> function in the main package, with
+the color object corresponding to the color well color
+as its argument (which will be None if <code>No Color</code> is
+the current selection in the well), to set the color of
+backbone atoms.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">ColorWellUI.mainchain(coloroption.get())<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Define the module variable <code>dialog</code>, which keeps track of the
+dialog window containing the color well. It is initialized to
+<code>None</code>, and is assigned a usable value when the dialog is created.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">dialog = None<br></font>
+</code>
+<p>
+Define <code>showColorWellUI</code>, which is invoked when the Chimera
+toolbar button is pressed.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">def showColorWellUI():<br></font>
+</code>
+<dl><dd>
+<p>
+Declare that the name <code>dialog</code> refers to the global variable
+defined above.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">global dialog<br></font>
+</code>
+<p>
+Check whether the dialog has already been created. If so,
+the dialog window is displayed by calling it's <code>enter()</code>
+function, and then the rest of the function is skipped by returning.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if dialog is not None:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">dialog.enter()<br></font>
+<font color="red">return<br></font>
+</code>
+</dl>
+<p>
+Otherwise, create the dialog.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">dialog = ColorWellDialog()<br></font>
+</code>
+</dl>
+<p>
+Create the Chimera toolbar button that invokes the <code>showColorWellUI</code><br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">dir, file = os.path.split(__file__)<br></font>
+<font color="red">icon = os.path.join(dir, 'ColorWellUI.tiff')<br></font>
+<font color="red">chimera.tkgui.app.toolbar.add(icon, showColorWellUI, 'Set Main Chain Color', None)<br></font>
+</code>

@@ -1,0 +1,145 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2004-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>rangecolor</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR>( <b>rangecolor</b> | <b>rangecolour</b> )
+<i>attr_name</i>[,a][,r][,s][,v][,l][,la][,lr] [key]
+<i>value1 color1</i> <i>value2 color2</i> [... <i>valueN</i> <i>colorN</i>]
+<a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a></h3>
+<p>
+<b>Rangecolor</b> shows the values of an
+<a href="../../ContributedSoftware/defineattrib/defineattrib.html#attribdef">attribute</a>
+such as B-factor or hydrophobicity with color gradations.
+The attribute is specified by 
+<a href="atom_spec.html#attrnames">name</a> (<i>attr_name</i>)
+and must be numerical (see <a href="#examples">examples</a>).
+The related tool
+<a href="../../ContributedSoftware/render/render.html#render"><b>Render 
+by Attribute</b></a> provides a graphical interface 
+for coloring by attribute values.
+</p><p>
+At least two value/color pairs must be supplied. 
+Pairs do not need to be ordered by value.
+Values (<i>value1</i>, <i>value2</i>, <i>etc.</i>)
+can be specified directly or with the special words:
+</p>
+<a name="valuewords">
+<table border cellspacing="0" style="margin:8px 8px 8px 8px">
+<tr><th>value indicator</th> <th>meaning</th></tr>
+<tr><td align=center><b>min</b></td> 
+<td align=center>minimum value among the
+<a href="frameatom_spec.html" target="_top">specified</a> atoms
+</td></tr>
+<tr><td align=center><b>max</b></td> 
+<td align=center>maximum value among the
+<a href="frameatom_spec.html" target="_top">specified</a> atoms
+</td></tr>
+<tr><td align=center><b>mid</b></td>
+<td align=center>average of min and max</td></tr>
+<tr><td align=center><b>novalue</b></td>
+<td align=center>no value assigned for the attribute</td></tr>
+</a>
+</table>
+<p>
+A pair specified with <b>novalue</b> does not contribute toward the
+minimum of two pairs because the corresponding color is not involved
+in any ranges; it is only used to color items with 
+no value for the specified attribute (for example, nucleic acid residues
+do not have <a href="hydrophob.html"><b>kdHydrophobicity</b></a> values).
+When an <a href="atom_spec.html#atprops">atom attribute</a> is used
+to color ribbons, the ribbon segment for each residue is colored 
+according to the average of the values for atoms in the residue.
+In all cases, the reported
+<b>min</b>, <b>mid</b>, and <b>max</b> values describe the
+original attribute rather than any derived quantity such as an average.
+</p><p>
+Each color name (<i>color1</i>, <i>color2</i>, <i>etc.</i>) can be
+any <a href="color.html#colorname">color name</a>
+that specifies a single color.
+</p><p>
+The <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+indicates which atoms (and/or associated labels, surfaces, or ribbon)
+are to be colored.
+If no <a href="frameatom_spec.html" target="_top">
+<i>atom-spec</i></a> is given,
+all atoms (and/or their associated labels, surfaces, or ribbon) are affected.
+</p><p>
+While <a href="frameatom_spec.html" target="_top"><i>atom-spec</i></a>
+indicates the scope of coloring, one or more specifiers 
+can be used to indicate which types of items should be colored:
+<ul>
+<li><b>a</b> (or <b>b</b>) - atoms (and 
+<a href="../moleculeattrib.html#halfbonddef">normally</a>,
+bond halves are colored to match the flanking atoms)
+<li><b>r</b> - ribbons
+<li><b>s</b> - <a href="../representation.html#surfaces">molecular surfaces</a>
+<li><b>v</b> - <a href="../representation.html#vdw">VDW surfaces</a>
+<li><b>l</b> - atom and residue labels
+<li><b>la</b> (or <b>al</b>) - atom labels
+<li><b>lr</b> (or <b>rl</b>) - residue labels
+</ul>
+In the absence of a specifier, all of the above are affected.
+Other kinds of surfaces,
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html"><b>2D Labels</b></a>,
+and bond labels are not affected.
+</p><p>
+The <b>key</b> option brings up the 
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html#colorkey"><b>Color 
+Key</b></a> tool, filled in with the appropriate colors/values and set to
+<b>key placement</b> mouse mode for creating/positioning the color key
+in the graphics window.  The mouse mode can be changed between 
+<b>normal</b> (for moving the models) and <b>key placement</b> as desired.
+</p><p>
+In Chimera, visible color is determined by a 
+<a href="../hierarchy.html">hierarchy</a>.
+<b>Rangecolor</b> sets atom, atom label, and surface colors at the
+atom level, and ribbon and residue label colors at the residue level.
+</p><p>
+<a name="examples">
+Examples</a>:
+<blockquote>
+<b>rangecol bfactor,s key min blue 20 white 40 red</b>
+</blockquote>
+- color the molecular surface (only) by the
+<a href="atom_spec.html#atprops">atom attribute</a> named <b>bfactor</b>,
+from blue for the minimum value, to white for 20, to red for 40 and above;
+call
+<a href="../../ContributedSoftware/2dlabels/2dlabels.html#colorkey"><b>Color 
+Key</b></a>, filled in with those values and colors
+<blockquote>
+<b>range kdHydrophobicity min lime green max orange novalue magenta</b>
+</blockquote>
+- color from lime green to orange by increasing values of the
+<a href="atom_spec.html#resprops">residue attribute</a>
+named <a href="hydrophob.html"><b>kdHydrophobicity</b></a>; color
+any residues without hydrophobicity assignments magenta 
+</p><p>
+See also: <b><A href="color.html">color</A></b>,
+<b><A href="colordef.html">colordef</A></b>,
+<b><A href="rainbow.html">rainbow</A></b>,
+<b><A href="ribcolor.html">ribcolor</A></b>,
+<b><A href="scolor.html">scolor</A></b>,
+<a href="defattr.html"><b>defattr</b></a>,
+<a href="setattr.html"><b>setattr</b></a>,
+<b><A href="msc.html">msc</A></b>,
+<a href="../../ContributedSoftware/render/render.html#render"><b>Render 
+by Attribute</b></a>,
+<a href="../../ContributedSoftware/coulombic/coulombic.html"><b>Coulombic
+Surface Coloring</b></a>
+</p>
+</body></html>

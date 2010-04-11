@@ -1,0 +1,58 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>wait</title>
+</head><body>
+<font size="-1">
+<a href="../framecommand.html" target="_top">Chimera Commands Index</a>
+</font>
+
+<h3><a href="usageconventions.html">Usage</a>:
+ <BR><b>wait</b> [ <i>wait_frames</i> ]</h3>
+<p>
+<b>Wait</b> suspends command processing for the given number of
+<i>wait_frames</i> or, when no argument is supplied, until 
+commands that execute over multiple frames have finished. 
+Thus, <b>wait</b> can be used to enforce the ordered rather than
+simultaneous execution of commands in
+<a href="../indexcommand.html#cmdfile">scripts</a> and
+<a href="../../ContributedSoftware/demos/demos.html">demos</a>.
+For example, in the following:
+<blockquote>
+<b><A href="roll.html">roll</A> y 3 120; wait</b>
+<br><b><a href="rock.html">rock</a> x 2 68</b>
+</blockquote>
+the <b>wait</b> command prevents the rock from starting until
+the roll has finished.
+</p><p>
+<b>Wait</b> is also useful for generating duplicate image frames.  
+Stretches of duplicate frames correspond to periods of time
+where objects remain static.  If motion occurs 
+in the last few frames of a <a href="../movies.html">movie</a>,
+due to the encoding process it may appear to end on a blur.
+This effect can be avoided by including a few wait frames 
+(<b>wait 5</b> or similar) at the end of scripted
+<a href="../movies.html#content">movie content</a>.
+</p><p>
+When a <a href="../indexcommand.html#cmdfile">script</a> is executed,
+a single-frame display update (implicit <b>wait 1</b>)
+will be added at the end of each line that:
+(a) contains one or more commands that could change the display, and
+(b) does not already end with an explicit <b>wait</b> of any length.
+(Exception: display updates are not added when a script is executed
+with <a href="read.html"><b>read</b></a>.)
+<p>
+See also: <b><A href="sleep.html">sleep</A></b>,
+<b><A href="pause.html">pause</A></b>,
+<a href="../movies.html#moviecommands">movie-related commands</a>
+</p>
+</body></html>

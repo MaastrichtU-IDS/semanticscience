@@ -1,0 +1,181 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2000 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+<h2>Example <a href="displayProp.py"><i>displayProp.py</i></a></h2>
+<code>
+<font color="red">import chimera<br></font>
+</code>
+<p>
+open up a molecule to work with:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">opened = chimera.openModels.open('3fx2', type="PDB")<br></font>
+<font color="red">mol    = opened[0]<br></font>
+</code>
+<h3>Molecule Display Properties</h3><p>
+the <code>color</code> attribute represents the model-level color.
+This color can be controlled by the midas command <code>modelcolor</code>.
+The <code>color</code> assigned to a newly opened model is determined by a configurable preference (see discussion above).
+Programmatically, the model
+color can be changed by simply assigning a <code>MaterialColor</code> to <code>molecule.color</code>. Molecules also have a
+<code>display</code> attribute, where a value of <code>True</code> corresponds to being displayed, and a value of <code>False</code>
+means the molecule is not displayed.
+So to make sure the molecule is shown (it is by default when first opened):<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">mol.display = True<br></font>
+</code>
+<p>
+To color the molecule red,
+get a reference to Chimera's notion of the color red (returns a <code>MaterialColor</code> object)<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">from chimera.colorTable import getColorByName<br></font>
+<font color="red">red = getColorByName('red')<br></font>
+</code>
+<p>
+and assign it to <code>mol.color</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">mol.color = red<br></font>
+</code>
+<p>
+Note that the model will appear red at this point because all the atoms/bonds/residues
+<code>color</code> attributes are set to <code>None</code><br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<h3>Atom Display Properties</h3><p>
+Each atom in a molecule has its own individual color,
+accessible by the <code>color</code> attribute. Upon opening a molecule, each atom's <code>color</code> is set to <code>None</code>;
+it can be changed by assigning a new <code>MaterialColor</code> to <code>atom.color</code>.
+So, if we wanted to color all the alpha-carbon atoms blue, and all the rest yellow,
+get references to the colors:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">blue    = getColorByName('blue')<br></font>
+<font color="red">yellow  = getColorByName('yellow')<br></font>
+</code>
+<p>
+get a list of all the atoms in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">ATOMS = mol.atoms<br></font>
+<font color="red">for at in ATOMS:<br></font>
+</code>
+<dl><dd>
+<p>
+check to see if this atom is an alpha-carbon<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if at.name == 'CA':<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.color = yellow<br></font>
+</code>
+</dl>
+<code>
+<font color="red">else:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.color = blue<br></font>
+</code>
+</dl>
+</dl>
+<p>
+Now, even though <code>mol.color</code> is set to red, the molecule will appear to be blue and yellow. This is because each individual
+atom's <code>color</code> is visible over <code>mol.color</code>.<br>
+<spacer type="vertical" size=5>
+<code>
+</code>
+<p>
+Like molecules, atoms also have a <code>display</code> attribute that controls whether or not the atom is shown.
+While <code>atom.display</code> controls whether the atom can be seen at all, <code>atom.drawMode</code> controls its visual representation.
+The value of <code>drawMode</code> can be one of four constants, defined in the <code>Atom</code> class.
+Acceptable values for <code>drawMode</code>
+are <code>chimera.Atom.Dot</code> (dot representation), <code>chimera.Atom.Sphere</code> (sphere representation),
+<code>chimera.Atom.EndCap</code> (endcap representation), or <code>chimera.Atom.Ball</code> (ball representation).
+So, to represent all the atoms in the molecule as &quot;balls&quot;:<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">for at in ATOMS:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">at.drawMode = chimera.Atom.Ball<br></font>
+</code>
+</dl>
+<h3>Bond Display Properties</h3><p>
+Bonds also contain <code>color</code>, and <code>drawMode</code> attributes. They serve the same purposes here as they do
+in atoms (<code>color</code> is the color specific to that bond, and <code>drawMode</code> dictates
+how the bond is represented). <code>drawMode</code> for bonds can be either <code>chimera.Bond.Wire</code> (wire representation)
+or <code>chimera.Bond.Stick</code> (stick representation).
+The <code>bond.display</code> attribute accepts slightly different values than that of other objects.
+While other objects' <code>display</code> can be set to either <code>False</code> (not displayed)
+or <code>True</code> (displayed), <code>bond.display</code> can be assigned a value of <code>chimera.Bond.Never</code> (same as <code>False</code> - bond is not
+displayed), <code>chimera.Bond.Always</code> (same as <code>True</code> - bond is displayed), or <code>chimera.Bond.Smart</code> which means that the
+bond will only be
+displayed if both the atoms it connects to are displayed. If not, the bond will not be displayed.
+The heuristic that determines bond color is also a little more complicated than for atoms.
+Bonds have an attribute called <code>halfbond</code>
+that determines the source of the bond's color. If <code>halfbond</code> is set to <code>True</code>, then the
+bond derives its color from the atoms which
+it connects, and ignores whatever <code>bond.color</code> is. If both those atoms are the same color (blue, for instance),
+then the bond will appear blue. If the bonds atoms are different colors, then each half of the bond will correspond to the color
+of the atom on that side. However, if <code>bond.halfbond</code> is set to <code>False</code>, then that bond's color
+will be be derived from its <code>color</code> attribute, regardless of the <code>color</code>s of the atoms which it connects (except in the case
+<code>bond.color</code> is <code>None</code>, the bond will derive its color from one of the atoms to which it connects).
+To set each bond's display mode to &quot;smart&quot;, represent it as a stick, and turn halfbond mode on,
+get a list of all bonds in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">BONDS = mol.bonds<br></font>
+<font color="red">for b in BONDS:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">b.display  = chimera.Bond.Smart<br></font>
+<font color="red">b.drawMode = chimera.Bond.Stick<br></font>
+<font color="red">b.halfbond = True<br></font>
+</code>
+</dl>
+<h3>Residue Display Properties</h3><p>
+Residues are not &quot;displayed&quot; in the same manner that atoms and bonds are. When residues are displayed, they are
+in the form of ribbons, and the attributes that control the visual details of the residues are named accordingly:
+<code>ribbonDisplay</code>, <code>ribbonColor</code>, <code>ribbonDrawMode</code>. The values for <code>ribbonDrawMode</code> can be <code>chimera.Residue.Ribbon_2D</code> (flat ribbon),
+<code>chimera.Residue.Ribbon_Edged</code> (sharp ribbon), or <code>chimera.Residue.Ribbon_Round</code> (round/smooth ribbon).
+If a residue's <code>ribbonDisplay</code> value is set to <code>False</code>, it doesn't matter what <code>ribbonDrawMode</code>
+is - the ribbon still won't be displayed!
+Residues have three attributes that control how the ribbon is drawn. <code>isTurn</code>, <code>isHelix</code>, and  <code>isSheet</code> (same as <code>isStrand</code>) are
+set to either <code>True</code> or <code>False</code> based on secondary structure information contained in the source file (if available).
+For any residue, only one of these can be set to <code>True</code>.
+So, to display only the residues which are part of an alpha-helix, as a smooth ribbon,
+get a list of all the residues in the molecule<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">RESIDUES = mol.residues<br></font>
+<font color="red">for r in RESIDUES:<br></font>
+</code>
+<dl><dd>
+<p>
+only for residues that are part of an alpha-helix<br>
+<spacer type="vertical" size=5>
+<code>
+<font color="red">if r.isHelix:<br></font>
+</code>
+<dl><dd>
+<code>
+<font color="red">r.ribbonDisplay  = True<br></font>
+<font color="red">r.ribbonDrawMode = chimera.Residue.Ribbon_Round<br></font>
+</code>
+</dl>
+</dl>

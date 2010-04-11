@@ -1,0 +1,30 @@
+name = 'water'
+
+structure = \
+   "  O\n" + \
+   " / \\\n" + \
+   "H   H\n"
+
+O  = Atom('O')
+H1 = Atom('H')
+H2 = Atom('H')
+
+bonds = [Bond(O, H1), Bond(O, H2), Bond(H1, H2)]
+
+pdbmap = [('HOH', {'O': O, 'H1': H1, 'H2': H2})]
+pdb_alternative = {'OH2': 'O', '1H': 'H1', '2H': 'H2'}
+
+amber_atom_type = {O: 'OW', H1: 'HW', H2: 'HW'}
+amber_charge = {O: -0.83400, H1: 0.41700, H2: 0.41700}
+
+opls_atom_type = {O: 'OT', H1: 'HT', H2: 'HT'}
+opls_charge = {O: -0.83400, H1: 0.41700, H2: 0.41700}
+
+spce_atom_type = {O: 'O', H1: 'H', H2: 'H'}
+spce_charge = {O: -0.8476, H1: 0.4238, H2: 0.4238}
+
+configurations = {
+    'default': Cartesian({H1: (-0.0756950327264, 0., -0.0520320595151),
+                          H2: (0.0756950327264, 0., -0.0520320595151),
+                          O: (0., 0., 0.00655616814675)})
+    }

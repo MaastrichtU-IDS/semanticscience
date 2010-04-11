@@ -1,0 +1,105 @@
+<!--
+--- UCSF Chimera Copyright ---
+Copyright (c) 2001-2009 Regents of the University of California.
+All rights reserved.  This software provided pursuant to a
+license agreement containing restrictions on its disclosure,
+duplication and use.  This notice must be embedded in or
+attached to all copies, including partial copies, of the
+software or any revisions or derivations thereof.
+--- UCSF Chimera Copyright ---
+-->
+
+<html><head>
+<title>Superimposing Structures</title>
+</head><body>
+
+<h2>Superimposing Structures</h2>
+
+<table cellspacing="0" cellpadding="0" align="right">
+<tr><td><img src="wd40apart-small.png" width="154" height="100"></td>
+<td><img src="wd40together-small.png" width="124" height="126"></td></tr>
+</table>
+<p>
+There are several ways to superimpose structures in Chimera:
+<ul>
+<li><a href="../ContributedSoftware/matchmaker/matchmaker.html"><b>MatchMaker</b></a> 
+(or command <a href="midas/mmaker.html"><b>matchmaker</b></a>)
+performs a fit after automatically identifying which residues should be paired.
+Pairing uses both sequence and secondary structure,
+allowing similar structures to be superimposed
+even when their sequence similarity is low to undetectable.
+</ul>
+<blockquote>
+The figure shows five distantly related proteins
+(pairwise sequence identities &lt;&nbsp;25%) 
+from the <a href="http://scop.mrc-lmb.cam.ac.uk/scop/search.cgi?sunid=50978"
+target="_blank">SCOP WD40 superfamily</a> before and after <a 
+href="../ContributedSoftware/matchmaker/matchmaker.html"><b>MatchMaker</b></a> 
+superposition with default parameters.
+</blockquote>
+<ul>
+<li>Structures can be matched 
+<a href="../ContributedSoftware/multalignviewer/multalignviewer.html#superposition">using 
+a pre-existing sequence alignment</a> shown in
+<a href="../ContributedSoftware/multalignviewer/framemav.html"
+target="_top"><b>Multalign Viewer</b></a>.
+<br><br>
+<li>The exact atoms to pair can be specified with the
+<a href="midas/match.html"><b>match</b></a> command.
+This works on any type of structure, while the preceding methods 
+apply only to peptide and nucleotide chains.
+<br><br>
+<li>Structures can be superimposed manually by
+<a href="mouse.html#activedef">activating/deactivating</a> 
+them for motion and <a href="mouse.html">using the mouse</a>.
+</ul>
+Except for manual matching, the methods allow iterative exclusion of
+poorly superimposed atoms from the fit.
+</p><p>
+For the special case of an <b><i>ensemble</i></b>, which contains multiple
+sets of coordinates for exactly the same atoms, see also
+<a href="../ContributedSoftware/ensemblematch/ensemblematch.html"><b>Ensemble
+Match</b></a>.
+</p><p>
+A multiple sequence alignment can be generated from a set of superimposed 
+structures using
+<a href="../ContributedSoftware/matchalign/matchalign.html"><b>Match 
+-> Align</b></a>.
+</p><p>
+See also: 
+<a href="midas/matrixcopy.html"><b>matrixcopy</b></a>,
+<a href="midas/measure.html"><b>measure rotation</b></a>,
+<a href="midas/rmsd.html"><b>rmsd</b></a>
+</p>
+
+<h3>MatchMaker vs. Match</h3>
+<p>
+Usually
+<a href="../ContributedSoftware/matchmaker/matchmaker.html"><b>MatchMaker</b></a> 
+(or command <a href="midas/mmaker.html"><b>matchmaker</b></a>) provides the 
+easier route to superimposing related proteins or nucleic acids.
+Unlike <a href="midas/match.html"><b>match</b></a>,
+it does not require the user to specify which atoms should be used.
+On the other hand, it:
+<ul>
+<li>takes more time due to the sequence alignment step 
+(determining residue pairing)
+<li>offers less control over which atoms are used for fitting: always uses 
+<a href="../ContributedSoftware/matchmaker/matchmaker.html#matchatom">one 
+point per residue</a>
+<li>recomputes protein secondary structure assignments;
+this promotes consistency in assignments between structures and can improve
+how they are superimposed, but the
+<a href="midas/mmaker.html#computeSS">option to reassign 
+secondary structure</a> should be turned off
+if one would rather use the assignments in the input files
+</ul>
+Of course, <a href="midas/match.html"><b>match</b></a> would be the 
+preferred method for superimposing sets of atoms representing
+known local similarities within globally dissimilar structures 
+such as proteins of different folds.
+</p>
+
+<hr>
+<address>UCSF Computer Graphics Laboratory / January 2009</address>
+</body></html>
