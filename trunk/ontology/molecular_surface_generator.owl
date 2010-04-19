@@ -46,6 +46,7 @@
         <dc:date>March 27, 2010</dc:date>
         <owl:imports rdf:resource="&ontology;unit-primitive"/>
         <owl:imports rdf:resource="http://semanticscience.org/ontology/geometry.owl"/>
+        <owl:imports rdf:resource="http://semanticscience.org/ontology/sio-bio.owl"/>
     </owl:Ontology>
     
 
@@ -75,75 +76,57 @@
     
 
 
-    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#hasAttribute -->
+    <!-- http://ontology.dumontierlab.com/hasUnit -->
 
-    <owl:ObjectProperty rdf:about="#hasAttribute">
-        <rdfs:label>has attribute</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ontology;hasUnit"/>
     
 
 
-    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#has_parameter -->
+    <!-- http://semanticscience.org/resource/SIO_000008 -->
 
-    <owl:ObjectProperty rdf:about="#has_parameter">
-        <rdfs:label>has parameter</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000008"/>
     
 
 
-    <!-- http://semanticscience.org/resource/hasPart -->
+    <!-- http://semanticscience.org/resource/SIO_000011 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;hasPart"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000011"/>
     
 
 
-    <!-- http://semanticscience.org/resource/hasProperPart -->
+    <!-- http://semanticscience.org/resource/SIO_000028 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;hasProperPart"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000028"/>
     
 
 
-    <!-- http://semanticscience.org/resource/hasUnit -->
+    <!-- http://semanticscience.org/resource/SIO_000053 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;hasUnit"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000053"/>
     
 
 
-    <!-- http://semanticscience.org/resource/isAbout -->
+    <!-- http://semanticscience.org/resource/SIO_000061 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;isAbout">
-        <rdfs:label>isAbout</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000061"/>
     
 
 
-    <!-- http://semanticscience.org/resource/isDenotedBy -->
+    <!-- http://semanticscience.org/resource/SIO_000093 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;isDenotedBy"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000093"/>
     
 
 
-    <!-- http://semanticscience.org/resource/isLocatedIn -->
+    <!-- http://semanticscience.org/resource/SIO_000146 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;isLocatedIn"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000146"/>
     
 
 
-    <!-- http://semanticscience.org/resource/isLocationOf -->
+    <!-- http://semanticscience.org/resource/SIO_000205 -->
 
-    <owl:ObjectProperty rdf:about="&ontologies;isLocationOf"/>
-    
-
-
-    <!-- http://semanticscience.org/resource/isProperPartOf -->
-
-    <owl:ObjectProperty rdf:about="&ontologies;isProperPartOf"/>
-    
-
-
-    <!-- http://semanticscience.org/resource/representedBy -->
-
-    <owl:ObjectProperty rdf:about="&ontologies;representedBy"/>
+    <owl:ObjectProperty rdf:about="&ontologies;SIO_000205"/>
     
 
 
@@ -158,9 +141,9 @@
     
 
 
-    <!-- http://semanticscience.org/resource/hasValue -->
+    <!-- http://semanticscience.org/resource/SIO_000300 -->
 
-    <owl:DatatypeProperty rdf:about="&ontologies;hasValue">
+    <owl:DatatypeProperty rdf:about="&ontologies;SIO_000300">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>hasValue</rdfs:label>
     </owl:DatatypeProperty>
@@ -197,15 +180,22 @@
             >Amino Acid Residue</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
-                <owl:onClass rdf:resource="#SolventExcludedSurface"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000008"/>
+                <owl:onClass rdf:resource="&ontologies;SIO_000115"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;isDenotedBy"/>
-                <owl:onClass rdf:resource="#AminoAcidResidueID"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000093"/>
+                <owl:onClass rdf:resource="&ontologies;SIOBIO_000007"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000053"/>
+                <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -220,7 +210,7 @@
             >Polyatomic Entity</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000053"/>
                 <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -235,36 +225,18 @@
         <rdfs:label>Ligand Contact</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasProperPart"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000053"/>
                 <owl:onClass rdf:resource="#SolventExcludedSurface"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;isDenotedBy"/>
-                <owl:onClass rdf:resource="#LigandContactID"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000008"/>
+                <owl:onClass rdf:resource="&ontologies;SIO_000115"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#AminoAcidResidueID -->
-
-    <owl:Class rdf:about="#AminoAcidResidueID">
-        <rdfs:label
-            >Amino Acid Residue ID</rdfs:label>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:description
-            >An identifier for an amino acid residue.</dc:description>
     </owl:Class>
     
 
@@ -276,13 +248,13 @@
             >Electrostatic Potential</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000300"/>
                 <owl:someValuesFrom rdf:resource="&xsd;double"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasUnit"/>
+                <owl:onProperty rdf:resource="&ontology;hasUnit"/>
                 <owl:someValuesFrom>
                     <owl:Class>
                         <owl:oneOf rdf:parseType="Collection">
@@ -294,30 +266,12 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;isLocatedIn"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000061"/>
                 <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
             >A measure of electrical potential at a point in an electrostatic field.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#LigandContactID -->
-
-    <owl:Class rdf:about="#LigandContactID">
-        <rdfs:label
-            >Ligand Contact ID</rdfs:label>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:description
-            >Identifier for the ligand that corresponds to a ligand contact.</dc:description>
     </owl:Class>
     
 
@@ -329,7 +283,14 @@
             >Pocket Search Distance</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasUnit"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000300"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ontology;hasUnit"/>
                 <owl:someValuesFrom>
                     <owl:Class>
                         <owl:oneOf rdf:parseType="Collection">
@@ -337,13 +298,6 @@
                         </owl:oneOf>
                     </owl:Class>
                 </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;double"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -359,8 +313,8 @@
             >Molecular Structure</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#hasAttribute"/>
-                <owl:someValuesFrom rdf:resource="#PDBID"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000008"/>
+                <owl:someValuesFrom rdf:resource="&ontologies;SIO_000115"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -377,7 +331,7 @@
         <rdfs:subClassOf rdf:resource="#MolecularStructure"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="#MolecularSurfaceModel"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -394,35 +348,18 @@
             >Molecular Surface Model</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasPart"/>
-                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000146"/>
+                <owl:someValuesFrom rdf:resource="&obo;CHEBI_36357"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;isAbout"/>
-                <owl:someValuesFrom rdf:resource="&obo;CHEBI_36357"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&ontologies;GEOMETRY_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
             >Geometric model of the surface of a molecule including amino acid residue, electrostatic potential and ligand pocket annotations.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/ontology/molecular_surface_generator.owl#PDBID -->
-
-    <owl:Class rdf:about="#PDBID">
-        <rdfs:label>PDB identifier</rdfs:label>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:description
-            >Identifier of a structure entry in the Protein Data Bank.</dc:description>
     </owl:Class>
     
 
@@ -434,7 +371,7 @@
             >max peptide length</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;hasValue"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000300"/>
                 <owl:someValuesFrom rdf:resource="&xsd;integer"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -451,7 +388,7 @@
             >solvent excluded surface</rdfs:label>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&ontologies;representedBy"/>
+                <owl:onProperty rdf:resource="&ontologies;SIO_000205"/>
                 <owl:onClass rdf:resource="&ontologies;GEOMETRY_000004"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -492,6 +429,18 @@
     <owl:Class rdf:about="&ontologies;GEOMETRY_000041">
         <rdfs:label>Vertex Normal</rdfs:label>
     </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000007 -->
+
+    <owl:Class rdf:about="&ontologies;SIOBIO_000007"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000115 -->
+
+    <owl:Class rdf:about="&ontologies;SIO_000115"/>
     
 
 
