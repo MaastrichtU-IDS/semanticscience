@@ -3,9 +3,10 @@ from chimera import runCommand
 from SurfaceColor import makeMeshes
 
 proID = sys.argv[1]
-peptideLen = sys.argv[2]
-pocketDistance = sys.argv[3]
-makeMeshes.makeAllMeshes(proID, peptideLen, pocketDistance)
+jobID = sys.argv[2]
+peptideLen = sys.argv[3]
+pocketDistance = sys.argv[4]
+makeMeshes.makeAllMeshes(proID, jobID, peptideLen, pocketDistance)
 
 runCommand('close session')
 runCommand('stop confirmed')
