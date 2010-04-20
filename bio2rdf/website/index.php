@@ -9,31 +9,35 @@
  <link type="image/png" href="images/bio2rdf_favicon.ico" rel="shortcut icon" />
  <!--adding js-->
  <script src="http://code.jquery.com/jquery-latest.js"></script>
+ <script src="js/gui-starter.js"></script>
  <script type="text/javascript">
 // Safely inject CSS3 and give the search results a shadow
 $(document).ready(function(){
- var cssObj = { 
-        'box-shadow' : '#888 5px 10px 10px',
-        '-webkit-box-shadow' : '#888 5px 10px 10px', // Safari
-        '-moz-box-shadow' : '#888 5px 10px 10px'
-        };
- $("#suggestions").css(cssObj);
+ $("#suggestions").css(getSuggestBox());
  //Fade out the suggestions when not active
  $("input").blur(function(){
         $("#suggestions").fadeOut();
  });
+
+ $("#search-form").submit(function(){
+	var val = $("#input").val();
+	if(val.length != 0){
+		nsRegExp = /^(\S+):(.*)$/;
+        	matches = nsRegExp.exec(val);
+		if (matches != null){
+			if(matches[1].length >= 2 && matches[2].length > 2){
+				window.location = "http://bio2rdf.org/"+val;
+				return false;
+			}
+		}else{
+			window.location = "http://bio2rdf.org/search/"+val;
+			return false;		
+		}
+	}	
+  });
+ 
 }); 
 
-function lookup(inputString){
-        if(inputString.length == 0){
-                $("#suggestions").fadeOut();
-        }else{
-                $.post("bin/searcher.php", {queryString: ""+inputString+""}, function(data){
-                        $("#suggestions").fadeIn();
-                        $("#suggestions").html(data);
-                });
-        }
-}//lookup
  </script>
 
 
@@ -49,8 +53,8 @@ function lookup(inputString){
    <form id="search-form">
     <div id="inputWrapper">
      <input id="input" type="text" size="35" id="inputString" onkeyup="lookup(this.value);"/>
-    <button id="search-button" type="submit" value="GO">GO</button>
-      <div id="suggestions"></div>
+     <button id="search-button" type="submit" value="GO">GO</button>
+     <div id="suggestions"></div>
     </div>
    </form>
   </div>

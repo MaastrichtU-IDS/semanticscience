@@ -1,4 +1,6 @@
 <?php
+include('search_examples.html');
+exit;
 $str = '<p id="searchresults">';
 $str .= '<span class="category">Data</span>';
 $str .= '<a href="http://bio2rdf.org/geneid:3098">
