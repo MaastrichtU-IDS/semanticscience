@@ -21,6 +21,8 @@ A Bio2RDF mailing list has been established using <a title="Bio2RDF mailing list
 <h1>Blog</h1>
 The Bio2RDF blog is available through <a title="Bio2RDF Blog @ Blogspot" href="http://bio2rdf.blogspot.com/">Blogspot</a>.
 
+<h1>Wiki</h1>
+The <a href="http://bio2rdf.wiki.sourceforge.net">Bio2RDF wiki</a> provides valuable information about the project including RDFizer cookbooks.
 
 </div>
 <?php include('footer.php');?>
