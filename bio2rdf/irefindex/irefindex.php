@@ -2,6 +2,7 @@
 require(dirname(__FILE__).'/../include.php');
 
 $date = "08212009";
+$date = "10272009";
 $infile = "All.mitab.$date.txt";
 $rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/'.$file;
 
@@ -42,12 +43,13 @@ function irefindex($infp, $outfp)
 		'genbank_protein_gi' => 'ncbi',
 		'taxid' => 'taxon',
 		'uniprotkb' => 'uniprot',
+		'uniprotkb/trembl' => 'uniprot',
 		'entrezgene/locuslink' => 'geneid',
 		'dbj' => 'ddbj',
 		'kegg:ecj' => 'kegg',
 		'mppi' => 'mips',
 		'swiss-prot' => 'swissprot',
-		'flybase' => 'fb'
+		'ddbj-embl-genbank' => 'ncbi',
 	);
 	
 
@@ -177,7 +179,7 @@ function irefindex($infp, $outfp)
 		$num = $a[21];
 		if($rel == 'C') {
 			// add the the part
-			$buf .= "$iid ss:hasProperPart $a[1].".PHP_EOL;	
+			$buf .= "$iid irefindex:has_part $a[1].".PHP_EOL;	
 			$complexes [$iid][] = $a[1]; // keep this list to generate the labels at the end;		
 			$type = 'Complex';
 			$label = "$num component complex $m_label";
@@ -186,24 +188,24 @@ function irefindex($infp, $outfp)
 				if($num == 1) {
 					$type = 'SelfInteraction';
 					$label = "$m_label interaction of $a[2] with itself";
-					$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;
+					$buf .= "$iid irefindex:has_participant $a[0].".PHP_EOL;
 					// interacts with itself
 				} else {
 					$type = 'HomoInteraction';
 					$label = "$it_label between two molecules of $a[2] $m_label";
-					$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;		
+					$buf .= "$iid irefindex:has_participant $a[0].".PHP_EOL;		
 				}
 			} else if($rel == 'X') {
 				$type = 'HeteroInteraction';
-				$buf .= "$iid $ss:hasParticipant $a[0].".PHP_EOL;
-				$buf .= "$iid $ss:hasParticipant $a[1].".PHP_EOL;
+				$buf .= "$iid irefindex:has_participant $a[0].".PHP_EOL;
+				$buf .= "$iid irefindex:has_participant $a[1].".PHP_EOL;
 				$label = "$it_label between $a[0]($i1_type_label) and $a[1]($i2_type_label)  $m_label";
 			} else {
 				trigger_error("Unhandled type of interaction $rel");
 				exit;
 			}
 		}
-		$buf .= "$iid a ss:$type .".PHP_EOL;
+		$buf .= "$iid a irefindex:$type .".PHP_EOL;
 		$buf .= "$iid irefindex:number_of_interactors \"$num\".".PHP_EOL;
 		if($label) $buf .= "$iid rdfs:label \"$label [$iid]\".".PHP_EOL;
 	
