@@ -23,6 +23,7 @@ import com.semanticscience.sadi.molsurfgen.io.FileIO;
 public class MolSurfGenService extends SimpleSynchronousServiceServlet
 {
 	private static final boolean debug = false;
+	private static final String MSMG_PATH = ".";//opt/bin";
 	
 	private static final String BaseURL = "http://semanticscience.org/ontology/molecular_surface_generator.owl#";
 	private static final String SioURL = "http://semanticscience.org/resource/";
@@ -51,7 +52,7 @@ public class MolSurfGenService extends SimpleSynchronousServiceServlet
 			
 			try {
 				Runtime rt = Runtime.getRuntime();
-				Process pr = rt.exec("./MolSurfaceGen32/chimera/bin/chimera --debug --script ./MolSurfaceGen32/chimera/bin/execMakeMeshes.py -- " + id + " " + timeStamp + " 40 5.0");
+				Process pr = rt.exec(MSMG_PATH + "/MolSurfaceGen32/chimera/bin/chimera --debug --script ./MolSurfaceGen32/chimera/bin/execMakeMeshes.py -- " + id + " " + timeStamp + " 40 5.0");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 				 
 				if(debug){
@@ -64,11 +65,11 @@ public class MolSurfGenService extends SimpleSynchronousServiceServlet
 	
 	            int exitVal = pr.waitFor();
 	            
-	            File file = new File("./MolSurfaceGen32/chimera/bin/Output-" + timeStamp + ".txt");
+	            File file = new File(MSMG_PATH + "/MolSurfaceGen32/chimera/bin/Output-" + timeStamp + ".txt");
 	            
 	            if(exitVal != 0 || !file.exists()){
 		            try {
-		            	BufferedReader in = new BufferedReader(new FileReader("./MolSurfaceGen32/chimera/bin/ErrorLog" + timeStamp + ".txt"));
+		            	BufferedReader in = new BufferedReader(new FileReader(MSMG_PATH + "/MolSurfaceGen32/chimera/bin/ErrorLog" + timeStamp + ".txt"));
 						
 						String line = new String();
 						
@@ -95,7 +96,7 @@ public class MolSurfGenService extends SimpleSynchronousServiceServlet
 			}
 			
 			FileIO fileIO = new FileIO();
-			fileIO.parseAndAnnotate("./MolSurfaceGen32/chimera/bin/Output-" + timeStamp + ".txt", output);
+			fileIO.parseAndAnnotate(MSMG_PATH + "/MolSurfaceGen32/chimera/bin/Output-" + timeStamp + ".txt", output);
 			
 			System.gc();
 			
