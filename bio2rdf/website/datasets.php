@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 <h1>Life Science Dataset Registry</h1>
 <?php
-define("RDFAPI_INCLUDE_DIR", "/opt/html/bio2rdf/site/api/rdfapi-php/api/");
+define("RDFAPI_INCLUDE_DIR", "/opt/software/rdfapi-php/api/");
 include(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
 
 $client = ModelFactory::getSparqlClient("http://bio2rdf.semanticscience.org:8007/sparql");
