@@ -14,9 +14,18 @@ $store = ARC2::getRemoteStore($config);
 /** PARAMETERS **/
 $sSearch = '';
 if(isset($_GET['sSearch'])) $sSearch = trim($_GET['sSearch']);
-if($sSearch) $search_filter = ' ?x ?p ?o . ?o <bif:contains> "'.$sSearch.'" . 
+/*if($sSearch) $search_filter = ' ?x ?p ?o . ?o <bif:contains> "'.$sSearch.'" . 
  FILTER (?p = <http://purl.org/dc/terms/title> || ?p = <http://bio2rdf.org/serv:shortname>) ';
-
+*/
+if($sSearch) {
+ $a = explode(" ",trim($sSearch));
+ $search_filter = ' ?x ?p ?o . ';
+ foreach($a AS $term) {
+   $search_filter .= ' FILTER regex(?o, "'.$term.'") . ';
+ }
+ $search_filter .= ' FILTER (?p = <http://purl.org/dc/terms/title> || ?p = <http://bio2rdf.org/serv:shortname>) ';
+}
+ 
 $limit = '10';
 if(isset($_GET['iDisplayLength']) && is_numeric($_GET['iDisplayLength'])) $limit = trim($_GET['iDisplayLength']);
 $limit = 'LIMIT '.$limit;
