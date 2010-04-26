@@ -1,7 +1,24 @@
 <?php include('header.php');?>
 <div id="trans-box">
 <h1>Vision</h1>
-<p>The Bio2RDF project aims to transforms silos of life science data into a globally distributed network of linked data for biological knowledge discovery.</p>
+<p>The Bio2RDF project transforms silos of life science data into a globally distributed network of linked data for biological knowledge discovery.</p>
+
+<h1>Key features</h1>
+<ul>
+ <li>Valuable, highly integrated open datasets</li>
+ <li>Single point provision or global mirroring</li>
+ <li>Federated query over full text indexes</li>
+ <li>Built with free, open-source Semantic Web technologies</li>
+</ul>
+
+<h1>What you can do with Bio2RDF</h1>
+<ul>
+ <li><a href="">Find out what we know about a specific entity</a></li>
+ <li><a href="">Find out what references to a specific entity</a></li>
+ <li><a href="">Find out what we know about a kind of entity</a></li>
+ <li><a href="">Discover the links between datasets</a></li>
+ <li><a href="">Get answers to questions about biology</a></li>
+</ul>
 
 <h1>At its core</h1>
 <p>Bio2RDF creates and provides machine understandable descriptions of biological entities using the <a title="Resource Description Framework" href="http://www.w3.org/RDF/">RDF</a>/<a title="Resource Description Framework Schema" href="http://www.w3.org/TR/rdf-schema/">RDFS</a>/<a title="Web Ontology Language" href="http://www.w3.org/TR/owl-overview">OWL</a> Semantic Web languages. Using both <a title="how we do it" href="how.php">syntactic and semantic data integration</a> techniques, Bio2RDF seamlessly integrates diverse biological data and enables powerful new <a href="http://www.w3.org/TR/rdf-sparql-query/">SPARQL</a>-based services across its globally distributed knowledge bases. <a href="how.php">read more...</a></p>
