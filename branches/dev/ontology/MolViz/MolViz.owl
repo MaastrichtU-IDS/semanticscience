@@ -48,8 +48,38 @@
      -->
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&resource;example"/>
     <owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000028 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000028"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000146 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000146"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000217 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000217"/>
     
 
 
@@ -1253,21 +1283,191 @@
 
     <owl:Class rdf:about="&resource;MVO_000118">
         <rdfs:label>chemical bond</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;MVO_000125"/>
+        <oboInOwl:hasDbXref>CHEMINF:000063</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000119 -->
+
+    <owl:Class rdf:about="&resource;MVO_000119">
+        <rdfs:label
+            >Molecular Structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000120 -->
+
+    <owl:Class rdf:about="&resource;MVO_000120">
+        <rdfs:label
+            >Molecular Structure File</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;MVO_000121"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
+                <owl:someValuesFrom rdf:resource="&resource;MVO_000119"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000121 -->
+
+    <owl:Class rdf:about="&resource;MVO_000121">
+        <rdfs:label
+            >Structural Descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;MVO_000123"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <resource:example
+            >A structural descriptor is a chemical descriptor which is about some aspect of the molecular structure (composition) of a chemical entity.</resource:example>
+        <oboInOwl:hasDbXref>CHEMINF:000085</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000122 -->
+
+    <owl:Class rdf:about="&resource;MVO_000122">
+        <rdfs:label>PDB descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;MVO_000121"/>
+        <resource:example
+            >A PDB descriptor is a structure descriptor that conforms to the PDB format specification</resource:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000123 -->
+
+    <owl:Class rdf:about="&resource;MVO_000123">
+        <rdfs:label
+            >Chemical Descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <resource:example
+            >A chemical descriptor is a data item which conforms to some specification, either for how it is calculated or for how it is measured, and is commonly used in the domain of chemistry to name and differentiate different numeric properties (both calculated and measured) which are about chemical entities.</resource:example>
+        <oboInOwl:hasDbXref>CHEMINF:000123</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000124 -->
+
+    <owl:Class rdf:about="&resource;MVO_000124">
+        <rdfs:label xml:lang="en"
+            >Molecular Structure Model</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <resource:example
+            >The products of a structure determination experiment by some experimental method (X-Ray, Solution NMR, etc).</resource:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000125 -->
+
+    <owl:Class rdf:about="&resource;MVO_000125">
+        <rdfs:label
+            >molecular entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
-        <oboInOwl:hasDbXref>CHEMINF_000063</oboInOwl:hasDbXref>
+        <oboInOwl:hasDbXref>CHEBI:23367</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MVO_000126 -->
+
+    <owl:Class rdf:about="&resource;MVO_000126">
+        <rdfs:label
+            >chemical substance</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;MVO_000125"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >Chemical substance constitutes matter of constant composition, that may contain a collection of molecular entities. [IUPAC: http://goldbook.iupac.org/C01039.html]</rdfs:comment>
+        <oboInOwl:hasDbXref>CHEMINF:440533</oboInOwl:hasDbXref>
     </owl:Class>
     
 
 
     <!-- http://semanticscience.org/resource/SIOBIO_000004 -->
 
-    <owl:Class rdf:about="&resource;SIOBIO_000004"/>
+    <owl:Class rdf:about="&resource;SIOBIO_000004">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;MVO_000119"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000037 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000037"/>
     
 
 
     <!-- http://semanticscience.org/resource/SIOBIO_000044 -->
 
-    <owl:Class rdf:about="&resource;SIOBIO_000044"/>
+    <owl:Class rdf:about="&resource;SIOBIO_000044">
+        <rdfs:subClassOf rdf:resource="&resource;MVO_000125"/>
+        <oboInOwl:hasDbXref>CHEBI:33250</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000015 -->
+
+    <owl:Class rdf:about="&resource;SIO_000015"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000056 -->
+
+    <owl:Class rdf:about="&resource;SIO_000056"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000072 -->
+
+    <owl:Class rdf:about="&resource;SIO_000072">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000056"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000148 -->
+
+    <owl:Class rdf:about="&resource;SIO_000148"/>
 </rdf:RDF>
 
 
