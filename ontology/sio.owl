@@ -70,9 +70,9 @@
     <!-- http://semanticscience.org/resource/SIO_000008 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000008">
-        <rdfs:label>has property</rdfs:label>
+        <rdfs:label>has attribute</rdfs:label>
         <dc:description
-            >has property is a relation between an entity and a property.</dc:description>
+            >has attribute is a relation between an entity and an attribute.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
     </owl:ObjectProperty>
     
@@ -82,7 +82,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000011">
         <rdfs:label>is attribute of</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000008"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
 
@@ -117,7 +118,7 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>has proper part</rdfs:label>
         <dc:description
-            >has proper part is an asymmetric, irreflexive mereological relation between a whole and its distinct part.</dc:description>
+            >has proper part is an antisymmetric, transitive, irreflexive mereological relation between a whole and its distinct part.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000028"/>
     </owl:ObjectProperty>
     
@@ -173,10 +174,6 @@
         <dc:description
             >is located in is a transitive, reflexive relation in which the object is not a part of the subject, and the subject is either partially or fully spatiotemporally positioned in the object.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000068"/>
-            <rdf:Description rdf:about="&resource;SIO_000128"/>
-        </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
 
@@ -248,7 +245,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000092">
         <rdfs:label
             >is discourse about</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
 
@@ -426,6 +423,7 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000206">
         <rdfs:label>supports</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000208"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000277"/>
     </owl:ObjectProperty>
     
@@ -435,6 +433,7 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000207">
         <rdfs:label>disputes</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000209"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000277"/>
     </owl:ObjectProperty>
     
@@ -464,8 +463,8 @@
         <rdfs:label>represents</rdfs:label>
         <dc:description
             >a represents b when a serves as a sign or symbol of b.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000205"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
 
@@ -498,10 +497,12 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000213">
         <rdfs:label
-            >is concretized as</rdfs:label>
+            >has concretization</rdfs:label>
         <dc:description
-            >is concretized as is a relation between an informational entity and a quality of some material entity.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+            >has concretization is a relation between an informational entity and a quality of some material entity.</dc:description>
+        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
+        <rdfs:range rdf:resource="&resource;SIO_000005"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -513,7 +514,10 @@
             >is concretization of</rdfs:label>
         <dc:description
             >is concretization of is a relation between a quality of a material entity and some informational entity.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+        <rdfs:range rdf:resource="&resource;SIO_000001"/>
+        <rdfs:domain rdf:resource="&resource;SIO_000005"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000213"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -709,10 +713,11 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000234">
         <rdfs:label
-            >is implemented by</rdfs:label>
+            >has implementation</rdfs:label>
         <dc:description
-            >is implementation by is a relation between a specificaiton and an implementation that conforms to it.</dc:description>
+            >has implementation is a relation between a specificaiton and an implementation that conforms to it.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000233"/>
     </owl:ObjectProperty>
     
 
@@ -945,7 +950,6 @@
         <dc:description
             >is variant of: a relationship indicating that two entities are not only similar, but either achieve the same objectives in different ways or are permutations of one another (temporal, logical or otherwise)</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000294"/>
     </owl:ObjectProperty>
     
 
@@ -980,6 +984,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000277">
         <rdfs:label>cites</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000092"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000278"/>
     </owl:ObjectProperty>
     
 
@@ -1000,7 +1005,7 @@
         <rdfs:label>is similar to</rdfs:label>
         <dc:description
             >is similar to is a relation between two objects that share some features.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -1083,12 +1088,24 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000313 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000313">
+        <rdfs:label
+            >is component part of</rdfs:label>
+        <dc:description
+            >is component part of is a relation between a component and a whole, where the component is instrinsic to the whole, and loss of the part would change the kind that the whole is.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000322 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000322">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
-        <skos:prefLabel
-            >is spatially related to</skos:prefLabel>
+        <rdfs:label
+            >is spatially related to</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -1127,7 +1144,117 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000332">
         <rdfs:label>is about</rdfs:label>
+        <owl:inverseOf rdf:resource="&resource;SIO_000212"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000338 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000338">
+        <rdfs:label>specifies</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000339"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000339 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000339">
+        <rdfs:label>is specified by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000341 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000341">
+        <rdfs:label
+            >is manifested as</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000342"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000342 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000342">
+        <rdfs:label
+            >is manifestation of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000355 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000355">
+        <rdfs:label>realizes</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000132"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000356 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000356">
+        <rdfs:label>is realized in</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000062"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000362 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000362">
+        <rdfs:label>satisfies</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000363 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000363">
+        <rdfs:label>is satisfied by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000362"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000364 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000364">
+        <rdfs:label
+            >was generated by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000365"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000365 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000365">
+        <rdfs:label>generates</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000369 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000369">
+        <rdfs:label
+            >has component part</rdfs:label>
+        <dc:description
+            >has component part is a relation between a whole and a component part where the component is instrinsic to the whole, and loss of the part would change the kind that it is.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
     </owl:ObjectProperty>
     
 
@@ -1162,6 +1289,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000006 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000006">
+        <rdfs:label>structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
     
 
 
@@ -1229,14 +1365,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000022"/>
@@ -1318,6 +1454,15 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000013 -->
+
+    <owl:Class rdf:about="&resource;SIO_000013">
+        <rdfs:label>attribute value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000014 -->
 
     <owl:Class rdf:about="&resource;SIO_000014">
@@ -1341,6 +1486,26 @@
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000005"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000341"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000364"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >information content entity is an informational entity that is physically manifested and whose symbols can be decoded with the proper background knowledge.</dc:description>
     </owl:Class>
     
 
@@ -1360,7 +1525,18 @@
 
     <owl:Class rdf:about="&resource;SIO_000017">
         <rdfs:label>function</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000014"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000361"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&resource;SIO_000354"/>
         <dc:description
             >A function is a disposition that simultaneously satisfies some intent or natural selection.</dc:description>
     </owl:Class>
@@ -1416,18 +1592,18 @@
         <rdfs:label>process part</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
         <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&resource;SIO_000023"/>
                     <rdf:Description rdf:about="&resource;SIO_000024"/>
                 </owl:unionOf>
             </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
-            </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
             >A process boundary is a process that is at the terminal part of a process (the start or end).</dc:description>
@@ -1750,7 +1926,13 @@
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000215"/>
@@ -1762,6 +1944,12 @@
                         </owl:unionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000221"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000074"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -2045,6 +2233,12 @@
     <owl:Class rdf:about="&resource;SIO_000089">
         <rdfs:label>data set</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A dataset is a collection of informational entities.</dc:description>
     </owl:Class>
@@ -2056,8 +2250,14 @@
     <owl:Class rdf:about="&resource;SIO_000090">
         <rdfs:label>specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >A specification is an informational entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</dc:description>
+            >A specification is an information content entity that explicitly states essential technical attributes/requirements for a product or procedure, and may be used to determine that the product / procedure meets its requirements/attributes.</dc:description>
     </owl:Class>
     
 
@@ -2068,6 +2268,12 @@
         <rdfs:label
             >effective specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >An effective specification is a specification composed of a sequence of instructions to achieve some objective.</dc:description>
     </owl:Class>
@@ -2184,6 +2390,12 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2350,6 +2562,8 @@
     <owl:Class rdf:about="&resource;SIO_000121">
         <rdfs:label>magazine</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+        <resource:equivalentTo
+            >http://purl.org/ontology/bibo/Magazine</resource:equivalentTo>
         <dc:description
             >A magazine is a periodical that typically contains essays, stories, poems, etc., by many writers, and often photographs and drawings, frequently specializing in a particular subject or area, as hobbies, news, or sports.</dc:description>
     </owl:Class>
@@ -2435,18 +2649,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000130">
         <rdfs:label>pattern</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <dc:description
             >A pattern is a generalized representation of some repeatable concrete or informational item.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000131 -->
-
-    <owl:Class rdf:about="&resource;SIO_000131">
-        <rdfs:label>motif</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000130"/>
     </owl:Class>
     
 
@@ -2526,7 +2731,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000141">
         <rdfs:label>criterion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
         <dc:description
             >A criterion is a specification to describe properties used for evaluation.</dc:description>
     </owl:Class>
@@ -2718,6 +2923,8 @@
     <owl:Class rdf:about="&resource;SIO_000160">
         <rdfs:label>journal</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+        <resource:equivalentTo rdf:datatype="&xsd;anyURI"
+            >http://purl.org/ontology/bibo/Journal</resource:equivalentTo>
         <dc:description
             >A journal is a a peer-reviewed periodical in which scholarship relating to a particular academic discipline is published.</dc:description>
     </owl:Class>
@@ -2742,6 +2949,8 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000295"/>
         <dc:description
             >A periodical is a publication that appears on a regular schedule.</dc:description>
+        <resource:equivalentTo
+            >http://purl.org/ontology/bibo/Periodical</resource:equivalentTo>
     </owl:Class>
     
 
@@ -2751,6 +2960,8 @@
     <owl:Class rdf:about="&resource;SIO_000163">
         <rdfs:label>newspaper</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+        <resource:equivalentTo
+            >http://purl.org/ontology/bibo/Newspaper</resource:equivalentTo>
     </owl:Class>
     
 
@@ -2851,7 +3062,7 @@
         <rdfs:label>address</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
         <dc:description
-            >An address is a specification of the physical location of some entity.</dc:description>
+            >An address is a position that indicates the physical location of some entity using a social convention.</dc:description>
     </owl:Class>
     
 
@@ -2860,7 +3071,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000173">
         <rdfs:label>affiliation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000316"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000287"/>
         <dc:description
             >An affiliation is a social structure which indicates the partnership between two or more entities.</dc:description>
     </owl:Class>
@@ -3433,7 +3644,7 @@
     <owl:Class rdf:about="&resource;SIO_000275">
         <rdfs:label
             >cognitive entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
     </owl:Class>
     
 
@@ -3523,6 +3734,15 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000287 -->
+
+    <owl:Class rdf:about="&resource;SIO_000287">
+        <rdfs:label>social relation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000288 -->
 
     <owl:Class rdf:about="&resource;SIO_000288">
@@ -3579,6 +3799,8 @@
         <rdfs:label
             >collection of documents</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <resource:equivalentTo
+            >http://purl.org/ontology/bibo/Collection</resource:equivalentTo>
     </owl:Class>
     
 
@@ -3714,6 +3936,15 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000310 -->
+
+    <owl:Class rdf:about="&resource;SIO_000310">
+        <rdfs:label>model</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000313 -->
 
     <owl:Class rdf:about="&resource;SIO_000313">
@@ -3728,8 +3959,9 @@
     <!-- http://semanticscience.org/resource/SIO_000314 -->
 
     <owl:Class rdf:about="&resource;SIO_000314">
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
-        <skos:prefLabel>number</skos:prefLabel>
+        <rdfs:label
+            >non-effective specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
     </owl:Class>
     
 
@@ -3738,8 +3970,10 @@
 
     <owl:Class rdf:about="&resource;SIO_000315">
         <rdfs:label
-            >geographic coordinate system</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000330"/>
+            >functional specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <dc:description
+            >A functional specification is a specification that describes the characteristics of the product with regard to its intended features.</dc:description>
     </owl:Class>
     
 
@@ -3747,9 +3981,13 @@
     <!-- http://semanticscience.org/resource/SIO_000316 -->
 
     <owl:Class rdf:about="&resource;SIO_000316">
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
-        <skos:prefLabel
-            >specification of association</skos:prefLabel>
+        <rdfs:label
+            >specification of association</rdfs:label>
+        <rdfs:label
+            >design specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000336"/>
+        <dc:description
+            >A design specification is a specification that provides precise and explicit information about the requirements for a product design.</dc:description>
     </owl:Class>
     
 
@@ -3759,7 +3997,7 @@
     <owl:Class rdf:about="&resource;SIO_000317">
         <rdfs:label
             >specification for spatial location</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
     </owl:Class>
     
 
@@ -3801,9 +4039,18 @@
     <!-- http://semanticscience.org/resource/SIO_000321 -->
 
     <owl:Class rdf:about="&resource;SIO_000321">
+        <rdfs:label
+            >cartesian coordinate system</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
-        <skos:prefLabel
-            >cartesian coordinate system</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000326 -->
+
+    <owl:Class rdf:about="&resource;SIO_000326">
+        <rdfs:label>concept</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
     </owl:Class>
     
 
@@ -3811,9 +4058,9 @@
     <!-- http://semanticscience.org/resource/SIO_000327 -->
 
     <owl:Class rdf:about="&resource;SIO_000327">
+        <rdfs:label
+            >polar coordinate system</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
-        <skos:prefLabel
-            >polar coordinate system</skos:prefLabel>
     </owl:Class>
     
 
@@ -3823,7 +4070,7 @@
     <owl:Class rdf:about="&resource;SIO_000328">
         <rdfs:label
             >value of spatial position</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000215"/>
@@ -3837,9 +4084,9 @@
     <!-- http://semanticscience.org/resource/SIO_000329 -->
 
     <owl:Class rdf:about="&resource;SIO_000329">
+        <rdfs:label
+            >cylindrical coordinate system</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
-        <skos:prefLabel
-            >cylindrical coordinate system</skos:prefLabel>
     </owl:Class>
     
 
@@ -3847,9 +4094,9 @@
     <!-- http://semanticscience.org/resource/SIO_000330 -->
 
     <owl:Class rdf:about="&resource;SIO_000330">
+        <rdfs:label
+            >spherical coordinate system</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
-        <skos:prefLabel
-            >spherical coordinate system</skos:prefLabel>
     </owl:Class>
     
 
@@ -3894,6 +4141,538 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000336 -->
+
+    <owl:Class rdf:about="&resource;SIO_000336">
+        <rdfs:label>plan</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >a plan is an effective specification of a set of actions to achieve some objective or goal.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000337 -->
+
+    <owl:Class rdf:about="&resource;SIO_000337">
+        <rdfs:label>objective</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000343 -->
+
+    <owl:Class rdf:about="&resource;SIO_000343">
+        <rdfs:label
+            >material disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000344 -->
+
+    <owl:Class rdf:about="&resource;SIO_000344">
+        <rdfs:label>to record</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+        <rdfs:seeAlso rdf:datatype="&xsd;anyURI"
+            >http://purl.obolibrary.org/obo/OBI_0000368</rdfs:seeAlso>
+        <dc:description
+            >To record is a function that registers or collects information in a particular format on a particular recording medium.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000345 -->
+
+    <owl:Class rdf:about="&resource;SIO_000345">
+        <rdfs:label>to magnify</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000378"/>
+        <dc:description
+            >To magnify is a disposition to increase the appearance of the size of an object.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000346 -->
+
+    <owl:Class rdf:about="&resource;SIO_000346">
+        <rdfs:label>to heat</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+        <dc:description
+            >To heat is a disposition to increase the internal kinetic energy of a material.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000347 -->
+
+    <owl:Class rdf:about="&resource;SIO_000347">
+        <rdfs:label>to cool</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000374"/>
+        <rdfs:seeAlso rdf:datatype="&xsd;anyURI"
+            >http://purl.obolibrary.org/obo/OBI_0000387</rdfs:seeAlso>
+        <dc:description
+            >To cool is a disposition to decrease the internal kinetic energy of a material.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000348 -->
+
+    <owl:Class rdf:about="&resource;SIO_000348">
+        <rdfs:label>to freeze</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000347"/>
+        <rdfs:seeAlso rdf:datatype="&xsd;anyURI"
+            >http://purl.obolibrary.org/obo/OBI_0000375</rdfs:seeAlso>
+        <dc:description
+            >To freeze is a disposition to decrease the internal kinetic energy of a material such that it changes state from a gas or liquid to a solid.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000349 -->
+
+    <owl:Class rdf:about="&resource;SIO_000349">
+        <rdfs:label>to separate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+        <dc:description
+            >To separate is the disposition to i) distinguish some entities based on some attribute(s) and ii) subsequently physically displace them.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000350 -->
+
+    <owl:Class rdf:about="&resource;SIO_000350">
+        <rdfs:label>to ionize</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+        <dc:description
+            >To ionize is the disposition to physically convert an atom or molecule into an ion by adding or removing charged particles such as electrons or other ions.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000351 -->
+
+    <owl:Class rdf:about="&resource;SIO_000351">
+        <rdfs:label
+            >to supply energy</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+        <dc:description
+            >To supply energy is the disposition to transfer energy from a source to a sink.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000353 -->
+
+    <owl:Class rdf:about="&resource;SIO_000353">
+        <rdfs:label>to display</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000354 -->
+
+    <owl:Class rdf:about="&resource;SIO_000354">
+        <rdfs:label>dysfunction</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000014"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_000361"/>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <dc:description
+            >dysfunction is the disposition to act in a manner that is not intended.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000357 -->
+
+    <owl:Class rdf:about="&resource;SIO_000357">
+        <rdfs:label
+            >biological fitness</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000358 -->
+
+    <owl:Class rdf:about="&resource;SIO_000358">
+        <rdfs:label>intent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000359 -->
+
+    <owl:Class rdf:about="&resource;SIO_000359">
+        <rdfs:label>purpose</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000337"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000360 -->
+
+    <owl:Class rdf:about="&resource;SIO_000360">
+        <rdfs:label>belief</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000361 -->
+
+    <owl:Class rdf:about="&resource;SIO_000361">
+        <rdfs:label
+            >agentive concept</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000326"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000366 -->
+
+    <owl:Class rdf:about="&resource;SIO_000366">
+        <rdfs:label>number</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000367 -->
+
+    <owl:Class rdf:about="&resource;SIO_000367">
+        <rdfs:label>variable</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000368 -->
+
+    <owl:Class rdf:about="&resource;SIO_000368">
+        <rdfs:label>equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000371 -->
+
+    <owl:Class rdf:about="&resource;SIO_000371">
+        <rdfs:label>to measure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+        <dc:description
+            >To measure is the dispositoin to obtain information about some entity by examining its physical attributes.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000372 -->
+
+    <owl:Class rdf:about="&resource;SIO_000372">
+        <rdfs:label>to inject</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+        <dc:description
+            >To inject is the disposition to administer a substance into some object through its external barrier.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000373 -->
+
+    <owl:Class rdf:about="&resource;SIO_000373">
+        <rdfs:label>to boil</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000346"/>
+        <dc:description
+            >To boil is a disposition to increase the internal kinetic energy of a material such that it changes state from a solid or liquid to a gas.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000374 -->
+
+    <owl:Class rdf:about="&resource;SIO_000374">
+        <rdfs:label
+            >to reduce energy</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000375 -->
+
+    <owl:Class rdf:about="&resource;SIO_000375">
+        <rdfs:label
+            >to supply electricity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+        <dc:description
+            >To supply electricity is the disposition to transfer electricity from a source to a sink.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000376 -->
+
+    <owl:Class rdf:about="&resource;SIO_000376">
+        <rdfs:label
+            >to change materially</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000377 -->
+
+    <owl:Class rdf:about="&resource;SIO_000377">
+        <rdfs:label>to demagnify</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000378"/>
+        <dc:description
+            >To demagnify is a disposition to decrease the appearance of the size of an object.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000378 -->
+
+    <owl:Class rdf:about="&resource;SIO_000378">
+        <rdfs:label
+            >to change appearance</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000353"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000379 -->
+
+    <owl:Class rdf:about="&resource;SIO_000379">
+        <rdfs:label>perception</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000380 -->
+
+    <owl:Class rdf:about="&resource;SIO_000380">
+        <rdfs:label>to contain</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000392"/>
+        <dc:description
+            >To contain is a disposition to bound or constrain a physical entity in some site.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000381 -->
+
+    <owl:Class rdf:about="&resource;SIO_000381">
+        <rdfs:label>to immobilize</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000380"/>
+        <dc:description
+            >To immobilize is a disposition to contain an entity in such a way that it may not move in space.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000382 -->
+
+    <owl:Class rdf:about="&resource;SIO_000382">
+        <rdfs:label>to filter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000349"/>
+        <dc:description
+            >To filter is a disposition to retain certain entities based on selected attribute(s) while allowing other entities to pass through.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000383 -->
+
+    <owl:Class rdf:about="&resource;SIO_000383">
+        <rdfs:label>to excite</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+        <dc:description
+            >To excite is the disposition to supply energy to a materila by bombarding it with energetic particles (e.g., photons).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000384 -->
+
+    <owl:Class rdf:about="&resource;SIO_000384">
+        <rdfs:label>to emit</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000374"/>
+        <dc:description
+            >To emit is the disposition to release some physical entity (light, pollution, etc).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000385 -->
+
+    <owl:Class rdf:about="&resource;SIO_000385">
+        <rdfs:label
+            >to change energetically</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000386 -->
+
+    <owl:Class rdf:about="&resource;SIO_000386">
+        <rdfs:label>to oxidize</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000387 -->
+
+    <owl:Class rdf:about="&resource;SIO_000387">
+        <rdfs:label>to reduce</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000388 -->
+
+    <owl:Class rdf:about="&resource;SIO_000388">
+        <rdfs:label>to assemble</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+        <dc:description
+            >to assemble is the disposition to combine entities together in a way that persists in time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000389 -->
+
+    <owl:Class rdf:about="&resource;SIO_000389">
+        <rdfs:label>to extract</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000349"/>
+        <dc:description
+            >To extract is a disposition to remove certain entities based on selected attribute(s) while allowing other entities to remain.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000390 -->
+
+    <owl:Class rdf:about="&resource;SIO_000390">
+        <rdfs:label>to transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000392"/>
+        <dc:description
+            >to transport is the disposition to displace a material from one location to another.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000392 -->
+
+    <owl:Class rdf:about="&resource;SIO_000392">
+        <rdfs:label
+            >to change spatially</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+        <dc:description
+            >to change spatially is the disposition to affect the physical movement of some entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000393 -->
+
+    <owl:Class rdf:about="&resource;SIO_000393">
+        <rdfs:label>patient</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000397"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000394 -->
+
+    <owl:Class rdf:about="&resource;SIO_000394">
+        <rdfs:label>doctor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000396"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000395 -->
+
+    <owl:Class rdf:about="&resource;SIO_000395">
+        <rdfs:label>regulator</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000396 -->
+
+    <owl:Class rdf:about="&resource;SIO_000396">
+        <rdfs:label
+            >health care provider</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000397"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000397 -->
+
+    <owl:Class rdf:about="&resource;SIO_000397">
+        <rdfs:label>medical role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000398 -->
+
+    <owl:Class rdf:about="&resource;SIO_000398">
+        <rdfs:label>nurse</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000396"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000399 -->
+
+    <owl:Class rdf:about="&resource;SIO_000399">
+        <rdfs:label>study subject</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000408"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000400 -->
 
     <owl:Class rdf:about="&resource;SIO_000400">
@@ -3924,11 +4703,66 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000403 -->
+
+    <owl:Class rdf:about="&resource;SIO_000403">
+        <rdfs:label>study group</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000408"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000404 -->
+
+    <owl:Class rdf:about="&resource;SIO_000404">
+        <rdfs:label>professor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000406"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000405 -->
+
+    <owl:Class rdf:about="&resource;SIO_000405">
+        <rdfs:label>student</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000406"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000406 -->
+
+    <owl:Class rdf:about="&resource;SIO_000406">
+        <rdfs:label>academic</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000407 -->
+
+    <owl:Class rdf:about="&resource;SIO_000407">
+        <rdfs:label>social role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000408 -->
+
+    <owl:Class rdf:about="&resource;SIO_000408">
+        <rdfs:label
+            >investigational role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000585 -->
 
     <owl:Class rdf:about="&resource;SIO_000585">
         <rdfs:label>idea</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <dc:description
             >An idea is a cognitive entity of that which exists in the mind.</dc:description>
     </owl:Class>
