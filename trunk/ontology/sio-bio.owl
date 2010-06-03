@@ -45,8 +45,8 @@
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
     <owl:AnnotationProperty rdf:about="&resource;example"/>
-    <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
@@ -129,9 +129,40 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000302 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIOBIO_000302">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label
+            >is homologous to</rdfs:label>
+        <dc:description
+            >a relation between two entities which indicates their common ancestry.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000028 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000028"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000053 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000053"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000068 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000068"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000132 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000132"/>
     
 
 
@@ -144,6 +175,18 @@
     <!-- http://semanticscience.org/resource/SIO_000213 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000213"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000272 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000272"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000273 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000273"/>
     
 
 
@@ -206,30 +249,18 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIOBIO_000005 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000005">
-        <rdfs:label>biopolymer</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000006 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000006">
-        <rdfs:label
-            >linear biopolymer</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIOBIO_000007 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000007">
         <rdfs:label>polypeptide</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000006"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000346"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000074"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_000008"/>
     </owl:Class>
     
 
@@ -238,7 +269,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000008">
         <rdfs:label>nucleic acid</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000006"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000346"/>
     </owl:Class>
     
 
@@ -249,6 +280,12 @@
         <rdfs:label
             >ribonucleic acid</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000008"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000337"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIOBIO_000010"/>
     </owl:Class>
     
@@ -260,6 +297,12 @@
         <rdfs:label
             >deoxyribonucleic acid</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000008"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000336"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -268,7 +311,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000011">
         <rdfs:label>lipid</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
     </owl:Class>
     
 
@@ -277,8 +320,14 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000012">
         <rdfs:label
-            >biochemical process</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
+            >chemical process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000072"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -288,7 +337,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000013">
         <rdfs:label
             >molecular interaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
         <dc:description
             >A molecular interaction is a biochemical process in which chemical entities interact through some set of attractive forces.</dc:description>
         <resource:equivalentTo
@@ -302,17 +351,11 @@
     <owl:Class rdf:about="&resource;SIOBIO_000014">
         <rdfs:label
             >primary structure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001119"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000213"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000051"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000146"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -395,16 +438,6 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIOBIO_000020 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000020">
-        <rdfs:label
-            >biochemical role player</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIOBIO_000021 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000021">
@@ -426,13 +459,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000022">
         <rdfs:label
             >secondary structure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000300"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001119"/>
     </owl:Class>
     
 
@@ -442,7 +469,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000023">
         <rdfs:label
             >tertiary structure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001119"/>
     </owl:Class>
     
 
@@ -452,7 +479,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000024">
         <rdfs:label
             >quaternary structure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000037"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001119"/>
     </owl:Class>
     
 
@@ -462,7 +489,13 @@
     <owl:Class rdf:about="&resource;SIOBIO_000025">
         <rdfs:label
             >carbohydrate polymer</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000346"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000334"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -514,7 +547,31 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000030">
         <rdfs:label>carbohydrate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000031 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000031">
+        <rdfs:label
+            >PDB chain identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000115"/>
+        <dc:description
+            >A PDB chain identifier is a alphabetical label to identify a molecule in a structure.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000032 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000032">
+        <rdfs:label
+            >PDB record identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000115"/>
+        <dc:description
+            >A PDB record identifier is an identifier for a PDB generated record.</dc:description>
     </owl:Class>
     
 
@@ -523,7 +580,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000035">
         <rdfs:label>gene</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000335"/>
         <dc:description
             >A gene is part of one or more nucleic acids which is associated with regulation, transcription, and or other biological processes.</dc:description>
         <resource:equivalentTo>biopax:Gene</resource:equivalentTo>
@@ -536,7 +593,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000036">
         <rdfs:label
             >biochemical reaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000345"/>
         <dc:description
             >A biochemical reaction is a biochemical process that involves the conversion of at least one chemical participant (target) into another (product) by an enzyme (agent).</dc:description>
         <resource:equivalentTo
@@ -561,7 +618,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000038">
         <rdfs:label>drug</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000339"/>
         <dc:description
             >A drug is a biochemical entity that regulates a biological process.</dc:description>
     </owl:Class>
@@ -573,7 +630,9 @@
     <owl:Class rdf:about="&resource;SIOBIO_000039">
         <rdfs:label
             >pharmaceutical preparation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000073"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001126"/>
+        <dc:description
+            >A pharmaceutical preparation is a chemical substance approved for use in the medical diagnosis, cure, treatment, or prevention of disease.</dc:description>
     </owl:Class>
     
 
@@ -609,7 +668,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000043">
         <rdfs:label>protein</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000346"/>
         <resource:equivalentTo>CHEBI:36080</resource:equivalentTo>
     </owl:Class>
     
@@ -628,20 +687,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000046">
         <rdfs:label
-            >biological material entity</rdfs:label>
+            >biological entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000047 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000047">
-        <rdfs:label
-            >biomolecular complex</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000051"/>
-        <dc:description
-            >A biomolecular complex is a biochemical substance composed of smaller monomeric units connected by non-covalent bonds.</dc:description>
     </owl:Class>
     
 
@@ -669,16 +716,6 @@
     <owl:Class rdf:about="&resource;SIOBIO_000050">
         <rdfs:label>allosteric site</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000040"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000051 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000051">
-        <rdfs:label
-            >biomacromolecule</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
     </owl:Class>
     
 
@@ -831,8 +868,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000071">
         <rdfs:label
-            >biomacromolecular part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+            >organic molecular part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000341"/>
     </owl:Class>
     
 
@@ -841,22 +878,10 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000072">
         <rdfs:label
-            >biochemical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+            >organic molecular entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000341"/>
         <dc:description
-            >A biochemical entity is a chemical entity involved in some biological process.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000073 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000073">
-        <rdfs:label
-            >biochemical substance</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
-        <dc:description
-            >A biochemical substance is a biochemical entity composed of more than one biochemical entities.</dc:description>
+            >An organic molecular entity is a chemical entity composed of organic atoms (at least carbon, hydrogen, and optionally oxygen, phosphorus, nitrogen)</dc:description>
     </owl:Class>
     
 
@@ -875,8 +900,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000075">
         <rdfs:label
-            >nucleic acid residue</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+            >nucleotide residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000335"/>
     </owl:Class>
     
 
@@ -896,10 +921,10 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000077">
         <rdfs:label
-            >pharmaceutical drug</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000038"/>
+            >active ingredient</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000338"/>
         <dc:description
-            >A pharmaceutical drug, also referred to as medicine, medication or medicament, is a drug intended for use in the medical diagnosis, cure, treatment, or prevention of disease</dc:description>
+            >An active ingredient is a molecular entity that exhibits</dc:description>
     </owl:Class>
     
 
@@ -958,10 +983,10 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000283">
         <rdfs:label
-            >molecular translocation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+            >molecular transportation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
         <dc:description
-            >Translocation is the directed movement of a chemical entity by some agent (e.g. transporter).</dc:description>
+            >Molecular transportation is the directed movement of a molecular entity by some agent (e.g. transporter).</dc:description>
         <resource:equivalentTo
             >biopax:Transport</resource:equivalentTo>
     </owl:Class>
@@ -1007,7 +1032,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000287">
         <rdfs:label
             >biochemical regulation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
         <dc:description
             >Biochemical regulation is a biochemical process that changes the frequency, rate or extent of a downstream biochemical process.</dc:description>
     </owl:Class>
@@ -1097,7 +1122,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000300">
         <rdfs:label>transcription</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
     </owl:Class>
     
 
@@ -1106,7 +1131,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000301">
         <rdfs:label>translation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
     </owl:Class>
     
 
@@ -1125,7 +1150,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000308">
         <rdfs:label>metabolism</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000069"/>
     </owl:Class>
     
 
@@ -1144,6 +1169,228 @@
     <owl:Class rdf:about="&resource;SIOBIO_000310">
         <rdfs:label>anabolism</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000308"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000334 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000334">
+        <rdfs:label
+            >carbohydrate residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000335 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000335">
+        <rdfs:label
+            >nucleic acid part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000336 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000336">
+        <rdfs:label
+            >deoxyribonucleotide residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000075"/>
+    </owl:Class>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIOBIO_000336"/>
+        </owl:members>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000337 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000337">
+        <rdfs:label
+            >ribonucleotide residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000338 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000338">
+        <rdfs:label
+            >component of a pharmaceutical preparation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000339"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000339 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000339">
+        <rdfs:label
+            >molecular role player</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001125"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000039"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000341 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000341">
+        <rdfs:label
+            >covalently connected molecular entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001125"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000342 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000342">
+        <rdfs:label
+            >weakly connected molecular complex</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001125"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000343 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000343">
+        <rdfs:label>enzyme</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000043"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000344"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000344 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000344">
+        <rdfs:label>catalyst</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000339"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000345 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000345">
+        <rdfs:label
+            >molecular reaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000012"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000343"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000346 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000346">
+        <rdfs:label>organic polymer</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000348 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000348">
+        <rdfs:label
+            >to weakly interact with</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000352"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000349 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000349">
+        <rdfs:label>to cleave</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000357"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000351 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000351">
+        <rdfs:label>to assemble</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000357"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000352 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000352">
+        <rdfs:label
+            >molecular disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000354 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000354">
+        <rdfs:label>to activate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000357"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000355 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000355">
+        <rdfs:label>to inhibit</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000357"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000356 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000356">
+        <rdfs:label>to transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000348"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000357 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000357">
+        <rdfs:label>to modify</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000348"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000383 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000383">
+        <rdfs:label
+            >drug regulatory authority</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000219"/>
+        <dc:description
+            >A drug regulatory authority is a regulatory authority which acts to control what substances may be used to treat individuals.</dc:description>
     </owl:Class>
     
 
@@ -2337,7 +2584,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_001118">
         <rdfs:label>chemical bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001125"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
         <oboInOwl:hasDbXref>CHEMINF:000063</oboInOwl:hasDbXref>
     </owl:Class>
     
@@ -2362,7 +2609,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001121"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2374,7 +2621,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001121"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2416,7 +2663,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_001123">
         <rdfs:label xml:lang="en"
             >chemical descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <oboInOwl:hasDbXref>CHEMINF:000123</oboInOwl:hasDbXref>
         <resource:example
             >A chemical descriptor is a data item which conforms to some specification, either for how it is calculated or for how it is measured, and is commonly used in the domain of chemistry to name and differentiate different numeric properties (both calculated and measured) which are about chemical entities.</resource:example>
@@ -2443,6 +2690,13 @@
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:onClass rdf:resource="&resource;SIOBIO_001125"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001125"/>
             </owl:Restriction>
@@ -2458,7 +2712,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_001130">
         <rdfs:label>PDB file</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001120"/>
     </owl:Class>
     
 
@@ -2468,7 +2722,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_001131">
         <rdfs:label
             >collection of molecular structure models</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000150"/>
     </owl:Class>
     
 
@@ -2491,9 +2745,9 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000015 -->
+    <!-- http://semanticscience.org/resource/SIO_000014 -->
 
-    <owl:Class rdf:about="&resource;SIO_000015"/>
+    <owl:Class rdf:about="&resource;SIO_000014"/>
     
 
 
@@ -2515,9 +2769,21 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000070 -->
+
+    <owl:Class rdf:about="&resource;SIO_000070"/>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000072 -->
 
     <owl:Class rdf:about="&resource;SIO_000072"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000115 -->
+
+    <owl:Class rdf:about="&resource;SIO_000115"/>
     
 
 
@@ -2527,9 +2793,15 @@
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000300 -->
+    <!-- http://semanticscience.org/resource/SIO_000150 -->
 
-    <owl:Class rdf:about="&resource;SIO_000300"/>
+    <owl:Class rdf:about="&resource;SIO_000150"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000219 -->
+
+    <owl:Class rdf:about="&resource;SIO_000219"/>
 </rdf:RDF>
 
 
