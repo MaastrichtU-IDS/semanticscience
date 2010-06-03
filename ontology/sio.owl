@@ -6,6 +6,7 @@
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
     <!ENTITY resource "http://semanticscience.org/resource/" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY sio "http://semanticscience.org/ontology/sio#" >
@@ -24,6 +25,7 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:sio2="http://semanticscience.org/ontology/sio.owl#">
     <owl:Ontology rdf:about="">
         <dc:creator xml:lang="en"
@@ -49,6 +51,7 @@
     <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&resource;similarTo"/>
+    <owl:AnnotationProperty rdf:about="&skos;prefLabel"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
@@ -78,7 +81,7 @@
     <!-- http://semanticscience.org/resource/SIO_000011 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000011">
-        <rdfs:label>is property of</rdfs:label>
+        <rdfs:label>is attribute of</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
     </owl:ObjectProperty>
     
@@ -111,6 +114,7 @@
     <!-- http://semanticscience.org/resource/SIO_000053 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000053">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>has proper part</rdfs:label>
         <dc:description
             >has proper part is an asymmetric, irreflexive mereological relation between a whole and its distinct part.</dc:description>
@@ -122,10 +126,19 @@
     <!-- http://semanticscience.org/resource/SIO_000054 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000054">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has boundary</rdfs:label>
         <dc:description
             >has boundary is a mereological relation between a whole and an outer part located at its periphery.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000022"/>
+                    <rdf:Description rdf:about="&resource;SIO_000025"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
     </owl:ObjectProperty>
     
 
@@ -136,7 +149,7 @@
         <rdfs:label>has member</rdfs:label>
         <dc:description
             >has member is a mereological relation between a collection and an item.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000028"/>
     </owl:ObjectProperty>
     
 
@@ -159,7 +172,11 @@
             >OBO_REL:located_in</resource:equivalentTo>
         <dc:description
             >is located in is a transitive, reflexive relation in which the object is not a part of the subject, and the subject is either partially or fully spatiotemporally positioned in the object.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000068"/>
+            <rdf:Description rdf:about="&resource;SIO_000128"/>
+        </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
 
@@ -171,6 +188,7 @@
             >is participant in</rdfs:label>
         <dc:description
             >is participant in is a relation that describes the participation of the subject in the (processual) object.</dc:description>
+        <rdfs:range rdf:resource="&resource;SIO_000002"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -205,6 +223,7 @@
         <dc:description
             >has source: a relation between an entity and the entity that provides it.</dc:description>
         <resource:equivalentTo>dc:source</resource:equivalentTo>
+        <owl:inverseOf rdf:resource="&resource;SIO_000064"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -237,6 +256,7 @@
     <!-- http://semanticscience.org/resource/SIO_000093 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000093">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label
             >is proper part of</rdfs:label>
         <dc:description
@@ -256,7 +276,7 @@
         <dc:description
             >is member of is a mereological relation between a item and a collection.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000059"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000068"/>
     </owl:ObjectProperty>
     
 
@@ -264,10 +284,19 @@
     <!-- http://semanticscience.org/resource/SIO_000096 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000096">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
         <rdfs:label>is boundary of</rdfs:label>
         <dc:description
             >is boundary of is a mereological relation between a part located at the periphery of a whole.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000022"/>
+                    <rdf:Description rdf:about="&resource;SIO_000025"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
     </owl:ObjectProperty>
     
 
@@ -280,8 +309,8 @@
         <resource:equivalentTo
             >OBO_REL:contained_in</resource:equivalentTo>
         <dc:description
-            >is contained in is a transitive relation in which the subject is *fully* located in the object.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000061"/>
+            >is contained in is a transitive relation in which the subject is part of the object.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
 
@@ -294,6 +323,7 @@
             >OBO_REL:has_participant</resource:equivalentTo>
         <dc:description
             >has participant is a relation that describes the participation of the object in the (processual) subject.</dc:description>
+        <rdfs:domain rdf:resource="&resource;SIO_000002"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000062"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
@@ -322,7 +352,7 @@
         <dc:description
             >is location of is a transitive, reflexive relation in which the subject does not have the object as a part, and the object is either partially or fully spatiotemporally positioned in the subject.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000061"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
 
@@ -335,7 +365,7 @@
         <dc:description
             >is information about is a relation between an informational entity and another entity.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000212"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
 
@@ -346,9 +376,9 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>contains</rdfs:label>
         <dc:description
-            >contains is a transitive relation in which the object is *fully* located in the subject.</dc:description>
+            >contains is a transitive relation in which the object is part of the subject.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000128"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000145"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
 
@@ -361,7 +391,7 @@
         <rdfs:label>is connected to</rdfs:label>
         <dc:description
             >is connected to is a symmetric, transitive relation that holds iff they are directly or indirectly connected to one another.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
 
@@ -468,9 +498,9 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000213">
         <rdfs:label
-            >has concretization</rdfs:label>
+            >is concretized as</rdfs:label>
         <dc:description
-            >has concretization is a relation between an informational entity and a quality of some material entity.</dc:description>
+            >is concretized as is a relation between an informational entity and a quality of some material entity.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
     </owl:ObjectProperty>
     
@@ -541,6 +571,7 @@
     <!-- http://semanticscience.org/resource/SIO_000221 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000221">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label>has unit</rdfs:label>
         <dc:description
             >has unit is a relation between a quanity and the unit it is a multiple of.</dc:description>
@@ -875,8 +906,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000253">
         <rdfs:label>has reference</rdfs:label>
-        <rdfs:comment
-            >has reference is a relation between an entity and a document that provides information about it.</rdfs:comment>
+        <dc:description
+            >has reference is a relation between an entity and a document that provides information about it.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000252"/>
     </owl:ObjectProperty>
@@ -909,10 +940,24 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000272">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is variant of</rdfs:label>
         <dc:description
-            >is variant of is a relation between two objects in which they are similar due to one being derived from another, or having a specific attribute in common.</dc:description>
+            >is variant of: a relationship indicating that two entities are not only similar, but either achieve the same objectives in different ways or are permutations of one another (temporal, logical or otherwise)</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000294"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000273 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000273">
+        <rdfs:label
+            >has granular part</rdfs:label>
+        <rdfs:comment
+            >has granular part is a relation between a whole and a part, which is non-transitive and can be used in qualified cardinality restrictions.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
     </owl:ObjectProperty>
     
 
@@ -987,10 +1032,31 @@
     <!-- http://semanticscience.org/resource/SIO_000292 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000292">
-        <rdfs:label>is target of</rdfs:label>
+        <rdfs:label>is target in</rdfs:label>
         <dc:description
-            >is target of is a relation between an entity and a process, where the entity is present at the beginning  of the process and undergoes a change or transformation in the process.</dc:description>
+            >is target in is a relation between an entity and a process, where the entity is present at the beginning  of the process and undergoes a change or transformation in the process.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000231"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000294 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000294">
+        <rdfs:label>is similar to</rdfs:label>
+        <dc:description
+            >is similar to: a relation indicating shared features between two entities.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000310 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000310">
+        <rdfs:label
+            >is granular part of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
     </owl:ObjectProperty>
     
 
@@ -1013,6 +1079,55 @@
         <dc:description
             >hjas product is a relation between an process and an entity, where the entity is present at the end of the process as a result of a transformation in the process target.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000229"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000322 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000322">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <skos:prefLabel
+            >is spatially related to</skos:prefLabel>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000323 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000323">
+        <rdfs:label
+            >is surrounded by</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000324 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000324">
+        <rdfs:label>surrounds</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000323"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000325 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000325">
+        <rdfs:label>overlaps with</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000332 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000332">
+        <rdfs:label>is about</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -1078,6 +1193,12 @@
         <rdfs:label
             >processual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A processual entity is an entity that is temporally extended (occupies some part of time), only has temporal parts, and always involves some physical entity as a participant.</dc:description>
     </owl:Class>
@@ -1089,6 +1210,12 @@
     <owl:Class rdf:about="&resource;SIO_000003">
         <rdfs:label>physical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A physical entity is an entity that is spatio-temporally extended (occupies some part of spacetime) and only has physical parts.</dc:description>
     </owl:Class>
@@ -1100,6 +1227,19 @@
     <owl:Class rdf:about="&resource;SIO_000004">
         <rdfs:label>material entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&resource;SIO_000022"/>
         <dc:description
             >A material entity is a physical entity that has mass.</dc:description>
     </owl:Class>
@@ -1134,6 +1274,12 @@
         <rdfs:label
             >process aggregate</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000002"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A process aggregate is a processual entity that is a meriological sum of processes and possesses unconnected temporal boundaries, whose duration is the mereological sum of the duration of all temporal intervals.</dc:description>
     </owl:Class>
@@ -1155,6 +1301,8 @@
         <rdfs:label
             >social structure</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+        <dc:description
+            >A social structure is a social entity which consists of relationships between two or more entities.</dc:description>
     </owl:Class>
     
 
@@ -1166,17 +1314,6 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000010"/>
         <dc:description
             >An organization is a social structure with a complex articulation of tasks, roles and responsibilities.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000013 -->
-
-    <owl:Class rdf:about="&resource;SIO_000013">
-        <rdfs:label>institution</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
-        <dc:description
-            >An institution is an organization bearing a legal status and having powers conferred by Law.</dc:description>
     </owl:Class>
     
 
@@ -1198,6 +1335,12 @@
         <rdfs:label
             >information content entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000005"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1229,9 +1372,16 @@
     <owl:Class rdf:about="&resource;SIO_000018">
         <rdfs:label
             >material aggregate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&resource;SIO_000022"/>
         <dc:description
-            >A material aggregate is a material entity that is a meriological sum of material entities and possesses non-connected spatial boundaries, whose mass is the mereological sum of the mass of all material entities it is composed of.</dc:description>
+            >A material aggregate is a physical entity that is a meriological sum of material entities and possesses non-connected spatial boundaries possibly existing across discontinuous temporal regions, whose mass is the mereological sum of the mass of all material entities it is composed of.</dc:description>
     </owl:Class>
     
 
@@ -1241,6 +1391,19 @@
     <owl:Class rdf:about="&resource;SIO_000019">
         <rdfs:label>site</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
+                <owl:onClass rdf:resource="&resource;SIO_000003"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A site is a mixture of connected material entities which act as surrounding environments for other material entities.</dc:description>
     </owl:Class>
@@ -1250,8 +1413,7 @@
     <!-- http://semanticscience.org/resource/SIO_000021 -->
 
     <owl:Class rdf:about="&resource;SIO_000021">
-        <rdfs:label
-            >process boundary</rdfs:label>
+        <rdfs:label>process part</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
         <rdfs:subClassOf>
             <owl:Class>
@@ -1260,6 +1422,12 @@
                     <rdf:Description rdf:about="&resource;SIO_000024"/>
                 </owl:unionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
             >A process boundary is a process that is at the terminal part of a process (the start or end).</dc:description>
@@ -1272,9 +1440,15 @@
     <owl:Class rdf:about="&resource;SIO_000022">
         <rdfs:label
             >material boundary</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000022"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >A material boundary is a material entity that is part of a material entity and is located at its boundary.</dc:description>
+            >A material boundary is the boundary of a material entity which exists as a lower dimensional entity at exactly the location where its parts no longer extend into space. Every material entity has a boundary, and a boundary is the boundary of exactly 1 material entity.</dc:description>
     </owl:Class>
     
 
@@ -1306,10 +1480,22 @@
 
     <owl:Class rdf:about="&resource;SIO_000025">
         <rdfs:label
-            >instantaneous process</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+            >process boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000096"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000025"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >An instantaneous process is a process that occurs with zero duration.</dc:description>
+            >A process boundary is the boundary of a process which exists exactly at the point that bounds the temporal interval.</dc:description>
     </owl:Class>
     
 
@@ -1564,7 +1750,20 @@
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_000260"/>
+                            <rdf:Description rdf:about="&resource;SIO_000271"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A quantity is an informational entity that gives the magnitude of a property.</dc:description>
     </owl:Class>
@@ -1657,7 +1856,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000071">
         <rdfs:label>coordinate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000056"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
         <dc:description
             >A coordinate is a measurement of position in n-dimensional space.</dc:description>
     </owl:Class>
@@ -1671,6 +1870,8 @@
             >cartesian coordinate</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
         <owl:disjointWith rdf:resource="&resource;SIO_000073"/>
+        <dc:description
+            >A Cartesian coordinate is the signed distance of a point to some referent line.</dc:description>
     </owl:Class>
     
 
@@ -1979,7 +2180,13 @@
 
     <owl:Class rdf:about="&resource;SIO_000105">
         <rdfs:label>symbol</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A symbol is an information entity that represents something else by association, resemblance, or convention.</dc:description>
     </owl:Class>
@@ -2086,7 +2293,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000115">
         <rdfs:label>identifier</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
         <dc:description
             >An identifier is an informational property that specifically refers to (identifies) an entity (instance/type).</dc:description>
     </owl:Class>
@@ -2218,8 +2425,7 @@
     <!-- http://semanticscience.org/resource/SIO_000129 -->
 
     <owl:Class rdf:about="&resource;SIO_000129">
-        <rdfs:label
-            >ontology document</rdfs:label>
+        <rdfs:label>ontology</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
     </owl:Class>
     
@@ -2390,7 +2596,7 @@
         <rdfs:label>medium</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <dc:description
-            >A medium is a specification or instrument for storing or communicating information.</dc:description>
+            >A medium is a tool, instrument or channel for storing or communicating information.</dc:description>
     </owl:Class>
     
 
@@ -2643,9 +2849,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000172">
         <rdfs:label>address</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000056"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
         <dc:description
-            >An address is a textual entity that denotes the physical location of some entity.</dc:description>
+            >An address is a specification of the physical location of some entity.</dc:description>
     </owl:Class>
     
 
@@ -2654,9 +2860,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000173">
         <rdfs:label>affiliation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000287"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000316"/>
         <dc:description
-            >An affiliation is a textual entity that describes the relation of the author or contributor with their place of work or study.</dc:description>
+            >An affiliation is a social structure which indicates the partnership between two or more entities.</dc:description>
     </owl:Class>
     
 
@@ -2720,7 +2926,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000179">
         <rdfs:label>label</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000105"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
     </owl:Class>
     
 
@@ -2979,6 +3185,18 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000219 -->
+
+    <owl:Class rdf:about="&resource;SIO_000219">
+        <rdfs:label
+            >regulatory authority</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+        <dc:description
+            >A regulatory authority is an organization responsible for  exercising regulatory or supervisory capacity in some area of human activity.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000220 -->
 
     <owl:Class rdf:about="&resource;SIO_000220">
@@ -3053,6 +3271,12 @@
         <rdfs:label
             >dimensional quantity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000221"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000074"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A dimensional quantity is a quantity that has an associated unit.</dc:description>
     </owl:Class>
@@ -3192,6 +3416,12 @@
     <owl:Class rdf:about="&resource;SIO_000271">
         <rdfs:label>attribute</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A property is an informational entity which is used to describe an entity and whose realization or value may be context dependent.</dc:description>
     </owl:Class>
@@ -3277,19 +3507,27 @@
     <!-- http://semanticscience.org/resource/SIO_000285 -->
 
     <owl:Class rdf:about="&resource;SIO_000285">
-        <rdfs:label>idea</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
-        <dc:description
-            >An idea is a cognitive entity of that which exists in the mind.</dc:description>
+        <rdfs:label
+            >academic organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000287 -->
+    <!-- http://semanticscience.org/resource/SIO_000286 -->
 
-    <owl:Class rdf:about="&resource;SIO_000287">
-        <rdfs:label>social relation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000010"/>
+    <owl:Class rdf:about="&resource;SIO_000286">
+        <rdfs:label>department</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000288 -->
+
+    <owl:Class rdf:about="&resource;SIO_000288">
+        <rdfs:label>institute</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
     </owl:Class>
     
 
@@ -3298,6 +3536,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000289">
         <rdfs:label>set</rdfs:label>
+        <rdfs:label>faculty</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
     </owl:Class>
     
@@ -3306,8 +3545,19 @@
     <!-- http://semanticscience.org/resource/SIO_000290 -->
 
     <owl:Class rdf:about="&resource;SIO_000290">
-        <rdfs:label>number</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+        <rdfs:label>university</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000293 -->
+
+    <owl:Class rdf:about="&resource;SIO_000293">
+        <rdfs:label>corporation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+        <dc:description
+            >A corporation is an organization that is granted a charter recognizing it as a separate legal entity.</dc:description>
     </owl:Class>
     
 
@@ -3369,15 +3619,6 @@
     <owl:Class rdf:about="&resource;SIO_000299">
         <rdfs:label>quote</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000298"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000300 -->
-
-    <owl:Class rdf:about="&resource;SIO_000300">
-        <rdfs:label>structure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
     </owl:Class>
     
 
@@ -3473,6 +3714,186 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000313 -->
+
+    <owl:Class rdf:about="&resource;SIO_000313">
+        <rdfs:label>ordinal number</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+        <dc:description
+            >A ordinal number is a coordinate that designates the position of an entity in an ordered sequence of entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000314 -->
+
+    <owl:Class rdf:about="&resource;SIO_000314">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+        <skos:prefLabel>number</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000315 -->
+
+    <owl:Class rdf:about="&resource;SIO_000315">
+        <rdfs:label
+            >geographic coordinate system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000330"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000316 -->
+
+    <owl:Class rdf:about="&resource;SIO_000316">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <skos:prefLabel
+            >specification of association</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000317 -->
+
+    <owl:Class rdf:about="&resource;SIO_000317">
+        <rdfs:label
+            >specification for spatial location</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000318 -->
+
+    <owl:Class rdf:about="&resource;SIO_000318">
+        <rdfs:label>longitude</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+        <dc:description
+            >Longitude is the angle east or west of a reference meridian between the two geographical poles to another meridian that passes through an arbitrary point.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000319 -->
+
+    <owl:Class rdf:about="&resource;SIO_000319">
+        <rdfs:label>latitude</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+        <dc:description
+            >Latitude is the angle from a point on the Earth&#39;s surface to the equatorial plane</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000320 -->
+
+    <owl:Class rdf:about="&resource;SIO_000320">
+        <rdfs:label
+            >coordinate system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000317"/>
+        <dc:description
+            >A coordinate system is a system which uses a set of numbers, or coordinates, to uniquely determine the position of a point or other geometric element.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000321 -->
+
+    <owl:Class rdf:about="&resource;SIO_000321">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+        <skos:prefLabel
+            >cartesian coordinate system</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000327 -->
+
+    <owl:Class rdf:about="&resource;SIO_000327">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+        <skos:prefLabel
+            >polar coordinate system</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000328 -->
+
+    <owl:Class rdf:about="&resource;SIO_000328">
+        <rdfs:label
+            >value of spatial position</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000056"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000329 -->
+
+    <owl:Class rdf:about="&resource;SIO_000329">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+        <skos:prefLabel
+            >cylindrical coordinate system</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000330 -->
+
+    <owl:Class rdf:about="&resource;SIO_000330">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+        <skos:prefLabel
+            >spherical coordinate system</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000331 -->
+
+    <owl:Class rdf:about="&resource;SIO_000331">
+        <rdfs:label>OWL ontology</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000129"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000333 -->
+
+    <owl:Class rdf:about="&resource;SIO_000333">
+        <rdfs:label
+            >3D Cartesian coordinate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                        <owl:onClass rdf:resource="&resource;SIO_000400"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                        <owl:onClass rdf:resource="&resource;SIO_000401"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                        <owl:onClass rdf:resource="&resource;SIO_000402"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000400 -->
 
     <owl:Class rdf:about="&resource;SIO_000400">
@@ -3500,6 +3921,44 @@
             >z cartesian coordinate</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
     </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000585 -->
+
+    <owl:Class rdf:about="&resource;SIO_000585">
+        <rdfs:label>idea</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+        <dc:description
+            >An idea is a cognitive entity of that which exists in the mind.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000006"/>
+            <rdf:Description rdf:about="&resource;SIO_000007"/>
+            <rdf:Description rdf:about="&resource;SIO_000025"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000001"/>
+            <rdf:Description rdf:about="&resource;SIO_000002"/>
+            <rdf:Description rdf:about="&resource;SIO_000003"/>
+        </owl:members>
+    </rdf:Description>
 </rdf:RDF>
 
 
