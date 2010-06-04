@@ -199,8 +199,6 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000288">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:label
-            >is covalently connected to (transitive)</rdfs:label>
         <rdfs:range rdf:resource="&resource;SIOBIO_000044"/>
         <rdfs:domain rdf:resource="&resource;SIOBIO_000044"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
@@ -213,8 +211,6 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000293">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:label
-            >is weakly interacting with (transitive)</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
         <rdfs:range>
             <owl:Class>
@@ -279,6 +275,23 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000300 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000300"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -331,6 +344,16 @@
         <resource:equivalentTo>CHEBI:23367</resource:equivalentTo>
         <dc:description
             >A chemical entity is a constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer, substance, mixture, etc., identifiable as a separately distinguishable entity.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000005 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000005">
+        <rdfs:label
+            >weak submolecular interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
     </owl:Class>
     
 
@@ -540,6 +563,18 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000020 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000020">
+        <rdfs:label
+            >submolecular interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <dc:description
+            >A submolecular interaction is a molecular entity that exists between molecular entities or their parts.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000021 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000021">
@@ -679,6 +714,24 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000033 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000033">
+        <rdfs:label>hydrogen bond</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000034 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000034">
+        <rdfs:label>pi interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000035 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000035">
@@ -792,12 +845,31 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000045 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000045">
+        <rdfs:label>base pair</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000046 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000046">
         <rdfs:label
             >biological entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000047 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000047">
+        <rdfs:label
+            >strong submolecular interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
     </owl:Class>
     
 
@@ -825,6 +897,16 @@
     <owl:Class rdf:about="&resource;SIOBIO_000050">
         <rdfs:label>allosteric site</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000040"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000051 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000051">
+        <rdfs:label
+            >biological fluid</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000046"/>
     </owl:Class>
     
 
@@ -980,12 +1062,6 @@
             >organic molecular part</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000441"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000072"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -998,6 +1074,12 @@
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000072"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -3233,8 +3315,9 @@
     <!-- http://semanticscience.org/resource/SIOBIO_001118 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_001118">
-        <rdfs:label>chemical bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <rdfs:label
+            >covalent chemical bond</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000047"/>
         <oboInOwl:hasDbXref>CHEMINF:000063</oboInOwl:hasDbXref>
     </owl:Class>
     
@@ -3259,6 +3342,12 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001121"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3266,12 +3355,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000146"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001119"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3335,15 +3418,15 @@
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
-                <owl:onClass rdf:resource="&resource;SIOBIO_001125"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001125"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001125"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:onClass rdf:resource="&resource;SIOBIO_001125"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <oboInOwl:hasDbXref>CHEMINF:440533</oboInOwl:hasDbXref>
@@ -3492,6 +3575,19 @@
     <owl:Class rdf:about="&resource;SIO_000310">
         <dc:description
             >A model is a representation of some thing.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000417 -->
+
+    <owl:Class rdf:about="&resource;SIO_000417">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;duration"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 </rdf:RDF>
 
