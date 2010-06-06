@@ -525,8 +525,10 @@
     <!-- http://semanticscience.org/resource/SIO_000215 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000215">
-        <rdfs:label>is quantity of</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000011"/>
+        <rdfs:label
+            >is measurement value of</rdfs:label>
+        <rdfs:domain rdf:resource="&resource;SIO_000070"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
 
@@ -534,10 +536,12 @@
     <!-- http://semanticscience.org/resource/SIO_000216 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000216">
-        <rdfs:label>has quantity</rdfs:label>
+        <rdfs:label
+            >has measurement value</rdfs:label>
         <dc:description
-            >has quantity is a relation between an entity and a quantity.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000008"/>
+            >has measurement value is a relation between an entity and a measurement value.</dc:description>
+        <rdfs:range rdf:resource="&resource;SIO_000070"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000212"/>
     </owl:ObjectProperty>
     
 
@@ -1094,7 +1098,7 @@
             >is component part of</rdfs:label>
         <dc:description
             >is component part of is a relation between a component and a whole, where the component is instrinsic to the whole, and loss of the part would change the kind that the whole is.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000310"/>
     </owl:ObjectProperty>
     
 
@@ -1259,7 +1263,7 @@
             >has component part</rdfs:label>
         <dc:description
             >has component part is a relation between a whole and a component part where the component is instrinsic to the whole, and loss of the part would change the kind that it is.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000273"/>
     </owl:ObjectProperty>
     
 
@@ -1513,7 +1517,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000009">
         <rdfs:label>social entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
     </owl:Class>
     
 
@@ -1544,8 +1548,9 @@
     <!-- http://semanticscience.org/resource/SIO_000013 -->
 
     <owl:Class rdf:about="&resource;SIO_000013">
-        <rdfs:label>attribute value</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:label
+            >geographic positional value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
     </owl:Class>
     
 
@@ -1781,6 +1786,12 @@
         <rdfs:label
             >processual quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000002"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A processual quality is quality that is intrinsically associated with a procesual entity at all times, but whose observed/measured value may change with space/time</dc:description>
     </owl:Class>
@@ -1791,17 +1802,14 @@
 
     <owl:Class rdf:about="&resource;SIO_000029">
         <rdfs:label
-            >processual dimensional quality</rdfs:label>
+            >process dimensional quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000027"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000030 -->
-
-    <owl:Class rdf:about="&resource;SIO_000030">
-        <rdfs:label>duration</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1811,6 +1819,12 @@
     <owl:Class rdf:about="&resource;SIO_000031">
         <rdfs:label>start</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;date"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1820,6 +1834,12 @@
     <owl:Class rdf:about="&resource;SIO_000032">
         <rdfs:label>end</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;date"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1828,8 +1848,14 @@
 
     <owl:Class rdf:about="&resource;SIO_000033">
         <rdfs:label
-            >processual stative property</rdfs:label>
+            >process stative property</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000058"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1855,7 +1881,7 @@
     <!-- http://semanticscience.org/resource/SIO_000036 -->
 
     <owl:Class rdf:about="&resource;SIO_000036">
-        <rdfs:label>not begun</rdfs:label>
+        <rdfs:label>predicted</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
     </owl:Class>
     
@@ -1867,6 +1893,12 @@
         <rdfs:label
             >physical dimensional quality</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000216"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000052"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -2013,13 +2045,7 @@
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000221"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000074"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000215"/>
@@ -2058,7 +2084,13 @@
 
     <owl:Class rdf:about="&resource;SIO_000056">
         <rdfs:label>position</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000008"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000328"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -2067,7 +2099,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000057">
         <rdfs:label>orientation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
     </owl:Class>
     
 
@@ -2114,9 +2146,8 @@
     <!-- http://semanticscience.org/resource/SIO_000069 -->
 
     <owl:Class rdf:about="&resource;SIO_000069">
-        <rdfs:label
-            >0D extent quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+        <rdfs:label>data</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
     </owl:Class>
     
 
@@ -2125,10 +2156,28 @@
 
     <owl:Class rdf:about="&resource;SIO_000070">
         <rdfs:label
-            >measured quantity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+            >measurement value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;double"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;float"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;integer"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <dc:description
-            >A measured quantity is a quantity obtained from determining the magnitude of some quality, attribute or property.</dc:description>
+            >A measurement value is an information content entity that reflects the magnitude of some attribute.</dc:description>
     </owl:Class>
     
 
@@ -2325,13 +2374,17 @@
 
     <owl:Class rdf:about="&resource;SIO_000089">
         <rdfs:label>data set</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000069"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <dc:description
             >A dataset is a collection of informational entities.</dc:description>
     </owl:Class>
@@ -2859,7 +2912,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000144">
         <rdfs:label>parameter</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
         <dc:description
             >A parameter is a property whose value changes the characteristics of a system or a function.</dc:description>
     </owl:Class>
@@ -3231,6 +3284,8 @@
     <owl:Class rdf:about="&resource;SIO_000179">
         <rdfs:label>label</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+        <dc:description
+            >a label is an attribute that is associated with some entity</dc:description>
     </owl:Class>
     
 
@@ -3563,6 +3618,17 @@
         <rdfs:label
             >dimensionless quantity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:complementOf>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000221"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000074"/>
+                    </owl:Restriction>
+                </owl:complementOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&resource;SIO_000258"/>
         <dc:description
             >A dimensionless quantity is a quantity that has no associated unit.</dc:description>
     </owl:Class>
@@ -3691,7 +3757,15 @@
 
     <owl:Class rdf:about="&resource;SIO_000268">
         <rdfs:label>truth value</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000269"/>
+                    <rdf:Description rdf:about="&resource;SIO_000270"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000436"/>
     </owl:Class>
     
 
@@ -3701,6 +3775,12 @@
     <owl:Class rdf:about="&resource;SIO_000269">
         <rdfs:label>true</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:hasValue rdf:datatype="&xsd;boolean">true</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000270"/>
     </owl:Class>
     
@@ -3711,6 +3791,12 @@
     <owl:Class rdf:about="&resource;SIO_000270">
         <rdfs:label>false</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:hasValue rdf:datatype="&xsd;boolean">false</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -3970,8 +4056,14 @@
 
     <owl:Class rdf:about="&resource;SIO_000303">
         <rdfs:label
-            >processual order property</rdfs:label>
+            >process order property</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000058"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -4121,7 +4213,8 @@
 
     <owl:Class rdf:about="&resource;SIO_000318">
         <rdfs:label>longitude</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000319"/>
         <dc:description
             >Longitude is the angle east or west of a reference meridian between the two geographical poles to another meridian that passes through an arbitrary point.</dc:description>
     </owl:Class>
@@ -4132,7 +4225,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000319">
         <rdfs:label>latitude</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
         <dc:description
             >Latitude is the angle from a point on the Earth&#39;s surface to the equatorial plane</dc:description>
     </owl:Class>
@@ -4184,11 +4277,11 @@
 
     <owl:Class rdf:about="&resource;SIO_000328">
         <rdfs:label
-            >value of spatial position</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+            >positional value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000056"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -5037,7 +5130,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
-            >A spatiotemporal region is a physical entity composed of (contiguous or scattered) spatial and temporal parts that provides the location for the existence of physical and processual entities.</dc:description>
+            >A spatiotemporal region is an entity composed of (contiguous or scattered) spatial and temporal parts that provides the location for the existence of physical and processual entities.</dc:description>
         <resource:example
             >the spatiotemporal region occupied by a human life, the spatiotemporal regions occupied by all humans;</resource:example>
     </owl:Class>
@@ -5052,8 +5145,8 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000391"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000008"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000030"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;duration"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -5072,8 +5165,8 @@
             <owl:Class>
                 <owl:complementOf>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000008"/>
-                        <owl:someValuesFrom rdf:resource="&resource;SIO_000030"/>
+                        <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;duration"/>
                     </owl:Restriction>
                 </owl:complementOf>
             </owl:Class>
@@ -5164,6 +5257,43 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000436 -->
+
+    <owl:Class rdf:about="&resource;SIO_000436">
+        <rdfs:label
+            >informational quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000438 -->
+
+    <owl:Class rdf:about="&resource;SIO_000438">
+        <rdfs:label>altitude</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000439 -->
+
+    <owl:Class rdf:about="&resource;SIO_000439">
+        <rdfs:label>center of mass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000056"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000472 -->
+
+    <owl:Class rdf:about="&resource;SIO_000472">
+        <rdfs:label>scientific data</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000585 -->
 
     <owl:Class rdf:about="&resource;SIO_000585">
@@ -5171,6 +5301,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
         <dc:description
             >An idea is a cognitive entity of that which exists in the mind.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_999999 -->
+
+    <owl:Class rdf:about="&resource;SIO_999999">
+        <rdfs:label>obsolete</rdfs:label>
     </owl:Class>
     
 
@@ -5186,9 +5324,10 @@
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000006"/>
-            <rdf:Description rdf:about="&resource;SIO_000007"/>
-            <rdf:Description rdf:about="&resource;SIO_000025"/>
+            <rdf:Description rdf:about="&resource;SIO_000333"/>
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -5197,6 +5336,22 @@
             <rdf:Description rdf:about="&resource;SIO_000001"/>
             <rdf:Description rdf:about="&resource;SIO_000002"/>
             <rdf:Description rdf:about="&resource;SIO_000003"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000006"/>
+            <rdf:Description rdf:about="&resource;SIO_000007"/>
+            <rdf:Description rdf:about="&resource;SIO_000025"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
