@@ -28,12 +28,13 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:sio2="http://semanticscience.org/ontology/sio.owl#">
     <owl:Ontology rdf:about="">
-        <dc:creator xml:lang="en"
-            >Michel Dumontier</dc:creator>
         <dc:title xml:lang="en"
             >Semanticscience Integrated Ontology (SIO)</dc:title>
         <dc:description xml:lang="en"
             >The semanticscience integrated ontology (SIO) provides a simple, integrated upper level ontology (types, relations) for diverse knowledge representation across physical, processual and informational entities.</dc:description>
+        <owl:versionInfo>alpha</owl:versionInfo>
+        <dc:creator xml:lang="en"
+            >Michel Dumontier</dc:creator>
     </owl:Ontology>
     
 
@@ -1717,13 +1718,17 @@
 
     <owl:Class rdf:about="&resource;SIO_000021">
         <rdfs:label>process part</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000006"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -2195,7 +2200,7 @@
     <owl:Class rdf:about="&resource;SIO_000070">
         <rdfs:label
             >measurement value</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -2215,7 +2220,7 @@
             </owl:Class>
         </rdfs:subClassOf>
         <dc:description
-            >A measurement value is an information content entity that reflects the magnitude of some attribute.</dc:description>
+            >A measurement value is data that reflects the magnitude of some attribute.</dc:description>
     </owl:Class>
     
 
@@ -5418,6 +5423,14 @@
             <rdf:Description rdf:about="&resource;SIO_000001"/>
             <rdf:Description rdf:about="&resource;SIO_000002"/>
             <rdf:Description rdf:about="&resource;SIO_000003"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000015"/>
+            <rdf:Description rdf:about="&resource;SIO_000260"/>
+            <rdf:Description rdf:about="&resource;SIO_000271"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
