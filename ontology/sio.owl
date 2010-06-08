@@ -47,13 +47,12 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-	<owl:AnnotationProperty rdf:about="&dc;creator"/>
     <owl:AnnotationProperty rdf:about="&dc;title"/>
-	<owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&resource;example"/>
     <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&resource;similarTo"/>
-    
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
     
 
 
@@ -1437,14 +1436,20 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1458,6 +1463,12 @@
     <owl:Class rdf:about="&resource;SIO_000003">
         <rdfs:label>physical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
@@ -2568,13 +2579,13 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -4662,14 +4673,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000416"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -4898,14 +4909,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000416"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000391"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000391"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
@@ -5163,8 +5174,15 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
-                <owl:onClass rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000145"/>
+                <owl:onClass>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_000002"/>
+                            <rdf:Description rdf:about="&resource;SIO_000003"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:onClass>
                 <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -5179,6 +5197,13 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000416"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000202"/>
+                <owl:onClass rdf:resource="&resource;SIO_000002"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -5353,14 +5378,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
                 <owl:onClass rdf:resource="&resource;SIO_000501"/>
                 <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000541"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5384,7 +5409,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000500"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5477,6 +5502,12 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000400"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000402"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -5484,12 +5515,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000401"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000400"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -5562,7 +5587,7 @@ pair of points.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000532"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5673,14 +5698,14 @@ categorical axis.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000508"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000509"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5700,16 +5725,9 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000521"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000520"/>
                 <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:maxQualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:onClass rdf:resource="&resource;SIO_000521"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -5732,7 +5750,7 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000522"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000520"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5751,7 +5769,7 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000522"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:onClass rdf:resource="&resource;SIO_000520"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
             </owl:Restriction>
@@ -5985,26 +6003,26 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000015"/>
+            <rdf:Description rdf:about="&resource;SIO_000260"/>
+            <rdf:Description rdf:about="&resource;SIO_000271"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIO_000333"/>
             <rdf:Description rdf:about="&resource;SIO_000400"/>
             <rdf:Description rdf:about="&resource;SIO_000401"/>
             <rdf:Description rdf:about="&resource;SIO_000402"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000400"/>
-            <rdf:Description rdf:about="&resource;SIO_000401"/>
-            <rdf:Description rdf:about="&resource;SIO_000402"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000512"/>
-            <rdf:Description rdf:about="&resource;SIO_000516"/>
-            <rdf:Description rdf:about="&resource;SIO_000539"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -6018,9 +6036,9 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000015"/>
-            <rdf:Description rdf:about="&resource;SIO_000260"/>
-            <rdf:Description rdf:about="&resource;SIO_000271"/>
+            <rdf:Description rdf:about="&resource;SIO_000512"/>
+            <rdf:Description rdf:about="&resource;SIO_000516"/>
+            <rdf:Description rdf:about="&resource;SIO_000539"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
