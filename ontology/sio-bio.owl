@@ -49,6 +49,7 @@
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&resource;similarTo"/>
     
 
 
@@ -640,7 +641,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000027">
         <rdfs:label
             >single nucleotide polymorphism</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000026"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000478"/>
         <dc:description
             >single nucleotide polymorphism (SNP) is a variation in a single base in the genetic composition between different individuals of the same species.</dc:description>
     </owl:Class>
@@ -660,9 +661,8 @@
     <!-- http://semanticscience.org/resource/SIOBIO_000029 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000029">
-        <rdfs:label
-            >biological sexual quality</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+        <rdfs:label>biological sex</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000475"/>
     </owl:Class>
     
 
@@ -729,7 +729,8 @@
         <rdfs:label>gene</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
         <dc:description
-            >A gene is part of one or more nucleic acids which is associated with regulation, transcription, and or other biological processes.</dc:description>
+            >A gene is part of a nucleic acid that contains all the necessary elements to encode a functional transcript.</dc:description>
+        <resource:similarTo>SO:0000704</resource:similarTo>
         <resource:equivalentTo>biopax:Gene</resource:equivalentTo>
     </owl:Class>
     
@@ -759,7 +760,7 @@
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000463"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIOBIO_000044"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -814,7 +815,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000042">
         <rdfs:label>haplotype</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000026"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000478"/>
     </owl:Class>
     
 
@@ -1011,7 +1012,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000061">
         <rdfs:label
             >generation number</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000028"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000475"/>
     </owl:Class>
     
 
@@ -1219,7 +1220,16 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000084">
         <rdfs:label>operon</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000444"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000035"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <resource:similarTo>SO:0000178</resource:similarTo>
+        <dc:description
+            >An operon is a collection of contiguous genes transcribed as a single (polycistronic) mRNA.</dc:description>
     </owl:Class>
     
 
@@ -1257,7 +1267,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000277">
         <rdfs:label>allele</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000026"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000478"/>
     </owl:Class>
     
 
@@ -1266,39 +1276,9 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000278">
         <rdfs:label>ploidy</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000026"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000280 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000280">
-        <rdfs:label
-            >biochemical pathway</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000476"/>
         <dc:description
-            >A biochemical pathway is a series of biochemical interactions/reactions having definite inputs and outputs.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000281 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000281">
-        <rdfs:label
-            >metabolic pathway</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000280"/>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIOBIO_000282 -->
-
-    <owl:Class rdf:about="&resource;SIOBIO_000282">
-        <rdfs:label
-            >signalling pathway</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000280"/>
+            >Ploidy is a measure of the amount of DNA contained in a cell.</dc:description>
     </owl:Class>
     
 
@@ -1529,6 +1509,7 @@
         <rdfs:label
             >deoxyribonucleotide residue</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000075"/>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_000337"/>
     </owl:Class>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
@@ -1819,7 +1800,8 @@
     <!-- http://semanticscience.org/resource/SIOBIO_000409 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000409">
-        <rdfs:label>molecular role</rdfs:label>
+        <rdfs:label
+            >functional molecular entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000016"/>
     </owl:Class>
     
@@ -2042,7 +2024,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000433">
         <rdfs:label
-            >dna polymerization component</rdfs:label>
+            >nucleic acid polymerization entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
     </owl:Class>
     
@@ -2254,7 +2236,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000455">
         <rdfs:label>isomer</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000479"/>
         <dc:description
             >An isomer is a molecule that is compositionally identical to another molecule as a result of a different atomic connectivity.</dc:description>
     </owl:Class>
@@ -2675,6 +2657,8 @@
         <rdfs:label
             >biochemical pathway</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000526"/>
+        <dc:description
+            >a biochemical pathway is a series of biochemical reactions occuring in some biochemical or biological system.</dc:description>
     </owl:Class>
     
 
@@ -2684,7 +2668,9 @@
     <owl:Class rdf:about="&resource;SIOBIO_000526">
         <rdfs:label
             >chemical reaction pathway</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001123"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
+        <dc:description
+            >a chemical reaction pathway is a series of chemical reactions towards some objective.</dc:description>
     </owl:Class>
     
 
@@ -2714,11 +2700,11 @@
     <owl:Class rdf:about="&resource;SIOBIO_000529">
         <rdfs:label
             >collection of chemical reaction pathways</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001123"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000526"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIOBIO_000526"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2750,6 +2736,8 @@
         <rdfs:label
             >metabolic pathway</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000525"/>
+        <dc:description
+            >a metabolic pathway is a series of biochemical reactions that begins with one or more substrates and ends with one or more products.</dc:description>
     </owl:Class>
     
 
@@ -2760,6 +2748,8 @@
         <rdfs:label
             >regulatory pathway</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000525"/>
+        <dc:description
+            >a regulatory pathway is a series of biochemical reactions that lead to the increase or decrease of activity of participating molecular components.</dc:description>
     </owl:Class>
     
 
@@ -2931,7 +2921,7 @@
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000785"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIOBIO_001001"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -4458,6 +4448,63 @@
     <!-- http://semanticscience.org/resource/SIO_000472 -->
 
     <owl:Class rdf:about="&resource;SIO_000472"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000475 -->
+
+    <owl:Class rdf:about="&resource;SIO_000475">
+        <rdfs:label
+            >biological quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000476 -->
+
+    <owl:Class rdf:about="&resource;SIO_000476">
+        <rdfs:label
+            >cellular quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000475"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000478 -->
+
+    <owl:Class rdf:about="&resource;SIO_000478">
+        <rdfs:label
+            >nucleic acid component variant</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000479"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000479 -->
+
+    <owl:Class rdf:about="&resource;SIO_000479">
+        <rdfs:label>variant</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000480 -->
+
+    <owl:Class rdf:about="&resource;SIO_000480">
+        <rdfs:label>insertion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000478"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000481 -->
+
+    <owl:Class rdf:about="&resource;SIO_000481">
+        <rdfs:label>deletion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000478"/>
+    </owl:Class>
     
 
 
