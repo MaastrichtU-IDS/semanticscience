@@ -48,21 +48,21 @@ Now, you should be ready to actually start with the creation of the SADI service
 
 In order to create the service, you will first need to download and extract the sadi-service-skeleton file provided on the SADI framework website. Next, within the Eclipse IDE, you will need to File>Import... the project and follow the dialogue to General>Import Existing Project from the root directory of the SADI service skeleton you have just extracted. If you are in the correct directory, the project should appear in the list.
 
-Next, we would need to generate the SADI service code. To do this, you need to go to Run>Run Configurations... and select "generate sadi service" from the Maven build menu. The fields should be now filled out with the necessary information. You will need to indicate the Service Name, Service Class, Input and Output Classes
+Next, we would need to generate the SADI service code. To do this, you need to go to Run>Run Configurations... and select "generate sadi service" from the Maven build menu. The fields should be now filled out with the necessary information. You will need to indicate the Service Name, Service Class, Input and Output Classes. These should be ideally taken from an ontology somewhere
 
 
 = Sample Code =
 
 {{{
 
-  String namespaceuri = "http://semanticscience.org/projects/sces/stuff#";
+    String namespaceuri = "http://semanticscience.org/projects/sces/stuff#";
     String hasSMILES = "hasSMILES";
     String hbondcount = "hBondDonorCount";
     Property smilesproperty = ResourceFactory.createProperty(namespaceuri, hasSMILES);
     String smilesstring = input.getProperty(smilesproperty).getString();
     Property hbondcountproperty = ResourceFactory.createProperty(namespaceuri, hbondcount);
     output.getModel().add(ResourceUtils.reachableClosure(input));
-    String thevalueofthis = "HelloWorld";
+    String thevalueofthis = "Always Seven";
     output.addProperty(hbondcountproperty, thevalueofthis);
 
 }}}
