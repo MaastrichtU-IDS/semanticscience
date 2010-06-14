@@ -1,6 +1,7 @@
 <?php 
 /* ARC2 static class inclusion */ 
-include_once('/code/arc/ARC2.php');
+$arcdir = '/opt/software/arc/';
+include_once($arcdir.'ARC2.php');
 
 /* configuration */ 
 $config = array(
@@ -11,13 +12,16 @@ $config = array(
 /* instantiation */
 $store = ARC2::getRemoteStore($config);
 
+//JSONDebug('test');
+
+
 /** PARAMETERS **/
 $sSearch = '';
 if(isset($_GET['sSearch'])) $sSearch = trim($_GET['sSearch']);
 /*if($sSearch) $search_filter = ' ?x ?p ?o . ?o <bif:contains> "'.$sSearch.'" . 
  FILTER (?p = <http://purl.org/dc/terms/title> || ?p = <http://bio2rdf.org/serv:shortname>) ';
 */
-if($sSearch) {
+if($sSearch && $sSearch != '') {
  $a = explode(" ",trim($sSearch));
  $search_filter = ' ?x ?p ?o . ';
  foreach($a AS $term) {
@@ -52,7 +56,6 @@ $orderby = 'ORDER BY asc(?x)';
  if(isset($_GET['sSortDir_0'])) {
    $orderby = 'ORDER BY '.$_GET['sSortDir_0'].'(?x)';
 }
-//JSONDebug($orderby);
 
 
 /** TOTAL NUMBER OF ENTRIES */

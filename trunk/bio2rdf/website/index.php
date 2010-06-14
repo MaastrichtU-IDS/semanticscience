@@ -67,9 +67,9 @@ $(document).ready(function(){
    [<a title="download" href="download.php">download</a>]
 		
    <br><br>
-        <a href="http://www.w3.org/TR/rdf-sparql-query/"><img border="0" alt="W3C Semantic Web Technology" src="images/sw-sparql-blue.png" border="0"></a> 
-        <a href="http://www.w3.org/RDF/" title="RDF data"><img border="0" src="images/sw-rdf-blue.png" alt="[RDF Data]"></a> 
         <a href="http://www.opendefinition.org/"><img border="0" alt="This material is Open Knowledge" src="images/od_80x15_red_green.png" border="0"></a> 
+        <a href="http://www.w3.org/RDF/" title="RDF data"><img border="0" src="images/sw-rdf-blue.png" alt="[RDF Data]"></a> 
+        <a href="http://www.w3.org/TR/rdf-sparql-query/"><img border="0" alt="W3C Semantic Web Technology" src="images/sw-sparql-blue.png" border="0"></a> 
 	<a title="Creative Commons - By Attribution - Share-Alike" rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/ca/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/2.5/ca/80x15.png" /></a>
  </div>
 </div>
