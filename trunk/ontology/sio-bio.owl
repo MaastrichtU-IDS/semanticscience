@@ -30,6 +30,9 @@
             >Michel Dumontier</dc:creator>
         <dc:title
             >Semanticscience Integrated Ontology - Biology, Molecular Biology, Genetics and Biochemistry</dc:title>
+        <rdfs:comment
+            >general axioms:
+&#39;is part of&#39; some &#39;physical entity&#39; subClassOf &#39;is located in&#39; some &#39;physical entity&#39;</rdfs:comment>
         <owl:imports rdf:resource="http://semanticscience.org/ontology/sio.owl"/>
     </owl:Ontology>
     
@@ -329,6 +332,7 @@
     <owl:Class rdf:about="&resource;SIOBIO_000004">
         <rdfs:label>chemical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_000044"/>
         <resource:equivalentTo>CHEBI:23367</resource:equivalentTo>
         <dc:description
             >A chemical entity is a mereological sum of atoms.</dc:description>
@@ -342,6 +346,7 @@
         <rdfs:label
             >weak submolecular interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000020"/>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_000047"/>
         <dc:description
             >a weak submolecular interaction is a submolecular interaction involving weak interactions between submolecules.</dc:description>
     </owl:Class>
@@ -591,7 +596,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000023">
         <rdfs:label
-            >tertiary structure</rdfs:label>
+            >tertiary structure descriptor</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001119"/>
     </owl:Class>
     
@@ -1114,6 +1119,12 @@
             >organic molecular part</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000441"/>
         <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000072"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -1126,12 +1137,6 @@
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000072"/>
-            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -2353,7 +2358,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000497">
         <rdfs:label>covalent bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000441"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
         <dc:description
             >a covalent bond is a submolecule composed of exactly 2 atoms that are directly covalently connected.</dc:description>
     </owl:Class>
@@ -2364,7 +2369,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000498">
         <rdfs:label>single bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000497"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001118"/>
     </owl:Class>
     
 
@@ -2373,7 +2378,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000499">
         <rdfs:label>double bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000497"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001118"/>
     </owl:Class>
     
 
@@ -2382,7 +2387,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000500">
         <rdfs:label>triple bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000497"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001118"/>
     </owl:Class>
     
 
@@ -2391,7 +2396,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000501">
         <rdfs:label>aromatic bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000497"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001118"/>
     </owl:Class>
     
 
@@ -2444,6 +2449,7 @@
         <rdfs:label
             >molecular complex</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000342"/>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_001126"/>
         <dc:description
             >a molecular complex is a weakly connected entity composed of weakly interacting molecular entities, and this excludes bulk solvent.</dc:description>
     </owl:Class>
@@ -2715,8 +2721,8 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000530">
         <rdfs:label
-            >molecular structure model</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001121"/>
+            >3d structure model</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000023"/>
     </owl:Class>
     
 
@@ -4221,6 +4227,13 @@
         <rdfs:label
             >covalent chemical bond</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000047"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIOBIO_000044"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >a covalent chemical bond is a strong submolecular interaction between atoms.</dc:description>
         <oboInOwl:hasDbXref>CHEMINF:000063</oboInOwl:hasDbXref>
@@ -4526,9 +4539,8 @@
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIOBIO_000020"/>
-            <rdf:Description rdf:about="&resource;SIOBIO_000044"/>
-            <rdf:Description rdf:about="&resource;SIOBIO_001125"/>
-            <rdf:Description rdf:about="&resource;SIOBIO_001126"/>
+            <rdf:Description rdf:about="&resource;SIOBIO_000341"/>
+            <rdf:Description rdf:about="&resource;SIOBIO_000342"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
