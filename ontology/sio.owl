@@ -806,9 +806,9 @@
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label
-            >is temporally related to</rdfs:label>
+            >is causally related with</rdfs:label>
         <dc:description
-            >A transitive, symmetric, temporal relation in which one entity is temporarlly related to another non-identical entity.</dc:description>
+            >A transitive, symmetric, temporal relation in which one entity is causally related to another non-identical entity.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -823,7 +823,7 @@
             >OBO_REL:derives_from</resource:equivalentTo>
         <dc:description
             >A transitive temporal relation in which one entity derives from another non-identical entity.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000352"/>
     </owl:ObjectProperty>
     
 
@@ -835,8 +835,8 @@
         <rdfs:label>derives into</rdfs:label>
         <dc:description
             >A transitive temporal relation in which one entity derives into another non-identical entity.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000244"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000294"/>
     </owl:ObjectProperty>
     
 
@@ -873,8 +873,8 @@
         <rdfs:label>precedes</rdfs:label>
         <dc:description
             >A transitive, temporal relation in which one process precedes (has occured earlier than) another process.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000249"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000352"/>
     </owl:ObjectProperty>
     
 
@@ -886,7 +886,7 @@
         <rdfs:label>is preceded by</rdfs:label>
         <resource:equivalentTo
             >OBO_REL:preceded_by</resource:equivalentTo>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000294"/>
     </owl:ObjectProperty>
     
 
@@ -1094,6 +1094,16 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000294 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000294">
+        <rdfs:label
+            >is causally related to</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000310 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000310">
@@ -1144,8 +1154,7 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000322">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
-        <rdfs:label
-            >is spatially related to</rdfs:label>
+        <rdfs:label>is spatial to</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -1262,6 +1271,17 @@
         <rdfs:label
             >is manifestation of</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000426"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000352 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000352">
+        <rdfs:label
+            >is causally related from</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000294"/>
     </owl:ObjectProperty>
     
 
@@ -1472,8 +1492,8 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1484,8 +1504,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1659,8 +1679,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000427"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000005"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1671,8 +1691,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000005"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000427"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -2124,6 +2144,12 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000215"/>
                 <owl:someValuesFrom>
                     <owl:Class>
@@ -2133,12 +2159,6 @@
                         </owl:unionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
-                <owl:someValuesFrom rdf:resource="&xsd;double"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -2467,6 +2487,12 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000362"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
             </owl:Restriction>
@@ -2604,13 +2630,13 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3735,7 +3761,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000259">
         <rdfs:label>argument</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
         <dc:description
             >An argument is a set of one or more declarative sentences (or propositions) known as the premises along with another declarative sentence (or proposition) known as the conclusion.</dc:description>
     </owl:Class>
@@ -3892,22 +3918,6 @@
         </rdfs:subClassOf>
         <dc:description
             >A property is an informational entity which is used to describe an entity and whose realization or value may be context dependent.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000275 -->
-
-    <owl:Class rdf:about="&resource;SIO_000275">
-        <rdfs:label
-            >collection of propositions</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000256"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -4458,14 +4468,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6012,16 +6022,16 @@ graph.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
-                <owl:onClass rdf:resource="&resource;SIO_000501"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_000541"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000541"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
+                <owl:onClass rdf:resource="&resource;SIO_000501"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6037,15 +6047,15 @@ graph.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000505"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_000500"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000500"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000505"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6340,15 +6350,15 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000521"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000520"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_000520"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:maxQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000520"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000520"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6663,6 +6673,14 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000512"/>
+            <rdf:Description rdf:about="&resource;SIO_000516"/>
+            <rdf:Description rdf:about="&resource;SIO_000539"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIO_000015"/>
             <rdf:Description rdf:about="&resource;SIO_000260"/>
             <rdf:Description rdf:about="&resource;SIO_000271"/>
@@ -6675,14 +6693,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             <rdf:Description rdf:about="&resource;SIO_000400"/>
             <rdf:Description rdf:about="&resource;SIO_000401"/>
             <rdf:Description rdf:about="&resource;SIO_000402"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000512"/>
-            <rdf:Description rdf:about="&resource;SIO_000516"/>
-            <rdf:Description rdf:about="&resource;SIO_000539"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
