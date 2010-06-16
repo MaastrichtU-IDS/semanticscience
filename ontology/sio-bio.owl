@@ -260,6 +260,12 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000217 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000217"/>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000225 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000225"/>
@@ -478,7 +484,6 @@
     <owl:Class rdf:about="&resource;SIOBIO_000004">
         <rdfs:label>chemical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
-        <owl:disjointWith rdf:resource="&resource;SIOBIO_000044"/>
         <resource:equivalentTo>CHEBI:23367</resource:equivalentTo>
         <dc:description
             >A chemical entity is a mereological sum of atoms.</dc:description>
@@ -838,7 +843,7 @@
         <rdfs:label>hydrogen bond</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
         <dc:description
-            >a hydrogen bond is a weak submolecular interaction formed between a hydrogen atom that is covalently bound to an electronegative atom and a electronegative atom.</dc:description>
+            >a hydrogen bond is a weak submolecular interaction formed between a hydrogen atom and a electronegative atom.</dc:description>
     </owl:Class>
     
 
@@ -848,9 +853,9 @@
     <owl:Class rdf:about="&resource;SIOBIO_000034">
         <rdfs:label
             >cation pi interaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000496"/>
         <dc:description
-            >A cation pi interaction is a weak submolecular interaction between the localized negative charge of &#960; orbital electrons, located above and below the plane of an aromatic ring, and a positive charge.</dc:description>
+            >A cation pi interaction is an ionic interaction between the localized negative charge of &#960; orbital electrons, located above and below the plane of an aromatic ring, and a positive charge.</dc:description>
     </owl:Class>
     
 
@@ -956,7 +961,7 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000043">
         <rdfs:label>protein</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000346"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000007"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000369"/>
@@ -972,7 +977,9 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000044">
         <rdfs:label>atom</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <dc:description
+            >An atom is composed of a core of protons and/or neutrons which may be surrounded by a cloud of electrons.</dc:description>
     </owl:Class>
     
 
@@ -1986,13 +1993,18 @@
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIOBIO_000043"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIOBIO_000043"/>
+                            <rdf:Description rdf:about="&resource;SIOBIO_000497"/>
+                        </owl:unionOf>
+                    </owl:Class>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="&resource;SIO_000225"/>
                         <owl:someValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&resource;SIOBIO_000357"/>
+                                    <rdf:Description rdf:about="&resource;SIOBIO_000340"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="&resource;SIO_000356"/>
                                         <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000345"/>
@@ -2004,6 +2016,17 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_000043"/>
+                    <rdf:Description rdf:about="&resource;SIOBIO_000497"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <dc:description
+            >an enzyme is a protein or protein complex which realizes the disposition to covalently modify some molecule during a chemical reaction.</dc:description>
     </owl:Class>
     
 
@@ -2564,7 +2587,9 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000419">
         <rdfs:label>antigen</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <dc:description
+            >An antigen is a chemical entity that can be bound by a major histocompatibility complex (MHC) and presented to a T-cell receptor.</dc:description>
     </owl:Class>
     
 
@@ -2699,11 +2724,43 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000433 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000433">
+        <rdfs:label
+            >low barrier hydrogen bond</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000033"/>
+        <dc:description
+            >a low barrier hydrogen bond is a shorter, stronger hydrogen bond that is formed between both heteroatoms.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000434 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000434">
         <rdfs:label>activator</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000436"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_000436"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&resource;SIOBIO_000354"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
+                                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000012"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2712,7 +2769,27 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000435">
         <rdfs:label>inhibitor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000436"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_000436"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&resource;SIOBIO_000355"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
+                                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000012"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2722,7 +2799,27 @@
     <owl:Class rdf:about="&resource;SIOBIO_000436">
         <rdfs:label
             >molecular regulator</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001125"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_001125"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&resource;SIOBIO_000347"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
+                                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000012"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2778,6 +2875,15 @@
         </rdfs:subClassOf>
         <dc:description
             >a submolecule is a mereological sum of a collection of covalently bonded atoms</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000442 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000442">
+        <rdfs:label>charge</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
     </owl:Class>
     
 
@@ -2930,7 +3036,17 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000455">
         <rdfs:label>isomer</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000479"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_001125"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000272"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_001125"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <dc:description
             >An isomer is a molecule that is compositionally identical to another molecule as a result of a different atomic connectivity.</dc:description>
     </owl:Class>
@@ -2941,7 +3057,25 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000456">
         <rdfs:label>ion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000409"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIOBIO_000044"/>
+                            <rdf:Description rdf:about="&resource;SIOBIO_001125"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000442"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000004"/>
+        <dc:description
+            >An ion is an atom or molecule in which the total number of electrons is not equal to the total number of protons, giving it a net positive or negative electrical charge.</dc:description>
     </owl:Class>
     
 
@@ -2950,7 +3084,17 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000457">
         <rdfs:label>cation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000456"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_000456"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000461"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2959,7 +3103,17 @@
 
     <owl:Class rdf:about="&resource;SIOBIO_000458">
         <rdfs:label>anion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000456"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIOBIO_000456"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIOBIO_000464"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2983,6 +3137,16 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIOBIO_000461 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000461">
+        <rdfs:label>positive charge</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000442"/>
+        <owl:disjointWith rdf:resource="&resource;SIOBIO_000464"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIOBIO_000462 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000462">
@@ -3000,6 +3164,26 @@
         <rdfs:label
             >homogeneous substance</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_001126"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000464 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000464">
+        <rdfs:label>negative charge</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000442"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIOBIO_000465 -->
+
+    <owl:Class rdf:about="&resource;SIOBIO_000465">
+        <rdfs:label>antibody</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000497"/>
+        <dc:description
+            >An antibody (also known as immunoglobulins[1], abbreviated Ig) are gamma globulin proteins that are used by the immune system to identify and neutralize foreign objects. They are typically made of two large heavy chains and two small light chains.</dc:description>
     </owl:Class>
     
 
@@ -3038,7 +3222,7 @@
             >ionic interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000005"/>
         <dc:description
-            >an ionic interaction is a weak submolecular interaction between a positive and a negative charged submolecule.</dc:description>
+            >an ionic interaction is a weak submolecular interaction between a charged submolecules.</dc:description>
     </owl:Class>
     
 
@@ -3046,10 +3230,17 @@
     <!-- http://semanticscience.org/resource/SIOBIO_000497 -->
 
     <owl:Class rdf:about="&resource;SIOBIO_000497">
-        <rdfs:label>covalent bond</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+        <rdfs:label>protein complex</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIOBIO_000506"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIOBIO_000007"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >a covalent bond is a submolecule composed of exactly 2 atoms that are directly covalently connected.</dc:description>
+            >a protein complex is a molecular complex composed of at least two polypeptide chains.</dc:description>
     </owl:Class>
     
 
