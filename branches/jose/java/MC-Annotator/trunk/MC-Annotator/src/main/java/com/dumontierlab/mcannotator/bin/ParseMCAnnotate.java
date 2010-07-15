@@ -128,15 +128,23 @@ public class ParseMCAnnotate {
 		// A6-A35 : G-C Ww/Ww pairing antiparallel cis XIX
 
 		String[] lineArr = val.split("\\n");
+		//(\S+)\s:\s(\S+)\s(\S+)\spairing\s(antiparallel|paralel)\s(cis|trans)(.*)
 		String firstPattern = "(\\S+)\\s:\\s(\\S+)\\spairing\\s(antiparallel|parallel)\\s(cis|trans)(.*)";
+		
 		String secondPattern = "(\\S+)\\s:\\s(\\S+)(.+)pairing\\s(antiparallel|parallel)\\s(cis|trans)(.*)";
 		Pattern firstBpPattern = Pattern.compile(firstPattern);
 		Pattern secondBpPattern = Pattern.compile(secondPattern);
 		for (String aLine : lineArr) {
+			Matcher firstMatch = firstBpPattern.matcher(aLine.trim());
 			Matcher secondMatch = secondBpPattern.matcher(aLine.trim());
+			if(firstMatch.matches()){
+				if(firstMatch.group(2).length() != 0){
+					System.out.println("*AAAAAAAA*** "+ firstMatch.group(2) + " " +aLine);
+				}
+			}
 			if (secondMatch.matches()) {
 				if (secondMatch.group(3).length() != 0) { //grabbing only base pairs that specify the normal direction for the basepair
-					
+					System.out.println("&&&& "+ secondMatch.group(3) +" "+aLine);
 					String participants = secondMatch.group(1).trim();// A6-A35
 					String participantNames = secondMatch.group(2).trim();// G-C
 					String[] chainPos = participants.split("-");
