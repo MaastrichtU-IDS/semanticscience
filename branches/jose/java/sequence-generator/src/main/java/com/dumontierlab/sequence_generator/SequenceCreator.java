@@ -241,12 +241,12 @@ public class SequenceCreator {
 
 		/* Tester */
 		/*
-		 * HashMap<String, Double> hm = new HashMap<String, Double>();
-		 * hm.put("A", 0.3); hm.put("C", 0.2); hm.put("G", 0.3); hm.put("U",
-		 * 0.2);
-		 * 
-		 * SequenceCreator sc2 = new SequenceCreator("RNA", hm, 100);
-		 * System.out.println(sc2.getRandomSequence());
+		 HashMap<String, Double> hm = new HashMap<String, Double>();
+		 hm.put("A", 0.3); hm.put("C", 0.2); hm.put("G", 0.3); hm.put("U",
+		 0.2);
+		 
+		 SequenceCreator sc2 = new SequenceCreator("RNA", hm, 100);
+		 System.out.println(sc2.getRandomSequence());
 		 */
 	}
 
