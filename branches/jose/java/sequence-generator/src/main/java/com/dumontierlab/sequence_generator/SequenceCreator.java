@@ -15,9 +15,9 @@ public class SequenceCreator {
 	public int sequenceLength;
 
 	/**
-	 * Desired proportions for each nucleotide residue
+	 * Desired probabilities for each nucleotide residue
 	 */
-	HashMap<String, Double> proportions;
+	HashMap<String, Double> probabilities;
 
 	/**
 	 * Molecule type (RNA|DNA)
@@ -26,7 +26,7 @@ public class SequenceCreator {
 
 	/**
 	 * String containing all four (A,C,U(T),G) characters in the desired
-	 * proportions from where a random draw will be made to create random
+	 * probabilities from where a random draw will be made to create random
 	 * sequences
 	 */
 	String nucleotidePool;
@@ -37,32 +37,32 @@ public class SequenceCreator {
 	int poolLength = 10000;
 
 	/**
-	 * A random nucleotide sequence that follows the required proportions and
+	 * A random nucleotide sequence that follows the required probabilities and
 	 * length
 	 */
 	String randomSequence;
 
 	/**
 	 * Default constructor, assumes molecule type to be RNA and to have equal
-	 * proportions for each nucleotide residue and an output length of 100
+	 * probabilities for each nucleotide residue and an output length of 100
 	 * nucleotides
 	 */
 	public SequenceCreator() {
 		// set molecule type
 		this.moltype = "RNA";
 
-		// set the proportions for each nucleotide
-		this.proportions = new HashMap<String, Double>();
-		proportions.put("A", 0.25);
-		proportions.put("G", 0.25);
-		proportions.put("U", 0.25);
-		proportions.put("C", 0.25);
+		// set the probabilities for each nucleotide
+		this.probabilities = new HashMap<String, Double>();
+		probabilities.put("A", 0.25);
+		probabilities.put("G", 0.25);
+		probabilities.put("U", 0.25);
+		probabilities.put("C", 0.25);
 
 		// set the length of the output sequence
 		this.sequenceLength = 100;
 
 		// set the nucleotide pool
-		this.createPool(proportions);
+		this.createPool(probabilities);
 
 		// create the random sequence
 		this.createRandomSequence();
@@ -78,18 +78,18 @@ public class SequenceCreator {
 	public SequenceCreator(String molType) {
 		// set molecule type
 		this.moltype = molType;
-		// set the proportions for each nucleotide
-		this.proportions = new HashMap<String, Double>();
-		proportions.put("A", 0.25);
-		proportions.put("G", 0.25);
-		proportions.put("U", 0.25);
-		proportions.put("C", 0.25);
+		// set the probabilities for each nucleotide
+		this.probabilities = new HashMap<String, Double>();
+		probabilities.put("A", 0.25);
+		probabilities.put("G", 0.25);
+		probabilities.put("U", 0.25);
+		probabilities.put("C", 0.25);
 
 		// set the length of the output sequence
 		this.sequenceLength = 100;
 
 		// set the nucleotide pool
-		this.createPool(proportions);
+		this.createPool(probabilities);
 
 		// create the random sequence
 		this.createRandomSequence();
@@ -101,7 +101,7 @@ public class SequenceCreator {
 	 * @param molType
 	 *            specifies the type of molecule RNA|DNA
 	 * @param props
-	 *            HashMap that specifies the desired proportions of the
+	 *            HashMap that specifies the desired probabilities of the
 	 *            generated sequence
 	 * @param seqLen
 	 *            length of the output sequence
@@ -109,28 +109,28 @@ public class SequenceCreator {
 	public SequenceCreator(String moltype, HashMap<String, Double> props,
 			int seqLen) {
 		this.moltype = moltype;
-		// before setting the input proportions check that they sum to 1
+		// before setting the input probabilities check that they sum to 1
 		if (checkProportions(props)) {
-			this.proportions = props;
+			this.probabilities = props;
 		}
 		// set sequence length
 		this.sequenceLength = seqLen;
 
 		// set the nucleotide pool
-		this.createPool(proportions);
+		this.createPool(probabilities);
 
 		// create the random sequence
 		this.createRandomSequence();
 	}
 
 	/**
-	 * This method traverses the input HashMap and sums up the proportions for
+	 * This method traverses the input HashMap and sums up the probabilities for
 	 * each letter and checks that the summation is 1
 	 * 
 	 * @param props
-	 *            HashMap that specifies the desired proportions of the
+	 *            HashMap that specifies the desired probabilities of the
 	 *            generated sequence
-	 * @return returns true if proportions add to 1
+	 * @return returns true if probabilities add to 1
 	 */
 	private boolean checkProportions(HashMap<String, Double> props) {
 		Double summation = 0.0;
@@ -145,7 +145,7 @@ public class SequenceCreator {
 			return true;
 		} else {
 			System.out
-					.println("Incorrect proportions, please check your input parameters!");
+					.println("Incorrect probabilities, please check your input parameters!");
 			System.out.println("Error 12-77");
 			System.exit(-1);
 			return false;
@@ -177,11 +177,11 @@ public class SequenceCreator {
 	}
 
 	public HashMap<String, Double> getProportions() {
-		return proportions;
+		return probabilities;
 	}
 
 	public void setProportions(HashMap<String, Double> proportions) {
-		this.proportions = proportions;
+		this.probabilities = proportions;
 	}
 
 	public String getMoltype() {
@@ -201,8 +201,8 @@ public class SequenceCreator {
 	}
 
 	/**
-	 * This method will populate nucleotidePool according to the proportions
-	 * specified in proportions
+	 * This method will populate nucleotidePool according to the probabilities
+	 * specified in probabilities
 	 */
 	public void createPool(HashMap<String, Double> someProportions) {
 		HashMap<String, Integer> returnMe = new HashMap<String, Integer>();
@@ -224,7 +224,7 @@ public class SequenceCreator {
 	}// createPool
 
 	/**
-	 * This method sets a random sequence that follows the same proportions as
+	 * This method sets a random sequence that follows the same probabilities as
 	 * the nucleotide pool
 	 */
 	public void createRandomSequence() {
@@ -240,10 +240,10 @@ public class SequenceCreator {
 	public static void main(String[] args) {
 
 		/* Tester */
+		
 		/*
 		 HashMap<String, Double> hm = new HashMap<String, Double>();
-		 hm.put("A", 0.3); hm.put("C", 0.2); hm.put("G", 0.3); hm.put("U",
-		 0.2);
+		 hm.put("A", 0.4); hm.put("C", 0.2); hm.put("G", 0.3); hm.put("U",0.1);
 		 
 		 SequenceCreator sc2 = new SequenceCreator("RNA", hm, 100);
 		 System.out.println(sc2.getRandomSequence());
