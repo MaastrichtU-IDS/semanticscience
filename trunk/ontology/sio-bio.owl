@@ -67,6 +67,12 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000011 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000011"/>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000028 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000028"/>
@@ -118,6 +124,12 @@
     <!-- http://semanticscience.org/resource/SIO_000203 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000203"/>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000215 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000215"/>
     
 
 
@@ -427,6 +439,23 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000300 -->
+
+    <owl:DatatypeProperty rdf:about="&resource;SIO_000300"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -476,6 +505,14 @@
     <owl:Class rdf:about="&resource;SIO_000030">
         <rdfs:label>sequence</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010014"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >A sequence is a primary structure descriptor in which each of the letters in the string represents a monomeric unit (residue) in which adjacent letters represent the connectivity between the monomeric units.</dc:description>
     </owl:Class>
     
 
@@ -633,6 +670,12 @@
         <rdfs:label>e.coli</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010376"/>
     </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000600 -->
+
+    <owl:Class rdf:about="&resource;SIO_000600"/>
     
 
 
@@ -835,6 +878,18 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000030"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000600"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000146"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
             </owl:Restriction>
@@ -894,11 +949,10 @@
     <!-- http://semanticscience.org/resource/SIO_010019 -->
 
     <owl:Class rdf:about="&resource;SIO_010019">
-        <rdfs:label
-            >biological information</rdfs:label>
+        <rdfs:label>biological data</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000472"/>
         <dc:description
-            >A biological property is an biologically-relevant informational entity</dc:description>
+            >Biological data is scientific data relevant to biology.</dc:description>
     </owl:Class>
     
 
@@ -989,8 +1043,7 @@
     <!-- http://semanticscience.org/resource/SIO_010028 -->
 
     <owl:Class rdf:about="&resource;SIO_010028">
-        <rdfs:label
-            >genetic information</rdfs:label>
+        <rdfs:label>genetic data</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000472"/>
     </owl:Class>
     
@@ -1984,8 +2037,7 @@
     <!-- http://semanticscience.org/resource/SIO_010298 -->
 
     <owl:Class rdf:about="&resource;SIO_010298">
-        <rdfs:label
-            >medical information</rdfs:label>
+        <rdfs:label>medical data</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000472"/>
     </owl:Class>
     
@@ -5400,8 +5452,7 @@
     <!-- http://semanticscience.org/resource/SIO_011121 -->
 
     <owl:Class rdf:about="&resource;SIO_011121">
-        <rdfs:label xml:lang="en"
-            >structural descriptor</rdfs:label>
+        <rdfs:label xml:lang="en">structural data</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_011123"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -5410,7 +5461,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
-            >A structural descriptor is a chemical descriptor which is about some aspect of the molecular structure (composition) of a chemical entity.</resource:example>
+            >A structural data is a chemical data about some aspect of the molecular structure (composition) of a chemical entity.</resource:example>
         <oboInOwl:hasDbXref>CHEMINF:000085</oboInOwl:hasDbXref>
     </owl:Class>
     
