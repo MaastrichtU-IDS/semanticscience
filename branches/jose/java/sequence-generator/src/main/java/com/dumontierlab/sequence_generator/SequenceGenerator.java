@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * SequenceCreator creates a random nucleotide sequence of a desired length
+ * SequenceGenerator creates a random nucleotide sequence of a desired length
  * 
  * @author Jose Cruz-Toledo
  */
-public class SequenceCreator {
+public class SequenceGenerator {
 	/**
 	 * Desired length of output sequence
 	 */
@@ -47,7 +47,7 @@ public class SequenceCreator {
 	 * probabilities for each nucleotide residue and an output length of 100
 	 * nucleotides
 	 */
-	public SequenceCreator() {
+	public SequenceGenerator() {
 		// set molecule type
 		this.moltype = "RNA";
 
@@ -75,7 +75,7 @@ public class SequenceCreator {
 	 * @param molType
 	 *            specifies the type of molecule RNA|DNA
 	 */
-	public SequenceCreator(String molType) {
+	public SequenceGenerator(String molType) {
 		// set molecule type
 		this.moltype = molType;
 		// set the probabilities for each nucleotide
@@ -106,7 +106,7 @@ public class SequenceCreator {
 	 * @param seqLen
 	 *            length of the output sequence
 	 */
-	public SequenceCreator(String moltype, HashMap<String, Double> props,
+	public SequenceGenerator(String moltype, HashMap<String, Double> props,
 			int seqLen) {
 		this.moltype = moltype;
 		// before setting the input probabilities check that they sum to 1
@@ -245,7 +245,7 @@ public class SequenceCreator {
 		 HashMap<String, Double> hm = new HashMap<String, Double>();
 		 hm.put("A", 0.4); hm.put("C", 0.2); hm.put("G", 0.3); hm.put("U",0.1);
 		 
-		 SequenceCreator sc2 = new SequenceCreator("RNA", hm, 100);
+		 SequenceGenerator sc2 = new SequenceGenerator("RNA", hm, 100);
 		 System.out.println(sc2.getRandomSequence());
 		 */
 	}
