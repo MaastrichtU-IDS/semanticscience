@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +16,7 @@ import com.dumontierlab.sequence_generator.SequenceGenerator;
 /**
  * This class executes RNAfold. This class creates a shell script in /tmp with
  * the parameters and specifications to run RNAfold
- * 
+ * as
  * @author Jose Cruz-Toledo
  */
 
@@ -89,6 +91,27 @@ public class RnaFolder {
 		parseRawOutput("default");
 	}// RnaFolder
 
+	
+	public RnaFolder(String shellScript, String parserFlag){
+		//set the shell script var
+		setShellScript(shellScript);
+		createShellScript(getShellScript());
+		
+		// create/set a new random sequence
+		seqGenerator = new SequenceGenerator();
+		this.setRandomSequence(seqGenerator.getRandomSequence());
+		
+		// create input sequence file
+		this.createInputSequenceFile(this.getRandomSequence());
+		
+		// now we can execute the RNAfold
+		String rawOutput = foldMe();
+	
+		this.setRawRnafoldOutput(rawOutput);
+		System.out.println(this.getRawRnafoldOutput());
+		//set the dot-braket and MFE vars
+		parseRawOutput(parserFlag);
+	}
 	/**
 	 * This method executes RNAfold as specified by the shell script and returns
 	 * a string with the raw output from RNAfold
@@ -132,7 +155,6 @@ public class RnaFolder {
 			if(m.matches()){
 				this.setDotBracket(m.group(1).trim());
 				this.setMfe(new Double(m.group(2)));
-				System.out.println(getMfe());
 			}//if
 			else{
 				System.out.println("Really strange things are happening");
@@ -224,7 +246,11 @@ public class RnaFolder {
 	public void setDotBracket(String dotBracket) {
 		this.dotBracket = dotBracket;
 	}
-
+	
+	/**
+	 * returns the minimum free energy as calculated by RNAfold
+	 * @return minimum free energy
+	 */
 	public Double getMfe() {
 		return mfe;
 	}
@@ -286,8 +312,11 @@ public class RnaFolder {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		RnaFolder r = new RnaFolder();
+		System.out.println(r.getDotBracket()+"\n"+r.getMfe());
+		
+		
+		
 
 	}
 
