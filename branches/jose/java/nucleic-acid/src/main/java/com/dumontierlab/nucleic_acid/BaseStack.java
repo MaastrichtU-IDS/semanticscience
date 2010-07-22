@@ -169,6 +169,13 @@ public class BaseStack {
 		this.secondNucleotide = secondNucleotide;
 	}
 	
+	public String toString(){
+		return "Base Stack : "+this.getFirstNucleotide().getResidueLabel()+"-"+
+			this.getSecondNucleotide().getResidueLabel()+")" + " residues: "+
+			this.getFirstNucleotide().getChainId()+this.getFirstNucleotide().getResiduePosition()+ 
+			"-"+this.getSecondNucleotide().getChainId()+secondNucleotide.getResiduePosition();
+	}
+	
 	
 	
 }
