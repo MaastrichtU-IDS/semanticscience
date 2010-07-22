@@ -1,5 +1,5 @@
 <?php 
 
-$servlet_url = "http://s3.semanticscience.org:8080/searchBio2rdf/search/SearchBio2rdf?query=";
+$servlet_url = "http://semanticscience.sharcnet.ca:48080/searchBio2rdf/search/SearchBio2rdf?query=";
 
 ?>

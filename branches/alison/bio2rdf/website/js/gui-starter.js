@@ -21,7 +21,6 @@ function searchIndex(str){
 			if(matches[1].length >= 2 && matches[2].length >= 2){
 				var namespace = matches[1];
 				var searchString = matches[2];
-				//$.get("http://bio2rdf.semanticscience.org:8080/searchBio2rdf/search/SearchBio2rdf", {ns:namespace, query:searchString}, function(data){
 				$.get("bin/servletcall.php", {query:searchString, ns:namespace}, function(data){
 					parseXML(data, searchString);
 				});//get
@@ -45,6 +44,7 @@ function searchIndex(str){
 }//searchIndex
 
 function parseXML(xml, str){
+	
 	var table = "<table class=\"search_table\">";
 	table += "<thead>";
 	table += "<tr><th colspan=\"2\">Limit the search to a specific dataset using its prefix like this: <i>prefix:query</i>.</th></tr>";
