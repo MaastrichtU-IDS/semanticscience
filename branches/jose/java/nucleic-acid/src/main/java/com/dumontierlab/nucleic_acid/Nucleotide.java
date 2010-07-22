@@ -98,6 +98,7 @@ public class Nucleotide {
 		setResiduePosition(Integer.parseInt(aPosition));
 	}
 	
+		
 	/**
 	 * @return the nucleosideConformation
 	 */

@@ -23,6 +23,14 @@ public class BasePair {
 	 */
 	private String[] subEdgeArr;
 	/**
+	 * Participating Edge from the first nucleotide
+	 */
+	private Edge firstEdge;
+	/**
+	 * Participating Edge from the second nucleotide
+	 */
+	private Edge secondEdge;
+	/**
 	 * Four letter PDB code for which this nucleotide belongs to
 	 */
 	private String pdbId;
@@ -68,22 +76,61 @@ public class BasePair {
 	
 	/**
 	 * Create a base pair by specifying nucleotide info as strings
-	 * @param nuc1 first Nucleotide label
+	 * @param nuc1label first Nucleotide label
 	 * @param pos1 first Nucleotide position
 	 * @param chain1 chain belonging to the first nucleotide
-	 * @param nuc2 second Nucleotide label
+	 * @param nuc2label second Nucleotide label
 	 * @param pos2 second Nucleotide position
 	 * @param chain2 chain belonging to the second nucleotide
 	 * @param strandBPOrientation directionality of base pair (parallel|antiparallel)
 	 * @param baseConformation
 	 */
-	public BasePair(String nuc1, String pos1, String chain1,
-					String nuc2, String pos2, String chain2,
+	public BasePair(String nuc1label, String pos1, String chain1,
+					String nuc2label, String pos2, String chain2,
 					String glycoOrient){
-		this(new Nucleotide(nuc1, pos1, chain1, ""), 
-				new Nucleotide(nuc2, pos2, chain2,""), glycoOrient);
+		this(new Nucleotide(nuc1label, pos1, chain1, ""), 
+				new Nucleotide(nuc2label, pos2, chain2,""), glycoOrient);
 	}
-	
+	/**
+	 * Create a Base pair
+	 * @param nuc1label first Nucleotide label
+	 * @param edge1 first Nucleotide edge
+	 * @param chain1 chain belonging to the first nucleotide
+	 * @param pos1 first nucleotide position
+	 * @param nuc2label second nucleotide label
+	 * @param edge2 second Nucleotide edge
+	 * @param chain2 chain belonging to the second nucleotide
+	 * @param pos2 second nucleotide positoon
+	 * @param glycoOrientation 
+	 * @param baseConformation
+	 */
+	public BasePair(String nuc1label, String edge1, String chain1, int pos1,
+					String nuc2label, String edge2, String chain2, int pos2,
+					String glycoOrientation, String baseConformation){
+		this(	new Nucleotide(nuc1label, chain1, pos1, ""),
+				new Nucleotide(nuc2label, chain2, pos2, ""), glycoOrientation);
+		getFirstNucleotide().setNucleosideConformation(baseConformation);
+		getSecondNucleotide().setNucleosideConformation(baseConformation);
+		setFirstEdge(new Edge(edge1, nuc1label));
+		setSecondEdge(new Edge(edge2, nuc2label));
+	}
+	/**
+	 * Create a Base pair
+	 * @param nuc1label first Nucleotide label
+	 * @param chain1 chain belonging to the first nucleotide
+	 * @param pos1 first nucleotide position
+	 * @param nuc2label second Nucleotide label
+	 * @param chain2 chain belonging to the second nucleotide
+	 * @param pos2 second nucleotide position
+	 * @param glycoOrientation
+	 * @param baseConformation
+	 */
+	public BasePair(String nuc1label, String chain1, int pos1,
+					String nuc2label, String chain2, int pos2, 
+					String glycoOrientation, String baseConformation){
+		this(	new Nucleotide(nuc1label, chain1, pos1, baseConformation),
+				new Nucleotide(nuc2label, chain2, pos2, baseConformation), glycoOrientation);
+	}
 	/**
 	 * @return the strandBPOrientation
 	 */
@@ -167,6 +214,36 @@ public class BasePair {
 	 */
 	public void setModelNumber(int modelNumber) {
 		this.modelNumber = modelNumber;
+	}
+	
+	
+
+	/**
+	 * @return the firstEdge
+	 */
+	public Edge getFirstEdge() {
+		return firstEdge;
+	}
+
+	/**
+	 * @param firstEdge the firstEdge to set
+	 */
+	public void setFirstEdge(Edge firstEdge) {
+		this.firstEdge = firstEdge;
+	}
+
+	/**
+	 * @return the secondEdge
+	 */
+	public Edge getSecondEdge() {
+		return secondEdge;
+	}
+
+	/**
+	 * @param secondEdge the secondEdge to set
+	 */
+	public void setSecondEdge(Edge secondEdge) {
+		this.secondEdge = secondEdge;
 	}
 
 	public String toString(){
