@@ -23,7 +23,7 @@ public class Nucleobase {
 	 * One letter code for the nucleotide residue to which this nucleobase 
 	 * corresponds to
 	 */
-	private String residueId;
+	private String residueLabel;
 	/**
 	 * Position in the PDB chain of this particular nucleobase
 	 */
@@ -33,32 +33,30 @@ public class Nucleobase {
 	 * Default constructor
 	 */
 	public Nucleobase(){
-		edgeIdentifier ="-1";
-		nucleosideConformation = "-1";
-		chainId = "-1";
-		residueId = "-1";
-		residuePosition = -1;
+		setEdgeIdentifier("-1");
+		setNucleosideConformation("-1");
+		setChainId("-1");
+		setResidueLabel("-1");
+		setResiduePosition(-1);
 	}
-	
 		
 	/**
 	 * Non default constructor
-	 * @param aResidue the residue Id
+	 * @param aResLabel the residue Id
 	 * @param anEdge the edge identifier
 	 * @param aChain the chain id
 	 * @param aPosition position in chain
 	 * @param aConformation anti or syn conformation
 	 */
-	public Nucleobase(String aResidue, String anEdge, String aChain, int aPosition, String aConformation){
-		nucleosideConformation = aConformation;
-		chainId = aChain;
+	public Nucleobase(String aResLabel, String anEdge, String aChain, int aPosition, String aConformation){
+		setNucleosideConformation(aConformation);
+		setChainId(aChain);
 		if(anEdge.equals("+") || anEdge.equals("-")){
-			anEdge = "W";
+			setEdgeIdentifier("W");
 		}
-		edgeIdentifier = anEdge;
-		residueId = aResidue;
-		residuePosition = aPosition;
-		
+		setEdgeIdentifier(anEdge);
+		setResidueLabel(aResLabel);
+		setResiduePosition(aPosition);
 	}
 	
 	/**
@@ -114,17 +112,17 @@ public class Nucleobase {
 	}
 
 	/**
-	 * @return the residueId
+	 * @return the residueLabel
 	 */
-	public String getResidueId() {
-		return residueId;
+	public String getResidueLabel() {
+		return residueLabel;
 	}
 
 	/**
-	 * @param residueId the residueId to set
+	 * @param residueLabel the residueLabel to set
 	 */
-	public void setResidueId(String residueId) {
-		this.residueId = residueId;
+	public void setResidueLabel(String residueLabel) {
+		this.residueLabel = residueLabel;
 	}
 
 	/**
