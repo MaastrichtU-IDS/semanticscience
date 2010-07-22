@@ -33,21 +33,38 @@ public class Atom {
 		setAtomLabel(anAtomLabel);
 	}
 
+		
+	/**
+	 * @return the atomLabel
+	 */
 	public String getAtomLabel() {
 		return atomLabel;
 	}
 
+	/**
+	 * @param atomLabel the atomLabel to set
+	 */
 	public void setAtomLabel(String atomLabel) {
 		this.atomLabel = atomLabel;
 	}
 
+	/**
+	 * @return the atomId
+	 */
 	public String getAtomId() {
 		return atomId;
 	}
 
+	/**
+	 * @param atomId the atomId to set
+	 */
 	public void setAtomId(String atomId) {
 		this.atomId = atomId;
 	}
-	
+
+	public String toString(){
+		return "Atom : "+ this.getAtomLabel()
+			+" "+ this.getAtomId();
+	}
 
 }
