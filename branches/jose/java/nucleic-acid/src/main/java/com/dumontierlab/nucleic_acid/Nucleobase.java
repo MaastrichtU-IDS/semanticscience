@@ -139,5 +139,11 @@ public class Nucleobase {
 		this.residuePosition = residuePosition;
 	}
 
+	public String toString(){
+		return "Nucleobase : "+this.getResidueLabel()+"_chain"
+			+this.getChainId()+"_position"+this.getResiduePosition()
+			+"_conformation"+this.getNucleosideConformation();
+	}
+
 	
 }

@@ -11,6 +11,10 @@ public class Nucleotide {
 	 */
 	private String nucleosideConformation;
 	/**
+	 * Four letter PDB code for which this nucleotide belongs to
+	 */
+	private String pdbId;
+	/**
 	 * PDB chain to which this nucleobase corresponds to
 	 */
 	private String chainId;
@@ -38,11 +42,12 @@ public class Nucleotide {
 	private String puckerQuality;
 
 	/**
-	 * Default constructor, initialize everything
+	 * Default constructor, initializes everything to -1
 	 */
 	public Nucleotide(){
 		setNucleosideConformation("-1");
 		setChainId("-1");
+		setPdbId("-1");
 		setResidueLabel("-1");
 		setResiduePosition(-1);
 		setResiduePositionTemp(-1);
@@ -51,7 +56,7 @@ public class Nucleotide {
 	}
 	
 	/**
-	 * Non default constructor
+	 * Creates a Nucleotide by specifying the label, chain, position and conformation
 	 * @param residueLabel
 	 * @param chain
 	 * @param position
@@ -64,6 +69,31 @@ public class Nucleotide {
 		setResiduePosition(position);
 	}
 
+	/**
+	 * Creates a Nucleotide by specifying the position and chain
+	 * @param position
+	 * @param aChain
+	 */
+	public Nucleotide(String position, String aChain){
+		setResiduePosition(Integer.parseInt(position));
+		setChainId(aChain);
+	}
+	
+	/**
+	 * Creates a Nucleotide by specifying the label, (string)position, chain and conformation
+	 * @param aResidue
+	 * @param aPosition
+	 * @param aChain
+	 * @param aConformation
+	 */
+	public Nucleotide(String aResidue, String aPosition, String aChain,
+			String aConformation){
+		setNucleosideConformation(aConformation);
+		setChainId(aChain);
+		setResidueLabel(aResidue);
+		setResiduePosition(Integer.parseInt(aPosition));
+	}
+	
 	/**
 	 * @return the nucleosideConformation
 	 */
@@ -163,6 +193,28 @@ public class Nucleotide {
 		this.puckerQuality = puckerQuality;
 	}
 	
+	/**
+	 * @return the pdbId
+	 */
+	public String getPdbId() {
+		return pdbId;
+	}
+
+	/**
+	 * @param pdbId the pdbId to set
+	 */
+	public void setPdbId(String pdbId) {
+		this.pdbId = pdbId;
+	}
+
+	public String toString(){
+		return "Nucleotide residue: " + this.getPdbId() + "_chain"
+		+ this.getChainId() + "_label" + this.getResidueLabel()
+		+ "_residuePos" + this.getResiduePosition() + " PA:"
+		+ this.getPuckerAtom() + " PQ:" + this.getPuckerQuality()
+		+ " RC"+this.getNucleosideConformation();
+		
+	}
 	
 
 }
