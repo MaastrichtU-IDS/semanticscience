@@ -40,6 +40,10 @@ public class Nucleotide {
 	 * Quality of puckering atom endo | exo
 	 */
 	private String puckerQuality;
+	/**
+	 * Model number in which this nucleobase is found
+	 */
+	private int modelNumber;
 
 	/**
 	 * Default constructor, initializes everything to -1
@@ -205,6 +209,20 @@ public class Nucleotide {
 	 */
 	public void setPdbId(String pdbId) {
 		this.pdbId = pdbId;
+	}
+
+	/**
+	 * @return the modelNumber
+	 */
+	public int getModelNumber() {
+		return modelNumber;
+	}
+
+	/**
+	 * @param modelNumber the modelNumber to set
+	 */
+	public void setModelNumber(int modelNumber) {
+		this.modelNumber = modelNumber;
 	}
 
 	public String toString(){

@@ -28,6 +28,14 @@ public class Nucleobase {
 	 * Position in the PDB chain of this particular nucleobase
 	 */
 	private int residuePosition;
+	/**
+	 * Four letter PDB code for which this nucleotide belongs to
+	 */
+	private String pdbId;
+	/**
+	 * Model number in which this nucleobase is found
+	 */
+	private int modelNumber;
 	
 	/**
 	 * Default constructor
@@ -137,6 +145,34 @@ public class Nucleobase {
 	 */
 	public void setResiduePosition(int residuePosition) {
 		this.residuePosition = residuePosition;
+	}
+
+		/**
+	 * @return the pdbId
+	 */
+	public String getPdbId() {
+		return pdbId;
+	}
+
+	/**
+	 * @param pdbId the pdbId to set
+	 */
+	public void setPdbId(String pdbId) {
+		this.pdbId = pdbId;
+	}
+
+	/**
+	 * @return the modelNumber
+	 */
+	public int getModelNumber() {
+		return modelNumber;
+	}
+
+	/**
+	 * @param modelNumber the modelNumber to set
+	 */
+	public void setModelNumber(int modelNumber) {
+		this.modelNumber = modelNumber;
 	}
 
 	public String toString(){
