@@ -2,7 +2,7 @@ package com.dumontierlab.nucleic_acid;
 
 
 /**
- * This class describes an atom
+ * This class describes an atom object
  * @author Jose Cruz-Toledo
  *
  */
