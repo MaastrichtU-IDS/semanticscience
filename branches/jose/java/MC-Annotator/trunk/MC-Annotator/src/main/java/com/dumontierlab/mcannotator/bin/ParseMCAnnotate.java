@@ -16,18 +16,35 @@ import org.apache.commons.io.FileUtils;
 import com.dumontierlab.mcannotator.rna.BasePair;
 import com.dumontierlab.mcannotator.rna.Nucleotide;
 import com.dumontierlab.mcannotator.rna.Stack;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 public class ParseMCAnnotate {
-	private LinkedList<BasePair> basePairs;// base pairs
-	private LinkedList<Stack> stacks;// adjacent and non-adjacent stacks
-	private LinkedList<Nucleotide> nucleotides; // nucleotide conformations
-												// anti|syn
-	
+	/**
+	 * LinkedList with the parsed base pairs
+	 */
+	private LinkedList<BasePair> basePairs;
+	/**
+	 * LinkedList with the parsed base stacks
+	 */
+	private LinkedList<Stack> stacks;
+	/**
+	 * LinkedList with the parsed nucleotide residues
+	 */
+	private LinkedList<Nucleotide> nucleotides; 
+	/**
+	 * Raw MCAnnotate file that is being parsed
+	 */
 	File inputFile;
+	/**
+	 * PDB identifier
+	 */
 	private String pdbId = "";
-	private int modelNumber = 1;// always start at 1?
+	/**
+	 * Model number in which this nucleobase is found, default to 1
+	 */
+	private int modelNumber = 1;
+	/**
+	 * HashMap containing all sections of the raw mcannotate output
+	 */
 	private HashMap<String, String> mcaSections;
 
 	public ParseMCAnnotate(File file) {

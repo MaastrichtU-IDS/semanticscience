@@ -62,7 +62,11 @@ public class RunMCAnnotate {
     	this(new File("/tmp"), new File("/tmp"));	
     }
 	
-	
+	/**
+	 * Execute MCAnnotate on a specified input directory and store results in output directory
+	 * @param inputDir the input directory
+	 * @param outputDir the output directory
+	 */
 	public RunMCAnnotate(File inputDir, File outputDir){
 		if(inputDir == null){
 			System.out.println("User did not provide input directory.");
@@ -75,12 +79,15 @@ public class RunMCAnnotate {
 		}
 		
 		try {
+			//Check if MC-Annotate is in the PATH
 			Process p = Runtime.getRuntime().exec("MC-Annotate");
 			p.waitFor();
 		} catch (IOException ioe) {
 			System.out.println("Error executing MC-Annotate!\nMake sure that MC-Annotate is in your path.");
+			System.exit(-1);
 		}catch(InterruptedException ie){
 			System.out.println("MC-Annotate was interrupted.");
+			System.exit(-1);
 		}
 		this.setInputDirectory(inputDir);
 		
