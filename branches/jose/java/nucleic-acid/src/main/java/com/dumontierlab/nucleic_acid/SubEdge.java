@@ -120,7 +120,7 @@ public class SubEdge {
 	
 	public String toString(){
 		return "SubEdge : "+this.getSubEdgeLabel()+" on atom(s): "+
-			this.getFirstAtom() +"  " + this.getSecondAtom();
+			" firstAtom:"+ this.getFirstAtom() +"  "+"secondAtom: " + this.getSecondAtom();
 	}
 	
 	
