@@ -175,12 +175,12 @@
             >OBO_REL:located_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000061"/>
             <rdf:Description rdf:about="&resource;SIO_000093"/>
+            <rdf:Description rdf:about="&resource;SIO_000061"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000093"/>
             <rdf:Description rdf:about="&resource;SIO_000061"/>
+            <rdf:Description rdf:about="&resource;SIO_000093"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
@@ -973,8 +973,8 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is variant of</rdfs:label>
         <dc:description
-            >is variant of: a relationship indicating that two entities are not only similar, but either achieve the same objectives in different ways or are permutations of one another (temporal, logical or otherwise)</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
+            >is variant of: a relationship indicating that two entities are different (by some measure), but either achieve the same objectives in different ways or are permutations of one another (temporal, logical or otherwise)</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -1032,7 +1032,7 @@
         <rdfs:label>is similar to</rdfs:label>
         <dc:description
             >is similar to is a relation between two objects that share some features.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
     </owl:ObjectProperty>
     
 
@@ -1389,6 +1389,33 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000422 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000422">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label
+            >is broader than (t)</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#narrowerTransitive</resource:equivalentTo>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000424"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000424 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000424">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label
+            >is narrower than (t)</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#broaderTransitive</resource:equivalentTo>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000425 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000425">
@@ -1410,6 +1437,79 @@
         <rdfs:range rdf:resource="&resource;SIO_000015"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000341"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000427 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000427">
+        <rdfs:label
+            >is narrower than</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#broader</resource:equivalentTo>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000424"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000477 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000477">
+        <rdfs:label>is broader than</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#narrower</resource:equivalentTo>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000422"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000482 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000482">
+        <rdfs:label>is match to</rdfs:label>
+        <dc:description
+            >A is match to B iff A and B are terms with similar (related, broad, close, exact) meanings</dc:description>
+        <rdfs:range rdf:resource="&resource;SIO_000275"/>
+        <rdfs:domain rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000484 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000484">
+        <rdfs:label>is exact match</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000490 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000490">
+        <rdfs:label>is close match</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000491 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000491">
+        <rdfs:label>is broad match</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000492 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000492">
+        <rdfs:label
+            >is related match</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
     </owl:ObjectProperty>
     
 
@@ -2359,11 +2459,17 @@
 
     <owl:Class rdf:about="&resource;SIO_000078">
         <rdfs:label>textual entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000300"/>
                 <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -2711,6 +2817,12 @@
     <owl:Class rdf:about="&resource;SIO_000110">
         <rdfs:label>paragraph</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000113"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A paragraph is a self-contained unit of written discourse consisting of one or more sentences.</dc:description>
     </owl:Class>
@@ -2754,6 +2866,12 @@
     <owl:Class rdf:about="&resource;SIO_000114">
         <rdfs:label>word</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000108"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A word is the smallest free form (an item that may be uttered in isolation with semantic or pragmatic content) in a language.</dc:description>
     </owl:Class>
@@ -2766,7 +2884,7 @@
         <rdfs:label>identifier</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
         <dc:description
-            >An identifier is an informational property that specifically refers to (identifies) an entity (instance/type).</dc:description>
+            >An identifier is a label that specifically refers to (identifies) an entity (instance/type).</dc:description>
     </owl:Class>
     
 
@@ -2839,7 +2957,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000122">
         <rdfs:label>synonym</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >A synonym is a word with the same or very similar meanings.</dc:description>
     </owl:Class>
@@ -2850,7 +2968,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000123">
         <rdfs:label>antonym</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >An antonym is a word with opposite or nearly opposite meaning.</dc:description>
     </owl:Class>
@@ -2861,7 +2979,18 @@
 
     <owl:Class rdf:about="&resource;SIO_000124">
         <rdfs:label>hypernym</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000342"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000477"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >A hypernym is a more specifc word.</dc:description>
     </owl:Class>
@@ -2872,7 +3001,18 @@
 
     <owl:Class rdf:about="&resource;SIO_000125">
         <rdfs:label>hyponym</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000342"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000427"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >A hyponym is a less specific word.</dc:description>
     </owl:Class>
@@ -2883,7 +3023,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000126">
         <rdfs:label>homonym</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >A homonym is a word that sounds the same but has different meaning.</dc:description>
     </owl:Class>
@@ -2934,9 +3074,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000133">
         <rdfs:label>descriptor</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
         <dc:description
-            >A descriptor (index term, subject term, subject heading) is an informational property which corresponds to a term that captures the essence of the topic of a document.</dc:description>
+            >A descriptor (index term, subject term, subject heading) is a term that captures the essence of the topic of a document.</dc:description>
     </owl:Class>
     
 
@@ -2976,7 +3116,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000137">
         <rdfs:label>category</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
     </owl:Class>
     
 
@@ -2985,7 +3125,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000138">
         <rdfs:label>class</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
     </owl:Class>
     
 
@@ -3411,9 +3551,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000179">
         <rdfs:label>label</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
         <dc:description
-            >a label is an attribute that is associated with some entity</dc:description>
+            >a label is a term that is associated with some entity</dc:description>
     </owl:Class>
     
 
@@ -3942,6 +4082,17 @@
         </rdfs:subClassOf>
         <dc:description
             >A property is an informational entity which is used to describe an entity and whose realization or value may be context dependent.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000275 -->
+
+    <owl:Class rdf:about="&resource;SIO_000275">
+        <rdfs:label>term</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description
+            >A term is a word or phrase used to denote one or more entities.</dc:description>
     </owl:Class>
     
 
@@ -4526,6 +4677,27 @@
         <rdfs:label
             >realizable entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000342 -->
+
+    <owl:Class rdf:about="&resource;SIO_000342">
+        <rdfs:label>term variant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000275"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000272"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <dc:description
+            >a term variant is a term that is a variant of another term.</dc:description>
     </owl:Class>
     
 
@@ -6017,6 +6189,35 @@ graph.</dc:description>
         </rdfs:subClassOf>
         <dc:description
             >A secondary graph title is a secondary title that describes a statistical graph.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000483 -->
+
+    <owl:Class rdf:about="&resource;SIO_000483">
+        <rdfs:label>phrase</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:onClass rdf:resource="&resource;SIO_000114"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >A phrase is a group of words functioning as a single unit in the syntax of a sentence.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000493 -->
+
+    <owl:Class rdf:about="&resource;SIO_000493">
+        <rdfs:label>clause</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000113"/>
+        <dc:description
+            >A clause consists of a subject and a predicate.</dc:description>
     </owl:Class>
     
 
