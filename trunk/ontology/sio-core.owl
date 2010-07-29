@@ -148,7 +148,7 @@
             >a collection of cars has as a car as a member</resource:example>
         <dc:description
             >has member is a mereological relation between a collection and an item.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000028"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
     </owl:ObjectProperty>
     
 
@@ -167,10 +167,10 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000061">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is located in</rdfs:label>
+        <dc:description
+            >A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B. [T][R]</dc:description>
         <resource:example
             >A parasite in the interior of a person&#39;s intestine is located in their intestinal lumen.</resource:example>
-        <dc:description
-            >is located in is a transitive, reflexive relation such that x is located in y if x&#39;s spatial region is part of y&#39;s spatial region.</dc:description>
         <resource:equivalentTo
             >OBO_REL:located_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
@@ -258,7 +258,7 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000092">
         <rdfs:label
             >is discourse about</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000146"/>
     </owl:ObjectProperty>
     
 
@@ -287,7 +287,7 @@
         <dc:description
             >is member of is a mereological relation between a item and a collection.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000059"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000068"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
     </owl:ObjectProperty>
     
 
@@ -312,7 +312,7 @@
         <resource:equivalentTo
             >OBO_REL:contained_in</resource:equivalentTo>
         <dc:description
-            >is contained in is a transitive relation in which the subject is part of the object.</dc:description>
+            >A is contained in B iff the spatial region occupied by A is part of the spatial region occupied by B and A is not part of B. [T]</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
@@ -353,7 +353,7 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is location of</rdfs:label>
         <dc:description
-            >is location of is a transitive, reflexive relation in which the subject does not have the object as a part, and the object is either partially or fully spatiotemporally positioned in the subject.</dc:description>
+            >A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part. [T][R]</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000061"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
@@ -379,7 +379,7 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>contains</rdfs:label>
         <dc:description
-            >contains is a transitive relation in which the object is part of the subject.</dc:description>
+            >A contains B iff the spatial region occupied by A has the spatial region occupied by B as a part, and B is not part of A. [T]</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000128"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
@@ -393,7 +393,7 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label>is connected to</rdfs:label>
         <dc:description
-            >is connected to is a symmetric, transitive relation that holds iff they are directly or indirectly connected to one another.</dc:description>
+            >A is connected to B iff there exists a fiat, material or temporal path between A and B. [S][T]</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
@@ -404,11 +404,11 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000204">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>is adjacent to</rdfs:label>
-        <dc:description
-            >adjacent to is a relation between two entities iff they are directly connected to each other.</dc:description>
         <resource:equivalentTo
             >OBO_REL:adjacent_to</resource:equivalentTo>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
+        <dc:description
+            >A is adjacent to B iff there is a small, but non-zero distance between A and B</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
 
@@ -505,10 +505,10 @@
         <rdfs:label
             >has concretization</rdfs:label>
         <dc:description
-            >has concretization is a relation between an informational entity and a quality of some material entity.</dc:description>
+            >A has concretization B iff A is an informational entity and B is the a quality of some material entity.</dc:description>
         <rdfs:domain rdf:resource="&resource;SIO_000001"/>
         <rdfs:range rdf:resource="&resource;SIO_000005"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000422"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
 
@@ -519,11 +519,11 @@
         <rdfs:label
             >is concretization of</rdfs:label>
         <dc:description
-            >is concretization of is a relation between a quality of a material entity and some informational entity.</dc:description>
+            >A is concretization of B iff A is a quality of a material entity and B is an informational entity.</dc:description>
         <rdfs:range rdf:resource="&resource;SIO_000001"/>
         <rdfs:domain rdf:resource="&resource;SIO_000005"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000213"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000422"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
 
@@ -577,7 +577,7 @@
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>is related to</rdfs:label>
         <dc:description
-            >is related to is the top level relation that indicates an association between two objects.</dc:description>
+            >A is related to B iff there is some association between A and B.</dc:description>
     </owl:ObjectProperty>
     
 
@@ -970,13 +970,13 @@
     <!-- http://semanticscience.org/resource/SIO_000273 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000273">
-        <rdfs:label
-            >has granular part</rdfs:label>
+        <rdfs:label>has direct part</rdfs:label>
         <rdfs:comment
             >has granular part is a relation between a whole and a part, which is non-transitive and can be used in qualified cardinality restrictions.</rdfs:comment>
         <resource:example
             >a car has an engine as a granular part</resource:example>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000313"/>
     </owl:ObjectProperty>
     
 
@@ -1100,7 +1100,7 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000310">
         <rdfs:label
-            >is granular part of</rdfs:label>
+            >is direct part of</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
     </owl:ObjectProperty>
     
@@ -1147,6 +1147,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000322">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>is spatial to</rdfs:label>
+        <dc:description
+            >A is spatial to B iff A is in the spatial vicinity of B</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
@@ -1157,6 +1159,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000323">
         <rdfs:label
             >is surrounded by</rdfs:label>
+        <dc:description
+            >A is surrounded by B iff the spatial region occupied by B envelops the spatial region occupied by A, and A and B is not part of each other.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
     </owl:ObjectProperty>
     
@@ -1166,6 +1170,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000324">
         <rdfs:label>surrounds</rdfs:label>
+        <dc:description
+            >A surrounds B iff the spatial region occupied by A envelops the spatial region occupied by B, and A and B is not part of each other.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000323"/>
     </owl:ObjectProperty>
@@ -1179,7 +1185,7 @@
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>overlaps with</rdfs:label>
         <dc:description
-            >overlaps with is a symmetric, reflexive binary relation such that if x and y overlap, if there is some object, z, that is part of both x and y.</dc:description>
+            >A overlaps with B iff there is some C that is part of both A and B. [S][R]</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIO_000325"/>
@@ -1246,23 +1252,12 @@
         <rdfs:label
             >is manifested as</rdfs:label>
         <dc:description
-            >is manifested as is a relation between an expression of some work and its manifestations.</dc:description>
+            >is manifested as is a relation between an expression and its manifestations.</dc:description>
         <resource:example
             >the english language version of &#39;war of the worlds&#39; is manifested as a collection of english language versions of the book.</resource:example>
+        <rdfs:range rdf:resource="&resource;SIO_000003"/>
         <rdfs:domain rdf:resource="&resource;SIO_000015"/>
-        <rdfs:range rdf:resource="&resource;SIO_000015"/>
-        <owl:inverseOf rdf:resource="&resource;SIO_000342"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000342 -->
-
-    <owl:ObjectProperty rdf:about="&resource;SIO_000342">
-        <rdfs:label
-            >is manifestation of</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000426"/>
     </owl:ObjectProperty>
     
 
@@ -1347,6 +1342,7 @@
         <resource:example
             >a human has blood as a component part</resource:example>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000273"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000313"/>
     </owl:ObjectProperty>
     
 
@@ -1354,10 +1350,10 @@
     <!-- http://semanticscience.org/resource/SIO_000420 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000420">
-        <rdfs:label>is expressed as</rdfs:label>
+        <rdfs:label>has expression</rdfs:label>
         <resource:example
             >the story &#39;war of worlds&#39; is expressed as every language edition of the book &#39;war of the worlds&#39;</resource:example>
-        <rdfs:range rdf:resource="&resource;SIO_000015"/>
+        <rdfs:range rdf:resource="&resource;SIO_000001"/>
         <rdfs:domain rdf:resource="&resource;SIO_000260"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000421"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
@@ -1374,17 +1370,9 @@
             >is expression of is a relation between more concrete expression of some conceptualization.</dc:description>
         <resource:example
             >every language edition of &#39;war of the worlds&#39; are expressions of the story of &#39;war of the worlds&#39;</resource:example>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000426"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000422 -->
-
-    <owl:ObjectProperty rdf:about="&resource;SIO_000422">
-        <rdfs:label
-            >is conceptually related to</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
+        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
+        <rdfs:range rdf:resource="&resource;SIO_000260"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
 
@@ -1393,8 +1381,10 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000425">
         <rdfs:label
-            >is generically dependent on</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000422"/>
+            >is generically related with</rdfs:label>
+        <dc:description
+            >A is generically related with B iff A is an abstract entity or an information content entity and B is a information content entity or a physical entity, respectively.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
     
 
@@ -1402,20 +1392,11 @@
     <!-- http://semanticscience.org/resource/SIO_000426 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000426">
-        <rdfs:label>exemplifies</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000422"/>
-        <owl:inverseOf rdf:resource="&resource;SIO_000425"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_000427 -->
-
-    <owl:ObjectProperty rdf:about="&resource;SIO_000427">
         <rdfs:label
-            >is materially dependent on</rdfs:label>
-        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
-        <rdfs:range rdf:resource="&resource;SIO_000004"/>
+            >is manifestation of</rdfs:label>
+        <rdfs:domain rdf:resource="&resource;SIO_000003"/>
+        <rdfs:range rdf:resource="&resource;SIO_000015"/>
+        <owl:inverseOf rdf:resource="&resource;SIO_000341"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
@@ -1484,8 +1465,8 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1496,8 +1477,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1513,12 +1494,6 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000053"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
@@ -1527,6 +1502,12 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000217"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000026"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1542,14 +1523,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1677,8 +1658,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000427"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1689,8 +1670,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000341"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -1740,14 +1721,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
@@ -2340,6 +2321,17 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000076 -->
+
+    <owl:Class rdf:about="&resource;SIO_000076">
+        <rdfs:label>plan</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+        <dc:description
+            >a plan is a set of intended actions, through which one expects to achieve a goal.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000077 -->
 
     <owl:Class rdf:about="&resource;SIO_000077">
@@ -2495,14 +2487,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000337"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000359"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -2624,9 +2616,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000104">
         <rdfs:label>language</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <dc:description
-            >Language is an effective specification for encoding and decoding information through systematic creation and usage of systems of symbols, each pairing a specific sign with an intended meaning, established through social conventions</dc:description>
+            >Language is an agentive entity for encoding and decoding information through systematic creation and usage of systems of symbols, each pairing a specific sign with an intended meaning, established through social conventions</dc:description>
     </owl:Class>
     
 
@@ -2635,7 +2627,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000105">
         <rdfs:label>symbol</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000332"/>
@@ -3997,7 +3989,7 @@
         <rdfs:label>justification</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
         <dc:description
-            >A justification is a statement that defends, explains or excuses some  argument.</dc:description>
+            >A justification is a proposition that defends, explains or excuses some  argument.</dc:description>
     </owl:Class>
     
 
@@ -4006,7 +3998,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000284">
         <rdfs:label>hypothesis</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <dc:description
             >a hypothesis is a tentative proposition, whose truth value is to be tested.</dc:description>
     </owl:Class>
@@ -4315,8 +4307,6 @@
 
     <owl:Class rdf:about="&resource;SIO_000316">
         <rdfs:label
-            >specification of association</rdfs:label>
-        <rdfs:label
             >design specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000336"/>
         <dc:description
@@ -4329,8 +4319,8 @@
 
     <owl:Class rdf:about="&resource;SIO_000317">
         <rdfs:label
-            >specification for spatial location</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+            >spatial specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
         <dc:description
             >A specification for spatial location is an effective specification towards representation spatial position or spatial data.</dc:description>
     </owl:Class>
@@ -4388,7 +4378,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000326">
         <rdfs:label>concept</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
     </owl:Class>
     
 
@@ -4482,7 +4472,8 @@
     <!-- http://semanticscience.org/resource/SIO_000336 -->
 
     <owl:Class rdf:about="&resource;SIO_000336">
-        <rdfs:label>plan</rdfs:label>
+        <rdfs:label
+            >plan specification</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -4497,7 +4488,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
-            >a plan is an effective specification detailing a set of actions to achieve some objective or goal.</dc:description>
+            >a plan specification is an effective specification detailing a set of actions to achieve some objective or goal.</dc:description>
     </owl:Class>
     
 
@@ -4701,7 +4692,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000361">
         <rdfs:label>agentive entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
     </owl:Class>
     
 
@@ -4740,14 +4731,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000416"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000145"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000145"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
@@ -5241,14 +5232,14 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000416"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000370"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000370"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000416"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -6019,16 +6010,16 @@ graph.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
-                <owl:onClass rdf:resource="&resource;SIO_000501"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_000541"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000541"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
+                <owl:onClass rdf:resource="&resource;SIO_000501"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6044,15 +6035,15 @@ graph.</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000505"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_000500"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000500"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000505"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -6321,14 +6312,14 @@ categorical axis.</dc:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000509"/>
+                <owl:onClass rdf:resource="&resource;SIO_000508"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:onClass rdf:resource="&resource;SIO_000508"/>
+                <owl:onClass rdf:resource="&resource;SIO_000509"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -6618,7 +6609,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000585">
         <rdfs:label>idea</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <dc:description
             >An idea is a proposition about some object of conceptual thought.</dc:description>
     </owl:Class>
@@ -6654,17 +6645,17 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000015"/>
-            <rdf:Description rdf:about="&resource;SIO_000260"/>
-            <rdf:Description rdf:about="&resource;SIO_000271"/>
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000001"/>
-            <rdf:Description rdf:about="&resource;SIO_000002"/>
-            <rdf:Description rdf:about="&resource;SIO_000003"/>
+            <rdf:Description rdf:about="&resource;SIO_000015"/>
+            <rdf:Description rdf:about="&resource;SIO_000260"/>
+            <rdf:Description rdf:about="&resource;SIO_000271"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -6678,9 +6669,9 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000400"/>
-            <rdf:Description rdf:about="&resource;SIO_000401"/>
-            <rdf:Description rdf:about="&resource;SIO_000402"/>
+            <rdf:Description rdf:about="&resource;SIO_000001"/>
+            <rdf:Description rdf:about="&resource;SIO_000002"/>
+            <rdf:Description rdf:about="&resource;SIO_000003"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
