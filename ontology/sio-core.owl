@@ -175,12 +175,12 @@
             >OBO_REL:located_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000093"/>
             <rdf:Description rdf:about="&resource;SIO_000061"/>
+            <rdf:Description rdf:about="&resource;SIO_000093"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000061"/>
             <rdf:Description rdf:about="&resource;SIO_000093"/>
+            <rdf:Description rdf:about="&resource;SIO_000061"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
@@ -999,9 +999,9 @@
         <rdfs:label
             >is prior version of</rdfs:label>
         <dc:description
-            >is prior version of is a relation between two objects in which one is a variant of the other in a temporally ordered manner.</dc:description>
+            >A is prior version of B iff A is a variant of B and B derives from A.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000244"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000497"/>
     </owl:ObjectProperty>
     
 
@@ -1031,7 +1031,7 @@
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdfs:label>is similar to</rdfs:label>
         <dc:description
-            >is similar to is a relation between two objects that share some features.</dc:description>
+            >is similar to is a relation between two entities that share one or more features.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
     </owl:ObjectProperty>
     
@@ -1042,8 +1042,10 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000286">
         <rdfs:label
             >is subsequent version of</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+        <dc:description
+            >A is subsequent version of B iff A is a variant of B and A derives from B.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000274"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000497"/>
     </owl:ObjectProperty>
     
 
@@ -1395,9 +1397,13 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label
             >is broader than (t)</rdfs:label>
+        <dc:description
+            >A is broader than B (t) iff for A is broader than B.</dc:description>
         <resource:equivalentTo
             >http://www.w3.org/2004/02/skos/core#narrowerTransitive</resource:equivalentTo>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+        <rdfs:range rdf:resource="&resource;SIO_000275"/>
+        <rdfs:domain rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000424"/>
     </owl:ObjectProperty>
     
@@ -1409,9 +1415,13 @@
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label
             >is narrower than (t)</rdfs:label>
+        <dc:description
+            >A is narrower than B (t) iff for A is narrower than B.</dc:description>
         <resource:equivalentTo
             >http://www.w3.org/2004/02/skos/core#broaderTransitive</resource:equivalentTo>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+        <rdfs:range rdf:resource="&resource;SIO_000275"/>
+        <rdfs:domain rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
     </owl:ObjectProperty>
     
 
@@ -1446,6 +1456,8 @@
     <owl:ObjectProperty rdf:about="&resource;SIO_000427">
         <rdfs:label
             >is narrower than</rdfs:label>
+        <dc:description
+            >A is narrower than B iff the meaning of term A is narrower in scope than the meaning of term B</dc:description>
         <resource:equivalentTo
             >http://www.w3.org/2004/02/skos/core#broader</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000424"/>
@@ -1470,6 +1482,8 @@
         <rdfs:label>is match to</rdfs:label>
         <dc:description
             >A is match to B iff A and B are terms with similar (related, broad, close, exact) meanings</dc:description>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#relatedMatch</resource:equivalentTo>
         <rdfs:range rdf:resource="&resource;SIO_000275"/>
         <rdfs:domain rdf:resource="&resource;SIO_000275"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000283"/>
@@ -1481,6 +1495,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000484">
         <rdfs:label>is exact match</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#exactMatch</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
     </owl:ObjectProperty>
     
@@ -1490,6 +1506,8 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000490">
         <rdfs:label>is close match</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#closeMatch</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
     </owl:ObjectProperty>
     
@@ -1499,17 +1517,39 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000491">
         <rdfs:label>is broad match</rdfs:label>
+        <resource:equivalentTo
+            >http://www.w3.org/2004/02/skos/core#broadMatch</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000492 -->
+    <!-- http://semanticscience.org/resource/SIO_000495 -->
 
-    <owl:ObjectProperty rdf:about="&resource;SIO_000492">
+    <owl:ObjectProperty rdf:about="&resource;SIO_000495">
         <rdfs:label
-            >is related match</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000482"/>
+            >is dissimilar to</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000496 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000496">
+        <rdfs:label>is opposite to</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000495"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000497 -->
+
+    <owl:ObjectProperty rdf:about="&resource;SIO_000497">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is version of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000272"/>
     </owl:ObjectProperty>
     
 
@@ -2957,6 +2997,17 @@
 
     <owl:Class rdf:about="&resource;SIO_000122">
         <rdfs:label>synonym</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000342"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000482"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >A synonym is a word with the same or very similar meanings.</dc:description>
@@ -2968,6 +3019,17 @@
 
     <owl:Class rdf:about="&resource;SIO_000123">
         <rdfs:label>antonym</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000342"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000496"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
             >An antonym is a word with opposite or nearly opposite meaning.</dc:description>
@@ -2992,7 +3054,7 @@
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
-            >A hypernym is a more specifc word.</dc:description>
+            >A hypernym is a term with a broader meaning.</dc:description>
     </owl:Class>
     
 
@@ -3014,7 +3076,7 @@
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
         <dc:description
-            >A hyponym is a less specific word.</dc:description>
+            >A hyponym is a term with a narrower meaning.</dc:description>
     </owl:Class>
     
 
@@ -3024,6 +3086,12 @@
     <owl:Class rdf:about="&resource;SIO_000126">
         <rdfs:label>homonym</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000342"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000495"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000275"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A homonym is a word that sounds the same but has different meaning.</dc:description>
     </owl:Class>
