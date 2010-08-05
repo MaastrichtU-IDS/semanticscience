@@ -1,25 +1,34 @@
 package com.semanticscience.banner.bioinfer;
 
+import java.util.ArrayList;
+
 public class BioInferSentence {
 
 	private String sentence;
 
-	private ProteinMention pm;
-	
-	private ProteinComplexMention pcm;
-
-	private String type;
+	private ArrayList<ProteinMention> pmList;
 	
 	public BioInferSentence(){
 		
 	}
 	
-	public BioInferSentence(String sentence, ProteinMention pm, ProteinComplexMention pcm, String type) {
+	public BioInferSentence(String sentence, ArrayList<ProteinMention> pmList) {
 		this.sentence = sentence;
-		this.pm = pm;
-		this.pcm  = pcm;
-		this.type = type;
-		
+		this.pmList = pmList;	
+	}
+
+	/**
+	 * @return the pmList
+	 */
+	public ArrayList<ProteinMention> getPmList() {
+		return pmList;
+	}
+
+	/**
+	 * @param pmList the pmList to set
+	 */
+	public void setPmList(ArrayList<ProteinMention> pmList) {
+		this.pmList = pmList;
 	}
 
 	public String getSentence() {
@@ -29,31 +38,6 @@ public class BioInferSentence {
 	public void setSentence(String sentence) {
 		this.sentence = sentence;
 	}
-
-	public ProteinMention getPm() {
-		return pm;
-	}
-
-	public void setPm(ProteinMention pm) {
-		this.pm = pm;
-	}
-
-	public ProteinComplexMention getPcm() {
-		return pcm;
-	}
-
-	public void setPcm(ProteinComplexMention pcm) {
-		this.pcm = pcm;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}	
-	
 	
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
@@ -61,11 +45,7 @@ public class BioInferSentence {
 		sb.append("Sentence details - ");
 		sb.append("Sentence:" + getSentence());
 		sb.append(", ");
-		sb.append("Type:" + getType());
-		sb.append(", ");
-		sb.append("Protein mention:" + getPm());
-		sb.append(", ");
-		sb.append("Protein complex mention:" + getPcm());
+		sb.append("Protein mention:" + getPmList());
 		sb.append(".");
 		
 		return sb.toString();
