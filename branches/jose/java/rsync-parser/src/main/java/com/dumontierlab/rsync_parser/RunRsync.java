@@ -30,9 +30,7 @@ public class RunRsync {
 		}else{
 			setMirrorDirectory(mirrorDir);
 		}
-	
-		populateCmdArr();
-			
+		populateCmdArr();			
 		try {
 			System.out.println("Initiating Rsync request...");
 			Process p = Runtime.getRuntime().exec(getCmdArr());
