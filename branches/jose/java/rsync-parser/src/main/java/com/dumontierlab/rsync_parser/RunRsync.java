@@ -1,37 +1,47 @@
 package com.dumontierlab.rsync_parser;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
+import java.util.ArrayList;
 
 public class RunRsync {
-	
-	
-	static String rsyncLocation = "/usr/bin/rsync";
-	static String parameters = "-rtpl -v -z -n --delete --port=334444";
 	static String sourceURI = "rsync.wwpdb.org::ftp_data/structures/divided/XML/";
-	String destinationFolder;
-	String filename;
+	public String[] cmdArr = new String[8];
+	File mirrorDirectory;
 	File logFile;
+				
+	public RunRsync(File aLogFile, File mirrorDir){
+		if(aLogFile == null){
+			System.out.println("a log file has not been specified");
+			System.exit(-1);
+		}else{
+			setLogFile(aLogFile);
+		}
+		if(mirrorDir == null){
+			System.out.println("a mirror dir has not been specified");
+			System.exit(-1);
+		}else{
+			setMirrorDirectory(mirrorDir);
+		}
 	
-	public RunRsync() {
-		this.destinationFolder = "/tmp/";
-		this.filename = "pdbXML.log";
-		this.logFile = new File(destinationFolder+filename);
-	}
-	
-	public RunRsync(String destinationFolder, String filename){
-		this.logFile = new File(destinationFolder+filename);
-	}
-	
-	public RunRsync(File aLogFile){
-		this.logFile = aLogFile;
-		
+		populateCmdArr();
+			
 		try {
-			String[] cmdArr = {getRsyncLocation(), getParameters(),getSourceURI(),getDestinationFolder()};
-			Process p = Runtime.getRuntime().exec(cmdArr);
+			System.out.println("Initiating Rsync request...");
+			Process p = Runtime.getRuntime().exec(getCmdArr());
 			p.waitFor();
+			String output = RunRsync.writeProcessOutput(p);
+			RunRsync.setContents(aLogFile, output);
+			System.out.println("Finished transfering files");
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("ca222caca");
 			e.printStackTrace();
 			System.exit(-1);
@@ -41,24 +51,53 @@ public class RunRsync {
 		}
 	}
 
-
-
-	/**
-	 * @return the filename
-	 */
-	public String getFilename() {
-		return filename;
+	private void populateCmdArr() {
+		this.cmdArr[0] = "/usr/bin/rsync";
+		this.cmdArr[1] = "-ptrl"; 
+		this.cmdArr[2] = "-v";
+		this.cmdArr[3] = "-z";
+		this.cmdArr[4] = "--delete";
+		this.cmdArr[5] = "--port=33444";
+		this.cmdArr[6] = getSourceURI();
+		this.cmdArr[7] = getMirrorDirectory().getAbsolutePath();
 	}
 
 
-
-	/**
-	 * @param filename the filename to set
-	 */
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public static String writeProcessOutput(Process aProc){
+		InputStreamReader tmpReader = new  InputStreamReader(new BufferedInputStream(aProc.getInputStream()));
+		BufferedReader reader = new BufferedReader(tmpReader);
+		String returnMe ="";
+		while(true){
+			String line ="";
+			try {
+				line = reader.readLine();
+			} catch (IOException e) {
+				System.out.println("Could not read input file");
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			if(line == null)
+				break;
+			returnMe += line+"\n";
+		}//while
+		return returnMe;
+	}//writeProcessOutput
+	
+	public static void setContents(File aFile, String aContents) throws FileNotFoundException, IOException {
+		if (aFile == null) {
+			throw new IllegalArgumentException("File should not be null.");
+		}
+		
+		//use buffering
+		Writer output = new BufferedWriter(new FileWriter(aFile));
+		try {
+			//FileWriter always assumes default encoding is OK!
+			output.write( aContents );
+		}
+		finally {
+			output.close();
+		}
 	}
-
 
 
 	/**
@@ -78,49 +117,6 @@ public class RunRsync {
 	}
 
 
-
-	/**
-	 * @return the destinationFolder
-	 */
-	public String getDestinationFolder() {
-		return destinationFolder;
-	}
-
-	/**
-	 * @param destinationFolder the destinationFolder to set
-	 */
-	public void setDestinationFolder(String destinationFolder) {
-		this.destinationFolder = destinationFolder;
-	}
-
-	/**
-	 * @return the rsyncLocation
-	 */
-	public static String getRsyncLocation() {
-		return rsyncLocation;
-	}
-
-	/**
-	 * @param rsyncLocation the rsyncLocation to set
-	 */
-	public static void setRsyncLocation(String rsyncLocation) {
-		RunRsync.rsyncLocation = rsyncLocation;
-	}
-
-	/**
-	 * @return the parameters
-	 */
-	public static String getParameters() {
-		return parameters;
-	}
-
-	/**
-	 * @param parameters the parameters to set
-	 */
-	public static void setParameters(String parameters) {
-		RunRsync.parameters = parameters;
-	}
-
 	/**
 	 * @return the sourceURI
 	 */
@@ -134,6 +130,39 @@ public class RunRsync {
 	public static void setSourceURI(String sourceURI) {
 		RunRsync.sourceURI = sourceURI;
 	}
+
+
+	/**
+	 * @return the cmdArr
+	 */
+	public String[] getCmdArr() {
+		return cmdArr;
+	}
+
+	/**
+	 * @param cmdArr the cmdArr to set
+	 */
+	public void setCmdArr(String[] cmdArr) {
+		this.cmdArr = cmdArr;
+	}
+
+	/**
+	 * @return the mirrorDirectory
+	 */
+	public File getMirrorDirectory() {
+		return mirrorDirectory;
+	}
+
+
+
+	/**
+	 * @param mirrorDirectory the mirrorDirectory to set
+	 */
+	public void setMirrorDirectory(File mirrorDirectory) {
+		this.mirrorDirectory = mirrorDirectory;
+	}
+
+	
 	
 	
 	
