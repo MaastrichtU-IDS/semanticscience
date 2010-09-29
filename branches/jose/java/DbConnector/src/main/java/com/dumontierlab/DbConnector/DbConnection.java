@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -164,8 +163,8 @@ public class DbConnection {
 		}
 	}
 
-	// You need to close the resultSet
-	private void close() {
+	
+	public void close() {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -179,7 +178,7 @@ public class DbConnection {
 				connection.close();
 			}
 		} catch (Exception e) {
-
+			System.out.println("closing stuff problem\nThey are obviously chasing you!");
 		}
 	}
 	/**

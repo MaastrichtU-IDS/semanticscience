@@ -24,6 +24,7 @@ public class DbConnectionTester {
 		PreparedStatement ps = db.getConnect().prepareStatement("UPDATE test SET a=? WHERE a=11");
 		ps.setInt(1, 21);
 		ps.executeUpdate();
+		db.close();
 	}
 	
 	
