@@ -83,15 +83,17 @@ public class RunMCAnnotate {
 			Process p = Runtime.getRuntime().exec("MC-Annotate");
 			p.waitFor();
 		} catch (IOException ioe) {
+			ioe.printStackTrace();
 			System.out.println("Error executing MC-Annotate!\nMake sure that MC-Annotate is in your path.");
 			System.exit(-1);
 		}catch(InterruptedException ie){
 			System.out.println("MC-Annotate was interrupted.");
 			System.exit(-1);
 		}
-		this.setInputDirectory(inputDir);
 		
+		this.setInputDirectory(inputDir);
 		this.setOutputDirectory(outputDir);
+		
 		
 	}//RunMCAnnotate
 	/**
@@ -120,11 +122,12 @@ public class RunMCAnnotate {
      */
 	public File[] getInputPaths(){ return (this.inputDirectory).listFiles();}
 	
-
+	/**
+	 * This method returns the String that is outputted by some Process aProc
+	 * @param aProc
+	 * @return
+	 */
 	public static String writeProcessOutput(Process aProc){
-		/* This method executes a command and returns
-		 * a string with the contents of the output
-		 */
 		InputStreamReader tmpReader = new  InputStreamReader(new BufferedInputStream(aProc.getInputStream()));
 		BufferedReader reader = new BufferedReader(tmpReader);
 		String returnMe ="";
@@ -260,6 +263,7 @@ public class RunMCAnnotate {
 	 * @return <code>Boolean</code> to determine if the deletion was successful.
 	 */
 	public boolean deleteDirectory(File directory) {
+		
 		if(directory.exists()) {
 			File[] files = directory.listFiles();
 			
@@ -275,11 +279,20 @@ public class RunMCAnnotate {
 		return directory.delete() ;
 	}
 	
-	
-	public LinkedList<File> run() throws IOException{
+	/**
+	 * This method runs MCAnnotate
+	 * @return
+	 * @throws IOException
+	 */
+	public LinkedList<File> run(){
+		File[] files = null;
+		if(this.getInputDirectory().isFile()){
+			files = new File[1];
+			files[0] = this.getInputDirectory().getAbsoluteFile();
+		}else{		
+			files = this.getInputPaths();
+		}
 		
-		File[] files = this.getInputPaths();
-	
 		LinkedList<File> outputFiles = new LinkedList<File>();
 		for(int i=0; i<files.length; i++){
 			File file = files[i];
