@@ -5,6 +5,7 @@ public class Atom {
 	 * The atom label
 	 */
 	private String atomLabel;
+	private double molecularWeight;
 	
 
 	/**
@@ -36,4 +37,19 @@ public class Atom {
 	public void setAtomId(String atomId) {
 		this.atomId = atomId;
 	}
+
+	/**
+	 * @return the molecularWeight
+	 */
+	public double getMolecularWeight() {
+		return molecularWeight;
+	}
+
+	/**
+	 * @param molecularWeight the molecularWeight to set
+	 */
+	public void setMolecularWeight(double molecularWeight) {
+		this.molecularWeight = molecularWeight;
+	}
+	
 }
