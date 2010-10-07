@@ -16,8 +16,13 @@ public class RunMCAnnotateTest extends TestCase{
 	 */
 	public static void main(String[] args) {
 		//RunMCA by specifying only the input directory
-		RunMCAnnotate r = new RunMCAnnotate(new File("/home/jose/tmp/input/1Y26.pdb"));
-		r.run();
+		//RunMCAnnotate r = new RunMCAnnotate(new File("/home/jose/tmp/input/1Y26.pdb"));
+		//r.run();
+		
+		//RunMCA on a compressed file
+		//RunMCAnnotate r3 = new RunMCAnnotate(new File("/home/jose/tmp/input/1AM0.pdb.gz"));
+		//r3.run();
+		
 		//Run MCA on an input directory and an output directory
 		RunMCAnnotate r2 = new RunMCAnnotate(new File("/home/jose/tmp/input"), new File("/home/jose/tmp/output"));
 		r2.run();

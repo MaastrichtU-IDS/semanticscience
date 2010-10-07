@@ -332,7 +332,7 @@ public class RunMCAnnotate {
 				int j=0;
 				for(int l=0;l<this.getNumberOfModels(file);l++){
 					try{
-						System.out.println("Running MCAnnotate on"+pdbId+" model "+j+"...");
+						System.out.println("Running MCAnnotate on "+pdbId+" model "+j+"...");
 						String[] cmdArr = {"MC-Annotate", "-f", Integer.toString(j), file.getPath()};
 						Process p = Runtime.getRuntime().exec(cmdArr);
 						p.waitFor();

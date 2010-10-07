@@ -19,14 +19,15 @@ public class Stack {
 		this.setStackOrientation(orientation);
 	}
 	
-	public Stack(String pos1,
+	public Stack(String aPdbId,
+				 String pos1,
 			 	 String chain1,
 			 	 String pos2,
 			 	 String chain2,
 			 	 boolean adjacency,
 			 	 String orientation){
-		this(new Nucleotide(pos1, chain1),
-			 new Nucleotide(pos2, chain2),
+		this(new Nucleotide(aPdbId,pos1, chain1),
+			 new Nucleotide(aPdbId,pos2, chain2),
 			 adjacency,
 			 orientation);
 	}

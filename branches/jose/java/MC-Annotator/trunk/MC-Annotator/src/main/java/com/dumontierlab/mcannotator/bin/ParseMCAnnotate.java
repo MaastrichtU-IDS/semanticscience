@@ -1,5 +1,5 @@
 /**
- * This class generates RDF from the parsed output from MC-Annotate
+ * This class parses the output of MCAnnotate
  */
 
 package com.dumontierlab.mcannotator.bin;
@@ -7,6 +7,7 @@ package com.dumontierlab.mcannotator.bin;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,38 +68,46 @@ public class ParseMCAnnotate {
 			modelNumber = aModelNumber;
 		}
 
+		//split up and populate a hash map with each of the sections.
 		this.setMCASections(file);
-
+		
+		//TODO:CHECKME LATER
 		// now we can create the top level statements
 		// createTopLevelStatements();
 
-		// now we can get each section and populate our Base Pair Linked List
+		// base pairs
 		if (this.getMcaSections().get("Base pairs") != null) {
 			String bp = this.getMcaSections().get("Base pairs");
-			basePairs = parseBasePairs(bp);
+			//basePairs = parseBasePairs(bp);
 		}
 		// nucleotides
 		if (this.getMcaSections().get("Residue Conformations") != null) {
-			String resConfors = this.getMcaSections().get(
-					"Residue Conformations");
+			String resConfors = this.getMcaSections().get("Residue Conformations");
 			nucleotides = parseResidueConformations(resConfors);
 		}
+		//stacks
 		if (this.getMcaSections().get("Adjacent Stackings") != null) {
-			String adjStackings = this.getMcaSections().get(
-					"Adjacent Stackings");
+			String adjStackings = this.getMcaSections().get("Adjacent Stackings");
 			stacks = parseAdjacentStackings(adjStackings);
 		}
+		//stacks
 		if (this.getMcaSections().get("Non-Adjacent Stackigns") != null) {
-			String nonAdjStackings = this.getMcaSections().get(
-					"Non-Adjacent Stackings");
-			stacks = parseNonAdjacentStackings(nonAdjStackings);
+			String nonAdjStackings = this.getMcaSections().get("Non-Adjacent Stackings");
+			//stacks = parseNonAdjacentStackings(nonAdjStackings);
 		}
+		
+		
+		//Checking nucleotide objects
+		Iterator <Nucleotide>i = nucleotides.iterator();
+		while(i.hasNext()){
+			System.out.println(i.next().getUrl());
+		}
+		//check stack objects
 		
 		/*
 		 * Now that we have the basepair, nucleotides and stacks
 		 * lists populated we can rdfize their contents.
 		 */
-		
 		
 	}// constructor
 
@@ -236,7 +245,7 @@ public class ParseMCAnnotate {
 						chainId2 = matches2.group(1).trim();
 						residueNum1 = matches2.group(2).trim();
 					}//if
-					Stack s = new Stack(residueNum1, chainId1, residueNum2, chainId2, false, direction);
+					Stack s = new Stack(this.getPdbId(),residueNum1, chainId1, residueNum2, chainId2, false, direction);
 					s.setPdbId(this.getPdbId());
 					this.getStacks().add(s);
 				}//if
@@ -256,7 +265,8 @@ public class ParseMCAnnotate {
 		for(String aLine : lineArr){
 			Matcher m = aSPattern.matcher(aLine.trim());
 			if(m.matches()){
-				if(m.group(3).length() != 0){
+				if(m.group(3).length() != 0){//m.group(3) upward |downward | inward | outward
+					System.out.println(m.group(3));System.exit(1);
 					String participants = m.group(1).trim();//A6-A7
 					String [] chainTmp = participants.split("-");
 					Pattern p = Pattern.compile("^([A-Z]+)(\\d+)$");
@@ -276,7 +286,7 @@ public class ParseMCAnnotate {
 						residueNum2 = matches2.group(2);
 					}//if
 					
-					Stack s = new Stack(residueNum1, chainId1, residueNum2, chainId2, true,stackingDirection);
+					Stack s = new Stack(this.getPdbId(),residueNum1, chainId1, residueNum2, chainId2, true,stackingDirection);
 					s.setPdbId(this.getPdbId());
 					this.getStacks().add(s);
 				}//if
@@ -288,7 +298,7 @@ public class ParseMCAnnotate {
 		return this.getStacks();
 	}
 
-	private LinkedList<Nucleotide> parseResidueConformations(String val) {
+	private LinkedList<Nucleotide> parseResidueConformations(String val) { 
 		/* This method parses the residue conformations section of the MCA output */
 		String [] lineArr = val.split("\\n");
 		//A8 : G C2p_exo anti
@@ -308,15 +318,14 @@ public class ParseMCAnnotate {
 						String puckerAtom = m3.group(1); //C2p
 						String puckerQual = m3.group(2); //exo
 						String chainId = m2.group(1); //A
-						String residueNum = m2.group(2);//8
+						String aPosition = m2.group(2);//8
 						String residueName = m.group(2); //G
 						String resConformation = m.group(4);//anti
 						//create a nucleotide obj
-						Nucleotide nuc = new Nucleotide(residueName, residueNum, chainId);
+						Nucleotide nuc = new Nucleotide(this.getPdbId(), aPosition, residueName,  chainId, resConformation);
 						nuc.setPuckerAtom(puckerAtom);
 						nuc.setPuckerQuality(puckerQual);
-						nuc.setPdbId(this.getPdbId());
-						nuc.setNucleotideConformation(resConformation);
+						//add it to the nucleotides linked list
 						this.getNucleotides().add(nuc);
 					}//if
 				}//ifbasePairs
@@ -343,7 +352,10 @@ public class ParseMCAnnotate {
 	public void setModelNumber(int modelNumber) {
 		this.modelNumber = modelNumber;
 	}
-
+	/**
+	 * 
+	 * @param file
+	 */
 	private void setMCASections(File file) {
 		/*
 		 * This method populates the mcaSections hashmap with each section of
@@ -351,29 +363,31 @@ public class ParseMCAnnotate {
 		 */
 		this.mcaSections = new HashMap<String, String>();
 
-		try {
-			String fc = FileUtils.readFileToString(file);
-			String[] tmp = fc.split("\\nAdjacent stackings\\s\\S+");
-			if (tmp.length == 2) {
-				String[] tmp2 = tmp[0].split("Residue conformations\\s\\S+");
-				String[] tmp3 = tmp[1]
-						.split("\\nNon-Adjacent stackings\\s\\S+");
-				String[] tmp4 = tmp3[1].split("\\nBase-pairs\\s\\S+");
-				String adjacentStackings = tmp3[0].trim();
-				String residueConformations = tmp2[1].trim();
-				String nonAdjacentStackings = tmp4[0].trim();
-				String basePairs = tmp4[1].trim();
-				this.mcaSections.put("Residue Conformations",
-						residueConformations);
-				this.mcaSections.put("Adjacent Stackings", adjacentStackings);
-				this.mcaSections.put("Non-Adjacent Stackings",
-						nonAdjacentStackings);
-				this.mcaSections.put("Base pairs", basePairs);
+			String fc;
+			try {
+				fc = FileUtils.readFileToString(file);
+				String[] tmp = fc.split("\\nAdjacent stackings\\s\\S+");
+				if (tmp.length == 2) {
+					String[] tmp2 = tmp[0].split("Residue conformations\\s\\S+");
+					String[] tmp3 = tmp[1]
+							.split("\\nNon-Adjacent stackings\\s\\S+");
+					String[] tmp4 = tmp3[1].split("\\nBase-pairs\\s\\S+");
+					String adjacentStackings = tmp3[0].trim();
+					String residueConformations = tmp2[1].trim();
+					String nonAdjacentStackings = tmp4[0].trim();
+					String basePairs = tmp4[1].trim();
+					this.mcaSections.put("Residue Conformations",
+							residueConformations);
+					this.mcaSections.put("Adjacent Stackings", adjacentStackings);
+					this.mcaSections.put("Non-Adjacent Stackings",
+							nonAdjacentStackings);
+					this.mcaSections.put("Base pairs", basePairs);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			System.out.println("Cyborg assimilation is about to conclude");
-			e.printStackTrace();
-		}
+		
 	}
 
 	private int findModelNumber(File file) {
