@@ -53,6 +53,7 @@
      -->
 
     <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&resource;broaderThan"/>
     <owl:AnnotationProperty rdf:about="&resource;example"/>
     <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
     <owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
@@ -186,12 +187,12 @@
             >OBO_REL:located_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000093"/>
             <rdf:Description rdf:about="&resource;SIO_000061"/>
+            <rdf:Description rdf:about="&resource;SIO_000093"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000061"/>
             <rdf:Description rdf:about="&resource;SIO_000093"/>
+            <rdf:Description rdf:about="&resource;SIO_000061"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
@@ -378,7 +379,6 @@
             >is information about</rdfs:label>
         <dc:description
             >is information about is a relation between an informational entity and another entity.</dc:description>
-        <rdfs:domain rdf:resource="&resource;SIO_000015"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000332"/>
     </owl:ObjectProperty>
     
@@ -518,8 +518,6 @@
             >has concretization</rdfs:label>
         <dc:description
             >A has concretization B iff A is an informational entity and B is the a quality of some material entity.</dc:description>
-        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
-        <rdfs:range rdf:resource="&resource;SIO_000005"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
@@ -532,8 +530,6 @@
             >is concretization of</rdfs:label>
         <dc:description
             >A is concretization of B iff A is a quality of a material entity and B is an informational entity.</dc:description>
-        <rdfs:range rdf:resource="&resource;SIO_000001"/>
-        <rdfs:domain rdf:resource="&resource;SIO_000005"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000213"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
@@ -1252,7 +1248,6 @@
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000332">
         <rdfs:label>is about</rdfs:label>
-        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000212"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000219"/>
     </owl:ObjectProperty>
@@ -1316,7 +1311,6 @@
         <resource:example
             >the english language version of &#39;war of the worlds&#39; is manifested as a collection of english language versions of the book.</resource:example>
         <rdfs:range rdf:resource="&resource;SIO_000003"/>
-        <rdfs:domain rdf:resource="&resource;SIO_000015"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
     
@@ -1412,7 +1406,6 @@
         <rdfs:label>has expression</rdfs:label>
         <resource:example
             >the story &#39;war of worlds&#39; is expressed as every language edition of the book &#39;war of the worlds&#39;</resource:example>
-        <rdfs:range rdf:resource="&resource;SIO_000001"/>
         <rdfs:domain rdf:resource="&resource;SIO_000260"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000421"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
@@ -1429,7 +1422,6 @@
             >is expression of is a relation between more concrete expression of some conceptualization.</dc:description>
         <resource:example
             >every language edition of &#39;war of the worlds&#39; are expressions of the story of &#39;war of the worlds&#39;</resource:example>
-        <rdfs:domain rdf:resource="&resource;SIO_000001"/>
         <rdfs:range rdf:resource="&resource;SIO_000260"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
@@ -1489,7 +1481,6 @@
         <rdfs:label
             >is manifestation of</rdfs:label>
         <rdfs:domain rdf:resource="&resource;SIO_000003"/>
-        <rdfs:range rdf:resource="&resource;SIO_000015"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000341"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000425"/>
     </owl:ObjectProperty>
@@ -1864,9 +1855,15 @@
     <owl:Class rdf:about="&resource;SIO_000001">
         <rdfs:label
             >informational entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >An informational entity is an entity that is an abstraction of, representation for, or information about some entity (whether a type or instance), and only has informational entities as its parts.</dc:description>
+            >An informational entity is an entity that is an abstraction of, representation for, description of, or information about some entity (whether a type or instance), and only has informational entities as its parts.</dc:description>
     </owl:Class>
     
 
@@ -1924,6 +1921,7 @@
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&resource;SIO_000260"/>
         <dc:description
             >A physical entity is an entity that is spatio-temporally extended (is or occupies some part of spacetime) and only has physical entities as parts.</dc:description>
     </owl:Class>
@@ -1987,6 +1985,13 @@
                 <owl:someValuesFrom rdf:resource="&xsd;duration"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:onClass rdf:resource="&resource;SIO_000003"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A process is a processual entity that is a maximally connected spatiotemporal whole, has a temporal start and end.</dc:description>
     </owl:Class>
@@ -2015,7 +2020,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000009">
         <rdfs:label>social entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
     </owl:Class>
     
 
@@ -2057,9 +2062,9 @@
 
     <owl:Class rdf:about="&resource;SIO_000014">
         <rdfs:label>disposition</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000340"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
         <dc:description
-            >A disposition is a quality that reflects the tendency of an entity to act in a specified way under certain conditions.</dc:description>
+            >A disposition is a capability that reflects the tendency of an entity to act in a specified way under certain conditions.</dc:description>
     </owl:Class>
     
 
@@ -2070,30 +2075,6 @@
         <rdfs:label
             >information content entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000341"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000364"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000213"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000005"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:description
             >information content entity is an informational entity that is physically manifested and whose symbols can be decoded with the proper background knowledge.</dc:description>
     </owl:Class>
@@ -2250,7 +2231,7 @@
     <owl:Class rdf:about="&resource;SIO_000025">
         <rdfs:label
             >process boundary</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000096"/>
@@ -2637,7 +2618,7 @@
     <owl:Class rdf:about="&resource;SIO_000065">
         <rdfs:label
             >informational attribute</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000300"/>
@@ -2654,7 +2635,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000067">
         <rdfs:label>namespace</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
@@ -2671,7 +2652,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000069">
         <rdfs:label>data</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <dc:description
             >data is a non-effective specification for the results of measurements.</dc:description>
     </owl:Class>
@@ -2759,7 +2740,7 @@
     <owl:Class rdf:about="&resource;SIO_000075">
         <rdfs:label
             >mathematical entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
     </owl:Class>
     
 
@@ -2790,7 +2771,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000078">
         <rdfs:label>language entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000300"/>
@@ -2812,8 +2793,8 @@
     <!-- http://semanticscience.org/resource/SIO_000079 -->
 
     <owl:Class rdf:about="&resource;SIO_000079">
-        <rdfs:label>visual medium</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <rdfs:label>visual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
         <dc:description
             >A visual medium is an informational entity with an n-dimensional  manifestation.</dc:description>
     </owl:Class>
@@ -2868,7 +2849,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000084">
         <rdfs:label>audio medium</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000601"/>
     </owl:Class>
     
 
@@ -2886,7 +2867,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000086">
         <rdfs:label
-            >audiovisual medium</rdfs:label>
+            >audiovisual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
     </owl:Class>
     
@@ -2980,7 +2961,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000094">
         <rdfs:label>algorithm</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
         <dc:description
             >An algorithm is an effective specification for solving a problem with a finite set of instructions.</dc:description>
     </owl:Class>
@@ -3504,7 +3485,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000141">
         <rdfs:label>criterion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000315"/>
         <dc:description
             >A criterion is a specification to describe properties used for evaluation.</dc:description>
     </owl:Class>
@@ -3539,7 +3520,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000144">
         <rdfs:label>parameter</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
         <dc:description
             >A parameter is a non-effective specification whose value changes the characteristics of a system or a function.</dc:description>
     </owl:Class>
@@ -3572,7 +3553,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000149">
         <rdfs:label>medium</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010462"/>
         <dc:description
             >A medium is a tool, instrument or channel for storing or communicating information.</dc:description>
     </owl:Class>
@@ -3910,7 +3891,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000179">
         <rdfs:label>label</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
         <dc:description
             >a label is a term that is associated with some entity</dc:description>
     </owl:Class>
@@ -4283,7 +4264,21 @@
 
     <owl:Class rdf:about="&resource;SIO_000260">
         <rdfs:label>abstract entity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000341"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000364"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >An abstract entity is one that can zero, one or more physical manifestations.</dc:description>
     </owl:Class>
     
 
@@ -4588,6 +4583,7 @@
     <owl:Class rdf:about="&resource;SIO_000297">
         <rdfs:label>movie</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000086"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000604"/>
     </owl:Class>
     
 
@@ -4742,7 +4738,7 @@
     <owl:Class rdf:about="&resource;SIO_000315">
         <rdfs:label
             >functional specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
         <dc:description
             >A functional specification is a specification that describes the characteristics of the product with regard to its intended features.</dc:description>
     </owl:Class>
@@ -4754,7 +4750,7 @@
     <owl:Class rdf:about="&resource;SIO_000316">
         <rdfs:label
             >design specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000336"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000315"/>
         <dc:description
             >A design specification is a specification that provides precise and explicit information about the requirements for a product design.</dc:description>
     </owl:Class>
@@ -4766,7 +4762,7 @@
     <owl:Class rdf:about="&resource;SIO_000317">
         <rdfs:label
             >spatial specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
         <dc:description
             >A specification for spatial location is an effective specification towards representation spatial position or spatial data.</dc:description>
     </owl:Class>
@@ -4920,7 +4916,7 @@
     <owl:Class rdf:about="&resource;SIO_000336">
         <rdfs:label
             >plan specification</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000362"/>
@@ -5121,7 +5117,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000357">
         <rdfs:label>fitness</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010019"/>
     </owl:Class>
     
 
@@ -5158,6 +5154,8 @@
     <owl:Class rdf:about="&resource;SIO_000361">
         <rdfs:label>agentive entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+        <dc:description
+            >An agentive entity is an abstract entity formulated by agents that can be communicated and can have outward manifestations.</dc:description>
     </owl:Class>
     
 
@@ -5493,7 +5491,7 @@
 
     <owl:Class rdf:about="&resource;SIO_000396">
         <rdfs:label>file</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000603"/>
     </owl:Class>
     
 
@@ -6817,12 +6815,15 @@ pair of points.</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000510">
         <rdfs:label>model</rdfs:label>
-        <rdfs:label>curve</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000472"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A model is a representation of some thing.</dc:description>
-        <dc:description
-            >A curve is a geometric entity that may be located in n-dimensional spatial region whose extension may be n-dimensional,  is composed of at least two fully connected points and does not intersect itself.</dc:description>
     </owl:Class>
     
 
@@ -6840,7 +6841,7 @@ pair of points.</dc:description>
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000510"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000608"/>
         <dc:description
             >A line is curve that extends in a single dimension (e.g. straight line), and is composed of at least two fully connected points.</dc:description>
     </owl:Class>
@@ -7348,6 +7349,334 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000556 -->
+
+    <owl:Class rdf:about="&resource;SIO_000556">
+        <rdfs:label>lipid residue</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000558 -->
+
+    <owl:Class rdf:about="&resource;SIO_000558">
+        <rdfs:label
+            >biological specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000559 -->
+
+    <owl:Class rdf:about="&resource;SIO_000559">
+        <rdfs:label
+            >chemical synthesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000588"/>
+        <dc:description
+            >Chemical synthesis is synthesis of a chemical from physical precursors through a series of chemical reactions.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000560 -->
+
+    <owl:Class rdf:about="&resource;SIO_000560">
+        <rdfs:label
+            >collection of biochemical reactions</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010529"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_010036"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000561 -->
+
+    <owl:Class rdf:about="&resource;SIO_000561">
+        <rdfs:label
+            >molecular orbitral</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010441"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000562 -->
+
+    <owl:Class rdf:about="&resource;SIO_000562">
+        <rdfs:label
+            >passive transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000576"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_010284"/>
+        <dc:description
+            >Passive transport is the movement of a substance across a membrane and does not require chemical energy.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000564 -->
+
+    <owl:Class rdf:about="&resource;SIO_000564">
+        <rdfs:label>diffusion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000573"/>
+        <dc:description
+            >Diffusion is motion of particles at temperatures above absolute zero.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000565 -->
+
+    <owl:Class rdf:about="&resource;SIO_000565">
+        <rdfs:label
+            >diffusion equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000566"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000564"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >A diffusion equation describes density fluctuations in a material undergoing diffusion.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000566 -->
+
+    <owl:Class rdf:about="&resource;SIO_000566">
+        <rdfs:label
+            >movement equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000368"/>
+        <dc:description
+            >a movement equation describes the displacement of an object in space over time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000567 -->
+
+    <owl:Class rdf:about="&resource;SIO_000567">
+        <rdfs:label
+            >ordinary differential equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000569"/>
+        <dc:description
+            >An ordinary differential equation (ODE) is a differential equation in which the unknown function (also known as the dependent variable) is a function of a single independent variable.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000568 -->
+
+    <owl:Class rdf:about="&resource;SIO_000568">
+        <rdfs:label
+            >partial differential equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000569"/>
+        <dc:description
+            >A partial differential equation (PDE) is a differential equation in which the unknown function is a function of multiple independent variables and the equation involves its partial derivatives.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000569 -->
+
+    <owl:Class rdf:about="&resource;SIO_000569">
+        <rdfs:label
+            >differential equation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000368"/>
+        <dc:description
+            >A differential equation is a mathematical equation for an unknown function of one or several variables that relates the values of the function itself and its derivatives of various orders.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000570 -->
+
+    <owl:Class rdf:about="&resource;SIO_000570">
+        <rdfs:label>movement</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <dc:description
+            >Movement is the process in which an object is spatially displaced.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000571 -->
+
+    <owl:Class rdf:about="&resource;SIO_000571">
+        <rdfs:label>brownian motion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000564"/>
+        <dc:description
+            >Brownian motion is the seemlingly random movement of particles suspended in a fluid.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000572 -->
+
+    <owl:Class rdf:about="&resource;SIO_000572">
+        <rdfs:label>osmosis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000564"/>
+        <dc:description
+            >Osmosis is the movement of water molecules through a selectively-permeable membrane down a water potential gradient.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000573 -->
+
+    <owl:Class rdf:about="&resource;SIO_000573">
+        <rdfs:label
+            >passive movement</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000570"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000574 -->
+
+    <owl:Class rdf:about="&resource;SIO_000574">
+        <rdfs:label>active movement</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000570"/>
+        <dc:description
+            >Active movement is the process in which an object is spatially displaced using some chemical energy.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000575 -->
+
+    <owl:Class rdf:about="&resource;SIO_000575">
+        <rdfs:label>transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000574"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000593"/>
+        <dc:description
+            >Transport is an active movement that involves a transporter and its cargo.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000576 -->
+
+    <owl:Class rdf:about="&resource;SIO_000576">
+        <rdfs:label
+            >membrane transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010283"/>
+        <dc:description
+            >membrane transport is the movement of molecules across a membrane.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000577 -->
+
+    <owl:Class rdf:about="&resource;SIO_000577">
+        <rdfs:label
+            >primary active transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010284"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000578"/>
+        <dc:description
+            >Primary active transport, also called direct active transport, directly uses energy to transport molecules across a membrane.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000578 -->
+
+    <owl:Class rdf:about="&resource;SIO_000578">
+        <rdfs:label
+            >secondary active transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010284"/>
+        <dc:description
+            >secondary active transport or co-transport uses electrochemical potential difference created by pumping ions out of the cell to transport molecules across a membrane.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000579 -->
+
+    <owl:Class rdf:about="&resource;SIO_000579">
+        <rdfs:label
+            >symport enabled secondary active transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000578"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000580"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000580 -->
+
+    <owl:Class rdf:about="&resource;SIO_000580">
+        <rdfs:label
+            >antiport enabled secondary active transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000578"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000581 -->
+
+    <owl:Class rdf:about="&resource;SIO_000581">
+        <rdfs:label>locomotion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000574"/>
+        <resource:broaderThan>GO:0040011</resource:broaderThan>
+        <dc:description
+            >The self-propelled movement of an object.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000582 -->
+
+    <owl:Class rdf:about="&resource;SIO_000582">
+        <rdfs:label>birth</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000588"/>
+        <resource:broaderThan
+            >A synthetic process in which an entity comes into existence.</resource:broaderThan>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000583 -->
+
+    <owl:Class rdf:about="&resource;SIO_000583">
+        <rdfs:label>death</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000591"/>
+        <dc:description
+            >The process in which an entity ceases to exist.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000584 -->
+
+    <owl:Class rdf:about="&resource;SIO_000584">
+        <rdfs:label>life</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >The process of that an entity is a participant in from the moment it is born to the moment it dies.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000585 -->
 
     <owl:Class rdf:about="&resource;SIO_000585">
@@ -7359,11 +7688,226 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000587 -->
+
+    <owl:Class rdf:about="&resource;SIO_000587">
+        <rdfs:label>reproduction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000588"/>
+        <dc:description
+            >A synthetic process in which a replica is formed.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000588 -->
+
+    <owl:Class rdf:about="&resource;SIO_000588">
+        <rdfs:label>synthesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000593"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000589 -->
+
+    <owl:Class rdf:about="&resource;SIO_000589">
+        <rdfs:label>regulation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000593"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000590 -->
+
+    <owl:Class rdf:about="&resource;SIO_000590">
+        <rdfs:label>biosynthesis</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000559"/>
+        <dc:description
+            >Biosynthesis is the synthesis of an organic compound in a living organism, usually aided by enzymes.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000591 -->
+
+    <owl:Class rdf:about="&resource;SIO_000591">
+        <rdfs:label>destruction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000593"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000592 -->
+
+    <owl:Class rdf:about="&resource;SIO_000592">
+        <rdfs:label
+            >chemical destruction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000591"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000593 -->
+
+    <owl:Class rdf:about="&resource;SIO_000593">
+        <rdfs:label>interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:onClass rdf:resource="&resource;SIO_000003"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000596 -->
+
+    <owl:Class rdf:about="&resource;SIO_000596">
+        <rdfs:label
+            >data storage device</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000603"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000597 -->
+
+    <owl:Class rdf:about="&resource;SIO_000597">
+        <rdfs:label
+            >solid state hard drive</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000596"/>
+        <dc:description
+            >A solid-state drive (SSD) is a data storage device that uses solid-state memory to store persistent data</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000598 -->
+
+    <owl:Class rdf:about="&resource;SIO_000598">
+        <rdfs:label>hard disk drive</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000596"/>
+        <dc:description
+            >A hard disk drive (HDD) is a non-volatile, random access device for digital data. It features rotating rigid platters on a motor-driven spindle within a protective enclosure. Data is magnetically read and written on the platter by read/write heads that float on a film of air above the platters.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000599 -->
+
+    <owl:Class rdf:about="&resource;SIO_000599">
+        <rdfs:label>paper</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000606"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000600 -->
 
     <owl:Class rdf:about="&resource;SIO_000600">
         <rdfs:label>structure</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000601 -->
+
+    <owl:Class rdf:about="&resource;SIO_000601">
+        <rdfs:label>analog medium</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000603 -->
+
+    <owl:Class rdf:about="&resource;SIO_000603">
+        <rdfs:label
+            >electronic media</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+        <dc:description
+            >Electronic medium is a medium that uses electronics or electromechanical energy for the end user (audience) to access the content.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000604 -->
+
+    <owl:Class rdf:about="&resource;SIO_000604">
+        <rdfs:label>audio entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000605 -->
+
+    <owl:Class rdf:about="&resource;SIO_000605">
+        <rdfs:label>sound</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000084"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000606 -->
+
+    <owl:Class rdf:about="&resource;SIO_000606">
+        <rdfs:label>visual medium</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000601"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000607 -->
+
+    <owl:Class rdf:about="&resource;SIO_000607">
+        <rdfs:label>rock</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000606"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000608 -->
+
+    <owl:Class rdf:about="&resource;SIO_000608">
+        <rdfs:label>curve</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+        <dc:description
+            >A curve is a geometric entity that may be located in n-dimensional spatial region whose extension may be n-dimensional,  is composed of at least two fully connected points and does not intersect itself.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000609 -->
+
+    <owl:Class rdf:about="&resource;SIO_000609">
+        <rdfs:label
+            >regulation of process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000589"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000610 -->
+
+    <owl:Class rdf:about="&resource;SIO_000610">
+        <rdfs:label
+            >regulation of capability</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000589"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000611 -->
+
+    <owl:Class rdf:about="&resource;SIO_000611">
+        <rdfs:label
+            >regulation of catalytic capability</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000610"/>
     </owl:Class>
     
 
@@ -7481,8 +8025,10 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label>chemical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
         <resource:equivalentTo>CHEBI:23367</resource:equivalentTo>
+        <resource:example
+            >atom, ion, molecule, chemical substance, </resource:example>
         <dc:description
-            >A chemical entity is a mereological sum of atoms.</dc:description>
+            >A chemical entity is a material entity that pertains to chemistry.</dc:description>
     </owl:Class>
     
 
@@ -7491,11 +8037,11 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010005">
         <rdfs:label
-            >weak submolecular interaction</rdfs:label>
+            >weak submolecular component</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010020"/>
         <owl:disjointWith rdf:resource="&resource;SIO_010047"/>
         <dc:description
-            >a weak submolecular interaction is a submolecular interaction involving weak interactions between submolecules.</dc:description>
+            >a weak submolecular component is a submolecular component that weakly connects submolecular components.</dc:description>
     </owl:Class>
     
 
@@ -7576,32 +8122,16 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_010012 -->
-
-    <owl:Class rdf:about="&resource;SIO_010012">
-        <rdfs:label
-            >chemical process</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIO_010013 -->
 
     <owl:Class rdf:about="&resource;SIO_010013">
         <rdfs:label
-            >molecular interaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010012"/>
+            >chemical interaction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000593"/>
+        <dc:description
+            >A chemical interaction is a biochemical process in which chemical entities interact through some set of attractive forces.</dc:description>
         <resource:equivalentTo
             >biopax:Interaction</resource:equivalentTo>
-        <dc:description
-            >A molecular interaction is a biochemical process in which chemical entities interact through some set of attractive forces.</dc:description>
     </owl:Class>
     
 
@@ -7707,10 +8237,16 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010020">
         <rdfs:label
-            >submolecular interaction</rdfs:label>
+            >submolecular entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
-            >A submolecular interaction is a chemical entity composed of submolecules.</dc:description>
+            >A submolecular entity is a part of a molecular entity.</dc:description>
     </owl:Class>
     
 
@@ -8009,10 +8545,10 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010047">
         <rdfs:label
-            >strong submolecular interaction</rdfs:label>
+            >strong submolecular component</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010020"/>
         <dc:description
-            >a strong submolecular interaction is a submolecular interaction involving strong interactions between submolecules.</dc:description>
+            >a strong submolecular component is a submolecular component that strongly connects submolecular components.</dc:description>
     </owl:Class>
     
 
@@ -8208,18 +8744,6 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_010069 -->
-
-    <owl:Class rdf:about="&resource;SIO_010069">
-        <rdfs:label
-            >biological process</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
-        <resource:equivalentTo
-            >GO:0008150 biological process</resource:equivalentTo>
-    </owl:Class>
-    
-
-
     <!-- http://semanticscience.org/resource/SIO_010070 -->
 
     <owl:Class rdf:about="&resource;SIO_010070">
@@ -8234,7 +8758,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010071">
         <rdfs:label
-            >organic molecular part</rdfs:label>
+            >organic submolecule</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010441"/>
         <rdfs:subClassOf>
             <owl:Class>
@@ -8666,12 +9190,18 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010283">
         <rdfs:label
-            >molecular transportation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010012"/>
+            >chemical transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000575"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <resource:equivalentTo
             >biopax:Transport</resource:equivalentTo>
         <dc:description
-            >Molecular transportation is the directed movement of a molecular entity by some agent (e.g. transporter).</dc:description>
+            >Chemical transport is the directed movement of a chemical entity by some agent (e.g. transporter).</dc:description>
     </owl:Class>
     
 
@@ -8680,12 +9210,12 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010284">
         <rdfs:label
-            >active transportation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010283"/>
+            >active transport</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000576"/>
+        <dc:description
+            >Active transport is the movement of a substance across a membrane against its concentration gradient (from low to high concentration) and requires chemical energy.</dc:description>
         <resource:equivalentTo
             >biopax:TransportWithBiochemicalReaction</resource:equivalentTo>
-        <dc:description
-            >Active transportation is a molecular translocation that involves a biochemical reaction.</dc:description>
     </owl:Class>
     
 
@@ -8695,7 +9225,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010285">
         <rdfs:label
             >molecular complex formation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010297"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000559"/>
     </owl:Class>
     
 
@@ -8705,7 +9235,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010286">
         <rdfs:label
             >molecular complex dissociation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010297"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000592"/>
     </owl:Class>
     
 
@@ -8715,7 +9245,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010287">
         <rdfs:label
             >biochemical regulation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000609"/>
         <dc:description
             >Biochemical regulation is a biochemical process that changes the frequency, rate or extent of a downstream biochemical process.</dc:description>
     </owl:Class>
@@ -8727,7 +9257,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010288">
         <rdfs:label
             >biochemical activation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010013"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000611"/>
         <owl:disjointWith rdf:resource="&resource;SIO_010289"/>
         <dc:description
             >Biochemical activation is a molecular interaction that increases the catalytic rate of the target enzyme.</dc:description>
@@ -8740,7 +9270,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010289">
         <rdfs:label
             >biochemical inhibition</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010013"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000611"/>
         <dc:description
             >Biochemical inhibition is a molecular interaction that decreases the catalytic rate of the target enzyme.</dc:description>
     </owl:Class>
@@ -8751,10 +9281,12 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010295">
         <rdfs:label
-            >positive biochemical regulation</rdfs:label>
+            >positive regulation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010287"/>
+        <resource:synonym
+            >Positive biochemical regulation</resource:synonym>
         <dc:description
-            >Positive biochemical regulation is a biochemical regulation that increases the frequency, rate or extent of a downstream biochemical process.</dc:description>
+            >Positve regulation is a biochemical regulation that increases the frequency, rate or extent of a downstream biochemical process.</dc:description>
     </owl:Class>
     
 
@@ -8763,20 +9295,12 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010296">
         <rdfs:label
-            >negative biochemical regulation</rdfs:label>
+            >negative regulation</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010287"/>
+        <resource:synonym
+            >Negative biochemical regulation</resource:synonym>
         <dc:description
-            >Negative biochemical regulation is a biochemical regulation that decreases the frequency, rate or extent of a downstream biochemical process.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://semanticscience.org/resource/SIO_010297 -->
-
-    <owl:Class rdf:about="&resource;SIO_010297">
-        <rdfs:label
-            >molecular complex dynamic</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010012"/>
+            >Negative regulation is a biochemical regulation that decreases the frequency, rate or extent of a downstream biochemical process.</dc:description>
     </owl:Class>
     
 
@@ -8803,7 +9327,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010300">
         <rdfs:label>transcription</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000590"/>
     </owl:Class>
     
 
@@ -8812,7 +9336,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010301">
         <rdfs:label>translation</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000590"/>
     </owl:Class>
     
 
@@ -8831,7 +9355,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010308">
         <rdfs:label>metabolism</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010069"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000589"/>
     </owl:Class>
     
 
@@ -8949,6 +9473,12 @@ of endpoints (a start point and an endpoint).</dc:description>
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011118"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >A covalently connected molecular entity is the mereological sum of a collection of covalently bonded atoms.</dc:description>
     </owl:Class>
@@ -9037,9 +9567,10 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010345">
         <rdfs:label
             >chemical reaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010012"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000559"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000592"/>
         <dc:description
-            >A chemical reaction is a chemical process that results in the creation, desctruction or modification of a chemical entity.</dc:description>
+            >A chemical reaction is a process that leads to the transformation of one set of chemical substances to another.</dc:description>
     </owl:Class>
     
 
@@ -9049,6 +9580,12 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010346">
         <rdfs:label>organic polymer</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010072"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010071"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -9187,22 +9724,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010423"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000235"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="&resource;SIO_010366"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&resource;SIO_000356"/>
-                                <owl:someValuesFrom rdf:resource="&resource;SIO_010012"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -9649,27 +10170,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010434">
         <rdfs:label>activator</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_010436"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&resource;SIO_010354"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
-                                        <owl:someValuesFrom rdf:resource="&resource;SIO_010012"/>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010436"/>
     </owl:Class>
     
 
@@ -9678,27 +10179,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010435">
         <rdfs:label>inhibitor</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_010436"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&resource;SIO_010355"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
-                                        <owl:someValuesFrom rdf:resource="&resource;SIO_010012"/>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010436"/>
     </owl:Class>
     
 
@@ -9708,27 +10189,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_010436">
         <rdfs:label
             >molecular regulator</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_011125"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000235"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&resource;SIO_010347"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="&resource;SIO_000356"/>
-                                        <owl:someValuesFrom rdf:resource="&resource;SIO_010012"/>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010410"/>
     </owl:Class>
     
 
@@ -9775,11 +10236,17 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010441">
         <rdfs:label>submolecule</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010341"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010020"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010341"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010044"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description
@@ -9972,7 +10439,7 @@ of endpoints (a start point and an endpoint).</dc:description>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_010004"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_010410"/>
         <dc:description
             >An ion is an atom or molecule in which the total number of electrons is not equal to the total number of protons, giving it a net positive or negative electrical charge.</dc:description>
     </owl:Class>
@@ -10499,8 +10966,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010526">
         <rdfs:label
-            >chemical reaction pathway</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
+            >chemical synthesis specification</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000558"/>
         <dc:description
             >a chemical reaction pathway is a series of chemical reactions towards some objective.</dc:description>
     </owl:Class>
@@ -10531,12 +10998,12 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_010529">
         <rdfs:label
-            >collection of chemical reaction pathways</rdfs:label>
+            >collection of chemical reactions</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000007"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_010526"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_010345"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -10682,6 +11149,13 @@ of endpoints (a start point and an endpoint).</dc:description>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010441"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:onClass rdf:resource="&resource;SIO_010044"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description
             >a ring is a submolecule with a circular topology.</dc:description>
     </owl:Class>
@@ -12222,9 +12696,9 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000001"/>
-            <rdf:Description rdf:about="&resource;SIO_000002"/>
-            <rdf:Description rdf:about="&resource;SIO_000003"/>
+            <rdf:Description rdf:about="&resource;SIO_000166"/>
+            <rdf:Description rdf:about="&resource;SIO_000167"/>
+            <rdf:Description rdf:about="&resource;SIO_000168"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -12233,14 +12707,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             <rdf:Description rdf:about="&resource;SIO_010011"/>
             <rdf:Description rdf:about="&resource;SIO_010030"/>
             <rdf:Description rdf:about="&resource;SIO_010346"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000015"/>
-            <rdf:Description rdf:about="&resource;SIO_000260"/>
-            <rdf:Description rdf:about="&resource;SIO_000271"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -12263,25 +12729,17 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000400"/>
-            <rdf:Description rdf:about="&resource;SIO_000401"/>
-            <rdf:Description rdf:about="&resource;SIO_000402"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000166"/>
-            <rdf:Description rdf:about="&resource;SIO_000167"/>
-            <rdf:Description rdf:about="&resource;SIO_000168"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIO_010020"/>
             <rdf:Description rdf:about="&resource;SIO_010341"/>
             <rdf:Description rdf:about="&resource;SIO_010342"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
