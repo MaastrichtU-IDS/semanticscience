@@ -24,20 +24,20 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
     <owl:Ontology rdf:about="">
-        <dc:title
-            >Semanticscience Integrated Ontology - Biology, Molecular Biology, Genetics and Biochemistry</dc:title>
-        <rdfs:comment
-            >Spatial relations for part-of, proper-part-of, location-of informed by :A formal theory for spatial representation and reasoning in biomedical ontologies. Maureen Donnelly,Thomas Bittnera, and Cornelius Rosse. Artificial Intelligence in Medicine. Volume 36, Issue 1, January 2006, Pages 1-27 doi:10.1016/j.artmed.2005.07.004</rdfs:comment>
         <dc:creator
             >Michel Dumontier</dc:creator>
         <dc:creator xml:lang="en"
             >Michel Dumontier</dc:creator>
         <dc:title xml:lang="en"
             >Semanticscience Integrated Ontology (SIO)</dc:title>
-        <owl:versionInfo>alpha</owl:versionInfo>
+        <dc:title xml:lang="en"
+            >Semanticscience Integrated Ontology - Biology, Molecular Biology, Genetics and Biochemistry</dc:title>
+        <rdfs:comment xml:lang="en"
+            >Spatial relations for part-of, proper-part-of, location-of informed by :A formal theory for spatial representation and reasoning in biomedical ontologies. Maureen Donnelly,Thomas Bittnera, and Cornelius Rosse. Artificial Intelligence in Medicine. Volume 36, Issue 1, January 2006, Pages 1-27 doi:10.1016/j.artmed.2005.07.004</rdfs:comment>
         <dc:description xml:lang="en"
-            >The semanticscience integrated ontology (SIO) provides a simple, integrated upper level ontology (types, relations) for diverse knowledge representation across physical, processual and informational entities.</dc:description>
-        <rdfs:comment
+            >The semanticscience integrated ontology (SIO) provides a simple, integrated ground ontology (types, relations) for diverse knowledge representation of physical (material/processual) and abstract/ informational entities.</dc:description>
+        <owl:versionInfo>alpha</owl:versionInfo>
+        <rdfs:comment xml:lang="en"
             >general axioms:
 &#39;is part of&#39; some &#39;physical entity&#39; subClassOf &#39;is located in&#39; some &#39;physical entity&#39;
 
@@ -120,7 +120,9 @@ role chains:
     <owl:ObjectProperty rdf:about="&resource;SIO_000020">
         <rdfs:label xml:lang="en">denotes</rdfs:label>
         <dc:description xml:lang="en"
-            >A relation between a textual symbol and another entity.</dc:description>
+            >denotes is a relation between an entity and what it is a sign or indication of, or what specifically means.</dc:description>
+        <resource:example xml:lang="en"
+            >the symbol &#39;%&#39; denotes a proportion in relation to a whole.</resource:example>
         <owl:inverseOf rdf:resource="&resource;SIO_000060"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000210"/>
     </owl:ObjectProperty>
@@ -137,7 +139,7 @@ role chains:
             >a collection of cars has as a car as a part;a car has an engine as a part; a car has a piston as a part;</resource:example>
         <dc:description xml:lang="en"
             >has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000001"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000145"/>
     </owl:ObjectProperty>
     
 
@@ -179,7 +181,7 @@ role chains:
             >a collection of cars has as a car as a member</resource:example>
         <dc:description xml:lang="en"
             >has member is a mereological relation between a collection and an item.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000053"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000008"/>
     </owl:ObjectProperty>
     
 
@@ -196,6 +198,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000061 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000061">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label xml:lang="en">is located in</rdfs:label>
         <resource:example
@@ -205,14 +208,6 @@ role chains:
         <resource:equivalentTo
             >OBO_REL:located_in</resource:equivalentTo>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000322"/>
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000061"/>
-            <rdf:Description rdf:about="&resource;SIO_000093"/>
-        </owl:propertyChainAxiom>
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000093"/>
-            <rdf:Description rdf:about="&resource;SIO_000061"/>
-        </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
 
@@ -278,8 +273,8 @@ role chains:
         <resource:equivalentTo>OBO_REL:part_of</resource:equivalentTo>
         <dc:description xml:lang="en"
             >is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole.</dc:description>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000001"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000028"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000061"/>
     </owl:ObjectProperty>
     
 
@@ -307,8 +302,8 @@ role chains:
         <rdfs:label xml:lang="en">is member of</rdfs:label>
         <dc:description xml:lang="en"
             >is member of is a mereological relation between a item and a collection.</dc:description>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000011"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000059"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000093"/>
     </owl:ObjectProperty>
     
 
@@ -371,6 +366,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000145 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000145">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
         <rdfs:label xml:lang="en">is location of</rdfs:label>
         <dc:description xml:lang="en"
@@ -476,7 +472,7 @@ role chains:
     <owl:ObjectProperty rdf:about="&resource;SIO_000210">
         <rdfs:label xml:lang="en">represents</rdfs:label>
         <dc:description xml:lang="en"
-            >a represents b when a serves as a sign or symbol of b.</dc:description>
+            >a represents b when a serves as a sign, symbol or model of b.</dc:description>
         <owl:inverseOf rdf:resource="&resource;SIO_000205"/>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000628"/>
     </owl:ObjectProperty>
@@ -840,7 +836,7 @@ role chains:
         <rdfs:label xml:lang="en"
             >is causally related with</rdfs:label>
         <dc:description xml:lang="en"
-            >A transitive, symmetric, temporal relation in which one entity is causally related to another non-identical entity.</dc:description>
+            >A transitive, symmetric, temporal relation in which one entity is causally related with another non-identical entity.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000001"/>
     </owl:ObjectProperty>
     
@@ -1140,17 +1136,6 @@ role chains:
         <dc:description xml:lang="en"
             >is weakly interacting with is a symmetric relation between two molecular entities (or any part thereof) that are interacting through some weak force (van der waals, hydrogen bonds, electrostatic interactions)</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
-        <rdfs:domain>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_011125"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                        <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
-                    </owl:Restriction>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:domain>
         <rdfs:range>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -1162,6 +1147,17 @@ role chains:
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_011125"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
     </owl:ObjectProperty>
     
 
@@ -1171,6 +1167,8 @@ role chains:
     <owl:ObjectProperty rdf:about="&resource;SIO_000294">
         <rdfs:label xml:lang="en"
             >is causally related to</rdfs:label>
+        <dc:description xml:lang="en"
+            >a is causally related to b iff there is a causal chain of events from a to b</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
     </owl:ObjectProperty>
     
@@ -1358,6 +1356,8 @@ role chains:
     <owl:ObjectProperty rdf:about="&resource;SIO_000352">
         <rdfs:label xml:lang="en"
             >is causally related from</rdfs:label>
+        <dc:description xml:lang="en"
+            >a is causally related from b iff there is a causal chain of events from b to a</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000294"/>
     </owl:ObjectProperty>
@@ -1775,7 +1775,11 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000632 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000632">
-        <rdfs:label xml:lang="en">models</rdfs:label>
+        <rdfs:label xml:lang="en">is model of</rdfs:label>
+        <dc:description xml:lang="en"
+            >is model of is a relation between a model (an artifact) and the entity it purports to represent.</dc:description>
+        <resource:example xml:lang="en"
+            >the architect builds a model that represents the building she envisions.</resource:example>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000210"/>
     </owl:ObjectProperty>
     
@@ -1784,7 +1788,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000633 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000633">
-        <rdfs:label xml:lang="en">is model of</rdfs:label>
+        <rdfs:label xml:lang="en">is modelled by</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000205"/>
     </owl:ObjectProperty>
     
@@ -1818,7 +1822,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000636 -->
 
     <owl:ObjectProperty rdf:about="&resource;SIO_000636">
-        <rdfs:label>is trigger for</rdfs:label>
+        <rdfs:label xml:lang="en">is trigger for</rdfs:label>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000352"/>
     </owl:ObjectProperty>
     
@@ -1843,7 +1847,7 @@ role chains:
         <resource:example
             >the solubility of salt (the disposition) is based on the molecular structure of NaCl (the quality) that allows the polarized water-molecules (the trigger)  to break the ion bonds (the realization).</resource:example>
         <rdfs:range rdf:resource="&resource;SIO_000005"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000008"/>
         <rdfs:domain rdf:resource="&resource;SIO_000340"/>
     </owl:ObjectProperty>
     
@@ -1858,7 +1862,7 @@ role chains:
         <dc:description
             >is base for is a relation between a quality and the realizable entity that it is the basis for.</dc:description>
         <rdfs:domain rdf:resource="&resource;SIO_000005"/>
-        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000243"/>
+        <rdfs:subPropertyOf rdf:resource="&resource;SIO_000011"/>
         <rdfs:range rdf:resource="&resource;SIO_000340"/>
         <owl:inverseOf rdf:resource="&resource;SIO_000641"/>
     </owl:ObjectProperty>
@@ -2170,6 +2174,14 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000000">
         <rdfs:label xml:lang="en">entity</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000003"/>
+                    <rdf:Description rdf:about="&resource;SIO_000260"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <dc:description xml:lang="en"
             >An entity is either a class that describes the attributes shared by instances (should they exist) or is an individual that exists in spacetime.</dc:description>
     </owl:Class>
@@ -2184,12 +2196,6 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000061"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
             </owl:Restriction>
@@ -2197,7 +2203,13 @@ role chains:
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2206,8 +2218,14 @@ role chains:
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description xml:lang="en"
-            >A processual entity is an entity that is temporally extended (occupies some part of time), only has temporal parts, and  involves some physical entity as a participant, through which it is located in space.</dc:description>
+            >A processual entity is an entity that is temporally extended (occupies some part or parts of time), only has temporal parts, and  involves some physical entity as a participant, through which it is located in space.</dc:description>
     </owl:Class>
     
 
@@ -2216,12 +2234,26 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000003">
         <rdfs:label xml:lang="en">physical entity</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000002"/>
+                    <rdf:Description rdf:about="&resource;SIO_000004"/>
+                    <rdf:Description rdf:about="&resource;SIO_000659"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000061"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
-            </owl:Restriction>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000416"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -2249,14 +2281,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
@@ -2289,21 +2321,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
-                <owl:someValuesFrom rdf:resource="&xsd;duration"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:onClass rdf:resource="&resource;SIO_000003"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000053"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;duration"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
@@ -2317,7 +2342,13 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000007">
         <rdfs:label xml:lang="en"
             >process aggregate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
@@ -2444,8 +2475,8 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000059"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2455,9 +2486,9 @@ role chains:
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
-            >a collection of pebbles; the sand in the box</resource:example>
+            >a collection of pebbles; the sand in the box; ice or water vapour as an aggregate of water molecules.</resource:example>
         <dc:description xml:lang="en"
-            >A material aggregate is a material entity that is a collection of material entities which possesses non-connected spatial boundaries. At least one member of the aggregate must exist at any time during the life of the aggregate.</dc:description>
+            >A material aggregate is a material entity that is a collection of material entities that may possess non-connected spatial boundaries. At least one member of the aggregate must exist at any time during the life of the aggregate (e.g. the aggregate does not or ceases to exist in the absence of at least one member).</dc:description>
     </owl:Class>
     
 
@@ -2882,12 +2913,6 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
-                <owl:someValuesFrom rdf:resource="&xsd;double"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000215"/>
                 <owl:someValuesFrom>
                     <owl:Class>
@@ -2897,6 +2922,12 @@ role chains:
                         </owl:unionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
@@ -3258,12 +3289,6 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000337"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000420"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000015"/>
             </owl:Restriction>
@@ -3272,6 +3297,12 @@ role chains:
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000338"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000337"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
@@ -3301,7 +3332,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000092 -->
 
     <owl:Class rdf:about="&resource;SIO_000092">
-        <rdfs:label>biopolymer</rdfs:label>
+        <rdfs:label xml:lang="en">biopolymer</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010346"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -3900,7 +3931,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000146 -->
 
     <owl:Class rdf:about="&resource;SIO_000146">
-        <rdfs:label>monomer</rdfs:label>
+        <rdfs:label xml:lang="en">monomer</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010441"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -4665,7 +4696,7 @@ role chains:
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
-            >An abstract entity is one that can zero, one or more physical manifestations.</dc:description>
+            >An abstract entity is an entity that exhibits zero, one or more physical manifestations.</dc:description>
     </owl:Class>
     
 
@@ -4810,7 +4841,7 @@ role chains:
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
-            >A property is an informational entity which is used to describe an entity and whose realization or value may be context dependent.</dc:description>
+            >A property is an internal attribute whose realization or value may be context dependent.</dc:description>
     </owl:Class>
     
 
@@ -5119,7 +5150,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000314 -->
 
     <owl:Class rdf:about="&resource;SIO_000314">
-        <rdfs:label>polymer</rdfs:label>
+        <rdfs:label xml:lang="en">polymer</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_011125"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -5595,7 +5626,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000370">
         <rdfs:label xml:lang="en">spatial region</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000652"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000659"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
@@ -5832,7 +5863,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000391">
         <rdfs:label xml:lang="en">temporal region</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000652"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000659"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
@@ -6081,10 +6112,10 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000415">
         <rdfs:label xml:lang="en"
-            >political region</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000414"/>
+            >geopolitical region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000413"/>
         <resource:example
-            >a political region is a geographic region recognized by social or legal convention.</resource:example>
+            >a geopolitical region is a geographic region recognized by social or legal convention.</resource:example>
         <resource:example
             >the geographic region bounded by Canada; the spatial region occupied by the US embassy in Ottawa</resource:example>
     </owl:Class>
@@ -6096,7 +6127,7 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000416">
         <rdfs:label xml:lang="en"
             >spatiotemporal region</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000652"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000659"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000053"/>
@@ -6120,8 +6151,7 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000417 -->
 
     <owl:Class rdf:about="&resource;SIO_000417">
-        <rdfs:label xml:lang="en"
-            >temporal interval</rdfs:label>
+        <rdfs:label xml:lang="en">time interval</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000391"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -6130,7 +6160,7 @@ role chains:
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
-            >a temporal internval is a contiguous temporal region having some duration.</dc:description>
+            >a time internval is a contiguous temporal region having some duration.</dc:description>
     </owl:Class>
     
 
@@ -6138,23 +6168,18 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000418 -->
 
     <owl:Class rdf:about="&resource;SIO_000418">
-        <rdfs:label xml:lang="en"
-            >temporal instant</rdfs:label>
+        <rdfs:label xml:lang="en">instant</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000391"/>
         <rdfs:subClassOf>
-            <owl:Class>
-                <owl:complementOf>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000300"/>
-                        <owl:someValuesFrom rdf:resource="&xsd;duration"/>
-                    </owl:Restriction>
-                </owl:complementOf>
-            </owl:Class>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
+            </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:description xml:lang="en"
-            >a temporal instant is a temporal region which occurs instantaneously e.g. having no duration.</dc:description>
         <resource:example
             >at this moment; the moment at which a finger is detached in an industrial accident; the moment at which a child is born; the moment of death</resource:example>
+        <dc:description xml:lang="en"
+            >an instant is a temporal region which occurs instantaneously e.g. having no duration.</dc:description>
     </owl:Class>
     
 
@@ -8046,14 +8071,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en"
@@ -8156,13 +8181,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000649"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000229"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000230"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000069"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000230"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000229"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000069"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -8413,7 +8438,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000616 -->
 
     <owl:Class rdf:about="&resource;SIO_000616">
-        <rdfs:label>collection</rdfs:label>
+        <rdfs:label xml:lang="en">collection</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000289"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -8430,7 +8455,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000617 -->
 
     <owl:Class rdf:about="&resource;SIO_000617">
-        <rdfs:label>empty set</rdfs:label>
+        <rdfs:label xml:lang="en">empty set</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000289"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -8469,7 +8494,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000620 -->
 
     <owl:Class rdf:about="&resource;SIO_000620">
-        <rdfs:label>collective</rdfs:label>
+        <rdfs:label xml:lang="en">collective</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000010"/>
         <dc:description
             >A collective is a group of entities that share or are motivated by at least one common issue or interest, or work together on a specific project(s) to achieve a common objective.</dc:description>
@@ -8554,7 +8579,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000637 -->
 
     <owl:Class rdf:about="&resource;SIO_000637">
-        <rdfs:label>realization</rdfs:label>
+        <rdfs:label xml:lang="en">realization</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -8582,7 +8607,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000638 -->
 
     <owl:Class rdf:about="&resource;SIO_000638">
-        <rdfs:label>probability</rdfs:label>
+        <rdfs:label xml:lang="en">probability</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000257"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -8593,10 +8618,10 @@ of endpoints (a start point and an endpoint).</dc:description>
                         <owl:onDatatype rdf:resource="&xsd;double"/>
                         <owl:withRestrictions rdf:parseType="Collection">
                             <rdf:Description>
-                                <xsd:maxInclusive rdf:datatype="&xsd;double">1.0</xsd:maxInclusive>
+                                <xsd:minInclusive rdf:datatype="&xsd;double">0.0</xsd:minInclusive>
                             </rdf:Description>
                             <rdf:Description>
-                                <xsd:minInclusive rdf:datatype="&xsd;double">0.0</xsd:minInclusive>
+                                <xsd:maxInclusive rdf:datatype="&xsd;double">1.0</xsd:maxInclusive>
                             </rdf:Description>
                         </owl:withRestrictions>
                     </rdf:Description>
@@ -8642,7 +8667,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000647 -->
 
     <owl:Class rdf:about="&resource;SIO_000647">
-        <rdfs:label>process model</rdfs:label>
+        <rdfs:label xml:lang="en">process model</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000510"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -8657,7 +8682,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000648 -->
 
     <owl:Class rdf:about="&resource;SIO_000648">
-        <rdfs:label>physical model</rdfs:label>
+        <rdfs:label xml:lang="en">physical model</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000510"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -8683,7 +8708,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000650">
         <rdfs:label xml:lang="en">wave</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
         <dc:description xml:lang="en"
             >A wave is a physical entity that travels through space and time, consist of oscillations or vibrations and may be accompanied by the transfer of energy.</dc:description>
     </owl:Class>
@@ -8693,35 +8718,84 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_000651 -->
 
     <owl:Class rdf:about="&resource;SIO_000651">
-        <rdfs:label>textual entity</rdfs:label>
+        <rdfs:label xml:lang="en">textual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
     </owl:Class>
     
 
 
-    <!-- http://semanticscience.org/resource/SIO_000652 -->
+    <!-- http://semanticscience.org/resource/SIO_000659 -->
 
-    <owl:Class rdf:about="&resource;SIO_000652">
-        <rdfs:label
-            >spatiotemporal region</rdfs:label>
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_000370"/>
-                    <rdf:Description rdf:about="&resource;SIO_000391"/>
-                    <rdf:Description rdf:about="&resource;SIO_000652"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
+    <owl:Class rdf:about="&resource;SIO_000659">
+        <rdfs:label xml:lang="en">region</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000652"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:description xml:lang="en"
-            >a spatiotemporal region is a physical entity that provides the location (spacetime or parts thereof) for entities.</dc:description>
+            >A region is a physical entity that consists of (potentially unconnected) surfaces of physical entities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000660 -->
+
+    <owl:Class rdf:about="&resource;SIO_000660">
+        <rdfs:label xml:lang="en">hole</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000019"/>
+        <dc:description xml:lang="en"
+            >a hole is a site that is opening into or through something.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000661 -->
+
+    <owl:Class rdf:about="&resource;SIO_000661">
+        <rdfs:label xml:lang="en">province</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000662 -->
+
+    <owl:Class rdf:about="&resource;SIO_000662">
+        <rdfs:label xml:lang="en">state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000663 -->
+
+    <owl:Class rdf:about="&resource;SIO_000663">
+        <rdfs:label xml:lang="en">territory</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000664 -->
+
+    <owl:Class rdf:about="&resource;SIO_000664">
+        <rdfs:label xml:lang="en">country</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000665 -->
+
+    <owl:Class rdf:about="&resource;SIO_000665">
+        <rdfs:label xml:lang="en">city</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000666 -->
+
+    <owl:Class rdf:about="&resource;SIO_000666">
+        <rdfs:label xml:lang="en">township</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000415"/>
     </owl:Class>
     
 
@@ -9608,22 +9682,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             >open reading frame</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010444"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="&resource;SIO_010450"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
-                                <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -9638,6 +9696,22 @@ of endpoints (a start point and an endpoint).</dc:description>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_010450"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -9850,18 +9924,6 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">mature mRNA</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010099"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010043"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000244"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:complementOf>
                     <owl:Restriction>
@@ -9870,6 +9932,18 @@ of endpoints (a start point and an endpoint).</dc:description>
                     </owl:Restriction>
                 </owl:complementOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000244"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010043"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -10187,14 +10261,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010071"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010075"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010075"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -12240,7 +12314,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011010 -->
 
     <owl:Class rdf:about="&resource;SIO_011010">
-        <rdfs:label xml:lang="en">Sodium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">sodium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:26708</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12250,7 +12324,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011011 -->
 
     <owl:Class rdf:about="&resource;SIO_011011">
-        <rdfs:label xml:lang="en">Magnesium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">magnesium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:25107</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12260,7 +12334,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011012 -->
 
     <owl:Class rdf:about="&resource;SIO_011012">
-        <rdfs:label xml:lang="en">Aluminium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">aluminium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28984</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12270,7 +12344,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011013 -->
 
     <owl:Class rdf:about="&resource;SIO_011013">
-        <rdfs:label xml:lang="en">Silicon Atom</rdfs:label>
+        <rdfs:label xml:lang="en">silicon atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27573</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12280,7 +12354,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011014 -->
 
     <owl:Class rdf:about="&resource;SIO_011014">
-        <rdfs:label xml:lang="en">Phosphorus Atom</rdfs:label>
+        <rdfs:label xml:lang="en">phosphorus atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28659</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12290,7 +12364,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011015 -->
 
     <owl:Class rdf:about="&resource;SIO_011015">
-        <rdfs:label xml:lang="en">Sulfur Atom</rdfs:label>
+        <rdfs:label xml:lang="en">sulfur atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:26833</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12300,7 +12374,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011016 -->
 
     <owl:Class rdf:about="&resource;SIO_011016">
-        <rdfs:label xml:lang="en">Chlorine Atom</rdfs:label>
+        <rdfs:label xml:lang="en">chlorine atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:23116</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12310,7 +12384,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011017 -->
 
     <owl:Class rdf:about="&resource;SIO_011017">
-        <rdfs:label xml:lang="en">Argon Atom</rdfs:label>
+        <rdfs:label xml:lang="en">argon atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49475</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12320,7 +12394,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011018 -->
 
     <owl:Class rdf:about="&resource;SIO_011018">
-        <rdfs:label xml:lang="en">Potassium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">potassium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:26216</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12330,7 +12404,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011019 -->
 
     <owl:Class rdf:about="&resource;SIO_011019">
-        <rdfs:label xml:lang="en">Calcium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">calcium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:22984</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12340,7 +12414,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011020 -->
 
     <owl:Class rdf:about="&resource;SIO_011020">
-        <rdfs:label xml:lang="en">Scandium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">scandium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33330</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12350,7 +12424,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011021 -->
 
     <owl:Class rdf:about="&resource;SIO_011021">
-        <rdfs:label xml:lang="en">Titanium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">titanium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33341</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12360,7 +12434,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011022 -->
 
     <owl:Class rdf:about="&resource;SIO_011022">
-        <rdfs:label xml:lang="en">Vanadium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">vanadium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27698</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12370,7 +12444,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011023 -->
 
     <owl:Class rdf:about="&resource;SIO_011023">
-        <rdfs:label xml:lang="en">Chromium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">chromium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28073</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12380,7 +12454,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011024 -->
 
     <owl:Class rdf:about="&resource;SIO_011024">
-        <rdfs:label xml:lang="en">Manganese Atom</rdfs:label>
+        <rdfs:label xml:lang="en">manganese atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:18291</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12390,7 +12464,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011025 -->
 
     <owl:Class rdf:about="&resource;SIO_011025">
-        <rdfs:label xml:lang="en">Iron Atom</rdfs:label>
+        <rdfs:label xml:lang="en">iron atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:18248</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12400,7 +12474,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011026 -->
 
     <owl:Class rdf:about="&resource;SIO_011026">
-        <rdfs:label xml:lang="en">Cobalt Atom</rdfs:label>
+        <rdfs:label xml:lang="en">cobalt atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27638</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12410,7 +12484,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011027 -->
 
     <owl:Class rdf:about="&resource;SIO_011027">
-        <rdfs:label xml:lang="en">Nickel Atom</rdfs:label>
+        <rdfs:label xml:lang="en">nickel atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28112</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12420,7 +12494,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011028 -->
 
     <owl:Class rdf:about="&resource;SIO_011028">
-        <rdfs:label xml:lang="en">Copper Atom</rdfs:label>
+        <rdfs:label xml:lang="en">copper atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28694</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12430,7 +12504,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011029 -->
 
     <owl:Class rdf:about="&resource;SIO_011029">
-        <rdfs:label xml:lang="en">Zinc Atom</rdfs:label>
+        <rdfs:label xml:lang="en">zinc atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27363</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12440,7 +12514,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011030 -->
 
     <owl:Class rdf:about="&resource;SIO_011030">
-        <rdfs:label xml:lang="en">Gallium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">gallium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49631</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12450,7 +12524,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011031 -->
 
     <owl:Class rdf:about="&resource;SIO_011031">
-        <rdfs:label xml:lang="en">Germanium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">germanium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30441</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12460,7 +12534,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011032 -->
 
     <owl:Class rdf:about="&resource;SIO_011032">
-        <rdfs:label xml:lang="en">Arsenic Atom</rdfs:label>
+        <rdfs:label xml:lang="en">arsenic atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27563</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12470,7 +12544,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011033 -->
 
     <owl:Class rdf:about="&resource;SIO_011033">
-        <rdfs:label xml:lang="en">Selenium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">selenium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27568</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12480,7 +12554,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011034 -->
 
     <owl:Class rdf:about="&resource;SIO_011034">
-        <rdfs:label xml:lang="en">Bromine Atom</rdfs:label>
+        <rdfs:label xml:lang="en">bromine atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:22927</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12490,7 +12564,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011035 -->
 
     <owl:Class rdf:about="&resource;SIO_011035">
-        <rdfs:label xml:lang="en">Krypton Atom</rdfs:label>
+        <rdfs:label xml:lang="en">krypton atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49696</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12500,7 +12574,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011036 -->
 
     <owl:Class rdf:about="&resource;SIO_011036">
-        <rdfs:label xml:lang="en">Rubidium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">rubidium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33322</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12510,7 +12584,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011037 -->
 
     <owl:Class rdf:about="&resource;SIO_011037">
-        <rdfs:label xml:lang="en">Strontium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">strontium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33324</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12520,7 +12594,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011038 -->
 
     <owl:Class rdf:about="&resource;SIO_011038">
-        <rdfs:label xml:lang="en">Yttrium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">yttrium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33331</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12530,7 +12604,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011039 -->
 
     <owl:Class rdf:about="&resource;SIO_011039">
-        <rdfs:label xml:lang="en">Zirconium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">zirconium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33342</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12540,7 +12614,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011040 -->
 
     <owl:Class rdf:about="&resource;SIO_011040">
-        <rdfs:label xml:lang="en">Niobium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">niobium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33344</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12550,7 +12624,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011041 -->
 
     <owl:Class rdf:about="&resource;SIO_011041">
-        <rdfs:label xml:lang="en">Molybdemum Atom</rdfs:label>
+        <rdfs:label xml:lang="en">molybdemum atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:28685</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12560,7 +12634,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011042 -->
 
     <owl:Class rdf:about="&resource;SIO_011042">
-        <rdfs:label xml:lang="en">Technetium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">technetium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33353</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12570,7 +12644,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011043 -->
 
     <owl:Class rdf:about="&resource;SIO_011043">
-        <rdfs:label xml:lang="en">Ruthenium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">ruthenium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30682</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12580,7 +12654,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011044 -->
 
     <owl:Class rdf:about="&resource;SIO_011044">
-        <rdfs:label xml:lang="en">Rhodium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">rhodium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33359</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12590,7 +12664,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011045 -->
 
     <owl:Class rdf:about="&resource;SIO_011045">
-        <rdfs:label xml:lang="en">Palladium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">palladium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33363</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12600,7 +12674,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011046 -->
 
     <owl:Class rdf:about="&resource;SIO_011046">
-        <rdfs:label xml:lang="en">Silver Atom</rdfs:label>
+        <rdfs:label xml:lang="en">silver atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30512</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12610,7 +12684,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011047 -->
 
     <owl:Class rdf:about="&resource;SIO_011047">
-        <rdfs:label xml:lang="en">Cadmium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">cadmium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:22977</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12620,7 +12694,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011048 -->
 
     <owl:Class rdf:about="&resource;SIO_011048">
-        <rdfs:label xml:lang="en">Indium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">indium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30430</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12630,7 +12704,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011049 -->
 
     <owl:Class rdf:about="&resource;SIO_011049">
-        <rdfs:label xml:lang="en">Tin Atom</rdfs:label>
+        <rdfs:label xml:lang="en">tin atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27007</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12640,7 +12714,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011050 -->
 
     <owl:Class rdf:about="&resource;SIO_011050">
-        <rdfs:label xml:lang="en">Antimony Atom</rdfs:label>
+        <rdfs:label xml:lang="en">antimony atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30513</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12650,7 +12724,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011051 -->
 
     <owl:Class rdf:about="&resource;SIO_011051">
-        <rdfs:label xml:lang="en">Tellurium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">tellurium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30452</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12660,7 +12734,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011052 -->
 
     <owl:Class rdf:about="&resource;SIO_011052">
-        <rdfs:label xml:lang="en">Iodine Atom</rdfs:label>
+        <rdfs:label xml:lang="en">iodine atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:24859</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12670,7 +12744,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011053 -->
 
     <owl:Class rdf:about="&resource;SIO_011053">
-        <rdfs:label xml:lang="en">Xenon Atom</rdfs:label>
+        <rdfs:label xml:lang="en">xenon atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49957</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12680,7 +12754,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011054 -->
 
     <owl:Class rdf:about="&resource;SIO_011054">
-        <rdfs:label xml:lang="en">Caesium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">caesium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30514</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12690,7 +12764,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011055 -->
 
     <owl:Class rdf:about="&resource;SIO_011055">
-        <rdfs:label xml:lang="en">Barium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">barium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:32594</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12700,7 +12774,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011056 -->
 
     <owl:Class rdf:about="&resource;SIO_011056">
-        <rdfs:label xml:lang="en">Lanthanum Atom</rdfs:label>
+        <rdfs:label xml:lang="en">lanthanum atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33336</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12710,7 +12784,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011057 -->
 
     <owl:Class rdf:about="&resource;SIO_011057">
-        <rdfs:label xml:lang="en">Hafnium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">hafnium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33343</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12720,7 +12794,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011058 -->
 
     <owl:Class rdf:about="&resource;SIO_011058">
-        <rdfs:label xml:lang="en">Tantalum Atom</rdfs:label>
+        <rdfs:label xml:lang="en">tantalum atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33348</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12730,7 +12804,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011059 -->
 
     <owl:Class rdf:about="&resource;SIO_011059">
-        <rdfs:label xml:lang="en">Tungsten Atom</rdfs:label>
+        <rdfs:label xml:lang="en">tungsten atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27998</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12740,7 +12814,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011060 -->
 
     <owl:Class rdf:about="&resource;SIO_011060">
-        <rdfs:label xml:lang="en">Rhenium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">rhenium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49882</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12750,7 +12824,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011061 -->
 
     <owl:Class rdf:about="&resource;SIO_011061">
-        <rdfs:label xml:lang="en">Osmium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">osmium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30687</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12760,7 +12834,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011062 -->
 
     <owl:Class rdf:about="&resource;SIO_011062">
-        <rdfs:label xml:lang="en">Iridium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">iridium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49666</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12770,7 +12844,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011063 -->
 
     <owl:Class rdf:about="&resource;SIO_011063">
-        <rdfs:label xml:lang="en">Platinum Atom</rdfs:label>
+        <rdfs:label xml:lang="en">platinum atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33364</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12780,7 +12854,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011064 -->
 
     <owl:Class rdf:about="&resource;SIO_011064">
-        <rdfs:label xml:lang="en">Gold Atom</rdfs:label>
+        <rdfs:label xml:lang="en">gold atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:29287</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12790,7 +12864,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011065 -->
 
     <owl:Class rdf:about="&resource;SIO_011065">
-        <rdfs:label xml:lang="en">Mercury Atom</rdfs:label>
+        <rdfs:label xml:lang="en">mercury atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:25195</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12800,7 +12874,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011066 -->
 
     <owl:Class rdf:about="&resource;SIO_011066">
-        <rdfs:label xml:lang="en">Thallium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">thallium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49920</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12810,7 +12884,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011067 -->
 
     <owl:Class rdf:about="&resource;SIO_011067">
-        <rdfs:label xml:lang="en">Lead Atom</rdfs:label>
+        <rdfs:label xml:lang="en">lead atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:25016</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12820,7 +12894,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011068 -->
 
     <owl:Class rdf:about="&resource;SIO_011068">
-        <rdfs:label xml:lang="en">Bismuth Atom</rdfs:label>
+        <rdfs:label xml:lang="en">bismuth atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33301</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12830,7 +12904,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011069 -->
 
     <owl:Class rdf:about="&resource;SIO_011069">
-        <rdfs:label xml:lang="en">Polonium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">polonium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33313</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12840,7 +12914,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011070 -->
 
     <owl:Class rdf:about="&resource;SIO_011070">
-        <rdfs:label xml:lang="en">Astatine Atom</rdfs:label>
+        <rdfs:label xml:lang="en">astatine atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:30415</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12850,7 +12924,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011071 -->
 
     <owl:Class rdf:about="&resource;SIO_011071">
-        <rdfs:label xml:lang="en">Radon Atom</rdfs:label>
+        <rdfs:label xml:lang="en">radon atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33314</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12860,7 +12934,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011072 -->
 
     <owl:Class rdf:about="&resource;SIO_011072">
-        <rdfs:label xml:lang="en">Francium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">francium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33323</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12870,7 +12944,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011073 -->
 
     <owl:Class rdf:about="&resource;SIO_011073">
-        <rdfs:label xml:lang="en">Radium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">radium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33325</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12880,7 +12954,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011074 -->
 
     <owl:Class rdf:about="&resource;SIO_011074">
-        <rdfs:label xml:lang="en">Actinium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">actinium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33337</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12891,7 +12965,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011075">
         <rdfs:label xml:lang="en"
-            >Rutherfordium Atom</rdfs:label>
+            >rutherfordium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33346</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12901,7 +12975,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011076 -->
 
     <owl:Class rdf:about="&resource;SIO_011076">
-        <rdfs:label xml:lang="en">Dubnium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">dubnium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33349</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12911,7 +12985,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011077 -->
 
     <owl:Class rdf:about="&resource;SIO_011077">
-        <rdfs:label xml:lang="en">Seaborgium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">seaborgium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33351</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12921,7 +12995,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011078 -->
 
     <owl:Class rdf:about="&resource;SIO_011078">
-        <rdfs:label xml:lang="en">Bohrium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">bohrium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33355</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12931,7 +13005,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011079 -->
 
     <owl:Class rdf:about="&resource;SIO_011079">
-        <rdfs:label xml:lang="en">Hassium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">hassium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33357</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12941,7 +13015,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011080 -->
 
     <owl:Class rdf:about="&resource;SIO_011080">
-        <rdfs:label xml:lang="en">Meitnerium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">meitnerium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33361</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12952,7 +13026,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011081">
         <rdfs:label xml:lang="en"
-            >Darmstadtium Atom</rdfs:label>
+            >darmstadtium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33367</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12963,7 +13037,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011082">
         <rdfs:label xml:lang="en"
-            >Roentgenium Atom</rdfs:label>
+            >roentgenium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33368</oboInOwl:hasDbXref>
     </owl:Class>
@@ -12974,7 +13048,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011083">
         <rdfs:label xml:lang="en"
-            >Copernicium Atom</rdfs:label>
+            >copernicium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -12983,7 +13057,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011084 -->
 
     <owl:Class rdf:about="&resource;SIO_011084">
-        <rdfs:label xml:lang="en">Unutrium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">unutrium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -12993,7 +13067,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011085">
         <rdfs:label xml:lang="en"
-            >Ununquadium Atom</rdfs:label>
+            >ununquadium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -13003,7 +13077,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011086">
         <rdfs:label xml:lang="en"
-            >Ununpentium Atom</rdfs:label>
+            >ununpentium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -13012,7 +13086,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011087 -->
 
     <owl:Class rdf:about="&resource;SIO_011087">
-        <rdfs:label xml:lang="en">Ununhexium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">ununhexium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -13022,7 +13096,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011088">
         <rdfs:label xml:lang="en"
-            >Ununseptium Atom</rdfs:label>
+            >ununseptium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -13031,7 +13105,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011089 -->
 
     <owl:Class rdf:about="&resource;SIO_011089">
-        <rdfs:label xml:lang="en">Ununoctium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">ununoctium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
     </owl:Class>
     
@@ -13040,7 +13114,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011090 -->
 
     <owl:Class rdf:about="&resource;SIO_011090">
-        <rdfs:label xml:lang="en">Cerium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">cerium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33369</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13051,7 +13125,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011091">
         <rdfs:label xml:lang="en"
-            >Praseodymium Atom</rdfs:label>
+            >praseodymium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49828</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13061,7 +13135,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011092 -->
 
     <owl:Class rdf:about="&resource;SIO_011092">
-        <rdfs:label xml:lang="en">Neodymium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">neodymium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33372</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13071,7 +13145,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011093 -->
 
     <owl:Class rdf:about="&resource;SIO_011093">
-        <rdfs:label xml:lang="en">Promethium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">promethium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33373</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13081,7 +13155,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011094 -->
 
     <owl:Class rdf:about="&resource;SIO_011094">
-        <rdfs:label xml:lang="en">Samarium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">samarium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33374</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13091,7 +13165,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011095 -->
 
     <owl:Class rdf:about="&resource;SIO_011095">
-        <rdfs:label xml:lang="en">Europium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">europium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:32999</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13101,7 +13175,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011096 -->
 
     <owl:Class rdf:about="&resource;SIO_011096">
-        <rdfs:label xml:lang="en">Gadolinium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">gadolinium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33375</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13111,7 +13185,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011097 -->
 
     <owl:Class rdf:about="&resource;SIO_011097">
-        <rdfs:label xml:lang="en">Terbium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">terbium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33376</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13121,7 +13195,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011098 -->
 
     <owl:Class rdf:about="&resource;SIO_011098">
-        <rdfs:label xml:lang="en">Dysprosium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">dysprosium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33377</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13131,7 +13205,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011099 -->
 
     <owl:Class rdf:about="&resource;SIO_011099">
-        <rdfs:label xml:lang="en">Holmium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">holmium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:49648</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13141,7 +13215,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011100 -->
 
     <owl:Class rdf:about="&resource;SIO_011100">
-        <rdfs:label xml:lang="en">Erbium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">erbium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33379</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13151,7 +13225,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011101 -->
 
     <owl:Class rdf:about="&resource;SIO_011101">
-        <rdfs:label xml:lang="en">Thulium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">thulium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33380</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13161,7 +13235,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011102 -->
 
     <owl:Class rdf:about="&resource;SIO_011102">
-        <rdfs:label xml:lang="en">Ytterbium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">ytterbium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33381</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13171,7 +13245,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011103 -->
 
     <owl:Class rdf:about="&resource;SIO_011103">
-        <rdfs:label xml:lang="en">Lutetium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">lutetium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33382</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13181,7 +13255,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011104 -->
 
     <owl:Class rdf:about="&resource;SIO_011104">
-        <rdfs:label xml:lang="en">Thorium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">thorium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33385</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13192,7 +13266,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011105">
         <rdfs:label xml:lang="en"
-            >Protactinium Atom</rdfs:label>
+            >protactinium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33386</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13202,7 +13276,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011106 -->
 
     <owl:Class rdf:about="&resource;SIO_011106">
-        <rdfs:label xml:lang="en">Uranium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">uranium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:27214</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13212,7 +13286,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011107 -->
 
     <owl:Class rdf:about="&resource;SIO_011107">
-        <rdfs:label xml:lang="en">Neptunium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">neptunium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33387</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13222,7 +13296,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011108 -->
 
     <owl:Class rdf:about="&resource;SIO_011108">
-        <rdfs:label xml:lang="en">Plutonium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">plutonium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33388</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13232,7 +13306,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011109 -->
 
     <owl:Class rdf:about="&resource;SIO_011109">
-        <rdfs:label xml:lang="en">Americium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">americium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33389</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13242,7 +13316,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011110 -->
 
     <owl:Class rdf:about="&resource;SIO_011110">
-        <rdfs:label xml:lang="en">Curium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">curium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33390</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13252,7 +13326,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011111 -->
 
     <owl:Class rdf:about="&resource;SIO_011111">
-        <rdfs:label xml:lang="en">Berkelium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">berkelium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33391</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13263,7 +13337,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011112">
         <rdfs:label xml:lang="en"
-            >Californium Atom</rdfs:label>
+            >californium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33392</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13274,7 +13348,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011113">
         <rdfs:label xml:lang="en"
-            >Einsteinium Atom</rdfs:label>
+            >einsteinium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33393</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13284,7 +13358,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011114 -->
 
     <owl:Class rdf:about="&resource;SIO_011114">
-        <rdfs:label xml:lang="en">Fermium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">fermium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33394</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13295,9 +13369,9 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_011115">
         <rdfs:label xml:lang="en"
-            >Mendelevium Atom</rdfs:label>
+            >mendelevium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
-        <oboInOwl:hasDbXref>CHEBI: 33395</oboInOwl:hasDbXref>
+        <oboInOwl:hasDbXref>CHEBI:33395</oboInOwl:hasDbXref>
     </owl:Class>
     
 
@@ -13305,7 +13379,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011116 -->
 
     <owl:Class rdf:about="&resource;SIO_011116">
-        <rdfs:label xml:lang="en">Nobelium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">nobelium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33396</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13315,7 +13389,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <!-- http://semanticscience.org/resource/SIO_011117 -->
 
     <owl:Class rdf:about="&resource;SIO_011117">
-        <rdfs:label xml:lang="en">Lawrencium Atom</rdfs:label>
+        <rdfs:label xml:lang="en">lawrencium atom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010044"/>
         <oboInOwl:hasDbXref>CHEBI:33397</oboInOwl:hasDbXref>
     </owl:Class>
@@ -13367,6 +13441,12 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011121"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000072"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -13374,12 +13454,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000426"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_011119"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_011121"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -13394,14 +13468,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000612"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000626"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000210"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000626"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example
@@ -13498,10 +13572,17 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000333"/>
-            <rdf:Description rdf:about="&resource;SIO_000400"/>
-            <rdf:Description rdf:about="&resource;SIO_000401"/>
-            <rdf:Description rdf:about="&resource;SIO_000402"/>
+            <rdf:Description rdf:about="&resource;SIO_000512"/>
+            <rdf:Description rdf:about="&resource;SIO_000516"/>
+            <rdf:Description rdf:about="&resource;SIO_000539"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_010020"/>
+            <rdf:Description rdf:about="&resource;SIO_010341"/>
+            <rdf:Description rdf:about="&resource;SIO_010342"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -13515,6 +13596,15 @@ of endpoints (a start point and an endpoint).</dc:description>
             <rdf:Description rdf:about="&resource;SIO_000433"/>
             <rdf:Description rdf:about="&resource;SIO_000434"/>
             <rdf:Description rdf:about="&resource;SIO_000435"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000333"/>
+            <rdf:Description rdf:about="&resource;SIO_000400"/>
+            <rdf:Description rdf:about="&resource;SIO_000401"/>
+            <rdf:Description rdf:about="&resource;SIO_000402"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -13536,17 +13626,9 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000512"/>
-            <rdf:Description rdf:about="&resource;SIO_000516"/>
-            <rdf:Description rdf:about="&resource;SIO_000539"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_010020"/>
-            <rdf:Description rdf:about="&resource;SIO_010341"/>
-            <rdf:Description rdf:about="&resource;SIO_010342"/>
+            <rdf:Description rdf:about="&resource;SIO_000166"/>
+            <rdf:Description rdf:about="&resource;SIO_000167"/>
+            <rdf:Description rdf:about="&resource;SIO_000168"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -13555,14 +13637,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             <rdf:Description rdf:about="&resource;SIO_010011"/>
             <rdf:Description rdf:about="&resource;SIO_010030"/>
             <rdf:Description rdf:about="&resource;SIO_010346"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000166"/>
-            <rdf:Description rdf:about="&resource;SIO_000167"/>
-            <rdf:Description rdf:about="&resource;SIO_000168"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
