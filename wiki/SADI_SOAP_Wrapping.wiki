@@ -18,7 +18,7 @@ Modify the pom.xml file and make sure that the following nodes are included
 Add a build element with the following 
 {{{
 <build>
-  <finalName>sadi-services</finalName>
+  <finalName>sadi-service-example</finalName>
   <plugins>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
@@ -74,4 +74,20 @@ Now add a <pluginRepository> element
     <version>0.1.0-SNAPSHOT</version>
   </dependency>
 </dependencies>
+}}}
+
+
+= Add a Maven run configuration =
+If you are using Eclipse you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Extract the contents to a directory created inside of your Maven project.
+
+If you are not using eclipse you can go to the location of your project on your filesystem and run the following command
+
+{{{
+$ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service 
+  -DserviceName=sadi-sercice-example 
+  -DserviceClass=com.example.HelloWorldService 
+  -DinputClass=http://sadiframework.org/examples/hello.owl#NamedIndividual 
+  -DoutputClass=http://sadiframework.org/examples/hello.owl#GreetedIndividual 
+  -DcontactEmail=your-email-address
+  -DserviceDescription=This service takes as an input a 
 }}}
