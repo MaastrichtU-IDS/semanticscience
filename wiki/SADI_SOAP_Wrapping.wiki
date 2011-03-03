@@ -163,35 +163,107 @@ Add the following dependencies to your pom file:
 
 }}}
 
+Recall that for this example we will be making use of http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl as the WSDL file that will be consumed by CXF.
+
+Now add the following plugins to the build configuration in your pom file:
+
+{{{
+<build>
+  <plugins>
+   ...
+    <plugin>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-codegen-plugin</artifactId>
+      <version>2.3.1</version>
+      <executions>
+        <execution>
+          <id>generate-sources</id>
+          <phase>generate-sources</phase>
+          <configuration>
+            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+            <wsdlOptions>
+              <wsdlOption>
+                <wsdl>http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl</wsdl>
+                <extraargs>
+                  <extraarg>-client</extraarg>
+                </extraargs>
+                <bindingFiles>
+                  <bindingFile>http://sadi-data.semanticscience.org/setup/bindings.xml</bindingFile>
+                </bindingFiles>
+              </wsdlOption>
+            </wsdlOptions>
+          </configuration>
+          <goals>
+            <goal>wsdl2java</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <!-- Add generated sources - avoids having to copy generated sources to build location -->
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>build-helper-maven-plugin</artifactId>
+      <version>1.5</version>
+      <executions>
+        <execution>
+          <id>add-source</id>
+          <phase>generate-sources</phase>
+          <goals>
+            <goal>add-source</goal>
+          </goals>
+          <configuration>
+            <sources>
+              <source>${basedir}/target/generated/src/main/java</source>
+            </sources>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
+  ...
+  </plugins>
+</build>
+
+}}}
+
+
+Note: We are making use of a binding file to avoid the usage of JAXBElements -> http://sadi-data.semanticscience.org/setup/bindings.xml
+
+
+== Assemble the Java code ==
+In order to execute the wsdl2java function from CXF you now need to run:
+{{{
+mvn assembly:assembly
+}}}
+from the command line in your project's directory. This will create the Java code from the WSDL file and thus let us communicate with the SOAP web service. 
+
 
 == Make the SOAP call within the SADI service ==
 
-For this example, open src/main/java/org/semanticscience/sadi/soapwrapper/chebisoap/GetCharge.java
-
+Open src/main/java/org/semanticscience/sadi/soapwrapper/chebisoap/GetCharge.java and you should have the following code
 {{{
 package org.semanticscience.sadi.soapwrapper.chebisoap;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.apache.log4j.Logger;
-import org.semanticscience.sadi.soapwrapper.chebisoap.helper.ChebiSoapHelper;
 
-import uk.ac.ebi.webservices.chebi.ChebiWebServiceFault_Exception;
-import uk.ac.ebi.webservices.chebi.ChebiWebServicePortType;
-import uk.ac.ebi.webservices.chebi.ChebiWebServiceService;
-import uk.ac.ebi.webservices.chebi.Entity;
-import ca.wilkinsonlab.sadi.service.annotations.ContactEmail;
-import ca.wilkinsonlab.sadi.service.annotations.Description;
-import ca.wilkinsonlab.sadi.service.annotations.InputClass;
-import ca.wilkinsonlab.sadi.service.annotations.Name;
-import ca.wilkinsonlab.sadi.service.annotations.OutputClass;
+import ca.wilkinsonlab.sadi.service.annotations.Name; 
+import ca.wilkinsonlab.sadi.service.annotations.Description; 
+import ca.wilkinsonlab.sadi.service.annotations.ContactEmail; 
+import ca.wilkinsonlab.sadi.service.annotations.InputClass; 
+import ca.wilkinsonlab.sadi.service.annotations.OutputClass; 
 import ca.wilkinsonlab.sadi.service.simple.SimpleSynchronousServiceServlet;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Model; 
+import com.hp.hpl.jena.rdf.model.ModelFactory; 
+import com.hp.hpl.jena.rdf.model.Property; 
+import com.hp.hpl.jena.rdf.model.Resource; 
 
 /**
  * @author "Jose Cruz-Toledo"
@@ -215,43 +287,9 @@ public class GetCharge extends SimpleSynchronousServiceServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void processInput(Resource input, Resource output) {
-		// get a model from the resource
-		Model inputModel = input.getModel();
-		Model outputModel = output.getModel();
-		// get a chebi soap helper object
-		ChebiSoapHelper csh = new ChebiSoapHelper();
-		// Get the value of the CHEBI id that is coming in
-		String chebiId = csh.getChebiId(input,
-				Vocab.chebi_soap_00051.toString(),
-				Vocab.chebi_soap_00052.toString());
-		String charge = "";
-		// Do SOAP
-		// Check the ChebiId
-		if (csh.checkChebiId(chebiId)) {
-			// Find the class generated by CXF that extends Service
-			ChebiWebServiceService service = new ChebiWebServiceService();
-			// Find the get method that uses the Service classes' getPort method
-			ChebiWebServicePortType port = service.getChebiWebServicePort();
-			try {
-				Entity en = port.getCompleteEntity(chebiId);
-				charge = en.getCharge();
-				// create attribute resource
-				String base = csh.getBaseURL(new URL(input.getURI()));
-				Resource attrInstance = outputModel.createResource(base
-						+ csh.getPositiveRandomNumber());
-				// type the attribute instance
-				attrInstance.addProperty(ChebiSoapHelper.Vocabulary.rdftype,
-						Vocab.chebi_soap_00013);
-				// add the value to the attributed instance
-				attrInstance.addProperty(Vocab.chebi_soap_00052, charge);
-				// connect the output with the attributed instance
-				output.addProperty(Vocab.chebi_soap_00051, attrInstance);
-			} catch (ChebiWebServiceFault_Exception e) {
-				e.printStackTrace();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		}
+		/* your code goes here 
+                 * (add properties to output node based on properties of input node…) 
+                 */ 
 	}
 
 	@SuppressWarnings("unused")
