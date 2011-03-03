@@ -32,7 +32,7 @@ Note: The literal associated with the Charge attribute will have as value the va
 
 The resulting OWL document has been made available [http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl here]
   
-= Create the SADI service Java Stub =
+= Generate the SADI service code =
 After creating a Maven project modify the pom.xml file and make sure that the following nodes are included
 {{{
 <packaging>war</packaging>
@@ -97,11 +97,14 @@ After creating a Maven project modify the pom.xml file and make sure that the fo
 </dependencies>
 }}}
 
-= Add a Maven run configuration =
-If you are using Eclipse you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Extract the contents to a directory created inside of your Maven project.
+== Run the SADI service generator Maven plugin ==
+If you are using Eclipse you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Create a directory inside of your Maven project and extract to it the contents of the zip file. Now you can go to Run->Run configurations and from the left panel select "generate sadi service" under the Maven Build menu and change the serviceName, serviceClass, inputClass, outputClass and contact email.
+We strongly recommend that you also add the serviceDescription parameter to your run configuration and provide a complete human readable description of what this service does. i.e.:
+{{{This SADI service wraps the SOAP service ChebiWebServiceService located  at http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl. It calls the operation getChebiAsciiName. This service takes as an input an instance of the class http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl#chebi_soap_00030 a ChEBI Entity that has attribute some ChEBI Identifier. It returns as an output an instance of the class http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl#chebi_soap_00035, a ChEBI entity and has attribute some Charge. http://sadi-data.semanticscience.org/ChebiGetChargeSadiWrapper/input.rdf  contains an example of an input and http://sadi-data.semanticscience.org/ChebiGetChargeSadiWrapper/output.rdf contains the corresponding output.}}}
 
-If you are not using eclipse you can go to the location of your project on your filesystem and run the following command
+Once ready click on RUN. 
 
+If you are not using Eclipse you can go to the location of your project on your file system and run the following command
 {{{
 $ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service 
   -DserviceName=sadi-sercice-example 
@@ -111,6 +114,8 @@ $ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service
   -DcontactEmail=your-email-address
   -DserviceDescription=This service takes as an input a 
 }}}
+
+
 
 = External Links =
  * [http://sadiframework.org/content/getting-involved/what-is-a-sadi-service/ What is a Sadi Service?]
