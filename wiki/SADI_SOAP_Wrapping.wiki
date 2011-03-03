@@ -17,42 +17,61 @@ Modify the pom.xml file and make sure that the following nodes are included
 
 Add a build element with the following 
 {{{
-  <build>
-  <finalName>sadi-sample-wrapper</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.1.24</version>
-        <configuration>
-          <contextPath>/sadi-services</contextPath>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>ca.wilkinsonlab.sadi</groupId>
-        <artifactId>sadi-generator</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
-      </plugin>
-      <plugin>
-        <groupId>ca.wilkinsonlab.sadi</groupId>
-        <artifactId>sadi-tester</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
-      </plugin>
-    </plugins>
-  </build>
+<build>
+  <finalName>sadi-services</finalName>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <configuration>
+        <source>1.6</source>
+        <target>1.6</target>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>maven-jetty-plugin</artifactId>
+      <version>6.1.24</version>
+      <configuration>
+        <contextPath>/sadi-services</contextPath>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>ca.wilkinsonlab.sadi</groupId>
+      <artifactId>sadi-generator</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </plugin>
+    <plugin>
+      <groupId>ca.wilkinsonlab.sadi</groupId>
+      <artifactId>sadi-tester</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </plugin>
+  </plugins>
+</build>
 }}}
  
+Now add a <pluginRepository> element
 
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+{{{
+<pluginRepositories>
+  <pluginRepository>
+    <id>dev.biordf.net</id>
+    <name>dev.biordf.net</name>
+    <url>http://dev.biordf.net/maven</url>
+  </pluginRepository>
+</pluginRepositories>
+<repositories>
+  <repository>
+    <id>dev.biordf.net</id>
+    <name>dev.biordf.net</name>
+    <url>http://dev.biordf.net/maven</url>
+  </repository>
+</repositories>
+<dependencies>
+  <dependency>
+    <groupId>ca.wilkinsonlab.sadi</groupId>
+    <artifactId>sadi-service</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </dependency>
+</dependencies>
+}}}
