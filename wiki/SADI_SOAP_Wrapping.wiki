@@ -16,7 +16,7 @@ Where:
 'ChEBI identifier 'has value' some Literal
 }}}
 
-Note: We use only valid ChEBI identifiers as the associated value of the 'ChEBI identifier' class, i.e.: "CHEBI:29977"
+*Note*: We use only valid ChEBI identifiers as the associated value of the 'ChEBI identifier' class, i.e.: "CHEBI:29977"
 
 Output class description:
 {{{
@@ -28,7 +28,7 @@ Where:
 Charge 'has value' some Literal
 }}}
 
-Note: The literal associated with the Charge attribute will have as value the value returned from the SOAP service call. 
+*Note*: The literal associated with the Charge attribute will have as value the value returned from the SOAP service call. 
 
 The resulting OWL document has been made available [http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl here]
   
@@ -98,7 +98,7 @@ After creating a Maven project modify the pom.xml file and make sure that the fo
 }}}
 
 == Run the SADI service generator Maven plugin ==
-If you are using Eclipse you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Create a directory inside of your Maven project and extract to it the contents of the zip file. Now you can go to Run->Run configurations and from the left panel select "generate sadi service" under the Maven Build menu and change the serviceName, serviceClass, inputClass, outputClass and contact email.
+*If you are using Eclipse* you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Create a directory inside of your Maven project and extract to it the contents of the zip file. Now you can go to Run->Run configurations and from the left panel select "generate sadi service" under the Maven Build menu and change the serviceName, serviceClass, inputClass, outputClass and contact email.
 We strongly recommend that you also add the serviceDescription parameter to your run configuration and provide a complete human readable description of what this service does. i.e.:
 
 
@@ -120,13 +120,12 @@ contains the corresponding output.
 
 Once ready click on RUN. 
 
-If you are not using Eclipse you can go to the location of your project on your file system and run the following command
+*If you are not using Eclipse* you can go to the location of your project on your file system and run the following command
 {{{
 $ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service 
   -DserviceName=sadi-sercice-example 
   -DserviceClass=com.example.HelloWorldService 
-  -DinputClass=http://sadiframework.org/examples/hello.owl#NamedIndividual 
-  -DoutputClass=http://sadiframework.org/examples/hello.owl#GreetedIndividual 
+  -DinputClass=http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl#chebi_soap_00030  -DoutputClass=http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl#chebi_soap_00034 
   -DcontactEmail=your-email-address
   -DserviceDescription=This service takes as an input a 
 }}}
@@ -134,7 +133,7 @@ $ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service
 The service generator plugin should now have created a Java stub under src/main/java
 
 == Add CXF as a dependency to your project ==
-Add the following dependencies to your pom file:
+Add the following dependencies to your POM file:
 {{{
 <dependencies>
 ...
@@ -165,7 +164,7 @@ Add the following dependencies to your pom file:
 
 Recall that for this example we will be making use of http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl as the WSDL file that will be consumed by CXF.
 
-Now add the following plugins to the build configuration in your pom file:
+Now add the following plugins to the build configuration in your POM file:
 
 {{{
 <build>
@@ -233,8 +232,12 @@ Now add the following plugins to the build configuration in your pom file:
 
 }}}
 
-
-Note: We are making use of a binding file to avoid the usage of JAXBElements -> http://sadi-data.semanticscience.org/setup/bindings.xml
+The only items of interest in the POM are:
+ * We depend on the CXF v2.3.1 client libraries
+ * We invoke the cxf-codegen-plugin to run wsdl2java to generate our Java stub code into ${basedir}/target/generated/src/main/java
+ * We use the build-helper-maven-plugin so that Maven can compile from two source directories. Thus allowing us to compile what is in ${basedir}/src/main and ${basedir}/target/generated/src/main/java
+ * We use the maven-assembly-plugin to create a final JAR containing all necessary dependencies when we perform a mvn assembly:assembly
+ * We use a binding file to avoid the usage of [http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html JAXBElements] -> http://sadi-data.semanticscience.org/setup/bindings.xml
 
 
 == Assemble the Java code ==
