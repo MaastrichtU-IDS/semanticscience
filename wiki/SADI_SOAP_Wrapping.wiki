@@ -133,6 +133,37 @@ $ mvn ca.wilkinsonlab.sadi:sadi-generator:generate-service
 
 The service generator plugin should now have created a Java stub under src/main/java
 
+== Add CXF as a dependency to your project ==
+Add the following dependencies to your pom file:
+{{{
+<dependencies>
+...
+  <dependency>
+    <groupId>org.apache.cxf</groupId>
+    <artifactId>cxf-rt-frontend-jaxws</artifactId>
+    <version>2.3.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.6.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+    <version>1.6.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.cxf</groupId>
+    <artifactId>cxf-rt-transports-http</artifactId>
+    <version>2.3.1</version>
+  </dependency>
+...
+</dependencies>
+
+}}}
+
+
 == Make the SOAP call within the SADI service ==
 
 For this example, open src/main/java/org/semanticscience/sadi/soapwrapper/chebisoap/GetCharge.java
