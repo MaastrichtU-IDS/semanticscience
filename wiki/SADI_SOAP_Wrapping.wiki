@@ -2,11 +2,10 @@
 #labels Phase-Implementation,SOAP,Tutorial,WebService
 
 = Introduction =
-
-Here we present a step by step guide for creating a SADI service that wraps an existing [http://www.ebi.ac.uk/chebi/ ChEBI] [http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl SOAP service] for getting the charge of a molecule. This guide extends [http://sadiframework.org/content/getting-involved/building-a-sadi-service-in-java/ Building a SADI service in Java].
+Here we present a step by step guide for creating a Java SADI service that wraps an existing [http://www.ebi.ac.uk/chebi/ ChEBI] [http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl SOAP service] for getting the charge of a molecule. This guide extends [http://sadiframework.org/content/getting-involved/building-a-sadi-service-in-java/ Building a SADI service in Java].
 
 = Create an OWL document describing your Input and Output =
-The input and outputs of all SADI services must be described in a [http://en.wikipedia.org/wiki/Dereferenceable_Uniform_Resource_Identifier dereferenceable] OWL ontology document. For this example we will be using the following input and output classes:
+The input and outputs of all SADI services must be described in a  dereferenceable OWL ontology document. For this example we will be using the following input and output classes:
 
 Input class description:
 {{{
@@ -28,19 +27,17 @@ Where:
 {{{
 Charge 'has value' some Literal
 }}}
+
 Note: The literal associated with the Charge attribute will have as value the value returned from the SOAP service call. 
+
+The resulting OWL document has been made available [http://sadi-ontology.semanticscience.org/chebi-sadi-soap.owl here]
   
 = Create the SADI service Java Stub =
-First, you will need to use the sadi-service-generator to create the Java stub.
-
-First create a Maven project.
-
-Modify the pom.xml file and make sure that the following nodes are included
+After creating a Maven project modify the pom.xml file and make sure that the following nodes are included
 {{{
 <packaging>war</packaging>
 }}}
 
-Add a build element with the following 
 {{{
 <build>
   <finalName>sadi-service-example</finalName>
@@ -75,7 +72,6 @@ Add a build element with the following
 </build>
 }}}
  
-Now add a <pluginRepository> element
 
 {{{
 <pluginRepositories>
@@ -100,7 +96,6 @@ Now add a <pluginRepository> element
   </dependency>
 </dependencies>
 }}}
-
 
 = Add a Maven run configuration =
 If you are using Eclipse you can download the runtime maven configuration file from [http://sadi-data.semanticscience.org/setup/runconfigs.zip here]. Extract the contents to a directory created inside of your Maven project.
