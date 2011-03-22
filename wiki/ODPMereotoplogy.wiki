@@ -1,0 +1,28 @@
+#summary Ontology Design Pattern - Wholes, parts and their topology
+#labels SIO,SADI,ODP
+
+Structural descriptions of objects in terms of their parts and how they are connected together is a basic requirement. SIO provides the following relations to precisely do this.
+
+
+*[http://semanticscience.org/resource/SIO_000028 'has part']*
+
+The 'has part' relation links an object to itself (reflexive) and all of its  parts (transitive). The reflexive nature of the relation means that we can query for the whole and any of its parts using 'has part' some 'x' rather than 'x' and 'has part' some 'x'. 
+
+*[http://semanticscience.org/resource/SIO_000053 'has proper part']*
+
+The 'has proper part' relation (irreflexive, asymmetric, transitive) is a subproperty of 'has part' and links an object to all of its parts, ensuring that the whole is different from all of its parts.
+
+*[http://semanticscience.org/resource/SIO_000273 'has direct part']*
+
+Because it is a simple relation (non-transitive), 'has direct part' is a more specific relation than 'has proper part' and provides an avenue to quantify the number of parts (via a cardinality restriction) at a desired level of granularity.
+
+*[http://semanticscience.org/resource/SIO_000369 'has component part']*
+
+The 'has component part' relation is a subproperty of 'has direct part' and provides the means by which to state that the part is intrinsic to the whole, and that the removal of the part changes the identity of the whole.  Consider how removing an atom from a molecule changes the kind of molecule that it is, but losing a limb does not change a person's identity.
+
+
+*[http://semanticscience.org/resource/SIO_000652 'is directly connected to']*
+
+The 'is directly connected to' relation enables one to indicate that two components share a boundary. Thus while the 'has part' hierarchy is focused on identifying the parts of a whole, this relation allows one to specify how the parts are connected to each other. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
+
+
