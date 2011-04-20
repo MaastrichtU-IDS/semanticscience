@@ -5,14 +5,15 @@ Measurements are at the core of science. The following specifies which types and
 
 {{{
 'quantity'
- subClassOf
+subClassOf
  'has value' some Literal
    and 'has unit' only 'measurement unit'
-   and 'is output of' only 'measurement process'
+   and 'is output of' only 'measuring' 
 }}}
 
 {{{
 'entity' 
+subClassOf
   'has attribute' some (
     'quantity' 
     that 'has value' some Literal
@@ -20,3 +21,12 @@ Measurements are at the core of science. The following specifies which types and
    )
 }}}
 
+{{{
+
+'measuring'
+subClassOf 
+ 'process' 
+ and 'has agent' some ('has function' some 'to measure')
+ and 'has target' some ('has disposition' some 'to be measured')
+ and 'has output' some 'quantity'
+}}}
