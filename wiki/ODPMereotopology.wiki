@@ -3,6 +3,7 @@
 #sidebar SIOSideBar
 Structural descriptions of objects in terms of their parts and how they are connected together is a basic requirement. SIO provides the following relations to precisely do this.
 
+==mereology==
 
 *[http://semanticscience.org/resource/SIO_000028 'has part']*
 
@@ -20,10 +21,28 @@ Because it is a simple relation (non-transitive), 'has direct part' is a more sp
 
 The 'has component part' relation is a subproperty of 'has direct part' and provides the means by which to state that the part is intrinsic to the whole, and that the removal of the part changes the identity of the whole.  Consider how removing an atom from a molecule changes the kind of molecule that it is, but losing a limb does not change a person's identity.
 
+==topology==
+
+ While the 'has part' relation hierarchy is focused on identifying the parts of a whole, the next set of relations allows one to specify how the parts are connected to each other. 
+
+*[http://semanticscience.org/resource/SIO_000203 'is connected to']*
+
+'is connected to' is a transitive relation that specifies that components either directly share a boundary (they are directly connected to each other) or that they are indirectly connected by a path of unbroken direct connections.
+
 
 *[http://semanticscience.org/resource/SIO_000652 'is directly connected to']*
 
-The 'is directly connected to' relation enables one to indicate that two components share a boundary. Thus while the 'has part' hierarchy is focused on identifying the parts of a whole, this relation allows one to specify how the parts are connected to each other. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
+The 'is directly connected to' indicates that two components share a boundary. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
+
+
+*[http://semanticscience.org/resource/SIO_000242 'is immediately positionally before']*
+
+'is immediately positionally before' is a relation between entities placed on a dimensional axis in which the projection of the position of the first entity is numerically less than the projection of the position of the second entity, and the entities are adjacent to one another. This is useful for indicating the spatial positioning of residues in linear biopolymers such as proteins or nucleic acids.
+
+*[http://semanticscience.org/resource/SIO_000241 'is immediately positionally after']*
+
+is immediately positionally after is a relation between entities placed on a dimensional axis in which the projection of the position of the first entity is numerically greater than the projection of the position of the second entity, and the entities are adjacent to one another. This is useful for indicating the spatial positioning of residues in linear biopolymers such as proteins or nucleic acids.
+
 
 
 _example_
@@ -33,6 +52,7 @@ _example_
  'molecule'
  and 'has component part' exactly 3 'methane hydrogen atom'
  and 'has component part' exactly 1 'methane carbon atom'
+ and 'has component part' only ('part of' some 'methane carbon atom' or 'part of' some 'methane hydrogen atom')
 
 'methane hydrogen atom'
  equivalentClass
