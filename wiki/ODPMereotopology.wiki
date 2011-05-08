@@ -45,7 +45,7 @@ is immediately positionally after is a relation between entities placed on a dim
 
 
 
-_example_
+_molecule example_
 {{{
 'methane' 
  equivalentClass
@@ -66,3 +66,23 @@ _example_
  and 'is component part of' exactly 1 'methane'
  and 'is covalently connected to' exactly 3 'methane hydrogen atom'
 }}}
+
+_protein example_
+{{{
+'human p53 isoform 1'
+ equivalentClass
+ 'protein'
+ and 'has component part' exactly 1 ('human p53 isoform 1 methionine residue @ pos1')
+ and 'has component part' exactly 1 ('human p53 isoform 1 glutamate residue @ p2')
+ ...
+ 
+'human p53 isoform 1 methionine residue @ p1'
+ equivalentClass
+ 'methionine residue'  // use chebi 
+ 'is component part of' some 'human p53 isoform 1'
+ and 'has attribute' some ('position' and 'has value' value "1"^^xsd:int)
+ and 'is immediately positionally before' some ('human p53 isoform 1 glutamate residue @ p2')
+
+...
+
+}}}}
