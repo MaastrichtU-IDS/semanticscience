@@ -3,34 +3,30 @@
 #sidebar SIOSideBar
 Measurements are at the core of science. The following specifies which types and relations can be used to express quantities and their units. measurement units should be drawn from the [http://bioportal.bioontology.org/visualize/45500 unit ontology]
 
+Quantities are entities for which a literal (number) can be directly associated with 'has value', which is SIO's one and only datatype property. These quantities may be measured at a particular time or over some time interval, and are the output of measurement.
+
 {{{
 'quantity'
 subClassOf
  'has value' some Literal
   and 'has unit' only 'measurement unit'
   and 'has attribute' some ('time instant' or 'time interval')
-  and 'is output of' only 'measuring process'
+  and 'is output of' only 'measurement'
   and 'satisfies' some 'procedure'
+  and 'is attribute of' some 'entity'
 }}}
 
-{{{
-'entity' 
-subClassOf
-  'has attribute' some (
-    'quantity' 
-    that 'has value' some Literal
-    and 'has unit' some 'measurement unit'
-   )
-}}}
 
 {{{
-
-'measuring process'
+'measurement'
 subClassOf 
  'process' 
  and 'has attribute' some ('time interval')
  and 'has agent' some ('has function' some 'to measure')
  and 'has target' some ('has disposition' some 'to be measured')
  and 'has output' some 'quantity'
- and 'is specified by' some 'protocol'
+ and 'is specified by' some 'procedure'
 }}}
+
+
+@todo error, uncertainty as quantities and attributes of measurement results 
