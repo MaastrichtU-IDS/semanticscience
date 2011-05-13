@@ -1,24 +1,37 @@
-#summary Ontology Design Pattern - Collections
+#summary Ontology Design Pattern - Sets, Collections & Aggregates
 #labels SIO,SADI,ODP
 #sidebar SIOSideBar
-Collections are useful to associate arbitrary entities together. Collections are defined in SIO as :
+Sets, collections and aggregates aim to associate arbitrary entities together with different minimal criteria.
 
-http://semanticscience.org/resource/SIO_000616
+*[http://semanticscience.org/resource/SIO_000289 'set']*
 
-A collection is a set for which there exists at least one member, although any member need not to exist at any point in the collection's existence.
+A set is an arbitrary collection of items (of any type), for which there may be zero members (aka empty set).
 
-Collections are related to members of the collection through the 'has member' relation 
+*[http://semanticscience.org/resource/SIO_000616 'collection']*
 
-http://semanticscience.org/resource/SIO_000059
+A collection is a set for which i) there exists at least one member at any given time and ii) each item is of the same type.
 
+*[http://semanticscience.org/resource/ 'aggregate']*
+
+An aggregate is a collection for which there exists at least two members at the same time. 
+
+
+*[http://semanticscience.org/resource/SIO_000059 'has member']*
+
+items in a set/collection/aggregate are specified with the 'has member' relation.
+
+
+_examples_
 
 If a collection contains only one kind of member, then we can write a class axiom like
 {{{
-'Collection of x valued items'
+'Collection of x-type valued items'
  equivalentClass
  'collection'
  and 'has member' some ('x' and 'has value' some Literal)
+ and 'has member' only ('x' and 'has value' only Literal)
 }}}
+
 If a collection consists of values that must be paired together, we can write:
 {{{
 'Collection of xy-valued-pairs'
