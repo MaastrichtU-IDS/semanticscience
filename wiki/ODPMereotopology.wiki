@@ -34,6 +34,17 @@ While the 'has part' relation hierarchy is focused on identifying the parts of a
 
 The 'is directly connected to' indicates that two components share a boundary. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
 
+*[http://semanticscience.org/resource/SIO_000145 'is location of']*
+
+A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part. [T][R]
+
+inverse: [http://semanticscience.org/resource/SIO_000061 'is located in']
+
+*[http://semanticscience.org/resource/SIO_000202 'contains']*
+
+A contains B iff the spatial region occupied by A has the spatial region occupied by B as a part, and B is not part of A. 
+
+inverse: [http://semanticscience.org/resource/SIO_000128 'is contained in']*
 
 *[http://semanticscience.org/resource/SIO_000242 'is directly before']*
 
@@ -84,5 +95,13 @@ _protein example_
  and 'is directly before' exactly 1 ('human p53 isoform 1 glutamate residue @ p2')
 
 ...
+}}}
 
+_proteosome containment example_
+{{{
+ 'proteosome-complex with peptide chain'
+ subClassOf
+ 'protein complex'
+ and 'has proper part' some ('proteosome' that 'contains' some 'peptide chain')
+ and 'has proper part' some ('peptide chain' that 'is contained by' some 'proteosome')
 }}}
