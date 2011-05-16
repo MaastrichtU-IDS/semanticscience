@@ -5,64 +5,53 @@ Structural descriptions of objects in terms of their parts and how they are conn
 
 ==mereology==
 
-*[http://semanticscience.org/resource/SIO_000028 'has part']*
+*[http://semanticscience.org/resource/SIO_000028 'has part'] / [http://semanticscience.org/resource/SIO_000068 'is part of'] [T|R]*
 
 The 'has part' relation links an object to itself (reflexive) and all of its  parts (transitive). The reflexive nature of the relation means that we can query for the whole and any of its parts using 'has part' some 'x' rather than 'x' and 'has part' some 'x'. 
 
-inverse: [http://semanticscience.org/resource/SIO_000068 'is part of']
 
-*[http://semanticscience.org/resource/SIO_000053 'has proper part']*
+
+*[http://semanticscience.org/resource/SIO_000053 'has proper part'] / [http://semanticscience.org/resource/SIO_000093 'is proper part of'] [T|IR|AS]
+*
 
 The 'has proper part' relation (irreflexive, asymmetric, transitive) is a subproperty of 'has part' and links an object to all of its parts, ensuring that the whole is different from all of its parts.
 
-inverse: [http://semanticscience.org/resource/SIO_000093 'is proper part of']
-
-*[http://semanticscience.org/resource/SIO_000273 'has direct part']*
+*[http://semanticscience.org/resource/SIO_000273 'has direct part'] / [http://semanticscience.org/resource/SIO_000310 'is direct part of']*
 
 Because it is a simple relation (non-transitive), 'has direct part' is a more specific relation than 'has proper part' and provides an avenue to quantify the number of parts (via a cardinality restriction) at a desired level of granularity.
 
-inverse: [http://semanticscience.org/resource/SIO_000310 'is direct part of']
 
-
-*[http://semanticscience.org/resource/SIO_000369 'has component part']*
+*[http://semanticscience.org/resource/SIO_000369 'has component part'] / [http://semanticscience.org/resource/SIO_000313 'is component part of']*
 
 The 'has component part' relation is a subproperty of 'has direct part' and provides the means by which to state that the part is intrinsic to the whole, and that the removal of the part changes the identity of the whole.  Consider how removing an atom from a molecule changes the kind of molecule that it is, but losing a limb does not change a person's identity.
 
-inverse: [http://semanticscience.org/resource/SIO_000313 'is component part of']
 
 ==topology==
 
 While the 'has part' relation hierarchy is focused on identifying the parts of a whole, the next set of relations allows one to specify how the parts are connected to each other. 
 
-*[http://semanticscience.org/resource/SIO_000203 'is connected to']*
+*[http://semanticscience.org/resource/SIO_000203 'is connected to'] [T|S] *
 
 'is connected to' is a symmetric, transitive relation that specifies that components either directly share a boundary (they are directly connected to each other) or that they are indirectly connected by a path of unbroken direct connections.
 
 
-*[http://semanticscience.org/resource/SIO_000652 'is directly connected to']*
+*[http://semanticscience.org/resource/SIO_000652 'is directly connected to'] [S] *
 
-The 'is directly connected to' indicates that two components share a boundary. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
+'is directly connected to' is a symmetric relation that indicates that two components share a boundary. Since this relation is nontransitive, we can use it in statements to quantify the number of connections from one part to other kinds of parts.
 
-*[http://semanticscience.org/resource/SIO_000145 'is location of']*
+*[http://semanticscience.org/resource/SIO_000145 'is location of'] / [http://semanticscience.org/resource/SIO_000061 'is located in']*
 
 A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part. [T][R]
 
-inverse: [http://semanticscience.org/resource/SIO_000061 'is located in']
 
-*[http://semanticscience.org/resource/SIO_000202 'contains']*
+*[http://semanticscience.org/resource/SIO_000202 'contains'] / [http://semanticscience.org/resource/SIO_000128 'is contained in']*
 
 A contains B iff the spatial region occupied by A has the spatial region occupied by B as a part, and B is not part of A. 
 
-inverse: [http://semanticscience.org/resource/SIO_000128 'is contained in']*
 
-*[http://semanticscience.org/resource/SIO_000242 'is directly before']*
+*[http://semanticscience.org/resource/SIO_000242 'is directly before'] / [http://semanticscience.org/resource/SIO_000241 'is directly after']*
 
 'is directly before' is a relation between entities placed on a dimensional axis in which the projection of the position of the first entity is numerically less than the projection of the position of the second entity, and the entities are adjacent to one another. This is useful for indicating the spatial positioning of residues in linear biopolymers such as proteins or nucleic acids.
-
-*[http://semanticscience.org/resource/SIO_000241 'is directly after']*
-
-is directly after is a relation between entities placed on a dimensional axis in which the projection of the position of the first entity is numerically greater than the projection of the position of the second entity, and the entities are adjacent to one another. This is useful for indicating the spatial positioning of residues in linear biopolymers such as proteins or nucleic acids.
-
 
 
 _molecule example_
