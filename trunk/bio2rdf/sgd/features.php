@@ -42,20 +42,27 @@ class SGD_FEATURES {
 	{
 		require ('../include.php');
 		$buf = N3NSHeader($nslist);
-//		$buf .= "@prefix gro: <http://www.bootstrep.eu/ontology/GRO#> .".PHP_EOL;
-		$buf .= "@prefix gro: <http://bio2rdf.org/gro:> .".PHP_EOL;
+		$buf .= "@prefix chebi: <http://bio2rdf.org/chebi:> .".PHP_EOL;
 		$z = 0;		
 		while($l = fgets($this->_in,2048)) {
 			if($l[0] == '!') continue;
 			$a = explode("\t",trim($l));
 
-//if($z++ == 100) {echo $buf;$buf = '';}
-			
 			$id = $oid = $a[0];
 			$id =urlencode($id);	
+
+//if($z++ == 100) {echo $buf;$buf = '';}
+			$buf .= "$sgd:record_$id $dc:identifier \"$sgd:record_$id\" .".PHP_EOL;
+			$buf .= "$sgd:record_$id $dc:title \"Record for entity identified by sgd:$id\" .".PHP_EOL;
+			$buf .= "$sgd:record_$id $rdfs:label \"Record for entity identified by sgd:$id [$sgd:record_$id]\" .".PHP_EOL;
+			$buf .= "$sgd:record_$id a serv:Record .".PHP_EOL;
+			$buf .= "$sgd:record_$id ss:is_about $sgd:$id .".PHP_EOL;
+			$buf .= "$sgd:record_$id ss:is_part_of registry_dataset:sgd .".PHP_EOL;
+
+						
 			$buf .= "$sgd:$id $dc:identifier \"$sgd:$oid\" .".PHP_EOL;
 			$buf .= "$sgd:$id $rdfs:label \"$a[1] [$sgd:$id]\" .".PHP_EOL;
-			if($a[15]) $buf .= "$sgd:$id $rdfs:comment ".'"""'.$a[15].'""" .'.PHP_EOL;
+			if($a[15]) $buf .= "$sgd:$id $dc:description ".'"""'.$a[15].'""" .'.PHP_EOL;
 			$feature_type = $this->GetFeatureType($a[1]);
 			$buf .= "$sgd:$id a ".strtolower($feature_type).". ".PHP_EOL;
 
@@ -66,24 +73,24 @@ class SGD_FEATURES {
 			if(isset($type)) {
 				unset($p1);unset($p2);
 				$gp = $sgd.":".$id."gp";
-				$buf .= "$sgd:$id $bio2rdfns:encodes $gp.".PHP_EOL;
+				$buf .= "$sgd:$id ss:encodes $gp.".PHP_EOL;
 				$buf .= "<http://bio2rdf.org/$gp> rdfs:label \"$id"."gp [$gp]\".".PHP_EOL;
-				if($type == "p") $buf .= "<http://bio2rdf.org/$gp> a gro:Protein .".PHP_EOL;
-				elseif($type == "r") $buf .= "<http://bio2rdf.org/$gp> a gro:RNAMolecule .".PHP_EOL;
+				if($type == "p") $buf .= "<http://bio2rdf.org/$gp> a chebi:36080 .".PHP_EOL;
+				elseif($type == "r") $buf .= "<http://bio2rdf.org/$gp> a chebi:33697 .".PHP_EOL;
 
 				if($a[1] == "ORF" && $a[3] != '') {
 					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[3])))."p";
-					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
+					$buf .= "$sgd:$id ss:encodes <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> rdfs:label \"$p1 [$sgd:$p1]\".".PHP_EOL;
-					$buf .= "<http://bio2rdf.org/$sgd:$p1> a gro:Protein .".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p1> a chebi:36080 .".PHP_EOL;
 				}
 				if($a[1] == "ORF" && $a[4] != '') {
 					$p2 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[4])))."p";
-					$buf .= "$sgd:$id $bio2rdfns:encodes <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
+					$buf .= "$sgd:$id ss:encodes <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p2> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p2> rdfs:label \"$p2 [$sgd:$p2]\".".PHP_EOL;
-					$buf .= "<http://bio2rdf.org/$sgd:$p2> a gro:Protein .".PHP_EOL;
+					$buf .= "<http://bio2rdf.org/$sgd:$p2> a chebi:36080 .".PHP_EOL;
 				}
 				if(isset($p1) && isset($p2)) 
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
@@ -93,13 +100,13 @@ class SGD_FEATURES {
 			if($a[2]) {
 				$qualifiers = explode("|",$a[2]);
 				foreach($qualifiers AS $q) {
-					$buf .= "$sgd:$id $sgd:status \"$q\" .".PHP_EOL;
-				}		
+					$buf .= "sgd:$id sgd:status \"$q\" .".PHP_EOL;
+				}
 			}
 			
 			// unique feature name
 			if($a[3]) {
-				$buf .= "$sgd:$id $sgd:preferredName \"$a[3]\".".PHP_EOL;
+				$buf .= "$sgd:$id skos:prefLabel \"$a[3]\".".PHP_EOL;
 				$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $a[3]);
 				$buf .= "$sgd:$id $owl:sameAs <http://bio2rdf.org/$sgd:$nid> .".PHP_EOL;
 			}
@@ -113,16 +120,16 @@ class SGD_FEATURES {
 			if($a[5]) {
 				$b = explode("|",$a[5]);
 				foreach($b AS $name) {
-					$buf .= "$sgd:$id $sgd:alias \"$name\".".PHP_EOL;
+					$buf .= "$sgd:$id $sgd:alias \"".str_replace('"','',$name)."\".".PHP_EOL;
 				}
 			}
 			// parent feature
 			$parent_type = '';
 			if($a[6]) {
 				$parent = str_replace(array("(",")"," "), array("&#40;","&#41;","_"), $a[6]);
-				$parent = urlencode($a[6]);
+//				$parent = urlencode($a[6]);
 
-				$buf .= "$sgd:$id $sgd:part_of <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
+				$buf .= "$sgd:$id ss:is_part_of <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
 				if(strstr($parent,"chromosome")) {
 					$parent_type = 'c';
 					if(!isset($chromosomes[$parent])) $chromosomes[$parent] = '';
@@ -145,7 +152,7 @@ class SGD_FEATURES {
 			unset($chr);
 			if($a[8] && $parent_type != 'c') {
 				$chr = "chromosome_".$a[8];
-				$buf .= "$sgd:$id $sgd:part_of $sgd:$chr .".PHP_EOL;
+				$buf .= "$sgd:$id ss:is_part_of $sgd:$chr .".PHP_EOL;
 			}
 			// watson or crick strand of the chromosome
 			unset($strand);
@@ -153,20 +160,21 @@ class SGD_FEATURES {
 				$chr = "chromosome_".$a[8];
 				$strand_type = ($a[11]=="w"?"WatsonStrand":"CrickStrand");
 				$strand = $chr."_".$strand_type;
-				$buf .= "$sgd:$id $sgd:part_of $sgd:$strand .".PHP_EOL;
+				$buf .= "$sgd:$id ss:is_part_of $sgd:$strand .".PHP_EOL;
 				if(!isset($strands[$strand])) {
 					$strands[$strand] = '';
 					$other .= "$sgd:$strand a sgd:$strand_type .".PHP_EOL;
-					$other .= "$sgd:$strand $rdfs:label \"$strand_type for $chr\" .".PHP_EOL;
-					$other .= "$sgd:$strand $sgd:part_of $sgd:$chr .".PHP_EOL;
-				}				
+					$other .= "$sgd:$strand rdfs:label \"$strand_type for $chr\" .".PHP_EOL;
+					$other .= "$sgd:$strand $sgd:is_part_of $sgd:$chr .".PHP_EOL;
+				}
 			}
 			
 			// position
 			if($a[9]) {
 				$loc = $id."loc";
 				$buf .= "$sgd:$id $sgd:location $sgd:$loc .".PHP_EOL;
-				$buf .= "$sgd:$loc $dc:identifier \"[$sgd:$loc]\" .".PHP_EOL;
+				$buf .= "$sgd:$loc $dc:identifier \"$sgd:$loc\" .".PHP_EOL;
+				$buf .= "$sgd:$loc rdfs:label \"Genomic location of sgd:$id\" .".PHP_EOL;
 				$buf .= "$sgd:$loc a $sgd:Location .".PHP_EOL;
 				$buf .= "$sgd:$loc $sgd:hasStartPosition \"$a[9]\" .".PHP_EOL;
 				$buf .= "$sgd:$loc $sgd:hasStopPosition \"$a[10]\" .".PHP_EOL;
@@ -182,7 +190,7 @@ class SGD_FEATURES {
 			if($a[14]) {
 				$b = explode("|",$a[14]);
 				foreach($b AS $c) {
-					$buf .= "$sgd:$id $sgd:modified \"$c\" .".PHP_EOL;
+					$buf .= "$sgd:record_$id $sgd:modified \"$c\" .".PHP_EOL;
 				}
 			}
 			
@@ -198,9 +206,9 @@ class SGD_FEATURES {
 		'ACS' => 'SO:0000436',
 		'ARS consensus sequence' => 'SO:0000436',
 		'binding_site' => 'SO:0000409',
-		'CDEI' => 'ss:CentromereDNAElementI',
-		'CDEII' => 'ss:CentromereDNAElementII',
-		'CDEIII' => 'ss:CentromereDNAElementIII',
+		'CDEI' => 'SO:0001493',
+		'CDEII' => 'SO:0001494',
+		'CDEIII' => 'SO:0001495',
 		'CDS' => 'SO:0000316',
 		'centromere' => 'SO:0000577',
 		'external_transcribed_spacer_region' => 'SO:0000640',
@@ -221,16 +229,16 @@ class SGD_FEATURES {
 		'snoRNA' => 'SO:0000578',
 		'snRNA' => 'SO:0000623',
 		'telomere' => 'SO:0000624',
-		'telomeric_repeat' => 'ss:TelomericRepeat',
+		'telomeric_repeat' => 'SO:0001496',
 		'transposable_element_gene' => 'SO:0000180',
 		'tRNA' => 'SO:0000663',
-		'X_element_combinatorial_repeats' => 'ss:XElementCombinatorialRepeat',
-		'X_element_core_sequence' => 'ss:XElementCoreSequence',
-		"Y_element" => 'ss:YPrimeElement'
+		'X_element_combinatorial_repeats' => 'SO:0001484',
+		'X_element_core_sequence' => 'SO:0001497',
+		"Y_element" => 'SO:0001485'
 		);
 
 	if(isset($feature_map[$feature_id])) return $feature_map[$feature_id];
-	else return "ChromosomalFeature";
+	else return "SO:0000830";
 }
 };
 
