@@ -126,9 +126,12 @@ Contains interaction data incorporated into SGD from BioGRID (http://www.thebiog
 		'Synthetic Rescue' => 'APO:0000184',
 		'Synthetic Haploinsufficiency'=> 'APO:0000272',
 		'Phenotypic Enhancement' => 'APO:0000177',
-		'Phenotypic Suppression' => 'APO:0000178'
+		'Phenotypic Suppression' => 'APO:0000178',
+		'Negative Genetic' => 'APO:0000322',
+		'Positive Genetic' => 'APO:0000323',
 	);
 	$pi = array(
+		'Affinity Capture-Luminescence' => 'APO:0000318',
 		'Affinity Capture-MS' => 'APO:0000162',
 		'Affinity Capture-Western' => 'APO:0000165',
 		'Affinity Capture-RNA' => 'APO:0000163',
