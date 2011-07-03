@@ -50,8 +50,8 @@ class SGD_GOA {
 			
 			$goa = "goa_".($z++);
 			$buf .= "$sgd:$goa rdfs:label \"Evidence of ".strtolower($got['type'])." for $sgd:$id \".".PHP_EOL;
-			$buf .= "$sgd:$goa $ss:evidenceFor $sgd:$goi .".PHP_EOL;
-			$buf .= "$sgd:$goi $ss:hasEvidence $sgd:$goa .".PHP_EOL;
+			$buf .= "$sgd:$goa $ss:evidence_for $sgd:$goi .".PHP_EOL;
+			$buf .= "$sgd:$goi $ss:has_evidence $sgd:$goa .".PHP_EOL;
 
 			if(isset($a[5])) {
 				$b = explode("|",$a[5]);
