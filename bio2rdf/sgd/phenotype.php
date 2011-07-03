@@ -69,7 +69,7 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			
 			$label = "$a[0] - $a[5] experiment with $a[6] resulting in phenotype of $a[9]";
 			$buf .= "$sgd:$eid $rdfs:label \"$label [$sgd:$eid]\" .".PHP_EOL;
-			$buf .= "$sgd:$eid a $sgd:PhenotypeExperiment .".PHP_EOL;
+			$buf .= "$sgd:$eid a $sgd:Phenotype_Experiment .".PHP_EOL;
 			
 			$buf .= "$sgd:$eid $bio2rdf:gene $sgd:$a[3].".PHP_EOL;
 			
@@ -88,7 +88,7 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			if($p !== FALSE) {
 				$label = substr($a[5],0,$p-1);
 				$details = substr($a[5],$p+1);
-				$buf .= "$sgd:$eid $sgd:experiment_comment \"$details\".".PHP_EOL;
+				$buf .= "$sgd:$eid dc:description \"$details\".".PHP_EOL;
 			} else {
 				$label = $a[5];
 			}
