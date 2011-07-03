@@ -53,14 +53,14 @@ publication    [4] => PMID:2072900
 			}
 			if($sp) { // add the pathway to the superpathway
 				$pathway = substr($a[1],0,-(strlen($a[1])-strrpos($a[1]," ")));
-				$buf .= "$sgd:$pid $ss:hasProperPart $sgd:".md5($pathway).".".PHP_EOL;
+				$buf .= "$sgd:$pid $ss:has_proper_part $sgd:".md5($pathway).".".PHP_EOL;
 				continue;
 			}
 
 			$eid = '';
 			if($a[3]) { // there is a protein
 				$eid = ucfirst(strtolower($a[3]))."p";
-				$buf .= "$sgd:$pid $ss:hasParticipant <http://bio2rdf.org/$sgd:$eid>.".PHP_EOL; 
+				$buf .= "$sgd:$pid $ss:has_participant <http://bio2rdf.org/$sgd:$eid>.".PHP_EOL; 
 			}				
 			$cid = '';
 			if($a[1]) { // enzyme complex
@@ -70,15 +70,15 @@ publication    [4] => PMID:2072900
 					$buf .= "$sgd:$cid rdfs:label \"$a[1] [$sgd:$cid]\".".PHP_EOL;
 					$buf .= "$sgd:$cid a $sgd:Enzyme .".PHP_EOL;
 				}
-				$buf .= "$sgd:$pid $ss:hasParticipant <http://bio2rdf.org/$sgd:$cid>.".PHP_EOL;
-				if($eid) $buf .= "$sgd:$cid $ss:hasProperPart <http://bio2rdf.org/$sgd:$eid> .".PHP_EOL;	
+				$buf .= "$sgd:$pid $ss:has_participant <http://bio2rdf.org/$sgd:$cid>.".PHP_EOL;
+				if($eid) $buf .= "$sgd:$cid $ss:has_proper_part <http://bio2rdf.org/$sgd:$eid> .".PHP_EOL;	
 			}
 			if($a[2]) { // EC reaction
-				$buf .= "$sgd:$pid $ss:hasProperPart $ec:$a[2] .".PHP_EOL;
+				$buf .= "$sgd:$pid $ss:has_proper_part $ec:$a[2] .".PHP_EOL;
 				$buf .= "$ec:$a[2] $rdfs:label \"$a[2] [$ec:$a[2]]\" .".PHP_EOL;
 				$buf .= "$ec:$a[2] a $sgd:Reaction .".PHP_EOL;
-				$buf .= "$ec:$a[2] $ss:hasParticipant <http://bio2rdf.org/$sgd:$eid>.".PHP_EOL;
-				if($cid) $buf .= "$ec:$a[2] $ss:hasParticipant <http://bio2rdf.org/$sgd:$cid> .".PHP_EOL;				
+				$buf .= "$ec:$a[2] $ss:has_participant <http://bio2rdf.org/$sgd:$eid>.".PHP_EOL;
+				if($cid) $buf .= "$ec:$a[2] $ss:has_participant <http://bio2rdf.org/$sgd:$cid> .".PHP_EOL;				
 			}
 	
 			if($a[4]) { // publications
