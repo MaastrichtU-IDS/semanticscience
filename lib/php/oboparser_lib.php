@@ -12,6 +12,12 @@ function OBOParser($in)
 				$terms[$term['id'][0]] = $term;			
 			}
 			$term = '';
+		} else if(strstr($l,"[Typedef]")) {
+			if(isset($term)) {
+				$terms[$term['id'][0]] = $term;			
+				unset($term);
+			}
+			$typedef = '';
 		} else {
 			if(isset($term)) {
 				$a = explode(": ",trim($l));
@@ -23,6 +29,8 @@ function OBOParser($in)
 				}
 				$term[$a[0]][] = $a[1];		
 			
+			} else if(isset($typedef))  {
+				
 			} else {
 				// in the header
 				//format-version: 1.0
@@ -31,7 +39,7 @@ function OBOParser($in)
 			} 
 		}
 	}
-	$terms[$term['id'][0]] = $term;
+	if(isset($term)) $terms[$term['id'][0]] = $term;
 
 	return $terms;
 }
