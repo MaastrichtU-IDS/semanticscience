@@ -37,7 +37,7 @@ class SGD_COMPLEX {
 			$b = explode("/|",$a[1]);
 			foreach($b AS $c) {
 				$d = explode("/",$c);
-				$buf .= "$sgd:$id $ss:hasProperPart $sgd:$d[3]"."gp .".PHP_EOL;
+				$buf .= "$sgd:$id $ss:SIO_000053 $sgd:$d[3]"."gp .".PHP_EOL;
 			}
 			
 			//echo $buf;exit;
