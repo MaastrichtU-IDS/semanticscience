@@ -27,9 +27,12 @@ class SGD_GOA {
 		$buf = N3NSHeader($nslist);
 		
 		$goterms = array(
-			"F" => array("type" => "Function", "p" => "hasFunction", "plabel" => "has function"),
-			"C" => array("type" => "Location", "p" => "isLocatedIn", "plabel" => "is located in"),
-			"P" => array("type" => "Process", "p" => "isParticipantIn", "plabel" => "is participant in")
+			//Function, hasFunction
+			"F" => array("type" => "SIO_000017", "p" => "SIO_000225", "plabel" => "has function"),
+			//Location, isLocatedIn
+			"C" => array("type" => "SIO_000003", "p" => "SIO_000061", "plabel" => "is located in"),
+			//Process, isParticipantIn
+			"P" => array("type" => "SIO_000006", "p" => "SIO_000062", "plabel" => "is participant in")
 		);
 		
 		$z = 0;
@@ -50,15 +53,15 @@ class SGD_GOA {
 			
 			$goa = "goa_".($z++);
 			$buf .= "$sgd:$goa rdfs:label \"Evidence of ".strtolower($got['type'])." for $sgd:$id \".".PHP_EOL;
-			$buf .= "$sgd:$goa $ss:evidence_for $sgd:$goi .".PHP_EOL;
-			$buf .= "$sgd:$goi $ss:has_evidence $sgd:$goa .".PHP_EOL;
+			$buf .= "$sgd:$goa $ss:SIO_000773 $sgd:$goi .".PHP_EOL;
+			$buf .= "$sgd:$goi $ss:SIO_000772 $sgd:$goa .".PHP_EOL;
 
 			if(isset($a[5])) {
 				$b = explode("|",$a[5]);
 				foreach($b as $c) {
 					$d = explode(":",$c);
 					if($d[0] == "pmid") {
-						$buf .= "$sgd:$goa $ss:article $pubmed:$d[1] .".PHP_EOL;
+						$buf .= "$sgd:$goa $ss:SIO_000212 $pubmed:$d[1] .".PHP_EOL;
 					}
 				}
 			}
