@@ -71,7 +71,7 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 			$buf .= "$sgd:$eid $rdfs:label \"$label [$sgd:$eid]\" .".PHP_EOL;
 			$buf .= "$sgd:$eid a $sgd:Phenotype_Experiment .".PHP_EOL;
 			
-			$buf .= "$sgd:$eid $bio2rdf:gene $sgd:$a[3].".PHP_EOL;
+			$buf .= "$sgd:$eid $ss:SIO_000132 $sgd:$a[3].".PHP_EOL;
 			
 			// reference
 			// PMID: 12140549|SGD_REF: S000071347
@@ -80,7 +80,7 @@ AUT6	not physically mapped	AUT6	S000029048	PMID: 8663607|SGD_REF: S000057871	cla
 				$d = explode(" ",$c);
 				if($d[0] == "PMID:") $ns = "pubmed";
 				else $ns = "sgd";
-				$buf .= "$sgd:$eid $bio2rdf:article $ns:$d[1].".PHP_EOL;
+				$buf .= "$sgd:$eid $ss:SIO_000212 $ns:$d[1].".PHP_EOL;
 			}
 			
 			// experiment type [5]
