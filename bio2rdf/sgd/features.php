@@ -56,8 +56,8 @@ class SGD_FEATURES {
 			$buf .= "$sgd:record_$id $dc:title \"Record for entity identified by sgd:$id\" .".PHP_EOL;
 			$buf .= "$sgd:record_$id $rdfs:label \"Record for entity identified by sgd:$id [$sgd:record_$id]\" .".PHP_EOL;
 			$buf .= "$sgd:record_$id a serv:Record .".PHP_EOL;
-			$buf .= "$sgd:record_$id ss:is_about $sgd:$id .".PHP_EOL;
-			$buf .= "$sgd:record_$id ss:is_part_of registry_dataset:sgd .".PHP_EOL;
+			$buf .= "$sgd:record_$id ss:SIO_000332 $sgd:$id .".PHP_EOL;
+			$buf .= "$sgd:record_$id ss:SIO_000068 registry_dataset:sgd .".PHP_EOL;
 
 						
 			$buf .= "$sgd:$id $dc:identifier \"$sgd:$oid\" .".PHP_EOL;
@@ -73,14 +73,14 @@ class SGD_FEATURES {
 			if(isset($type)) {
 				unset($p1);unset($p2);
 				$gp = $sgd.":".$id."gp";
-				$buf .= "$sgd:$id ss:encodes $gp.".PHP_EOL;
+				$buf .= "$sgd:$id ss:SIO_010078 $gp.".PHP_EOL;
 				$buf .= "<http://bio2rdf.org/$gp> rdfs:label \"$id"."gp [$gp]\".".PHP_EOL;
 				if($type == "p") $buf .= "<http://bio2rdf.org/$gp> a chebi:36080 .".PHP_EOL;
 				elseif($type == "r") $buf .= "<http://bio2rdf.org/$gp> a chebi:33697 .".PHP_EOL;
 
 				if($a[1] == "ORF" && $a[3] != '') {
 					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[3])))."p";
-					$buf .= "$sgd:$id ss:encodes <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
+					$buf .= "$sgd:$id ss:SIO_010078 <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> rdfs:label \"$p1 [$sgd:$p1]\".".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> a chebi:36080 .".PHP_EOL;
@@ -129,7 +129,7 @@ class SGD_FEATURES {
 				$parent = str_replace(array("(",")"," "), array("&#40;","&#41;","_"), $a[6]);
 //				$parent = urlencode($a[6]);
 
-				$buf .= "$sgd:$id ss:is_part_of <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
+				$buf .= "$sgd:$id ss:SIO_000068 <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
 				if(strstr($parent,"chromosome")) {
 					$parent_type = 'c';
 					if(!isset($chromosomes[$parent])) $chromosomes[$parent] = '';
@@ -152,7 +152,7 @@ class SGD_FEATURES {
 			unset($chr);
 			if($a[8] && $parent_type != 'c') {
 				$chr = "chromosome_".$a[8];
-				$buf .= "$sgd:$id ss:is_part_of $sgd:$chr .".PHP_EOL;
+				$buf .= "$sgd:$id ss:SIO_000068 $sgd:$chr .".PHP_EOL;
 			}
 			// watson or crick strand of the chromosome
 			unset($strand);
@@ -160,12 +160,12 @@ class SGD_FEATURES {
 				$chr = "chromosome_".$a[8];
 				$strand_type = ($a[11]=="w"?"WatsonStrand":"CrickStrand");
 				$strand = $chr."_".$strand_type;
-				$buf .= "$sgd:$id ss:is_part_of $sgd:$strand .".PHP_EOL;
+				$buf .= "$sgd:$id ss:SIO_000068 $sgd:$strand .".PHP_EOL;
 				if(!isset($strands[$strand])) {
 					$strands[$strand] = '';
 					$other .= "$sgd:$strand a sgd:$strand_type .".PHP_EOL;
 					$other .= "$sgd:$strand rdfs:label \"$strand_type for $chr\" .".PHP_EOL;
-					$other .= "$sgd:$strand $sgd:is_part_of $sgd:$chr .".PHP_EOL;
+					$other .= "$sgd:$strand $sgd:SIO_000068 $sgd:$chr .".PHP_EOL;
 				}
 			}
 			
