@@ -54,7 +54,8 @@ class SGD_DOMAINS {
 			$did   = "did/$id/$a[4]";
 			$udid = '<http://bio2rdf.org/sgd:'.$did.'>';
 			
-			$buf .= "$uid $ss:encodes $udid .".PHP_EOL;	
+			//uid ss:encodes udid
+			$buf .= "$uid $ss:SIO_010078 $udid .".PHP_EOL;	
 			$buf .= "$udid a $udomain .".PHP_EOL;
 			$buf .= "$udid $rdfs:label \"$domain domain encoded by [$sgd:$id]\" .".PHP_EOL;
 			$buf .= "$udid a $ss:Domain .".PHP_EOL;
@@ -69,8 +70,8 @@ class SGD_DOMAINS {
 			$buf .= "$uda $ss:query_start \"$a[6]\" .".PHP_EOL;
 			$buf .= "$uda $ss:query_stop \"$a[7]\" .".PHP_EOL;
 			$buf .= "$uda $ss:evalue \"$a[8]\" .".PHP_EOL;
-			$buf .= "$udid $ss:evidence $uda .".PHP_EOL;
-			$buf .= "$uda $ss:is_evidence_for $udid .".PHP_EOL;
+			$buf .= "$udid $ss:SIO_000772 $uda .".PHP_EOL;
+			$buf .= "$uda $ss:SIO_000773 $udid .".PHP_EOL;
 //echo $buf;exit;
 		}
 		fwrite($this->_out, $buf);
