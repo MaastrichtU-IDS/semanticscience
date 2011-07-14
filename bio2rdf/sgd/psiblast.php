@@ -46,7 +46,7 @@ class SGD_PSIBLAST {
 			$buf .= "$uid $ss:target_stop \"$a[4]\" .".PHP_EOL;
 			$buf .= "$uid $ss:percent_aligned \"$a[5]\" .".PHP_EOL;
 			$buf .= "$uid $ss:score \"$a[6]\" .".PHP_EOL;
-			$buf .= "$sgd:$id2 $ss:encodedBy $taxon:".$a[8]." .".PHP_EOL;
+			$buf .= "$sgd:$id2 $ss:SIO_010079 $taxon:".$a[8]." .".PHP_EOL;
 			//echo $buf;exit;
 
 			if(++$z % 10000 == 1) {
