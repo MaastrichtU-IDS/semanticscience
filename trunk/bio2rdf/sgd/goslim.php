@@ -27,9 +27,9 @@ class SGD_GOSLIM {
 		$buf = N3NSHeader($nslist);
 
 		$goterms = array(
-                        "F" => array("type" => "Function", "p" => "hasFunction", "plabel" => "has function"),
-                        "C" => array("type" => "Location", "p" => "isLocatedIn", "plabel" => "is located in"),
-                        "P" => array("type" => "Process", "p" => "isParticipantIn", "plabel" => "is participant in")
+                        "F" => array("type" => "SIO_000017", "p" => "SIO_000225", "plabel" => "has function"),
+                        "C" => array("type" => "SIO_000003", "p" => "SIO_000061", "plabel" => "is located in"),
+                        "P" => array("type" => "SIO_000006", "p" => "SIO_000062", "plabel" => "is participant in")
                 );
 		
 		while($l = fgets($this->_in,2048)) {
