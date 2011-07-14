@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__).'/../lib/php/utils.php');
+require_once(dirname(__FILE__).'/../../lib/php/utils.php');
 
 $data = array(
  "dbxref"  => array("infile" => "chromosomal_features/dbxref.tab"),
