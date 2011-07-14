@@ -66,10 +66,10 @@ class SGD_PROTEIN {
 				$pid =  "$sgd:$id"."_".$p["id"];
 				$type = $p["type"];
 				
-				$buf .= "$sgd:$id $ss:has_descriptor $pid .".PHP_EOL;
+				$buf .= "$sgd:$id $ss:SIO_000557 $pid .".PHP_EOL;
 				$buf .= "$pid a $sgd:$type .".PHP_EOL;
 				$buf .= "$pid rdfs:label \"$type for $sgd:$id [$pid]\".".PHP_EOL;
-				$buf .= "$pid $ss:has_value \"$a[$i]\".".PHP_EOL;
+				$buf .= "$pid $ss:SIO_000300 \"$a[$i]\".".PHP_EOL;
 			}
 			//echo $buf;exit;
 		}
