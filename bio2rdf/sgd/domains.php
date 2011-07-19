@@ -58,7 +58,7 @@ class SGD_DOMAINS {
 			$buf .= "$uid $ss:SIO_010078 $udid .".PHP_EOL;	
 			$buf .= "$udid a $udomain .".PHP_EOL;
 			$buf .= "$udid $rdfs:label \"$domain domain encoded by [$sgd:$id]\" .".PHP_EOL;
-			$buf .= "$udid a $ss:Domain .".PHP_EOL;
+			$buf .= "$udid a $sgd_resource:Domain .".PHP_EOL;
 
 			$da = "da/$id/$a[4]/$a[6]/$a[7]";
 			$uda = '<http://bio2rdf.org/sgd:'.$da.'>';

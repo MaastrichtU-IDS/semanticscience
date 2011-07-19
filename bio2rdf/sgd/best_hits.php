@@ -37,16 +37,16 @@ class SGD_BESTHITS {
 			$uid = "$sgd:$id";
 		
 			$buf .= "$uid $rdfs:label \"BLAST alignment between $id1 and $id2 [$sgd:$id]\" .".PHP_EOL;
-			$buf .= "$uid a $ss:BLASTAlignment.".PHP_EOL;
-			$buf .= "$uid $ss:query $sgd:$id1 .".PHP_EOL;
-			$buf .= "$uid $ss:target $sgd:$id2 .".PHP_EOL;
-			$buf .= "$uid $ss:query_start \"$a[1]\" .".PHP_EOL;
-			$buf .= "$uid $ss:query_stop \"$a[2]\" .".PHP_EOL;
-			$buf .= "$uid $ss:target_start \"$a[3]\" .".PHP_EOL;
-			$buf .= "$uid $ss:target_stop \"$a[4]\" .".PHP_EOL;
-			$buf .= "$uid $ss:percent_aligned \"$a[5]\" .".PHP_EOL;
-			$buf .= "$uid $ss:score \"$a[6]\" .".PHP_EOL;
-			$buf .= "$sgd:$id2 $ss:encodedBy $taxon:".$a[8]." .".PHP_EOL;
+			$buf .= "$uid a $sgd_resource:BLASTAlignment.".PHP_EOL;
+			$buf .= "$uid $sgd_resource:query $sgd:$id1 .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:target $sgd:$id2 .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:query_start \"$a[1]\" .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:query_stop \"$a[2]\" .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:target_start \"$a[3]\" .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:target_stop \"$a[4]\" .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:percent_aligned \"$a[5]\" .".PHP_EOL;
+			$buf .= "$uid $sgd_resource:score \"$a[6]\" .".PHP_EOL;
+			$buf .= "$sgd:$id2 $ss:SIO_010079 $taxon:".$a[8]." .".PHP_EOL;
 			//echo $buf;exit;
 			
 		}
