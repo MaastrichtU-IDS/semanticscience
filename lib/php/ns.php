@@ -61,6 +61,7 @@ $pdb    = 'pdb';
 $pubmed = 'pubmed';
 $pubchem = 'pubchem';
 $sgd    = 'sgd';
+$sgd_resource = 'sgd_resource';
 $so = 'so';
 $sp     = 'swissprot';
 $taxon  = 'taxon';
@@ -83,7 +84,7 @@ $nslist = array(
 	$euroscarf, $flybase, $kegg, $germonline, $go, $gp, $grid, 
 	$ipi, $iubmb, $intact,$irefindex,  $mesh, $metacyc,$mi,$mint,$mips,
 	$ncbi_gene, $refseq, $ncbi, $omim, $ophid, $pato, $pdb,$pharmgkb, $pir,$prf, $pubchem, $pubmed, 
-	$so, $sgd, $sp, $taxon, $tcdb, $tigr, $tpg, $trembl, $uniparc, $uniprot,
+	$so, $sgd, $sgd_resource, $sp, $taxon, $tcdb, $tigr, $tpg, $trembl, $uniparc, $uniprot,
 	"profilescan","superfamily","patternscan","blastprodom","fprintscan","gene3d","seg","hmmsmart","hmmpanther","hmmpfam","hmmpir","hmmtigr",
 	$bio2rdf => $bio2rdf_uri, $bio2rdfns => $bio2rdfns_uri, $serv, $uo, $registry, $registry_dataset
 );
