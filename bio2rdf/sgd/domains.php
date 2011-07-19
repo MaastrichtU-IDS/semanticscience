@@ -64,12 +64,12 @@ class SGD_DOMAINS {
 			$uda = '<http://bio2rdf.org/sgd:'.$da.'>';
 			
 			$buf .= "$uda $rdfs:label \"domain alignment between $sgd:$id and $domain [$sgd:$da]\" .".PHP_EOL;
-			$buf .= "$uda a $ss:DomainAlignment .".PHP_EOL;
-			$buf .= "$uda $ss:query $uid .".PHP_EOL;
-			$buf .= "$uda $ss:target $udomain .".PHP_EOL;
-			$buf .= "$uda $ss:query_start \"$a[6]\" .".PHP_EOL;
-			$buf .= "$uda $ss:query_stop \"$a[7]\" .".PHP_EOL;
-			$buf .= "$uda $ss:evalue \"$a[8]\" .".PHP_EOL;
+			$buf .= "$uda a $sgd_resource:DomainAlignment .".PHP_EOL;
+			$buf .= "$uda $sgd_resource:query $uid .".PHP_EOL;
+			$buf .= "$uda $sgd_resource:target $udomain .".PHP_EOL;
+			$buf .= "$uda $sgd_resource:query_start \"$a[6]\" .".PHP_EOL;
+			$buf .= "$uda $sgd_resource:query_stop \"$a[7]\" .".PHP_EOL;
+			$buf .= "$uda $sgd_resource:evalue \"$a[8]\" .".PHP_EOL;
 			$buf .= "$udid $ss:SIO_000772 $uda .".PHP_EOL;
 			$buf .= "$uda $ss:SIO_000773 $udid .".PHP_EOL;
 //echo $buf;exit;
