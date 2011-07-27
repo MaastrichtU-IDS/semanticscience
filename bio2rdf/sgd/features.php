@@ -107,14 +107,14 @@ class SGD_FEATURES {
 			// unique feature name
 			if($a[3]) {
 				$buf .= "$sgd:$id skos:prefLabel \"$a[3]\".".PHP_EOL;
-				$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $a[3]);
+				$nid = str_replace(array("(",")"), array("%28","%29"), $a[3]);
 				$buf .= "$sgd:$id $owl:sameAs <http://bio2rdf.org/$sgd:$nid> .".PHP_EOL;
 			}
 			
 			// common names
 			if($a[4]) {
 				$buf .= "$sgd:$id $sgd:standardName \"$a[4]\".".PHP_EOL;
-				$nid = str_replace(array("(",")"), array("&#40;","&#41;"), $a[4]);
+				$nid = str_replace(array("(",")"), array("%28","%29"), $a[4]);
 				$buf .= "$sgd:$id owl:sameAs <http://bio2rdf.org/$sgd:$nid>.".PHP_EOL;
 			}
 			if($a[5]) {
