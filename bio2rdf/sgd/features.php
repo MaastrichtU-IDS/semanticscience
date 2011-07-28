@@ -79,15 +79,15 @@ class SGD_FEATURES {
 				elseif($type == "r") $buf .= "<http://bio2rdf.org/$gp> a chebi:33697 .".PHP_EOL;
 
 				if($a[1] == "ORF" && $a[3] != '') {
-					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[3])))."p";
+					$p1 = ucfirst(strtolower(str_replace(array("(",")"), array("%28","%29"), $a[3])))."p";
 					$buf .= "$sgd:$id ss:SIO_010078 <http://bio2rdf.org/$sgd:$p1>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> rdfs:label \"$p1 [$sgd:$p1]\".".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p1> a chebi:36080 .".PHP_EOL;
 				}
 				if($a[1] == "ORF" && $a[4] != '') {
-					$p2 = ucfirst(strtolower(str_replace(array("(",")"), array("&#40;","&#41;"), $a[4])))."p";
-					$buf .= "$sgd:$id ss:encodes <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
+					$p2 = ucfirst(strtolower(str_replace(array("(",")"), array("%28","%29"), $a[4])))."p";
+					$buf .= "$sgd:$id ss:SIO_010078 <http://bio2rdf.org/$sgd:$p2>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p2> owl:sameAs <http://bio2rdf.org/$gp>.".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p2> rdfs:label \"$p2 [$sgd:$p2]\".".PHP_EOL;
 					$buf .= "<http://bio2rdf.org/$sgd:$p2> a chebi:36080 .".PHP_EOL;
