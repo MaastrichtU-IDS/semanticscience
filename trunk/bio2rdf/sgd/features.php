@@ -126,7 +126,7 @@ class SGD_FEATURES {
 			// parent feature
 			$parent_type = '';
 			if($a[6]) {
-				$parent = str_replace(array("(",")"," "), array("&#40;","&#41;","_"), $a[6]);
+				$parent = str_replace(array("(",")"," "), array("%28","%29","_"), $a[6]);
 //				$parent = urlencode($a[6]);
 
 				$buf .= "$sgd:$id ss:SIO_000068 <http://bio2rdf.org/$sgd:$parent> .".PHP_EOL;
