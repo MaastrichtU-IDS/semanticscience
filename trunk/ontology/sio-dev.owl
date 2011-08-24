@@ -2,6 +2,7 @@
 
 
 <!DOCTYPE rdf:RDF [
+    <!ENTITY terms "http://purl.org/dc/terms/" >
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
@@ -17,15 +18,14 @@
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:terms="http://purl.org/dc/terms/"
      xmlns:resource="http://semanticscience.org/resource/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-    <owl:Ontology rdf:about="">
-        <dc:creator xml:lang="en"
-            >Michel Dumontier</dc:creator>
-        <dc:title xml:lang="en"
-            >Semanticscience Integrated Ontology (SIO) - Development Ontology</dc:title>
+    <owl:Ontology rdf:about="http://semanticscience.org/ontology/sio-dev.owl">
+        <dc:creator xml:lang="en">Michel Dumontier</dc:creator>
+        <dc:title xml:lang="en">Semanticscience Integrated Ontology (SIO) - Development Ontology</dc:title>
         <owl:imports rdf:resource="http://semanticscience.org/ontology/sio.owl"/>
     </owl:Ontology>
     
@@ -39,9 +39,20 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <owl:AnnotationProperty rdf:about="&dc;title"/>
-    <owl:AnnotationProperty rdf:about="&resource;example"/>
     <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&resource;example"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
     
 
 
@@ -56,6 +67,83 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000015 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000015">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000065 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000065">
+        <rdfs:label xml:lang="en">informational attribute</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+        <terms:description xml:lang="en">An informational attribute is an attribute that provides information about some entity.</terms:description>
+    </rdf:Description>
+    
+	
+    <!-- http://semanticscience.org/resource/SIO_000271 -->
+
+    <owl:Class rdf:about="&resource;SIO_000271">
+        <rdfs:label xml:lang="en">property</rdfs:label>
+        <dc:description xml:lang="en">A property is an attribute of some entity which is either exhibited under a particular condition or at all times.</dc:description>
+    </owl:Class>
+    
+
+	
+    <!-- http://semanticscience.org/resource/SIO_000134 -->
+
+    <owl:Class rdf:about="&resource;SIO_000134">
+        <rdfs:label xml:lang="en">term attribute</rdfs:label>
+        <dc:description xml:lang="en">A term attribute is an attribute that describes a term (a word or phrase or other set of symbols).</dc:description>
+    </owl:Class>
+    
+
+    <!-- http://semanticscience.org/resource/SIO_000134 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000134">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000271 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000271">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000645 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000645">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </rdf:Description>
+    
+	 <!-- http://semanticscience.org/resource/SIO_000645 -->
+
+    <owl:Class rdf:about="&resource;SIO_000645">
+        <rdfs:label xml:lang="en">informational entity</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000364"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description xml:lang="en">An informational entity is an entity that is an abstraction of, representation for, description of, or information about some entity (whether a type or instance), and only has informational entities as its parts.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_999999 -->
 
     <owl:Class rdf:about="&resource;SIO_999999">
@@ -65,5 +153,5 @@
 
 
 
-<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.2.3.22702) http://owlapi.sourceforge.net -->
 
