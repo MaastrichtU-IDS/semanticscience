@@ -1,4 +1,5 @@
 #summary Ontology Design Pattern - Change
+#labels SIO
 #sidebar SIOSideBar
 
 
@@ -23,5 +24,21 @@ this implies that the protein is converted into a new molecular entity hence, we
 and
 'ATP' 'derives into' 'ADP'
 
+A more sophisticated approach takes into account the roles of these species. 
+
+{{{
+‘enzyme-catalyzed phosphorylation using ATP’
+‘addition reaction’
+and ‘realizes’ some ('target role' that 'is role of' some ‘protein’)
+and ‘realizes’ some ('target role' that 'is role of' some 'ATP')
+and ‘realizes’ some ('catalytic role' that 'is role of' some ‘phospho-enzyme’)
+and ‘realizes’ some ('product role' that 'is role of' some ‘phosphorylated protein’
+and ‘realizes’ some ('product role' that 'is role of' some ‘ADP’)
+}}}
+
+in order to infer that these entities are participants in the process, we use a a role chain of the form
+'realizes' o 'is role of' -> 'has participant'
+
+note however, that we trade the more specific predicates that relate to agents, targets and products with the more general has participant relation, but that information is presented in the role.
 
 
