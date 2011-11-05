@@ -1,7 +1,11 @@
 <?php
 
-$file = "/data/brenda/brenda.txt";
-$n3file = "/data/brenda/brenda.n3";
+$prefix = "http://bio2rdf.org/";
+
+$rfile = "http://www.brenda-enzymes.info/brenda_download/brenda_dl_0905.zip";
+
+$file = "/opt/data/brenda/brenda_download.txt";
+$n3file = "/opt/data/brenda/brenda.n3";
 if(!file_exists($file)) {
 	trigger_error("File $file doesn't exists");
 	exit;
@@ -83,13 +87,15 @@ fclose($n3fp);
 //******************************************************** PROTIEN ************************************************************************************//
 function PROTEIN($l,$id)
 {
+ global $prefix;
+
 //echo "PROTEIN:".$l.PHP_EOL;
   preg_match("/(PR\t#(\d+)#\s+(\w+\s+\w*\.*)\s+(\w*)\s+.*)+/", $l, $m);
 //   print_r($m);
  
-  $sid = "brenda:$id/species$m[2]";
+  $sid = "<$prefix/brenda_species:$id/species$m[2]>";
   $b = '';
-  $b .= "brenda:$id brenda:species $sid.".PHP_EOL;
+  $b .= "<$prefix/brenda:$id> brenda:species $sid.".PHP_EOL;
   $b .= "$sid rdfs:label \"$m[3] [$sid]\".".PHP_EOL;
   $b .= "$sid rdf:type brenda:Species .".PHP_EOL;
   return $b;
@@ -98,45 +104,50 @@ function PROTEIN($l,$id)
 //******************************************************** RECOMMENDED NAME ***************************************************************************//
 function RECOMMENDED_NAME($l,$id)
 {
+ global $prefix;
  $a = explode("\t",$l);  
- $b = "brenda:$id brenda:recommended_name \"$a[1]\".".PHP_EOL;
+ $b = "<$prefix/brenda:$id> brenda:recommended_name \"$a[1]\".".PHP_EOL;
  return $b;
 }
 
 //******************************************************** SYSTEMATIC NAME ****************************************************************************//
 function SYSTEMATIC_NAME($l,$id)
 {
+ global $prefix;
  $a = explode("\t",$l);  
- $b = "brenda:$id brenda:systematic_name \"$a[1]\".".PHP_EOL;
+ $b = "<$prefix/brenda:$id> brenda:systematic_name \"$a[1]\".".PHP_EOL;
  return $b;
 }
 
 //******************************************************** CAS REGISTERY NUMBER ***********************************************************************//
 function CAS_REGISTRY_NUMBER($l,$id)
 {
+ global $prefix;
  $a = explode("\t",$l);  
- $b = "brenda:$id brenda:cas_registry_number \"$a[1]\".".PHP_EOL;
+ $b = "<$prefix/brenda:$id> brenda:cas_registry_number \"$a[1]\".".PHP_EOL;
  return $b;
 }
 
 //************************************************************** REACTION *****************************************************************************//
 function REACTION($l,$id)
 {
+ global $prefix;
  $rx = explode("\t",$l);  
  $reaction = $rx[1];
- $b = "brenda:$id brenda:reaction_description \"$reaction\".".PHP_EOL;
+ $b = "<prefix/brenda:$id> brenda:reaction_description \"$reaction\".".PHP_EOL;
  return $b;
 }
 
 //***********************************************************  REACTION_TYPE **************************************************************************//
 function REACTION_TYPE($l,$id)
 {
+  global $prefix;
   $a = explode("\t",$l);
-  $rxid = "brenda:$id/reaction";
+  $rxid = "<$prefix/brenda:$id/reaction>";
   $rtype = "brenda:".md5($a[1]);
-  //$rtype = "brenda:".strreplace(" ","",$a[1]);
-  $n3 .= "$rxid rdf:type $rtype";
-  $n3 .= "$rtype rdfs:label \"$a[1] [$rtype]\".".PHP_EOL;
+  $rtype_uri = "<$prefix/brenda:".md5($a[1]).">";
+  $n3 .= "$rxid a $rtype_uri";
+  $n3 .= "$rtype_uri rdfs:label \"$a[1] [$rtype]\".".PHP_EOL;
 
   return $n3;
 }
@@ -144,6 +155,10 @@ function REACTION_TYPE($l,$id)
 //******************************************************** TURN OVER NUMBER ***************************************************************************//
 function TURNOVER_NUMBER($l,$id)
 {
+  global $prefix;
+
+return ;
+
   $tid = "brenda:$id/turnover".md5($l);
   $b .= "$tid rdfs:label \"turnover number [$tid]\".".PHP_EOL;
   $b .= "$tid rdf:type brenda:TurnoverNumber .".PHP_EOL;
@@ -179,10 +194,10 @@ function KM_VALUE($l,$id)
 //$l = "KM	#4# 0.1 {1,4-dibromo-2,3-butanedione}  (#4# pH 7.0, 25°C, mutant K153M<13>) <13>";
   preg_match("/KM\t#([0-9,]+)#\s([0-9\.?\-?]+)\s{(.*)}\s+(\(#[0-9]+#\s?(p?H? [0-9\.]+)?,?\s?([0-9\.]+)?°?C?)?/",$l,$m);
 
+return ;
  if(count($m) == 0) {
-	echo $l."\n";
-        
-}
+	echo $l."\n";   
+ }
 
   $c = explode(",",$m[1]);
 
