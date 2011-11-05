@@ -2,19 +2,19 @@
 require_once(dirname(__FILE__).'/../../lib/php/utils.php');
 
 $data = array(
- "dbxref"  => array("infile" => "chromosomal_features/dbxref.tab"),
-// "domains" => array("infile" => "sequence_similarity/domains/domains.tab"),
+/* "dbxref"  => array("infile" => "chromosomal_features/dbxref.tab"),
+ "domains" => array("infile" => "sequence_similarity/domains/domains.tab"),
  "protein" => array("infile" => "protein_info/protein_properties.tab"),
  "goa"     => array("infile" => "literature_curation/gene_association.sgd.gz"),
  "goslim"  => array("infile" => "literature_curation/go_slim_mapping.tab"),
  "complex" => array("infile" => "literature_curation/go_protein_complex_slim.tab"),
- "features" => array ("infile" => "chromosomal_features/SGD_features.tab"),
- "interaction" => array("infile" => "literature_curation/interaction_data.tab"),
+*/ "c_features" => array ("infile" => "chromosomal_features/SGD_features.tab"),
+/* "interaction" => array("infile" => "literature_curation/interaction_data.tab"),
  "phenotype"   => array("infile" => "literature_curation/phenotype_data.tab"),
  "pathways"  => array("infile" => "literature_curation/biochemical_pathways.tab"),
-// "psiblast"    => array ("infile" => "sequence_similarity/psi_blast/psi_blast.tab.gz"),
-// "expression" => array("infile" => "/systematic_results/expression_data/expression_connection_data/*"),
- );
+ "psiblast"    => array ("infile" => "sequence_similarity/psi_blast/psi_blast.tab.gz"),
+ "expression" => array("infile" => "/systematic_results/expression_data/expression_connection_data/*"),
+*/ );
 
 /*
 $data = array(
