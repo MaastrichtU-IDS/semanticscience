@@ -1,5 +1,6 @@
 <?php
 require(dirname(__FILE__).'/../include.php');
+$gpns = "gpns";
 
 // ftp://ftp.ncbi.nlm.nih.gov/genomes/genomeprj/gp.xml
 $site= "ftp://ftp.ncbi.nlm.nih.gov";
@@ -18,6 +19,7 @@ if(!file_exists($ldir.$infile)) {
 echo "RDFizing: NCBI Genome Projects\n";
 echo "$ldir$infile to $outdir$outfile\n";
 $buf = N3NSHeader($nslist);
+$buf .= "@prefix gpns: <http://bio2rdf.org/gp_resource:>".PHP_EOL;
 
 $documentset = simplexml_load_file($ldir.$infile);
 if($documentset === FALSE) {
@@ -35,53 +37,53 @@ foreach ($documentset->children('gp') as $d) {
 	$id = $o->ProjectID; 
 
 	$duri = "$gp:record_$id";
-	$buf .= "$duri a $ss:Record.".PHP_EOL;
-	$buf .= "$duri $rdfs:label \"NCBI Genome Project Record [$duri]\".".PHP_EOL;
+	$buf .= "$duri a gpns:Record.".PHP_EOL;
+	$buf .= "$duri $rdfs:label \"NCBI Genome Project - record $id [$duri]\".".PHP_EOL;
  	if(isset($o->CreateDate) && $o->CreateDate != '') 
-		$buf .= "$duri $gp:created \"".$o->CreateDate."\" .".PHP_EOL;
+		$buf .= "$duri $dc:created \"".$o->CreateDate."\" .".PHP_EOL;
 	if(isset($o->ModificationDate) && $o->ModificationDate != '' ) 
-		$buf .= "$duri $gp:modified \"".$o->ModificationDate."\" .".PHP_EOL;	
+		$buf .= "$duri $dc:modified \"".$o->ModificationDate."\" .".PHP_EOL;	
 	
-	$uri = "$gp:$id";
+	$uri  = "$gp:$id";
 	$buf .= "$uri $dc:identifier \"gp:$id\" .".PHP_EOL;
 	$buf .= "$uri $rdfs:label \"".$o->OrganismName." genome project [$gp:$id]\" .".PHP_EOL;
-	$buf .= "$uri a $gp:GenomeProject .".PHP_EOL;
+	$buf .= "$uri a $gpns:GenomeProject .".PHP_EOL;
 	
 	if(isset($o->OrganismDescription) && $o->OrganismDescription != '') 
 		$buf .= "$uri $rdfs:comment \"".str_replace('"','\"',$o->OrganismDescription)."\" .".PHP_EOL;
 	
 	if(isset($o->eType) && $o->eType != '') 
-		$buf .= "$uri $gp:subject $gp:".substr($o->eType,1)." .".PHP_EOL;
+		$buf .= "$uri $gpns:subject $gp:".substr($o->eType,1)." .".PHP_EOL;
 	if($o->eMethod != "eUndefined" && $o->eMethod != '') 
-		$buf .= "$uri $gp:method $gp:".$gpns.substr($o->eMethod,1)." .".PHP_EOL;
+		$buf .= "$uri $gpns:method $gp:".$gpns.substr($o->eMethod,1)." .".PHP_EOL;
 	if(isset($o->OriginDB) && $o->OriginDB != '') 
-		$buf .= "$uri $gp:database \"".$o->OriginDB."\" .".PHP_EOL;
+		$buf .= "$uri $gpns:database \"".$o->OriginDB."\" .".PHP_EOL;
 	
 	if(isset($o->ProjectName) && $o->ProjectName != '') 
-		$buf .= "$uri $gp:title \"".$o->ProjectName."\" .".PHP_EOL;			
+		$buf .= "$uri $dc:title \"".$o->ProjectName."\" .".PHP_EOL;			
 	
 	// gp:eType,  gp:eMethod, gp:eTechnologies+
 	if(isset($o->TaxID) && $o->TaxID != '') {
-	  $buf .= "$uri $bio2rdfns:organism $taxon:".$o->TaxID." .".PHP_EOL;
+	  $buf .= "$uri $gpns:organism $taxon:".$o->TaxID." .".PHP_EOL;
 	  if(isset($o->OrganismName) && $o->OrganismName != '') {
 		$buf .= "$taxon:".$o->TaxID." rdfs:label \"".$o->OrganismName."\".".PHP_EOL;
 	  }
 	}
 	if(isset($o->ProjectURL) && $o->ProjectURL != '') {
 		$url = str_replace(" ","+", $o->ProjectURL); 
-		$buf .= "$uri $bio2rdfns:url <$url> .".PHP_EOL;
-		$buf .= "<$url> a $ss:HtmlDocument.".PHP_EOL;
+		$buf .= "$uri $gpns:url <$url> .".PHP_EOL;
+		$buf .= "<$url> a $gpns:HtmlDocument.".PHP_EOL;
 	}
 	if(isset($o->DataURL) && $o->DataURL != '') {
 		$url = str_replace(" ","+", $o->DataURL); 
-		$buf .= "$uri $gp:dataUrl <$url> .".PHP_EOL;
-		$buf .= "<$url> a $ss:Document.".PHP_EOL;
+		$buf .= "$uri $gpns:dataUrl <$url> .".PHP_EOL;
+		$buf .= "<$url> a $gpns:Document.".PHP_EOL;
 	}
 	// submitters
 	foreach($o->Submitters AS $s) {
 		foreach($s->children('gp')->Center AS $t) { 
 			if(isset($t->CenterName) && $t->CenterName != '')
-				$buf .= "$uri $gp:center \"".str_replace(array("'"),array('\"'), $t->CenterName)."\" .".PHP_EOL;
+				$buf .= "$uri $gpns:center \"".str_replace(array("'"),array('\"'), $t->CenterName)."\" .".PHP_EOL;
 		}
 	}
 	
@@ -90,18 +92,18 @@ foreach ($documentset->children('gp') as $d) {
 			// clean up accINSDC - can contain xxx:xxx
 			$a = explode(":",$t->accINSDC);
 			$acc = "$ncbi:".$a[0];
-			$buf .= "$uri $bio2rdfns:molecule $acc .".PHP_EOL;
+			$buf .= "$uri $gpns:molecule $acc .".PHP_EOL;
 			  
 			if(isset($t->accRefSeq) && $t->accRefSeq != '') {
 				$acc = "$refseq:".$t->accRefSeq;
-				$buf .= "$uri $bio2rdfns:molecule $acc .".PHP_EOL;
+				$buf .= "$uri $gpns:molecule $acc .".PHP_EOL;
 			}
 
 			if(isset($t->SeqSize)) {
-				$buf .= "$acc $bio2rdfns:size \"$t->SeqSize $t->SzUnit\".".PHP_EOL;
+				$buf .= "$acc $gpns:size \"$t->SeqSize $t->SzUnit\".".PHP_EOL;
 			}
 			if(isset($t->ChrType)) {
-				$buf .= "$acc a gp:".substr($t->ChrType,1).".".PHP_EOL;
+				$buf .= "$acc a $gpns:".substr($t->ChrType,1).".".PHP_EOL;
 			}
 			if(isset($t->ChrName)) {
 				$buf .= "$acc dc:title \"$t->ChrName\".".PHP_EOL;
