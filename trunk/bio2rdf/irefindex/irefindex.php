@@ -1,10 +1,10 @@
 <?php
 require(dirname(__FILE__).'/../include.php');
 
-$date = "08212009";
-$date = "10272009";
+$date = "01192011";
 $infile = "All.mitab.$date.txt";
 $rfile = 'ftp://ftp.no.embnet.org/irefindex/data/current/psimi_tab/'.$file;
+
 
 $indir = DATA."/irefindex/";
 $outdir = DATA."/irefindex/n3/";
@@ -58,7 +58,7 @@ function irefindex($infp, $outfp)
 	fgets($infp);
 	while($l = fgets($infp)) {
 		$a = explode("\t",trim($l));
-		
+print_r($a);exit;		
 		$ids = explode("|",$a[13]);
 		$iid = $ids[0]; // the irefindex indentifier
 		$buf .= "$iid dc:identifier \"$iid\".".PHP_EOL;
