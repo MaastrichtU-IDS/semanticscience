@@ -31,7 +31,7 @@ foreach($m[1] AS $i) {
  preg_match_all("/show\/(NCT[0-9]+)/",$crawl2,$n);
  
  foreach($n[1] AS $j) {
-   //$j = "NCT00000105";
+   $j = "NCT00000106";
    $page_url = "http://clinicaltrials.gov/ct2/show/$j?displayxml=true";
    $page_xml = $xml_dir."$j.xml";
    $page_rdf = $rdf_dir."$j.rdf";
@@ -46,7 +46,7 @@ foreach($m[1] AS $i) {
    $rdf = CTXML2RDF($xml);
    
    file_put_contents($page_rdf,$rdf);   
-   //exit;
+   exit;
  }
 }
 
@@ -76,12 +76,15 @@ $header = "@prefix linkedct_trial: <http://bio2rdf.org/linkedct_trial:> .
 @prefix serv: <http://bio2rdf.org/serv:> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 ";
- 
+
+$dataset= "registry_dataset:linkedct rdfs:label \"LinkedCT is the data from clinicaltrials.gov\" .
+registry_dataset:linkedct linkedct_resource:url <http://clinicaltrials.gov> .
+linkedct_record:$id dc:partOf registry_dataset:linkedct .".PHP_EOL;
+
 $record = "linkedct_record:$id a serv:Record .
 linkedct_record:$id a registry_record:linkedct_record .
 linkedct_record:$id rdfs:label \"Record #$id from ClinicalTrials.gov [linkedct_record:$id]\" .
 linkedct_record:$id dc:title \"ClinicalTrials.gov Record #$id\" .
-linkedct_record:$id dc:partOf registry_dataset:linkedct .
 ";
  
 $entity = "linkedct_trial:$id a linkedct_resource:ClinicalTrial .
@@ -245,10 +248,7 @@ linkedct_trial:$id linkedct_resource:arm linkedct_arm:$tid .".PHP_EOL;
  }
  //return $header."registry_dataset:linkedct {
 //".$record.$entity."}";
- return $header.$record."
-linkedct_record:$id { 
-".$entity."
-}";
+ return $header.$dataset.$record.$entity;
 }
 
 function Children2N3($id, $n, $c)
