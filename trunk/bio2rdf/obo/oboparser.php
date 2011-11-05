@@ -2,9 +2,8 @@
 
 
 $options = array(
- "i" => "",
- "indir" => "",
- "outdir" => "",
+ "file" => "",
+ "dir" => "",
  "dl" => "false",
 );
 
@@ -27,39 +26,44 @@ foreach($argv AS $i=> $arg) {
  else {echo "unknown key $b[0]";exit;}
 }
 
+if($options['dir'] == '') {
+ echo 'no base directory specified!';
+ exit;
+}
+$options['indir']  = $options['dir'].'/in/';
+$options['outdir'] = $options['dir'].'/out/';
+$options['obodir'] = $options['indir'].'obo/';
+$options['owldir'] = $options['owldir'].'owl/';
+mkdir($options['indir'],0777,true);
+mkdir($options['obodir']);
+mkdir($options['owldir']);
+mkdir($options['outdir'],0777,true);
+
 if($options['dl'] == 'true') {
-  if($options['indir'] == "") {
-    echo "No directory to download into specified!".PHP_EOL;
-    exit;
-  }
   // download one or all files from NCBO bioportal
-  $files = Download($options['i'],$options['indir']);
+  $files = Download($options['file'],$options['indir']);
 }
 
+
+// process
 // file option
-if($options['i'] !== '') {
- OBO2N3($options['i'],$options['indir'],$options['outdir']);
+if($options['file'] !== '') {
+ OBO2N3($options['file'],$options['obodir'],$options['outdir']);
  exit;
 }
 
-
-
 // directory option
-if($options['indir'] !== '') {
-  if($options['outdir'] == '') {
-   echo "output directory not specified!".PHP_EOL;
-   exit;
-  }
+if($options['dir'] !== '') {
   require_once(dirname(__FILE__).'/../../lib/php/utils.php');
-  $files = GetDirFiles($options['indir'],"");
+  $files = GetDirFiles($options['obodir'],"");
  
   if(isset($files)) {
    foreach($files AS $f) {
-    OBO2N3($f,$options['indir'],$options['outdir']);
+    OBO2N3($f,$options['obodir'],$options['outdir']);
    }
    echo "Done!";
   } else {
-    echo "No files to process in ".$options['indir'].PHP_EOL;
+    echo "No files to process in ".$options['obodir'].PHP_EOL;
   }
   exit;
 }
@@ -104,9 +108,9 @@ function OBO2N3($file,$indir,$outdir)
  $buf .= "<$furi> rdfs:label \"N3 converted OBO file for $ontology ontology (obtained through NCBO Bioportal) [bio2rdf:file:$file]\".".PHP_EOL;
  $buf .= "<$furi> dc:creator \"Michel Dumontier\".".PHP_EOL;
  $buf .= "<$furi> ss:encodes <$ouri> .".PHP_EOL;
- $buf = "<$ouri> a owl:Ontology .".PHP_EOL;
- $buf = "<$ouri> rdfs:label \"$ontology ontology\" .".PHP_EOL;
- $buf = "<$ouri> ss:isEncodedBy <$furi> .".PHP_EOL;
+ $buf .= "<$ouri> a owl:Ontology .".PHP_EOL;
+ $buf .= "<$ouri> rdfs:label \"$ontology ontology\" .".PHP_EOL;
+ $buf .= "<$ouri> ss:isEncodedBy <$furi> .".PHP_EOL;
 
  while($l = fgets($in)) {
 	if(strlen(trim($l)) == 0) continue;
@@ -129,7 +133,7 @@ function OBO2N3($file,$indir,$outdir)
 	if(isset($intersection_of)) {
 		if($a[0] != "intersection_of") {
 			$intersection_of .= ")].".PHP_EOL;
-			$obointersection_of .= "].".PHP_EOL;
+			$obointersection_of = substr($obointersection_of,0,-1)."].".PHP_EOL;
 			$buf .= $intersection_of;
 			$buf .= $obointersection_of;
 			unset($intersection_of);
@@ -156,7 +160,7 @@ function OBO2N3($file,$indir,$outdir)
 		}
 		if($a[0] == "is_a") {
 			if(FALSE !== ($pos = strpos($a[1],"!"))) $a[1] = substr($a[1],0,$pos-1);
-			$buf .= "$tid rdfs:subPropertyOf ".strtolower($a[1]).".".PHP_EOL;
+			$buf .= "$tid rdfs:subPropertyOf obo:".strtolower($a[1]).".".PHP_EOL;
 		} 
 
 		if($a[0][0] == "!") $a[0] = substr($a[0],1);
@@ -171,6 +175,9 @@ function OBO2N3($file,$indir,$outdir)
 			}
 			if($a[0] == "name") {
 				$buf .= "$tid rdfs:label \"".addslashes(stripslashes($a[1]))." [$tid]\".".PHP_EOL;
+			}
+			if($a[0] == "def") {
+				$buf .= "$tid dc:description \"".addslashes(stripslashes($a[1]))." [$tid]\".".PHP_EOL;
 			}
 			//relationship "part_of GO:0042274". // followed by optional description
 			if($a[0] == "relationship") {
@@ -201,40 +208,49 @@ function OBO2N3($file,$indir,$outdir)
 				$a[1] = str_replace('"','',stripslashes($a[1]));
 				$rel = "SYNONYM";
 				$list = array("EXACT","BROAD","RELATED");
+				$nofind = true;
 				foreach($list AS $keyword) {
 				  // get everything after the keyword up until the bracket [
 				  if(FALSE !== ($k_pos = strpos($a[1],$keyword))) {
 					$str_len = strlen($a[1]);
-					$term_len = strlen($keyword);
-					$term_end_pos = $k_pos+$term_len;
-					$b_pos = strrpos($a[1],"[");
+					$keyword_len = strlen($keyword);
+					$keyword_end_pos = $k_pos+$keyword_len;
+					$b1_pos = strrpos($a[1],"[");
 					$b2_pos = strrpos($a[1],"]");					
-					$b_text = substr($a[1],$b_pos,$b2_pos-$b1_pos);
+					$b_text = substr($a[1],$b1_pos,$b2_pos-$b1_pos);
 					if(strlen($b_text) <= 2) $b_text = '';
 					else if($b_text[strlen($b_text)-2] == ":") {$b_text = substr($b_text,0,-2)."]";} 
 
-					$diff = $b_pos-$term_end_pos-1;
+					$diff = $b2_pos-$keyword_end_pos-1;
 					if($diff != 0) {
   						// then there is more stuff here
-						$k = substr($a[1],$term_end_pos+1,$diff);
+						$k = substr($a[1],$keyword_end_pos+1,$diff);
 						$rel = trim($k);
 					} else {
-					// create the long predicate
+						// create the long predicate
 						$rel = $keyword."_SYNONYM";
 					}
-					break;
-				   } 
-				}
-				if($k_pos === FALSE) {
-					// we didn't find a keyword
-					// so take from the start to the bracket
-					$str = substr($a[1],0,$b_pos);
-				} else {
+					$nofind=false;
 					$str = substr($a[1],0,$k_pos);
-				}
-				$rel = str_replace(" ","_",$rel);
-				$l = "$tid obo:".strtolower($rel)." \"".addslashes($str)." ".addslashes($b_text)."\".".PHP_EOL;
-				$buf .= $l;
+
+//					break;
+				   }
+				}	
+
+echo $rel;
+exit;
+				// check to see if we still haven't found anything
+				if($nofind === FALSE) {
+					// we didn't find one of the keywords
+					// so take from the start to the bracket
+					$b1_pos = strrpos($a[1],"[");
+					$str = substr($a[1],0,$b1_pos);
+echo $str.PHP_EOL;exit;
+				 } 
+				   
+				   $rel = str_replace(" ","_",$rel);
+				   $l = "$tid obo:".strtolower($rel)." \"".addslashes($str)." ".addslashes($b_text)."\".".PHP_EOL;
+				   $buf .= $l;
 			}
 			if(FALSE !== ($pos = strpos($a[1],"!"))) $a[1] = substr($a[1],0,$pos-1);
 
@@ -277,7 +293,8 @@ function OBO2N3($file,$indir,$outdir)
 			// in the header
 			//format-version: 1.0
 			$a = explode(": ",trim($l));
-			$buf .= "<$ouri> obo:$a[0] \"".str_replace( array('"','\:'), array('\"',':'), $a[1])."\".".PHP_EOL;
+			
+			$buf .= "<$ouri> obo:$a[0] \"".str_replace( array('"','\:'), array('\"',':'), isset($a[1])?$a[1]:"")."\".".PHP_EOL;
 		} 
 	
  }
@@ -310,8 +327,8 @@ function SplitNSTerm($term, &$ns, &$id, &$nslist, &$buf)
 
 function Download($file, $dir)
 {
- $email = 'michel.dumontier@gmail.com';
- $ontolist = 'http://rest.bioontology.org/bioportal/ontologies?email='.$email;
+ $apikey = '24e19c82-54e0-11e0-9d7b-005056aa3316';
+ $ontolist = 'http://rest.bioontology.org/bioportal/ontologies?apikey='.$apikey;
  //$ontolist = 'ontologies.txt';
  $c = file_get_contents($ontolist);
  
@@ -342,16 +359,15 @@ function Download($file, $dir)
    if($format == "PROTEGE") continue;
 
    echo "Downloading $label ($abbv id=$oid) ... ";
-
-   $onto_url = 'http://rest.bioontology.org/bioportal/virtual/download/'.$oid.'?email='.$email;
+   $onto_url = 'http://rest.bioontology.org/bioportal/virtual/download/'.$oid.'?apikey='.$apikey;
    $onto = @file_get_contents($onto_url);
    if($onto !== FALSE) {
     if($format == "OBO") {
-     $file = $dir."$abbv.obo";
+     $file = $dir."/obo/$abbv.obo";
      file_put_contents($file,$onto);
      $files [] = $file;
     } else {
-     $file = $dir."../owl/$abbv.owl";
+     $file = $dir.'/owl/'.$abbv.'.owl';
      file_put_contents($file,$onto);
     }
     echo "Done!".PHP_EOL;
