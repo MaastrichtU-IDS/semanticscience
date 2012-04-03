@@ -4,7 +4,7 @@
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
 $isql = "/opt/test/v-install/bin/isql";
-//$isql = "isql";
+$isql = "/virtuoso-opensource/bin/isql";
 
 $options = array(
  "file" => "filename",
@@ -62,7 +62,7 @@ if($options['setns'] == 'true') {
 
 // do delete graph option
 if($options['deletegraph'] == "true") {
- $cmd = "sparql clear graph <".$options['graph'].">";
+ $cmd = "log_enable(3,1);sparql clear graph <".$options['graph'].">";
  echo "Deleting ".$options['graph'].PHP_EOL;
  echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
  if($options['deleteonly'] == "true") exit;
@@ -125,6 +125,7 @@ foreach($files AS $file) {
    $path = substr($file,0, $pos+1);
  }
 
+ $errors = 0;
  $f = $file;
  $fcmd = 'file_to_string_output';
  if(strstr($file,".gz")) {
@@ -165,18 +166,25 @@ foreach($files AS $file) {
   $out = shell_exec($cmd_pre.$cmd.$cmd_post);
  
   if(strstr($out,"Error")) {
+	$errors ++;
+	if($errors > 5) {
+		trigger_error("Tried five times - quitting!");
+		break;
+	}
+	
+	
     // *** Error 37000: [Virtuoso Driver][Virtuoso Server]SP029: TURTLE RDF loader, line 43: syntax error
     preg_match("/Error ([0-9]+)\:/",$out,$m);
     if(!isset($m[1]) || (isset($m[1]) && $m[1] != '37000')) {
-	// some other error
-	echo $out;
-	exit;
+		// some other error
+		echo $out;
+		exit;
     } 
 
     preg_match("/line\s([0-9]+)\:/",$out,$m);
     if(!isset($m[1])) {
-	// some problem here
-	exit;
+		// some problem here
+		exit;
     }
 
     $line = $m[1]; 
@@ -185,13 +193,13 @@ foreach($files AS $file) {
 
    // we need find find the line number, and slice the file  
     if(!file_exists($t1)) {
-      // first use
-      echo "making copy of $f\n";
-      copy($f,$t1);
+		// first use
+		echo "making copy of $f\n";
+		copy($f,$t1);
     }
     if(file_exists($t2)) {
-	unlink($t1);
- 	rename($t2,$t1);
+		unlink($t1);
+		rename($t2,$t1);
     } 
     $fp_in = fopen($t1,"r");
     $fp_out = fopen($t2,"w");
@@ -200,7 +208,7 @@ foreach($files AS $file) {
       $i++;
       if($i == $line) echo "Problem in: $l\n";
       if($l[0] == '@' || $i > $line) {
-	fwrite($fp_out,$l);
+		fwrite($fp_out,$l);
       }
     }
     fclose($fp_in);
