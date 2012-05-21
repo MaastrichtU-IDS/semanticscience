@@ -3,7 +3,7 @@
 /*
 http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 */
-$isql = "/opt/test/v-install/bin/isql";
+$isql = "/usr/local/virtuoso-opensource/bin/isql";
 $isql = "/virtuoso-opensource/bin/isql";
 
 $options = array(
@@ -61,7 +61,7 @@ if($options['setns'] == 'true') {
 
 
 // do delete graph option
-if($options['deletegraph'] == "true") {
+if($options['deletegraph'] == "true" && $options['graph'] != "graphname") {
  $cmd = "log_enable(3,1);sparql clear graph <".$options['graph'].">";
  echo "Deleting ".$options['graph'].PHP_EOL;
  echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
@@ -94,7 +94,7 @@ if($options['format'] == 'n3') {
 // $program = "DB.DBA.TTLP_MT_LOCAL_FILE";
 } else {
  // http://docs.openlinksw.com/virtuoso/fn_rdf_load_rdfxml_mt.html
- $program = 'DB.DBA.RDF_LOAD_RDFXML';
+ $program = 'DB.DBA.RDF_LOAD_RDFXML_MT';
 }
 
 foreach($files AS $file) {
@@ -118,6 +118,16 @@ foreach($files AS $file) {
   }
   $graph = "http://bio2rdf.org/graph/".$graph;
  }
+
+
+ // delete individual graphs
+ if($options['deletegraph'] == "true" && $options['graph'] == "graphname") {
+  $cmd = "log_enable(3,1);sparql clear graph <$graph>";
+  echo "Deleting ".$graph.PHP_EOL;
+  echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
+ }
+
+ echo 'Adding '.$file."\n";
 
  $path = '';
  $pos = strrpos($file,"/");
@@ -232,7 +242,7 @@ foreach($files AS $file) {
 
 // Facet update : http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/VirtFacetBrowserInstallConfig
 if($options['updatefacet'] == "true") {
-	$cmd = "RDF_OBJ_FT_RULE_ADD (null, null, 'All');VT_INC_INDEX_DB_DBA_RDF_OBJ ();urilbl_ac_init_db();s_rank();";
+	$cmd = "RDF_OBJ_FT_RULE_ADD (null, null, 'All');VT_INC_INDEX_DB_DBA_RDF_OBJ ();urilbl_ac_init_db();";
 	echo "Updating facet";
 	echo $out = shell_exec($cmd_pre.$cmd.$cmd_post);
 }
