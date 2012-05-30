@@ -7,32 +7,35 @@ Structural descriptions of objects in terms of their parts and how they are conn
 
 *[http://semanticscience.org/resource/SIO_000028 'has part'] / [http://semanticscience.org/resource/SIO_000068 'is part of'] [T|R]*
 
-The 'has part' relation links an object to itself (reflexive) and all of its  parts (transitive). The reflexive nature of the relation means that we can query for the whole and any of its parts using 'has part' some 'x' rather than 'x' and 'has part' some 'x'. 
-
+The 'has part' relation (reflexive, transitive) links an object to itself (reflexive) and all of its  parts (transitive). This means that query for the parts of the whole will include itself as well as all of its parts.
 
 
 *[http://semanticscience.org/resource/SIO_000053 'has proper part'] / [http://semanticscience.org/resource/SIO_000093 'is proper part of'] [T|IR|AS]
 *
 
-The 'has proper part' relation (irreflexive, asymmetric, transitive) is a subproperty of 'has part' and links an object to all of its parts, ensuring that the whole is different from all of its parts.
+The 'has proper part' relation (irreflexive, asymmetric, transitive) is a more specific 'has part' relation that ensures that the whole is different from and not one of its proper parts.
+
 
 *[http://semanticscience.org/resource/SIO_000273 'has direct part'] / [http://semanticscience.org/resource/SIO_000310 'is direct part of']*
 
-Because it is a simple relation (non-transitive), 'has direct part' is a more specific relation than 'has proper part' and provides an avenue to quantify the number of parts (via a cardinality restriction) at a desired level of granularity.
+The 'has direct part' is a more specific relation than 'has proper part' and provides an avenue to quantify the number of parts (via a cardinality restriction) at a desired level of granularity.
 
 
 *[http://semanticscience.org/resource/SIO_000369 'has component part'] / [http://semanticscience.org/resource/SIO_000313 'is component part of']*
 
-The 'has component part' relation is a subproperty of 'has direct part' and provides the means by which to state that the part is intrinsic to the whole, and that the removal of the part changes the identity of the whole.  Consider how removing an atom from a molecule changes the kind of molecule that it is, but losing a limb does not change a person's identity.
+The 'has component part' relation is more specific than 'has direct part' in that it should be used to indicate that the part is intrinsic to the whole, and that the removal of the part changes the identity of the whole.  
 
-*[http://semanticscience.org/resource/SIO_000145 'is location of'] / [http://semanticscience.org/resource/SIO_000061 'is located in']*
+_examples_: Molecular identity necessarily depends on its atomic composition, so removing an atom from a molecule changes the kind of molecule that it is. In contrast, should a human lose a limb to an accident, this wouldn't change the fact that they are still human.
 
-A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part. [T][R]
+
+*[http://semanticscience.org/resource/SIO_000061 'is located in'] / [http://semanticscience.org/resource/SIO_000145 'is location of']*
+
+A 'is located in' B iff the spatial region occupied by A is part of the spatial region occupied by B. This relation minimally applies to the positioning on a 2D plane. [T][R]
 
 
 *[http://semanticscience.org/resource/SIO_000202 'contains'] / [http://semanticscience.org/resource/SIO_000128 'is contained in']*
 
-A contains B iff the spatial region occupied by A has the spatial region occupied by B as a part, and B is not part of A. 
+A 'contains' B iff the spatial region occupied by A has the spatial region occupied by B. This relation minimally applies to the position on a 3D volume.
 
 
 ==topology==
