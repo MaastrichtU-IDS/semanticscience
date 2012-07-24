@@ -1,32 +1,33 @@
-#summary Ontology Design Pattern: Measurements
+#summary Ontology Design Pattern: Provenance
 #labels draft,SIO,ODP
 #sidebar SIOSideBar
-Measurements are at the core of science. The following specifies which types and relations can be used to express quantities and their units. measurement units should be drawn from the [http://bioportal.bioontology.org/visualize/45500 unit ontology]
+Provenance refers to the chronology of an object, including the circumstances around its origin (creation/discovery) and subsequent spatial movement and transfer of ownership.
 
-Quantities are entities for which a literal (number) can be directly associated with 'has value', which is SIO's one and only datatype property. These quantities may be measured at a particular time or over some time interval, and are the output of measurement.
+A [http://www.w3.org/2011/01/prov-wg-charter W3C working group] was formed to provide a specification for the representation of provenance in RDF/OWL.  The proposed model involves 3 types (Entity, Activity and Agent) and 7 relations (!WasDerivedFrom, !WasGeneratedBy, !WasAssociatedWith, !WasAttributedTo, !WasInformedBy, Used and !ActedOnBehalfOf). The main use cases that are presented include: Generation, Usage, Communication, Invalidation, Derivation, Revision, Quotation and Influence. Let us go through these and provide the SIO representation.
+
+===Process-Based Provenance===
+Creation ([http://semanticscience.org/resource/creation sio:creation]) is the process by which an entity comes into existence, destruction ([http://semanticscience.org/resource/Destruction sio:destruction]) is the process by which an entity ceases to exist, and modification ([http://semanticscience.org/resource/modification sio:modification]) is the process by which an entity is modified (gains/loses parts, qualities, roles, dispositions, functions, etc) but retains its identity. Entities that are _used_ as input are specified with 'has input' ([http://semanticscience.org/resource/has-input sio:has-input]), entities that are consumed (or are sufficiently changed that they lose their canonical identity) as a result of participation are specified with 'has substrate' ([http://semanticscience.org/resource/has-substrate sio:has-substrate]), while entities that are modified but retain their identity are specified with 'has target' [http://semanticscience.org/resource/has-target sio:has-target]).  New entities are specified with 'has product' ([http://semanticscience.org/resource/has-product sio:has-product]). Agents that direct, actively participate in the creation of the object, but are not consumed may be specified with ([http://semanticscience.org/resource/has-agent sio:has-agent]). The space and time of processes can be specified with 'is located in' ([http://semanticscience.org/resource/is-located-in sio:is-located in]) and 'exists at' ([http://semanticscience.org/resource/exists-at sio:exists-at]), where time instants can be specified as an exact xsd:dateTime or time intervals as a datatype range to specify the start and end date and times e.g. (>= dateTime && <= dateTime). 
 
 {{{
-'quantity'
+'creation', 'destruction', 'modification'
 subClassOf
- 'has value' some Literal
-  and 'has unit' only 'measurement unit'
-  and 'has attribute' some ('time instant' or 'time interval')
-  and 'is output of' only 'measurement'
-  and 'satisfies' some 'procedure'
-  and 'is attribute of' some 'entity'
+ 'process'
+ and 'has agent' some Entity
+ and 'has input' some Entity
+ and 'has substrate' some Entity
+ and 'has product' some Entity
+ and 'is located in' some Entity
+ and 'exists at' some ('time interval' and 'has value' some xsd:dateTime)
 }}}
 
+===Object-Level Provenance===
+SIO offers several relations to specify the provenance relationship _among_ objects. In the first case, we consider objects that were created by, is being provided by or have been obtained from a source.
 
-{{{
-'measurement'
-subClassOf 
- 'process' 
- and 'has attribute' some ('time interval')
- and 'has agent' some ('has function' some 'to measure')
- and 'has target' some ('has disposition' some 'to be measured')
- and 'has output' some 'quantity'
- and 'is specified by' some 'procedure'
-}}}
+'has source' / 'is source of' : to specify _an_ origin of the object
+'has creator' / 'is created by' : to specify the agent responsible for bringing the object into existence
+'has provider' / 'is provided by' : to specify the agent that provided the object
+'derives from' / 'derived into' : to specify the object(s) from which this object was created from/with
 
-
-@todo error, uncertainty as quantities and attributes of measurement results 
+informational objects
+'has version' / 'is version of' : to specify the object for which this is based on
+'is prior version of' / 'is subsequent version of' : to specify the version order
