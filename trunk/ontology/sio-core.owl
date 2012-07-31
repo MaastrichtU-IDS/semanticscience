@@ -4,6 +4,7 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY dc "http://purl.org/dc/terms/" >
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY resource "http://semanticscience.org/resource/" >
@@ -51,14 +52,15 @@ role chains:
     <owl:AnnotationProperty rdf:about="&resource;similarTo"/>
     <owl:AnnotationProperty rdf:about="&dc;alternativeName"/>
     <owl:AnnotationProperty rdf:about="&resource;narrowerThan"/>
-    <owl:AnnotationProperty rdf:about="&resource;synonym"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="&resource;example"/>
+    <owl:AnnotationProperty rdf:about="&resource;synonym"/>
     <owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
     <owl:AnnotationProperty rdf:about="&resource;subset"/>
     <owl:AnnotationProperty rdf:about="&resource;equivalentTo"/>
     <owl:AnnotationProperty rdf:about="&dc;rights"/>
-    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
     <owl:AnnotationProperty rdf:about="&resource;broaderThan"/>
+    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
     <owl:AnnotationProperty rdf:about="&dc;title"/>
     
 
@@ -1047,17 +1049,6 @@ role chains:
         <rdfs:label xml:lang="en">is weakly interacting with (transitive)</rdfs:label>
         <dc:description xml:lang="en">is weakly interacting with is a symmetric relation between two molecular entities (or any part thereof) that are interacting through some weak force (van der waals, hydrogen bonds, electrostatic interactions)</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000203"/>
-        <rdfs:range>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_011125"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                        <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
-                    </owl:Restriction>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:range>
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -1069,6 +1060,17 @@ role chains:
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_011125"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
     </owl:ObjectProperty>
     
 
@@ -2112,17 +2114,6 @@ role chains:
         <dc:description xml:lang="en">A relation between an biological information content entity and a product that it (directly/indirectly) encodes.</dc:description>
         <rdfs:subPropertyOf rdf:resource="&resource;SIO_000338"/>
         <owl:inverseOf rdf:resource="&resource;SIO_010079"/>
-        <rdfs:domain>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_010010"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                        <owl:someValuesFrom rdf:resource="&resource;SIO_010010"/>
-                    </owl:Restriction>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:domain>
         <rdfs:range>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -2144,6 +2135,17 @@ role chains:
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_010010"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_010010"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
     </owl:ObjectProperty>
     
 
@@ -2333,18 +2335,6 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000000"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000053"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
@@ -2359,6 +2349,18 @@ role chains:
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000217"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000004"/>
@@ -2381,6 +2383,12 @@ role chains:
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
         <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000026"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="&resource;SIO_000416"/>
@@ -2397,12 +2405,6 @@ role chains:
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000026"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000260"/>
         <dc:description xml:lang="en">A physical entity is an entity that is spatio-temporally located (is or occupies some part of spacetime) and only has physical entities as parts.</dc:description>
     </owl:Class>
@@ -2416,14 +2418,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000781"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000279"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass.</dc:description>
@@ -2455,14 +2457,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000687"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000417"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000687"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000417"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000685"/>
@@ -2604,13 +2606,13 @@ role chains:
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000004"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">A material aggregate is a material entity that is a collection of material entities that may possess non-connected spatial boundaries. At least one member of the aggregate must exist at any time during the life of the aggregate (e.g. the aggregate does not or ceases to exist in the absence of at least one member).</dc:description>
@@ -2749,8 +2751,8 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_010014"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
-                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000092"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2761,8 +2763,8 @@ role chains:
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000092"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000300"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">A sequence is a primary structure descriptor in which each of the letters in the string represents a monomeric unit (residue) in which adjacent letters represent the connectivity between the monomeric units.</dc:description>
@@ -2837,14 +2839,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000216"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000052"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000776"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000776"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000216"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000052"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2993,13 +2995,13 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000215"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3274,6 +3276,16 @@ role chains:
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000085 -->
+
+    <owl:Class rdf:about="&resource;SIO_000085">
+        <rdfs:label xml:lang="en">question</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000113"/>
+        <dc:description>A question is a linguistic expression used to make a request for information.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000086 -->
 
     <owl:Class rdf:about="&resource;SIO_000086">
@@ -3541,7 +3553,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000108">
         <rdfs:label xml:lang="en">character</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000651"/>
         <dc:description xml:lang="en">A character is a language symbol used to construct words.</dc:description>
     </owl:Class>
     
@@ -3560,7 +3572,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000110">
         <rdfs:label xml:lang="en">paragraph</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000651"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000273"/>
@@ -3600,6 +3612,12 @@ role chains:
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000635"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000356"/>
                 <owl:someValuesFrom>
                     <owl:Class>
@@ -3614,12 +3632,6 @@ role chains:
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000635"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:description xml:lang="en">A capability is a realizable entity whose basis lies in one or more parts or qualities and reflects possility of an entity to act in a specified way under certain conditions or in response to a certain stimulus (trigger).</dc:description>
     </owl:Class>
     
@@ -3630,7 +3642,7 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000113">
         <rdfs:label xml:lang="en">sentence</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000483"/>
-        <dc:description xml:lang="en">A sentence is an expression in natural language.</dc:description>
+        <dc:description xml:lang="en">A sentence is a grammatical unit consisting of one or more words that bear minimal syntactic relation to the words that precede or follow it</dc:description>
     </owl:Class>
     
 
@@ -3639,7 +3651,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000114">
         <rdfs:label xml:lang="en">word</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000651"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000273"/>
@@ -3911,7 +3923,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000137">
         <rdfs:label xml:lang="en">category</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000138"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000326"/>
         <dc:description>a category is a class of entities having particular shared characteristics.</dc:description>
     </owl:Class>
     
@@ -3952,6 +3964,7 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000142">
         <rdfs:label xml:lang="en">inclusion criterion</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000141"/>
+        <owl:disjointWith rdf:resource="&resource;SIO_000143"/>
         <dc:description xml:lang="en">An inclusion criterion is a criterion that must be present to satisfy some objective.</dc:description>
     </owl:Class>
     
@@ -4589,7 +4602,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000256">
         <rdfs:label xml:lang="en">proposition</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000113"/>
         <dc:description xml:lang="en">A proposition is a sentence expressing something true or false.</dc:description>
     </owl:Class>
     
@@ -4637,6 +4650,20 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000259">
         <rdfs:label xml:lang="en">argument</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000261"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000262"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <dc:description xml:lang="en">An argument is a set of one or more declarative sentences (or propositions) known as the premises along with another declarative sentence (or proposition) known as the conclusion.</dc:description>
     </owl:Class>
     
@@ -4703,6 +4730,22 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000265">
         <rdfs:label xml:lang="en">sound argument</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000266"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_000261"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_000269"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description xml:lang="en">A sound argument is a valid argument with true premises.</dc:description>
     </owl:Class>
     
@@ -4713,6 +4756,22 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000266">
         <rdfs:label xml:lang="en">valid argument</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_000262"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_000270"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description xml:lang="en">A valid argument is an argument where the truth of the conclusion is a logical consequence of the premises and (consequently) its corresponding conditional is a necessary truth.</dc:description>
     </owl:Class>
     
@@ -4723,6 +4782,22 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000267">
         <rdfs:label xml:lang="en">invalid argument</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_000262"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_000270"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:description xml:lang="en">An invalid argument is an argument where the truth of the conclusion is false because it is not a logical consequence of the premises.</dc:description>
     </owl:Class>
     
@@ -4848,8 +4923,8 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000284">
         <rdfs:label xml:lang="en">hypothesis</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000585"/>
-        <dc:description xml:lang="en">a hypothesis is a tentative proposition, whose truth value is to be tested.</dc:description>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+        <dc:description xml:lang="en">a hypothesis is a proposed explanation for a phenomenon.</dc:description>
     </owl:Class>
     
 
@@ -4946,7 +5021,7 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000298">
         <rdfs:label xml:lang="en">excerpt</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000651"/>
         <dc:description xml:lang="en">An excerpt is a selected portion of a document.</dc:description>
     </owl:Class>
     
@@ -5171,7 +5246,8 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000326">
         <rdfs:label xml:lang="en">concept</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000612"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000275"/>
+        <dc:description>A concept is term that refers to a generalization of a set of attributes or entities.</dc:description>
     </owl:Class>
     
 
@@ -5297,8 +5373,8 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000614"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000356"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000643"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -5309,8 +5385,8 @@ role chains:
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000643"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000356"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">A realizable entity is an attribute that is exhibited under some condition and is realized in some process.</dc:description>
@@ -5555,14 +5631,14 @@ role chains:
         <rdfs:subClassOf rdf:resource="&resource;SIO_000659"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000145"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000145"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000028"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000370"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:example>the airspace above Ottawa airport; the band around the northern hemisphere between 50 degrees N and 60 degrees N; the spatial region occupied by a bottle</resource:example>
@@ -5975,6 +6051,7 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000410">
         <rdfs:label xml:lang="en">anger</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000828"/>
+        <dc:description>anger is disgust directed toward an equal status individual.</dc:description>
     </owl:Class>
     
 
@@ -5983,7 +6060,8 @@ role chains:
 
     <owl:Class rdf:about="&resource;SIO_000411">
         <rdfs:label xml:lang="en">hate</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000410"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000828"/>
+        <dc:description>Hate is a deep and emotional extreme dislike, directed against a certain object or class of objects. </dc:description>
     </owl:Class>
     
 
@@ -5993,6 +6071,7 @@ role chains:
     <owl:Class rdf:about="&resource;SIO_000412">
         <rdfs:label xml:lang="en">love</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>Love is an emotion of a strong affection and personal attachment.</dc:description>
     </owl:Class>
     
 
@@ -7832,14 +7911,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">Living is a process which involve an entity from the moment it comes into existence to the moment it cease to exist.</dc:description>
@@ -7930,6 +8009,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">interaction</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000637"/>
         <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:onClass rdf:resource="&resource;SIO_000003"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -7945,13 +8031,6 @@ of endpoints (a start point and an endpoint).</dc:description>
                 </owl:intersectionOf>
             </owl:Class>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:onClass rdf:resource="&resource;SIO_000003"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:description xml:lang="en">an interaction is a process that involves two or more entities and the realization of at least two dispositions to interact.</dc:description>
     </owl:Class>
     
@@ -7964,13 +8043,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000649"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000230"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000229"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000069"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000229"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000230"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000069"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -8443,6 +8522,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000651">
         <rdfs:label xml:lang="en">textual entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+        <dc:description>A textual entity is a materialization (physical embodiment) of a language entity.</dc:description>
     </owl:Class>
     
 
@@ -8646,13 +8726,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000687"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000418"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000418"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000687"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000418"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000418"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">a situation is a processual entity that exists exactly at one time point.</dc:description>
@@ -8805,14 +8885,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000668"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000709"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000702"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000709"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000702"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000668"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description>to interact with is a capabililty that involves another object.</dc:description>
@@ -8827,14 +8907,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000668"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000709"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000701"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000709"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000701"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000668"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -8867,6 +8947,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000705">
         <rdfs:label xml:lang="en">design</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+        <dc:description>a specification of an object, manifested by an agent, intended to accomplish goals, in a particular environment, using a set of primitive components, satisfying a set of requirements, subject to constraints.</dc:description>
     </owl:Class>
     
 
@@ -8903,14 +8984,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000711"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000710"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000707"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000227"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000404"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000227"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000404"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000710"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000707"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -8987,8 +9068,8 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000637"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000355"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000337"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -8999,8 +9080,8 @@ of endpoints (a start point and an endpoint).</dc:description>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000355"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000337"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">An agentive process is a realization of an agentive entity.</dc:description>
@@ -9318,14 +9399,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000602"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000671"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000115"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000755"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000755"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000671"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000115"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description>A row represents a single, implicitly structured data item in a table. </dc:description>
@@ -9764,6 +9845,25 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000785 -->
+
+    <owl:Class rdf:about="&resource;SIO_000785">
+        <rdfs:label xml:lang="en">answer</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000113"/>
+        <dc:description>an answer is a reply to a question.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000786 -->
+
+    <owl:Class rdf:about="&resource;SIO_000786">
+        <rdfs:label xml:lang="en">speech entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000787 -->
 
     <owl:Class rdf:about="&resource;SIO_000787">
@@ -10009,6 +10109,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000812">
         <rdfs:label xml:lang="en">affection</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>affection is an emotion characterized with a feeling or type of love for another living thing.</dc:description>
     </owl:Class>
     
 
@@ -10017,7 +10118,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000813">
         <rdfs:label xml:lang="en">angst</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000815"/>
+        <dc:description>angst is the intense feeling of apprehension, anxiety or inner turmoil.</dc:description>
     </owl:Class>
     
 
@@ -10027,6 +10129,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000814">
         <rdfs:label xml:lang="en">annoyance</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Annoyance is an unpleasant emtion that is characterized by a abnormal or excessive sensitivity to some external stimulus.</dc:description>
     </owl:Class>
     
 
@@ -10035,7 +10138,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000815">
         <rdfs:label xml:lang="en">anxiety</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000813"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000949"/>
+        <dc:description>anxiety is an emotion charactersized by intense feeling of fear and concern coupled with a physical response.</dc:description>
     </owl:Class>
     
 
@@ -10045,6 +10149,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000816">
         <rdfs:label xml:lang="en">apathy</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000847"/>
+        <dc:description>apathy is an emotion exhibited by lack of interest, enthusiasm, or concern</dc:description>
     </owl:Class>
     
 
@@ -10054,6 +10159,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000817">
         <rdfs:label xml:lang="en">arousal</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>Arousal is an emotion characterized by state of reactive to stimuli. It involves the activation of the reticular activating system in the brain stem, the autonomic nervous system and the endocrine system, leading to increased heart rate and blood pressure and a condition of sensory alertness, mobility and readiness to respond.</dc:description>
     </owl:Class>
     
 
@@ -10063,6 +10169,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000818">
         <rdfs:label xml:lang="en">awe</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>Awe is an emotion produced by that which is grand, sublime or powerful and is characterized by a combination of joy, fear and admiration/reverence/respect. </dc:description>
     </owl:Class>
     
 
@@ -10072,6 +10179,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000819">
         <rdfs:label xml:lang="en">boldness</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>boldness is the trait of being willing to undertake things that involve risk or danger.</dc:description>
     </owl:Class>
     
 
@@ -10081,6 +10189,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000820">
         <rdfs:label xml:lang="en">boredom</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>boredom is the emotion experience by those not interested in their surroundings or available activities.</dc:description>
     </owl:Class>
     
 
@@ -10089,7 +10198,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000821">
         <rdfs:label xml:lang="en">contempt</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000844"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000828"/>
+        <dc:description>contempt is disgust  towards a lower status individual.</dc:description>
     </owl:Class>
     
 
@@ -10098,7 +10208,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000822">
         <rdfs:label xml:lang="en">contentment</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000840"/>
+        <dc:description>contentment is an emotion characterized by acknowledgement and satisfaction of the current state of affairs.</dc:description>
     </owl:Class>
     
 
@@ -10107,7 +10218,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000823">
         <rdfs:label xml:lang="en">curiosity</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000848"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000825"/>
+        <dc:description>curiosity is the strong desire to know or learn something.</dc:description>
     </owl:Class>
     
 
@@ -10117,6 +10229,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000824">
         <rdfs:label xml:lang="en">depression</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000863"/>
+        <dc:description>depression is an unpleasant emotion linked to aversion to activity that can affect a person&#39;s thoughts, behavior, feelings and physical well-being. Depressed individuals may feel sad, anxious, empty, hopeless, worried, helpless, worthless, guilty, irritable, or restless.</dc:description>
     </owl:Class>
     
 
@@ -10125,7 +10238,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000825">
         <rdfs:label xml:lang="en">desire</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000848"/>
+        <dc:description>Desire is a strong emotion of wanting to have something or wishing for something to happen.</dc:description>
     </owl:Class>
     
 
@@ -10135,6 +10249,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000826">
         <rdfs:label xml:lang="en">despair</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000863"/>
+        <dc:description>despair is depression, hopelessness or lack of hope</dc:description>
     </owl:Class>
     
 
@@ -10144,6 +10259,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000827">
         <rdfs:label xml:lang="en">disappointment</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Disappointment is the feeling of dissatisfaction that follows the failure of expectations or hopes to manifest</dc:description>
     </owl:Class>
     
 
@@ -10153,6 +10269,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000828">
         <rdfs:label xml:lang="en">disgust</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000844"/>
+        <dc:description>Disgust is a feeling of revulsion or profound disapproval aroused by something unpleasant or offensive.</dc:description>
     </owl:Class>
     
 
@@ -10162,6 +10279,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000829">
         <rdfs:label xml:lang="en">dread</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000837"/>
+        <dc:description>dread is the instense negative emotion that induces fear and apprehension.</dc:description>
     </owl:Class>
     
 
@@ -10171,6 +10289,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000830">
         <rdfs:label xml:lang="en">ecstasy</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>ecstacy is an emotion characterized by a heightened state of consciousness with total involvement of a subject.</dc:description>
     </owl:Class>
     
 
@@ -10189,6 +10308,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000832">
         <rdfs:label xml:lang="en">negative emotion</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>negative emotion is an emotion that does not feel good.</dc:description>
     </owl:Class>
     
 
@@ -10198,6 +10318,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000833">
         <rdfs:label xml:lang="en">embarassment</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Embarrassment is the emotion of intense discomfort with oneself, experienced upon having a socially unacceptable act or condition witnessed by or revealed to other.</dc:description>
     </owl:Class>
     
 
@@ -10207,6 +10328,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000834">
         <rdfs:label xml:lang="en">envy</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>envy is an emotion that occurs when a person lacks another&#39;s (perceived) superior quality, achievement or possession and wishes that the other lacked it.</dc:description>
     </owl:Class>
     
 
@@ -10216,6 +10338,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000835">
         <rdfs:label xml:lang="en">euphoria</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>euphoria is an emotion characterized by intense feelings of well-being, elation, happiness, ecstasy, excitement, and joy.</dc:description>
     </owl:Class>
     
 
@@ -10233,7 +10356,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000837">
         <rdfs:label xml:lang="en">fear</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000949"/>
+        <dc:description>Fear is a negative emotion induced by a perceived threat that induces one to hide or move quickly away from the location of the perceived threat.</dc:description>
     </owl:Class>
     
 
@@ -10243,6 +10367,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000838">
         <rdfs:label xml:lang="en">frustration</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000814"/>
+        <dc:description>Frustration is an emotion that arises from the perceived resistance to the fulfillment of individual will. </dc:description>
     </owl:Class>
     
 
@@ -10252,6 +10377,10 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000839">
         <rdfs:label xml:lang="en">gratitude</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <resource:synonym>gratefulness</resource:synonym>
+        <dc:description>Gratitude, thankfulness, gratefulness, or appreciation is a feeling, emotion or attitude in acknowledgment of a benefit that one has received or will receive.</dc:description>
+        <resource:synonym>thankfullness</resource:synonym>
+        <resource:synonym>appreciation</resource:synonym>
     </owl:Class>
     
 
@@ -10261,6 +10390,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000840">
         <rdfs:label xml:lang="en">happiness</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>Happiness is an emotion characterized by positive or pleasant emotions ranging from contentment to intense joy.</dc:description>
     </owl:Class>
     
 
@@ -10270,6 +10400,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000841">
         <rdfs:label xml:lang="en">guilt</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Guilt is the emotion borne from feeling responsible for the commission of an offense and arises out of public humiliation.</dc:description>
     </owl:Class>
     
 
@@ -10279,6 +10410,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000842">
         <rdfs:label xml:lang="en">grief</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000863"/>
+        <dc:description>Grief is an emotion in response to loss, whether physical or abstract including death, unemployment, ill health or the end of a relationship.</dc:description>
     </owl:Class>
     
 
@@ -10288,6 +10420,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000843">
         <rdfs:label xml:lang="en">hope</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>hope is an emotion of belief in a positive outcome related to events and circumstances in one&#39;s life.</dc:description>
     </owl:Class>
     
 
@@ -10297,6 +10430,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000844">
         <rdfs:label xml:lang="en">hostility</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Hostility is the intense negative emotion of being in conflict or opposition to someone or something.</dc:description>
     </owl:Class>
     
 
@@ -10306,6 +10440,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000845">
         <rdfs:label xml:lang="en">hurt</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>hurt is an unpleasant feeling, emotion or sensation.</dc:description>
     </owl:Class>
     
 
@@ -10315,6 +10450,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000846">
         <rdfs:label xml:lang="en">hysteria</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Hysteria is an unmanageable emotion.</dc:description>
     </owl:Class>
     
 
@@ -10324,6 +10460,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000847">
         <rdfs:label xml:lang="en">indifference</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>indifference is an emotion exhibited by lack of interest, concern, or sympathy.</dc:description>
     </owl:Class>
     
 
@@ -10332,7 +10469,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000848">
         <rdfs:label xml:lang="en">interest</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <dc:description>interest is the emotion of wanting to know or learn about something or someone.</dc:description>
     </owl:Class>
     
 
@@ -10342,6 +10480,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000849">
         <rdfs:label xml:lang="en">jealousy</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000834"/>
+        <dc:description>jealousy is an emotion and typically refers to the negative thoughts and feelings of insecurity, fear, and anxiety over an anticipated loss of something that the person values, particularly in reference to a human connection</dc:description>
     </owl:Class>
     
 
@@ -10350,7 +10489,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000850">
         <rdfs:label xml:lang="en">joy</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000840"/>
+        <resource:synonym>joy is an emotion of intense happiness</resource:synonym>
     </owl:Class>
     
 
@@ -10360,6 +10500,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000851">
         <rdfs:label xml:lang="en">loathing</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000828"/>
+        <dc:description>loathing is an intense dislike or disgust.</dc:description>
     </owl:Class>
     
 
@@ -10368,7 +10509,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000852">
         <rdfs:label xml:lang="en">loneliness</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000820"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Loneliness is an unpleasant emotion in which a person feels a strong sense of emptiness, yearning distress and solitude resulting from inadequate quantity or quality of social relationships.</dc:description>
     </owl:Class>
     
 
@@ -10378,6 +10520,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000853">
         <rdfs:label xml:lang="en">lust</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000825"/>
+        <dc:description>lust is the strong desire for sex.</dc:description>
     </owl:Class>
     
 
@@ -10387,6 +10530,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000854">
         <rdfs:label xml:lang="en">misery</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000863"/>
+        <dc:description>Misery is a feeling of great unhappiness, suffering and/or pain.</dc:description>
     </owl:Class>
     
 
@@ -10396,6 +10540,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000855">
         <rdfs:label xml:lang="en">panic</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000837"/>
+        <dc:description>Panic is a sudden emotion of fear which is so strong as to dominate or prevent reason and logical thinking, replacing it with overwhelming feelings of anxiety and frantic agitation consistent with an animalistic fight-or-flight reaction.</dc:description>
     </owl:Class>
     
 
@@ -10404,7 +10549,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000856">
         <rdfs:label xml:lang="en">passion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000848"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000825"/>
+        <dc:description>passion is the intense emotion compelling feeling, enthusiasm, or desire for something.</dc:description>
     </owl:Class>
     
 
@@ -10414,6 +10560,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000857">
         <rdfs:label xml:lang="en">pity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>Pity is the emotion of sadness or sorrow for another.</dc:description>
     </owl:Class>
     
 
@@ -10422,7 +10569,7 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000858">
         <rdfs:label xml:lang="en">pleasure</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000840"/>
     </owl:Class>
     
 
@@ -10431,7 +10578,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000859">
         <rdfs:label xml:lang="en">pride</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000864"/>
+        <dc:description>Pride is an emotion of satisfaction of attachment toward one&#39;s own or another&#39;s choices and actions, or toward a whole group of people, and is a product of praise, independent self-reflection, or a fulfilled feeling of belonging.</dc:description>
     </owl:Class>
     
 
@@ -10440,7 +10588,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000860">
         <rdfs:label xml:lang="en">rage</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000411"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000410"/>
+        <dc:description>Rage is a feeling of intense anger that is  associated with the Fight-or-flight response.</dc:description>
     </owl:Class>
     
 
@@ -10468,6 +10617,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000863">
         <rdfs:label xml:lang="en">sadness</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>sadness is emotional pain associated with, or characterized by feelings of disadvantage, loss, despair, helplessness, sorrow, and rage.</dc:description>
     </owl:Class>
     
 
@@ -10476,7 +10626,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000864">
         <rdfs:label xml:lang="en">satisfaction</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000831"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000822"/>
+        <resource:synonym>satisfaction is an emotion of fulfillment of one&#39;s wishes, expectations, or needs, or the pleasure derived from this.</resource:synonym>
     </owl:Class>
     
 
@@ -10485,7 +10636,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000865">
         <rdfs:label xml:lang="en">shame</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000841"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>shame is the emotion borne from feeling responsible for the commission of an offense.</dc:description>
     </owl:Class>
     
 
@@ -10495,6 +10647,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000866">
         <rdfs:label xml:lang="en">shock</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>shock is an emotion of sudden upset or surprise.</dc:description>
     </owl:Class>
     
 
@@ -10504,6 +10657,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000867">
         <rdfs:label xml:lang="en">shyness</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>shyness is an emotion of apprehension, lack of comfort, or awkwardness experienced when in proximity to, approaching, or being approached by other individuals, especially in new situations or with unfamiliar individuals.</dc:description>
     </owl:Class>
     
 
@@ -10513,6 +10667,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000868">
         <rdfs:label xml:lang="en">sorrow</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000863"/>
+        <dc:description>Sorrow is the emotion that is characterized by a long term state of intense sadness, distress and a degree of resignation (not accepting).</dc:description>
     </owl:Class>
     
 
@@ -10521,7 +10676,8 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000869">
         <rdfs:label xml:lang="en">suffering</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000845"/>
+        <dc:description>Suffering is the unpleasant emotion and aversion associated with the perception of harm or threat of harm in an individual.</dc:description>
     </owl:Class>
     
 
@@ -10531,6 +10687,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000870">
         <rdfs:label xml:lang="en">surprise</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+        <dc:description>Surprise is a brief emotion experienced as the result of an unexpected event. </dc:description>
     </owl:Class>
     
 
@@ -10540,6 +10697,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000871">
         <rdfs:label xml:lang="en">terror</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000829"/>
+        <dc:description>terror is the extreme feeling of fear.</dc:description>
     </owl:Class>
     
 
@@ -10549,6 +10707,7 @@ of endpoints (a start point and an endpoint).</dc:description>
     <owl:Class rdf:about="&resource;SIO_000872">
         <rdfs:label xml:lang="en">wonder</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000870"/>
+        <dc:description>Wonder is an emotion of perceiving something very rare or unexpected, but not threatening.</dc:description>
     </owl:Class>
     
 
@@ -10557,7 +10716,17 @@ of endpoints (a start point and an endpoint).</dc:description>
 
     <owl:Class rdf:about="&resource;SIO_000873">
         <rdfs:label xml:lang="en">worry</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000949"/>
+        <dc:description>worry is the emotion characterized by concer over a real or imaginary issue.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000874 -->
+
+    <owl:Class rdf:about="&resource;SIO_000874">
+        <rdfs:label xml:lang="en">scream</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000786"/>
     </owl:Class>
     
 
@@ -11219,6 +11388,16 @@ of endpoints (a start point and an endpoint).</dc:description>
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000941 -->
+
+    <owl:Class rdf:about="&resource;SIO_000941">
+        <rdfs:label xml:lang="en">conversation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000718"/>
+        <dc:description>A conversation is a form of interactive, spontaneous communication between two or more people who are following rules of etiquette.</dc:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000942 -->
 
     <owl:Class rdf:about="&resource;SIO_000942">
@@ -11274,6 +11453,46 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">dendrogram</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000945"/>
         <dc:description xml:lang="en">A dendrogram is a tree diagram used to illustrate the arrangement of the clusters produced by hierarchical clustering.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000949 -->
+
+    <owl:Class rdf:about="&resource;SIO_000949">
+        <rdfs:label xml:lang="en">apprehension</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000832"/>
+        <dc:description>apprehension is the negative emotion that something unpleasant will occur.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000950 -->
+
+    <owl:Class rdf:about="&resource;SIO_000950">
+        <rdfs:label xml:lang="en">resentment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000828"/>
+        <dc:description>resentment is disgust directed toward a higher status individual.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000951 -->
+
+    <owl:Class rdf:about="&resource;SIO_000951">
+        <rdfs:label xml:lang="en">pain</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000845"/>
+        <dc:description>Pain is an unpleasant sensory and emotional experience associated with actual or potential tissue damage, or described in terms of such damage</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000952 -->
+
+    <owl:Class rdf:about="&resource;SIO_000952">
+        <rdfs:label xml:lang="en">default parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000144"/>
+        <dc:description>a default parameter is a parameter which has a default value.</dc:description>
     </owl:Class>
     
 
@@ -11451,13 +11670,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000030"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -11474,13 +11693,13 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_000030"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000011"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000332"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -12046,12 +12265,6 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">organic submolecule</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010441"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010072"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -12064,6 +12277,12 @@ of endpoints (a start point and an endpoint).</dc:description>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010072"/>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -12099,22 +12318,6 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">open reading frame</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010444"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="&resource;SIO_010450"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
-                                <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
@@ -12129,6 +12332,22 @@ of endpoints (a start point and an endpoint).</dc:description>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&resource;SIO_010450"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_010082"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_010007"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
@@ -12179,6 +12398,12 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010335"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000093"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010010"/>
             </owl:Restriction>
@@ -12187,12 +12412,6 @@ of endpoints (a start point and an endpoint).</dc:description>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000369"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010035"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_010080"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <resource:similarTo>SO:0000178</resource:similarTo>
@@ -12331,12 +12550,6 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:label xml:lang="en">mature mRNA</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010099"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000244"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
             <owl:Class>
                 <owl:complementOf>
                     <owl:Restriction>
@@ -12350,6 +12563,12 @@ of endpoints (a start point and an endpoint).</dc:description>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_010082"/>
                 <owl:someValuesFrom rdf:resource="&resource;SIO_010043"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000244"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010450"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -12679,14 +12898,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010071"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010075"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000273"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010075"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010008"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -12737,12 +12956,6 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010004"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_011118"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000028"/>
                 <owl:someValuesFrom>
                     <owl:Class>
@@ -12755,6 +12968,12 @@ of endpoints (a start point and an endpoint).</dc:description>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011118"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">A covalently connected molecular entity is the mereological sum of a collection of covalently bonded atoms.</dc:description>
@@ -13463,14 +13682,14 @@ of endpoints (a start point and an endpoint).</dc:description>
         <rdfs:subClassOf rdf:resource="&resource;SIO_010020"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_010044"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000313"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_011125"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_010044"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description xml:lang="en">a submolecule is a mereological sum of a collection of covalently bonded atoms</dc:description>
@@ -15824,31 +16043,9 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000459"/>
-            <rdf:Description rdf:about="&resource;SIO_000460"/>
-            <rdf:Description rdf:about="&resource;SIO_000902"/>
-            <rdf:Description rdf:about="&resource;SIO_000903"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000428"/>
-            <rdf:Description rdf:about="&resource;SIO_000429"/>
-            <rdf:Description rdf:about="&resource;SIO_000430"/>
-            <rdf:Description rdf:about="&resource;SIO_000431"/>
-            <rdf:Description rdf:about="&resource;SIO_000432"/>
-            <rdf:Description rdf:about="&resource;SIO_000433"/>
-            <rdf:Description rdf:about="&resource;SIO_000434"/>
-            <rdf:Description rdf:about="&resource;SIO_000435"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_010011"/>
-            <rdf:Description rdf:about="&resource;SIO_010030"/>
-            <rdf:Description rdf:about="&resource;SIO_010346"/>
+            <rdf:Description rdf:about="&resource;SIO_000014"/>
+            <rdf:Description rdf:about="&resource;SIO_000016"/>
+            <rdf:Description rdf:about="&resource;SIO_000361"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -15862,9 +16059,58 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000014"/>
-            <rdf:Description rdf:about="&resource;SIO_000016"/>
-            <rdf:Description rdf:about="&resource;SIO_000361"/>
+            <rdf:Description rdf:about="&resource;SIO_010011"/>
+            <rdf:Description rdf:about="&resource;SIO_010030"/>
+            <rdf:Description rdf:about="&resource;SIO_010346"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_010007"/>
+            <rdf:Description rdf:about="&resource;SIO_010008"/>
+            <rdf:Description rdf:about="&resource;SIO_010025"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000166"/>
+            <rdf:Description rdf:about="&resource;SIO_000167"/>
+            <rdf:Description rdf:about="&resource;SIO_000168"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000913"/>
+            <rdf:Description rdf:about="&resource;SIO_000914"/>
+            <rdf:Description rdf:about="&resource;SIO_000915"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000023"/>
+            <rdf:Description rdf:about="&resource;SIO_000024"/>
+            <rdf:Description rdf:about="&resource;SIO_000025"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000512"/>
+            <rdf:Description rdf:about="&resource;SIO_000516"/>
+            <rdf:Description rdf:about="&resource;SIO_000539"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000459"/>
+            <rdf:Description rdf:about="&resource;SIO_000460"/>
+            <rdf:Description rdf:about="&resource;SIO_000902"/>
+            <rdf:Description rdf:about="&resource;SIO_000903"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -15879,14 +16125,6 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000023"/>
-            <rdf:Description rdf:about="&resource;SIO_000024"/>
-            <rdf:Description rdf:about="&resource;SIO_000025"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&resource;SIO_000400"/>
             <rdf:Description rdf:about="&resource;SIO_000401"/>
             <rdf:Description rdf:about="&resource;SIO_000402"/>
@@ -15895,33 +16133,14 @@ of endpoints (a start point and an endpoint).</dc:description>
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000913"/>
-            <rdf:Description rdf:about="&resource;SIO_000914"/>
-            <rdf:Description rdf:about="&resource;SIO_000915"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000166"/>
-            <rdf:Description rdf:about="&resource;SIO_000167"/>
-            <rdf:Description rdf:about="&resource;SIO_000168"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_000512"/>
-            <rdf:Description rdf:about="&resource;SIO_000516"/>
-            <rdf:Description rdf:about="&resource;SIO_000539"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="&resource;SIO_010007"/>
-            <rdf:Description rdf:about="&resource;SIO_010008"/>
-            <rdf:Description rdf:about="&resource;SIO_010025"/>
+            <rdf:Description rdf:about="&resource;SIO_000428"/>
+            <rdf:Description rdf:about="&resource;SIO_000429"/>
+            <rdf:Description rdf:about="&resource;SIO_000430"/>
+            <rdf:Description rdf:about="&resource;SIO_000431"/>
+            <rdf:Description rdf:about="&resource;SIO_000432"/>
+            <rdf:Description rdf:about="&resource;SIO_000433"/>
+            <rdf:Description rdf:about="&resource;SIO_000434"/>
+            <rdf:Description rdf:about="&resource;SIO_000435"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
