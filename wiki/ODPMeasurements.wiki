@@ -1,18 +1,22 @@
 #summary Ontology Design Pattern: Measurements
 #labels SIO,ODP
 #sidebar SIOSideBar
-Measurements are at the core of science. The following specifies which types and relations can be used to express quantities and their units. measurement units should be drawn from the [http://bioportal.bioontology.org/visualize/45500 unit ontology]
+
+Measurements are at the core of science. The following specifies which types and relations can be used to express quantities and their units. 
+
+Quantities have specific values that should be specified using the 'has value' datatype property and the value restricted to xsd:double, xsd:float and xsd:integer. Units can be specified using the [http://bioportal.bioontology.org/visualize/45500 unit ontology] with the 'has unit' object property. Quantities are the result of a measurement process, and as such can also be time indexed to a time instant or time interval (which itself is an object that specified as an xsd:dateTime). Finally, quantities are an attribute of the entity that was measured.
 
 {{{
 'quantity'
 subClassOf
  'has value' some Literal
   and 'has unit' only 'measurement unit'
-  and 'has attribute' some ('time instant' or 'time interval')
-  and 'is output of' only 'measuring process'
-  and 'satisfies' some 'procedure'
+  and 'measured at' some ('time instant' or 'time interval' and 'has value' some xsd:dateTime)
+  and 'is output of' only 'measurement process'
+  and 'is attribute of' some 'entity'
 }}}
 
+Thus, entities can be described in terms of their quantified attributes as follows:
 {{{
 'entity' 
 subClassOf
@@ -23,14 +27,15 @@ subClassOf
    )
 }}}
 
-{{{
 
+Finally, we can represent the generation of a quantity as follows:
+{{{
 'measuring process'
 subClassOf 
  'process' 
- and 'has attribute' some ('time interval')
  and 'has agent' some ('has function' some 'to measure')
  and 'has target' some ('has disposition' some 'to be measured')
  and 'has output' some 'quantity'
- and 'is specified by' some 'protocol'
+ and 'has attribute' some ('time interval')
+ and 'conforms to' some 'effective specification'
 }}}
