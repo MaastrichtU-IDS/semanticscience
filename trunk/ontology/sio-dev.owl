@@ -146,14 +146,8 @@
         <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -170,8 +164,14 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&resource;SIO_000132"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
+                <owl:onProperty rdf:resource="&resource;SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000002"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000217"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000027"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&resource;SIO_000004"/>
@@ -187,6 +187,17 @@
         <rdfs:label xml:lang="en">physical entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
         <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000416"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000061"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000217"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000026"/>
@@ -197,17 +208,6 @@
                 <owl:onProperty rdf:resource="&resource;SIO_000053"/>
                 <owl:allValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&resource;SIO_000416"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&resource;SIO_000061"/>
-                        <owl:someValuesFrom rdf:resource="&resource;SIO_000416"/>
-                    </owl:Restriction>
-                </owl:unionOf>
-            </owl:Class>
         </rdfs:subClassOf>
         <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
         <terms:description xml:lang="en">A physical entity is an entity that is spatio-temporally located (is or occupies some part of spacetime) and only has physical entities as parts.</terms:description>
@@ -237,13 +237,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
+                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&resource;SIO_000059"/>
-                <owl:allValuesFrom rdf:resource="&resource;SIO_000006"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000006"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
@@ -261,6 +261,24 @@
                 <owl:someValuesFrom rdf:resource="&resource;SIO_000003"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000017 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000017">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000112"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                        <owl:someValuesFrom rdf:resource="&resource;SIO_000361"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </rdf:Description>
     
 
@@ -527,6 +545,45 @@
     
 
 
+    <!-- http://semanticscience.org/resource/SIO_000354 -->
+
+    <rdf:Description rdf:about="&resource;SIO_000354">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&resource;SIO_000112"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&resource;SIO_000362"/>
+                                <owl:someValuesFrom rdf:resource="&resource;SIO_000361"/>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </rdf:Description>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000361 -->
+
+    <owl:Class rdf:about="&resource;SIO_000361">
+        <rdfs:label xml:lang="en">agent realizable</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000364"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
+        <terms:description xml:lang="en">An agent realizable is a realizable entity that is formulated by one or more agents and may be communicated among agents through some outward manifestation.</terms:description>
+    </owl:Class>
+    
+
+
     <!-- http://semanticscience.org/resource/SIO_000370 -->
 
     <rdf:Description rdf:about="&resource;SIO_000370">
@@ -561,9 +618,9 @@
     <!-- http://semanticscience.org/resource/SIO_000548 -->
 
     <owl:Class rdf:about="&resource;SIO_000548">
-	<owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
         <rdfs:label xml:lang="en">specialized biological entity</rdfs:label>
         <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+        <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
     </owl:Class>
     
 
@@ -580,6 +637,29 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000584 -->
+
+    <owl:Class rdf:about="&resource;SIO_000584">
+        <rdfs:label xml:lang="en">living</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000369"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000582"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&resource;SIO_000139"/>
+                <owl:someValuesFrom rdf:resource="&resource;SIO_000000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
+        <terms:description xml:lang="en">Living is a process for a biological entity that unfolds from the moment it comes into existence to the moment it cease to exist</terms:description>
     </owl:Class>
     
 
@@ -845,9 +925,28 @@
         <rdfs:label>obsolete</rdfs:label>
         <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
     </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&resource;SIO_000014"/>
+            <rdf:Description rdf:about="&resource;SIO_000016"/>
+            <rdf:Description rdf:about="&resource;SIO_000361"/>
+        </owl:members>
+    </rdf:Description>
 </rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net -->
 
