@@ -4,16 +4,16 @@
 
 Measurements are at the core of science. The following specifies which types and relations can be used to express quantities and their units. 
 
-Quantities have specific values that should be specified using the 'has value' datatype property and the value restricted to xsd:double, xsd:float and xsd:integer. Units can be specified using the [http://bioportal.bioontology.org/visualize/45500 unit ontology] with the 'has unit' object property. Quantities are the result of a measurement process, and as such can also be time indexed to a time instant or time interval (which itself is an object that specified as an xsd:dateTime). Finally, quantities are an attribute of the entity that was measured.
+Quantities have specific values that should be specified using the 'has value' datatype property and the value restricted to a set of datatypes supported by [http://www.w3.org/TR/owl2-syntax/#Datatype_Maps OWL] including owl:real, xsd:double, xsd:float, xsd:integer and xsd:long. Units can be specified using the [http://bioportal.bioontology.org/visualize/45500 unit ontology] with the 'has unit' object property. Quantities are the result of a measurement process, and as such can also be time indexed to a time instant or time interval (which itself is an object that specified as an xsd:dateTime). Finally, quantities are an attribute of the entity that was measured.
 
 {{{
 'quantity'
 subClassOf
- 'has value' some Literal
+ 'has value' some Literal  # consider owl:real (xsd:float, xsd:double, xsd:int, xsd:long), xsd:boolean 
   and 'has unit' only 'measurement unit'
-  and 'measured at' some ('time instant' or 'time interval' and 'has value' some xsd:dateTime)
   and 'is output of' only 'measurement process'
   and 'is attribute of' some 'entity'
+  and 'measured at' some ('time instant' or 'time interval' and 'has value' some xsd:dateTime) #optional 
 }}}
 
 Thus, entities can be described in terms of their quantified attributes as follows:
@@ -22,7 +22,7 @@ Thus, entities can be described in terms of their quantified attributes as follo
 subClassOf
   'has attribute' some (
     'quantity' 
-    that 'has value' some Literal
+    that 'has value' some Literal 
     and 'has unit' some 'measurement unit'
    )
 }}}
@@ -33,9 +33,9 @@ Finally, we can represent the generation of a quantity as follows:
 'measuring process'
 subClassOf 
  'process' 
- and 'has agent' some ('has function' some 'to measure')
- and 'has target' some ('has disposition' some 'to be measured')
- and 'has output' some 'quantity'
- and 'has attribute' some ('time interval')
- and 'conforms to' some 'effective specification'
+ and 'has agent' some 'object'  # the agent (person, software, etc) initiating the measurement
+ and 'has target' some ('has capability' some 'to be measured') # the entity being measured
+ and 'has output' some 'quantity' # the measurement (see above)
+ and 'has attribute' some 'time interval' # the time at which the measuring took place
+ and 'has participant' some (object and 'has function' some 'to measure') # the device used to undertake the measurement, if any and 'conforms to' some 'effective specification' # a the protocol followed, if any
 }}}
