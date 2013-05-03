@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY serv "http://semanticscience.org/serv:" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY resource "http://semanticscience.org/resource/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.org/ontology/serv.owl#"
+     xml:base="http://semanticscience.org/ontology/serv.owl"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:serv="http://semanticscience.org/serv:"
+     xmlns:resource="http://semanticscience.org/resource/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/serv:dataset -->
+
+    <owl:ObjectProperty rdf:about="&serv;dataset">
+        <rdfs:label>dataset</rdfs:label>
+        <rdfs:comment
+            >A relation whose value is a dataset.</rdfs:comment>
+        <rdfs:range rdf:resource="&serv;Dataset"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/serv:entity -->
+
+    <owl:ObjectProperty rdf:about="&serv;entity">
+        <rdfs:label>entity</rdfs:label>
+        <rdfs:comment
+            >A relation whose value is an Entity.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/serv:namespace -->
+
+    <owl:ObjectProperty rdf:about="&serv;namespace">
+        <rdfs:label>namespace</rdfs:label>
+        <rdfs:comment
+            >A relation whose value is a Namespace.</rdfs:comment>
+        <rdfs:range rdf:resource="&serv;Namespace"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://semanticscience.org/serv:references -->
+
+    <owl:ObjectProperty rdf:about="&serv;references">
+        <rdfs:label>references</rdfs:label>
+        <rdfs:comment
+            >A relation between an information content entity and some other entity where the subject makes a reference to the object.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/serv:value -->
+
+    <owl:DatatypeProperty rdf:about="&serv;value">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>value</rdfs:label>
+        <rdfs:comment
+            >A relation from the information content entity to its literal value.</rdfs:comment>
+        <rdfs:domain rdf:resource="&serv;ICE"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/serv:Agent -->
+
+    <owl:Class rdf:about="&serv;Agent">
+        <rdfs:label>Agent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;Entity"/>
+        <rdfs:comment
+            >An agent is an entity capable of executing some task. Agents include people, organizations.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Dataset -->
+
+    <owl:Class rdf:about="&serv;Dataset">
+        <rdfs:label>Dataset</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;ICE"/>
+        <rdfs:comment
+            >A dataset is an information content entity that is composed of information about entities.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Document -->
+
+    <owl:Class rdf:about="&serv;Document">
+        <rdfs:label>Document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;ICE"/>
+        <rdfs:comment
+            >A document is an information content entity that is used to communicate information about some entity/entities.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Entity -->
+
+    <owl:Class rdf:about="&serv;Entity">
+        <rdfs:label>Entity</rdfs:label>
+        <rdfs:comment
+            >An entity is a named/identified thing.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:ICE -->
+
+    <owl:Class rdf:about="&serv;ICE">
+        <rdfs:label
+            >Information Content Entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;Entity"/>
+        <rdfs:comment
+            >An Information content entity (ICE) is an entity that contains information (e.g. meaningful data) about another entity and has at least one physical manifestation (e.g. digital media, ink on paper, neurals patterns).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Identifier -->
+
+    <owl:Class rdf:about="&serv;Identifier">
+        <rdfs:label>Identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;ICE"/>
+        <rdfs:comment
+            >An identifier is an information content entity that refers to another entity. An identifier defined in a namespace is associated with that namespace.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Information -->
+
+    <owl:Class rdf:about="&serv;Information">
+        <rdfs:label>Information</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;Entity"/>
+        <rdfs:comment
+            >Information is an entity that is composed of data that can be meaningfully interpreted/communicated (semantics) and whose syntax conforms to that specified by an information system.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:Namespace -->
+
+    <owl:Class rdf:about="&serv;Namespace">
+        <rdfs:label>Namespace</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;ICE"/>
+        <rdfs:comment
+            >A namespace is an information content entity composed of a set of symbols or identifiers.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/serv:RegistryNamespace -->
+
+    <owl:Class rdf:about="&serv;RegistryNamespace">
+        <rdfs:label
+            >RegistryNamespace</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&serv;Namespace"/>
+        <rdfs:comment
+            >A registry namespace is a namespace defined by the Registry.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&serv;Dataset"/>
+            <rdf:Description rdf:about="&serv;Document"/>
+            <rdf:Description rdf:about="&serv;Identifier"/>
+            <rdf:Description rdf:about="&serv;Namespace"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&serv;Agent"/>
+            <rdf:Description rdf:about="&serv;ICE"/>
+            <rdf:Description rdf:about="&serv;Information"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
