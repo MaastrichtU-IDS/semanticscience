@@ -1,0 +1,636 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY ss "http://semanticscience.org/resource/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ulo "http://semanticscience.googlecode.com/svn/trunk/ontology/ulo.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://semanticscience.org/ontology/ulo.owl"
+     xml:base="http://semanticscience.googlecode.com/svn/trunk/ontology/ulo.owl"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:ulo="http://semanticscience.googlecode.com/svn/trunk/ontology/ulo.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ss="http://semanticscience.org/resource/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:label
+            >Upper Level Ontology</rdfs:label>
+        <dc:publisher
+            >semanticscience.org</dc:publisher>
+        <dc:creator
+            >Michel Dumontier</dc:creator>
+        <dc:title
+            >Upper Level Ontology</dc:title>
+        <rdfs:comment
+            >An upper level ontology consisting of domain independent entities. Inspired, to a large extent, by the Basic Formal Ontology (BFO)</rdfs:comment>
+        <ss:definition
+            >An upper level ontology consisting of domain independent entities. Inspired, to a large extent, by the Basic Formal Ontology (BFO).</ss:definition>
+        <owl:imports rdf:resource="http://semanticscience.googlecode.com/svn/trunk/ontology/annotation.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&ss;definition"/>
+    <owl:AnnotationProperty rdf:about="&dc;publisher"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&ss;example"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/ConceptualEntity -->
+
+    <owl:Class rdf:about="&ss;ConceptualEntity">
+        <rdfs:label
+            >conceptual entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;GenericallyDependentContinuant"/>
+        <owl:disjointWith rdf:resource="&ss;InformationContentEntity"/>
+        <ss:definition
+            >A conceptual entity is a generically dependent continuant that is abstract, conceptual or mathematical.</ss:definition>
+        <ss:example
+            >An idea; A unicorn; E=MC^2;</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ConnectedSpatialTemporalRegion -->
+
+    <owl:Class rdf:about="&ss;ConnectedSpatialTemporalRegion">
+        <rdfs:label
+            >connected spatial temporal region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialTemporalRegion"/>
+        <owl:disjointWith rdf:resource="&ss;ScatteredSpatialTemporalRegion"/>
+        <ss:definition
+            >A connected spatial temporal region is a spatial temporal region that is maximally connected in both space and in time.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Continuant -->
+
+    <owl:Class rdf:about="&ss;Continuant">
+        <rdfs:label>continuant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;DependentContinuant"/>
+                    <rdf:Description rdf:about="&ss;IndependentContinuant"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Entity"/>
+        <owl:disjointWith rdf:resource="&ss;Occurrent"/>
+        <ss:example
+            >a molecule, the mass of a molecule, the role of a transcription factor, a transcription factor, a collection of molecules in the cell, a binding site, a region of a cell.</ss:example>
+        <ss:definition
+            >A continuant is an entity that exists in full at any time in which it exists at all, persists through time while maintaining its identity and whose parts are only continuants.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/DependentContinuant -->
+
+    <owl:Class rdf:about="&ss;DependentContinuant">
+        <rdfs:label
+            >dependent continuant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;GenericallyDependentContinuant"/>
+                    <rdf:Description rdf:about="&ss;SpecificallyDependentContinuant"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Continuant"/>
+        <owl:disjointWith rdf:resource="&ss;IndependentContinuant"/>
+        <ss:definition
+            >A dependent continuant is a continuant which is borne by an independent continuant.</ss:definition>
+        <ss:example
+            >the mass of a molecule, the role of a transcription factor</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Entity -->
+
+    <owl:Class rdf:about="&ss;Entity">
+        <rdfs:label>entity</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;Continuant"/>
+                    <rdf:Description rdf:about="&ss;Occurrent"/>
+                    <rdf:Description rdf:about="&ss;SpatialTemporalRegion"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <ss:definition
+            >Everything is an entity.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/FiatObjectPart -->
+
+    <owl:Class rdf:about="&ss;FiatObjectPart">
+        <rdfs:label
+            >fiat object part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;MaterialEntity"/>
+        <ss:example
+            >the part of the cell that is involved in cell adhesion</ss:example>
+        <ss:definition
+            >A fiat object part is a material entity that is part of an object but is not *wholly* demarcated by any physical discontinuities.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Function -->
+
+    <owl:Class rdf:about="&ss;Function">
+        <rdfs:label>function</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;RealizedDisposition"/>
+        <ss:definition
+            >A function is realizable entity in which the capacity to execute some end directed activity under a specific circumstance is intrinsic to its composition.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/GenericallyDependentContinuant -->
+
+    <owl:Class rdf:about="&ss;GenericallyDependentContinuant">
+        <rdfs:label
+            >generically dependent continuant</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;DependentContinuant"/>
+        <owl:disjointWith rdf:resource="&ss;SpecificallyDependentContinuant"/>
+        <ss:example
+            >The PDF file being displayed on my screen which is also is stored in memory or in the hard drive. The triangle formed by the peaks of those three mountains.</ss:example>
+        <ss:definition
+            >A generically dependent continuant is a dependent continuant that is borne by one or more independent continuants.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/IndependentContinuant -->
+
+    <owl:Class rdf:about="&ss;IndependentContinuant">
+        <rdfs:label
+            >independent continuant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;MaterialEntity"/>
+                    <rdf:Description rdf:about="&ss;Site"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Continuant"/>
+        <ss:example
+            >a molecule, a transcription factor, a collection of molecules in the cell, a binding site, a region of a cell.</ss:example>
+        <ss:definition
+            >An independent continuant is a continuant that is the bearer of qualities and realizable entities.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/InformationContentEntity -->
+
+    <owl:Class rdf:about="&ss;InformationContentEntity">
+        <rdfs:label
+            >information content entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;GenericallyDependentContinuant"/>
+        <ss:definition
+            >An information content entity is a generically dependent continuant that is an abstraction of, a representation for, or information about some entity.</ss:definition>
+        <ss:example
+            >The introduction of a scientific article; a sequence that is the concretization of the quality of primary structure; a geometric mesh that represents a molecular surface; the angle from the sun during the the bee waggle dance gives information about the direction to housing or sustenance.</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/InstantaneousProcess -->
+
+    <owl:Class rdf:about="&ss;InstantaneousProcess">
+        <rdfs:label
+            >instantaneous process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Process"/>
+        <ss:definition
+            >An instantaneous process is a process that occurs as a boundary to other processes, and whose beggining and end are exactly the same.</ss:definition>
+        <ss:example>cell death</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/MaterialEntity -->
+
+    <owl:Class rdf:about="&ss;MaterialEntity">
+        <rdfs:label>material entity</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;FiatObjectPart"/>
+                    <rdf:Description rdf:about="&ss;Object"/>
+                    <rdf:Description rdf:about="&ss;ObjectAggregate"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;IndependentContinuant"/>
+        <owl:disjointWith rdf:resource="&ss;Site"/>
+        <ss:definition
+            >A material entity is an independent continuant that is spatially extended and whose identity is independent of that of other entities and can be maintained through time.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Object -->
+
+    <owl:Class rdf:about="&ss;Object">
+        <rdfs:label>object</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;MaterialEntity"/>
+        <ss:definition
+            >An object is a material entity that is spatially extended, maximally self-connected and self-contained.</ss:definition>
+        <ss:example
+            >a molecule, a cell, a protein complex</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ObjectAggregate -->
+
+    <owl:Class rdf:about="&ss;ObjectAggregate">
+        <rdfs:label
+            >object aggregate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;MaterialEntity"/>
+        <ss:definition
+            >An object aggregate is a material entity that is the mereological sum of separate objects and may possess non-connected boundaries.</ss:definition>
+        <ss:example
+            >a collection of molecules, a collection of rocks</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ObjectBoundary -->
+
+    <owl:Class rdf:about="&ss;ObjectBoundary">
+        <rdfs:label>object boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;FiatObjectPart"/>
+        <ss:example
+            >the surface of the earth, the surface of a molecule</ss:example>
+        <ss:definition
+            >An object boundary (aka surface) is a fiat object part that exists exactly at the point where the object is separated from other entities.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Occurrent -->
+
+    <owl:Class rdf:about="&ss;Occurrent">
+        <rdfs:label>occurrent</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;Process"/>
+                    <rdf:Description rdf:about="&ss;ProcessAggregate"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Entity"/>
+        <ss:example
+            >cell division, cell death, a set of asynchronous cell divisions.</ss:example>
+        <ss:definition
+            >An occurrent is an entity happens, unfolds or develops through time and whose parts are also occurrents.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/OneDimensionalRegion -->
+
+    <owl:Class rdf:about="&ss;OneDimensionalRegion">
+        <rdfs:label
+            >one dimensional region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegionByDimension"/>
+        <rdfs:comment
+            >A spatial region with one dimension.</rdfs:comment>
+        <ss:example
+            >an edge of a cube-shaped part of space</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Process -->
+
+    <owl:Class rdf:about="&ss;Process">
+        <rdfs:label>process</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Occurrent"/>
+        <owl:disjointWith rdf:resource="&ss;ProcessAggregate"/>
+        <ss:definition
+            >A process is an occurrent that is a maximally connected in spacetime and has bona fide beginnings and endings corresponding to real discontinuities in time.</ss:definition>
+        <ss:example
+            >molecular interaction, cell division, cell death</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ProcessAggregate -->
+
+    <owl:Class rdf:about="&ss;ProcessAggregate">
+        <rdfs:label
+            >process aggregate</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;Occurrent"/>
+        <ss:example
+            >a set of asynchronous cell divisions.</ss:example>
+        <ss:definition
+            >A process aggregate is an occurent that is a meriological sum of processes and possesses non-connected temporal boundaries.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Quality -->
+
+    <owl:Class rdf:about="&ss;Quality">
+        <rdfs:label>quality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpecificallyDependentContinuant"/>
+        <owl:disjointWith rdf:resource="&ss;RealizableEntity"/>
+        <ss:definition
+            >A quality is an specifically dependent continuant that is intrinsically associated with an independent continuant, but whose observed/measured value may change with time.</ss:definition>
+        <ss:example
+            >the mass of a molecule, the color of a fluorophore</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/RealizableEntity -->
+
+    <owl:Class rdf:about="&ss;RealizableEntity">
+        <rdfs:label
+            >realizable entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpecificallyDependentContinuant"/>
+        <ss:definition
+            >A realizable entity is a specifically dependent continuant that is solely realized during a process. Realizable entities include dispositions, functions and roles.</ss:definition>
+        <ss:example
+            >the disposition to be clumsy, the function of email to deliver messages, the role of a catalyst to increase the rate of reaction.</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/RealizedDisposition -->
+
+    <owl:Class rdf:about="&ss;RealizedDisposition">
+        <rdfs:label>disposition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;RealizableEntity"/>
+        <ss:definition
+            >A disposition is a realizable entity that reflects a tendency under certain circumstances to cause a specific process or transformation in the object in which it inheres.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Role -->
+
+    <owl:Class rdf:about="&ss;Role">
+        <rdfs:label>role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;RealizableEntity"/>
+        <ss:definition
+            >A role is a realizable entity that reflects the behavior of an independent continuant in a specific circumstance involving two or more independent continuants.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ScatteredSpatialTemporalRegion -->
+
+    <owl:Class rdf:about="&ss;ScatteredSpatialTemporalRegion">
+        <rdfs:label
+            >scattered spatial temporal region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialTemporalRegion"/>
+        <ss:example
+            >The space occupied by the individual substrate molecules in a test tube during several experiments.</ss:example>
+        <ss:definition
+            >A scattered spatial temporal region is a spatial temporal region that is not contiguous in either space or time.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/Site -->
+
+    <owl:Class rdf:about="&ss;Site">
+        <rdfs:label>site</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;IndependentContinuant"/>
+        <ss:definition
+            >A site is an independent continuant defined by a characteristic spatial shape in relation to some arrangement of other continuants and a medium in which it is enclosed in whole or in part. Sites are entities that can be occupied by other continuants.</ss:definition>
+        <ss:example
+            >a binding site, the mitochondrial matrix</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SpatialBoundary -->
+
+    <owl:Class rdf:about="&ss;SpatialBoundary">
+        <rdfs:label
+            >spatial boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegion"/>
+        <ss:example
+            >a point is the boundary of a 1D object, a line is the boundary of a 2D object, a surface is the boundary of a 3D object.</ss:example>
+        <ss:definition
+            >A spatial boundary is a spatial region that is tangential proper part of a larger spatial region.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SpatialRegion -->
+
+    <owl:Class rdf:about="&ss;SpatialRegion">
+        <rdfs:label>spatial region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialTemporalRegion"/>
+        <owl:disjointWith rdf:resource="&ss;TemporalRegion"/>
+        <ss:example
+            >The spatial location occupied by a cell.</ss:example>
+        <ss:definition
+            >A spatial region is a spatial temporal region that is restricted to space.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SpatialRegionByDimension -->
+
+    <owl:Class rdf:about="&ss;SpatialRegionByDimension">
+        <rdfs:label
+            >spatial region by dimension</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegion"/>
+        <ss:definition
+            >A region of space characterized by its spatial dimension.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SpatialTemporalRegion -->
+
+    <owl:Class rdf:about="&ss;SpatialTemporalRegion">
+        <rdfs:label
+            >spatial temporal region</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;SpatialRegion"/>
+                    <rdf:Description rdf:about="&ss;TemporalRegion"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;ConnectedSpatialTemporalRegion"/>
+                    <rdf:Description rdf:about="&ss;ScatteredSpatialTemporalRegion"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;Entity"/>
+        <ss:example
+            >cell division occurred in the laboratory over a period of 48 hours.</ss:example>
+        <ss:definition
+            >A spatial temporal region is an entity composed of spatial regions that are parts of space and temporal regions that are parts of time and is the spatial location of continuants and is the temporal location of occurrents.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SpecificallyDependentContinuant -->
+
+    <owl:Class rdf:about="&ss;SpecificallyDependentContinuant">
+        <rdfs:label
+            >specifically dependent continuant</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ss;Quality"/>
+                    <rdf:Description rdf:about="&ss;RealizableEntity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ss;DependentContinuant"/>
+        <ss:example
+            >the mass of a molecule, the color of a fluorophore, the disposition to be clumsy, the function of email to deliver messages, the role of a catalyst to increase the rate of reaction.</ss:example>
+        <ss:definition
+            >A specifically dependent continuant is a continuant that inheres in a specific and unchanging independent continuant.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/TemporalBoundary -->
+
+    <owl:Class rdf:about="&ss;TemporalBoundary">
+        <rdfs:label
+            >temporal boundary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;TemporalInterval"/>
+        <ss:example
+            >the time between cell life and death.</ss:example>
+        <rdfs:comment
+            >A temporal boundary is a temporal region that forms at the instantaneous edge of a point in time.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/TemporalInterval -->
+
+    <owl:Class rdf:about="&ss;TemporalInterval">
+        <rdfs:label
+            >temporal interval</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;TemporalRegion"/>
+        <ss:example
+            >the time it takes for a cell to replicate.</ss:example>
+        <ss:definition
+            >A temporal interval is a a temporal region that is finitely delimited by having a start and end time.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/TemporalRegion -->
+
+    <owl:Class rdf:about="&ss;TemporalRegion">
+        <rdfs:label>temporal region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialTemporalRegion"/>
+        <ss:example
+            >The temporal region occupied by cell division.</ss:example>
+        <ss:definition
+            >A temporal region is a spatial temporal region that is restricted to time.</ss:definition>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ThreeDimensionalRegion -->
+
+    <owl:Class rdf:about="&ss;ThreeDimensionalRegion">
+        <rdfs:label
+            >three dimensional region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegionByDimension"/>
+        <rdfs:comment
+            >A spatial region with three dimensions.</rdfs:comment>
+        <ss:example
+            >a cube-shaped part of space.</ss:example>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/TwoDimensionalRegion -->
+
+    <owl:Class rdf:about="&ss;TwoDimensionalRegion">
+        <rdfs:label
+            >two dimensional region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegionByDimension"/>
+        <ss:example
+            >the surface of a cube-shaped part of space, the surface of a sphere-shaped part of space.</ss:example>
+        <rdfs:comment
+            >A spatial region with two dimensions.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/ZeroDimensionalRegion -->
+
+    <owl:Class rdf:about="&ss;ZeroDimensionalRegion">
+        <rdfs:label
+            >zero dimensional region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ss;SpatialRegionByDimension"/>
+        <ss:example>a point</ss:example>
+        <rdfs:comment
+            >A spatial region with zero dimensions.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
