@@ -30,7 +30,7 @@ SOFTWARE.
  *  store result ($result->{id,termid,yes|no|idk,comment}}
 */
 
-public class SEBackend{
+class SEBackend{
 	/**
 	* Database credentials
 	*/
@@ -38,8 +38,91 @@ public class SEBackend{
 	private $user = "sio-evaluator";
 	private $pass = "sio-evaluator-secret";
 	private $db = "sio-evaluator";
+	private $conn = null;
 
+	public function __construct(){
+		//create a connection to the database 
+		$conn = $this->createConnection(
+			$this->getHost(), 
+			$this->getUser(), 
+			$this->getPass(), 
+			$this->getDatabase()
+		);
+		//check if the DB's tables have been created and populated
+		if($this->isDbPopulated() == false){
+			// empty the database and create tables from scratch
+
+		}
+	}
+
+	/** 
+	* Create a connection to the sio-evaluator database.
+	* If cannot create one, program fails and exits
+	*/
+	private function createConnection($h, $u, $p, $db){
+		$rm = mysqli_connect($h, $u, $p, $db);
+		//check conn
+		if(mysqli_connect_errno($rm)){
+			echo "Failed to connect to Database: ". mysqli_connect_error();
+			exit;
+		}
+		return $rm;
+	}
+
+	private function getDirectParentOf($aQname){
+
+	}
+
+	private function getAnnotaitonFor($aQname){
+
+	}
+
+	private function getDescendantsOf($aQname){
+		
+	}
+
+	/**
+	* Check if the database for this sio-evaluator has been populated.
+	* Returns true if populated tables are found
+	* false otherwise
+	*/
+	private function isDbPopulated(){
+		//first check if database exists
+		return false;
+	}
+
+	/**
+	* This method populates the Sio-Evaluator database. 
+	* If the database has been created it returns false, creates it otherwise
+	*/
+	private function populateSEDB(){
+		return false;
+	}
+
+	private function getHost(){
+		return $this->host;
+	}
+	private function getUser(){
+		return $this->user;
+	}
+	private function getDatabase(){
+		return $this->db;
+	}
+	private function getPass(){
+		return $this->pass;
+	}
+	private function getConn(){
+		return $this->conn;
+	}
 
 
 }//class
+
+
+/**********/
+/* RUNNER */
+/**********/
+$p = new SEBackend();
+
+
 ?>
