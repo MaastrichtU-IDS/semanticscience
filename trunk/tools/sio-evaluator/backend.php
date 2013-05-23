@@ -42,8 +42,8 @@ class SEBackend{
 		//check if the DB's tables have been created and populated
 		if($this->isDbPopulated() == false){
 			// empty the database and create tables from scratch
-			$classes = $this->retrieveSIOClasses();
-			print_r($classes);
+			$axioms = $this->retrieveClassAxioms('http://semanticscience.org/resource/SIO_000006');
+			//print_r($axioms);
 
 		}
 	}
@@ -124,11 +124,53 @@ class SEBackend{
 	* @param $someClassUri a of a SIO class 
 	*/
 	private function retriveClassAnnotation($someClassUri){
-		$rm = array();
-		foreach ($someClassUris as $aUri) { 
-			
+		//owltools /home/jose/owl/sio.owl --reasoner hermit --sparql-dl "SELECT * WHERE{ Annotation( <http://semanticscience.org/resource/SIO_000006>, <http://purl.org/dc/terms/description>, ?d) }"
+		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
+		if(count($matches)){
+			$result = shell_exec(
+				"owltools ".$this->sio_location.
+				" --sparql-dl \"SELECT * WHERE {Annotation(<".
+				$matches[0].">, <http://purl.org/dc/terms/description>, ?d) }\""
+			) or die ("Could not run owltools!\n");
+			$lines = explode("\n", $result);
+			foreach ($lines as $aLine) {
+				//[0]  ?d=
+				preg_match("/^\[0\]\s+\?d=\"(.*)\"/", $aLine, $m);
+				if(count($m)){
+					$r = $m[1];
+					if(count($r)){
+						return $r;
+					}
+				}
+			}
+		}else{
+			return null;
 		}
-		return $rm;
+	}//retrieveClassAnnotation
+
+	/**
+	* return the class axioms for a given class URI in manchester syntax
+	*/
+	private function retrieveClassAxioms($someClassUri){
+		$rm = array();
+		//owltools ~/Documents/ontologies/sio/sio.owl --reasoner hermit --pretty-printer-settings -m --hide-ids --list-class-axioms 'http://semanticscience.org/resource/SIO_000006'
+		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
+		if(count($matches)){
+			$result = shell_exec("owltools ".$this->sio_location." --reasoner hermit"
+					." --pretty-printer-settings -m --hide-ids"
+					." --list-class-axioms '".$matches[0]."'"
+				) or die("Could not run owltools! \n");
+			$lines = explode("\n", $result);
+			foreach($lines as $aLine){
+				preg_match("/^[^\d+\-\d+\-\d+].+/", $aLine, $m);
+				if(count($m)){
+					$rm[] = trim($m[0]);
+				}
+			}
+			return $rm;
+		}else{
+			return null;
+		}
 	}
 
 }//class
