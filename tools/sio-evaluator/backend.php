@@ -24,8 +24,8 @@
  * class;
  * functions 
  *  get next term (userid) {returns obj->{userid, qname, type, string}}
- *  get annotation (qname) {return obj->{userid,qname,type,string}}
- *  get subclass axiom (qname)  {return obj->{userid,qname,type,string} }
+ *  getAnnotation (qname) {return obj->{userid,qname,type,string}}
+ *  getSubclassAxioms (qname)  {return obj->{userid,qname,type,string} }
  *  store result ($result->{userid,type,qname,yes|no|idk,comment}}
 */
 
@@ -71,16 +71,13 @@ class SioEvaluator{
 		$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
-			
 			// empty the database and create tables from scratch
-			//$this->emptyTable("qname2annotation");
-			//$this->emptyTable("qname2axiom");
+			$this->emptyTable("qname2annotation");
+			$this->emptyTable("qname2axiom");
 			$this->emptyTable("qname2label");
-			//$this->populateQname2Annotation();
-			//$this->populateQname2Axiom();
+			$this->populateQname2Annotation();
+			$this->populateQname2Axiom();
 			$this->populateQname2Label();
-			//populate qname2annotation and qname2axiom
-			//$this->populate();
 		}
 		//create a userid
 		$this->userid = $aUserId;
@@ -112,60 +109,59 @@ class SioEvaluator{
 
 	/**
 	* Get the dc:description for a SIO Class ( using its QNamei.e.: SIO:000000) for 
-	* a given IP. 
+	* a given qname
 	*
 	* 
-	* @param 
-	* @return {return obj->{userid,qname,type,string}}
+	* @param a valid sio Qname
+	* @return an object with the following instance variables:
+	* - qname : the class's qname
+	* - type : "annotation"
+	* - value : the value of the annotation
+	* - label : the rdfs:label of this class
+	* - uri : the uri for this class
 	*/
 	public function getAnnotation($aQname){
 		//SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = "SIO:000395"
 		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = '".$aQname."'";
-		echo "\n".$qry."\n";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
-				print_r($row);
+				$rm = new stdClass();
+				$rm->qname = $aQname;
+				$rm->type = "annotation";
+				$rm->value = $row['annotation'];
+				$rm->label = $this->getLabelFromQname($aQname);
+				$rm->uri = $this->makeUriFromQname($aQname);
+				return $rm;
 			}
 		}else{
 			printf("Error: %s\n", $this->getConn()->error);
 			exit;
 		}
+		return null;
+	}
+
+	/**
+	* Retrieve a Qname's rdfs:label from qname2label
+	* @param $aQname a valid Qname (eg: SIO:000395)
+	* @return the qname's label null if none is found
+	*/
+	public function getLabelFromQname($aQname){
+		$qry = "SELECT qa.label FROM qname2label qa WHERE qa.qname = '".$aQname."'";
+		if($r = $this->getConn()->query($qry)){
+			while($row = $result->fetch_assoc()){
+				return $row['label'];
+			}
+		}else{
+			printf("Error: %s\n", $this->getConn()->error);
+			exit;
+		}
+		return null;
 
 	}
 
-
-	//populate qname2annotation and qname2axiom
-	/*private function populate(){
-		//get the list of classes
-		$sio_classes = $this->retrieveSIOClasses();
-		echo "loading tables qname2annoation and qname2axiom...";
-		foreach ($sio_classes as $aClassUri) {
-			$aQname = $this->makeQNameFromUri($aClassUri);
-			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
-			$axioms = $this->retrieveClassAxioms($aClassUri);
-			$label = $this->retrieveClassLabel($aClassUri);
-			//insert into the table
-			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".str_replace("'", "", $anAnnotation)."')";
-			
-			if(!$this->getConn()->query($qry)){
-				printf("Error: %s\n", $this->getConn()->error);
-				exit;
-			}
-
-			foreach ($axioms as $anAxiom) {
-				$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','". str_replace("'", "", $anAxiom)."')";
-				if(!$this->getConn()->query($qry2)){
-					printf("Error: %s\n", $this->getConn()->error);
-					exit;
-				}
-			}
-		}
-		echo " done! \n";
-	}*/
-
 	private function populateQname2Label(){
 		$sc = $this->getSioClasses();
-		echo "loading table qname2axiom ... ";
+		echo "loading table qname2label ... ";
 		foreach ($sc as $aClassUri) {
 			$aQname = $this->makeQNameFromUri($aClassUri);
 			$label = $this->retrieveClassLabel($aClassUri);
@@ -329,6 +325,12 @@ class SioEvaluator{
 	public function makeQNameFromUri($aUri){
 		$s = substr($aUri,  strrpos($aUri, "/")+1);
 		return str_replace("_", ":", $s);
+	}
+
+	public function makeUriFromQname($aQname){
+		//http://semanticscience.org/resource/
+		$s = str_replace(":", "_", $aQname);
+		return "http://semanticscience.org/resource/".$s;
 	}
 
 
