@@ -71,8 +71,7 @@ class SEBackend{
 
 
 			//$axioms = $this->retrieveClassAxioms('http://semanticscience.org/resource/SIO_000006');
-			print_r($axioms);
-
+		
 		}
 		//create a userid
 		$this->userid = $aUserId;
@@ -139,8 +138,8 @@ class SEBackend{
 			}
 
 			foreach ($axioms as $anAxiom) {
-				$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','".$anAxiom."')";
-				if(!$this->getConn()->query($qry)){
+				$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','". str_replace("'", "", $anAxiom)."')";
+				if(!$this->getConn()->query($qry2)){
 					printf("Error: %s\n", $this->getConn()->error);
 					exit;
 				}
@@ -248,7 +247,7 @@ class SEBackend{
 /**********/
 /* RUNNER */
 /**********/
-$p = new SEBackend($loadDb = true);
+$p = new SEBackend(1234,$loadDb = true);
 
 
 ?>
