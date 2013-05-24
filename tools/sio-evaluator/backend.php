@@ -76,7 +76,7 @@ class SioEvaluator{
 		$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
-
+			//TESTING ONLY 
 			$this->userid = $aUserId;
 			print_r($this->getNextTerm());
 			exit;
