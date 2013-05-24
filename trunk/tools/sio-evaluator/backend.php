@@ -24,8 +24,8 @@
  * class;
  * functions 
  *  get next term (userid) {returns obj->{userid, qname, type, string}}
- *  getAnnotation (qname) {return obj->{userid,qname,type,string}}
- *  getSubclassAxioms (qname)  {return obj->{userid,qname,type,string} }
+ *  getAnnotation (qname) {return obj->{userid,qname,type,value, label, uri}}
+ *  getSubclassAxioms (qname)  {return obj->{userid,qname,type,value, label, uri} }
  *  store result ($result->{userid,type,qname,yes|no|idk,comment}}
 */
 
@@ -56,6 +56,11 @@ class SioEvaluator{
 	*/
 	private $sio_classes = null;
 
+	/**
+	* An assoc array where the key is an integer and the value is an 
+	* annotatable feature
+	*/
+	private $annotatable_features = array("1"=>"subclassaxioms", "2" =>"annotation");
 
 	/**
 	* Construct a SioEvaluator object given an ip
@@ -99,7 +104,12 @@ class SioEvaluator{
 	* @return returns obj->{userid, qname, type, string}
 	*/
 	public function getNextTerm($aUserId){
+
 		//first pick a random number between 1 (subclassaxiom) and 2 (annotation)
+		$rand = rand(1,2);
+		$feature = $this->getAnnotatableFeatures()[$rand];
+		echo $feature;
+		exit;
 		//find a term that has been annotated between 1 and 5 times by users other than auserid
 		//if none found get a random one
 		//$rm = new stdClass();
@@ -111,7 +121,6 @@ class SioEvaluator{
 	* Get the dc:description for a SIO Class ( using its QNamei.e.: SIO:000000) for 
 	* a given qname
 	*
-	* 
 	* @param a valid sio Qname
 	* @return an object with the following instance variables:
 	* - qname : the class's qname
@@ -119,10 +128,11 @@ class SioEvaluator{
 	* - value : the value of the annotation
 	* - label : the rdfs:label of this class
 	* - uri : the uri for this class
+	* if no annotation is found null is returned
 	*/
 	public function getAnnotation($aQname){
-		//SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = "SIO:000395"
 		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = '".$aQname."'";
+		echo "\n".$qry."\n";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
 				$rm = new stdClass();
@@ -134,7 +144,43 @@ class SioEvaluator{
 				return $rm;
 			}
 		}else{
-			printf("Error: %s\n", $this->getConn()->error);
+			printf("234 Error: %s\n", $this->getConn()->error);
+			exit;
+		}
+		return null;
+	}
+
+	/**
+	* Get an array of all of the subclass axioms that describe the class
+	* that corresponds to the given qname
+	* @param a valid sio Qname
+	* @return an object with the following instance variables:
+	* - qname : the class's qname
+	* - type : "annotation"
+	* - value : an array of strings with the class's axioms
+	* - label : the rdfs:label of this class
+	* - uri : the uri for this class
+	* if no axioms are found null is returned
+	*/
+	public function getSubclassAxioms($aQname){
+		//
+		$q = "select qa.axiom from qname2axiom qa  where qname = '".$aQname."'";
+		if($result = $this->getConn()->query($q)){
+			$axioms_arr = array();
+			while($row = $result->fetch_assoc()){
+				$axioms_arr[] = $row['axiom'];
+			}	
+			if(count($axioms_arr)>0){
+				$rm = new stdClass();
+				$rm->qname = $aQname;
+				$rm->type = "subclassaxioms";
+				$rm->value = $axioms_arr;
+				$rm->label = $this->getLabelFromQname($aQname);
+				$rm->uri = $this->makeUriFromQname($aQname);
+				return $rm;
+			}
+		}else{
+			printf("34543 Error: %s\n", $this->getConn()->error);
 			exit;
 		}
 		return null;
@@ -148,11 +194,11 @@ class SioEvaluator{
 	public function getLabelFromQname($aQname){
 		$qry = "SELECT qa.label FROM qname2label qa WHERE qa.qname = '".$aQname."'";
 		if($r = $this->getConn()->query($qry)){
-			while($row = $result->fetch_assoc()){
+			while($row = $r->fetch_assoc()){
 				return $row['label'];
 			}
 		}else{
-			printf("Error: %s\n", $this->getConn()->error);
+			printf("1234 Error: %s\n", $this->getConn()->error);
 			exit;
 		}
 		return null;
@@ -167,7 +213,7 @@ class SioEvaluator{
 			$label = $this->retrieveClassLabel($aClassUri);
 			$qry = "INSERT INTO qname2label VALUES('".$aQname."','".str_replace("'", "", $label)."')";
 			if(!$this->getConn()->query($qry)){
-				printf("Error: %s\n", $this->getConn()->error);
+				printf("4309 Error: %s\n", $this->getConn()->error);
 				exit;
 			}
 		}
@@ -181,10 +227,14 @@ class SioEvaluator{
 			$aQname = $this->makeQNameFromUri($aClassUri);
 			$axioms = $this->retrieveClassAxioms($aClassUri);
 			foreach ($axioms as $anAxiom) {
-				$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','". str_replace("'", "", $anAxiom)."')";
-				if(!$this->getConn()->query($qry2)){
-					printf("Error: %s\n", $this->getConn()->error);
-					exit;
+				//ignore the axioms that start with "Class ="
+				$q = strstr($anAxiom, "Class =");
+				if(strlen($q) == 0){
+					$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','". str_replace("'", "", $anAxiom)."')";
+					if(!$this->getConn()->query($qry2)){
+						printf("2341 Error: %s\n", $this->getConn()->error);
+						exit;
+					}
 				}
 			}
 		}
@@ -200,7 +250,7 @@ class SioEvaluator{
 			//insert into the table
 			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".str_replace("'", "", $anAnnotation)."')";
 			if(!$this->getConn()->query($qry)){
-				printf("Error: %s\n", $this->getConn()->error);
+				printf("2345213 Error: %s\n", $this->getConn()->error);
 				exit;
 			}
 		}
@@ -214,7 +264,7 @@ class SioEvaluator{
 	private function emptyTable($aTableName){
 		$qry = "TRUNCATE TABLE ".$aTableName."";
 		if(!$this->getConn()->query($qry)){
-			printf("Error: %s\n", $this->getConn()->error);
+			printf("093 Error: %s\n", $this->getConn()->error);
 			exit;
 		}
 	}
@@ -355,7 +405,9 @@ class SioEvaluator{
 	public function getSioClasses(){
 		return $this->sio_classes;
 	}
-
+	public function getAnnotatableFeatures(){
+		return $this->annotatable_features;
+	}
 }//class
 
 
