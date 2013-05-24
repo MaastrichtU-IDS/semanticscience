@@ -106,11 +106,10 @@ class SioEvaluator{
 	}	
 
 	/**
-	* This method returns either an annotation or a subclassaxiom for $this->userid. 
+	* This method returns either an annotation or a subclassaxiom for $this->getUserId(). 
 	* First it will attempt to return an annotation or subclass axioms
 	* that have been annotated between 1 and 5 times, if none are found then a random one will be 
 	* returned
-	* @param $aUserId the IP of the annotator
 	* @return an object with the following instance variables:
 	* - userid : the ip of the user making the request
 	* - qname : the class's qname
@@ -138,11 +137,15 @@ class SioEvaluator{
 					$counter = 1;
 					while($row = $r->fetch_assoc()){
 						if($counter == $random){
+							echo "peanuts!\n";
 							return($this->getSubclassAxioms($row['qname']));
 						}
+						$counter++;
 					}
 				}else{
-					//if no results are found
+					$aRandUri_key = array_rand($this->getSioClasses());
+					$aQname = $this->makeQNameFromUri($this->getSioClasses()[$aRandUri_key]);
+					return($this->getSubclassAxioms($aQname));
 				}
 				$r->close();
 			}
@@ -160,11 +163,14 @@ class SioEvaluator{
 					while($row = $r->fetch_assoc()){
 						if($counter == $random){
 							return($this->getAnnotation($row['qname']));		
-						}//if
+						}
 						$counter++;
 					}//while
 				}else{
-					//if no results are found
+					
+					$aRandUri_key = array_rand($this->getSioClasses());
+					$aQname = $this->makeQNameFromUri($this->getSioClasses()[$aRandUri_key]);
+					return($this->getAnnotation($aQname));
 				}
 				$r->close();
 			}//if
@@ -187,7 +193,6 @@ class SioEvaluator{
 	*/
 	public function getAnnotation($aQname){
 		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = '".$aQname."'";
-		echo "\n".$qry."\n";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
 				$rm = new stdClass();
@@ -470,7 +475,7 @@ class SioEvaluator{
 /* RUNNER */
 /**********/
 //currently running for tests
-$p = new SioEvaluator('12324234',$loadDb = true);
+$p = new SioEvaluator('1234',$loadDb = true);
 
 
 ?>
