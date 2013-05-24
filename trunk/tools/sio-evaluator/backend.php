@@ -68,7 +68,7 @@ class SioEvaluator{
 		//create a connection to the database 
 		$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
 		//create the sio_classes array
-		$sio_classes = $this->retrieveSIOClasses();
+		$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
 			
