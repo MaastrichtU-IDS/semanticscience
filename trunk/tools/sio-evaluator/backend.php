@@ -26,7 +26,7 @@
  *  get next term (userid) {returns qname}
  *  get annotation (qname) {return obj->{userid,qname,type,string}}
  *  get subclass axiom (qname)  {return obj->{userid,qname,type,string} }
- *  store result ($result->{userid,qname,yes|no|idk,comment}}
+ *  store result ($result->{userid,type,qname,yes|no|idk,comment}}
 */
 
 
@@ -61,9 +61,6 @@ class SEBackend{
 			//populate qname2annotation and qname2axiom
 			$this->populate();
 
-			
-			//populate the qname2axiom 
-			$this->populateQname2Axiom();
 
 
 
@@ -130,7 +127,7 @@ class SEBackend{
 			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
 			$axioms = $this->retrieveClassAxioms($aClassUri);
 			//insert into the table
-			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".$anAnnotation."')";
+			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".$str_replace("'", "", $anAnnotation)."')";
 			
 			if(!$this->getConn()->query($qry)){
 				printf("Error: %s\n", $this->getConn()->error);
