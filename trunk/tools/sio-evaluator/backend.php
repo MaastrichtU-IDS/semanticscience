@@ -37,8 +37,16 @@ class SEBackend{
 	private $db = "sio-evaluator";
 	private $conn = null;
 	private $sio_location = "/home/jose/Documents/ontologies/sio/sio.owl";
+	/**
+	* The ip of the user
+	*/
+	private $userid = null;
 
-	public function __construct($loadDb = false){
+	/**
+	* @param $loadDb set to true for populating the db for the first time
+	* @param $anIp the ip of the client (the userid)
+	*/
+	public function __construct($aUserId, $loadDb = false){
 		
 		//create a connection to the database 
 		$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
@@ -49,16 +57,25 @@ class SEBackend{
 
 			//empty qname2Annotation
 			$this->emptyTable("qname2annotation");
-			//populate the qname2annotation table
-			$this->populateQname2Annotation();
-			echo $this->makeQNameFromUri('http://semanticscience.org/resource/SIO_000006');
+			$this->emptyTable("qname2axiom");
+			//populate qname2annotation and qname2axiom
+			$this->populate();
+
+			
+			//populate the qname2axiom 
+			$this->populateQname2Axiom();
 
 
-			$axioms = $this->retrieveClassAxioms('http://semanticscience.org/resource/SIO_000006');
+
+			//echo $this->makeQNameFromUri('http://semanticscience.org/resource/SIO_000006');
+
+
+			//$axioms = $this->retrieveClassAxioms('http://semanticscience.org/resource/SIO_000006');
 			print_r($axioms);
 
 		}
 		//create a userid
+		$this->userid = $aUserId;
 	}
 
 	public function __destruct(){
@@ -67,14 +84,12 @@ class SEBackend{
 
 	
 
-	private function getClassAxiomsOf($aQname){
-
-	}
+	
 
 	/**
 	* Get the dc:description for a SIO Class using its QName (i.e.: SIO:000000)
 	*
-	*return obj->{userid,qname,type,string}
+	* return obj->{userid,qname,type,string}
 	* @param 
 	* @return $obj->{}
 	*/
@@ -83,6 +98,8 @@ class SEBackend{
 
 
 	}
+
+
 
 	private function getHost(){
 		return $this->host;
@@ -99,26 +116,39 @@ class SEBackend{
 	private function getConn(){
 		return $this->conn;
 	}
+	public function getUserId(){
+		return $this->userid;
+	}
 
 
-	//populate the qname2annotation table
-	private function populateQname2Annotation(){
+	//populate qname2annotation and qname2axiom
+	private function populate(){
 		//get the list of classes
 		$sio_classes = $this->retrieveSIOClasses();
-		echo "loading table qname2annotation...";
+		echo "loading tables qname2annoation and qname2axiom...";
 		foreach ($sio_classes as $aClassUri) {
 			$aQname = $this->makeQNameFromUri($aClassUri);
 			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
+			$axioms = $this->retrieveClassAxioms($aClassUri);
 			//insert into the table
 			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".$anAnnotation."')";
+			
 			if(!$this->getConn()->query($qry)){
 				printf("Error: %s\n", $this->getConn()->error);
 				exit;
 			}
 
+			foreach ($axioms as $anAxiom) {
+				$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','".$anAxiom."')";
+				if(!$this->getConn()->query($qry)){
+					printf("Error: %s\n", $this->getConn()->error);
+					exit;
+				}
+			}
 		}
 		echo " done! \n";
 	}
+
 
 	/**
 	* Empties a table from the database
@@ -180,7 +210,7 @@ class SEBackend{
 	}//retrieveClassAnnotation
 
 	/**
-	* return the class axioms for a given class URI in manchester syntax
+	* return an array with the class axioms for a given class URI in manchester syntax
 	*/
 	public function retrieveClassAxioms($someClassUri){
 		$rm = array();
