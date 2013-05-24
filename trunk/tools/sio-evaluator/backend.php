@@ -23,7 +23,7 @@
 /*
  * class;
  * functions 
- *  get next term (userid) {returns obj->{userid, qname, type, string}}
+ *  getNextTerm () {returns obj->{userid, qname, type, value, label, uri}}
  *  getAnnotation (qname) {return obj->{userid,qname,type,value, label, uri}}
  *  getSubclassAxioms (qname)  {return obj->{userid,qname,type,value, label, uri} }
  *  store result ($result->{userid,type,qname,yes|no|idk,comment}}
@@ -76,6 +76,11 @@ class SioEvaluator{
 		$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
+
+			$this->userid = $aUserId;
+			print_r($this->getNextTerm());
+			exit;
+
 			// empty the database and create tables from scratch
 			$this->emptyTable("qname2annotation");
 			$this->emptyTable("qname2axiom");
@@ -84,8 +89,13 @@ class SioEvaluator{
 			$this->populateQname2Axiom();
 			$this->populateQname2Label();
 		}
+		if(strlen($aUserId) == 0 || $aUserId == null){
+			throw new Exception("invalid user id provided! Terminating program!");
+			exit;
+		}
 		//create a userid
 		$this->userid = $aUserId;
+
 	}
 
 	/**
@@ -96,25 +106,70 @@ class SioEvaluator{
 	}	
 
 	/**
-	* This method returns either an annotation or a subclassaxiom for a user identified
-	* by $aUserid (their IP). First it will attempt to return an annotation or subclass axioms
+	* This method returns either an annotation or a subclassaxiom for $this->userid. 
+	* First it will attempt to return an annotation or subclass axioms
 	* that have been annotated between 1 and 5 times, if none are found then a random one will be 
 	* returned
 	* @param $aUserId the IP of the annotator
-	* @return returns obj->{userid, qname, type, string}
+	* @return an object with the following instance variables:
+	* - userid : the ip of the user making the request
+	* - qname : the class's qname
+	* - type : "annotation"|"subclassaxioms"
+	* - value : the value of the annotation or sublcassaxioms array
+	* - label : the rdfs:label of this class
+	* - uri : the uri for this class's qname
 	*/
-	public function getNextTerm($aUserId){
+	public function getNextTerm(){
 
-		//first pick a random number between 1 (subclassaxiom) and 2 (annotation)
+		//first randomy pick either a subclassaxiom or an annotation
 		$rand = rand(1,2);
 		$feature = $this->getAnnotatableFeatures()[$rand];
-		echo $feature;
-		exit;
-		//find a term that has been annotated between 1 and 5 times by users other than auserid
-		//if none found get a random one
-		//$rm = new stdClass();
-		//$rm->type = "annotation";
-		//$rm->term_id = "SIO_000001";
+		if($feature == "subclassaxioms"){
+			//find a term that has been annotated between 1 and 5 times by users other than $auserid
+			//SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '1345234' ) AND (b.count < 6 && b.count>0)
+			$q = "SELECT DISTINCT a.qname FROM userid2axioms a INNER JOIN  axiom_annotation_count b"
+				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2axioms WHERE userid2axioms.userid = '".
+				$this->getUserId()."' ) AND (b.count < 6 && b.count>0)";
+			if($r = $this->getConn()->query($q)){
+				$row_count = $r->num_rows;
+				//if more than one result is found return one at random
+				if($row_count >0){
+					$random = rand(1, $row_count);
+					$counter = 1;
+					while($row = $r->fetch_assoc()){
+						if($counter == $random){
+							return($this->getSubclassAxioms($row['qname']));
+						}
+					}
+				}else{
+					//if no results are found
+				}
+				$r->close();
+			}
+		}elseif($feature == "annotation"){
+			//find a term that has been annotated between 1 and 5 times by users other than $auserid
+			$q = "SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b"
+				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '".
+				$this->getUserId()."' ) AND (b.count < 6 && b.count>0)";
+			if($r = $this->getConn()->query($q)){
+				$row_count = $r->num_rows;
+				//if more than one result is found return one at random
+				if($row_count > 0){
+					$random = rand(1, $row_count);
+					$counter = 1;	
+					while($row = $r->fetch_assoc()){
+						if($counter == $random){
+							return($this->getAnnotation($row['qname']));		
+						}//if
+						$counter++;
+					}//while
+				}else{
+					//if no results are found
+				}
+				$r->close();
+			}//if
+		}//elseif
+		
 	}
 
 	/**
@@ -415,7 +470,7 @@ class SioEvaluator{
 /* RUNNER */
 /**********/
 //currently running for tests
-$p = new SioEvaluator(1234,$loadDb = true);
+$p = new SioEvaluator('12324234',$loadDb = true);
 
 
 ?>
