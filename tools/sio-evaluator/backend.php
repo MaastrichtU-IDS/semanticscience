@@ -20,32 +20,49 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-require_once("lib/connector.php");
-
-/**
+/*
  * class;
  * functions 
- *  get next term (user id) {returns termid}
- *  get annotation (term id) {return obj->{id,termid,type,string}}
- *  get subclass axiom (term id)  {return obj->{id,termid,type,string} }
- *  store result ($result->{id,termid,yes|no|idk,comment}}
+ *  get next term (userid) {returns qname}
+ *  get annotation (qname) {return obj->{userid,qname,type,string}}
+ *  get subclass axiom (qname)  {return obj->{userid,qname,type,string} }
+ *  store result ($result->{userid,qname,yes|no|idk,comment}}
 */
 
+
 class SEBackend{
-	//a connection to the db object
+	private $host = "localhost";
+	private $user = "sio-evaluator";
+	private $pass = "sio-evaluator-secret";
+	private $db = "sio-evaluator";
 	private $conn = null;
 	private $sio_location = "/home/jose/Documents/ontologies/sio/sio.owl";
 
-	public function __construct(){
+	public function __construct($loadDb = false){
+		
 		//create a connection to the database 
-		$this->conn = new Connector();
+		$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
 		//check if the DB's tables have been created and populated
-		if($this->isDbPopulated() == false){
+		if($loadDb){
+
 			// empty the database and create tables from scratch
+
+			//empty qname2Annotation
+			$this->emptyTable("qname2annotation");
+			//populate the qname2annotation table
+			$this->populateQname2Annotation();
+			echo $this->makeQNameFromUri('http://semanticscience.org/resource/SIO_000006');
+
+
 			$axioms = $this->retrieveClassAxioms('http://semanticscience.org/resource/SIO_000006');
-			//print_r($axioms);
+			print_r($axioms);
 
 		}
+		//create a userid
+	}
+
+	public function __destruct(){
+		$this->conn->close();
 	}
 
 	
@@ -54,28 +71,17 @@ class SEBackend{
 
 	}
 
-	private function getAnnotaitonsFor($aQname){
-
-	}
-
-
 	/**
-	* Check if the database for this sio-evaluator has been populated.
-	* Returns true if populated tables are found
-	* false otherwise
+	* Get the dc:description for a SIO Class using its QName (i.e.: SIO:000000)
+	*
+	*return obj->{userid,qname,type,string}
+	* @param 
+	* @return $obj->{}
 	*/
-	private function isDbPopulated(){
+	public function getAnnotation($aQname){
+		//SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = "SIO:000395"
 
-		//first check if database exists
-		return false;
-	}
 
-	/**
-	* This method populates the Sio-Evaluator database. 
-	* If the database has been created it returns false, creates it otherwise
-	*/
-	private function populateSEDB(){
-		return false;
 	}
 
 	private function getHost(){
@@ -95,9 +101,34 @@ class SEBackend{
 	}
 
 
-	//populate qname2annotation
+	//populate the qname2annotation table
 	private function populateQname2Annotation(){
-		//get the list of classes in sio
+		//get the list of classes
+		$sio_classes = $this->retrieveSIOClasses();
+		echo "loading table qname2annotation...";
+		foreach ($sio_classes as $aClassUri) {
+			$aQname = $this->makeQNameFromUri($aClassUri);
+			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
+			//insert into the table
+			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".$anAnnotation."')";
+			if(!$this->getConn()->query($qry)){
+				printf("Error: %s\n", $this->getConn()->error);
+				exit;
+			}
+
+		}
+		echo " done! \n";
+	}
+
+	/**
+	* Empties a table from the database
+	*/
+	private function emptyTable($aTableName){
+		$qry = "TRUNCATE TABLE ".$aTableName."";
+		if(!$this->getConn()->query($qry)){
+			printf("Error: %s\n", $this->getConn()->error);
+			exit;
+		}
 	}
 
 	/**
@@ -123,7 +154,7 @@ class SEBackend{
 	* return the dc:description for the given URI
 	* @param $someClassUri a of a SIO class 
 	*/
-	private function retriveClassAnnotation($someClassUri){
+	public function retriveClassAnnotation($someClassUri){
 		//owltools /home/jose/owl/sio.owl --reasoner hermit --sparql-dl "SELECT * WHERE{ Annotation( <http://semanticscience.org/resource/SIO_000006>, <http://purl.org/dc/terms/description>, ?d) }"
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
 		if(count($matches)){
@@ -151,7 +182,7 @@ class SEBackend{
 	/**
 	* return the class axioms for a given class URI in manchester syntax
 	*/
-	private function retrieveClassAxioms($someClassUri){
+	public function retrieveClassAxioms($someClassUri){
 		$rm = array();
 		//owltools ~/Documents/ontologies/sio/sio.owl --reasoner hermit --pretty-printer-settings -m --hide-ids --list-class-axioms 'http://semanticscience.org/resource/SIO_000006'
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
@@ -173,13 +204,21 @@ class SEBackend{
 		}
 	}
 
+	/**
+	* For 'http://semanticscience.org/resource/SIO_000006' the qname is SIO:000006
+	*/
+	public function makeQNameFromUri($aUri){
+		$s = substr($aUri,  strrpos($aUri, "/")+1);
+		return str_replace("_", ":", $s);
+	}
+
 }//class
 
 
 /**********/
 /* RUNNER */
 /**********/
-$p = new SEBackend();
+$p = new SEBackend($loadDb = true);
 
 
 ?>
