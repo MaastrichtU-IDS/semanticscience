@@ -59,5 +59,9 @@ class Connector{
 	public function getConnection(){
 		return $this->conn;
 	}
+
+	public function __destruct(){
+		$this->conn->close();
+	}
 }
 ?>
