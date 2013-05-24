@@ -127,7 +127,7 @@ class SEBackend{
 			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
 			$axioms = $this->retrieveClassAxioms($aClassUri);
 			//insert into the table
-			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".$str_replace("'", "", $anAnnotation)."')";
+			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".str_replace("'", "", $anAnnotation)."')";
 			
 			if(!$this->getConn()->query($qry)){
 				printf("Error: %s\n", $this->getConn()->error);
