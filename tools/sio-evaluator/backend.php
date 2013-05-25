@@ -26,7 +26,7 @@
  *  getNextTerm () {returns obj->{userid, qname, type, value, label, uri}}
  *  getAnnotation (qname) {return obj->{userid,qname,type,value, label, uri}}
  *  getSubclassAxioms (qname)  {return obj->{userid,qname,type,value, label, uri} }
- *  store result ($result->{userid,type,qname,yes|no|idk,comment}}
+ *  store result ($result->{userid,type,qname,radio_opt (yes|no|idk),comment}}
 */
 
 
@@ -104,6 +104,26 @@ class SioEvaluator{
 	public function __destruct(){
 		$this->conn->close();
 	}	
+	/**
+	* Record an annotation from a user.
+	* @param $aResult : An object with the following instance variables:
+	* - userid : the IP of the user (or any other user-unique string)
+	* - type : the type of annotation being processed. Only valid values : "annotation" or "subclassaxioms"
+	*	exception thrown otherwise
+	* - radio_option : radio option chosen by user. valid values: "yes" or "no" or "idk". Exception thrown otherwise
+	* - comment : the comment
+	* @return true if stored succesfully, false otherwise.
+	*/
+	public function storeResult($aResult){
+		if(!is_object($aResult)){
+			$msg =  "Invalid parameter! Must be an object with instance variables:"
+			." userid, type, qname, radio_option, comment\n";
+			throw new Exception($msg);
+			exit;
+		}
+
+
+	}
 
 	/**
 	* This method returns either an annotation or a subclassaxiom for $this->getUserId(). 
@@ -137,7 +157,6 @@ class SioEvaluator{
 					$counter = 1;
 					while($row = $r->fetch_assoc()){
 						if($counter == $random){
-							echo "peanuts!\n";
 							return($this->getSubclassAxioms($row['qname']));
 						}
 						$counter++;
@@ -211,7 +230,7 @@ class SioEvaluator{
 	}
 
 	/**
-	* Get an array of all of the subclass axioms that describe the class
+	* Get all of the subclass axioms that describe the class
 	* that corresponds to the given qname
 	* @param a valid sio Qname
 	* @return an object with the following instance variables:
@@ -333,7 +352,6 @@ class SioEvaluator{
 	* Create and return an array of SIO class URIs
 	*/
 	private function retrieveSIOClasses(){
-		
 		//owltools /home/jose/owl/sio.owl --list-classes
 		$r = shell_exec("owltools ".$this->sio_location." --list-classes") or die( "Could not run owltools!");
 		$rm = array();
