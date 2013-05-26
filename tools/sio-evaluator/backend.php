@@ -652,6 +652,7 @@ $bob = new SioEvaluator('123.123.132.123');
 $t1 = $bob->getNextTerm();
 var_dump($t1);
 
+//bob's result
 $br = new stdClass();
 $br->userid = $bob->getUserId();
 $br->qname = $t1->qname;
@@ -669,6 +670,7 @@ $peter = new SioEvaluator('234.234.234.234');
 $t2 = $peter->getNextTerm();
 var_dump($t2);
 
+//peter's result
 $pr = new stdClass();
 $pr->userid = $peter->getUserId();
 $pr->qname = $t2->qname;
