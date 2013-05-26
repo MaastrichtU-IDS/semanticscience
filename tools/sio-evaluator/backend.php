@@ -189,7 +189,6 @@ class SioEvaluator{
 	* - uri : the uri for this class's qname
 	*/
 	public function getNextTerm(){
-
 		//first randomy pick either a subclassaxiom or an annotation
 		$rand = rand(1,2);
 		$feature_ar = $this->getAnnotatableFeatures();
@@ -238,7 +237,6 @@ class SioEvaluator{
 						$counter++;
 					}//while
 				}else{
-					
 					$aRandUri_key = array_rand($this->getSioClasses());
 					$sc = $this->getSioClasses();
 					$aQname = $this->makeQNameFromUri($sc[$aRandUri_key]);
@@ -247,8 +245,7 @@ class SioEvaluator{
 				$r->close();
 			}//if
 		}//elseif
-		
-	}
+	}//getNextTerm
 
 	/**
 	* Get the dc:description for a SIO Class ( using its QNamei.e.: SIO:000000) for 
@@ -423,14 +420,17 @@ class SioEvaluator{
 	private function populateAnnotationAnnotationCount(){
 		$sc = $this->getSioClasses();
 		echo "initializing table anntation_annotation_count ... ";
-		foreach ($sc as $aClassUri) {
-			$aQname = $this->makeQNameFromUri($aClassUri);
-			$qry = "INSERT INTO annotation_annotation_count VALUES('".$aQname."','0')";
-			if(!$this->getConn()->query($qry)){
-				printf("43092 Error: %s\n", $this->getConn()->error);
-				exit;
-			}
-		}
+		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
+		if($result = $this->getConn()->query($q)){
+			while($row = $result->fetch_assoc()){
+				$qry = "INSERT INTO annotation_annotation_count VALUES('".$row['qname'];."','0')";
+				if(!$this->getConn()->query($qry)){
+					printf("43092 Error: %s\n", $this->getConn()->error);
+					exit;
+				}//if
+			}//while
+			$result->free();
+		}//if
 		echo "done!\n";
 	}
 
@@ -438,13 +438,16 @@ class SioEvaluator{
 	private function populateAxiomAnnotationCount(){
 		$sc = $this->getSioClasses();
 		echo "initializing table axiom_annotation_count ... ";
-		foreach ($sc as $aClassUri) {
-			$aQname = $this->makeQNameFromUri($aClassUri);
-			$qry = "INSERT INTO axiom_annotation_count VALUES('".$aQname."','0')";
-			if(!$this->getConn()->query($qry)){
-				printf("434409 Error: %s\n", $this->getConn()->error);
-				exit;
+		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
+		if($result = $this->getConn()->query($q)){
+			while($row = $result->fetch_assoc()){
+				$qry = "INSERT INTO axiom_annotation_count VALUES('".$row['qname'];."','0')";
+				if(!$this->getConn()->query($qry)){
+					printf("43092 Error: %s\n", $this->getConn()->error);
+					exit;
+				}//if
 			}
+			$result->free();
 		}
 		echo "done!\n";
 	}
