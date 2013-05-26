@@ -240,7 +240,8 @@ class SioEvaluator{
 				}else{
 					
 					$aRandUri_key = array_rand($this->getSioClasses());
-					$aQname = $this->makeQNameFromUri($this->getSioClasses()[$aRandUri_key]);
+					$sc = $this->getSioClasses();
+					$aQname = $this->makeQNameFromUri($sc[$aRandUri_key]);
 					return($this->getAnnotation($aQname));
 				}
 				$r->close();
