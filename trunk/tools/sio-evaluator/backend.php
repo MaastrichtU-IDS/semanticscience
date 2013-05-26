@@ -192,13 +192,14 @@ class SioEvaluator{
 
 		//first randomy pick either a subclassaxiom or an annotation
 		$rand = rand(1,2);
-		$feature = $this->getAnnotatableFeatures()[$rand];
+		$feature_ar = $this->getAnnotatableFeatures();
+		$feature = $feature_ar[$rand];
 		if($feature == "subclassaxioms"){
 			//find a term that has been annotated between 1 and 5 times by users other than $auserid
 			//SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '1345234' ) AND (b.count < 6 && b.count>0)
 			$q = "SELECT DISTINCT a.qname FROM userid2axioms a INNER JOIN  axiom_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2axioms WHERE userid2axioms.userid = '".
-				$this->getUserId()."' ) AND (b.count < 6 && b.count>0)";
+				$this->getUserId()."' ) AND (b.count < 6 AND b.count>0)";
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
@@ -222,7 +223,7 @@ class SioEvaluator{
 			//find a term that has been annotated between 1 and 5 times by users other than $auserid
 			$q = "SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '".
-				$this->getUserId()."' ) AND (b.count < 6 && b.count>0)";
+				$this->getUserId()."' ) AND (b.count < 6 AND b.count>0)";
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
