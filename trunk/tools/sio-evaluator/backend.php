@@ -80,7 +80,6 @@ class SioEvaluator{
 
 			//TESTING ONLY 
 			exit;
-
 			// empty the database and create tables from scratch
 			/*
 			$this->emptyTable("qname2annotation");
@@ -88,6 +87,8 @@ class SioEvaluator{
 			$this->emptyTable("qname2label");
 			$this->emptyTable("annotation_annotation_count");
 			$this->emptyTable("axiom_annotation_count");
+			$this->emptyTable("userid2annotation");
+			$this->emptyTable("userid2axioms");
 			$this->populateQname2Annotation();
 			$this->populateQname2Axiom();
 			$this->populateQname2Label();
@@ -130,7 +131,6 @@ class SioEvaluator{
 		}
 
 		if($this->isValidResult($aResult)){
-			
 			//store the result in the db
 			//get the type
 			$type = $aResult->type;
@@ -171,8 +171,6 @@ class SioEvaluator{
 			}
 		}
 		return false;
-
-
 	}
 
 	/**
@@ -198,7 +196,8 @@ class SioEvaluator{
 			//SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '1345234' ) AND (b.count < 6 && b.count>0)
 			$q = "SELECT DISTINCT a.qname FROM userid2axioms a INNER JOIN  axiom_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2axioms WHERE userid2axioms.userid = '".
-				$this->getUserId()."' ) AND (b.count < 6 AND b.count>0)";
+				$this->getUserId()."' AND userid2axioms.qname=a.qname) AND (b.count < 6 AND b.count>0)";
+			echo $q."\n";
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
@@ -212,8 +211,8 @@ class SioEvaluator{
 						$counter++;
 					}
 				}else{
-					$aRandUri_key = array_rand($this->getSioClasses());
 					$sc = $this->getSioClasses();
+					$aRandUri_key = array_rand($sc);
 					$aQname = $this->makeQNameFromUri($sc[$aRandUri_key]);
 					return($this->getSubclassAxioms($aQname));
 				}
@@ -223,7 +222,8 @@ class SioEvaluator{
 			//find a term that has been annotated between 1 and 5 times by users other than $auserid
 			$q = "SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '".
-				$this->getUserId()."' ) AND (b.count < 6 AND b.count>0)";
+				$this->getUserId()."' AND userid2annotation.qname=a.qname) AND (b.count < 6 AND b.count>0)";
+			echo "$q\n";
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
@@ -423,7 +423,7 @@ class SioEvaluator{
 		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
 		if($result = $this->getConn()->query($q)){
 			while($row = $result->fetch_assoc()){
-				$qry = "INSERT INTO annotation_annotation_count VALUES('".$row['qname'];."','0')";
+				$qry = "INSERT INTO annotation_annotation_count VALUES('".$row['qname']."','0')";
 				if(!$this->getConn()->query($qry)){
 					printf("43092 Error: %s\n", $this->getConn()->error);
 					exit;
@@ -441,7 +441,7 @@ class SioEvaluator{
 		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
 		if($result = $this->getConn()->query($q)){
 			while($row = $result->fetch_assoc()){
-				$qry = "INSERT INTO axiom_annotation_count VALUES('".$row['qname'];."','0')";
+				$qry = "INSERT INTO axiom_annotation_count VALUES('".$row['qname']."','0')";
 				if(!$this->getConn()->query($qry)){
 					printf("43092 Error: %s\n", $this->getConn()->error);
 					exit;
@@ -647,6 +647,7 @@ class SioEvaluator{
 /**********/
 //currently running for tests
 //user bob
+/*
 $bob = new SioEvaluator('123.123.132.123');
 $t1 = $bob->getNextTerm();
 var_dump($t1);
@@ -659,7 +660,7 @@ $br->radio_option = "idk";
 $br->comment ="this was amazing!";
 if($bob->isValidResult($br)){
 	if($bob->storeResult($br)){
-		echo "good";
+		echo "good\n";
 	}
 }
 
@@ -675,16 +676,15 @@ $pr->type = $t2->type;
 $pr->radio_option = "yes";
 $pr->comment = "";
 
-
 if($peter->isValidResult($pr)){
 	if($peter->storeResult($pr)){
-		echo "good2";
+		echo "good2\n";
 	}
 }
 
 //var_dump($t1);
 exit;
-
+*/
 
 
 ?>
