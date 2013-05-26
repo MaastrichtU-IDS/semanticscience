@@ -79,19 +79,21 @@ class SioEvaluator{
 			
 
 			//TESTING ONLY 
-			
+			exit;
 
 			// empty the database and create tables from scratch
-			//$this->emptyTable("qname2annotation");
-			//$this->emptyTable("qname2axiom");
-			//$this->emptyTable("qname2label");
+			/*
+			$this->emptyTable("qname2annotation");
+			$this->emptyTable("qname2axiom");
+			$this->emptyTable("qname2label");
 			$this->emptyTable("annotation_annotation_count");
 			$this->emptyTable("axiom_annotation_count");
-			//$this->populateQname2Annotation();
-			//$this->populateQname2Axiom();
-			//$this->populateQname2Label();
+			$this->populateQname2Annotation();
+			$this->populateQname2Axiom();
+			$this->populateQname2Label();
 			$this->populateAnnotationAnnotationCount();
 			$this->populateAxiomAnnotationCount();
+			*/
 		}
 		if(strlen($aUserId) == 0 || $aUserId == null){
 			throw new Exception("invalid user id provided! Terminating program!");
@@ -128,6 +130,7 @@ class SioEvaluator{
 		}
 
 		if($this->isValidResult($aResult)){
+			
 			//store the result in the db
 			//get the type
 			$type = $aResult->type;
@@ -138,15 +141,33 @@ class SioEvaluator{
 					."','".$aResult->radio_option
 					."','".$aResult->comment."')";
 				if(!$this->getConn()->query($q)){
-					printf("2341 Error: %s\n", $this->getConn()->error);
+					printf("23481 Error: %s\n", $this->getConn()->error);
 					exit;
 				}
 				//now update the annotation_annotation_count table
-				//$q2 = "INSERT INTO annotation_annotation_count VALUES ('"
-				//	.$aResult->qname."','". 
-
+				$q2 = "UPDATE annotation_annotation_count SET count=count+1 WHERE qname='".$aResult->qname."'";
+				if(!$this->getConn()->query($q2)){
+					printf("2348981 Error: %s\n", $this->getConn()->error);
+					exit;
+				}
+				return true;
 			}elseif($type == "subclassaxioms"){
-
+				//userid, qname, radio_option_selected, comment
+				$q = "INSERT INTO userid2axioms VALUES ('"
+					.$aResult->userid."','".$aResult->qname
+					."','".$aResult->radio_option
+					."','".$aResult->comment."')";
+				if(!$this->getConn()->query($q)){
+					printf("23431 Error: %s\n", $this->getConn()->error);
+					exit;
+				}
+				//now update the annotation_annotation_count table
+				$q2 = "UPDATE axiom_annotation_count SET count=count+1 WHERE qname='".$aResult->qname."'";
+				if(!$this->getConn()->query($q2)){
+					printf("234421 Error: %s\n", $this->getConn()->error);
+					exit;
+				}
+				return true;
 			}
 		}
 		return false;
@@ -324,16 +345,16 @@ class SioEvaluator{
 	* @param the object to be processed
 	* @return true if valid, false otherwise
 	*/
-	private function isValidResult($aResult){
+	public function isValidResult($aResult){
 		$r = true;
 		if(is_object($aResult)){
-			
 			$qname = $aResult->qname;
 			$aType = $aResult->type;
 			$aRadioOption = $aResult->radio_option;
 			$aComment = $aResult->comment;
 			$fault_count = 0;
-			if(!isset($aResult->userid) || strlen($aResult->userid)==0){
+			if(!isset($aResult->userid)){
+				throw new Exception ("userid not provided\n");
 				$fault_count++;
 			}
 			if(!isset($aResult->qname)){
@@ -619,7 +640,45 @@ class SioEvaluator{
 /* RUNNER */
 /**********/
 //currently running for tests
-$p = new SioEvaluator('1234',$loadDb = true);
+//user bob
+$bob = new SioEvaluator('123.123.132.123');
+$t1 = $bob->getNextTerm();
+var_dump($t1);
+
+$br = new stdClass();
+$br->userid = $bob->getUserId();
+$br->qname = $t1->qname;
+$br->type = $t1->type;
+$br->radio_option = "idk";
+$br->comment ="this was amazing!";
+if($bob->isValidResult($br)){
+	if($bob->storeResult($br)){
+		echo "good";
+	}
+}
+
+//user peter
+$peter = new SioEvaluator('234.234.234.234');
+$t2 = $peter->getNextTerm();
+var_dump($t2);
+
+$pr = new stdClass();
+$pr->userid = $peter->getUserId();
+$pr->qname = $t2->qname;
+$pr->type = $t2->type;
+$pr->radio_option = "yes";
+$pr->comment = "";
+
+
+if($peter->isValidResult($pr)){
+	if($peter->storeResult($pr)){
+		echo "good2";
+	}
+}
+
+//var_dump($t1);
+exit;
+
 
 
 ?>
