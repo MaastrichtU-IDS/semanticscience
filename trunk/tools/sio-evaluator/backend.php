@@ -176,8 +176,8 @@ class SioEvaluator{
 	/**
 	* This method returns either an annotation or a subclassaxiom for $this->getUserId(). 
 	* First it will attempt to return an annotation or subclass axioms
-	* that have been annotated between 1 and 5 times, if none are found then a random one will be 
-	* returned
+	* that have been annotated between 1 and 5 times by users other than $this->getUserId()
+	* , if none are found then a random one will be returned
 	* @return an object with the following instance variables:
 	* - userid : the ip of the user making the request
 	* - qname : the class's qname
