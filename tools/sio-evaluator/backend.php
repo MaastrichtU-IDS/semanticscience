@@ -76,18 +76,22 @@ class SioEvaluator{
 		$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
+			
+
 			//TESTING ONLY 
-			$this->userid = $aUserId;
-			print_r($this->getNextTerm());
-			exit;
+			
 
 			// empty the database and create tables from scratch
-			$this->emptyTable("qname2annotation");
-			$this->emptyTable("qname2axiom");
-			$this->emptyTable("qname2label");
-			$this->populateQname2Annotation();
-			$this->populateQname2Axiom();
-			$this->populateQname2Label();
+			//$this->emptyTable("qname2annotation");
+			//$this->emptyTable("qname2axiom");
+			//$this->emptyTable("qname2label");
+			$this->emptyTable("annotation_annotation_count");
+			$this->emptyTable("axiom_annotation_count");
+			//$this->populateQname2Annotation();
+			//$this->populateQname2Axiom();
+			//$this->populateQname2Label();
+			$this->populateAnnotationAnnotationCount();
+			$this->populateAxiomAnnotationCount();
 		}
 		if(strlen($aUserId) == 0 || $aUserId == null){
 			throw new Exception("invalid user id provided! Terminating program!");
@@ -107,7 +111,8 @@ class SioEvaluator{
 	/**
 	* Record an annotation from a user.
 	* @param $aResult : An object with the following instance variables:
-	* - userid : the IP of the user (or any other user-unique string)
+	* - userid : the IP of the user (or any other user-unique string) : exception is thrown if null or empty 
+	* - qname : the qname of the annotation being processed.
 	* - type : the type of annotation being processed. Only valid values : "annotation" or "subclassaxioms"
 	*	exception thrown otherwise
 	* - radio_option : radio option chosen by user. valid values: "yes" or "no" or "idk". Exception thrown otherwise
@@ -121,6 +126,30 @@ class SioEvaluator{
 			throw new Exception($msg);
 			exit;
 		}
+
+		if($this->isValidResult($aResult)){
+			//store the result in the db
+			//get the type
+			$type = $aResult->type;
+			if($type == "annotation"){
+				//userid, qname, radio_option_selected, comment
+				$q = "INSERT INTO userid2annotation VALUES ('"
+					.$aResult->userid."','".$aResult->qname
+					."','".$aResult->radio_option
+					."','".$aResult->comment."')";
+				if(!$this->getConn()->query($q)){
+					printf("2341 Error: %s\n", $this->getConn()->error);
+					exit;
+				}
+				//now update the annotation_annotation_count table
+				//$q2 = "INSERT INTO annotation_annotation_count VALUES ('"
+				//	.$aResult->qname."','". 
+
+			}elseif($type == "subclassaxioms"){
+
+			}
+		}
+		return false;
 
 
 	}
@@ -284,6 +313,73 @@ class SioEvaluator{
 
 	}
 
+	/**
+	* Verifies if parameter is an object with the following vars
+	* - userid : the IP of the user (or any other user-unique string) : exception is thrown if null or empty 
+	* - qname : the qname of the annotation being processed.
+	* - type : the type of annotation being processed. Only valid values : "annotation" or "subclassaxioms"
+	*	exception thrown otherwise
+	* - radio_option : radio option chosen by user. valid values: "yes" or "no" or "idk". Exception thrown otherwise
+	* - comment : the comment
+	* @param the object to be processed
+	* @return true if valid, false otherwise
+	*/
+	private function isValidResult($aResult){
+		$r = true;
+		if(is_object($aResult)){
+			
+			$qname = $aResult->qname;
+			$aType = $aResult->type;
+			$aRadioOption = $aResult->radio_option;
+			$aComment = $aResult->comment;
+			$fault_count = 0;
+			if(!isset($aResult->userid) || strlen($aResult->userid)==0){
+				$fault_count++;
+			}
+			if(!isset($aResult->qname)){
+				throw new Exception("qname not provided!\n");
+				$fault_count++;
+			}else{
+				//check if valid qname
+				preg_match("/^SIO\:\d+$/", $aResult->qname, $m);
+				if(count($m) == 0){
+					throw new Exception("Invalid qname provided. Please follow the pattern SIO:000000!\n");
+					$fault_count ++;
+				}
+			}
+			if(!isset($aResult->type)){
+				throw new Exception("type not provided".PHP_EOL);
+				$fault_count++;
+			}else{
+				preg_match("/^(annotation|subclassaxioms)$/", $aResult->type, $m);
+				if(count($m) ==0){
+					throw new Exception("Invalid type provided. Valid type values: annotation or sublcassaxioms\n");
+					$fault_count ++;
+				}
+			}
+			if(!isset($aResult->radio_option)){
+				throw new Exception("radio_option not provided".PHP_EOL);
+				$fault_count++;
+			}else{
+				preg_match("/^(yes|no|idk)$/", $aResult->radio_option, $m);
+				if(count($m) ==0){
+					throw new Exception("Invalid radio_option provided. Valid radio_option values: yes, no or idk\n");
+					$fault_count ++;
+				}
+			}
+			if(!isset($aResult->comment)){
+				throw new Exception("comment not set. If none provided by user please provide an empty string");
+				$fault_count ++;
+			}
+
+			if($fault_count == 0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
 	private function populateQname2Label(){
 		$sc = $this->getSioClasses();
 		echo "loading table qname2label ... ";
@@ -299,6 +395,35 @@ class SioEvaluator{
 		echo "done!\n";
 	}
 
+	//initializie annotation_annotation_count table
+	private function populateAnnotationAnnotationCount(){
+		$sc = $this->getSioClasses();
+		echo "initializing table anntation_annotation_count ... ";
+		foreach ($sc as $aClassUri) {
+			$aQname = $this->makeQNameFromUri($aClassUri);
+			$qry = "INSERT INTO annotation_annotation_count VALUES('".$aQname."','0')";
+			if(!$this->getConn()->query($qry)){
+				printf("43092 Error: %s\n", $this->getConn()->error);
+				exit;
+			}
+		}
+		echo "done!\n";
+	}
+
+	//initializie axiom_annotation_count table
+	private function populateAxiomAnnotationCount(){
+		$sc = $this->getSioClasses();
+		echo "initializing table axiom_annotation_count ... ";
+		foreach ($sc as $aClassUri) {
+			$aQname = $this->makeQNameFromUri($aClassUri);
+			$qry = "INSERT INTO axiom_annotation_count VALUES('".$aQname."','0')";
+			if(!$this->getConn()->query($qry)){
+				printf("434409 Error: %s\n", $this->getConn()->error);
+				exit;
+			}
+		}
+		echo "done!\n";
+	}
 	private function populateQname2Axiom(){
 		$sc = $this->getSioClasses();
 		echo "loading table qname2axiom ... ";
@@ -335,6 +460,7 @@ class SioEvaluator{
 		}
 		echo "done!\n";
 	}
+
 
 
 	/**
