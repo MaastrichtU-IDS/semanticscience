@@ -214,7 +214,8 @@ class SioEvaluator{
 					}
 				}else{
 					$aRandUri_key = array_rand($this->getSioClasses());
-					$aQname = $this->makeQNameFromUri($this->getSioClasses()[$aRandUri_key]);
+					$aQname_ar = $this->makeQNameFromUri($this->getSioClasses();
+					$aQname = $aQname_ar[$aRandUri_key]);
 					return($this->getSubclassAxioms($aQname));
 				}
 				$r->close();
