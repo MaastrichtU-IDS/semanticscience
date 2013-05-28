@@ -43,18 +43,22 @@ class OntologyEvaluator{
 	*/
 	private $conn = null;
 	/**
-	* A URL where the ontology to be evaluated can be downloaded from
+	* The base uri of the ontology
 	*/
-	private $ontology_url = null;
+	private $ontology_base_uri = null;
+	/**
+	* a path to the an owl ontology file
+	*/ 
+	private $ontology_file_path = null;
 	/**
 	* The ip of the user
 	*/
 	private $userid = null;
 
 	/**
-	* an array with all of the SIO class URIs
+	* an array with every class URIs
 	*/
-	private $sio_classes = null;
+	private $ontology_classes = null;
 
 	/**
 	* An assoc array where the key is an integer and the value is an 
@@ -64,19 +68,38 @@ class OntologyEvaluator{
 
 	/**
 	* Construct a SioEvaluator object given an ip
-	* @param $anIp the ip of the client (the userid)
-	* @param $loadDb set to true for populating the db for the first time
+	* @param aUserId the ip of the client (the userid)
+	* @param anOwlFilePath a path to the owl file
+	* @param anOntologyBaseUri the base uri of the ontology, this string 
+	* 		 uniquely identifies this ontology
+	* @param testing set to true for testing
 	*
 	*/
-	public function __construct($aUserId, $anOntologyUrl, $loadDb = false){
+	public function __construct($aUserId, $anOwlFilePath, $anOntologyBaseUri, $testing = false){
 		
-		//create a connection to the database 
-		$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
-		//create the sio_classes array
-		//$this->sio_classes = $this->retrieveSIOClasses();
-		//check if the DB's tables have been created and populated
-		if($loadDb){
+		
+		echo "balhp;";
+		//check parameters
+		if($this->checkConstructorParams($aUserId, $anOwlFilePath,$anOntologyBaseUri, $testing)){
+			echo "yesss!\n";
+			//set the userid
+			$this->userid = $aUserId;
+			//set the file path
+			$this->ontology_file_path = $anOwlFilePath;
+			//set the base uri
+			$this->ontology_base_uri = $anOntologyBaseUri;
+			//set the ontology URI from where the ontology document will be downloaded
+			$this->ontology_base_uri = $anOntologyBaseUri;
+
+			//create a connection to the database 
+			$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
+			//create the sio_classes array
+			$this->ontology_classes = $this->retrieveOntologyClasses();
+		}
+		
+		if($testing){
 			//TESTING ONLY 
+			echo "pichi\n";
 			exit;
 			// empty the database and create tables from scratch
 			/*
@@ -96,18 +119,6 @@ class OntologyEvaluator{
 			$this->populateOntologyUri2ClassesUri2Qname();
 			*/
 		}
-		if(strlen($aUserId) == 0 || $aUserId == null){
-			throw new Exception("invalid user id provided! Terminating program!");
-			exit;
-		}
-		if(strlen($anOntologyUrl) == 0 || $anOntologyUrl == null){
-			throw new Exception("invalid ontology url provided! Terminating program!");
-			exit;
-		}
-		//create a userid
-		$this->userid = $aUserId;
-		//set the ontology URL
-		$this->ontology_url = $anOntologyUrl;
 	}
 
 	/**
@@ -116,6 +127,30 @@ class OntologyEvaluator{
 	public function __destruct(){
 		$this->conn->close();
 	}	
+
+	private function checkConstructorParams($aUserId, $anOwlFilePath, $anOntologyBaseUri, $testing){
+		$fc = 0;
+		if(strlen($aUserId) == 0 || $aUserId == null){
+			throw new Exception("invalid user id provided! Terminating program!");
+			$fc++;
+		}/*
+		if(strlen($anOntologyBaseUri) == 0 || $anOntologyBaseUri == null){
+			throw new Exception("invalid ontology base uri provided! Terminating program!");
+			$fc++;
+		}
+		if(strlen($anOwlFilePath) == 0) || $anOwlFilePath == null){
+			throw new Exception("invalid file path provided!");
+			$fc++;
+		}
+		if(!is_bool($testing)){
+			throw new Exception("invalid testing flag provided");
+			$fc++;
+		}*/
+		if($fc == 0){
+			return true;
+		}
+		return false;
+	}
 	/**
 	* Record an annotation from a user.
 	* @param $aResult : An object with the following instance variables:
@@ -211,12 +246,12 @@ class OntologyEvaluator{
 					$counter = 1;
 					while($row = $r->fetch_assoc()){
 						if($counter == $random){
-							return($this->getSubclassAxioms($row['qname']));
+							return($this->getSubclassAxioms($this->ontology_base_uri, $row['qname']));
 						}
 						$counter++;
 					}
 				}else{
-					$sc = $this->getSioClasses();
+					$sc = $this->getOntologyClasses();
 					$aRandUri_key = array_rand($sc);
 					$aQname = $this->makeQNameFromUri($sc[$aRandUri_key]);
 					return($this->getSubclassAxioms($aQname));
@@ -241,8 +276,8 @@ class OntologyEvaluator{
 						$counter++;
 					}//while
 				}else{
-					$aRandUri_key = array_rand($this->getSioClasses());
-					$sc = $this->getSioClasses();
+					$aRandUri_key = array_rand($this->getOntologyClasses());
+					$sc = $this->getOntologyClasses();
 					$aQname = $this->makeQNameFromUri($sc[$aRandUri_key]);
 					return($this->getAnnotation($aQname));
 				}
@@ -264,9 +299,9 @@ class OntologyEvaluator{
 	* - uri : the uri for this class
 	* if no annotation is found null is returned
 	*/
-	public function getAnnotation($anOntologyUri,$aQname){
-		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.ontologyUri = '"
-			.$anOntologyUri."' AND qa.qname = '".$aQname."'";
+	public function getAnnotation($anOntologyBaseUri, $aQname){
+		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.ontologyBaseUri = '"
+			.$anOntologyBaseUri."' AND qa.qname = '".$aQname."'";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
 				$rm = new stdClass();
@@ -274,7 +309,7 @@ class OntologyEvaluator{
 				$rm->type = "annotation";
 				$rm->value = $row['annotation'];
 				$rm->label = $this->getLabelFromQname($aQname);
-				$rm->ontology_uri = $anOntologyUri;
+				$rm->ontology_base_uri = $anOntologyBaseUri;
 				return $rm;
 			}
 		}else{
@@ -296,10 +331,10 @@ class OntologyEvaluator{
 	* - uri : the uri for this class
 	* if no axioms are found null is returned
 	*/
-	public function getSubclassAxioms($anOntologyUri, $aQname){
+	public function getSubclassAxioms($anOntologyBaseUri, $aQname){
 		//
-		$q = "SELECT qa.axiom FROM qname2axiom qa  WHERE qa.ontologyUri ='"
-			.$anOntologyUri."' qa.qname = '".$aQname."'";
+		$q = "SELECT qa.axiom FROM qname2axiom qa  WHERE qa.ontologyBaseUri ='"
+			.$anOntologyBaseUri."' qa.qname = '".$aQname."'";
 		if($result = $this->getConn()->query($q)){
 			$axioms_arr = array();
 			while($row = $result->fetch_assoc()){
@@ -311,7 +346,7 @@ class OntologyEvaluator{
 				$rm->type = "subclassaxioms";
 				$rm->value = $axioms_arr;
 				$rm->label = $this->getLabelFromQname($aQname);
-				$rm->ontology_uri = $anOntologyUri;
+				$rm->ontology_base_uri = $anOntologyBaseUri;
 				return $rm;
 			}
 		}else{
@@ -402,12 +437,12 @@ class OntologyEvaluator{
 		return false;
 	}
 	private function populateQname2Label(){
-		$sc = $this->getSioClasses();
+		$sc = $this->getOntologyClasses();
 		echo "loading table qname2label ... ";
 		foreach ($sc as $aClassUri) {
 			$aQname = $this->makeQNameFromUri($aClassUri);
 			$label = $this->retrieveClassLabel($aClassUri);
-			$qry = "INSERT INTO qname2label VALUES('".$aQname."','".str_replace("'", "", $label)."')";
+			$qry = "INSERT INTO qname2label VALUES('".$this->ontology_base_uri."','".$aQname."','".str_replace("'", "", $label)."')";
 			if(!$this->getConn()->query($qry)){
 				printf("4309 Error: %s\n", $this->getConn()->error);
 				exit;
@@ -418,9 +453,9 @@ class OntologyEvaluator{
 
 	//initializie annotation_annotation_count table
 	private function populateAnnotationAnnotationCount(){
-		$sc = $this->getSioClasses();
+		$sc = $this->getOntologyClasses();
 		echo "initializing table anntation_annotation_count ... ";
-		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
+		$q = "SELECT a.qname FROM qname2annotation a WHERE a.ontologyBaseUri='".$this->ontology_base_uri."'";
 		if($result = $this->getConn()->query($q)){
 			while($row = $result->fetch_assoc()){
 				$qry = "INSERT INTO annotation_annotation_count VALUES('".$row['qname']."','0')";
@@ -434,15 +469,11 @@ class OntologyEvaluator{
 		echo "done!\n";
 	}
 
-	private function populateOntologyUri2ClassesUri2Qname(){
-
-	}
-
 	//initializie axiom_annotation_count table
 	private function populateAxiomAnnotationCount(){
-		$sc = $this->getSioClasses();
+		$sc = $this->getOntologyClasses();
 		echo "initializing table axiom_annotation_count ... ";
-		$q = "SELECT a.qname FROM qname2annotation a WHERE 1";
+		$q = "SELECT a.qname FROM qname2annotation a WHERE a.ontologyBaseUri ='".$this->ontology_base_uri."'";
 		if($result = $this->getConn()->query($q)){
 			while($row = $result->fetch_assoc()){
 				$qry = "INSERT INTO axiom_annotation_count VALUES('".$row['qname']."','0')";
@@ -456,7 +487,7 @@ class OntologyEvaluator{
 		echo "done!\n";
 	}
 	private function populateQname2Axiom(){
-		$sc = $this->getSioClasses();
+		$sc = $this->getOntologyClasses();
 		echo "loading table qname2axiom ... ";
 		foreach ($sc as $aClassUri) {
 			$aQname = $this->makeQNameFromUri($aClassUri);
@@ -465,7 +496,7 @@ class OntologyEvaluator{
 				//ignore the axioms that start with "Class ="
 				$q = strstr($anAxiom, "Class =");
 				if(strlen($q) == 0){
-					$qry2 = "INSERT INTO qname2axiom VALUES ('".$aQname."','". str_replace("'", "", $anAxiom)."')";
+					$qry2 = "INSERT INTO qname2axiom VALUES ('".$this->ontology_base_uri."','".$aQname."','". str_replace("'", "", $anAxiom)."')";
 					if(!$this->getConn()->query($qry2)){
 						printf("2341 Error: %s\n", $this->getConn()->error);
 						exit;
@@ -477,13 +508,13 @@ class OntologyEvaluator{
 	}
 
 	private function populateQname2Annotation(){
-		$sc = $this->getSioClasses();
+		$sc = $this->getOntologyClasses();
 		echo "loading table qname2annotation ... ";
 		foreach ($sc as $aClassUri) {
 			$aQname = $this->makeQNameFromUri($aClassUri);
 			$anAnnotation = $this->retriveClassAnnotation($aClassUri);
 			//insert into the table
-			$qry = "INSERT INTO qname2annotation VALUES ('".$aQname."','".str_replace("'", "", $anAnnotation)."')";
+			$qry = "INSERT INTO qname2annotation VALUES ('".$this->ontology_base_uri."','".$aQname."','".str_replace("'", "", $anAnnotation)."')";
 			if(!$this->getConn()->query($qry)){
 				printf("2345213 Error: %s\n", $this->getConn()->error);
 				exit;
@@ -505,12 +536,15 @@ class OntologyEvaluator{
 		}
 	}
 
+	
+
 	/**
-	* Create and return an array of SIO class URIs
+	* Create and return an array containing every class' URIs
 	*/
 	private function retrieveOntologyClasses(){
 		//owltools /home/jose/owl/sio.owl --list-classes
-		$r = shell_exec("owltools ".$this->ontology_url." --list-classes") or die( "Could not run owltools!");
+		echo "owltools ".$this->ontology_file_path." --list-classes";
+		$r = shell_exec("owltools ".$this->ontology_file_path." --list-classes") or die( "Could not run owltools! 234");
 		$rm = array();
 		$lines = explode("\n", $r);
 		foreach ($lines as $aLine) {
@@ -519,6 +553,10 @@ class OntologyEvaluator{
 				$aUri = trim($matches[1]);
 				$rm[] = $aUri;
 			}
+		}
+		if(count($rm)== 0){
+			throw new Exception("No classes found!");
+			exit();
 		}
 		return $rm;
 	}
@@ -532,10 +570,10 @@ class OntologyEvaluator{
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
 		if(count($matches)){
 			$result = shell_exec(
-				"owltools ".$this->ontology_url.
+				"owltools ".$this->ontology_file_path.
 				" --sparql-dl \"SELECT * WHERE {Annotation(<".
 				$matches[0].">, <http://purl.org/dc/terms/description>, ?d) }\""
-			) or die ("Could not run owltools!\n");
+			) or die ("Could not run owltools!543\n");
 			$lines = explode("\n", $result);
 			foreach ($lines as $aLine) {
 				//[0]  ?d=
@@ -557,10 +595,10 @@ class OntologyEvaluator{
 		if(count($matches)){
 			//owltools /home/jose/Documents/ontologies/sio/sio.owl --reasoner hermit --sparql-dl "SELECT * WHERE{ Annotation( <http://semanticscience.org/resource/SIO_000006>, <http://www.w3.org/2000/01/rdf-schema#label>, ?d) }"
 			$result = shell_exec(
-				"owltools ".$this->ontology_url.
+				"owltools ".$this->ontology_file_path.
 				" --sparql-dl \"SELECT * WHERE {Annotation(<".
 				$matches[0].">, <http://www.w3.org/2000/01/rdf-schema#label>, ?d) }\""
-			) or die ("Could not run owltools!\n");
+			) or die ("Could not run owltools!2342342\n");
 			$lines = explode("\n", $result);
 			foreach($lines as $aLine){
 				preg_match("/^\[0\]\s+\?d=\"(.*)\"/", $aLine, $m);
@@ -584,10 +622,10 @@ class OntologyEvaluator{
 		//owltools ~/Documents/ontologies/sio/sio.owl --reasoner hermit --pretty-printer-settings -m --hide-ids --list-class-axioms 'http://semanticscience.org/resource/SIO_000006'
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
 		if(count($matches)){
-			$result = shell_exec("owltools ".$this->ontology_url." --reasoner hermit"
+			$result = shell_exec("owltools ".$this->ontology_file_path." --reasoner hermit"
 					." --pretty-printer-settings -m --hide-ids"
 					." --list-class-axioms '".$matches[0]."'"
-				) or die("Could not run owltools! \n");
+				) or die("Could not run owltools! 092384\n");
 			$lines = explode("\n", $result);
 			foreach($lines as $aLine){
 				preg_match("/^[^\d+\-\d+\-\d+].+/", $aLine, $m);
@@ -606,18 +644,13 @@ class OntologyEvaluator{
 	* 'http://semanticscience.org/resource/SIO_000006' this would return SIO_000006
 	*/
 	public function makeQNameFromUri($aUri){
-		$s = substr($aUri,  strrpos($aUri, "/")+1);
+		$a = strrpos($aUri, "/");
+		$b = strrpos($aUri, "#");
+		$s = substr($aUri,  max($a,$b)+1);
 		return $s;
 	}
 
-	/**
-	*
-	*/
-	public function makeUriFromQname($aQname){
-		//http://semanticscience.org/resource/
-		$s = str_replace(":", "_", $aQname);
-		return "http://semanticscience.org/resource/".$s;
-	}
+	
 
 
 	private function getHost(){
@@ -638,12 +671,17 @@ class OntologyEvaluator{
 	public function getUserId(){
 		return $this->userid;
 	}
-	public function getSioClasses(){
-		return $this->sio_classes;
+	public function getOntologyClasses(){
+		return $this->ontology_classes;
 	}
 	public function getAnnotatableFeatures(){
 		return $this->annotatable_features;
 	}
 }//class
+
+/****/
+/* TESTING */
+//$aUserId, $anOwlFilePath, $anOntologyBaseUri, $testing = false
+$p = new OntologyEvaluator("123.123.123.123", "/home/jose/Documents/ontologies/sio/sio.owl", "http://semanticscience.org/ontology/sio.owl", true);
 
 ?>
