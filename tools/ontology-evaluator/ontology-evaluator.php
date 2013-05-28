@@ -30,7 +30,7 @@
 */
 
 
-class SioEvaluator{
+class OntologyEvaluator{
 	/**
 	* Database credentials
 	*/
@@ -264,8 +264,9 @@ class SioEvaluator{
 	* - uri : the uri for this class
 	* if no annotation is found null is returned
 	*/
-	public function getAnnotation($anOntologyUrl,$aQname){
-		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = '".$aQname."'";
+	public function getAnnotation($anOntologyUri,$aQname){
+		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.ontologyUri = '"
+			.$anOntologyUri."' AND qa.qname = '".$aQname."'";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
 				$rm = new stdClass();
@@ -273,7 +274,7 @@ class SioEvaluator{
 				$rm->type = "annotation";
 				$rm->value = $row['annotation'];
 				$rm->label = $this->getLabelFromQname($aQname);
-				$rm->uri = $this->makeUriFromQname($aQname);
+				$rm->ontology_uri = $anOntologyUri;
 				return $rm;
 			}
 		}else{
@@ -295,9 +296,10 @@ class SioEvaluator{
 	* - uri : the uri for this class
 	* if no axioms are found null is returned
 	*/
-	public function getSubclassAxioms($aQname){
+	public function getSubclassAxioms($anOntologyUri, $aQname){
 		//
-		$q = "select qa.axiom from qname2axiom qa  where qname = '".$aQname."'";
+		$q = "SELECT qa.axiom FROM qname2axiom qa  WHERE qa.ontologyUri ='"
+			.$anOntologyUri."' qa.qname = '".$aQname."'";
 		if($result = $this->getConn()->query($q)){
 			$axioms_arr = array();
 			while($row = $result->fetch_assoc()){
@@ -309,7 +311,7 @@ class SioEvaluator{
 				$rm->type = "subclassaxioms";
 				$rm->value = $axioms_arr;
 				$rm->label = $this->getLabelFromQname($aQname);
-				$rm->uri = $this->makeUriFromQname($aQname);
+				$rm->ontology_uri = $anOntologyUri;
 				return $rm;
 			}
 		}else{
