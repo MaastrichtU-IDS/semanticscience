@@ -76,12 +76,8 @@ class OntologyEvaluator{
 	*
 	*/
 	public function __construct($aUserId, $anOwlFilePath, $anOntologyBaseUri, $testing = false){
-		
-		
-		echo "balhp;";
 		//check parameters
 		if($this->checkConstructorParams($aUserId, $anOwlFilePath,$anOntologyBaseUri, $testing)){
-			echo "yesss!\n";
 			//set the userid
 			$this->userid = $aUserId;
 			//set the file path
@@ -90,7 +86,6 @@ class OntologyEvaluator{
 			$this->ontology_base_uri = $anOntologyBaseUri;
 			//set the ontology URI from where the ontology document will be downloaded
 			$this->ontology_base_uri = $anOntologyBaseUri;
-
 			//create a connection to the database 
 			$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
 			//create the sio_classes array
@@ -133,7 +128,7 @@ class OntologyEvaluator{
 		if(strlen($aUserId) == 0 || $aUserId == null){
 			throw new Exception("invalid user id provided! Terminating program!");
 			$fc++;
-		}/*
+		}
 		if(strlen($anOntologyBaseUri) == 0 || $anOntologyBaseUri == null){
 			throw new Exception("invalid ontology base uri provided! Terminating program!");
 			$fc++;
@@ -145,7 +140,7 @@ class OntologyEvaluator{
 		if(!is_bool($testing)){
 			throw new Exception("invalid testing flag provided");
 			$fc++;
-		}*/
+		}
 		if($fc == 0){
 			return true;
 		}
