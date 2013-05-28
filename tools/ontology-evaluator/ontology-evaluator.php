@@ -94,10 +94,9 @@ class OntologyEvaluator{
 		
 		if($testing){
 			//TESTING ONLY 
-			echo "pichi\n";
-			exit;
+			
 			// empty the database and create tables from scratch
-			/*
+		
 			$this->emptyTable("qname2annotation");
 			$this->emptyTable("qname2axiom");
 			$this->emptyTable("qname2label");
@@ -105,14 +104,12 @@ class OntologyEvaluator{
 			$this->emptyTable("axiom_annotation_count");
 			$this->emptyTable("userid2annotation");
 			$this->emptyTable("userid2axioms");
-			$this->emptyTable("ontologyUri2ClassesUri2Qname");
 			$this->populateQname2Annotation();
 			$this->populateQname2Axiom();
 			$this->populateQname2Label();
 			$this->populateAnnotationAnnotationCount();
 			$this->populateAxiomAnnotationCount();
-			$this->populateOntologyUri2ClassesUri2Qname();
-			*/
+				/*
 		}
 	}
 
@@ -133,7 +130,7 @@ class OntologyEvaluator{
 			throw new Exception("invalid ontology base uri provided! Terminating program!");
 			$fc++;
 		}
-		if(strlen($anOwlFilePath) == 0) || $anOwlFilePath == null){
+		if(strlen($anOwlFilePath) == 0 || $anOwlFilePath == null){
 			throw new Exception("invalid file path provided!");
 			$fc++;
 		}
@@ -538,7 +535,6 @@ class OntologyEvaluator{
 	*/
 	private function retrieveOntologyClasses(){
 		//owltools /home/jose/owl/sio.owl --list-classes
-		echo "owltools ".$this->ontology_file_path." --list-classes";
 		$r = shell_exec("owltools ".$this->ontology_file_path." --list-classes") or die( "Could not run owltools! 234");
 		$rm = array();
 		$lines = explode("\n", $r);
@@ -676,7 +672,9 @@ class OntologyEvaluator{
 
 /****/
 /* TESTING */
-//$aUserId, $anOwlFilePath, $anOntologyBaseUri, $testing = false
+//load sio
 $p = new OntologyEvaluator("123.123.123.123", "/home/jose/Documents/ontologies/sio/sio.owl", "http://semanticscience.org/ontology/sio.owl", true);
+//load bfo
+$q = new OntologyEvaluator("234.234.234.234", "/home/jose/Documents/ontologies/bfo/bfo-1.1.owl", "http://www.ifomis.org/bfo/1.1", true);
 
 ?>
