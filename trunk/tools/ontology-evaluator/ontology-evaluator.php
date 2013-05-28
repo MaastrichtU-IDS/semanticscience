@@ -35,17 +35,17 @@ class SioEvaluator{
 	* Database credentials
 	*/
 	private $host = "localhost";
-	private $user = "sio-evaluator";
-	private $pass = "sio-evaluator-secret";
-	private $db = "sio-evaluator";
+	private $user = "onto-evaluator";
+	private $pass = "onto-evaluator-secret";
+	private $db = "ontology-evaluator";
 	/**
 	* The connection object
 	*/
 	private $conn = null;
 	/**
-	* Location of sio.owl
+	* A URL where the ontology to be evaluated can be downloaded from
 	*/
-	private $sio_location = "/home/jose/Documents/ontologies/sio/sio.owl";
+	private $ontology_url = null;
 	/**
 	* The ip of the user
 	*/
@@ -68,16 +68,14 @@ class SioEvaluator{
 	* @param $loadDb set to true for populating the db for the first time
 	*
 	*/
-	public function __construct($aUserId, $loadDb = false){
+	public function __construct($aUserId, $anOntologyUrl, $loadDb = false){
 		
 		//create a connection to the database 
 		$this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
 		//create the sio_classes array
-		$this->sio_classes = $this->retrieveSIOClasses();
+		//$this->sio_classes = $this->retrieveSIOClasses();
 		//check if the DB's tables have been created and populated
 		if($loadDb){
-			
-
 			//TESTING ONLY 
 			exit;
 			// empty the database and create tables from scratch
@@ -89,20 +87,27 @@ class SioEvaluator{
 			$this->emptyTable("axiom_annotation_count");
 			$this->emptyTable("userid2annotation");
 			$this->emptyTable("userid2axioms");
+			$this->emptyTable("ontologyUri2ClassesUri2Qname");
 			$this->populateQname2Annotation();
 			$this->populateQname2Axiom();
 			$this->populateQname2Label();
 			$this->populateAnnotationAnnotationCount();
 			$this->populateAxiomAnnotationCount();
+			$this->populateOntologyUri2ClassesUri2Qname();
 			*/
 		}
 		if(strlen($aUserId) == 0 || $aUserId == null){
 			throw new Exception("invalid user id provided! Terminating program!");
 			exit;
 		}
+		if(strlen($anOntologyUrl) == 0 || $anOntologyUrl == null){
+			throw new Exception("invalid ontology url provided! Terminating program!");
+			exit;
+		}
 		//create a userid
 		$this->userid = $aUserId;
-
+		//set the ontology URL
+		$this->ontology_url = $anOntologyUrl;
 	}
 
 	/**
@@ -197,7 +202,7 @@ class SioEvaluator{
 			$q = "SELECT DISTINCT a.qname FROM userid2axioms a INNER JOIN  axiom_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2axioms WHERE userid2axioms.userid = '".
 				$this->getUserId()."' AND userid2axioms.qname=a.qname) AND (b.count < 6 AND b.count>0)";
-			echo $q."\n";
+			
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
@@ -223,7 +228,6 @@ class SioEvaluator{
 			$q = "SELECT DISTINCT a.qname FROM userid2annotation a INNER JOIN  annotation_annotation_count b"
 				." ON a.qname=b.qname WHERE NOT EXISTS (SELECT * FROM userid2annotation WHERE userid2annotation.userid = '".
 				$this->getUserId()."' AND userid2annotation.qname=a.qname) AND (b.count < 6 AND b.count>0)";
-			echo "$q\n";
 			if($r = $this->getConn()->query($q)){
 				$row_count = $r->num_rows;
 				//if more than one result is found return one at random
@@ -248,10 +252,10 @@ class SioEvaluator{
 	}//getNextTerm
 
 	/**
-	* Get the dc:description for a SIO Class ( using its QNamei.e.: SIO:000000) for 
-	* a given qname
+	* Get the dc:description for a  Class. If dc:description is not used null is returned
 	*
-	* @param a valid sio Qname
+	* @param $anOntologyUrl the url of the ontology where this qname came from
+	* @param $aQname a Qname 
 	* @return an object with the following instance variables:
 	* - qname : the class's qname
 	* - type : "annotation"
@@ -260,7 +264,7 @@ class SioEvaluator{
 	* - uri : the uri for this class
 	* if no annotation is found null is returned
 	*/
-	public function getAnnotation($aQname){
+	public function getAnnotation($anOntologyUrl,$aQname){
 		$qry = "SELECT  qa.annotation FROM qname2annotation qa WHERE qa.qname = '".$aQname."'";
 		if($result = $this->getConn()->query($qry)){
 			while($row = $result->fetch_assoc()){
@@ -348,10 +352,6 @@ class SioEvaluator{
 	public function isValidResult($aResult){
 		$r = true;
 		if(is_object($aResult)){
-			$qname = $aResult->qname;
-			$aType = $aResult->type;
-			$aRadioOption = $aResult->radio_option;
-			$aComment = $aResult->comment;
 			$fault_count = 0;
 			if(!isset($aResult->userid)){
 				throw new Exception ("userid not provided\n");
@@ -360,14 +360,12 @@ class SioEvaluator{
 			if(!isset($aResult->qname)){
 				throw new Exception("qname not provided!\n");
 				$fault_count++;
-			}else{
-				//check if valid qname
-				preg_match("/^SIO\:\d+$/", $aResult->qname, $m);
-				if(count($m) == 0){
-					throw new Exception("Invalid qname provided. Please follow the pattern SIO:000000!\n");
-					$fault_count ++;
-				}
 			}
+			if(!isset($aResult->ontology_url)){
+				throw new Exception("ontology_url not provided!".PHP_EOL);
+				$fault_count++;
+			}
+
 			if(!isset($aResult->type)){
 				throw new Exception("type not provided".PHP_EOL);
 				$fault_count++;
@@ -432,6 +430,10 @@ class SioEvaluator{
 			$result->free();
 		}//if
 		echo "done!\n";
+	}
+
+	private function populateOntologyUri2ClassesUri2Qname(){
+
 	}
 
 	//initializie axiom_annotation_count table
@@ -504,9 +506,9 @@ class SioEvaluator{
 	/**
 	* Create and return an array of SIO class URIs
 	*/
-	private function retrieveSIOClasses(){
+	private function retrieveOntologyClasses(){
 		//owltools /home/jose/owl/sio.owl --list-classes
-		$r = shell_exec("owltools ".$this->sio_location." --list-classes") or die( "Could not run owltools!");
+		$r = shell_exec("owltools ".$this->ontology_url." --list-classes") or die( "Could not run owltools!");
 		$rm = array();
 		$lines = explode("\n", $r);
 		foreach ($lines as $aLine) {
@@ -528,7 +530,7 @@ class SioEvaluator{
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
 		if(count($matches)){
 			$result = shell_exec(
-				"owltools ".$this->sio_location.
+				"owltools ".$this->ontology_url.
 				" --sparql-dl \"SELECT * WHERE {Annotation(<".
 				$matches[0].">, <http://purl.org/dc/terms/description>, ?d) }\""
 			) or die ("Could not run owltools!\n");
@@ -553,7 +555,7 @@ class SioEvaluator{
 		if(count($matches)){
 			//owltools /home/jose/Documents/ontologies/sio/sio.owl --reasoner hermit --sparql-dl "SELECT * WHERE{ Annotation( <http://semanticscience.org/resource/SIO_000006>, <http://www.w3.org/2000/01/rdf-schema#label>, ?d) }"
 			$result = shell_exec(
-				"owltools ".$this->sio_location.
+				"owltools ".$this->ontology_url.
 				" --sparql-dl \"SELECT * WHERE {Annotation(<".
 				$matches[0].">, <http://www.w3.org/2000/01/rdf-schema#label>, ?d) }\""
 			) or die ("Could not run owltools!\n");
@@ -572,7 +574,6 @@ class SioEvaluator{
 		}
 	}
 
-
 	/**
 	* return an array with the class axioms for a given class URI in manchester syntax
 	*/
@@ -581,7 +582,7 @@ class SioEvaluator{
 		//owltools ~/Documents/ontologies/sio/sio.owl --reasoner hermit --pretty-printer-settings -m --hide-ids --list-class-axioms 'http://semanticscience.org/resource/SIO_000006'
 		preg_match("/^http:\/\/.*$/", $someClassUri, $matches);
 		if(count($matches)){
-			$result = shell_exec("owltools ".$this->sio_location." --reasoner hermit"
+			$result = shell_exec("owltools ".$this->ontology_url." --reasoner hermit"
 					." --pretty-printer-settings -m --hide-ids"
 					." --list-class-axioms '".$matches[0]."'"
 				) or die("Could not run owltools! \n");
@@ -598,16 +599,18 @@ class SioEvaluator{
 		}
 	}
 
-
-
 	/**
-	* For 'http://semanticscience.org/resource/SIO_000006' the qname is SIO:000006
+	* returns the string that is after the last '/' of the URI so for 
+	* 'http://semanticscience.org/resource/SIO_000006' this would return SIO_000006
 	*/
 	public function makeQNameFromUri($aUri){
 		$s = substr($aUri,  strrpos($aUri, "/")+1);
-		return str_replace("_", ":", $s);
+		return $s;
 	}
 
+	/**
+	*
+	*/
 	public function makeUriFromQname($aQname){
 		//http://semanticscience.org/resource/
 		$s = str_replace(":", "_", $aQname);
@@ -640,53 +643,5 @@ class SioEvaluator{
 		return $this->annotatable_features;
 	}
 }//class
-
-
-/**********/
-/* RUNNER */
-/**********/
-//currently running for tests
-//user bob
-/*
-$bob = new SioEvaluator('123.123.132.123');
-$t1 = $bob->getNextTerm();
-var_dump($t1);
-
-//bob's result
-$br = new stdClass();
-$br->userid = $bob->getUserId();
-$br->qname = $t1->qname;
-$br->type = $t1->type;
-$br->radio_option = "idk";
-$br->comment ="this was amazing!";
-if($bob->isValidResult($br)){
-	if($bob->storeResult($br)){
-		echo "good\n";
-	}
-}
-
-//user peter
-$peter = new SioEvaluator('234.234.234.234');
-$t2 = $peter->getNextTerm();
-var_dump($t2);
-
-//peter's result
-$pr = new stdClass();
-$pr->userid = $peter->getUserId();
-$pr->qname = $t2->qname;
-$pr->type = $t2->type;
-$pr->radio_option = "yes";
-$pr->comment = "";
-
-if($peter->isValidResult($pr)){
-	if($peter->storeResult($pr)){
-		echo "good2\n";
-	}
-}
-
-//var_dump($t1);
-exit;
-*/
-
 
 ?>
