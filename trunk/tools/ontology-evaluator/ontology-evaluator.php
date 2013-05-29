@@ -97,19 +97,19 @@ class OntologyEvaluator{
 			
 			// empty the database and create tables from scratch
 		
-			$this->emptyTable("qname2annotation");
+			/*$this->emptyTable("qname2annotation");
 			$this->emptyTable("qname2axiom");
 			$this->emptyTable("qname2label");
 			$this->emptyTable("annotation_annotation_count");
 			$this->emptyTable("axiom_annotation_count");
 			$this->emptyTable("userid2annotation");
 			$this->emptyTable("userid2axioms");
-			$this->populateQname2Annotation();
+			$this->populateQname2Annotation();*/
 			$this->populateQname2Axiom();
 			$this->populateQname2Label();
 			$this->populateAnnotationAnnotationCount();
 			$this->populateAxiomAnnotationCount();
-				/*
+				
 		}
 	}
 
@@ -414,7 +414,24 @@ class OntologyEvaluator{
 					throw new Exception("Invalid radio_option provided. Valid radio_option values: yes, no or idk\n");
 					$fault_count ++;
 				}
+			}if(!isset($aResult->ontology_base_uri)){
+				throw new Exception("no ontology base uri provided!".PHP_EOL);
+				$fault_count ++;
+			}else{
+				//check if there is any info about this ontology in our db
+				$q = "SELECT * FROM qname2annotation a WHERE a.ontologyBaseUri='".$aResult->ontology_base_uri."'";
+				if($result = $this->getConn()->query($q)){
+					$row_count = $result->num_rows;
+					if($row_count == 0){
+						throw new Exception("no ontology with provided base uri found in our db!");
+						$fault_count ++;
+					}else{
+						printf("4303292 Error: %s\n", $this->getConn()->error);
+						exit;
+					}
+				}
 			}
+
 			if(!isset($aResult->comment)){
 				throw new Exception("comment not set. If none provided by user please provide an empty string");
 				$fault_count ++;
