@@ -1,0 +1,67 @@
+#summary Use cases defined by the OBI
+
+= Use Cases =
+
+1. mass of patient recorded at 74.5 kilograms
+{{{
+sio: <http://semanticscience.org/resource/>
+taxon : <http://bio2rdf.org/taxon:>
+obo: <http://purl.obolibrary.org/obo/>
+
+:p a taxon:9606 .                      # p is human
+:p sio:has-attribute :m1 .             # p has an attribute of m1
+
+:m1 a sio:mass .                       # m1 is a mass
+:m1 sio:has-value "74.5"^^xsd:float .  # the value is 74.6
+:m1 sio:has-unit obo:UO_0000009 .      # the unit is kilogram
+}}}
+
+2. prescribed 150mg of aspirin [ twice a day for 3 days ]
+{{{
+sio: <http://semanticscience.org/resource/>
+drugbank: <http://bio2rdf.org/drugbank:>
+obo: <http://purl.obolibrary.org/obo/>
+
+#describe the prescription event
+:e a sio:medical-procedure .           # a medical procedure
+:e a snomedct:16076005 .               # a prescription as defined by snomed-ct
+:e sio:realizes [ a :prescriptee-role; sio:is-role-of :pat ] .   # the patient plays the role of the prescriptee
+:e sio:realizes [ a :prescriptor-role; sio:is-role-of :doc ] .   # the doctor plays the role of the prescriptor
+:e sio:has-output :s.
+
+:s a :script .                         # the script
+:s sio:specifies :f .                  # the script specifies the frequency of administration
+:s sio:specifies :d .                  # the script specifies the drug
+:s sio:specifies :q .                  # the script specifies the quantity
+
+:f a :frequency-of-administration  
+:f sio:has-value "12"^^xsd:integer .   # every 12 hours 
+:f sio:has-unit obo:UO_0000032 .       # hours
+
+:d a :pharmaceutical-substance .       # d is a pharmaceutical substance
+:d a drugbank:DB00945 .                # d is aspirin as defined by drugbank
+:d sio:has-component-part :c .         # d is composed of c
+:c a obo:CHEBI_15365 .                 # c is the chemical entity as defined by chebi
+
+:q a sio:dose .                        # q is a quantity of drug
+:q sio:has-value "150.0"^^xsd:float .  # q has a value of 150.0
+:q sio:has-unit obo:UO_0000022 .       # q has unit of mg
+:q sio:is-attribute-of :d .            # q is an attribute of d
+
+
+}}}
+
+3. reporting an a dimensional quantity (a count): number of petals of a flower
+
+
+
+4. reporting a categorical variable (a quality with several possible values): handedness, colour of eyes, dose of aspirin (high dose, low dose)
+
+5. reporting the duration of a process 
+
+6. reporting the date a process occurred
+
+
+1. reporting the mass of patient recorded at 74.5 kilograms
+
+2. reporting the prescribed mass or dose of aspirin at 150 mg
