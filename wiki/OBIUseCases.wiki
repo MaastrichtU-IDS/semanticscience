@@ -2,6 +2,10 @@
 
 = Use Cases =
 
+https://docs.google.com/document/d/11G4EkYvGJSJfcgW98weOyo5iVr7TdmrWEhm_q2IeGrA/edit
+
+using the simple triples syntax
+
 1. mass of patient recorded at 74.5 kilograms
 {{{
 sio: <http://semanticscience.org/resource/>
@@ -48,14 +52,40 @@ obo: <http://purl.obolibrary.org/obo/>
 :q sio:has-unit obo:UO_0000022 .       # q has unit of mg
 :q sio:is-attribute-of :d .            # q is an attribute of d
 
-
 }}}
 
-3. reporting an a dimensional quantity (a count): number of petals of a flower
+3. reporting an a dimensional quantity (a count): 10 petals of a flower
+{{{
+sio: <http://semanticscience.org/resource/>
+obo: <http://purl.obolibrary.org/obo/>
 
+:c a sio:count .
+:c sio:has-value "10"^^xsd:integer .
+:c sio:is-attribute-of :f .
+:f a obo:PO_0009046 .  # f is a flower as defined by the plant ontology
+}}}
 
 
 4. reporting a categorical variable (a quality with several possible values): handedness, colour of eyes, dose of aspirin (high dose, low dose)
+
+{{{
+sio: <http://semanticscience.org/resource/>
+obo: <http://purl.obolibrary.org/obo/>
+fma: <http://sig.uw.edu/fma#>
+
+:i a owl:NamedIndividual .
+:i sio:has-quality obo:PATO_0002203 .  # individual is right handed
+:i sio:has-direct-part :eyes .         # individual has two eyes
+:eyes a sio:collection .
+:eyes sio:has-attribute [ a sio:count; sio:has-value "2"^^xsd:integer ] . # there are two members in the collection
+:eyes sio:has-member :e1, :e2 .        # e1 and e2 are members of the eye collection
+:e1 a fma:eye                          # e1 is an eye as defined by FMA
+:e1 sio:has-quality obo:PATO_0000318 . # blue
+:e2 a fma:eye                          # e1 is an eye as defined by FMA
+:e1 sio:has-quality obo:PATO_0000952.  # brown
+
+}}}
+
 
 5. reporting the duration of a process 
 
