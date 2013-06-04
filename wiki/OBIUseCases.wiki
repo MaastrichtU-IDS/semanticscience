@@ -27,27 +27,27 @@ drugbank: <http://bio2rdf.org/drugbank:>
 obo: <http://purl.obolibrary.org/obo/>
 
 #describe the prescription event
-:e a sio:medical-procedure .           # a medical procedure
-:e a snomedct:16076005 .               # a prescription as defined by snomed-ct
-:e sio:realizes [ a :prescriptee-role; sio:is-role-of :pat ] .   # the patient plays the role of the prescriptee
-:e sio:realizes [ a :prescriptor-role; sio:is-role-of :doc ] .   # the doctor plays the role of the prescriptor
-:e sio:has-output :s.
+:e a sio:medical-procedure .           # e is a medical procedure as defined by SIO
+:e a snomedct:16076005 .               # e prescription as defined by snomed-ct
+:e sio:realizes [ a :prescriptee-role; sio:is-role-of :pat ] .   # in this event, the patient plays the role of the prescriptee
+:e sio:realizes [ a :prescriptor-role; sio:is-role-of :doc ] .   # in this event, the doctor plays the role of the prescriptor
+:e sio:has-output :s.                  # the prescription event produces a script
 
-:s a :script .                         # the script
+:s a :script .                         # s is the script
 :s sio:specifies :f .                  # the script specifies the frequency of administration
 :s sio:specifies :d .                  # the script specifies the drug
 :s sio:specifies :q .                  # the script specifies the quantity
 
-:f a :frequency-of-administration  
+:f a :frequency-of-administration .    # f is the frequency of administration 
 :f sio:has-value "12"^^xsd:integer .   # every 12 hours 
 :f sio:has-unit obo:UO_0000032 .       # hours
 
-:d a :pharmaceutical-substance .       # d is a pharmaceutical substance
+:d a :heterogeneous-substance .        # d is a pharmaceutical substance as defined by SIO
 :d a drugbank:DB00945 .                # d is aspirin as defined by drugbank
 :d sio:has-component-part :c .         # d is composed of c
 :c a obo:CHEBI_15365 .                 # c is the chemical entity as defined by chebi
 
-:q a sio:dose .                        # q is a quantity of drug
+:q a sio:dose .                        # q is a quantity of drug as defined by SIO
 :q sio:has-value "150.0"^^xsd:float .  # q has a value of 150.0
 :q sio:has-unit obo:UO_0000022 .       # q has unit of mg
 :q sio:is-attribute-of :d .            # q is an attribute of d
@@ -59,10 +59,10 @@ obo: <http://purl.obolibrary.org/obo/>
 sio: <http://semanticscience.org/resource/>
 obo: <http://purl.obolibrary.org/obo/>
 
-:c a sio:count .
-:c sio:has-value "10"^^xsd:integer .
-:c sio:is-attribute-of :f .
-:f a obo:PO_0009046 .  # f is a flower as defined by the plant ontology
+:c a sio:count .                       # c is a count as defined by SIO
+:c sio:has-value "10"^^xsd:integer .   # c has value of 10
+:c sio:is-attribute-of :f .            # c is an attribute of f
+:f a obo:PO_0009046 .                  # f is a flower as defined by the plant ontology
 }}}
 
 
@@ -92,11 +92,24 @@ fma: <http://sig.uw.edu/fma#>
 sio: <http://semanticscience.org/resource/>
 obo: <http://purl.obolibrary.org/obo/>
 
-:p a sio:process . 
-:p sio:has-attribute :d .
-:d a sio:time-interval .
-:d sio:has-value "15"^^xsd: .
-:d sio:has-unit obo:UO_0000031 .   # also defined in sio:minute
+:p a sio:process .                     # p is a process as defined by SIO
+:p sio:has-attribute :d .              # p has an attribute d
+:d a sio:time-interval .               # d is a time interval
+:d sio:has-value "15.0"^^xsd:float .   # d has a value of 15
+:d sio:has-unit obo:UO_0000031 .       # d's value is in minutes (see also sio:minute)
 }}}
 
 6. reporting the date a process occurred
+{{{
+sio: <http://semanticscience.org/resource/>
+obo: <http://purl.obolibrary.org/obo/>
+
+:p a sio:process .                     # p is a process as defined by SIO
+:p sio:has-attribute :d1, :d2 .        # p has an attribute d1 and d2
+:d1 a sio:start-date .                 # d1 is a process start date
+:d1 sio:has-value "2012-01-15T12:00:00-05:00"^^xsd:dateTime .  # the value of the start date is January 15, 2012 at 12PM EDT
+:d2 a sio:end-date .                   # d2 is a process end date
+:d2 sio:has-value "2013-01-15T12:00:00-05:00"^^xsd:dateTime .  # the value of the end date is January 15, 2013 at 12PM EDT
+
+}}}
+
