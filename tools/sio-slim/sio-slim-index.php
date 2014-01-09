@@ -25,7 +25,6 @@ $equiv = array(
 $sio = 'http://semanticscience.org/ontology/sio.owl';
 $o = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][0]; 
 $sio_version = $o['value'];
-//unset($index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][0]);
 
 function getParents($child, &$subClassOf)
 {
@@ -240,15 +239,16 @@ foreach($index AS $s => $p_list) {
 	$index[$s][ $ns['dc'].'identifier' ][] = $o;
 }
 
+$vi = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'];
 foreach($indexes AS $subset => $ind) {
 	unset($myindex);
 
 	// add the version iri
-	unset($index[$sio]['http://www.w3.org/2002/07/owl#versionInfo']);
-	//$myindex = ARC2::getMergedIndex($index, $ind);
+	//unset($index[$sio]['http://www.w3.org/2002/07/owl#versionInfo']);
 	$myindex = $ind;
-	$myindex[$sio] = $index[$sio];
-	
+
+//	$myindex[$sio] = $index[$sio];
+
 	$sio_versioned_file = "sio-v".$sio_version."-".$subset."-subset.owl";
 	$o = null;
 	$o['value'] = $sio_versioned_file;
@@ -262,16 +262,29 @@ foreach($indexes AS $subset => $ind) {
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
 	
 	// add rdfs:isDefinedBy
-	$o = null;
-	$o['value'] = $sio_versioned_uri;
-	$o['type'] = 'uri';
-	$myindex[$sio]['http://www.w3.org/2000/01/rdf-schema#isDefinedBy'][] = $o;
-	
+	foreach($myindex AS $s => $p_obj) {
+		$o = null;
+		$o['value'] = $sio_versioned_uri;
+		$o['type'] = 'uri';
+		$myindex[$s]['http://www.w3.org/2000/01/rdf-schema#isDefinedBy'][] = $o;
+	}
 	echo "generating $subset".PHP_EOL;
 	file_put_contents($odir."sio-subset-$subset.owl",$parser->toRDFXML($myindex));
 }
 
 echo "generating versioned SIO".PHP_EOL;
+$version_iri = "http://semanticscience.org/ontology/sio-v$sio_version-release.owl";
+$index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'] = $vi;
+foreach($index AS $s => $p_obj) {
+	$o = null;
+	$o['value'] = 'http://semanticscience.org/ontology/sio.owl';
+	$o['type'] = 'uri';
+	$index[$s]['http://www.w3.org/2000/01/rdf-schema#isDefinedBy'][] = $o;
+}
+$o['value'] = $version_iri;
+$o['type'] = 'uri';
+$index[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
+	
 file_put_contents($odir."sio-release.owl", $parser->toRDFXML($index));
 
 
