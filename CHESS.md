@@ -1,0 +1,6 @@
+# Introduction #
+
+CHemical Entity Semantic Specification (CHESS) strives to provide a means of representing chemical data with the goal of chemical data federation and addressing increasingly rich and complex queries for biological, pharmaceutical, and synthetic chemistry applications. The principal emphasis is data representation to assist in metabolic fate determination, synthetic pathway construction, and automatic chemical entity classification. By means of generic reaction specification, CHESS allows the tracing of the mechanisms of chemical transformations on the level of individual atoms, bonds, functional groups, or molecules, as well as the individual "histories" of elements of chemical entities in a pathway. Further, CHESS framework provides methods for specifying uncertainty, conformer-specific information, units, and circumstances for physical measurements at variable levels of granularity and querying over this data to retrieve chemical class members or reaction candidates.
+
+
+# Details #

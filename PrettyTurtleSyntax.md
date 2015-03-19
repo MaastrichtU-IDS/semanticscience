@@ -1,0 +1,1 @@
+The Pretty Turtle Syntax is [Turtle](http://www.w3.org/TeamSubmission/turtle/) with single quoted human readable labels (rdfs:label) in place of  URIs . Useful in describing instances of OWL ontologies.
