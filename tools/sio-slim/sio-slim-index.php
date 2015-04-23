@@ -1,10 +1,10 @@
 <?php
 
-require('../../../git/php-lib/rdfapi.php');
-require('../../../git/arc2/ARC2.php');
+require('../../../php-lib/rdfapi.php');
+require('../../../arc2/ARC2.php');
 $odir = "../../ontology/sio/release/";
 $parser = ARC2::getRDFParser();
-$parser->parse('file:///code/semanticscience/ontology/sio.owl');
+$parser->parse('file:///code/git/semanticscience/ontology/sio.owl');
 $triples = $parser->getTriples();
 $index = ARC2::getSimpleIndex($triples, false);
 
@@ -263,10 +263,13 @@ foreach($indexes AS $subset => $ind) {
 	
 	// add rdfs:isDefinedBy
 	foreach($myindex AS $s => $p_obj) {
+		if(!strstr($s,"semanticscience")) continue;
 		$o = null;
 		$o['value'] = $sio_versioned_uri;
 		$o['type'] = 'uri';
 		$myindex[$s]['http://www.w3.org/2000/01/rdf-schema#isDefinedBy'][] = $o;
+		
+		// @todo add http://open.vocab.org/terms/defines
 	}
 	echo "generating $subset".PHP_EOL;
 	file_put_contents($odir."sio-subset-$subset.owl",$parser->toRDFXML($myindex));
@@ -276,6 +279,7 @@ echo "generating versioned SIO".PHP_EOL;
 $version_iri = "http://semanticscience.org/ontology/sio-v$sio_version-release.owl";
 $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'] = $vi;
 foreach($index AS $s => $p_obj) {
+	if(!strstr($s,"semanticscience")) continue;
 	$o = null;
 	$o['value'] = 'http://semanticscience.org/ontology/sio.owl';
 	$o['type'] = 'uri';
@@ -284,7 +288,11 @@ foreach($index AS $s => $p_obj) {
 $o['value'] = $version_iri;
 $o['type'] = 'uri';
 $index[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
-	
+
+$o['value'] = date(DateTime::ISO8601);
+$o['type'] = 'literal';
+$index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
+
 file_put_contents($odir."sio-release.owl", $parser->toRDFXML($index));
 
 
