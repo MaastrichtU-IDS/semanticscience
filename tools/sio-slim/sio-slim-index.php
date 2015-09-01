@@ -289,8 +289,9 @@ $o['value'] = $version_iri;
 $o['type'] = 'uri';
 $index[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
 
-$o['value'] = date(DateTime::ISO8601);
+$o['value'] = date('Y-m-d'); #DateTime::ISO8601);
 $o['type'] = 'literal';
+$o['datatype'] = 'http://www.w3.org/2001/XMLSchema#date';
 $index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
 
 file_put_contents($odir."sio-release.owl", $parser->toRDFXML($index));
