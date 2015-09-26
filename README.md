@@ -4,9 +4,11 @@ The Semanticscience Integrated Ontology (SIO) provides a simple, integrated onto
 The OWL2 ontology is available at http://semanticscience.org/ontology/sio.owl 
 
 view at 
-• [sio@bioportal](http://bioportal.bioontology.org/ontologies/SIO)
-• ontobee: sio@ontobee 
-• aberowl: sio@aberowl 
+[sio@bioportal](http://bioportal.bioontology.org/ontologies/SIO)
+
+[sio@ontobee](http://www.ontobee.org/browser/index.php?o=SIO) 
+
+[sio@aberowl](http://aber-owl.net/ontology/SIO)
 
 
 
