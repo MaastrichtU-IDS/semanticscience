@@ -1,5 +1,5 @@
 # semanticscience
-The Semanticscience Integrated Ontology (SIO) provides a simple, integrated ontology of types and relations for rich description of objects, processes and their attributes. The SIO paper is now [available](http://www.jbiomedsem.com/content/5/1/14).  
+The Semanticscience Integrated Ontology (SIO) provides a simple, integrated ontology of types and relations for rich description of objects, processes and their attributes. The SIO paper is [available](http://www.jbiomedsem.com/content/5/1/14).  
 
 The OWL2 ontology is available at http://semanticscience.org/ontology/sio.owl 
 
@@ -15,7 +15,7 @@ This project provides ontological support for
 * The NCBI's [PubChem RDF](http://pubchem.ncbi.nlm.nih.gov/rdf/) for measurement values 
 * The EBI's [Gene Expression Atlas](http://www.ebi.ac.uk/rdf/documentation/atlas) . 
 
+If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology) 
 
-Details
+Design patterns help in defining a structure for common data types. These are currently at the [old google code site](https://code.google.com/p/semanticscience/wiki/SIO)
 
- Design patterns are being defined, which are listed on the left hand pane. If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology) 
