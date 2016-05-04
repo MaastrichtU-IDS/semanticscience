@@ -19,3 +19,6 @@ If you have questions please send to SIO mailing list (sio-ontology@googlegroups
 
 Design patterns help in defining a structure for common data types. These are currently at the [old google code site](https://code.google.com/p/semanticscience/wiki/SIO)
 
+Subsets/Slims. Subsets of SIO have been prepared for modular import. 
+* [labels as SIO URIs](https://github.com/micheldumontier/semanticscience/tree/master/ontology/sio/release/sio-subset-labels.owl)
+* [other subsets including core, chemical, nlm, etc](https://github.com/micheldumontier/semanticscience/tree/master/ontology/sio/release/)
