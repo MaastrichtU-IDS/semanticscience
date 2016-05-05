@@ -31,11 +31,12 @@ $sio = 'http://semanticscience.org/ontology/sio.owl';
 $o = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][0]; 
 $sio_version = $o['value'];
 
-function writeGraph($filepath, $myindex)
+function writeGraph($filepath, $idx)
 {
+  global $ns;
   $conf = array('ns' => $ns);
   $ser =  ARC2::getRDFXMLSerializer($conf);
-  file_put_contents($filepath, $ser->getSerializedIndex($myindex));
+  file_put_contents($filepath, $ser->getSerializedIndex($idx));
 }
 
 function getParents($child, &$subClassOf)
@@ -70,7 +71,7 @@ foreach($index AS $s => $p_list) {
 		if($p == "http://www.w3.org/2000/01/rdf-schema#label") {
 			$label = $o_list[0]['value'];
                         $label_local_part = ucwords($label);
-                        $label_local_part = preg_replace(" *\(.*\)","", $label_local_part);
+                        //$label_local_part = preg_replace(" *\(.*\)","", $label_local_part);
                         $label_local_part = str_replace(" ","",$label_local_part);
                         if($s[$ns['rdf'].'type']['value'] == $ns['owl'].'ObjectProperty' || 
                            $s[$ns['rdf'].'type']['value'] == $ns['owl'].'DatatypeProperty') {
@@ -246,17 +247,17 @@ foreach($index AS $s => $p_list) {
 	$o = null;
 	$o['type'] = 'literal';
 	$o['value'] = $s_uri;
-	$indexes['labels'][$s_uri][ $ns['dc'].'identifier' ][] = $o;
+	$indexes['labels'][$s_uri][ $ns['dct'].'identifier' ][] = $o;
 	$o = null;
 	$o['type'] = 'literal';
 	$o['value'] = $s;
 	$indexes['labels'][$s_uri][ $ns['sio'].'equivalentTo' ][] = $o;	
 */
-	// add dc:identifier
+	// add dct:identifier
 	$o = null;
 	$o['value'] = substr($s,strrpos($s,"/")+1);
 	$o['type'] = 'literal';
-	$index[$s][ $ns['dc'].'identifier' ][] = $o;
+	$index[$s][ $ns['dct'].'identifier' ][] = $o;
 }
 
 $vi = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'];
@@ -314,6 +315,6 @@ $o['type'] = 'literal';
 $o['datatype'] = 'http://www.w3.org/2001/XMLSchema#date';
 $index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
 
-file_put_contents($odir."sio-release.owl", $index);
+writeGraph($odir."sio-release.owl", $index);
 
 
