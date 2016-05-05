@@ -1,6 +1,6 @@
 <?php
 
-require('../../../php-lib/rdfapi.php');
+require('../../../bio2rdf/php-lib/rdfapi.php');
 require('../../../arc2/ARC2.php');
 $odir = "../../ontology/sio/release/";
 $parser = ARC2::getRDFParser();
@@ -12,8 +12,13 @@ $ns = array(
 	'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 	'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
 	'owl' => 'http://www.w3.org/2002/07/owl#',
-	'dc' => 'http://purl.org/dc/terms/',
-	'sio' => 'http://semanticscience.org/resource/'
+	'dct' => 'http://purl.org/dc/terms/',
+	'sio' => 'http://semanticscience.org/resource/',
+	'dc' => "http://purl.org/dc/elements/1.1/",
+	'vann' => "http://purl.org/vocab/vann/",
+	'cito' => "http://purl.org/spar/cito/",
+	'protege' => "http://protege.stanford.edu/plugins/owl/protege#",
+	'xsd' => "http://www.w3.org/2001/XMLSchema#"
 );
 
 $equiv = array(
@@ -25,6 +30,14 @@ $equiv = array(
 $sio = 'http://semanticscience.org/ontology/sio.owl';
 $o = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][0]; 
 $sio_version = $o['value'];
+
+function writeGraph($filepath, $myindex)
+{
+  global $ns;
+  $conf = array('ns' => $ns);
+  $ser =  ARC2::getRDFXMLSerializer($conf);
+  file_put_contents($filepath, $ser->getSerializedIndex($myindex));
+}
 
 function getParents($child, &$subClassOf)
 {
@@ -57,7 +70,15 @@ foreach($index AS $s => $p_list) {
 		// generate the label associative array
 		if($p == "http://www.w3.org/2000/01/rdf-schema#label") {
 			$label = $o_list[0]['value'];
-			$label_uri = "http://semanticscience.org/resource/".urlencode(str_replace(" ","-",$label));
+			
+			$label_local_part = ucwords($label);
+			$label_local_part = str_replace(array(" ",'(',')'), "",$label_local_part);
+			foreach($p_list[$ns['rdf'].'type'] AS $p) {
+				if($p['value'] == $ns['owl'].'ObjectProperty' || $p['value'] == $ns['owl'].'DatatypeProperty') {
+					$label_local_part = lcfirst($label_local_part);
+				}
+			}
+			$label_uri = "http://semanticscience.org/resource/".urlencode($label_local_part);
 			$labels[$s] = $label_uri;
 		}
 		
@@ -272,7 +293,7 @@ foreach($indexes AS $subset => $ind) {
 		// @todo add http://open.vocab.org/terms/defines
 	}
 	echo "generating $subset".PHP_EOL;
-	file_put_contents($odir."sio-subset-$subset.owl",$parser->toRDFXML($myindex));
+	writeGraph($odir."sio-subset-$subset.owl",$myindex);
 }
 
 echo "generating versioned SIO".PHP_EOL;
@@ -294,6 +315,6 @@ $o['type'] = 'literal';
 $o['datatype'] = 'http://www.w3.org/2001/XMLSchema#date';
 $index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
 
-file_put_contents($odir."sio-release.owl", $parser->toRDFXML($index));
-
+//file_put_contents($odir."sio-release.owl", $index);
+writeGraph($odir."sio-release.owl", $index);
 
