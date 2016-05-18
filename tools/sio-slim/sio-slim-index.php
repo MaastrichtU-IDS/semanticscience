@@ -277,7 +277,7 @@ foreach($indexes AS $subset => $ind) {
 	
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][] = $o;
 	
-	$sio_versioned_uri = "http://semanticscience.org/ontology/sio/".$sio_versioned_file;
+	$sio_versioned_uri = "http://semanticscience.org/ontology/".$sio_versioned_file;
 	$o['value'] = $sio_versioned_uri;
 	$o['type'] = 'uri';
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
