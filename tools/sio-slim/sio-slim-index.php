@@ -296,7 +296,7 @@ foreach($indexes AS $subset => $ind) {
 }
 
 echo "generating versioned SIO".PHP_EOL;
-$version_iri = "http://semanticscience.org/ontology/sio-v$sio_version-release.owl";
+$version_iri = "http://semanticscience.org/ontology/sio/v".$sio_version."/sio-release.owl";
 $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'] = $vi;
 foreach($index AS $s => $p_obj) {
 	if(!strstr($s,"semanticscience")) continue;
