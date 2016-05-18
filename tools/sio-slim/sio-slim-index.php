@@ -269,15 +269,14 @@ foreach($indexes AS $subset => $ind) {
 	$myindex = $ind;
 
 //	$myindex[$sio] = $index[$sio];
-
-	$sio_versioned_file = "sio-v".$sio_version."-".$subset."-subset.owl";
+	$sio_subset_file = "sio-".$subset."-subset.owl";
 	$o = null;
-	$o['value'] = $sio_versioned_file;
+	$o['value'] = $sio_subset_file;
 	$o['type'] = 'literal';
 	
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][] = $o;
 	
-	$sio_versioned_uri = "http://semanticscience.org/ontology/".$sio_versioned_file;
+	$sio_versioned_uri = "http://semanticscience.org/ontology/sio/v".$sio_version."/".$sio_subset_file;
 	$o['value'] = $sio_versioned_uri;
 	$o['type'] = 'uri';
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
