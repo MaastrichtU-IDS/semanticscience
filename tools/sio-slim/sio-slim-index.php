@@ -1,10 +1,10 @@
 <?php
 
-require('../../../bio2rdf/php-lib/rdfapi.php');
+require('../../../php-lib/rdfapi.php');
 require('../../../arc2/ARC2.php');
 $odir = "../../ontology/sio/release/";
 $parser = ARC2::getRDFParser();
-$parser->parse('file:///code/git/semanticscience/ontology/sio.owl');
+$parser->parse('file:///code/semanticscience/ontology/sio.owl');
 $triples = $parser->getTriples();
 $index = ARC2::getSimpleIndex($triples, false);
 
