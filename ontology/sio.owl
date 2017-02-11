@@ -16,10 +16,10 @@
      xmlns:foaf="http://xmlns.com/foaf/0.1/"
      xmlns:dc="http://purl.org/dc/elements/1.1/">
     <owl:Ontology rdf:about="http://semanticscience.org/ontology/sio.owl">
-        <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.35.0</owl:versionInfo>
         <vann:preferredNamespacePrefix xml:lang="en">sio</vann:preferredNamespacePrefix>
         <terms:license rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
         <cito:citesAsAuthority rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.jbiomedsem.com/content/5/1/14</cito:citesAsAuthority>
+        <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.36.0</owl:versionInfo>
         <terms:description xml:lang="en">The semanticscience integrated ontology (SIO) provides a simple, integrated ontology (types, relations) for objects, processes and their attributes.
 
 This project provides foundational support for the Bio2RDF (http://bio2rdf.org) and SADI (http://sadiframework.org) projects. 
@@ -3538,8 +3538,16 @@ natalia villanueva-rosales</dc:contributor>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000069"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000213"/>
+                <owl:someValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_000396"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <terms:description xml:lang="en">A dataset is a data item that is a collection of data items.</terms:description>
-        <rdfs:label xml:lang="en">data set</rdfs:label>
+        <resource:equivalentTo rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.w3.org/ns/dcat#Dataset</resource:equivalentTo>
+        <resource:hasSynonym xml:lang="en">data set</resource:hasSynonym>
+        <rdfs:label xml:lang="en">dataset</rdfs:label>
     </owl:Class>
     
 
@@ -6132,8 +6140,9 @@ natalia villanueva-rosales</dc:contributor>
     <!-- http://semanticscience.org/resource/SIO_000396 -->
 
     <owl:Class rdf:about="http://semanticscience.org/resource/SIO_000396">
-        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000602"/>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001194"/>
         <terms:description xml:lang="en">A file is an information-bearing object that contains a physical embodiment of some information using a particular character encoding.</terms:description>
+        <resource:equivalentTo rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.w3.org/ns/dcat#Distribution</resource:equivalentTo>
         <rdfs:label xml:lang="en">file</rdfs:label>
     </owl:Class>
     
@@ -16807,6 +16816,21 @@ The measure is defined here: http://www.disgenet.org/web/DisGeNET/menu/dbinfo#pl
         <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001373"/>
         <terms:description xml:lang="en">A bill is proposed legislation under consideration by a legislature.</terms:description>
         <rdfs:label xml:lang="en">bill</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001377 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001377">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000089"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000008"/>
+                <owl:someValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_000653"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">versioned dataset</rdfs:label>
     </owl:Class>
     
 
