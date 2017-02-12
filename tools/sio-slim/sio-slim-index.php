@@ -30,6 +30,7 @@ $equiv = array(
 $sio = 'http://semanticscience.org/ontology/sio.owl';
 $o = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][0]; 
 $sio_version = $o['value'];
+$version_iri = "http://semanticscience.org/ontology/sio/v".$sio_version."/sio-release.owl";
 
 function writeGraph($filepath, $myindex)
 {
@@ -171,6 +172,7 @@ foreach($tree AS $subset => $ie_list) {
 	}
 }
 
+
 // now select the subclass/subproperty attributes where appropriate
 foreach($index AS $s => $p_list) {
 	// subsets
@@ -269,7 +271,7 @@ foreach($indexes AS $subset => $ind) {
 	$myindex = $ind;
 
 //	$myindex[$sio] = $index[$sio];
-	$sio_subset_file = "sio-".$subset."-subset.owl";
+	$sio_subset_file = "sio-subset-".$subset.".owl";
 	$o = null;
 	$o['value'] = $sio_subset_file;
 	$o['type'] = 'literal';
@@ -277,6 +279,7 @@ foreach($indexes AS $subset => $ind) {
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionInfo'][] = $o;
 	
 	$sio_versioned_uri = "http://semanticscience.org/ontology/sio/v".$sio_version."/".$sio_subset_file;
+	$o = null;
 	$o['value'] = $sio_versioned_uri;
 	$o['type'] = 'uri';
 	$myindex[$sio]['http://www.w3.org/2002/07/owl#versionIRI'][] = $o;
@@ -291,12 +294,21 @@ foreach($indexes AS $subset => $ind) {
 		
 		// @todo add http://open.vocab.org/terms/defines
 	}
+	
+	// add the subset to the main one
+	$sio_subset_url = "http://semanticscience.org/ontology/".$sio_subset_file;
+	$o = null;
+	$o['value'] = $sio_subset_url;
+	$o['type'] = 'uri';
+	$index[$sio]['http://rdfs.org/ns/void#subset'][] = $o;
+	
+	
 	echo "generating $subset".PHP_EOL;
 	writeGraph($odir."sio-subset-$subset.owl",$myindex);
 }
 
 echo "generating versioned SIO".PHP_EOL;
-$version_iri = "http://semanticscience.org/ontology/sio/v".$sio_version."/sio-release.owl";
+
 $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'] = $vi;
 foreach($index AS $s => $p_obj) {
 	if(!strstr($s,"semanticscience")) continue;
@@ -314,6 +326,5 @@ $o['type'] = 'literal';
 $o['datatype'] = 'http://www.w3.org/2001/XMLSchema#date';
 $index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
 
-//file_put_contents($odir."sio-release.owl", $index);
-writeGraph($odir."sio-release.owl", $index);
 
+writeGraph($odir."sio-release.owl", $index);
