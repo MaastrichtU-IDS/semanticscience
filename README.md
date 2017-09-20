@@ -15,7 +15,7 @@ This project provides ontological support for
 * The NCBI's [PubChem RDF](http://pubchem.ncbi.nlm.nih.gov/rdf/) for measurement values 
 * The EBI's [Gene Expression Atlas](http://www.ebi.ac.uk/rdf/documentation/atlas) . 
 
-If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology) 
+If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology). If you have term requests, just use the [issue tracker](https://github.com/micheldumontier/semanticscience/issues).
 
 Design patterns help in defining a structure for common data types. These are currently at the [old google code site](https://code.google.com/p/semanticscience/wiki/SIO)
 
