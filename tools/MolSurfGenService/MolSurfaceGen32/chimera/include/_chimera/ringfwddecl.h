@@ -1,5 +1,0 @@
-namespace chimera {
-
-class Ring;
-
-}

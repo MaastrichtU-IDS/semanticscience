@@ -1,1 +1,0 @@
-from surfdist import selection_surface_distance
