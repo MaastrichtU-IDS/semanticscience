@@ -1,5 +1,5 @@
 # semanticscience
-The Semanticscience Integrated Ontology (SIO) provides a simple, integrated ontology of types and relations for rich description of objects, processes and their attributes. Have a look at a brief [[overview of SIO|SIO-Overview]], its [[design principles|Ontology-Design-Principles]] and [[design patterns|Design-Patterns], and the published [paper on SIO](http://www.jbiomedsem.com/content/5/1/14).  
+The Semanticscience Integrated Ontology (SIO) provides a simple, integrated ontology of types and relations for rich description of objects, processes and their attributes. Have a look at a brief [overview of SIO](https://github.com/micheldumontier/semanticscience/wiki/SIO-Overview), its [design principles](https://github.com/micheldumontier/semanticscience/wiki/Ontology-Design-Principles) and [design patterns](https://github.com/micheldumontier/semanticscience/wiki/Design-Patterns), and the published [paper on SIO](http://www.jbiomedsem.com/content/5/1/14).  
 
 The OWL2 ontology is available at http://semanticscience.org/ontology/sio.owl 
 Subsets of SIO have been prepared for modular import. 
