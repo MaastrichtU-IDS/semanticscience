@@ -1,0 +1,179 @@
+@prefix : <http://semanticscience.org/serv/spec#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://semanticscience.org/serv/spec> .
+
+<http://semanticscience.org/serv/spec> rdf:type owl:Ontology ;
+                                        owl:imports <http://rdfs.org/sioc/ns> ,
+                                                    <http://xmlns.com/foaf/0.1/> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/dc/terms/creator
+<http://purl.org/dc/terms/creator> rdf:type owl:ObjectProperty .
+
+
+###  http://purl.org/dc/terms/hasFormat
+<http://purl.org/dc/terms/hasFormat> rdf:type owl:ObjectProperty .
+
+
+###  http://purl.org/dc/terms/language
+<http://purl.org/dc/terms/language> rdf:type owl:ObjectProperty .
+
+
+###  http://rdfs.org/sioc/ns#has_container
+<http://rdfs.org/sioc/ns#has_container> rdf:type owl:ObjectProperty .
+
+
+###  http://semanticscience.org/serv:containedIn
+<http://semanticscience.org/serv:containedIn> rdf:type owl:ObjectProperty ;
+                                              rdfs:subPropertyOf <http://rdfs.org/sioc/ns#has_container> .
+
+
+###  http://semanticscience.org/serv:dataset
+<http://semanticscience.org/serv:dataset> rdf:type owl:ObjectProperty .
+
+
+###  http://semanticscience.org/serv:resolves
+<http://semanticscience.org/serv:resolves> rdf:type owl:ObjectProperty .
+
+
+###  http://semanticscience.org/serv:resolves_to
+<http://semanticscience.org/serv:resolves_to> rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://semanticscience.org/serv:id_example
+<http://semanticscience.org/serv:id_example> rdf:type owl:DatatypeProperty .
+
+
+###  http://semanticscience.org/serv:id_specification
+<http://semanticscience.org/serv:id_specification> rdf:type owl:DatatypeProperty .
+
+
+###  http://semanticscience.org/serv:mime-type
+<http://semanticscience.org/serv:mime-type> rdf:type owl:DatatypeProperty .
+
+
+###  http://semanticscience.org/serv:uri_pattern
+<http://semanticscience.org/serv:uri_pattern> rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.org/dc/terms/FileFormat
+<http://purl.org/dc/terms/FileFormat> rdf:type owl:Class .
+
+
+###  http://rdfs.org/sioc/ns#Container
+<http://rdfs.org/sioc/ns#Container> rdf:type owl:Class .
+
+
+###  http://rdfs.org/sioc/ns#Item
+<http://rdfs.org/sioc/ns#Item> rdf:type owl:Class .
+
+
+###  http://rdfs.org/sioc/ns#Space
+<http://rdfs.org/sioc/ns#Space> rdf:type owl:Class .
+
+
+###  http://semanticscience.org/serv:Dataset
+<http://semanticscience.org/serv:Dataset> rdf:type owl:Class ;
+                                          rdfs:subClassOf <http://rdfs.org/sioc/ns#Container> .
+
+
+###  http://semanticscience.org/serv:Document
+<http://semanticscience.org/serv:Document> rdf:type owl:Class ;
+                                           rdfs:subClassOf <http://xmlns.com/foaf/0.1/Document> .
+
+
+###  http://semanticscience.org/serv:Item
+<http://semanticscience.org/serv:Item> rdf:type owl:Class ;
+                                       rdfs:subClassOf <http://rdfs.org/sioc/ns#Item> .
+
+
+###  http://semanticscience.org/serv:Language
+<http://semanticscience.org/serv:Language> rdf:type owl:Class .
+
+
+###  http://semanticscience.org/serv:Namespace
+<http://semanticscience.org/serv:Namespace> rdf:type owl:Class ;
+                                            rdfs:subClassOf <http://rdfs.org/sioc/ns#Space> .
+
+
+###  http://semanticscience.org/serv:Resolver
+<http://semanticscience.org/serv:Resolver> rdf:type owl:Class .
+
+
+###  http://semanticscience.org/serv:URIResolver
+<http://semanticscience.org/serv:URIResolver> rdf:type owl:Class ;
+                                              rdfs:subClassOf <http://semanticscience.org/serv:Resolver> .
+
+
+###  http://semanticscience.org/serv:URLResolver
+<http://semanticscience.org/serv:URLResolver> rdf:type owl:Class ;
+                                              rdfs:subClassOf <http://semanticscience.org/serv:URIResolver> .
+
+
+###  http://xmlns.com/foaf/0.1/Document
+<http://xmlns.com/foaf/0.1/Document> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://semanticscience.org/serv:html_language
+<http://semanticscience.org/serv:html_language> rdf:type owl:NamedIndividual ,
+                                                         <http://semanticscience.org/serv:Language> ,
+                                                         owl:Thing .
+
+
+###  http://semanticscience.org/serv:html_syntax
+<http://semanticscience.org/serv:html_syntax> rdf:type owl:NamedIndividual ,
+                                                       <http://purl.org/dc/terms/FileFormat> ,
+                                                       owl:Thing ;
+                                              <http://semanticscience.org/serv:mime-type> "text/html"^^xsd:string .
+
+
+###  http://semanticscience.org/serv:owl_language
+<http://semanticscience.org/serv:owl_language> rdf:type owl:NamedIndividual ,
+                                                        <http://semanticscience.org/serv:Language> ,
+                                                        owl:Thing .
+
+
+###  http://semanticscience.org/serv:rdf_language
+<http://semanticscience.org/serv:rdf_language> rdf:type owl:NamedIndividual ,
+                                                        <http://semanticscience.org/serv:Language> ,
+                                                        owl:Thing .
+
+
+###  http://semanticscience.org/serv:rdf_ntriples
+<http://semanticscience.org/serv:rdf_ntriples> rdf:type owl:NamedIndividual ,
+                                                        owl:Thing .
+
+
+###  http://semanticscience.org/serv:rdf_xml_syntax
+<http://semanticscience.org/serv:rdf_xml_syntax> rdf:type owl:NamedIndividual ,
+                                                          <http://purl.org/dc/terms/FileFormat> ,
+                                                          owl:Thing ;
+                                                 <http://semanticscience.org/serv:mime-type> "application/rdf+xml"^^xsd:string .
+
+
+###  http://semanticscience.org/serv:rdfs_language
+<http://semanticscience.org/serv:rdfs_language> rdf:type owl:NamedIndividual ,
+                                                         <http://semanticscience.org/serv:Language> ,
+                                                         owl:Thing .
+
+
+###  Generated by the OWL API (version 5.1.0) https://github.com/owlcs/owlapi/
