@@ -1,0 +1,559 @@
+@prefix : <http://semanticscience.org/ontology/sio.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://semanticscience.org/ontology/sio.owl> .
+
+<http://semanticscience.org/ontology/sio.owl> rdf:type owl:Ontology ;
+                                               owl:versionIRI <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/description
+<http://purl.org/dc/terms/description> rdf:type owl:AnnotationProperty .
+
+
+###  http://schema.org/comment
+<http://schema.org/comment> rdf:type owl:AnnotationProperty .
+
+
+###  http://semanticscience.org/resource/equivalentTo
+<http://semanticscience.org/resource/equivalentTo> rdf:type owl:AnnotationProperty .
+
+
+###  http://semanticscience.org/resource/example
+<http://semanticscience.org/resource/example> rdf:type owl:AnnotationProperty .
+
+
+###  http://semanticscience.org/resource/hasSynonym
+<http://semanticscience.org/resource/hasSynonym> rdf:type owl:AnnotationProperty .
+
+
+###  http://semanticscience.org/resource/subset
+<http://semanticscience.org/resource/subset> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://semanticscience.org/resource/SIO_000001
+<http://semanticscience.org/resource/SIO_000001> rdf:type owl:ObjectProperty ,
+                                                          owl:SymmetricProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is related to B iff there is some relation between A and B."@en ;
+                                                 <http://schema.org/comment> "'is related to' is the top level relation in SIO"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "relations+"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is related to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000008
+<http://semanticscience.org/resource/SIO_000008> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000001> ;
+                                                 <http://purl.org/dc/terms/description> "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has attribute"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000059
+<http://semanticscience.org/resource/SIO_000059> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000008> ;
+                                                 rdf:type owl:IrreflexiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "has member is a mereological relation between a collection and an item."@en ;
+                                                 <http://semanticscience.org/resource/example> "a collection of cars has as a car as a member"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has member"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000061
+<http://semanticscience.org/resource/SIO_000061> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 rdf:type owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B. [T][R]"@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:located_in"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/example> "A parasite in the interior of a person's intestine is located in their intestinal lumen."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is located in"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000068
+<http://semanticscience.org/resource/SIO_000068> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000061> ;
+                                                 rdf:type owl:TransitiveProperty ,
+                                                          owl:ReflexiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole."@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:part_of"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is part of"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000093
+<http://semanticscience.org/resource/SIO_000093> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000068> ;
+                                                 rdf:type owl:AsymmetricProperty ,
+                                                          owl:IrreflexiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "is proper part of is an asymmetric, irreflexive (normally transitive) relation between a part and its distinct whole."@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:proper_part_of"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is proper part of"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000128
+<http://semanticscience.org/resource/SIO_000128> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000061> ;
+                                                 rdf:type owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is contained in B iff the spatial region occupied by A is part of the spatial region occupied by B and A is not part of B. [T]"@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:contained_in"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is contained in"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000132
+<http://semanticscience.org/resource/SIO_000132> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 rdfs:domain <http://semanticscience.org/resource/SIO_000006> ;
+                                                 <http://purl.org/dc/terms/description> "has participant is a relation that describes the participation of the object in the (processual) subject."@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:has_participant"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has participant"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000139
+<http://semanticscience.org/resource/SIO_000139> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000132> ;
+                                                 <http://purl.org/dc/terms/description> "has agent is a relation between a process and an entity, where the entity is present throughout the process and is a causal participant in the process."@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:has_agent"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "sadi"@en ,
+                                                                                              "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has agent"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000203
+<http://semanticscience.org/resource/SIO_000203> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 rdf:type owl:SymmetricProperty ,
+                                                          owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is connected to B iff there exists a fiat, material or temporal path between A and B. [S][T]"@en ;
+                                                 <http://semanticscience.org/resource/hasSynonym> "interacts with"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "nlp"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is connected to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000204
+<http://semanticscience.org/resource/SIO_000204> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 rdf:type owl:SymmetricProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is adjacent to B iff there is a small, but non-zero distance between A and B"@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:adjacent_to"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "nlp"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is adjacent to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000210
+<http://semanticscience.org/resource/SIO_000210> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 <http://purl.org/dc/terms/description> "a represents b when a serves as a sign, symbol or model of b."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "represents"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000216
+<http://semanticscience.org/resource/SIO_000216> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000008> ;
+                                                 <http://purl.org/dc/terms/description> "has measurement value is a relation between a quality/realizable and a measurement value."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has measurement value"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000221
+<http://semanticscience.org/resource/SIO_000221> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000008> ;
+                                                 rdf:type owl:FunctionalProperty ;
+                                                 <http://purl.org/dc/terms/description> "has unit is a relation between a quantity and the unit it is a multiple of."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has unit"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000229
+<http://semanticscience.org/resource/SIO_000229> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000132> ;
+                                                 <http://purl.org/dc/terms/description> "has output is a relation between an process and an entity, where the entity is present at the end of the process."@en ;
+                                                 <http://semanticscience.org/resource/subset> "sadi"@en ,
+                                                                                              "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has output"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000230
+<http://semanticscience.org/resource/SIO_000230> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000132> ;
+                                                 <http://purl.org/dc/terms/description> "has input is a relation between a process and an entity, where the entity is present at the beginning of the process."@en ;
+                                                 <http://semanticscience.org/resource/subset> "sadi"@en ,
+                                                                                              "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has input"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000243
+<http://semanticscience.org/resource/SIO_000243> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 rdf:type owl:SymmetricProperty ,
+                                                          owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A transitive, symmetric, temporal relation in which one entity is causally related with another non-identical entity."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is causally related with"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000244
+<http://semanticscience.org/resource/SIO_000244> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000352> ;
+                                                 rdf:type owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A transitive temporal relation in which one entity was materially formed from another non-identical entity."@en ;
+                                                 <http://semanticscience.org/resource/equivalentTo> "OBO_REL:derives_from"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is derived from"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000248
+<http://semanticscience.org/resource/SIO_000248> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000352> ;
+                                                 rdf:type owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "A transitive, temporal relation in which one process precedes (has occured earlier than) another process."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "precedes"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000272
+<http://semanticscience.org/resource/SIO_000272> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000736> ;
+                                                 rdf:type owl:SymmetricProperty ,
+                                                          owl:TransitiveProperty ;
+                                                 <http://purl.org/dc/terms/description> "is variant of: a relationship indicating that two entities are different (by some measure), but either achieve the same objectives in different ways or are permutations of one another (temporal, logical or otherwise)"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is variant of"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000310
+<http://semanticscience.org/resource/SIO_000310> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000093> ;
+                                                 <http://purl.org/dc/terms/description> "is direct part of is a relation between a specific part (at some level of granularity) and its whole."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is direct part of"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000313
+<http://semanticscience.org/resource/SIO_000313> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000310> ;
+                                                 <http://purl.org/dc/terms/description> "is component part of is a relation between a component and a whole, where the component is instrinsic to the whole, and loss of the part would change the kind that the whole is."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is component part of"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000322
+<http://semanticscience.org/resource/SIO_000322> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000001> ;
+                                                 rdf:type owl:SymmetricProperty ;
+                                                 <http://purl.org/dc/terms/description> "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is spatiotemporally related to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000352
+<http://semanticscience.org/resource/SIO_000352> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000243> ;
+                                                 <http://purl.org/dc/terms/description> "a is causally related from b iff there is a causal chain of events from b to a"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is causally related from"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000355
+<http://semanticscience.org/resource/SIO_000355> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000229> ;
+                                                 <http://purl.org/dc/terms/description> "realizes is a relation between a process and a realizable entity (role, function, disposition)."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "realizes"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000563
+<http://semanticscience.org/resource/SIO_000563> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 <http://purl.org/dc/terms/description> "describes is a relation between one entity and another entity that it provides a description (detailed account of)."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "describes"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000628
+<http://semanticscience.org/resource/SIO_000628> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000001> ;
+                                                 <http://purl.org/dc/terms/description> "refers to is a relation between one entity and the entity that it makes reference to."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "nlp+"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "refers to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000631
+<http://semanticscience.org/resource/SIO_000631> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 <http://purl.org/dc/terms/description> "references is a relation between one entity and the entity that it makes reference to by name, but is not described by it."@en ;
+                                                 <http://semanticscience.org/resource/hasSynonym> "mentions"^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "references"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000668
+<http://semanticscience.org/resource/SIO_000668> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 <http://purl.org/dc/terms/description> "in relation to is a comparative relation to indicate that the instance of the class holding the relation exists in relation to another entity."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "in relation to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000687
+<http://semanticscience.org/resource/SIO_000687> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000322> ;
+                                                 <http://purl.org/dc/terms/description> "exists at is a relation between an entity and a time measurement."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "exists at"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000736
+<http://semanticscience.org/resource/SIO_000736> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000001> ;
+                                                 rdf:type owl:SymmetricProperty ;
+                                                 <http://purl.org/dc/terms/description> "is comparable to is a relation between two entities that share at least one feature whose value can be compared."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is comparable to"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000793
+<http://semanticscience.org/resource/SIO_000793> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000687> ;
+                                                 <http://purl.org/dc/terms/description> "measured at is a relation between a measurement value and the time measurement."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "measured at"@en .
+
+
+###  http://semanticscience.org/resource/SIO_001277
+<http://semanticscience.org/resource/SIO_001277> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 owl:inverseOf <http://semanticscience.org/resource/SIO_001278> ;
+                                                 <http://purl.org/dc/terms/description> "has data item is a relation between a dataset and any described / referrenced entity."^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has data item"@en .
+
+
+###  http://semanticscience.org/resource/SIO_001278
+<http://semanticscience.org/resource/SIO_001278> rdf:type owl:ObjectProperty ;
+                                                 rdfs:subPropertyOf <http://semanticscience.org/resource/SIO_000628> ;
+                                                 <http://purl.org/dc/terms/description> "'is data item in' is a relation between an entity that is described or referenced in a dataset."^^xsd:string ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "is data item in"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://semanticscience.org/resource/SIO_000300
+<http://semanticscience.org/resource/SIO_000300> rdf:type owl:DatatypeProperty ,
+                                                          owl:FunctionalProperty ;
+                                                 <http://purl.org/dc/terms/description> "A relation between a informational entity and its actual value (numeric, date, text, etc)."@en ;
+                                                 <http://semanticscience.org/resource/subset> "sadi"@en ,
+                                                                                              "core"^^xsd:string ,
+                                                                                              "nlp"^^xsd:string ,
+                                                                                              "relations"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "has value"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://semanticscience.org/resource/SIO_000000
+<http://semanticscience.org/resource/SIO_000000> rdf:type owl:Class ;
+                                                 <http://purl.org/dc/terms/description> "Every thing is an entity."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "entity"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000004
+<http://semanticscience.org/resource/SIO_000004> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000776> ;
+                                                 <http://purl.org/dc/terms/description> "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "material entity"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000005
+<http://semanticscience.org/resource/SIO_000005> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000614> ;
+                                                 owl:disjointWith <http://semanticscience.org/resource/SIO_000340> ;
+                                                 <http://purl.org/dc/terms/description> "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "quality"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000006
+<http://semanticscience.org/resource/SIO_000006> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000000> ;
+                                                 <http://purl.org/dc/terms/description> "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "process+"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "process"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000014
+<http://semanticscience.org/resource/SIO_000014> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000112> ;
+                                                 <http://purl.org/dc/terms/description> "A disposition is the tendency of a capability to be exhibited under certain conditions or in response to a certain stimulus (trigger)."@en ;
+                                                 <http://semanticscience.org/resource/example> "solubility (to dissolve when put in fluid); fragility (disposition to break when dropped)"@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "disposition"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000015
+<http://semanticscience.org/resource/SIO_000015> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000776> ;
+                                                 <http://purl.org/dc/terms/description> "information content entity is an object that requires some background knowledge or procedure to correctly interpret."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ,
+                                                                                              "ice+"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "information content entity"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000016
+<http://semanticscience.org/resource/SIO_000016> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000340> ;
+                                                 <http://purl.org/dc/terms/description> "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "role"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000017
+<http://semanticscience.org/resource/SIO_000017> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000112> ;
+                                                 <http://purl.org/dc/terms/description> "A function is a capability that satisfies some agentive objective, or (evolutionary) optimization."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "function"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000112
+<http://semanticscience.org/resource/SIO_000112> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000340> ;
+                                                 <http://purl.org/dc/terms/description> "A capability is a realizable entity whose basis lies in one or more parts or qualities and reflects possibility of an entity to behave in a specified way under certain conditions or in response to a certain stimulus (trigger)."@en ;
+                                                 <http://semanticscience.org/resource/subset> "capability+"^^xsd:string ,
+                                                                                              "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "capability"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000340
+<http://semanticscience.org/resource/SIO_000340> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000614> ;
+                                                 <http://purl.org/dc/terms/description> "A realizable entity is an attribute that is exhibited under some condition and is realized in some process."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "realizable entity"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000570
+<http://semanticscience.org/resource/SIO_000570> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000006> ;
+                                                 <http://purl.org/dc/terms/description> "movement is the process in which an object is spatially displaced."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "movement"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000593
+<http://semanticscience.org/resource/SIO_000593> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000006> ;
+                                                 <http://purl.org/dc/terms/description> "interacting is a process characterized by the interaction between two or more entities."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "interacting"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000614
+<http://semanticscience.org/resource/SIO_000614> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000000> ;
+                                                 <http://purl.org/dc/terms/description> "An attribute is a characteristic of some entity."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "attribute"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000776
+<http://semanticscience.org/resource/SIO_000776> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000000> ;
+                                                 <http://purl.org/dc/terms/description> "An object is an entity that is wholly identifiable at any instant of time during which it exists."@en ;
+                                                 <http://semanticscience.org/resource/subset> "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "object"@en .
+
+
+###  http://semanticscience.org/resource/SIO_001195
+<http://semanticscience.org/resource/SIO_001195> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://semanticscience.org/resource/SIO_000006> ;
+                                                 <http://purl.org/dc/terms/description> "Behaviour is the set of actions and mannerisms made by systems (biological or otherwise) in response to stimuli or inputs, whether internal or external, conscious or subconscious, overt or covert, and voluntary or involuntary."@en ;
+                                                 <http://semanticscience.org/resource/subset> "behaviour+"^^xsd:string ,
+                                                                                              "core"^^xsd:string ;
+                                                 rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                                 rdfs:label "behaviour"@en .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+<http://semanticscience.org/ontology/sio.owl> rdfs:isDefinedBy <http://semanticscience.org/ontology/sio/v1.43/sio-subset-core.owl> ;
+                                              owl:versionInfo "sio-subset-core.owl"^^xsd:string .
+
+
+###  Generated by the OWL API (version 5.1.0) https://github.com/owlcs/owlapi/
