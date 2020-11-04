@@ -16,6 +16,7 @@ Resources that use this ontology include:
 * [SADI Semantic Web Services](http://sadiframework.org). 
 * [DisGeNET](http://rdf.imim.es/DisGeNET.html)'s gene-disease associations 
 * The NCBI's [PubChem RDF](http://pubchem.ncbi.nlm.nih.gov/rdf/) for measurement values 
-* The EBI's [Gene Expression Atlas](http://www.ebi.ac.uk/rdf/documentation/atlas) . 
+* The EBI's [Gene Expression Atlas](http://www.ebi.ac.uk/rdf/documentation/atlas) 
+* The [Graph4Code](https://wala.github.io/graph4code/) project
 
 If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology). If you have term requests, just use the [issue tracker](https://github.com/micheldumontier/semanticscience/issues).
