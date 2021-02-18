@@ -3357,6 +3357,10 @@ role chains:
                 <owl:unionOf rdf:parseType="Collection">
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000300"/>
+                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000300"/>
                         <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
                     </owl:Restriction>
                     <owl:Restriction>
@@ -5875,8 +5879,9 @@ role chains:
     <!-- http://semanticscience.org/resource/SIO_000366 -->
 
     <owl:Class rdf:about="http://semanticscience.org/resource/SIO_000366">
-        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000075"/>
-        <terms:description xml:lang="en">A number is a mathematical object used to count, label, and measure.</terms:description>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001431"/>
+        <terms:alternative xml:lang="en">rank 0 tensor</terms:alternative>
+        <terms:description xml:lang="en">A number is a tensor of rank 0.</terms:description>
         <rdfs:label xml:lang="en">number</rdfs:label>
     </owl:Class>
     
@@ -7785,8 +7790,8 @@ of endpoints (a start point and an endpoint).</terms:description>
 
     <owl:Class rdf:about="http://semanticscience.org/resource/SIO_000540">
         <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000516"/>
-        <terms:description xml:lang="en">A vector is a line which that is bounded by a startpoint and extends outwards along one dimension.</terms:description>
-        <rdfs:label xml:lang="en">vector</rdfs:label>
+        <terms:description xml:lang="en">A vector line is a line which that is bounded by a startpoint and extends outwards along one dimension.</terms:description>
+        <rdfs:label xml:lang="en">vector line</rdfs:label>
     </owl:Class>
     
 
@@ -17456,6 +17461,110 @@ The measure is defined here: http://www.disgenet.org/web/DisGeNET/menu/dbinfo#pl
         <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_011126"/>
         <terms:description xml:lang="en">an ingredient is a chemical substance that forms part of a mixture.</terms:description>
         <rdfs:label xml:lang="en">ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001429 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001429">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000075"/>
+        <terms:description xml:lang="en">a tensor is a n-dimensional array.</terms:description>
+        <rdfs:label xml:lang="en">tensor</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001430 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001430">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001434"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000068"/>
+                <owl:someValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_001432"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_001431"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:alternative xml:lang="en">rank 1 tensor</terms:alternative>
+        <terms:description xml:lang="en">a vector is a rank 1 tensor that is described by n-dimension of scalars.</terms:description>
+        <rdfs:label xml:lang="en">vector</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001431 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001431">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001429"/>
+        <terms:alternative xml:lang="en">rank 0 tensor</terms:alternative>
+        <terms:description xml:lang="en">a scalar is a rank 0 tensor and is an element of a field that is used to define a vector space.</terms:description>
+        <rdfs:label xml:lang="en">scalar</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001432 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001432">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000075"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000059"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://semanticscience.org/resource/SIO_001430"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description xml:lang="en">a vector space is a set of vectors.</terms:description>
+        <rdfs:label xml:lang="en">vector space</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001433 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001433">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001434"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000053"/>
+                <owl:allValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_001430"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:alternative xml:lang="en">rank 2 tensor</terms:alternative>
+        <terms:description xml:lang="en">a matrix is a rank 2 tensor. It is represented as a rectangular array or table of numbers, symbols, or expressions arranged in rows and columns.</terms:description>
+        <rdfs:label xml:lang="en">matrix</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_001434 -->
+
+    <owl:Class rdf:about="http://semanticscience.org/resource/SIO_001434">
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001429"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000053"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://semanticscience.org/resource/SIO_001429"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000008"/>
+                                <owl:someValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_000613"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description xml:lang="en">a rank nonzero tensor is a tensor with a rank greater than zero.</terms:description>
+        <rdfs:label xml:lang="en">rank nonzero tensor</rdfs:label>
     </owl:Class>
     
 
