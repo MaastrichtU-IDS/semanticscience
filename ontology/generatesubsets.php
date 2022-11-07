@@ -72,6 +72,7 @@ foreach($index AS $s => $p_list) {
 		if($p == "http://www.w3.org/2000/01/rdf-schema#label") {
 			$label = $o_list[0]['value'];
 			
+			# camel case labels
 			$label_local_part = ucwords($label);
 			$label_local_part = str_replace(array(" ",'(',')'), "",$label_local_part);
 			foreach($p_list[$ns['rdf'].'type'] AS $p) {
@@ -81,6 +82,11 @@ foreach($index AS $s => $p_list) {
 			}
 			$label_uri = "http://semanticscience.org/resource/".urlencode($label_local_part);
 			$labels[$s] = $label_uri;
+
+			# dash labels
+			$dash_label = str_replace(" ","-", $label);
+			$dash_label_uri = "http://semanticscience.org/resource/".urlencode($dash_label);
+			$dash_labels[$s] = $dash_label_uri;
 		}
 		
 		// get the subclass relationships for transitive closure
@@ -229,6 +235,21 @@ foreach($labels AS $s => $uri) {
 	}
 }
 
+foreach($dash_labels AS $s => $uri) {
+	$equiv_relation = null;
+	$types = $index[$s][ $ns['rdf'].'type'];
+	foreach($types AS $o) {
+		if(isset($equiv[ $o['value'] ])) {
+			$equiv_relation = $equiv[ $o['value'] ];
+			$o['value'] = $uri;
+			$indexes['equivs'][$s][$equiv_relation][] = $o;
+			
+			$o['value'] = $s;
+			$indexes['equivs'][$uri][$equiv_relation][] = $o;
+		}
+	}
+}
+
 foreach($index AS $s => $p_list) {	
 	// labels document
 	if(isset($labels[$s])) $s_uri = $labels[$s];
@@ -242,9 +263,10 @@ foreach($index AS $s => $p_list) {
 			if(isset($labels[$o['value']])) {
 				$o['value'] = $labels[$o['value']];
 			} 
-			$indexes['labels'][$s_uri][$p_uri][] = $o;
+			$indexes['camelcase-label'][$s_uri][$p_uri][] = $o;
 		}
 	}
+
 	/*
 	$o = null;
 	$o['type'] = 'literal';
@@ -260,6 +282,24 @@ foreach($index AS $s => $p_list) {
 	$o['value'] = substr($s,strrpos($s,"/")+1);
 	$o['type'] = 'literal';
 	$index[$s][ $ns['dc'].'identifier' ][] = $o;
+}
+
+foreach($index AS $s => $p_list) {	
+	// labels document
+	if(isset($dash_labels[$s])) $s_uri = $dash_labels[$s];
+	else $s_uri = $s;
+	
+	foreach($p_list AS $p => $o_list) {
+		if(isset($dash_labels[$p])) $p_uri = $dash_labels[$p];
+		else $p_uri = $p;
+		
+		foreach($o_list AS $o) {
+			if(isset($dash_labels[$o['value']])) {
+				$o['value'] = $dash_labels[$o['value']];
+			} 
+			$indexes['dash-labels'][$s_uri][$p_uri][] = $o;
+		}
+	}
 }
 
 $vi = $index[$sio]['http://www.w3.org/2002/07/owl#versionInfo'];
