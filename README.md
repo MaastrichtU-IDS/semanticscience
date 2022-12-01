@@ -11,6 +11,11 @@ view the ontology at
 * [sio@ontobee](https://ontobee.org/ontology/SIO) 
 * [sio@aberowl](http://aber-owl.net/ontology/SIO)
 
+Resolution of SIO identifiers is currently being done with Ontobee. 
+* [protein: http://semanticscience.org/resource/SIO_010043](http://semanticscience.org/resource/SIO_010043)
+* [dataset: http://semanticscience.org/resource/SIO_000089](http://semanticscience.org/resource/SIO_000089)
+* [data analysis: http://semanticscience.org/resource/SIO_001051](http://semanticscience.org/resource/SIO_001051)
+
 Resources that use this ontology include:
 * [Bio2RDF](http://bio2rdf.org/) Linked Data for the Life Sciences 
 * [SADI Semantic Web Services](http://sadiframework.org). 
