@@ -8,7 +8,7 @@ Subsets of SIO have been prepared for modular import.
 
 view the ontology at 
 * [sio@bioportal](http://bioportal.bioontology.org/ontologies/SIO)
-* [sio@ontobee](http://www.ontobee.org/browser/index.php?o=SIO) 
+* [sio@ontobee](https://ontobee.org/ontology/SIO) 
 * [sio@aberowl](http://aber-owl.net/ontology/SIO)
 
 Resources that use this ontology include:
