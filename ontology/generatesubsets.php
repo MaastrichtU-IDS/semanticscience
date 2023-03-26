@@ -3,8 +3,10 @@
 require('../../php-lib/rdfapi.php');
 require('../../arc2/ARC2.php');
 $odir = "sio/release/";
+$cdir = getcwd();
+$sio_file = $cdir . "/sio.owl";
 $parser = ARC2::getRDFParser();
-$parser->parse('file:///code/semanticscience/ontology/sio.owl');
+$parser->parse('file://'.$sio_file);
 $triples = $parser->getTriples();
 $index = ARC2::getSimpleIndex($triples, false);
 
