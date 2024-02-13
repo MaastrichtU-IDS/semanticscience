@@ -75,15 +75,16 @@ foreach($index AS $s => $p_list) {
 			$label = $o_list[0]['value'];
 			
 			# camel case labels
-			$label_local_part = ucwords($label);
-			$label_local_part = str_replace(array(" ",'(',')'), "",$label_local_part);
+			$camel_label_local_part = ucwords($label);
+			$camel_label_local_part = str_replace(array(" ",'(',')'), "",$camel_label_local_part);
 			foreach($p_list[$ns['rdf'].'type'] AS $p) {
 				if($p['value'] == $ns['owl'].'ObjectProperty' || $p['value'] == $ns['owl'].'DatatypeProperty') {
-					$label_local_part = lcfirst($label_local_part);
+					$camel_label_local_part = lcfirst($camel_label_local_part);
+					break;
 				}
 			}
-			$label_uri = "http://semanticscience.org/resource/".urlencode($label_local_part);
-			$labels[$s] = $label_uri;
+			$camel_label_uri = "http://semanticscience.org/resource/".urlencode($camel_label_local_part);
+			$camel_labels[$s] = $camel_label_uri;
 
 			# dash labels
 			$dash_label = str_replace(" ","-", $label);
@@ -222,7 +223,7 @@ foreach($index AS $s => $p_list) {
 	}
 }
 
-foreach($labels AS $s => $uri) {
+foreach($camel_labels AS $s => $uri) {
 	$equiv_relation = null;
 	$types = $index[$s][ $ns['rdf'].'type'];
 	foreach($types AS $o) {
@@ -254,36 +255,35 @@ foreach($dash_labels AS $s => $uri) {
 
 foreach($index AS $s => $p_list) {	
 	// labels document
-	if(isset($labels[$s])) $s_uri = $labels[$s];
+	if(isset($camel_labels[$s])) $s_uri = $camel_labels[$s];
 	else $s_uri = $s;
 	
 	foreach($p_list AS $p => $o_list) {
-		if(isset($labels[$p])) $p_uri = $labels[$p];
+		if(isset($camel_labels[$p])) $p_uri = $camel_labels[$p];
 		else $p_uri = $p;
 		
 		foreach($o_list AS $o) {
-			if(isset($labels[$o['value']])) {
-				$o['value'] = $labels[$o['value']];
+			if(isset($camel_labels[$o['value']])) {
+				$o['value'] = $camel_labels[$o['value']];
 			} 
 			$indexes['camelcase-label'][$s_uri][$p_uri][] = $o;
 		}
 	}
 
-	/*
-	$o = null;
-	$o['type'] = 'literal';
-	$o['value'] = $s_uri;
-	$indexes['labels'][$s_uri][ $ns['dc'].'identifier' ][] = $o;
-	$o = null;
-	$o['type'] = 'literal';
-	$o['value'] = $s;
-	$indexes['labels'][$s_uri][ $ns['sio'].'equivalentTo' ][] = $o;	
-*/
 	// add dc:identifier
 	$o = null;
 	$o['value'] = substr($s,strrpos($s,"/")+1);
 	$o['type'] = 'literal';
-	$index[$s][ $ns['dc'].'identifier' ][] = $o;
+	$index[$s][ $ns['dc'].'identifier'][] = $o;
+
+	// add equivs
+	if(isset($indexes['equivs'][$s_uri])) {
+		foreach($indexes['equivs'][$s_uri] AS $equiv_rel => $arr) {
+			foreach($arr AS $o) {
+				$indexes['camelcase-label'][$s_uri][$equiv_rel][] = $o;
+			}
+		}
+	}
 }
 
 foreach($index AS $s => $p_list) {	
