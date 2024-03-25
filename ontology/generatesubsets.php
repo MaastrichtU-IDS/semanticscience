@@ -368,5 +368,5 @@ $o['type'] = 'literal';
 $o['datatype'] = 'http://www.w3.org/2001/XMLSchema#date';
 $index[$sio]['http://purl.org/dc/terms/modified'][] = $o;
 
-
+copy($odir."sio-subset-dash-labels.owl", $odir."sio-subset-labels.owl");
 writeGraph($odir."sio-release.owl", $index);
