@@ -23,5 +23,6 @@ Resources that use this ontology include:
 * The NCBI's [PubChem RDF](http://pubchem.ncbi.nlm.nih.gov/rdf/) for measurement values 
 * The EBI's [Gene Expression Atlas](http://www.ebi.ac.uk/rdf/documentation/atlas) 
 * The [Graph4Code](https://wala.github.io/graph4code/) project
+* The [The Integrated Database of Small Molecules (IDSM)](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btae174/7638802)
 
 If you have questions please send to SIO mailing list (sio-ontology@googlegroups.com; http://groups.google.com/group/sio-ontology). If you have term requests, just use the [issue tracker](https://github.com/micheldumontier/semanticscience/issues).
