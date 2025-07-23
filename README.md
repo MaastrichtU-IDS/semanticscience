@@ -8,7 +8,8 @@ Subsets of SIO have been prepared for modular import.
 
 view the ontology at 
 * [sio@bioportal](http://bioportal.bioontology.org/ontologies/SIO)
-* [sio@ontobee](https://ontobee.org/ontology/SIO) 
+* [sio@ontobee](https://ontobee.org/ontology/SIO)
+* [sio@agroportal](https://agroportal.lirmm.fr/ontologies/SIO)
 * [sio@aberowl](http://aber-owl.net/ontology/SIO)
 
 Resolution of SIO identifiers is currently being done with Ontobee. 
