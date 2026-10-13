@@ -9,7 +9,6 @@ from urllib.parse import quote
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DC, DCTERMS, OWL, RDF, RDFS, XSD
 
-VOID = Namespace("http://rdfs.org/ns/void#")
 SIO_RES = Namespace("http://semanticscience.org/resource/")
 SIO_ONT = URIRef("http://semanticscience.org/ontology/sio.owl")
 SIO_SUBSET_PROP = SIO_RES.subset
@@ -192,8 +191,8 @@ def main():
     subset_graphs["dash-labels"] = dash_g
 
     # Collect ontology-level metadata to carry into every subset.
-    # versionInfo, versionIRI, and void:subset are subset-specific and handled below.
-    SUBSET_OVERRIDE_PREDICATES = {OWL.versionInfo, OWL.versionIRI, VOID.subset}
+    # versionInfo, versionIRI, and dcterms:hasPart are subset-specific and handled below.
+    SUBSET_OVERRIDE_PREDICATES = {OWL.versionInfo, OWL.versionIRI, DCTERMS.hasPart}
     ontology_metadata = [
         (p, o)
         for p, o in g.predicate_objects(SIO_ONT)
@@ -216,7 +215,7 @@ def main():
             if isinstance(s, URIRef) and "semanticscience" in str(s):
                 sg.add((s, RDFS.isDefinedBy, URIRef(versioned_uri)))
 
-        g.add((SIO_ONT, VOID.subset, URIRef(subset_url)))
+        g.add((SIO_ONT, DCTERMS.hasPart, URIRef(subset_url)))
 
         print(f"generating {subset_name}")
         sg.serialize(str(ODIR / subset_file), format="xml")
