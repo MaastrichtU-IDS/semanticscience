@@ -107,11 +107,3 @@ python3 scripts/diff_ontologies.py ontology/sio.owl ontology/sio/release/sio-rel
 # Save diff as JSON
 python3 scripts/diff_ontologies.py ontology/sio.owl ontology/sio-new.owl --format json > diff.json
 ```
-
-### Reasoning regressions
-
-Install `tests/requirements.txt` and Java 17, then run
-`python tests/issue109_reasoning.py`. This checks the source, full release, and
-three label-URI serializations with HermiT. See the
-[issue #109 investigation](docs/issues/109-organic-submolecule.md) for the
-chemical scope, expected entailments, and original-defect reproduction.
