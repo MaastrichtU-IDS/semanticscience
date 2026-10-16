@@ -1,0 +1,35 @@
+name: OWL reasoning regression
+
+on:
+  pull_request:
+    paths:
+      - 'ontology/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/ontology-regression.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'ontology/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/ontology-regression.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  issue109:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: python -m pip install -r tests/requirements.txt
+      - run: python tests/issue109_reasoning.py
