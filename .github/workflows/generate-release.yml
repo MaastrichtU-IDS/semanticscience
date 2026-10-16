@@ -1,0 +1,95 @@
+name: Generate SIO release
+
+on:
+  pull_request:
+    paths:
+      - 'ontology/sio.owl'
+      - 'scripts/generate_subsets.py'
+      - 'requirements.txt'
+      - '.github/workflows/generate-release.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'ontology/sio.owl'
+      - 'scripts/generate_subsets.py'
+      - 'requirements.txt'
+      - '.github/workflows/generate-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sio-release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Generate release files from source
+        run: |
+          # Start clean so checked-in outputs cannot mask missing generated files.
+          rm -rf ontology/sio/release
+          python scripts/generate_subsets.py
+      - name: Validate generated RDF and release metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from rdflib import Graph, Namespace, URIRef
+          from rdflib.namespace import OWL, RDF
+
+          source = Graph().parse("ontology/sio.owl", format="xml")
+          ontology = URIRef("http://semanticscience.org/ontology/sio.owl")
+          sio = Namespace("http://semanticscience.org/resource/")
+          versions = list(source.objects(ontology, OWL.versionInfo))
+          if len(versions) != 1 or not str(versions[0]).strip():
+              raise SystemExit("Source must have exactly one nonempty owl:versionInfo")
+          version = str(versions[0])
+          subsets = {
+              str(value).rstrip("+")
+              for value in source.objects(None, sio.subset)
+              if not str(value).endswith("-")
+          }
+          expected = {f"sio-subset-{name}.owl" for name in subsets}
+          expected.update({
+              "sio-release.owl", "sio-subset-camelcase-label.owl",
+              "sio-subset-dash-labels.owl", "sio-subset-labels.owl",
+          })
+          output = Path("ontology/sio/release")
+          actual = {path.name for path in output.iterdir()}
+          if actual != expected:
+              raise SystemExit(
+                  f"Missing outputs: {expected - actual}; unexpected outputs: {actual - expected}"
+              )
+          for name in sorted(expected):
+              graph = Graph().parse(output / name, format="xml")
+              if (ontology, RDF.type, OWL.Ontology) not in graph:
+                  raise SystemExit(f"Missing ontology declaration in {name}")
+              target = "sio-subset-dash-labels.owl" if name == "sio-subset-labels.owl" else name
+              iri = URIRef(f"http://semanticscience.org/ontology/sio/v{version}/{target}")
+              if set(graph.objects(ontology, OWL.versionIRI)) != {iri}:
+                  raise SystemExit(f"Incorrect version IRI in {name}")
+              print(f"Validated {name}: {len(graph)} triples")
+          if (output / "sio-subset-labels.owl").read_bytes() != (output / "sio-subset-dash-labels.owl").read_bytes():
+              raise SystemExit("Label alias must match the dash-label release")
+          print(f"Validated {len(expected)} generated files for SIO {version}")
+          PY
+          git diff --exit-code -- ontology/sio.owl
+      - name: Upload generated release files
+        uses: actions/upload-artifact@v4
+        with:
+          name: sio-release-${{ github.sha }}
+          path: ontology/sio/release/*.owl
+          if-no-files-found: error
+          retention-days: 30
